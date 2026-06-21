@@ -1,15 +1,22 @@
-node_modules
-dist
-dist-ssr
-*.local
-.DS_Store
-.vscode/*
-!.vscode/extensions.json
-.idea
-*.log
+# dependencies
+/node_modules
 
-# TypeScript build artifacts
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# production
+/build
+
+# misc
+.DS_Store
+*.log
 *.tsbuildinfo
-vite.config.d.ts
-vite.config.js
+
+# env
+.env
+.env*.local
+
+# vercel
 .vercel
