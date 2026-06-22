@@ -1,70 +1,441 @@
 import type { Topic } from "../types";
 
-// STUB — replaced by rich authored content. Valid placeholder so the build stays green.
 export const statistics: Topic = {
   id: "statistics",
   title: "Statistics",
   subject: "Maths",
   icon: "📊",
   strand: "Statistics & Probability",
-  intro: "Statistics — content coming soon.",
+  intro:
+    "Summarise data with averages and range, build the right chart, read pie charts and scatter graphs, and compare distributions to tell the story behind the numbers.",
   guide: [
     {
-      heading: "Overview",
-      body: "Content for this topic is being prepared.",
-      keyPoints: ["Key ideas will appear here."],
+      heading: "Averages and range",
+      discovery: {
+        problem:
+          "Seven friends scored 4, 6, 6, 7, 8, 9 and 45 in a quiz (one answered an extra bonus round). What is the mean? What is the median? Which better describes a 'typical' score — and why do they disagree?",
+        idea:
+          "Mean = (4+6+6+7+8+9+45) ÷ 7 = 85 ÷ 7 ≈ 12.1, but six of the seven scored 9 or less. The median (the middle value, 7) is far more typical. One extreme value (an outlier) drags the mean upward but barely moves the median.",
+      },
+      body:
+        "An **average** is a single value that represents a whole set of data. There are three to know, plus a measure of spread:\n\n- **Mean** = total of all values ÷ number of values.\n- **Median** = the middle value when the data is put in order (if there are two middle values, take their mean).\n- **Mode** = the value that appears most often (there can be more than one, or none).\n- **Range** = largest − smallest. It measures *spread*, not average.\n\nAlways put data in order before finding the median.",
+      keyPoints: [
+        "Mean = sum of values ÷ number of values.",
+        "Median = middle value once the data is in order.",
+        "Mode = most frequent value; range = largest − smallest.",
+        "The range describes spread, not a typical value.",
+      ],
+      strategies: ["Order the data first", "Mean, median, mode — pick the right tool"],
+      whyItWorks:
+        "The mean 'shares out' the total equally: if everyone got the mean, the total would be unchanged. That is why one very large value pulls the mean toward it, while the median only counts position, not size.",
+    },
+    {
+      heading: "Mean from a frequency table; choosing the best average",
+      discovery: {
+        problem:
+          "A class records the number of pets each pupil owns: 0 pets (5 pupils), 1 pet (8 pupils), 2 pets (4 pupils), 3 pets (3 pupils). Writing out all 20 values to add up is slow. Can you find the mean faster?",
+        idea:
+          "Multiply each value by its frequency, then add: (0×5)+(1×8)+(2×4)+(3×3) = 0+8+8+9 = 25 pets in total. There are 5+8+4+3 = 20 pupils, so the mean is 25 ÷ 20 = 1.25 pets. A frequency table lets you total many values without listing them.",
+      },
+      body:
+        "A **frequency table** records how often each value occurs. To find the mean:\n\n1. Multiply each value by its frequency (value × frequency).\n2. Add these products to get the overall total.\n3. Divide by the total frequency (the number of items).\n\n**Choosing the best average:**\n\n- The **mean** uses every value, but is distorted by outliers.\n- The **median** ignores extremes, so it is best for skewed data (like house prices or salaries).\n- The **mode** is the only average that works for non-numerical data (like favourite colour).",
+      keyPoints: [
+        "Mean from a table = Σ(value × frequency) ÷ Σ(frequency).",
+        "Use the median when there are extreme values (outliers).",
+        "Use the mode for categories / non-numerical data.",
+        "The mean is sensitive to outliers; the median is not.",
+      ],
+      strategies: ["Add a 'value × frequency' column", "Match the average to the data type"],
+    },
+    {
+      heading: "Charts, pie charts and choosing a display",
+      discovery: {
+        problem:
+          "In a survey of 60 people, 20 chose tea, 25 chose coffee and 15 chose juice. You want a pie chart. What angle should the 'coffee' slice be?",
+        idea:
+          "Each person's share of 360° is 360 ÷ 60 = 6° per person. Coffee has 25 people, so its angle is 25 × 6 = 150°. In general, slice angle = (frequency ÷ total) × 360°.",
+      },
+      body:
+        "Different data needs different displays:\n\n- **Bar charts** compare separate categories; bars have gaps and equal width.\n- **Pictograms** use a symbol to stand for a number of items (state the key, e.g. 🙂 = 10 people).\n- **Line graphs** show how something changes over time (the points are joined).\n- **Pie charts** show how a whole is split into parts.\n\nFor a **pie chart**, each slice angle is its share of 360°:\n\n**angle = (frequency ÷ total) × 360°**\n\nThe slice angles must add up to 360°, so it is easy to check your work.",
+      keyPoints: [
+        "Pie-chart slice angle = (frequency ÷ total) × 360°.",
+        "All slice angles add to 360° (a useful check).",
+        "Bar charts compare categories; line graphs show change over time.",
+        "A pictogram always needs a key saying what one symbol represents.",
+      ],
+      strategies: ["Find the angle for one item first", "Check the angles total 360°"],
+      whyItWorks:
+        "A full pie chart is one whole turn, 360°. Each category should take the same fraction of the circle as it takes of the data, so its angle is its fraction of the total multiplied by 360°.",
+      diagrams: [
+        '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pie chart split into a 150 degree coffee slice and the rest">\n  <circle cx="60" cy="60" r="50" fill="#eee" stroke="#333" />\n  <path d="M60 60 L110 60 A50 50 0 0 1 17 95 Z" fill="#c97" stroke="#333" />\n  <text x="78" y="78" font-size="9">coffee</text>\n  <text x="30" y="40" font-size="9">rest</text>\n</svg>',
+      ],
+    },
+    {
+      heading: "Data types, scatter graphs and correlation",
+      discovery: {
+        problem:
+          "You plot ice-cream sales against the day's temperature for two weeks. The points rise from bottom-left to top-right. What does that pattern tell you — and could you predict sales on a hot day you have not yet recorded?",
+        idea:
+          "As temperature goes up, sales go up: the points slope upward, showing positive correlation. The trend lets you estimate sales for a temperature in between your data points. Correlation shows a relationship, though it does not prove one thing causes the other.",
+      },
+      body:
+        "Data comes in two types:\n\n- **Discrete** data can only take separate, countable values (number of goals, shoe size).\n- **Continuous** data can take any value in a range, usually from measuring (height, time, temperature).\n\nA **scatter graph** plots pairs of values to look for a relationship between them:\n\n- **Positive correlation** — as one goes up, the other goes up (points slope up).\n- **Negative correlation** — as one goes up, the other goes down (points slope down).\n- **No correlation** — points are scattered with no clear pattern.\n\nA **line of best fit** follows the trend and can be used to estimate missing values. Remember: correlation does not prove causation.",
+      keyPoints: [
+        "Discrete = counted, separate values; continuous = measured, any value in a range.",
+        "Scatter graphs reveal correlation between two variables.",
+        "Up-slope = positive, down-slope = negative, no pattern = none.",
+        "Correlation does not prove one thing causes the other.",
+      ],
+      thinkDeeper:
+        "Ice-cream sales and drowning incidents both rise in summer, so they correlate — but neither causes the other. A hidden third factor (hot weather) drives both. Always ask what else might explain a correlation.",
+      strategies: ["Decide discrete vs continuous from how data arises", "Describe correlation by the slope direction"],
     },
   ],
-  learn: { cards: [{ front: "Statistics", back: "Coming soon." }] },
+  learn: {
+    cards: [
+      { front: "How do you find the mean?", back: "Add all the values, then divide by how many values there are." },
+      { front: "How do you find the median?", back: "Put the data in order; the median is the middle value (mean of the two middles if even)." },
+      { front: "What is the mode?", back: "The value that occurs most often. There can be more than one mode, or none." },
+      { front: "What is the range?", back: "Largest value − smallest value. It measures spread, not average." },
+      { front: "Mean from a frequency table?", back: "Σ(value × frequency) ÷ Σ(frequency)." },
+      { front: "Pie-chart slice angle?", back: "(frequency ÷ total) × 360°. All slices add to 360°." },
+      { front: "Discrete vs continuous data?", back: "Discrete = counted separate values; continuous = measured, any value in a range." },
+      { front: "What does positive correlation look like?", back: "On a scatter graph the points slope upward: as one variable rises, so does the other." },
+    ],
+  },
   quiz: {
     mcq: [
       {
-        id: "stat-mcq-q01",
-        question: "Placeholder question for Statistics?",
-        options: ["A", "B", "C", "D"],
-        answerIndex: 0,
-        explanation: "Placeholder.",
+        id: "stats-mcq-q01",
+        question: "Find the median of 3, 7, 2, 9, 5.",
+        options: ["2", "5", "7", "9"],
+        answerIndex: 1,
+        explanation: "In order: 2, 3, 5, 7, 9. The middle value is 5.",
         difficulty: "warmup",
+        guideRef: "Averages and range",
+        strategy: "Order the data first",
+      },
+      {
+        id: "stats-mcq-q02",
+        question: "The numbers 4, 8, 8, 10, 20 have which mode and range?",
+        options: ["Mode 8, range 16", "Mode 10, range 16", "Mode 8, range 20", "Mode 8, range 12"],
+        answerIndex: 0,
+        explanation: "8 occurs most often (mode 8). Range = 20 − 4 = 16.",
+        difficulty: "core",
+        guideRef: "Averages and range",
+        hints: ["The mode is the most frequent value.", "Range = largest − smallest = 20 − 4."],
+        strategy: "Read off mode and range",
+      },
+      {
+        id: "stats-mcq-q03",
+        question:
+          "In a pie chart of 40 people, 10 chose football. What angle is the football slice?",
+        options: ["40°", "90°", "100°", "144°"],
+        answerIndex: 1,
+        explanation: "Angle = (10 ÷ 40) × 360° = 0.25 × 360° = 90°.",
+        difficulty: "core",
+        guideRef: "Charts, pie charts and choosing a display",
+        hints: ["Find the fraction 10 out of 40 first.", "Multiply that fraction by 360°.", "(10 ÷ 40) × 360 = 90."],
+        strategy: "Slice angle = (frequency ÷ total) × 360°",
+      },
+      {
+        id: "stats-mcq-q04",
+        question:
+          "Five numbers have a mean of 12. Four of them are 8, 10, 14 and 16. What is the fifth number?",
+        options: ["12", "10", "14", "60"],
+        answerIndex: 0,
+        explanation: "Total must be 5 × 12 = 60. The four given add to 48, so the fifth is 60 − 48 = 12.",
+        difficulty: "challenge",
+        guideRef: "Averages and range",
+        hints: ["Mean × count gives the total.", "Total = 5 × 12 = 60.", "Subtract the four known values from 60."],
+        strategy: "Work backwards from the mean to the total",
+      },
+      {
+        id: "stats-mcq-q05",
+        question:
+          "A scatter graph of hours of revision against test score shows points sloping upward. This shows:",
+        options: ["Negative correlation", "Positive correlation", "No correlation", "That revision causes high scores for everyone"],
+        answerIndex: 1,
+        explanation: "Points sloping upward show positive correlation: more revision tends to go with higher scores. (Correlation alone does not prove causation.)",
+        difficulty: "core",
+        guideRef: "Data types, scatter graphs and correlation",
+        hints: ["Which way do the points slope?", "Up-slope means as one rises the other rises."],
+        strategy: "Read correlation from the slope direction",
+      },
+      {
+        id: "stats-mcq-q06",
+        question: "Which of these is continuous data?",
+        options: ["Number of pets owned", "Shoe size", "The time taken to run 100 m", "Number of goals scored"],
+        answerIndex: 2,
+        explanation: "Time is measured and can take any value in a range, so it is continuous. The others are counted whole numbers (discrete).",
+        difficulty: "warmup",
+        guideRef: "Data types, scatter graphs and correlation",
+        strategy: "Ask: counted or measured?",
       },
     ],
     qa: [
       {
-        id: "stat-qa-q01",
-        question: "Placeholder written question for Statistics.",
-        modelAnswer: "Placeholder.",
-        markScheme: ["Placeholder [1]"],
-        difficulty: "warmup",
+        id: "stats-qa-q01",
+        question:
+          "The pupils in a group own this many books: 2, 5, 5, 6, 8, 10, 12. Find the mean, median, mode and range.",
+        modelAnswer:
+          "Mean = (2+5+5+6+8+10+12) ÷ 7 = 48 ÷ 7 ≈ 6.86. Ordered already; the middle (4th) value is the median = 6. Mode = 5 (occurs twice). Range = 12 − 2 = 10.",
+        markScheme: [
+          "Mean = 48 ÷ 7 ≈ 6.86 [1]",
+          "Median = 6 (middle value) [1]",
+          "Mode = 5 [1]",
+          "Range = 12 − 2 = 10 [1]",
+        ],
+        commonError: "Forgetting to order the data before taking the median, or confusing range with mode.",
+        difficulty: "core",
+        guideRef: "Averages and range",
+        hints: ["Add all seven values for the mean total.", "The median is the 4th value of 7.", "The mode appears most often."],
+        strategy: "Work through each measure in turn",
+      },
+      {
+        id: "stats-qa-q02",
+        question:
+          "A frequency table shows goals per match: 0 goals (4 matches), 1 goal (6 matches), 2 goals (7 matches), 3 goals (3 matches). Find the mean number of goals per match.",
+        modelAnswer:
+          "Total goals = (0×4)+(1×6)+(2×7)+(3×3) = 0+6+14+9 = 29. Total matches = 4+6+7+3 = 20. Mean = 29 ÷ 20 = 1.45 goals per match.",
+        markScheme: [
+          "Σ(value × frequency) = 29 [1]",
+          "Σ(frequency) = 20 [1]",
+          "Mean = 29 ÷ 20 = 1.45 [1]",
+        ],
+        commonError: "Dividing by the number of rows (4) instead of the total frequency (20).",
+        difficulty: "core",
+        guideRef: "Mean from a frequency table; choosing the best average",
+        hints: ["Multiply each goal value by its frequency.", "Add those products for the total goals.", "Divide by the total number of matches (20)."],
+        strategy: "Use Σ(value × frequency) ÷ Σ(frequency)",
+        solutions: [
+          { label: "Frequency-table method", steps: ["Products: 0, 6, 14, 9", "Sum of products = 29", "Total frequency = 20", "Mean = 29 ÷ 20 = 1.45"] },
+          { label: "List every value", steps: ["Write out: 0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2,2, 3,3,3", "These 20 values add to 29", "Mean = 29 ÷ 20 = 1.45"] },
+        ],
+      },
+      {
+        id: "stats-qa-q03",
+        question:
+          "Challenge: Class A (10 pupils) has a mean test score of 64. Class B (15 pupils) has a mean of 74. Find the mean score of all 25 pupils combined.",
+        modelAnswer:
+          "Class A total = 10 × 64 = 640. Class B total = 15 × 74 = 1110. Combined total = 640 + 1110 = 1750 over 25 pupils, so the combined mean = 1750 ÷ 25 = 70.",
+        markScheme: [
+          "Class A total = 10 × 64 = 640 [1]",
+          "Class B total = 15 × 74 = 1110 [1]",
+          "Combined total 1750 ÷ 25 [1]",
+          "= 70 [1]",
+        ],
+        commonError: "Averaging the two means (64 and 74) to get 69 — wrong, because the classes have different sizes.",
+        difficulty: "challenge",
+        guideRef: "Mean from a frequency table; choosing the best average",
+        hints: [
+          "You cannot just average 64 and 74 — the classes differ in size.",
+          "Find each class's total score first (mean × number of pupils).",
+          "Add the totals, then divide by 25.",
+        ],
+        strategy: "Combine totals, not means",
       },
     ],
   },
   questionBank: {
     mcqPapers: [
       {
-        id: "stat-mcq-paper-1",
+        id: "stats-mcq-paper-1",
         title: "Statistics — MCQ Set A",
         questions: [
           {
-            id: "stat-mcq-b1-q01",
-            question: "Placeholder bank question?",
-            options: ["A", "B", "C", "D"],
-            answerIndex: 0,
-            explanation: "Placeholder.",
+            id: "stats-mcq-b1-q01",
+            question: "What is the mode of 3, 4, 4, 4, 7, 9?",
+            options: ["3", "4", "7", "5"],
+            answerIndex: 1,
+            explanation: "4 appears three times — more than any other value.",
             difficulty: "warmup",
+          },
+          {
+            id: "stats-mcq-b1-q02",
+            question: "Find the range of 12, 5, 20, 9, 14.",
+            options: ["8", "15", "20", "5"],
+            answerIndex: 1,
+            explanation: "Range = largest − smallest = 20 − 5 = 15.",
+            difficulty: "warmup",
+          },
+          {
+            id: "stats-mcq-b1-q03",
+            question: "Find the mean of 6, 9, 12, 13.",
+            options: ["9", "10", "10.5", "11"],
+            answerIndex: 1,
+            explanation: "(6 + 9 + 12 + 13) ÷ 4 = 40 ÷ 4 = 10.",
+            difficulty: "core",
+            hints: ["Add all four values, then divide by 4."],
+            strategy: "Sum ÷ count",
+          },
+          {
+            id: "stats-mcq-b1-q04",
+            question: "Find the median of 11, 4, 9, 2, 7, 6.",
+            options: ["6.5", "7", "6", "8"],
+            answerIndex: 0,
+            explanation: "Ordered: 2, 4, 6, 7, 9, 11. The two middle values are 6 and 7, so the median is (6 + 7) ÷ 2 = 6.5.",
+            difficulty: "core",
+            hints: ["Order the six values.", "With an even count, average the two middle values."],
+            strategy: "Average the two middle values",
+          },
+          {
+            id: "stats-mcq-b1-q05",
+            question:
+              "Which average is best for the most popular pizza topping in a survey?",
+            options: ["Mean", "Median", "Mode", "Range"],
+            answerIndex: 2,
+            explanation: "Toppings are categories (non-numerical), so only the mode applies — the most frequently chosen topping.",
+            difficulty: "core",
+            strategy: "Match the average to the data type",
+          },
+          {
+            id: "stats-mcq-b1-q06",
+            question:
+              "In a pie chart of 90 people, 30 walk to school. What angle is the 'walk' slice?",
+            options: ["30°", "90°", "120°", "150°"],
+            answerIndex: 2,
+            explanation: "Angle = (30 ÷ 90) × 360° = (1/3) × 360° = 120°.",
+            difficulty: "challenge",
+            hints: ["What fraction is 30 of 90?", "Multiply that fraction by 360°."],
+            strategy: "Slice angle = (frequency ÷ total) × 360°",
+          },
+        ],
+      },
+      {
+        id: "stats-mcq-paper-2",
+        title: "Statistics — MCQ Set B",
+        questions: [
+          {
+            id: "stats-mcq-b2-q01",
+            question: "Which chart is best for showing how a town's population changed each year from 2000 to 2020?",
+            options: ["Pie chart", "Line graph", "Pictogram", "Bar chart with one bar"],
+            answerIndex: 1,
+            explanation: "A line graph shows change over time, with points joined to show the trend.",
+            difficulty: "warmup",
+          },
+          {
+            id: "stats-mcq-b2-q02",
+            question:
+              "On a pictogram, 🙂 = 8 people. How many people do 2 and a half faces represent?",
+            options: ["16", "18", "20", "24"],
+            answerIndex: 2,
+            explanation: "2.5 × 8 = 20 people.",
+            difficulty: "warmup",
+          },
+          {
+            id: "stats-mcq-b2-q03",
+            question: "A scatter graph of car age against value shows points sloping downward. This is:",
+            options: ["Positive correlation", "Negative correlation", "No correlation", "A line graph"],
+            answerIndex: 1,
+            explanation: "As age increases, value decreases — points slope downward, so this is negative correlation.",
+            difficulty: "core",
+            hints: ["Older cars are worth less.", "Down-slope means negative correlation."],
+            strategy: "Read correlation from the slope",
+          },
+          {
+            id: "stats-mcq-b2-q04",
+            question:
+              "The mean of 4 numbers is 9. Three of them are 7, 8 and 10. What is the fourth?",
+            options: ["9", "11", "12", "8"],
+            answerIndex: 1,
+            explanation: "Total = 4 × 9 = 36. The three given add to 25, so the fourth is 36 − 25 = 11.",
+            difficulty: "core",
+            hints: ["Total = mean × count = 36.", "Subtract 7 + 8 + 10 from 36."],
+            strategy: "Work backwards from the total",
+          },
+          {
+            id: "stats-mcq-b2-q05",
+            question:
+              "A pie chart slice has an angle of 72° and represents 12 people. How many people are in the whole survey?",
+            options: ["48", "60", "72", "120"],
+            answerIndex: 1,
+            explanation: "72° is 72 ÷ 360 = 1/5 of the chart, and that fifth is 12 people, so the total is 12 × 5 = 60.",
+            difficulty: "challenge",
+            hints: ["What fraction of 360° is 72°?", "That fraction equals 12 people.", "Scale up to the full 360°."],
+            strategy: "Work backwards from the slice angle",
+          },
+          {
+            id: "stats-mcq-b2-q06",
+            question:
+              "A data set is 5, 6, 7, 8 and one unknown value. The mean is 7. What is the unknown value?",
+            options: ["7", "8", "9", "11"],
+            answerIndex: 2,
+            explanation: "Total = 5 × 7 = 35. Known values add to 26, so the unknown is 35 − 26 = 9.",
+            difficulty: "core",
+            hints: ["Total = mean × number of values.", "5 × 7 = 35; subtract the known 26."],
+            strategy: "Work backwards from the mean",
           },
         ],
       },
     ],
     qaPapers: [
       {
-        id: "stat-qa-paper-1",
+        id: "stats-qa-paper-1",
         title: "Statistics — Written Set A",
         questions: [
           {
-            id: "stat-qa-b1-q01",
-            question: "Placeholder bank written question.",
-            modelAnswer: "Placeholder.",
-            markScheme: ["Placeholder [1]"],
+            id: "stats-qa-b1-q01",
+            question: "Find the mean, median and range of 5, 8, 8, 11, 13.",
+            modelAnswer:
+              "Mean = (5+8+8+11+13) ÷ 5 = 45 ÷ 5 = 9. Median (middle of 5 ordered values) = 8. Range = 13 − 5 = 8.",
+            markScheme: ["Mean = 45 ÷ 5 = 9 [1]", "Median = 8 [1]", "Range = 13 − 5 = 8 [1]"],
             difficulty: "warmup",
+          },
+          {
+            id: "stats-qa-b1-q02",
+            question:
+              "A survey of 120 people asked their favourite season. Spring: 30, Summer: 50, Autumn: 24, Winter: 16. Find the pie-chart angle for each season.",
+            modelAnswer:
+              "Each person = 360 ÷ 120 = 3°. Spring = 30 × 3 = 90°. Summer = 50 × 3 = 150°. Autumn = 24 × 3 = 72°. Winter = 16 × 3 = 48°. Check: 90 + 150 + 72 + 48 = 360°. ✓",
+            markScheme: [
+              "Angle per person = 360 ÷ 120 = 3° [1]",
+              "Spring 90° and Summer 150° [1]",
+              "Autumn 72° and Winter 48° [1]",
+              "Angles total 360° (check) [1]",
+            ],
+            commonError: "Using the frequency directly as the angle instead of multiplying by 3° per person.",
+            difficulty: "core",
+            hints: ["Find the angle for one person first (360 ÷ 120).", "Multiply each frequency by that angle.", "Check your four angles add to 360°."],
+            strategy: "angle = (frequency ÷ total) × 360°",
+          },
+          {
+            id: "stats-qa-b1-q03",
+            question:
+              "Two teams play darts. Team X scores: 20, 22, 24, 26, 28 (mean 24). Team Y scores: 4, 14, 24, 34, 44 (mean 24). Both have the same mean. Compare the two teams using an appropriate measure of spread and comment.",
+            modelAnswer:
+              "Both means are 24, so on average the teams are equal. Range of Team X = 28 − 20 = 8; range of Team Y = 44 − 4 = 40. Team Y's scores are far more spread out (much larger range), so Team X is the more consistent team.",
+            markScheme: [
+              "Both means equal 24 [1]",
+              "Range X = 8 [1]",
+              "Range Y = 40 [1]",
+              "Concludes Team X is more consistent / Y more spread out [1]",
+            ],
+            commonError: "Stopping at the means and saying the teams are identical, ignoring spread.",
+            difficulty: "core",
+            hints: ["The means are equal, so look at spread.", "Compare the two ranges.", "A smaller range means more consistent."],
+            strategy: "Compare distributions using an average AND a spread",
+          },
+          {
+            id: "stats-qa-b1-q04",
+            question:
+              "Challenge: A pie chart shows how 240 visitors travelled to a museum. The 'car' slice has an angle of 135°, and twice as many came by bus as by train. The car and 'other' slices together are exactly half the chart. How many visitors came by bus?",
+            modelAnswer:
+              "Half the chart is 180°, so 'other' = 180 − 135 = 45°. The remaining bus + train slices fill 360 − 180 = 180°. If train = t and bus = 2t (twice as many), their angles are in ratio 1 : 2, so train = 60° and bus = 120°. Each degree is 240 ÷ 360 = 2/3 of a visitor, so bus = 120 × (2/3) = 80 visitors.",
+            markScheme: [
+              "Other slice = 180 − 135 = 45° [1]",
+              "Bus + train = 360 − 180 = 180°, split 2 : 1 → bus 120°, train 60° [1]",
+              "Visitors per degree = 240 ÷ 360 = 2/3 [1]",
+              "Bus = 120 × 2/3 = 80 visitors [1]",
+            ],
+            commonError: "Forgetting that 'twice as many by bus' makes the bus angle twice the train angle, not the totals equal.",
+            difficulty: "challenge",
+            hints: [
+              "Half the chart is 180°; use that to find the 'other' angle.",
+              "Bus and train share the remaining 180° in the ratio 2 : 1.",
+              "Convert the bus angle to visitors using 240 ÷ 360 per degree.",
+            ],
+            strategy: "Work backwards from angles, then scale to people",
           },
         ],
       },
