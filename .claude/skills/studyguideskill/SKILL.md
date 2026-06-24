@@ -1,18 +1,10 @@
+---
+name: studyguideskill
+description: >-
+  Build a complete interactive study/revision web app for ANY school subject and year group (e.g. Year 11 Maths, Year 11 English, GCSE Biology, KS3 History). Generates illustrated guides, quizzes, full exam papers, a gamified learning engine, multi-learner profiles with cross-device cloud sync, a PIN-protected parent dashboard, PWA install, an AI tutor, and spaced-repetition review — then deploys to Vercel. Built around Art of Problem Solving (AoPS) pedagogy by default: problem-first discovery, derive-don't-decree, laddered hints, multiple solution paths, tiered difficulty with genuine challenge problems, and explicitly-taught problem-solving strategies. Use whenever the user wants to create a learning/revision/exam-practice app for a child or student. Reference implementation: the "Year 8 Science Lab".
+---
 
-⸻name: studyguideskill 
-description: >- 
-Build a complete interactive study/revision web app for ANY school subject and year group 
-(e.g. Year 11 Maths, Year 11 English, GCSE Biology, KS3 History). Generates illustrated 
-guides, quizzes, full exam papers, a gamified learning engine, multi-learner profiles with 
-cross-device cloud sync, a PIN-protected parent dashboard, PWA install, an AI tutor, and 
-spaced-repetition review — then deploys to Vercel. Built around Art of Problem Solving (AoPS) 
-pedagogy by default: problem-first discovery, derive-don't-decree, laddered hints, multiple 
-solution paths, tiered difficulty with genuine challenge problems, and explicitly-taught 
-problem-solving strategies. Use whenever the user wants to create a learning/revision/ 
-exam-practice app for a child or student. Reference implementation: the "Year 8 Science Lab".
-
-
-Study Guide App Builder
+# Study Guide App Builder
 
 A battle-tested playbook for building a polished, kid-friendly study app for one subject + year 
 group and shipping it to a shareable URL. Born from the Year 8 Science Lab build — reuse the 
