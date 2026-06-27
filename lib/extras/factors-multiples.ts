@@ -37,5 +37,5 @@ export const factorsMultiplesExtras: TopicExtras = {
         "The biggest perfect tile is 12×12 — exactly HCF(24, 36) = 12. The HCF is literally the largest square that paves both sides.",
     },
   ],
-  interactive: "number-line",
+  interactive: "factor-tree",
 };

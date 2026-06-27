@@ -34,5 +34,5 @@ export const transformationsPythagorasExtras: TopicExtras = {
       whatToNotice: "Every x-coordinate flips its sign while the y-coordinate stays the same — exactly (x, y) → (−x, y).",
     },
   ],
-  interactive: "area-visualiser",
+  interactive: "pythagoras-triangle",
 };

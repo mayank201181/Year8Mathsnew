@@ -5,7 +5,7 @@ import type { Topic } from "@/lib/types";
 import { getExtras } from "@/lib/extras";
 import { useStore } from "@/lib/store";
 import { MarkdownLite } from "@/lib/md";
-import Explorable from "./Explorables";
+import { topicWidgets } from "./InteractiveTab";
 
 function Diagram({ svg }: { svg: string }) {
   return <div className="diagram my-3" dangerouslySetInnerHTML={{ __html: svg }} />;
@@ -41,10 +41,17 @@ function readAloud(text: string) {
   window.speechSynthesis.speak(u);
 }
 
-export default function GuideView({ topic }: { topic: Topic }) {
+export default function GuideView({
+  topic,
+  onOpenInteractive,
+}: {
+  topic: Topic;
+  onOpenInteractive?: () => void;
+}) {
   const { progress, markGuideRead } = useStore();
   const extras = getExtras(topic.id);
   const read = progress.guidesRead.includes(topic.id);
+  const hasInteractive = topicWidgets(topic.id).length > 0;
 
   return (
     <div className="space-y-5">
@@ -56,7 +63,17 @@ export default function GuideView({ topic }: { topic: Topic }) {
 
       <p className="text-slate-300">{topic.intro}</p>
 
-      {extras?.interactive && <Explorable widget={extras.interactive} />}
+      {hasInteractive && (
+        <button
+          onClick={onOpenInteractive}
+          className="w-full text-left bg-gradient-to-r from-teal-500/15 to-indigo-500/15 border border-teal-500/30 rounded-2xl p-4 hover:border-teal-400 transition"
+        >
+          <p className="text-sm">
+            🔬 <strong>Interactive tab:</strong> play with a live {topic.title.toLowerCase()} widget —
+            change the inputs and watch the maths respond. <span className="text-teal-300">Open it →</span>
+          </p>
+        </button>
+      )}
 
       {topic.guide.map((section, i) => (
         <section key={i} className="bg-slate-900/60 border border-slate-700 rounded-2xl p-5">

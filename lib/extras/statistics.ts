@@ -34,5 +34,5 @@ export const statisticsExtras: TopicExtras = {
       whatToNotice: "If your angles do not add to 360°, a calculation slipped — the total is a built-in error check.",
     },
   ],
-  interactive: "probability-spinner",
+  interactive: "stats-averages",
 };

@@ -36,5 +36,5 @@ export const equationsExtras: TopicExtras = {
         "Every point to the right of −3 works, and none to the left do — proving the sign really did need to flip.",
     },
   ],
-  interactive: "function-grapher",
+  interactive: "equation-balance",
 };

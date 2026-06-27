@@ -8,8 +8,9 @@ import GuideView from "@/components/GuideView";
 import PaperRunner, { type RunnerItem } from "@/components/PaperRunner";
 import AskAI from "@/components/AskAI";
 import Flashcards from "@/components/Flashcards";
+import InteractiveTab from "@/components/InteractiveTab";
 
-type Tab = "guide" | "learn" | "practice" | "challenge";
+type Tab = "guide" | "interactive" | "learn" | "practice" | "challenge";
 
 export default function TopicPage() {
   const params = useParams();
@@ -49,6 +50,7 @@ export default function TopicPage() {
 
   const TABS: { key: Tab; label: string; emoji: string }[] = [
     { key: "guide", label: "Guide", emoji: "📘" },
+    { key: "interactive", label: "Interactive", emoji: "🔬" },
     { key: "learn", label: "Flashcards", emoji: "🃏" },
     { key: "practice", label: "Practice", emoji: "✅" },
     { key: "challenge", label: "Challenge", emoji: "🧠" },
@@ -81,7 +83,8 @@ export default function TopicPage() {
         ))}
       </div>
 
-      {tab === "guide" && <GuideView topic={topic} />}
+      {tab === "guide" && <GuideView topic={topic} onOpenInteractive={() => setTab("interactive")} />}
+      {tab === "interactive" && <InteractiveTab topic={topic} />}
       {tab === "learn" && <Flashcards cards={topic.learn.cards} />}
       {tab === "practice" && (
         <PaperRunner items={practiceItems} topicId={topic.id} title="Practice" />

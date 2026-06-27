@@ -36,5 +36,5 @@ export const ratioProportionExtras: TopicExtras = {
         "A comfortable walking pace is usually around 1.4 m/s (about 5 km/h). Your jogging-to-walking speed ratio is a real-life proportion.",
     },
   ],
-  interactive: "fraction-bar",
+  interactive: "ratio-mixer",
 };

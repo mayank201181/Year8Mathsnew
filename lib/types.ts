@@ -112,6 +112,8 @@ export interface TopicExtras {
   bonusDiagrams?: string[];
   /** Key into the Explorables registry. */
   interactive?: string;
+  /** Optional: several interactive widget keys for the Interactive tab. */
+  interactives?: string[];
 }
 
 // --- Comprehensive cross-topic exam ---

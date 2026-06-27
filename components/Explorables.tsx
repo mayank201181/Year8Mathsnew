@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { INTERACTIVE_WIDGETS } from "./InteractiveWidgets";
 
 function Slider({
   label,
@@ -234,17 +235,23 @@ function AngleExplorer() {
   );
 }
 
-const REGISTRY: Record<string, () => React.ReactNode> = {
+// Full registry: the original explorables plus the topic-tailored widgets.
+export const EXPLORABLES_ALL: Record<string, () => React.ReactNode> = {
   "number-line": NumberLine,
   "fraction-bar": FractionBar,
   "function-grapher": FunctionGrapher,
   "probability-spinner": ProbabilitySpinner,
   "area-visualiser": AreaVisualiser,
   "angle-explorer": AngleExplorer,
+  ...INTERACTIVE_WIDGETS,
 };
 
+export function hasExplorable(widget?: string): boolean {
+  return !!widget && widget in EXPLORABLES_ALL;
+}
+
 export default function Explorable({ widget }: { widget: string }) {
-  const Comp = REGISTRY[widget];
+  const Comp = EXPLORABLES_ALL[widget];
   if (!Comp) return null;
   return (
     <div className="bg-slate-900/60 border border-slate-700 rounded-2xl p-4">
