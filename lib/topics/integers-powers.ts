@@ -62,9 +62,47 @@ export const integersPowers: Topic = {
     {
       heading: "Order of operations (BIDMAS)",
       body:
-        "Operations follow a fixed order: **B**rackets, **I**ndices, **D**ivision/**M**ultiplication (left to right), then **A**ddition/**S**ubtraction (left to right).\n\nDivision and multiplication share priority, as do addition and subtraction — work left to right within each pair.",
-      keyPoints: ["Brackets → Indices → ÷ and × → + and −"],
+        "Operations follow a fixed order: **B**rackets, **I**ndices, **D**ivision/**M**ultiplication (left to right), then **A**ddition/**S**ubtraction (left to right).\n\nDivision and multiplication share priority, as do addition and subtraction — work left to right within each pair.\n\nA **division line** (fraction bar) acts like a hidden pair of brackets: work out the whole top and the whole bottom *separately*, then divide. So (6 + 4) ÷ (2 × 1) written as a fraction means do 6 + 4 = 10 and 2 × 1 = 2 first, giving 10 ÷ 2 = 5.",
+      keyPoints: [
+        "Brackets → Indices → ÷ and × → + and −",
+        "A fraction bar groups its top and its bottom like brackets — simplify each, then divide.",
+      ],
       strategies: ["Work in stages", "Underline the next operation"],
+    },
+    {
+      heading: "Estimating square and cube roots",
+      discovery: {
+        problem:
+          "Your calculator is broken and you need √50 to one decimal place. You know 7² = 49 and 8² = 64. Where between 7 and 8 must √50 sit — and is it closer to 7 or to 8?",
+        idea: "√50 lies just above √49 = 7, so it is a little more than 7 (about 7.1). Trapping a root between the two nearest square numbers lets you estimate any root that isn't exact.",
+      },
+      body:
+        "Most roots are not whole numbers. To **estimate** one, trap it between the two nearest known squares (or cubes).\n\nFor √50: 49 < 50 < 64, so 7 < √50 < 8. Because 50 is very close to 49, √50 ≈ 7.1.\n\nFor √30: 25 < 30 < 36, so 5 < √30 < 6; 30 is roughly halfway, so √30 ≈ 5.5.\n\nThe same idea works for cube roots: ∛20 lies between ∛8 = 2 and ∛27 = 3, and since 20 is nearer 27, ∛20 ≈ 2.7.",
+      keyPoints: [
+        "Trap the root between the two nearest perfect squares (or cubes).",
+        "If n is close to the lower square, the root is just above the lower whole number.",
+        "Check an estimate by squaring (or cubing) it back.",
+      ],
+      strategies: ["Bound it between known values", "Test and refine"],
+      whyItWorks:
+        "Squaring is increasing: if a² < n < b² then a < √n < b. So once you know the squares either side of n, you know exactly which two whole numbers the root sits between.",
+    },
+    {
+      heading: "Powers of 10",
+      discovery: {
+        problem:
+          "Write 10¹, 10², 10³ and 10⁴ out in full. What is the link between the index and the number of zeros — and what should 10⁰ be to keep the pattern going?",
+        idea: "10ⁿ is 1 followed by n zeros: 10³ = 1000. Going down one power divides by 10 each time, so 10¹ = 10, and 10⁰ = 1 keeps the pattern consistent.",
+      },
+      body:
+        "Powers of 10 are the backbone of place value. 10ⁿ is **1 followed by n zeros**, so 10⁴ = 10 000.\n\nMultiplying by 10ⁿ shifts every digit n places to the left (10² makes a number 100 times bigger); dividing by 10ⁿ shifts them right.\n\nBecause the index laws apply, 10³ × 10² = 10⁵ and 10⁶ ÷ 10² = 10⁴ — you just count zeros by adding or subtracting indices. This is the foundation of standard (scientific) notation you will meet later.",
+      keyPoints: [
+        "10ⁿ = 1 followed by n zeros (10⁵ = 100 000).",
+        "× 10ⁿ moves digits n places left; ÷ 10ⁿ moves them n places right.",
+        "10ᵐ × 10ⁿ = 10ᵐ⁺ⁿ and 10ᵐ ÷ 10ⁿ = 10ᵐ⁻ⁿ.",
+        "10⁰ = 1, fitting the pattern.",
+      ],
+      strategies: ["Count the zeros", "Use the index laws"],
     },
   ],
   learn: {
@@ -131,6 +169,68 @@ export const integersPowers: Topic = {
         ],
         strategy: "Find a repeating pattern (modular thinking)",
       },
+      {
+        id: "integers-powers-add-mcq01",
+        question: "Work out 13².",
+        options: ["169", "156", "196", "143"],
+        answerIndex: 0,
+        explanation: "13² = 13 × 13 = 169.",
+        difficulty: "warmup",
+        guideRef: "Square and cube roots",
+        strategy: "Recall the square numbers",
+      },
+      {
+        id: "integers-powers-add-mcq02",
+        question: "Work out 4³.",
+        options: ["12", "64", "16", "81"],
+        answerIndex: 1,
+        explanation: "4³ = 4 × 4 × 4 = 64.",
+        difficulty: "warmup",
+        guideRef: "Square and cube roots",
+        strategy: "Recall the cube numbers",
+      },
+      {
+        id: "integers-powers-add-mcq03",
+        question: "Between which two whole numbers does √40 lie?",
+        options: ["5 and 6", "6 and 7", "4 and 5", "20 and 21"],
+        answerIndex: 1,
+        explanation: "36 < 40 < 49, so 6 < √40 < 7. √40 lies between 6 and 7.",
+        difficulty: "core",
+        guideRef: "Estimating square and cube roots",
+        hints: ["Find the nearest square numbers below and above 40.", "36 = 6² and 49 = 7²."],
+        strategy: "Bound it between known values",
+      },
+      {
+        id: "integers-powers-add-mcq04",
+        question: "What is the value of 8⁰?",
+        options: ["0", "1", "8", "Undefined"],
+        answerIndex: 1,
+        explanation: "Any non-zero number to the power 0 is 1, so 8⁰ = 1.",
+        difficulty: "warmup",
+        guideRef: "Powers and the index laws",
+        strategy: "Use the index laws",
+      },
+      {
+        id: "integers-powers-add-mcq05",
+        question: "Write 10⁵ as an ordinary number.",
+        options: ["10 000", "100 000", "50", "1 000 000"],
+        answerIndex: 1,
+        explanation: "10⁵ is 1 followed by 5 zeros = 100 000.",
+        difficulty: "warmup",
+        guideRef: "Powers of 10",
+        strategy: "Count the zeros",
+      },
+      {
+        id: "integers-powers-add-mcq06",
+        question: "Work out (8 + 4) ÷ (1 + 2²), treating the brackets first.",
+        options: ["2.4", "12", "4", "6"],
+        answerIndex: 0,
+        explanation: "Top bracket: 8 + 4 = 12. Bottom bracket: 1 + 2² = 1 + 4 = 5. Then 12 ÷ 5 = 2.4.",
+        difficulty: "core",
+        guideRef: "Order of operations (BIDMAS)",
+        hints: ["Simplify each bracket fully first.", "2² = 4, so the bottom is 1 + 4 = 5."],
+        strategy: "Work in stages",
+      },
     ],
     qa: [
       {
@@ -181,6 +281,67 @@ export const integersPowers: Topic = {
           "Use the remainder of 2025 ÷ (cycle length).",
         ],
         strategy: "Modular thinking — use the remainder",
+      },
+      {
+        id: "integers-powers-add-qa01",
+        question:
+          "Estimate √70 to one decimal place without a calculator. Explain how you trapped the value.",
+        modelAnswer:
+          "64 < 70 < 81, so 8 < √70 < 9. Since 70 is fairly close to 64, the root is a little above 8. Testing: 8.3² = 68.89 and 8.4² = 70.56, so √70 ≈ 8.4 (to 1 d.p.).",
+        markScheme: [
+          "Traps between 64 and 81, so 8 < √70 < 9 [1]",
+          "Reasons it is just above 8 [1]",
+          "Estimate ≈ 8.4 supported by a check (e.g. 8.4² ≈ 70.6) [1]",
+        ],
+        commonError: "Halving 70 or guessing without bounding between the nearest squares.",
+        difficulty: "core",
+        guideRef: "Estimating square and cube roots",
+        hints: ["Which square numbers are just below and just above 70?", "Decide if 70 is nearer 64 or 81.", "Refine by squaring a trial like 8.3 or 8.4."],
+        strategy: "Bound it between known values, then test and refine",
+      },
+      {
+        id: "integers-powers-add-qa02",
+        question:
+          "At 6 a.m. the temperature was −5 °C. By midday it had risen by 9 °C, and by midnight it had fallen by 11 °C from its midday value. Find the temperature at midday and at midnight.",
+        modelAnswer:
+          "Midday: −5 + 9 = 4 °C. Midnight: 4 − 11 = −7 °C.",
+        markScheme: ["Midday = −5 + 9 = 4 °C [1]", "Midnight = 4 − 11 [1]", "= −7 °C [1]"],
+        commonError: "Forgetting the temperature passes back below 0 when falling 11 from 4.",
+        difficulty: "warmup",
+        guideRef: "Calculating with integers",
+        hints: ["Rising adds, falling subtracts.", "Work midday first, then continue from that value."],
+        strategy: "Track direction with signs",
+      },
+      {
+        id: "integers-powers-add-qa03",
+        question:
+          "Simplify (2³)² × 2⁰ ÷ 2⁴, leaving your answer as a single power of 2, then evaluate it.",
+        modelAnswer:
+          "(2³)² = 2⁶ and 2⁰ = 1, so 2⁶ × 1 = 2⁶. Then 2⁶ ÷ 2⁴ = 2² = 4.",
+        markScheme: ["(2³)² = 2⁶ [1]", "× 2⁰ = 1 leaves 2⁶ [1]", "2⁶ ÷ 2⁴ = 2² [1]", "= 4 [1]"],
+        difficulty: "core",
+        guideRef: "Powers and the index laws",
+        hints: ["Power of a power multiplies the indices.", "Remember 2⁰ = 1.", "Finish by subtracting indices when dividing."],
+        strategy: "Use the index laws",
+        solutions: [
+          {
+            label: "Index laws",
+            steps: ["(2³)² = 2^(3×2) = 2⁶", "2⁶ × 2⁰ = 2⁶ (since 2⁰ = 1)", "2⁶ ÷ 2⁴ = 2² = 4"],
+          },
+        ],
+      },
+      {
+        id: "integers-powers-add-qa04",
+        question:
+          "Work out (−3)³ + √81 − ∛64. Show each part.",
+        modelAnswer:
+          "(−3)³ = −27, √81 = 9, ∛64 = 4. So −27 + 9 − 4 = −22.",
+        markScheme: ["(−3)³ = −27 [1]", "√81 = 9 and ∛64 = 4 [1]", "−27 + 9 − 4 = −22 [1]"],
+        commonError: "Writing (−3)³ as +27; an odd power of a negative stays negative.",
+        difficulty: "challenge",
+        guideRef: "Square and cube roots",
+        hints: ["Cube a negative: an odd power keeps the sign negative.", "Evaluate the two roots exactly.", "Combine left to right."],
+        strategy: "Work in stages",
       },
     ],
   },

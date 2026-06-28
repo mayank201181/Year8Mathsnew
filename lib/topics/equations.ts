@@ -89,6 +89,25 @@ export const equations: Topic = {
       whyItWorks:
         "On a number line, multiplying by −1 reflects every value across zero, which reverses their order: if 2 < 5 then −2 > −5. So the inequality sign must flip to stay true.",
     },
+    {
+      heading: "Integer solutions of an inequality",
+      discovery: {
+        problem:
+          "Solve −1 < x ≤ 4, then list only the WHOLE-NUMBER (integer) solutions. How many are there, and why must you be careful at each end?",
+        idea: "−1 < x means x is bigger than −1 (so −1 is NOT allowed). x ≤ 4 means x can equal 4. The integers are 0, 1, 2, 3, 4 — five of them. The strict end (−1, open) is excluded; the inclusive end (4, closed) is included.",
+      },
+      body:
+        "Sometimes you only want the **integer** (whole-number) solutions of an inequality. First solve the inequality as usual, then list the integers that satisfy it — watching carefully which endpoints are included.\n\nFor a single inequality like 2x + 1 ≤ 9, solve to x ≤ 4; the integer solutions are … 2, 3, 4 (and all integers below). If the question also says x is positive, the list is 1, 2, 3, 4.\n\nFor a **double inequality** like −3 ≤ x < 2, the solution is everything from −3 up to (but not including) 2. The integer solutions are −3, −2, −1, 0, 1 — include −3 because of ≤, but exclude 2 because of <.\n\nThe key is the endpoint rule: ≤ or ≥ **includes** the end value; < or > **excludes** it.",
+      keyPoints: [
+        "Solve the inequality first, then list the integers that fit.",
+        "≤ or ≥ includes the boundary value; < or > excludes it.",
+        "A double inequality a ≤ x < b means a is included, b is not.",
+        "Check whether the question restricts to positive integers or a range.",
+      ],
+      strategies: ["Solve first, then list integers", "Check each endpoint: included or excluded?", "Mark the boundaries on a number line"],
+      whyItWorks:
+        "The solved inequality describes a continuous stretch of the number line; the integers in that stretch are simply the whole numbers lying inside it. Open ends (<, >) sit just short of the boundary, so the boundary integer is left out; closed ends (≤, ≥) reach the boundary, so it is counted.",
+    },
   ],
   learn: {
     cards: [
@@ -101,6 +120,8 @@ export const equations: Topic = {
       { front: "Solve x/5 = 4", back: "Multiply both sides by 5: x = 20." },
       { front: "Divide an inequality by a negative — what happens?", back: "The inequality sign reverses, e.g. −2x < 6 → x > −3." },
       { front: "Open vs closed circle", back: "Open ○ for < or >; closed ● for ≤ or ≥." },
+      { front: "Integer solutions of −1 < x ≤ 3", back: "0, 1, 2, 3 — exclude −1 (strict <), include 3 (≤)." },
+      { front: "Does ≤ include the boundary value?", back: "Yes — ≤ and ≥ include the end value; < and > exclude it." },
     ],
   },
   quiz: {
@@ -404,6 +425,90 @@ export const equations: Topic = {
           },
         ],
       },
+      {
+        id: "equations-mcq-paper-3",
+        title: "Equations & Inequalities — MCQ Set C",
+        questions: [
+          {
+            id: "equations-add-mcq01",
+            question: "x is an integer and 2 ≤ x < 6. Which list gives ALL its integer solutions?",
+            options: ["2, 3, 4, 5", "2, 3, 4, 5, 6", "3, 4, 5", "3, 4, 5, 6"],
+            answerIndex: 0,
+            explanation: "2 ≤ x includes 2; x < 6 excludes 6. So the integers are 2, 3, 4, 5.",
+            difficulty: "warmup",
+            guideRef: "Integer solutions of an inequality",
+            hints: ["≤ includes the boundary; < excludes it.", "Start at 2 (included) and stop before 6 (excluded)."],
+            strategy: "Check each endpoint: included or excluded?",
+          },
+          {
+            id: "equations-add-mcq02",
+            question: "How many integers satisfy −3 < x ≤ 2?",
+            options: ["5", "6", "4", "3"],
+            answerIndex: 0,
+            explanation: "−3 is excluded (strict <), 2 is included (≤). The integers are −2, −1, 0, 1, 2 — that is 5 values.",
+            difficulty: "core",
+            guideRef: "Integer solutions of an inequality",
+            hints: [
+              "List the integers from just above −3 up to 2.",
+              "−3 is NOT included, but 2 IS.",
+              "−2, −1, 0, 1, 2 — count them.",
+            ],
+            strategy: "Solve first, then list integers",
+          },
+          {
+            id: "equations-add-mcq03",
+            question: "Solve 3x − 4 ≥ 11, then give the smallest integer value of x that works.",
+            options: ["5", "4", "6", "15"],
+            answerIndex: 0,
+            explanation: "3x − 4 ≥ 11 → 3x ≥ 15 → x ≥ 5. The smallest integer satisfying x ≥ 5 is 5.",
+            difficulty: "core",
+            guideRef: "Integer solutions of an inequality",
+            hints: ["Solve the inequality first.", "Add 4, then divide by 3: x ≥ 5.", "≥ 5 includes 5 itself."],
+            strategy: "Solve first, then list integers",
+          },
+          {
+            id: "equations-add-mcq04",
+            question: "Solve x/4 + 3 = 7.",
+            options: ["x = 16", "x = 10", "x = 28", "x = 1"],
+            answerIndex: 0,
+            explanation: "Subtract 3: x/4 = 4. Multiply by 4: x = 16.",
+            difficulty: "core",
+            guideRef: "Equations with fractions and forming equations",
+            hints: ["Undo the +3 first.", "x/4 = 4.", "Multiply both sides by 4."],
+            strategy: "Clear fractions",
+          },
+          {
+            id: "equations-add-mcq05",
+            question: "Solve the inequality 5 − 2x ≥ 1.",
+            options: ["x ≤ 2", "x ≥ 2", "x ≤ 3", "x ≥ −2"],
+            answerIndex: 0,
+            explanation: "Subtract 5: −2x ≥ −4. Divide by −2 and FLIP: x ≤ 2.",
+            difficulty: "challenge",
+            guideRef: "Inequalities and the number line",
+            hints: [
+              "Get the x-term alone: subtract 5 to get −2x ≥ −4.",
+              "Dividing by −2 means flipping the sign.",
+              "x ≤ 2. Check x = 0: 5 − 0 = 5 ≥ 1 ✓.",
+            ],
+            strategy: "Flip when dividing by a negative",
+          },
+          {
+            id: "equations-add-mcq06",
+            question: "n is a positive integer and 4n − 3 < 17. What is the largest possible value of n?",
+            options: ["4", "5", "3", "20"],
+            answerIndex: 0,
+            explanation: "4n − 3 < 17 → 4n < 20 → n < 5. The largest positive integer less than 5 is 4.",
+            difficulty: "challenge",
+            guideRef: "Integer solutions of an inequality",
+            hints: [
+              "Solve for n: add 3, then divide by 4.",
+              "n < 5 (strict, so 5 is NOT allowed).",
+              "The largest integer below 5 is 4.",
+            ],
+            strategy: "Solve first, then list integers",
+          },
+        ],
+      },
     ],
     qaPapers: [
       {
@@ -463,6 +568,91 @@ export const equations: Topic = {
             difficulty: "challenge",
             hints: ["What do the three angles of a triangle add up to?", "Add the three expressions and set equal to 180.", "4x + 40 = 180."],
             strategy: "Form an equation from a geometric fact",
+          },
+        ],
+      },
+      {
+        id: "equations-qa-paper-2",
+        title: "Equations & Inequalities — Written Set B",
+        questions: [
+          {
+            id: "equations-add-qa01",
+            question:
+              "Solve the inequality 2x + 1 ≤ 9. List all the integer values of x that satisfy it AND are greater than 0.",
+            modelAnswer:
+              "Subtract 1: 2x ≤ 8. Divide by 2: x ≤ 4. Integers greater than 0 and at most 4 are 1, 2, 3, 4.",
+            markScheme: [
+              "2x ≤ 8 [1]",
+              "x ≤ 4 [1]",
+              "Integers 1, 2, 3, 4 [1]",
+            ],
+            commonError: "Including 0 (not greater than 0) or 5 (since x must be ≤ 4).",
+            difficulty: "core",
+            guideRef: "Integer solutions of an inequality",
+            hints: ["Solve the inequality first.", "x ≤ 4, and x must also be more than 0.", "List 1, 2, 3, 4."],
+            strategy: "Solve first, then list integers",
+          },
+          {
+            id: "equations-add-qa02",
+            question:
+              "Solve 3(2x − 1) = x + 12, showing each step, and check your answer in the original equation.",
+            modelAnswer:
+              "Expand: 6x − 3 = x + 12. Subtract x: 5x − 3 = 12. Add 3: 5x = 15. Divide by 5: x = 3. Check: 3(2×3 − 1) = 3 × 5 = 15 and x + 12 = 3 + 12 = 15. ✓",
+            markScheme: [
+              "Expand brackets: 6x − 3 = x + 12 [1]",
+              "Collect x's: 5x − 3 = 12 [1]",
+              "Solve: 5x = 15, x = 3 [1]",
+              "Valid check by substitution [1]",
+            ],
+            commonError: "Forgetting to multiply BOTH terms inside the bracket by 3, or not subtracting x from both sides.",
+            difficulty: "core",
+            guideRef: "Unknowns on both sides and brackets",
+            hints: ["Expand the bracket first.", "Then collect the x's on one side.", "5x = 15."],
+            strategy: "Expand brackets first",
+            solutions: [
+              {
+                label: "Expand then collect",
+                steps: [
+                  "3(2x − 1) = 6x − 3.",
+                  "6x − 3 = x + 12 → subtract x: 5x − 3 = 12.",
+                  "Add 3: 5x = 15. Divide by 5: x = 3.",
+                  "Check: both sides equal 15. ✓",
+                ],
+              },
+            ],
+          },
+          {
+            id: "equations-add-qa03",
+            question:
+              "Challenge: (a) Solve the equation (2x − 1)/3 = (x + 4)/2. (b) Solve the inequality −4 ≤ 3x − 1 < 8 and state all the integer values of x.",
+            modelAnswer:
+              "(a) Multiply both sides by 6: 2(2x − 1) = 3(x + 4) → 4x − 2 = 3x + 12 → x = 14. (b) Add 1 to all parts: −3 ≤ 3x < 9. Divide all by 3: −1 ≤ x < 3. Integers: −1, 0, 1, 2.",
+            markScheme: [
+              "(a) Multiply by 6 to clear fractions: 2(2x − 1) = 3(x + 4) [1]",
+              "(a) 4x − 2 = 3x + 12, x = 14 [1]",
+              "(b) Solve to −1 ≤ x < 3 [1]",
+              "(b) Integers −1, 0, 1, 2 [1]",
+            ],
+            commonError: "In (a) multiplying only one side, or in (b) including 3 (excluded by <) or dropping −1 (included by ≤).",
+            difficulty: "challenge",
+            guideRef: "Integer solutions of an inequality",
+            hints: [
+              "(a) Multiply both sides by the lowest common denominator, 6.",
+              "(b) Do the SAME operation to all three parts of the inequality.",
+              "(b) −1 is included (≤) but 3 is not (<).",
+            ],
+            strategy: "Clear fractions, then solve",
+            solutions: [
+              {
+                label: "Clear fractions / operate on all parts",
+                steps: [
+                  "(a) ×6: 2(2x − 1) = 3(x + 4) → 4x − 2 = 3x + 12 → x = 14.",
+                  "(b) +1 to all parts: −3 ≤ 3x < 9.",
+                  "÷3 all parts: −1 ≤ x < 3.",
+                  "Integers: −1, 0, 1, 2.",
+                ],
+              },
+            ],
           },
         ],
       },

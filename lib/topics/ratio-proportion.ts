@@ -85,6 +85,44 @@ export const ratioProportion: Topic = {
       whyItWorks:
         "Speed is a rate — distance per unit of time — so dividing total distance by total time recovers it. Scale is a fixed ratio, so multiplying every map length by the same factor reproduces the real layout exactly in proportion.",
     },
+    {
+      heading: "Ratios in the form 1 : n",
+      discovery: {
+        problem:
+          "A recipe uses concentrate and water in the ratio 4 : 18. A bottle label, though, prefers to say '1 part concentrate to ? parts water'. How do you rewrite 4 : 18 so the first number is exactly 1 — without losing the proportion?",
+        idea: "Divide BOTH parts by the first number. 4 : 18 ÷ 4 gives 1 : 4.5. The first part becomes 1, and the second tells you how many of that unit you need. The second number need not be a whole number.",
+      },
+      body:
+        "Writing a ratio in the form **1 : n** makes comparison easy: it tells you 'for every 1 of the first quantity, you have n of the second'. To get there, divide *both* parts by the first number.\n\nFor 4 : 18, divide by 4: 1 : 4.5. For 5 : 12, divide by 5: 1 : 2.4. The second number n may be a decimal or fraction — that is fine and often the whole point (e.g. map scales, gear ratios, mixing strengths).\n\nThe form **n : 1** works the same way but divides by the *second* number. Comparing two ratios is easiest when both are written as 1 : n, because you can read off and compare the n values directly.",
+      keyPoints: [
+        "1 : n — divide both parts by the FIRST number.",
+        "n : 1 — divide both parts by the SECOND number.",
+        "n does not have to be a whole number (1 : 4.5 is fine).",
+        "To compare two ratios, rewrite both as 1 : n and compare the n's.",
+      ],
+      strategies: ["Divide both parts by the first number", "Use 1 : n to compare ratios fairly"],
+      whyItWorks:
+        "Dividing both parts by the same number gives an equivalent ratio, so 4 : 18 and 1 : 4.5 describe the identical proportion. Fixing the first part at 1 turns the second part into a single 'per-one' number you can compare at a glance.",
+    },
+    {
+      heading: "Inverse proportion",
+      discovery: {
+        problem:
+          "It takes 4 painters 6 days to paint a hall. The boss sends 8 painters instead. Will the job take more time or less? Multiply painters × days for the original team — what stays the same, and how does that give the new number of days?",
+        idea: "More painters means FEWER days — they vary inversely. The total work is fixed: 4 × 6 = 24 painter-days. With 8 painters, days = 24 ÷ 8 = 3 days. When one quantity goes up, the other goes down so that their PRODUCT stays constant.",
+      },
+      body:
+        "Two quantities are in **inverse (indirect) proportion** when increasing one *decreases* the other, keeping their **product constant**: x × y = k. Examples: number of workers and time taken, speed and time for a fixed distance, number of guests and slices of cake each.\n\nContrast this with *direct* proportion, where the **ratio** y/x is constant. In inverse proportion it is the **product** xy that is constant.\n\nMethod: work out the constant product from the information given, then divide by the new value of the other quantity. So if 5 taps fill a tank in 12 minutes, the 'work' is 5 × 12 = 60 tap-minutes; 4 taps take 60 ÷ 4 = 15 minutes.",
+      keyPoints: [
+        "Inverse proportion: x × y = k (the product stays constant).",
+        "Direct proportion keeps the ratio constant; inverse keeps the product constant.",
+        "More of one quantity ⇒ less of the other.",
+        "Method: find the fixed product, then divide by the new quantity.",
+      ],
+      strategies: ["Check the direction: does more give less?", "Find the constant product first", "Use total work (e.g. worker-days)"],
+      whyItWorks:
+        "If 4 painters take 6 days, the job is worth 24 painter-days of effort no matter who does it. Splitting that fixed total of work among more painters means each contributes for fewer days, so days = total work ÷ painters.",
+    },
   ],
   learn: {
     cards: [
@@ -402,6 +440,86 @@ export const ratioProportion: Topic = {
           },
         ],
       },
+      {
+        id: "ratio-mcq-paper-3",
+        title: "Ratio & Proportion — MCQ Set C",
+        questions: [
+          {
+            id: "ratio-add-mcq01",
+            question: "Write the ratio 5 : 20 in the form 1 : n.",
+            options: ["1 : 4", "1 : 15", "1 : 5", "4 : 1"],
+            answerIndex: 0,
+            explanation: "Divide both parts by the first number, 5: 5 ÷ 5 = 1 and 20 ÷ 5 = 4, giving 1 : 4.",
+            difficulty: "warmup",
+            guideRef: "Ratios in the form 1 : n",
+            hints: ["To get 1 first, divide BOTH parts by the first number.", "5 ÷ 5 = 1 and 20 ÷ 5 = 4."],
+            strategy: "Divide both parts by the first number",
+          },
+          {
+            id: "ratio-add-mcq02",
+            question: "Write the ratio 4 : 10 in the form 1 : n.",
+            options: ["1 : 2.5", "1 : 6", "1 : 2", "2.5 : 1"],
+            answerIndex: 0,
+            explanation: "Divide both parts by 4: 4 ÷ 4 = 1 and 10 ÷ 4 = 2.5, giving 1 : 2.5. The n can be a decimal.",
+            difficulty: "core",
+            guideRef: "Ratios in the form 1 : n",
+            hints: ["Divide both parts by the first number, 4.", "10 ÷ 4 = 2.5 — a decimal is allowed."],
+            strategy: "Divide both parts by the first number",
+          },
+          {
+            id: "ratio-add-mcq03",
+            question: "6 machines fill an order in 10 hours. How long would 5 machines take at the same rate? (inverse proportion)",
+            options: ["12 hours", "8.3 hours", "9 hours", "11 hours"],
+            answerIndex: 0,
+            explanation: "Fixed work = 6 × 10 = 60 machine-hours. With 5 machines: 60 ÷ 5 = 12 hours. Fewer machines take longer.",
+            difficulty: "core",
+            guideRef: "Inverse proportion",
+            hints: ["Fewer machines should take LONGER — this is inverse proportion.", "Total work = 6 × 10 = 60 machine-hours.", "Divide 60 by 5 machines."],
+            strategy: "Find the constant product first",
+          },
+          {
+            id: "ratio-add-mcq04",
+            question: "A block of metal has mass 240 g and volume 30 cm³. What is its density? (density = mass ÷ volume)",
+            options: ["8 g/cm³", "0.125 g/cm³", "7200 g/cm³", "270 g/cm³"],
+            answerIndex: 0,
+            explanation: "Density = mass ÷ volume = 240 ÷ 30 = 8 g/cm³.",
+            difficulty: "core",
+            guideRef: "Direct proportion, rates and best buys",
+            hints: ["Density is a rate: mass per unit of volume.", "Divide the mass by the volume.", "240 ÷ 30 = 8."],
+            strategy: "A rate is one quantity per one of another",
+          },
+          {
+            id: "ratio-add-mcq05",
+            question: "Two ratios of squash to water are A = 1 : 5 and B = 2 : 9. Writing B in the form 1 : n, which mix is MORE diluted (more water per part of squash)?",
+            options: ["A (1 : 5)", "B (1 : 4.5)", "They are equally diluted", "Cannot tell"],
+            answerIndex: 0,
+            explanation: "B = 2 : 9 is 1 : 4.5. A is 1 : 5, which has more water (5 > 4.5) per part of squash, so A is more diluted.",
+            difficulty: "challenge",
+            guideRef: "Ratios in the form 1 : n",
+            hints: [
+              "Rewrite B as 1 : n by dividing both parts by 2.",
+              "9 ÷ 2 = 4.5, so B is 1 : 4.5.",
+              "More water per part means the larger n: compare 5 and 4.5.",
+            ],
+            strategy: "Use 1 : n to compare ratios fairly",
+          },
+          {
+            id: "ratio-add-mcq06",
+            question: "A journey at 80 km/h takes 3 hours. How long would the same journey take at 60 km/h? (inverse proportion)",
+            options: ["4 hours", "2.25 hours", "3.5 hours", "5 hours"],
+            answerIndex: 0,
+            explanation: "Distance is fixed: 80 × 3 = 240 km. At 60 km/h, time = 240 ÷ 60 = 4 hours. Lower speed ⇒ more time.",
+            difficulty: "challenge",
+            guideRef: "Inverse proportion",
+            hints: [
+              "For a fixed distance, speed and time are inversely proportional.",
+              "Find the distance: 80 × 3 = 240 km.",
+              "Time at 60 km/h = 240 ÷ 60.",
+            ],
+            strategy: "Find the constant product first",
+          },
+        ],
+      },
     ],
     qaPapers: [
       {
@@ -464,6 +582,77 @@ export const ratioProportion: Topic = {
                 ],
               },
             ],
+          },
+        ],
+      },
+      {
+        id: "ratio-qa-paper-2",
+        title: "Ratio & Proportion — Written Set B",
+        questions: [
+          {
+            id: "ratio-add-qa01",
+            question: "Write the ratio 8 : 28 in the form 1 : n. Show your working.",
+            modelAnswer: "Divide both parts by the first number, 8: 8 ÷ 8 = 1 and 28 ÷ 8 = 3.5. So 8 : 28 = 1 : 3.5.",
+            markScheme: ["Divide both parts by 8 [1]", "28 ÷ 8 = 3.5 [1]", "Answer 1 : 3.5 [1]"],
+            commonError: "Dividing by the wrong number, or rounding 3.5 to a whole number.",
+            difficulty: "core",
+            guideRef: "Ratios in the form 1 : n",
+            hints: ["To make the first part 1, divide both parts by 8.", "28 ÷ 8 = 3.5 — keep the decimal."],
+            strategy: "Divide both parts by the first number",
+          },
+          {
+            id: "ratio-add-qa02",
+            question:
+              "A water tank is filled by 3 identical pumps in 8 hours. (a) How long would 4 pumps take? (b) How many pumps would be needed to fill it in 2 hours? Explain why this is inverse proportion.",
+            modelAnswer:
+              "The total work is fixed: 3 × 8 = 24 pump-hours. (a) With 4 pumps: 24 ÷ 4 = 6 hours. (b) To finish in 2 hours: pumps = 24 ÷ 2 = 12 pumps. It is inverse proportion because more pumps means fewer hours — their product (pump-hours) stays constant at 24.",
+            markScheme: [
+              "Fixed work = 3 × 8 = 24 pump-hours [1]",
+              "(a) 24 ÷ 4 = 6 hours [1]",
+              "(b) 24 ÷ 2 = 12 pumps [1]",
+              "Explains product constant ⇒ inverse proportion [1]",
+            ],
+            commonError: "Treating it as direct proportion (e.g. more pumps = more hours).",
+            difficulty: "challenge",
+            guideRef: "Inverse proportion",
+            hints: [
+              "More pumps should mean fewer hours — find the fixed total of work first.",
+              "Total = 3 × 8 = 24 pump-hours.",
+              "Divide 24 by the number of pumps (or by the target time).",
+            ],
+            strategy: "Find the constant product first",
+            solutions: [
+              {
+                label: "Constant product (pump-hours)",
+                steps: [
+                  "Work = 3 pumps × 8 hours = 24 pump-hours.",
+                  "(a) 4 pumps: 24 ÷ 4 = 6 hours.",
+                  "(b) 2 hours: 24 ÷ 2 = 12 pumps.",
+                  "Product pumps × hours = 24 always ⇒ inverse proportion.",
+                ],
+              },
+            ],
+          },
+          {
+            id: "ratio-add-qa03",
+            question:
+              "Gold has a density of 19.3 g/cm³. (a) Find the mass of a gold bar of volume 50 cm³. (b) A separate nugget has mass 96.5 g; find its volume. (mass = density × volume)",
+            modelAnswer:
+              "(a) mass = density × volume = 19.3 × 50 = 965 g. (b) volume = mass ÷ density = 96.5 ÷ 19.3 = 5 cm³.",
+            markScheme: [
+              "(a) 19.3 × 50 = 965 g [1]",
+              "Rearrange volume = mass ÷ density [1]",
+              "(b) 96.5 ÷ 19.3 = 5 cm³ [1]",
+            ],
+            commonError: "Mixing up the rearrangement — dividing when you should multiply, or vice versa.",
+            difficulty: "core",
+            guideRef: "Direct proportion, rates and best buys",
+            hints: [
+              "Density = mass ÷ volume, so mass = density × volume.",
+              "(a) Multiply 19.3 by 50.",
+              "(b) Rearrange to volume = mass ÷ density.",
+            ],
+            strategy: "Rearrange the rate formula to find the missing quantity",
           },
         ],
       },

@@ -100,6 +100,69 @@ export const perimeterAreaVolume: Topic = {
       whyItWorks:
         "A prism is many identical thin layers stacked along its length; each layer's size is the cross-sectional area, so total volume = cross-section × length. A cuboid is the special case where the cross-section is a rectangle.",
     },
+    {
+      heading: "Semicircles and quarter circles",
+      discovery: {
+        problem:
+          "A semicircle is exactly half a circle of radius 6 cm. Using π ≈ 3.14, what is its area? And how is the perimeter different from just 'half the circumference'?",
+        idea:
+          "The area is half the full circle: ½ × 3.14 × 6² = ½ × 113.04 = 56.52 cm². The perimeter is the curved half PLUS the straight diameter across the top — you must add the diameter, or you will leave a gap.",
+      },
+      body:
+        "A **semicircle** is half a circle; a **quarter circle** is a quarter.\n\n- **Area** scales the same way: semicircle area = ½ × π × r²; quarter circle area = ¼ × π × r².\n- **Perimeter** needs care: the curved part is a fraction of the circumference, but you must **also add the straight edge(s)**. A semicircle's perimeter = half the circumference + the diameter. A quarter circle's perimeter = a quarter of the circumference + two radii.\n\nWork out the full circle first, take the fraction, and remember the straight sides for the perimeter.",
+      keyPoints: [
+        "Semicircle area = ½ × π × r²; quarter circle area = ¼ × π × r².",
+        "Curved length: semicircle = ½ × π × d; quarter = ¼ × π × d.",
+        "Perimeter of a semicircle = curved half + the diameter.",
+        "Perimeter of a quarter circle = curved quarter + two radii.",
+      ],
+      strategies: ["Find the whole circle first, then take the fraction", "Add the straight edges for perimeter"],
+      whyItWorks:
+        "Halving (or quartering) a circle scales its area and its curved length by that fraction, but cutting also creates new straight edges (a diameter or two radii) that are part of the boundary, so they must be added to the perimeter.",
+    },
+    {
+      heading: "The cylinder: volume and surface area",
+      discovery: {
+        problem:
+          "A tin of soup is a cylinder of radius 3 cm and height 10 cm. A cylinder is a prism with a circular cross-section. Using π ≈ 3.14, how much does it hold?",
+        idea:
+          "The cross-section is a circle of area π × r² = 3.14 × 9 = 28.26 cm². As a prism, volume = cross-section × height = 28.26 × 10 = 282.6 cm³. A cylinder is just a circular prism.",
+      },
+      body:
+        "A **cylinder** is a prism whose cross-section is a circle, radius r and height h. Using **π ≈ 3.14**:\n\n- **Volume = π × r² × h** (circle area × height).\n- **Surface area = 2 × π × r² + 2 × π × r × h** — the two circular ends plus the curved side. The curved side unrolls into a rectangle of width = circumference (2πr) and height h, giving area 2πr × h.\n\nSo total surface area = (two circles) + (the wrapped-round rectangle).",
+      diagrams: [
+        '<svg viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A cylinder with radius r and height h"><ellipse cx="70" cy="30" rx="45" ry="15" fill="none" stroke="black" stroke-width="2"/><line x1="25" y1="30" x2="25" y2="135" stroke="black" stroke-width="2"/><line x1="115" y1="30" x2="115" y2="135" stroke="black" stroke-width="2"/><path d="M25 135 A 45 15 0 0 0 115 135" fill="none" stroke="black" stroke-width="2"/><line x1="70" y1="30" x2="115" y2="30" stroke="gray" stroke-width="1"/><text x="88" y="26" font-size="12">r</text><text x="6" y="85" font-size="12">h</text></svg>',
+      ],
+      keyPoints: [
+        "Cylinder volume = π × r² × h (circular cross-section × height).",
+        "Curved surface area = 2 × π × r × h (the side unrolls to a rectangle).",
+        "Two circular ends add 2 × π × r².",
+        "Total surface area = 2πr² + 2πrh.",
+      ],
+      strategies: ["Treat the cylinder as a circular prism", "Unroll the curved side into a rectangle"],
+      whyItWorks:
+        "Cutting the curved side and unrolling it gives a rectangle whose width is the circle's circumference (2πr) and whose height is h, so the curved area is 2πr × h. Adding the two circular ends completes the surface.",
+    },
+    {
+      heading: "Converting metric units of length, area and volume",
+      discovery: {
+        problem:
+          "1 metre is 100 centimetres. So how many square centimetres are in 1 square metre — is it also 100? And how many cubic centimetres in 1 cubic metre?",
+        idea:
+          "1 m² = 100 × 100 = 10 000 cm² (you square the length factor), and 1 m³ = 100 × 100 × 100 = 1 000 000 cm³ (you cube it). Area and volume conversions are NOT the same as length conversions.",
+      },
+      body:
+        "**Length**: 1 cm = 10 mm, 1 m = 100 cm, 1 km = 1000 m.\n\nFor **area**, square the length conversion: because area is length × length,\n\n- 1 cm² = 10² = 100 mm²\n- 1 m² = 100² = 10 000 cm²\n\nFor **volume**, cube the length conversion: because volume is length × length × length,\n\n- 1 cm³ = 10³ = 1000 mm³\n- 1 m³ = 100³ = 1 000 000 cm³\n\nAlso useful: **1 litre = 1000 cm³** and **1 ml = 1 cm³**.\n\nThe big idea: convert the lengths first, then square (for area) or cube (for volume).",
+      keyPoints: [
+        "Length: 10 mm = 1 cm, 100 cm = 1 m, 1000 m = 1 km.",
+        "Area: square the factor — 1 m² = 10 000 cm², 1 cm² = 100 mm².",
+        "Volume: cube the factor — 1 m³ = 1 000 000 cm³, 1 cm³ = 1000 mm³.",
+        "Capacity: 1 litre = 1000 cm³ and 1 ml = 1 cm³.",
+      ],
+      strategies: ["Convert the lengths first", "Square for area, cube for volume"],
+      whyItWorks:
+        "A square metre is a 100 cm by 100 cm square, holding 100 × 100 = 10 000 cm² of little squares; a cubic metre is 100 cm each way, holding 100³ = 1 000 000 cm³ of little cubes — that is why the factor is squared or cubed.",
+    },
   ],
   learn: {
     cards: [
@@ -186,6 +249,79 @@ export const perimeterAreaVolume: Topic = {
           "12 × 9 = 108 cm³.",
         ],
         strategy: "cross-section area × length",
+      },
+      {
+        id: "area-add-mcq01",
+        question: "A semicircle has radius 4 cm. Using π ≈ 3.14, its area is:",
+        options: ["25.12 cm²", "50.24 cm²", "12.56 cm²", "100.48 cm²"],
+        answerIndex: 0,
+        explanation: "Area = ½ × π × r² = ½ × 3.14 × 16 = ½ × 50.24 = 25.12 cm².",
+        difficulty: "core",
+        guideRef: "Semicircles and quarter circles",
+        hints: ["Find the full circle area first.", "3.14 × 4² = 50.24, then halve it.", "½ × 50.24 = 25.12 cm²."],
+        strategy: "Whole circle, then halve",
+      },
+      {
+        id: "area-add-mcq02",
+        question: "How many square centimetres are there in 1 m²?",
+        options: ["100 cm²", "1000 cm²", "10 000 cm²", "1 000 000 cm²"],
+        answerIndex: 2,
+        explanation: "1 m = 100 cm, so 1 m² = 100 × 100 = 10 000 cm².",
+        difficulty: "warmup",
+        guideRef: "Converting metric units of length, area and volume",
+        strategy: "Square the length factor",
+      },
+      {
+        id: "area-add-mcq03",
+        question:
+          "A cylinder has radius 2 cm and height 10 cm. Using π ≈ 3.14, its volume is:",
+        options: ["125.6 cm³", "62.8 cm³", "40 cm³", "251.2 cm³"],
+        answerIndex: 0,
+        explanation: "Volume = π × r² × h = 3.14 × 2² × 10 = 3.14 × 4 × 10 = 125.6 cm³.",
+        difficulty: "core",
+        guideRef: "The cylinder: volume and surface area",
+        hints: ["A cylinder is a circular prism.", "Circle area = 3.14 × 2² = 12.56.", "12.56 × 10 = 125.6 cm³."],
+        strategy: "Circle area × height",
+      },
+      {
+        id: "area-add-mcq04",
+        question: "How many cubic centimetres are there in 1 m³?",
+        options: ["1 000 000 cm³", "10 000 cm³", "1000 cm³", "100 cm³"],
+        answerIndex: 0,
+        explanation: "1 m = 100 cm, so 1 m³ = 100 × 100 × 100 = 1 000 000 cm³.",
+        difficulty: "core",
+        guideRef: "Converting metric units of length, area and volume",
+        hints: ["Volume cubes the length factor.", "100³ = 1 000 000."],
+        strategy: "Cube the length factor",
+      },
+      {
+        id: "area-add-mcq05",
+        question:
+          "A quarter circle has radius 8 cm. Using π ≈ 3.14, its area is:",
+        options: ["50.24 cm²", "200.96 cm²", "25.12 cm²", "100.48 cm²"],
+        answerIndex: 0,
+        explanation: "Area = ¼ × π × r² = ¼ × 3.14 × 64 = ¼ × 200.96 = 50.24 cm².",
+        difficulty: "core",
+        guideRef: "Semicircles and quarter circles",
+        hints: ["Full circle area = 3.14 × 8² = 200.96.", "Take a quarter: 200.96 ÷ 4."],
+        strategy: "Whole circle, then quarter",
+      },
+      {
+        id: "area-add-mcq06",
+        question:
+          "The perimeter of a semicircle of radius 5 cm (curved part + diameter), using π ≈ 3.14, is closest to:",
+        options: ["25.7 cm", "15.7 cm", "31.4 cm", "20.7 cm"],
+        answerIndex: 0,
+        explanation:
+          "Curved part = ½ × π × d = ½ × 3.14 × 10 = 15.7 cm. Add the diameter 10 cm: 15.7 + 10 = 25.7 cm.",
+        difficulty: "challenge",
+        guideRef: "Semicircles and quarter circles",
+        hints: [
+          "The perimeter is the curved half PLUS the straight diameter.",
+          "Curved half = ½ × 3.14 × 10 = 15.7 cm.",
+          "Add the diameter 10 cm.",
+        ],
+        strategy: "Curved half + diameter",
       },
     ],
     qa: [
@@ -280,6 +416,109 @@ export const perimeterAreaVolume: Topic = {
               "With perimeter 24, length + width = 12",
               "Try 1×11=11, 3×9=27, 5×7=35, 6×6=36",
               "Area peaks at 6×6 = 36 cm² (the square)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "area-add-qa01",
+        question:
+          "A semicircle has radius 10 cm. Using π ≈ 3.14, find (a) its area and (b) its perimeter (curved part plus the diameter).",
+        modelAnswer:
+          "(a) Area = ½ × π × r² = ½ × 3.14 × 100 = ½ × 314 = 157 cm². (b) Curved part = ½ × π × d = ½ × 3.14 × 20 = 31.4 cm. Add the diameter 20 cm: perimeter = 31.4 + 20 = 51.4 cm.",
+        markScheme: [
+          "Area = ½ × 3.14 × 100 = 157 cm² [1]",
+          "Curved length = ½ × 3.14 × 20 = 31.4 cm [1]",
+          "Perimeter = 31.4 + 20 = 51.4 cm [1]",
+        ],
+        commonError: "Forgetting to add the straight diameter to the curved part for the perimeter.",
+        difficulty: "core",
+        guideRef: "Semicircles and quarter circles",
+        hints: [
+          "Area = ½ × π × r².",
+          "Perimeter = half the circumference + the diameter.",
+          "Curved half = ½ × 3.14 × 20 = 31.4 cm.",
+        ],
+        strategy: "Whole circle then halve; add the diameter for perimeter",
+      },
+      {
+        id: "area-add-qa02",
+        question:
+          "A cylinder has radius 5 cm and height 12 cm. Using π ≈ 3.14, find (a) its volume and (b) its total surface area.",
+        modelAnswer:
+          "(a) Volume = π × r² × h = 3.14 × 25 × 12 = 942 cm³. (b) Two ends = 2 × π × r² = 2 × 3.14 × 25 = 157 cm². Curved side = 2 × π × r × h = 2 × 3.14 × 5 × 12 = 376.8 cm². Total = 157 + 376.8 = 533.8 cm².",
+        markScheme: [
+          "Volume = 3.14 × 25 × 12 = 942 cm³ [1]",
+          "Two ends = 2 × 3.14 × 25 = 157 cm² and curved = 2 × 3.14 × 5 × 12 = 376.8 cm² [1]",
+          "Total surface area = 157 + 376.8 = 533.8 cm² [1]",
+        ],
+        commonError: "Forgetting one or both circular ends, or using the diameter instead of the radius.",
+        difficulty: "challenge",
+        guideRef: "The cylinder: volume and surface area",
+        hints: [
+          "Volume = circle area × height.",
+          "Surface area = two circles + the unrolled curved side.",
+          "Curved side = 2 × π × r × h.",
+        ],
+        strategy: "Circle area × height for volume; ends + curved side for surface area",
+        solutions: [
+          {
+            label: "Step by step",
+            steps: [
+              "Volume: 3.14 × 5² × 12 = 3.14 × 25 × 12 = 942 cm³",
+              "Ends: 2 × 3.14 × 25 = 157 cm²; curved: 2 × 3.14 × 5 × 12 = 376.8 cm²",
+              "Total surface area = 157 + 376.8 = 533.8 cm²",
+            ],
+          },
+        ],
+      },
+      {
+        id: "area-add-qa03",
+        question:
+          "Convert: (a) 3 m² into cm², and (b) 2.5 m³ into cm³.",
+        modelAnswer:
+          "(a) 1 m² = 10 000 cm², so 3 m² = 3 × 10 000 = 30 000 cm². (b) 1 m³ = 1 000 000 cm³, so 2.5 m³ = 2.5 × 1 000 000 = 2 500 000 cm³.",
+        markScheme: [
+          "1 m² = 10 000 cm² used [1]",
+          "(a) 3 × 10 000 = 30 000 cm² [1]",
+          "(b) 2.5 × 1 000 000 = 2 500 000 cm³ [1]",
+        ],
+        commonError: "Multiplying by 100 instead of 10 000 (area) or 1 000 000 (volume).",
+        difficulty: "core",
+        guideRef: "Converting metric units of length, area and volume",
+        hints: [
+          "1 m = 100 cm; square it for area, cube it for volume.",
+          "1 m² = 100² = 10 000 cm².",
+          "1 m³ = 100³ = 1 000 000 cm³.",
+        ],
+        strategy: "Square for area, cube for volume",
+      },
+      {
+        id: "area-add-qa04",
+        question:
+          "Challenge: A water trough is a triangular prism. Its triangular cross-section has base 0.6 m and height 0.4 m, and the trough is 2 m long. (a) Find the volume in m³. (b) How many litres does it hold? (Use 1 m³ = 1000 litres.)",
+        modelAnswer:
+          "(a) Cross-section area = ½ × 0.6 × 0.4 = 0.12 m². Volume = 0.12 × 2 = 0.24 m³. (b) 0.24 × 1000 = 240 litres.",
+        markScheme: [
+          "Cross-section = ½ × 0.6 × 0.4 = 0.12 m² [1]",
+          "Volume = 0.12 × 2 = 0.24 m³ [1]",
+          "0.24 × 1000 = 240 litres [1]",
+        ],
+        difficulty: "challenge",
+        guideRef: "The cylinder: volume and surface area",
+        hints: [
+          "Find the triangular cross-section area first.",
+          "Volume = cross-section × length.",
+          "Convert m³ to litres with × 1000.",
+        ],
+        strategy: "Triangular cross-section × length, then convert to litres",
+        solutions: [
+          {
+            label: "Cross-section then length",
+            steps: [
+              "½ × 0.6 × 0.4 = 0.12 m²",
+              "0.12 × 2 = 0.24 m³",
+              "0.24 × 1000 = 240 litres",
             ],
           },
         ],

@@ -93,6 +93,47 @@ export const transformationsPythagoras: Topic = {
         "If the three sides satisfy a² + b² = c², the triangle is right-angled. If a² + b² < c² the largest angle is obtuse; if a² + b² > c² it is acute. Pythagoras is also a test for right angles.",
       strategies: ["Decide: add or subtract?", "Look for a known triple first"],
     },
+    {
+      heading: "Rotations, the line y = x, and enlarging from a centre",
+      discovery: {
+        problem:
+          "The point (4, 1) is rotated 90° anticlockwise about the origin. Use tracing paper (or your fingers) to predict where it lands. Then reflect the original point (4, 1) in the line y = x. Do you get the same answer?",
+        idea:
+          "A 90° anticlockwise turn about O sends (4, 1) → (−1, 4): the coordinates swap and the new x takes the opposite sign. Reflecting in y = x simply swaps the coordinates: (4, 1) → (1, 4). They are different transformations — same building blocks, different results.",
+      },
+      body:
+        "**Rotation** needs a *centre*, an *angle* and a *direction*. About the origin the quarter-turns follow neat coordinate rules:\n\n- 90° anticlockwise: (x, y) → (−y, x)\n- 90° clockwise: (x, y) → (y, −x)\n- 180° (either direction): (x, y) → (−x, −y)\n\n**Reflection in y = x** swaps the coordinates: (x, y) → (y, x). Reflection in y = −x swaps *and* negates both: (x, y) → (−y, −x).\n\n**Enlarging from a centre** that is *not* the origin: measure the vector from the centre C to each point, multiply that vector by the scale factor, then step that far from C again. With a **fractional scale factor** (between 0 and 1) the image is smaller and closer to the centre — for example scale factor 1/2 halves every distance from C.",
+      keyPoints: [
+        "90° anticlockwise about O: (x, y) → (−y, x); 90° clockwise: (x, y) → (y, −x); 180°: (x, y) → (−x, −y).",
+        "Reflection in y = x: (x, y) → (y, x). In y = −x: (x, y) → (−y, −x).",
+        "From centre C, image point = C + scale factor × (point − C).",
+        "A fractional scale factor (0 < k < 1) shrinks the shape toward the centre.",
+      ],
+      strategies: ["Use tracing paper to check a rotation", "Work from the centre using vectors"],
+      whyItWorks:
+        "Every point of an enlargement lies on the straight line through the centre and the original point, at the scale factor times the distance. Multiplying the whole vector (point − centre) by k does exactly that, which is why shapes stay similar.",
+      diagrams: [
+        '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A triangle enlarged by scale factor 2 from a centre, with rays from the centre through matching corners"><rect x="0" y="0" width="200" height="200" fill="#ffffff"/><circle cx="20" cy="180" r="3" fill="#333"/><text x="8" y="178" font-size="10">C</text><polygon points="60,160 90,160 60,130" fill="#9cf" stroke="#036"/><polygon points="100,140 160,140 100,80" fill="none" stroke="#c60" stroke-dasharray="3 3"/><line x1="20" y1="180" x2="100" y2="140" stroke="#999"/><line x1="20" y1="180" x2="160" y2="140" stroke="#999"/><line x1="20" y1="180" x2="100" y2="80" stroke="#999"/></svg>',
+      ],
+    },
+    {
+      heading: "Describing and combining transformations",
+      discovery: {
+        problem:
+          "A shape is reflected in the x-axis, and then the image is reflected in the y-axis. Try it with the point (3, 2). What single transformation would have done the same job in one move?",
+        idea:
+          "(3, 2) → (3, −2) after the x-axis, → (−3, −2) after the y-axis. That is exactly (x, y) → (−x, −y), a 180° rotation about the origin. Two reflections in perpendicular mirror lines combine to a single rotation.",
+      },
+      body:
+        "**Describing a transformation fully** means giving every piece of information needed to reproduce it:\n\n- **Translation:** the column vector, e.g. (−4, 2).\n- **Reflection:** the equation of the mirror line, e.g. y = x.\n- **Rotation:** centre, angle AND direction, e.g. 90° clockwise about (0, 0).\n- **Enlargement:** scale factor AND centre of enlargement.\n\nIf you only give part of this (for example 'a rotation' or 'rotate 90°'), you have not described it fully and would lose marks.\n\n**Combining two transformations** means doing one, then applying the next to the *image*. Track the shape one step at a time. Often a single transformation gives the same overall effect — two reflections in parallel mirrors make a translation; two reflections in perpendicular mirrors make a 180° rotation.",
+      keyPoints: [
+        "Full description: translation → vector; reflection → mirror-line equation; rotation → centre, angle, direction; enlargement → scale factor, centre.",
+        "To combine, apply the first transformation, then transform its image by the second.",
+        "Two reflections in perpendicular lines = a 180° rotation about their crossing point.",
+        "Always state the mirror line as an equation (x = 0, y = 2, y = x …), not 'the vertical line'.",
+      ],
+      strategies: ["Do one transformation at a time", "Name every required detail or lose marks"],
+    },
   ],
   learn: {
     cards: [
@@ -104,6 +145,11 @@ export const transformationsPythagoras: Topic = {
       { front: "Congruent vs similar?", back: "Congruent = same shape AND size. Similar = same shape, different size (equal angles, sides in ratio)." },
       { front: "Pythagoras' theorem", back: "a² + b² = c², where c is the hypotenuse (longest side, opposite the right angle)." },
       { front: "Name two Pythagorean triples.", back: "3, 4, 5 and 5, 12, 13 (also 8, 15, 17)." },
+      { front: "Reflection in the line y = x maps (x, y) to …?", back: "(y, x) — swap the coordinates." },
+      { front: "90° anticlockwise about the origin maps (x, y) to …?", back: "(−y, x). Clockwise gives (y, −x); 180° gives (−x, −y)." },
+      { front: "How do you enlarge from a centre C?", back: "Image point = C + scale factor × (point − C). Distances from C are multiplied by the scale factor." },
+      { front: "What does a scale factor of 1/2 do?", back: "Shrinks the shape to half size, pulling every point toward the centre of enlargement." },
+      { front: "Two reflections in perpendicular mirror lines give …?", back: "A single 180° rotation about the point where the lines cross." },
     ],
   },
   quiz: {
@@ -162,6 +208,60 @@ export const transformationsPythagoras: Topic = {
         hints: ["The ladder is the hypotenuse.", "To find a shorter side, subtract: c² − a².", "169 − 25 = 144; √144 = 12."],
         strategy: "Subtract the squares to find a shorter side",
       },
+      {
+        id: "trans-add-mcq01",
+        question: "The point (2, 5) is reflected in the line y = x. What is its image?",
+        options: ["(5, 2)", "(−2, 5)", "(2, −5)", "(−5, −2)"],
+        answerIndex: 0,
+        explanation: "Reflecting in y = x swaps the coordinates: (2, 5) → (5, 2).",
+        difficulty: "core",
+        guideRef: "Rotations, the line y = x, and enlarging from a centre",
+        hints: ["The mirror line y = x makes x and y change places.", "Swap the two numbers."],
+        strategy: "Swap coordinates for a reflection in y = x",
+      },
+      {
+        id: "trans-add-mcq02",
+        question: "The point (3, 1) is rotated 90° anticlockwise about the origin. Where does it land?",
+        options: ["(1, 3)", "(−1, 3)", "(1, −3)", "(−3, −1)"],
+        answerIndex: 1,
+        explanation: "90° anticlockwise about O: (x, y) → (−y, x), so (3, 1) → (−1, 3).",
+        difficulty: "core",
+        guideRef: "Rotations, the line y = x, and enlarging from a centre",
+        hints: ["Use (x, y) → (−y, x) for a quarter turn anticlockwise.", "Swap to get (1, 3), then make the new x negative."],
+        strategy: "Apply the 90° rotation coordinate rule",
+      },
+      {
+        id: "trans-add-mcq03",
+        question: "A triangle is enlarged by scale factor 1/2 from a centre. What happens to it?",
+        options: [
+          "It doubles in size",
+          "It stays the same size",
+          "It shrinks to half size, pulled toward the centre",
+          "It is reflected",
+        ],
+        answerIndex: 2,
+        explanation: "A scale factor between 0 and 1 makes the shape smaller; 1/2 halves every distance from the centre.",
+        difficulty: "warmup",
+        guideRef: "Rotations, the line y = x, and enlarging from a centre",
+        strategy: "A fractional scale factor shrinks toward the centre",
+      },
+      {
+        id: "trans-add-mcq04",
+        question:
+          "A shape is reflected in the x-axis, then the image is reflected in the y-axis. What single transformation has the same overall effect?",
+        options: [
+          "A translation",
+          "A reflection in y = x",
+          "A 180° rotation about the origin",
+          "An enlargement",
+        ],
+        answerIndex: 2,
+        explanation: "x-axis then y-axis sends (x, y) → (x, −y) → (−x, −y), which is a 180° rotation about the origin.",
+        difficulty: "challenge",
+        guideRef: "Describing and combining transformations",
+        hints: ["Track a point like (3, 2) through both reflections.", "(3, 2) → (3, −2) → (−3, −2).", "Which single transformation gives (x, y) → (−x, −y)?"],
+        strategy: "Combine by tracking a point, then name the single equivalent",
+      },
     ],
     qa: [
       {
@@ -214,6 +314,78 @@ export const transformationsPythagoras: Topic = {
           "Subtract the two distances.",
         ],
         strategy: "Apply Pythagoras twice, then compare",
+      },
+      {
+        id: "trans-add-qa01",
+        question:
+          "Triangle T has vertices A(2, 1), B(5, 1) and C(2, 3). Rotate T by 90° clockwise about the origin (0, 0). Give the coordinates of the image A′B′C′.",
+        modelAnswer:
+          "A 90° clockwise rotation about O uses (x, y) → (y, −x). So A(2, 1) → A′(1, −2), B(5, 1) → B′(1, −5), C(2, 3) → C′(3, −2).",
+        markScheme: [
+          "Uses the rule (x, y) → (y, −x) for 90° clockwise [1]",
+          "A′(1, −2) and B′(1, −5) [1]",
+          "C′(3, −2) [1]",
+        ],
+        commonError: "Using the anticlockwise rule (−y, x), or forgetting to negate the new y-coordinate.",
+        difficulty: "core",
+        guideRef: "Rotations, the line y = x, and enlarging from a centre",
+        hints: ["Clockwise quarter turn: (x, y) → (y, −x).", "Swap each pair, then make the new y negative.", "Check with tracing paper if unsure."],
+        strategy: "Apply the rotation rule to every vertex",
+      },
+      {
+        id: "trans-add-qa02",
+        question:
+          "Shape P has a vertex at (1, 2). It is enlarged from the origin so that this vertex maps to (3, 6). Describe the transformation fully.",
+        modelAnswer:
+          "From the origin, (1, 2) → (3, 6) means each coordinate is multiplied by 3 (1 × 3 = 3 and 2 × 3 = 6). So the transformation is an enlargement with scale factor 3, centre of enlargement (0, 0). A full description of an enlargement must give BOTH the scale factor and the centre.",
+        markScheme: [
+          "States it is an enlargement [1]",
+          "Scale factor 3 (from 3 ÷ 1 = 6 ÷ 2 = 3) [1]",
+          "Centre of enlargement (0, 0) [1]",
+        ],
+        commonError: "Giving only the scale factor and forgetting to state the centre of enlargement (or vice versa).",
+        difficulty: "core",
+        guideRef: "Describing and combining transformations",
+        hints: ["Compare matching coordinates: what is 3 ÷ 1 and 6 ÷ 2?", "Both give the scale factor.", "State the scale factor AND the centre for a full description."],
+        strategy: "Name every required detail of the transformation",
+      },
+      {
+        id: "trans-add-qa03",
+        question:
+          "Points P(1, 2) and Q(7, 10) are plotted on a grid. Use Pythagoras to find the straight-line distance PQ.",
+        modelAnswer:
+          "Horizontal gap = 7 − 1 = 6; vertical gap = 10 − 2 = 8. These are the two shorter sides of a right-angled triangle, so PQ² = 6² + 8² = 36 + 64 = 100, giving PQ = √100 = 10 units.",
+        markScheme: [
+          "Finds horizontal and vertical gaps 6 and 8 [1]",
+          "PQ² = 6² + 8² = 100 [1]",
+          "PQ = √100 = 10 units [1]",
+        ],
+        commonError: "Subtracting coordinates the wrong way round, or adding the gaps (6 + 8) instead of using a² + b² = c².",
+        difficulty: "core",
+        guideRef: "Pythagoras: finding the hypotenuse",
+        hints: ["The horizontal and vertical gaps are the two shorter sides.", "Difference in x is 6, difference in y is 8.", "Use 6² + 8², then square-root."],
+        strategy: "Turn the coordinate gap into a right-angled triangle",
+        solutions: [
+          { label: "Coordinate Pythagoras", steps: ["Δx = 7 − 1 = 6, Δy = 10 − 2 = 8", "PQ² = 6² + 8² = 100", "PQ = √100 = 10"] },
+          { label: "Recognise the triple", steps: ["The legs 6 and 8 are the 3-4-5 triple doubled.", "So the hypotenuse is 5 × 2 = 10.", "PQ = 10 units."] },
+        ],
+      },
+      {
+        id: "trans-add-qa04",
+        question:
+          "Challenge: A shape is reflected in the line y = x, and the image is then translated by the column vector (2, −3). The original point A is at (1, 4). Find the coordinates of A after both transformations.",
+        modelAnswer:
+          "Reflect in y = x: (1, 4) → (4, 1) (swap coordinates). Then translate by (2, −3): (4 + 2, 1 − 3) = (6, −2). The final image of A is (6, −2).",
+        markScheme: [
+          "Reflection in y = x gives (4, 1) [1]",
+          "Adds the vector (2, −3) to (4, 1) [1]",
+          "Final point (6, −2) [1]",
+        ],
+        commonError: "Translating first, or forgetting that y = x swaps the coordinates before the slide.",
+        difficulty: "challenge",
+        guideRef: "Describing and combining transformations",
+        hints: ["Do the reflection first, then the translation on the result.", "Reflecting (1, 4) in y = x swaps it to (4, 1).", "Now add 2 to x and subtract 3 from y."],
+        strategy: "Apply transformations one step at a time, in order",
       },
     ],
   },

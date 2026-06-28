@@ -100,6 +100,65 @@ export const anglesPolygons: Topic = {
       whyItWorks:
         "Drawing all diagonals from one vertex of an n-sided polygon makes exactly (n − 2) triangles, each with angle sum 180°, so the interior total is (n − 2) × 180°. The exterior angles total 360° because walking once around the shape is one complete turn.",
     },
+    {
+      heading: "Types of triangle and quadrilateral",
+      discovery: {
+        problem:
+          "A four-sided shape has all four sides equal but its angles are NOT all 90°. Is it a square? If not, what is it — and what is the difference between this shape and a square?",
+        idea:
+          "It is a rhombus, not a square. A square needs equal sides AND right angles; a rhombus has equal sides but its angles are not 90°. Naming a shape means checking its exact combination of side and angle properties.",
+      },
+      body:
+        "**Triangles** are named by their sides/angles:\n\n- *Equilateral*: 3 equal sides, all angles 60°.\n- *Isosceles*: 2 equal sides, 2 equal base angles.\n- *Scalene*: all sides and angles different.\n- *Right-angled*: one angle is 90°.\n\n**Quadrilaterals**:\n\n- *Square*: 4 equal sides, 4 right angles.\n- *Rectangle*: opposite sides equal, 4 right angles.\n- *Rhombus*: 4 equal sides, opposite angles equal (a 'pushed-over' square).\n- *Parallelogram*: opposite sides parallel and equal, opposite angles equal.\n- *Trapezium*: exactly one pair of parallel sides.\n- *Kite*: two pairs of adjacent equal sides; one pair of equal angles.\n\nKnowing the properties lets you find angles and decide if two shapes are the same type.",
+      keyPoints: [
+        "Equilateral 60° each; isosceles has equal base angles; scalene all different.",
+        "Square: equal sides + right angles. Rhombus: equal sides, no right angles needed.",
+        "Rectangle and parallelogram: opposite sides equal; opposite angles equal.",
+        "Trapezium: one pair of parallel sides. Kite: two pairs of adjacent equal sides.",
+      ],
+      strategies: ["Check sides and angles separately", "Use the opposite-angles-equal property of parallelograms"],
+    },
+    {
+      heading: "Bearings",
+      discovery: {
+        problem:
+          "A ship sails on a bearing of 045°. A second ship sails due west. Bearings are measured from North, clockwise, and always written with three figures. What three-figure bearing is 'due west'?",
+        idea:
+          "Due west is a quarter turn clockwise past South from North — that is 270°. Every direction can be written as a three-figure bearing from 000° to 360°, measured clockwise from North.",
+      },
+      body:
+        "A **bearing** gives a direction as an angle measured **clockwise from North**, always written with **three figures**: e.g. 60° is written **060°**, and due East is **090°**.\n\nKey directions: North 000°, East 090°, South 180°, West 270°.\n\nTo find a bearing, draw a North arrow at the starting point, then measure the clockwise angle to the direction of travel.\n\n**Back bearings**: the bearing from B back to A differs from the bearing A to B by 180°. If A to B is 070°, then B to A is 070° + 180° = 250°. (If the forward bearing is more than 180°, subtract 180° instead.)",
+      diagrams: [
+        '<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A bearing measured clockwise from a North arrow to a direction of travel"><line x1="80" y1="80" x2="80" y2="15" stroke="black" stroke-width="2"/><text x="74" y="12" font-size="12">N</text><line x1="80" y1="80" x2="135" y2="120" stroke="black" stroke-width="2"/><path d="M80 45 A 35 35 0 0 1 100 58" fill="none" stroke="gray" stroke-width="1"/><text x="95" y="50" font-size="11">bearing</text></svg>',
+      ],
+      keyPoints: [
+        "Bearings are measured clockwise from North.",
+        "Always write three figures: 060°, 090°, 270°.",
+        "North 000°, East 090°, South 180°, West 270°.",
+        "Back bearing = forward bearing ± 180°.",
+      ],
+      strategies: ["Draw a North arrow first", "Measure clockwise; pad to three figures"],
+      whyItWorks:
+        "A back bearing differs by 180° because the return North arrow points the same way, so the return direction is exactly a half-turn (180°) from the outward one.",
+    },
+    {
+      heading: "Constructions and bisectors (a brief look)",
+      discovery: {
+        problem:
+          "Using only a pair of compasses and a straight edge — no protractor — how could you find the exact middle of a line, with a line that crosses it at a perfect right angle?",
+        idea:
+          "Open the compasses to more than half the line, draw arcs from each end above and below; the two crossing points join to give the perpendicular bisector — the exact midpoint and a right angle, no measuring needed.",
+      },
+      body:
+        "Some constructions use only compasses and a straight edge (no protractor):\n\n- **Perpendicular bisector** of a line AB: with the compasses set wider than half of AB, draw arcs from A and from B (above and below). Join the two arc crossings — this line cuts AB exactly in half at 90°.\n- **Angle bisector**: from the corner, draw an arc cutting both arms. From each of those two points draw equal arcs that cross; the line from the corner through that crossing splits the angle into two equal halves.\n\nEvery point on a perpendicular bisector is the same distance from A and B — that is the key idea behind why the construction works.",
+      keyPoints: [
+        "Perpendicular bisector: equal arcs from both ends, then join the crossings.",
+        "It cuts the line in half and at a right angle.",
+        "Angle bisector: arc across both arms, then equal arcs to find the splitting line.",
+        "Keep the compass setting fixed while drawing each pair of arcs.",
+      ],
+      strategies: ["Set the compasses wider than half the line", "Do not change the compass width mid-construction"],
+    },
   ],
   learn: {
     cards: [
@@ -194,6 +253,74 @@ export const anglesPolygons: Topic = {
         ],
         strategy: "Interior → exterior → 360 ÷ exterior",
       },
+      {
+        id: "angles-add-mcq01",
+        question: "Which quadrilateral has four equal sides but is not required to have right angles?",
+        options: ["Rhombus", "Rectangle", "Trapezium", "Kite"],
+        answerIndex: 0,
+        explanation: "A rhombus has four equal sides; its angles need not be 90° (unlike a square).",
+        difficulty: "warmup",
+        guideRef: "Types of triangle and quadrilateral",
+        strategy: "Check sides and angles separately",
+      },
+      {
+        id: "angles-add-mcq02",
+        question: "A direction is due East. What is its three-figure bearing?",
+        options: ["090°", "045°", "180°", "270°"],
+        answerIndex: 0,
+        explanation: "East is a quarter turn clockwise from North: 090°.",
+        difficulty: "warmup",
+        guideRef: "Bearings",
+        strategy: "Measure clockwise from North",
+      },
+      {
+        id: "angles-add-mcq03",
+        question: "The bearing of B from A is 110°. What is the bearing of A from B?",
+        options: ["290°", "250°", "070°", "110°"],
+        answerIndex: 0,
+        explanation: "Back bearing = 110° + 180° = 290° (since 110° is less than 180°).",
+        difficulty: "core",
+        guideRef: "Bearings",
+        hints: ["A back bearing differs by 180°.", "110° is under 180°, so add 180°.", "110 + 180 = 290°."],
+        strategy: "Back bearing = forward ± 180°",
+      },
+      {
+        id: "angles-add-mcq04",
+        question: "A triangle has all three sides of different length and no right angle. It is:",
+        options: ["Scalene", "Isosceles", "Equilateral", "Right-angled"],
+        answerIndex: 0,
+        explanation: "All sides different means scalene.",
+        difficulty: "warmup",
+        guideRef: "Types of triangle and quadrilateral",
+        strategy: "Name by the sides",
+      },
+      {
+        id: "angles-add-mcq05",
+        question:
+          "The perpendicular bisector of a line AB is constructed. Which is true of every point on it?",
+        options: [
+          "It is the same distance from A and from B",
+          "It is closer to A than to B",
+          "It lies outside the line AB",
+          "It is 1 cm from the midpoint",
+        ],
+        answerIndex: 0,
+        explanation: "Every point on a perpendicular bisector is equidistant from the two endpoints A and B.",
+        difficulty: "core",
+        guideRef: "Constructions and bisectors (a brief look)",
+        hints: ["Think about what 'bisector' guarantees.", "The arcs from A and B were drawn with equal radius."],
+        strategy: "Use the equidistant property",
+      },
+      {
+        id: "angles-add-mcq06",
+        question: "A ship sails due South. What three-figure bearing is it on?",
+        options: ["180°", "090°", "270°", "000°"],
+        answerIndex: 0,
+        explanation: "South is a half turn clockwise from North: 180°.",
+        difficulty: "warmup",
+        guideRef: "Bearings",
+        strategy: "Measure clockwise from North",
+      },
     ],
     qa: [
       {
@@ -270,6 +397,76 @@ export const anglesPolygons: Topic = {
           "Then use (n − 2) × 180 for the interior sum.",
         ],
         strategy: "Interior → exterior → n → interior sum",
+      },
+      {
+        id: "angles-add-qa01",
+        question:
+          "Describe the difference between a rhombus and a square, referring to both sides and angles.",
+        modelAnswer:
+          "Both have four equal sides. A square also has four right angles (all 90°), whereas a rhombus does not — its angles come in two equal pairs (opposite angles equal) that need not be 90°. So a square is a special rhombus with right angles.",
+        markScheme: [
+          "Both have four equal sides [1]",
+          "Square has four right angles [1]",
+          "Rhombus angles need not be 90° (opposite angles equal) [1]",
+        ],
+        difficulty: "core",
+        guideRef: "Types of triangle and quadrilateral",
+        hints: ["Compare the sides first.", "Then compare the angles.", "Which one must have 90° angles?"],
+        strategy: "Compare sides and angles separately",
+      },
+      {
+        id: "angles-add-qa02",
+        question:
+          "A walker leaves camp on a bearing of 075°, walks to a hut, then returns straight back to camp. (a) On what bearing does she return? (b) State the rule you used.",
+        modelAnswer:
+          "(a) Return bearing = 075° + 180° = 255°. (b) The back bearing differs from the forward bearing by 180° (add 180° when the forward bearing is under 180°).",
+        markScheme: [
+          "Recognises back bearing = forward ± 180° [1]",
+          "075° + 180° [1]",
+          "= 255° [1]",
+        ],
+        commonError: "Forgetting to pad to three figures or subtracting 180° when it should be added.",
+        difficulty: "core",
+        guideRef: "Bearings",
+        hints: ["The return is a half-turn from the outward direction.", "Add 180° to 075°.", "75 + 180 = 255°."],
+        strategy: "Back bearing = forward ± 180°",
+      },
+      {
+        id: "angles-add-qa03",
+        question:
+          "Challenge: A boat sails from port P on a bearing of 040° to buoy Q, then turns and sails on a bearing of 130° to buoy R. Show that angle PQR is 90°.",
+        modelAnswer:
+          "At Q, draw a North line. The bearing back to P (back bearing) is 040° + 180° = 220°. The bearing onward to R is 130°. The angle PQR between these two directions = 220° − 130° = 90°. So the boat turns through a right angle.",
+        markScheme: [
+          "Back bearing of P from Q = 040 + 180 = 220° [1]",
+          "Onward bearing to R = 130° [1]",
+          "Angle PQR = 220 − 130 = 90° [1]",
+        ],
+        difficulty: "challenge",
+        guideRef: "Bearings",
+        hints: [
+          "Draw a North arrow at Q.",
+          "Find the bearing from Q back to P (back bearing of 040°).",
+          "The angle PQR is the difference between the two bearings at Q.",
+        ],
+        strategy: "Use back bearings, then subtract directions at the turn",
+      },
+      {
+        id: "angles-add-qa04",
+        question:
+          "Describe, step by step, how to construct the perpendicular bisector of a line segment AB using only compasses and a straight edge.",
+        modelAnswer:
+          "1) Open the compasses to more than half the length of AB. 2) With the point on A, draw arcs above and below the line. 3) Keeping the same width, with the point on B draw arcs that cross the first ones above and below. 4) Join the two crossing points with a straight edge. This line cuts AB exactly in half and at 90°.",
+        markScheme: [
+          "Compasses set wider than half AB; arcs from A [1]",
+          "Same width; arcs from B crossing the first pair [1]",
+          "Join the two intersections to get the perpendicular bisector [1]",
+        ],
+        commonError: "Changing the compass width between drawing the arcs from A and from B.",
+        difficulty: "core",
+        guideRef: "Constructions and bisectors (a brief look)",
+        hints: ["Set the compasses wider than half the line.", "Draw arcs from both ends with the same setting.", "Join where the arcs cross."],
+        strategy: "Equal arcs from both ends, then join the crossings",
       },
     ],
   },

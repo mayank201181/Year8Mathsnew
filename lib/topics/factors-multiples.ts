@@ -90,6 +90,46 @@ export const factorsMultiples: Topic = {
       whyItWorks:
         "For each prime, HCF takes the lower index and LCM the higher. (lower + higher) equals the sum of the two indices, so multiplying HCF × LCM rebuilds exactly a × b prime-by-prime.",
     },
+    {
+      heading: "Tests of divisibility",
+      discovery: {
+        problem:
+          "Is 4 716 divisible by 3? You could do the long division — or add its digits: 4 + 7 + 1 + 6 = 18. What does 18 tell you, and why might digit-sums know about divisibility by 3?",
+        idea: "18 is a multiple of 3, and that is enough: a number is divisible by 3 exactly when its digit sum is. Divisibility tests let you check factors at a glance, no division needed.",
+      },
+      body:
+        "Quick **divisibility tests** save you from dividing:\n\n• **2** — last digit is even (0,2,4,6,8).\n• **5** — last digit is 0 or 5.\n• **10** — last digit is 0.\n• **4** — the last *two* digits form a multiple of 4 (e.g. …16).\n• **3** — the digit sum is a multiple of 3.\n• **9** — the digit sum is a multiple of 9.\n• **6** — divisible by **both** 2 and 3.\n\n**Example.** 5 274: even (so ÷2 ✓); digits 5+2+7+4 = 18, a multiple of 3 (so ÷3 ✓); therefore it is divisible by 6.",
+      keyPoints: [
+        "÷2: even last digit; ÷5: ends 0 or 5; ÷10: ends 0.",
+        "÷4: last two digits make a multiple of 4.",
+        "÷3: digit sum divisible by 3; ÷9: digit sum divisible by 9.",
+        "÷6: passes both the 2-test and the 3-test.",
+      ],
+      strategies: ["Use the digit sum", "Check the last digit(s)", "Combine tests"],
+      whyItWorks:
+        "10, 100, 1000 … are all 1 more than a multiple of 9 (and of 3). So each digit contributes its face value plus a multiple of 9 to the total. Stripping out the multiples of 9 leaves just the digit sum — which is why 3 and 9 can be tested from the digits alone.",
+    },
+    {
+      heading: "Square and triangular numbers",
+      discovery: {
+        problem:
+          "Stack rows of dots 1, then 2, then 3, then 4 to build a triangle: the totals are 1, 3, 6, 10. Now place two such triangles together (the 4-triangle, 10 dots, twice). What rectangle do they form, and what does that tell you about the 10?",
+        idea: "Two copies of the nth triangle fit into an n × (n+1) rectangle, so the nth triangular number is n(n+1)÷2. For n = 4 that's 4×5÷2 = 10. Patterns of dots reveal a formula.",
+      },
+      body:
+        "**Square numbers** count dots in a square: 1, 4, 9, 16, 25, … = 1², 2², 3², …\n\n**Triangular numbers** count dots in a growing triangle: 1, 3, 6, 10, 15, 21, … The nth one is\n\n    Tₙ = n(n + 1) ÷ 2\n\nThe two sequences are linked: **add two consecutive triangular numbers and you always get a square**. For example 6 + 10 = 16 = 4², and 3 + 6 = 9 = 3². Picturing the triangles slotting together to make a square shows why.",
+      keyPoints: [
+        "Square numbers: 1, 4, 9, 16, 25 … (n²).",
+        "Triangular numbers: 1, 3, 6, 10, 15 … with Tₙ = n(n+1)÷2.",
+        "Two consecutive triangular numbers add to a square: Tₙ₋₁ + Tₙ = n².",
+        "Each new triangular number adds the next whole number (the 'staircase').",
+      ],
+      strategies: ["Draw a diagram (dot pattern)", "Find a pattern", "Use the formula"],
+      whyItWorks:
+        "The nth triangular number plus the (n−1)th fills an n×n square: one triangle is the lower-left staircase, the other (rotated) fills the upper-right, together tiling all n² dots.",
+      thinkDeeper:
+        "Tₙ = n(n+1)÷2 is exactly the number of ways to choose 2 things from n+1 — triangular numbers count handshakes in a room of n+1 people.",
+    },
   ],
   learn: {
     cards: [
@@ -169,6 +209,54 @@ export const factorsMultiples: Topic = {
         guideRef: "Factors, multiples, squares and cubes",
         hints: ["Find the prime factorisation first.", "Multiply (each index + 1).", "(3+1)(2+1)(1+1)."],
         strategy: "Find a pattern (factor-counting)",
+      },
+      {
+        id: "factors-multiples-add-mcq01",
+        question: "Which test confirms that 3 426 is divisible by 3?",
+        options: [
+          "It is even",
+          "Its digit sum 3+4+2+6 = 15 is a multiple of 3",
+          "It ends in 6",
+          "Its last two digits make a multiple of 4",
+        ],
+        answerIndex: 1,
+        explanation: "A number is divisible by 3 when its digit sum is. 3+4+2+6 = 15 = 3×5, a multiple of 3.",
+        difficulty: "warmup",
+        guideRef: "Tests of divisibility",
+        strategy: "Use the digit sum",
+      },
+      {
+        id: "factors-multiples-add-mcq02",
+        question: "Which of these numbers is divisible by 6?",
+        options: ["514", "732", "405", "238"],
+        answerIndex: 1,
+        explanation: "Divisible by 6 means divisible by 2 AND 3. 732 is even and 7+3+2 = 12 (a multiple of 3), so 732 passes both.",
+        difficulty: "core",
+        guideRef: "Tests of divisibility",
+        hints: ["6 = 2 × 3, so test for both.", "Even number with digit sum divisible by 3."],
+        strategy: "Combine tests",
+      },
+      {
+        id: "factors-multiples-add-mcq03",
+        question: "What is the 6th triangular number (1, 3, 6, 10, …)?",
+        options: ["15", "21", "28", "18"],
+        answerIndex: 1,
+        explanation: "T₆ = 6 × 7 ÷ 2 = 21. (The sequence is 1, 3, 6, 10, 15, 21.)",
+        difficulty: "core",
+        guideRef: "Square and triangular numbers",
+        hints: ["Use Tₙ = n(n+1)÷2.", "Here n = 6, so 6 × 7 ÷ 2."],
+        strategy: "Use the formula",
+      },
+      {
+        id: "factors-multiples-add-mcq04",
+        question: "The triangular numbers 10 and 15 are consecutive. What is 10 + 15?",
+        options: ["A prime", "25, a square number", "A cube number", "30, a triangular number"],
+        answerIndex: 1,
+        explanation: "Two consecutive triangular numbers always add to a square: 10 + 15 = 25 = 5².",
+        difficulty: "challenge",
+        guideRef: "Square and triangular numbers",
+        hints: ["Add them up first.", "Is 25 a square, cube or prime?"],
+        strategy: "Find a pattern",
       },
     ],
     qa: [
@@ -255,6 +343,39 @@ export const factorsMultiples: Topic = {
         guideRef: "The HCF × LCM relationship",
         hints: ["Both numbers are multiples of the HCF, 8.", "Use HCF × LCM = product to get the product.", "Strip out the HCF and look for coprime pairs."],
         strategy: "Work backwards",
+      },
+      {
+        id: "factors-multiples-add-qa01",
+        question:
+          "Using divisibility tests only (no long division), state with reasons whether 2 340 is divisible by 4, by 9 and by 10.",
+        modelAnswer:
+          "By 4: last two digits 40 = 4 × 10, a multiple of 4, so yes. By 9: digit sum 2+3+4+0 = 9, a multiple of 9, so yes. By 10: it ends in 0, so yes.",
+        markScheme: [
+          "÷4: last two digits 40 is a multiple of 4 → yes [1]",
+          "÷9: digit sum 9 is a multiple of 9 → yes [1]",
+          "÷10: ends in 0 → yes [1]",
+        ],
+        commonError: "Adding all digits for the 4-test instead of checking the last two digits.",
+        difficulty: "core",
+        guideRef: "Tests of divisibility",
+        hints: ["For 4, look only at the last two digits.", "For 9, add the digits.", "For 10, check the last digit."],
+        strategy: "Use the digit sum and last digits",
+      },
+      {
+        id: "factors-multiples-add-qa02",
+        question:
+          "Challenge: Show that the 7th triangular number plus the 8th triangular number is a square, and say which square it is.",
+        modelAnswer:
+          "T₇ = 7×8÷2 = 28 and T₈ = 8×9÷2 = 36. Sum = 28 + 36 = 64 = 8². In general Tₙ₋₁ + Tₙ = n², and here n = 8, so the sum is 8² = 64.",
+        markScheme: [
+          "T₇ = 28 and T₈ = 36 [1]",
+          "Sum = 64 [1]",
+          "Identifies 64 = 8² and links to Tₙ₋₁ + Tₙ = n² [1]",
+        ],
+        difficulty: "challenge",
+        guideRef: "Square and triangular numbers",
+        hints: ["Use Tₙ = n(n+1)÷2 for n = 7 and n = 8.", "Add the two results.", "Which square is 64?"],
+        strategy: "Use the formula, then spot the pattern",
       },
     ],
   },

@@ -94,6 +94,26 @@ export const probability: Topic = {
       thinkDeeper:
         "If two players each estimate P(point up) from 20 drops, their answers may differ a lot. Whose estimate would you trust more: one based on 20 drops or one based on 2000? Why?",
     },
+    {
+      heading: "Comparing experiment with theory; fairness and bias",
+      discovery: {
+        problem:
+          "A die is rolled 600 times and shows a six 140 times. For a fair die you would expect about 100 sixes. Does this die look fair, and how big is the gap?",
+        idea:
+          "Theoretical: P(six) = 1/6, so expected sixes = 1/6 × 600 = 100. The experiment gave 140 — a relative frequency of 140/600 ≈ 0.23, well above 1/6 ≈ 0.17. The gap (40 more than expected) over many trials suggests the die may be **biased** toward six.",
+      },
+      body:
+        "We can check a model against reality by **comparing experimental and theoretical probability**.\n\n1. Work out the **theoretical** probability (from equally likely outcomes) and the expected frequency = probability × trials.\n2. Run the experiment and find the **relative frequency** = successes ÷ trials.\n3. Compare. A small difference is normal — chance always varies. A large difference that does *not* shrink as you do more trials suggests the object is **biased** (unfair).\n\nA spinner, coin or die is **fair** if every outcome is equally likely. If the relative frequencies stay close to the theoretical values over many trials, that supports fairness; a persistent gap suggests bias. More trials give more reliable evidence — a verdict from 20 spins is far weaker than one from 2000.",
+      keyPoints: [
+        "Compare relative frequency (experiment) with theoretical probability.",
+        "Expected frequency = theoretical probability × number of trials.",
+        "Small gaps are normal; a large, persistent gap suggests bias.",
+        "Fair = all outcomes equally likely. More trials → more reliable evidence.",
+      ],
+      strategies: ["Compute expected, then compare with observed", "Judge fairness over MANY trials"],
+      whyItWorks:
+        "Experimental probability is an estimate of the true probability that improves with more trials. If the true probabilities were equal (fair), the relative frequencies would settle near them; a stubborn gap means the true probabilities are not equal — the object is biased.",
+    },
   ],
   learn: {
     cards: [
@@ -128,6 +148,14 @@ export const probability: Topic = {
       {
         front: "Expected frequency",
         back: "probability × number of trials. E.g. P = 1/6 over 60 rolls → expect 10.",
+      },
+      {
+        front: "How do you decide if a die/coin is fair?",
+        back: "Compare experimental relative frequencies with the theoretical values over MANY trials. A large, persistent gap suggests bias.",
+      },
+      {
+        front: "Experimental vs theoretical probability",
+        back: "Theoretical = from equally likely outcomes; experimental = successes ÷ trials. They get closer with more trials.",
       },
     ],
   },
@@ -205,6 +233,50 @@ export const probability: Topic = {
         guideRef: "Experimental probability, relative frequency & expected frequency",
         hints: ["Expected frequency = probability × number of trials.", "0.9 × 200 = 180."],
         strategy: "Multiply probability by number of trials",
+      },
+      {
+        id: "prob-add-mcq01",
+        question:
+          "A fair coin is flipped 80 times. How many heads would you EXPECT?",
+        options: ["8", "40", "60", "80"],
+        answerIndex: 1,
+        explanation: "P(heads) = 1/2, so expected heads = 1/2 × 80 = 40. (Real results will vary a little around 40.)",
+        difficulty: "warmup",
+        guideRef: "Comparing experiment with theory; fairness and bias",
+        strategy: "Expected frequency = probability × trials",
+      },
+      {
+        id: "prob-add-mcq02",
+        question:
+          "A die is rolled 300 times and lands on 1 a total of 95 times. Compared with a fair die, this suggests the die is:",
+        options: [
+          "Definitely fair",
+          "Possibly biased toward 1",
+          "Biased away from 1",
+          "Impossible to comment on",
+        ],
+        answerIndex: 1,
+        explanation: "Expected ones on a fair die = 1/6 × 300 = 50, but 95 occurred — far more. A large, persistent gap suggests bias toward 1.",
+        difficulty: "core",
+        guideRef: "Comparing experiment with theory; fairness and bias",
+        hints: ["Work out the expected number of ones for a fair die.", "1/6 × 300 = 50; compare with 95."],
+        strategy: "Compare observed with expected to judge fairness",
+      },
+      {
+        id: "prob-add-mcq03",
+        question:
+          "Whose estimate of a spinner's P(red) should you trust MORE?",
+        options: [
+          "Amy, who spun 20 times",
+          "Ben, who spun 500 times",
+          "They are equally reliable",
+          "Neither can be trusted",
+        ],
+        answerIndex: 1,
+        explanation: "More trials give a more reliable estimate, so Ben's 500 spins are more trustworthy than Amy's 20.",
+        difficulty: "warmup",
+        guideRef: "Comparing experiment with theory; fairness and bias",
+        strategy: "More trials → more reliable experimental probability",
       },
     ],
     qa: [
@@ -320,6 +392,51 @@ export const probability: Topic = {
               "Cross-multiply: 3n = 15 × 8 = 120.",
               "n = 40, so total = 40.",
               "White = 40 − 15 = 25.",
+            ],
+          },
+        ],
+      },
+      {
+        id: "prob-add-qa01",
+        question:
+          "A four-sided spinner has colours red, blue, green and yellow. In theory each is equally likely. A pupil spins it 200 times and records: red 38, blue 54, green 49, yellow 59. (a) State the theoretical probability of red. (b) How many of each colour would you expect in theory? (c) Comment on whether the spinner looks fair.",
+        modelAnswer:
+          "(a) Four equally likely colours, so P(red) = 1/4. (b) Expected for each = 1/4 × 200 = 50. (c) The observed counts (38, 54, 49, 59) are all fairly close to 50, with no huge or consistent gap, so the spinner looks reasonably fair — the differences are within what chance variation can produce.",
+        markScheme: [
+          "(a) P(red) = 1/4 [1]",
+          "(b) Expected = 1/4 × 200 = 50 for each colour [1]",
+          "(c) Compares observed with 50 [1]",
+          "(c) Reasonable conclusion that it looks fair (small differences) [1]",
+        ],
+        commonError: "Declaring the spinner biased because the counts are not exactly 50 — small variation from the expected value is normal.",
+        difficulty: "core",
+        guideRef: "Comparing experiment with theory; fairness and bias",
+        hints: ["Four equal colours means each has probability 1/4.", "Expected count = probability × 200.", "Compare each observed count with 50 — are the gaps large or small?"],
+        strategy: "Find expected frequencies, then compare with observed",
+      },
+      {
+        id: "prob-add-qa02",
+        question:
+          "Challenge: A bent coin is flipped 250 times and lands heads 160 times. (a) Estimate P(heads) from this experiment, as a decimal. (b) Using your estimate, how many heads would you expect in 1000 flips? (c) Explain why your answer to (a) is only an estimate.",
+        modelAnswer:
+          "(a) Relative frequency = 160 ÷ 250 = 0.64. (b) Expected heads = 0.64 × 1000 = 640. (c) It is an estimate because experimental probability comes from a limited number of trials and varies by chance; a different set of 250 flips could give a slightly different value. More flips would make the estimate more reliable.",
+        markScheme: [
+          "(a) 160 ÷ 250 = 0.64 [1]",
+          "(b) 0.64 × 1000 = 640 [1]",
+          "(c) Explains it is based on limited trials / subject to chance variation [1]",
+        ],
+        commonError: "Assuming P(heads) = 0.5 for a bent coin — a biased coin must be estimated from data, not theory.",
+        difficulty: "challenge",
+        guideRef: "Comparing experiment with theory; fairness and bias",
+        hints: ["Experimental probability = successes ÷ trials.", "Then expected = your probability × 1000.", "Why might another 250 flips give a slightly different estimate?"],
+        strategy: "Estimate from data, then scale up with expected = P × trials",
+        solutions: [
+          {
+            label: "Relative frequency then scale",
+            steps: [
+              "P(heads) ≈ 160/250 = 0.64",
+              "Expected in 1000 = 0.64 × 1000 = 640",
+              "Estimate improves with more trials.",
             ],
           },
         ],

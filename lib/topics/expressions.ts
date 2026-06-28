@@ -85,6 +85,25 @@ export const expressions: Topic = {
       whyItWorks:
         "A formula is a general rule true for every value of the letter. Substituting a number turns the general rule into a specific calculation, and BIDMAS guarantees everyone gets the same answer.",
     },
+    {
+      heading: "Expression, equation, formula or identity?",
+      discovery: {
+        problem:
+          "Look at these four lines: 3x + 2 … 3x + 2 = 11 … A = πr² … 2(x + 3) = 2x + 6. They all use letters, yet mathematicians give them four different names. What is genuinely different about each one?",
+        idea: "3x + 2 has no equals sign — it is an expression. 3x + 2 = 11 is true for only one value of x — an equation to solve. A = πr² connects two different quantities by a rule — a formula. 2(x + 3) = 2x + 6 is true for EVERY x — an identity.",
+      },
+      body:
+        "These four words are easy to mix up, but each means something precise.\n\nAn **expression** is just a collection of terms with no equals sign, e.g. 3x + 2 or 5ab − 7. You can simplify it, but there is nothing to 'solve'.\n\nAn **equation** has an equals sign and is true only for particular value(s) of the unknown, e.g. 3x + 2 = 11 (true only when x = 3). You *solve* an equation.\n\nA **formula** is a rule, written with an equals sign, that links two or more different quantities, e.g. A = πr² or v = u + at. You *substitute* values into a formula.\n\nAn **identity** is true for *every* value of the letter, e.g. 2(x + 3) ≡ 2x + 6 or a + a ≡ 2a. The special sign ≡ ('is identically equal to') is sometimes used. Identities come from simplifying both sides to the same thing.",
+      keyPoints: [
+        "Expression: no equals sign — you simplify it (3x + 2).",
+        "Equation: equals sign, true for specific value(s) — you solve it (3x + 2 = 11).",
+        "Formula: a rule linking different quantities — you substitute into it (A = πr²).",
+        "Identity: true for ALL values of the letter — both sides simplify to the same thing (2(x + 3) ≡ 2x + 6).",
+      ],
+      strategies: ["Check for an equals sign first", "Ask: is it true for one value, every value, or none?", "A formula links two or more different letters"],
+      whyItWorks:
+        "An equation is a *condition* that pins the unknown to certain values; an identity is a *fact* of algebra that holds no matter what the letter is. Expanding 2(x + 3) always gives 2x + 6, so the two sides can never disagree — that is what makes it an identity rather than an equation to solve.",
+    },
   ],
   learn: {
     cards: [
@@ -96,6 +115,9 @@ export const expressions: Topic = {
       { front: "Factorise 6x + 9", back: "3(2x + 3) — take out the HCF, 3." },
       { front: "If x = −2, find x²", back: "4 — (−2)² = (−2) × (−2) = +4." },
       { front: "Write 'double a number, then add 5'", back: "2n + 5." },
+      { front: "Expression vs equation?", back: "An expression has no = sign (simplify it); an equation has = and is true for specific values (solve it)." },
+      { front: "What is an identity?", back: "A statement true for EVERY value, e.g. 2(x + 3) ≡ 2x + 6. Both sides simplify to the same thing." },
+      { front: "What is a formula?", back: "A rule linking different quantities, e.g. A = πr². You substitute values into it." },
     ],
   },
   quiz: {
@@ -404,6 +426,90 @@ export const expressions: Topic = {
           },
         ],
       },
+      {
+        id: "expr-mcq-paper-3",
+        title: "Expressions & Formulae — MCQ Set C",
+        questions: [
+          {
+            id: "expr-add-mcq01",
+            question: "Which of these is an EQUATION (not an expression, formula or identity)?",
+            options: ["2x + 5 = 13", "4a − 3b", "P = 4s", "x + x ≡ 2x"],
+            answerIndex: 0,
+            explanation: "2x + 5 = 13 has an equals sign and is true only for x = 4, so it is an equation. 4a − 3b is an expression, P = 4s is a formula, x + x ≡ 2x is an identity.",
+            difficulty: "warmup",
+            guideRef: "Expression, equation, formula or identity?",
+            hints: ["An equation has an = sign and is true for only specific values.", "An expression has no = sign at all."],
+            strategy: "Check for an equals sign first",
+          },
+          {
+            id: "expr-add-mcq02",
+            question: "Which statement is an IDENTITY (true for every value of x)?",
+            options: ["3(x + 2) = 3x + 6", "3x + 2 = 8", "y = 2x + 1", "5x − 4"],
+            answerIndex: 0,
+            explanation: "3(x + 2) expands to 3x + 6 for every x, so it is an identity. 3x + 2 = 8 is true only for x = 2 (equation); y = 2x + 1 is a formula; 5x − 4 is an expression.",
+            difficulty: "core",
+            guideRef: "Expression, equation, formula or identity?",
+            hints: ["Expand the left-hand side of each.", "An identity is true no matter what x is — both sides match.", "3(x + 2) = 3x + 6 always."],
+            strategy: "Ask: true for one value, every value, or none?",
+          },
+          {
+            id: "expr-add-mcq03",
+            question: "A taxi charges a £4 flat fee plus £2 per mile. Which is a correct FORMULA for the total cost £C for m miles?",
+            options: ["C = 4 + 2m", "C = 2 + 4m", "C = 6m", "4 + 2m"],
+            answerIndex: 0,
+            explanation: "Fixed £4 plus £2 for each of m miles gives C = 4 + 2m. (4 + 2m on its own is only an expression — a formula needs C = ... .)",
+            difficulty: "core",
+            guideRef: "Expression, equation, formula or identity?",
+            hints: ["The £4 is fixed; the £2 is multiplied by the number of miles m.", "A formula must link C to m with an equals sign."],
+            strategy: "A formula links two or more different letters",
+          },
+          {
+            id: "expr-add-mcq04",
+            question: "Expand and simplify (x − 3)(x + 5).",
+            options: ["x² + 2x − 15", "x² − 2x − 15", "x² + 2x + 15", "x² − 15"],
+            answerIndex: 0,
+            explanation: "FOIL: x² + 5x − 3x − 15 = x² + 2x − 15.",
+            difficulty: "core",
+            guideRef: "Expanding brackets and factorising",
+            hints: [
+              "Multiply each term in the first bracket by each in the second.",
+              "x×x = x², x×5 = 5x, −3×x = −3x, −3×5 = −15.",
+              "Collect 5x − 3x = 2x.",
+            ],
+            strategy: "Use FOIL for two brackets",
+          },
+          {
+            id: "expr-add-mcq05",
+            question: "Expand and simplify (x − 4)(x − 6).",
+            options: ["x² − 10x + 24", "x² + 10x + 24", "x² − 10x − 24", "x² − 24"],
+            answerIndex: 0,
+            explanation: "FOIL: x² − 6x − 4x + 24 = x² − 10x + 24. Two negatives multiply to +24.",
+            difficulty: "challenge",
+            guideRef: "Expanding brackets and factorising",
+            hints: [
+              "Multiply all four pairs, watching the signs.",
+              "−4 × −6 = +24 (two negatives give a positive).",
+              "−6x − 4x = −10x.",
+            ],
+            strategy: "Use FOIL for two brackets",
+          },
+          {
+            id: "expr-add-mcq06",
+            question: "Factorise fully 8x² − 12x.",
+            options: ["4x(2x − 3)", "4(2x² − 3x)", "2x(4x − 6)", "4x(2x − 12)"],
+            answerIndex: 0,
+            explanation: "Both terms share 4 and x, so the HCF is 4x: 8x² − 12x = 4x(2x − 3). Check: 4x × 2x = 8x² and 4x × (−3) = −12x.",
+            difficulty: "challenge",
+            guideRef: "Expanding brackets and factorising",
+            hints: [
+              "Find the highest number dividing 8 and 12, and the common letter.",
+              "HCF is 4x.",
+              "8x² ÷ 4x = 2x and 12x ÷ 4x = 3.",
+            ],
+            strategy: "Take out the highest common factor (number and letter)",
+          },
+        ],
+      },
     ],
     qaPapers: [
       {
@@ -455,6 +561,84 @@ export const expressions: Topic = {
                   "Sum = 26, so S = 2 × 26 = 52 cm².",
                   "Doubling: (2l)(2w) = 4lw for every product.",
                   "So S is multiplied by 4 — area scales as (length scale)² = 2² = 4.",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "expr-qa-paper-2",
+        title: "Expressions & Formulae — Written Set B",
+        questions: [
+          {
+            id: "expr-add-qa01",
+            question:
+              "For each of the following, state whether it is an expression, an equation, a formula or an identity, and give a brief reason: (a) 5n − 2  (b) 5n − 2 = 13  (c) v = u + at  (d) 4(x + 1) ≡ 4x + 4.",
+            modelAnswer:
+              "(a) Expression — no equals sign, just terms to simplify. (b) Equation — has an equals sign and is true only for n = 3. (c) Formula — a rule linking the different quantities v, u, a and t. (d) Identity — true for every value of x, since 4(x + 1) always expands to 4x + 4.",
+            markScheme: [
+              "(a) Expression (no = sign) [1]",
+              "(b) Equation (true for one value) [1]",
+              "(c) Formula (links different quantities) [1]",
+              "(d) Identity (true for all x) [1]",
+            ],
+            commonError: "Calling every statement with an equals sign an 'equation', missing the formula/identity distinction.",
+            difficulty: "core",
+            guideRef: "Expression, equation, formula or identity?",
+            hints: [
+              "First check whether there is an equals sign.",
+              "If there is, ask: true for one value (equation), every value (identity), or linking quantities (formula)?",
+              "Try expanding (d) to see both sides match.",
+            ],
+            strategy: "Ask: true for one value, every value, or none?",
+          },
+          {
+            id: "expr-add-qa02",
+            question:
+              "A plumber charges a £30 call-out fee plus £25 for each hour worked. (a) Write a formula for the total charge £C for h hours. (b) Use it to find the charge for a 3-hour job. (c) Is '30 + 25h' an expression, equation or formula?",
+            modelAnswer:
+              "(a) C = 30 + 25h. (b) C = 30 + 25 × 3 = 30 + 75 = £105. (c) On its own, 30 + 25h is an expression (no equals sign); writing C = 30 + 25h makes it a formula.",
+            markScheme: [
+              "(a) C = 30 + 25h [1]",
+              "(b) Substitute h = 3: 30 + 75 = £105 [1]",
+              "(c) 30 + 25h is an expression; C = 30 + 25h is a formula [1]",
+            ],
+            commonError: "Forgetting the call-out fee is fixed, or writing 55h.",
+            difficulty: "core",
+            guideRef: "Expression, equation, formula or identity?",
+            hints: ["The £30 does not depend on h; the £25 multiplies h.", "Substitute h = 3 into your formula.", "An expression has no equals sign."],
+            strategy: "Translate each phrase in order",
+          },
+          {
+            id: "expr-add-qa03",
+            question:
+              "Challenge: (a) Expand and simplify (x + 6)(x − 2). (b) Show that (x + 3)(x − 3) is an identity equal to x² − 9, and explain what happens to the x-terms.",
+            modelAnswer:
+              "(a) (x + 6)(x − 2) = x² − 2x + 6x − 12 = x² + 4x − 12. (b) (x + 3)(x − 3) = x² − 3x + 3x − 9 = x² − 9. The −3x and +3x cancel, leaving no x-term. This is true for every x, so (x + 3)(x − 3) ≡ x² − 9 is an identity (a 'difference of two squares').",
+            markScheme: [
+              "(a) x² − 2x + 6x − 12 [1]",
+              "(a) Simplify to x² + 4x − 12 [1]",
+              "(b) Expand to x² − 3x + 3x − 9 [1]",
+              "(b) −3x + 3x = 0, so x² − 9; valid for all x ⇒ identity [1]",
+            ],
+            commonError: "In (b), forgetting that the middle terms cancel, or writing x² − 6x − 9.",
+            difficulty: "challenge",
+            guideRef: "Expanding brackets and factorising",
+            hints: [
+              "Use FOIL on each pair of brackets.",
+              "In (b) look at the two x-terms: −3x and +3x.",
+              "They add to zero, leaving x² − 9.",
+            ],
+            strategy: "Use FOIL for two brackets",
+            solutions: [
+              {
+                label: "FOIL both",
+                steps: [
+                  "(a) x² − 2x + 6x − 12 = x² + 4x − 12.",
+                  "(b) x² − 3x + 3x − 9.",
+                  "−3x + 3x = 0, so result is x² − 9.",
+                  "True for every x ⇒ identity (difference of two squares).",
                 ],
               },
             ],

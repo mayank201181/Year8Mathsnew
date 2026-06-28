@@ -10,6 +10,26 @@ export const decimalsRounding: Topic = {
     "Calculate confidently with decimals, scale by powers of ten, round to decimal places and significant figures, and estimate to check your answers are sensible.",
   guide: [
     {
+      heading: "Decimal place value and ordering decimals",
+      discovery: {
+        problem:
+          "Put these in order, smallest first: 0.7, 0.68, 0.609, 0.71. Many people pick 0.609 as largest because it has the most digits — why is that wrong?",
+        idea:
+          "Compare place by place from the left, not by length. Tenths first: 0.609 has 6 tenths, 0.68 has 6 tenths, 0.7 and 0.71 have 7 tenths. So the 0.6… numbers are smallest. A longer decimal is not automatically larger.",
+      },
+      body:
+        "Each column after the decimal point is ten times smaller than the one before: tenths (1/10), hundredths (1/100), thousandths (1/1000).\n\nSo in **3.482** the 4 means 4 tenths, the 8 means 8 hundredths and the 2 means 2 thousandths.\n\nTo **order decimals**, line them up by the point and compare one column at a time from the left. It helps to fill empty columns with zeros so every number has the same length: 0.7 = 0.700, 0.68 = 0.680, 0.609 = 0.609. Now compare as if they were whole numbers 700, 680, 609, 710.",
+      keyPoints: [
+        "Columns after the point: tenths, hundredths, thousandths (each ×1/10 of the last).",
+        "Filling with trailing zeros does not change a decimal's value (0.7 = 0.70 = 0.700).",
+        "Order by comparing place value left to right, NOT by how many digits there are.",
+        "A longer decimal is not automatically larger.",
+      ],
+      strategies: ["Pad with trailing zeros so all are the same length", "Compare column by column from the left"],
+      whyItWorks:
+        "Padding with zeros is safe because 0.7 = 7/10 = 70/100 = 700/1000. Once every number is written to the same number of places, comparing them is identical to comparing whole numbers of thousandths.",
+    },
+    {
       heading: "Four operations with decimals",
       discovery: {
         problem:
@@ -70,6 +90,46 @@ export const decimalsRounding: Topic = {
         "Rounding 0.04981 to 2 s.f. means choosing the nearest number with two significant digits. 0.04981 is between 0.049 and 0.050; since the third significant digit (8) is ≥ 5, 0.050 is nearer.",
     },
     {
+      heading: "Rounding to the nearest integer, 10 and 100",
+      discovery: {
+        problem:
+          "Round 2748 to the nearest 100, then to the nearest 10, then to the nearest integer. One of these answers is just 2748 itself — which, and why?",
+        idea:
+          "Nearest 100: look at the tens digit (4) → 2700. Nearest 10: look at the units (8) → 2750. Nearest integer: 2748 is already a whole number, so it stays 2748. You always check the digit in the place ONE smaller than where you are rounding.",
+      },
+      body:
+        "Rounding to the nearest **integer**, **10** or **100** uses the same rule as decimal places: find the place you are rounding to, then look at the **next digit to the right**. If it is 5 or more, round up; if it is 4 or less, round down.\n\nTo round to the nearest 10, look at the units digit; to the nearest 100, look at the tens digit; to the nearest integer (whole number), look at the first decimal (tenths) digit. Digits to the right of the rounding place become zeros (or disappear, after the point).\n\nSo 3.7 to the nearest integer is 4 (tenths digit 7 ≥ 5); 264 to the nearest 10 is 260 (units 4 < 5); 264 to the nearest 100 is 300 (tens 6 ≥ 5).",
+      keyPoints: [
+        "Nearest 10 → check the units digit; nearest 100 → check the tens digit.",
+        "Nearest integer → check the first decimal (tenths) digit.",
+        "5 or more rounds up; 4 or less rounds down.",
+        "Watch for carries: 97 to the nearest 10 is 100, not 90.",
+      ],
+      strategies: ["Identify the rounding place, then look one digit right", "Replace lower digits with zeros"],
+      whyItWorks:
+        "Rounding 264 to the nearest 100 asks which multiple of 100 it is closest to: 264 sits between 200 and 300, and since 264 is past the halfway point 250, 300 is nearer. The tens digit alone tells you which side of halfway you are on.",
+    },
+    {
+      heading: "Recurring decimals and fraction↔decimal conversion",
+      discovery: {
+        problem:
+          "Convert 1/3 and 2/3 to decimals by dividing. The division never stops — so how do we write the answer exactly, and what is 2/3 to 3 d.p.?",
+        idea:
+          "1 ÷ 3 = 0.3333… forever. We write a dot over the repeating digit: 0.3̇ means 0.333…. Then 2/3 = 0.6̇ = 0.666…, which to 3 d.p. rounds to 0.667 (the next 6 rounds the last 6 up).",
+      },
+      body:
+        "Dividing the numerator by the denominator either **stops** (a terminating decimal) or **repeats forever** (a recurring decimal).\n\nTerminating: 3/8 = 0.375, 7/20 = 0.35 — these end. Denominators whose only prime factors are 2 and 5 always terminate.\n\nRecurring: 1/3 = 0.333… and 1/6 = 0.1666… never end; a repeating block is shown with a dot over the first and last repeating digit, e.g. 0.3̇ for 0.333… and 0.1̇6̇ would repeat '16'. For 1/6 only the 6 repeats: 0.16̇.\n\nTo write a recurring decimal to a number of decimal places, just round as usual: 1/3 ≈ 0.33 (2 d.p.) and 2/3 ≈ 0.667 (3 d.p.).",
+      keyPoints: [
+        "Terminating decimal: the division stops (e.g. 3/8 = 0.375).",
+        "Recurring decimal: a block of digits repeats forever (e.g. 1/3 = 0.3̇ = 0.333…).",
+        "A dot over a digit marks the repeating part.",
+        "Round a recurring decimal to d.p. exactly as you round any decimal.",
+      ],
+      strategies: ["Divide top by bottom and watch for a repeat", "Mark the repeating block with a dot"],
+      whyItWorks:
+        "When you do 1 ÷ 3 by long division, the remainder is always 1 again, so the same step repeats endlessly — that is why the 3 recurs. A remainder must eventually repeat, so every fraction gives either a terminating or a recurring decimal.",
+    },
+    {
       heading: "Estimation, bounds and fraction↔decimal",
       discovery: {
         problem:
@@ -100,6 +160,11 @@ export const decimalsRounding: Topic = {
       { front: "Estimate by rounding to…", back: "1 significant figure, then compute." },
       { front: "3/8 as a decimal", back: "0.375 — divide 3 ÷ 8." },
       { front: "Bounds of 6.4 cm (1 d.p.)", back: "6.35 cm ≤ length < 6.45 cm." },
+      { front: "Order 0.7 and 0.68", back: "0.7 = 0.70 > 0.68. Pad with zeros, compare column by column." },
+      { front: "264 to the nearest 100", back: "300. Tens digit is 6 (≥ 5), so round up." },
+      { front: "97 to the nearest 10", back: "100. The 9 carries when you round up." },
+      { front: "1/3 as a decimal", back: "0.333… = 0.3̇ (recurring). ≈ 0.33 to 2 d.p." },
+      { front: "Terminating vs recurring", back: "Terminating ends (3/8 = 0.375); recurring repeats forever (1/3)." },
     ],
   },
   quiz: {
@@ -188,6 +253,88 @@ export const decimalsRounding: Topic = {
           "Halfway down to 2.4 is 2.45 — the lower bound.",
         ],
         strategy: "Find the halfway points to the neighbours",
+      },
+      {
+        id: "decimals-add-mcq01",
+        question: "Which list is in order from smallest to largest?",
+        options: [
+          "0.609, 0.68, 0.7, 0.71",
+          "0.68, 0.609, 0.7, 0.71",
+          "0.7, 0.71, 0.68, 0.609",
+          "0.609, 0.7, 0.68, 0.71",
+        ],
+        answerIndex: 0,
+        explanation:
+          "Pad to 0.609, 0.680, 0.700, 0.710 and compare: 609 < 680 < 700 < 710. So 0.609, 0.68, 0.7, 0.71.",
+        difficulty: "warmup",
+        guideRef: "Decimal place value and ordering decimals",
+        hints: [
+          "Write every number to 3 decimal places by adding trailing zeros.",
+          "Then compare them like whole numbers of thousandths.",
+        ],
+        strategy: "Pad with zeros, compare column by column",
+      },
+      {
+        id: "decimals-add-mcq02",
+        question: "Round 3649 to the nearest 100.",
+        options: ["3600", "3650", "3700", "4000"],
+        answerIndex: 0,
+        explanation:
+          "To the nearest 100 check the tens digit (4). 4 < 5, so round down: 3600.",
+        difficulty: "warmup",
+        guideRef: "Rounding to the nearest integer, 10 and 100",
+        hints: ["Which digit do you check when rounding to the nearest 100?", "Look at the tens digit, 4."],
+        strategy: "Identify the rounding place, then look one digit right",
+      },
+      {
+        id: "decimals-add-mcq03",
+        question: "Round 8.7 to the nearest integer.",
+        options: ["8", "8.5", "9", "10"],
+        answerIndex: 2,
+        explanation: "Check the tenths digit (7). 7 ≥ 5, so round up: 9.",
+        difficulty: "core",
+        guideRef: "Rounding to the nearest integer, 10 and 100",
+        hints: ["The nearest integer means the nearest whole number.", "Look at the first decimal digit, 7."],
+        strategy: "Identify the rounding place, then look one digit right",
+      },
+      {
+        id: "decimals-add-mcq04",
+        question: "What is 1/3 written as a decimal?",
+        options: ["0.3", "0.13", "0.333… (recurring)", "0.30"],
+        answerIndex: 2,
+        explanation:
+          "1 ÷ 3 = 0.333… and the 3 repeats forever, written 0.3̇. It never terminates.",
+        difficulty: "core",
+        guideRef: "Recurring decimals and fraction↔decimal conversion",
+        hints: ["Divide 1 by 3 and watch the remainder.", "The same remainder repeats, so the digit recurs."],
+        strategy: "Divide top by bottom and watch for a repeat",
+      },
+      {
+        id: "decimals-add-mcq05",
+        question: "Round 2/3 to 2 decimal places.",
+        options: ["0.66", "0.67", "0.6", "0.667"],
+        answerIndex: 1,
+        explanation:
+          "2/3 = 0.666…; the third decimal (6) is ≥ 5, so the second decimal rounds up: 0.67.",
+        difficulty: "challenge",
+        guideRef: "Recurring decimals and fraction↔decimal conversion",
+        hints: [
+          "First write 2/3 as a recurring decimal.",
+          "0.666… — round at the 2nd decimal place using the next digit.",
+        ],
+        strategy: "Divide, then round as usual",
+      },
+      {
+        id: "decimals-add-mcq06",
+        question: "Round 19.6 to the nearest 10.",
+        options: ["10", "19", "20", "200"],
+        answerIndex: 2,
+        explanation:
+          "To the nearest 10 check the units digit (9). 9 ≥ 5, so round up to 20.",
+        difficulty: "core",
+        guideRef: "Rounding to the nearest integer, 10 and 100",
+        hints: ["Which digit decides rounding to the nearest 10?", "The units digit is 9, so round up."],
+        strategy: "Identify the rounding place, then look one digit right",
       },
     ],
     qa: [
@@ -287,6 +434,88 @@ export const decimalsRounding: Topic = {
           "Multiply 8.45 by 5.65.",
         ],
         strategy: "Use the upper bound of each measurement",
+      },
+      {
+        id: "decimals-add-qa01",
+        question:
+          "Write these decimals in order, smallest first: 0.4, 0.39, 0.405, 0.41. Explain your method.",
+        modelAnswer:
+          "Pad to three decimal places: 0.400, 0.390, 0.405, 0.410. Compare as 400, 390, 405, 410. Order: 0.39, 0.4, 0.405, 0.41.",
+        markScheme: [
+          "Pad with trailing zeros to equal length [1]",
+          "Compare column by column / as whole numbers [1]",
+          "Correct order 0.39, 0.4, 0.405, 0.41 [1]",
+        ],
+        commonError: "Thinking 0.405 is largest because it has the most digits.",
+        difficulty: "warmup",
+        guideRef: "Decimal place value and ordering decimals",
+        hints: [
+          "Give every number the same number of decimal places.",
+          "Then compare them like whole numbers.",
+        ],
+        strategy: "Pad with zeros, compare column by column",
+      },
+      {
+        id: "decimals-add-qa02",
+        question:
+          "Round 4768 to the nearest 10, the nearest 100, and the nearest 1000. Show which digit you check each time.",
+        modelAnswer:
+          "Nearest 10: check units (8) ≥ 5 → 4770. Nearest 100: check tens (6) ≥ 5 → 4800. Nearest 1000: check hundreds (7) ≥ 5 → 5000.",
+        markScheme: [
+          "Nearest 10 = 4770 (units 8) [1]",
+          "Nearest 100 = 4800 (tens 6) [1]",
+          "Nearest 1000 = 5000 (hundreds 7) [1]",
+        ],
+        commonError: "Rounding the same digit each time instead of the digit one place smaller than the target.",
+        difficulty: "core",
+        guideRef: "Rounding to the nearest integer, 10 and 100",
+        hints: [
+          "For each target place, look one digit to its right.",
+          "Units for nearest 10, tens for nearest 100, hundreds for nearest 1000.",
+        ],
+        strategy: "Identify the rounding place, then look one digit right",
+      },
+      {
+        id: "decimals-add-qa03",
+        question:
+          "Convert 1/3 and 5/6 to decimals. State which are recurring, and give 5/6 correct to 2 decimal places.",
+        modelAnswer:
+          "1/3 = 1 ÷ 3 = 0.333… = 0.3̇ (recurring). 5/6 = 5 ÷ 6 = 0.8333… = 0.83̇ (the 3 recurs). To 2 d.p., 5/6 = 0.83 (the next digit 3 < 5, so the second decimal stays).",
+        markScheme: [
+          "1/3 = 0.333… recurring [1]",
+          "5/6 = 0.8333… recurring [1]",
+          "5/6 ≈ 0.83 to 2 d.p. [1]",
+        ],
+        commonError: "Writing 5/6 = 0.84 by wrongly rounding up, or thinking 1/3 terminates.",
+        difficulty: "core",
+        guideRef: "Recurring decimals and fraction↔decimal conversion",
+        hints: [
+          "Divide the numerator by the denominator.",
+          "If a remainder repeats, the decimal recurs.",
+          "Round 0.8333… at the 2nd decimal using the 3rd digit.",
+        ],
+        strategy: "Divide top by bottom and watch for a repeat",
+      },
+      {
+        id: "decimals-add-qa04",
+        question:
+          "Challenge: Explain, using the division, why 1/7 = 0.142857142857… recurs, and state 1/7 to the nearest hundredth.",
+        modelAnswer:
+          "Dividing 1 by 7 gives remainders 3, 2, 6, 4, 5, 1, and once the remainder 1 returns the whole pattern repeats, so the block 142857 recurs forever: 0.1̇42857̇. To the nearest hundredth (2 d.p.) the third decimal is 2 (< 5), so 1/7 ≈ 0.14.",
+        markScheme: [
+          "Notes the remainders repeat / remainder 1 returns [1]",
+          "Block 142857 recurs [1]",
+          "1/7 ≈ 0.14 to 2 d.p. [1]",
+        ],
+        commonError: "Stopping the division early and claiming it terminates.",
+        difficulty: "challenge",
+        guideRef: "Recurring decimals and fraction↔decimal conversion",
+        hints: [
+          "Carry out 1 ÷ 7 by long division, tracking each remainder.",
+          "When a remainder repeats, the digits must repeat too.",
+          "Round 0.142857… at the 2nd decimal place.",
+        ],
+        strategy: "Track the remainders in long division",
       },
     ],
   },
@@ -429,6 +658,39 @@ export const decimalsRounding: Topic = {
               "Then make the divisor a whole number by scaling both numbers.",
             ],
             strategy: "Work in stages, make the divisor whole",
+          },
+          {
+            id: "decimals-add-mcq07",
+            question: "Which decimal is largest: 0.5, 0.49, 0.499, 0.51?",
+            options: ["0.5", "0.49", "0.499", "0.51"],
+            answerIndex: 3,
+            explanation: "Pad to 0.500, 0.490, 0.499, 0.510; the largest is 0.510 = 0.51.",
+            difficulty: "warmup",
+            strategy: "Pad with zeros, compare column by column",
+          },
+          {
+            id: "decimals-add-mcq08",
+            question: "Round 549 to the nearest 100.",
+            options: ["500", "540", "550", "600"],
+            answerIndex: 0,
+            explanation: "Check the tens digit (4). 4 < 5, so round down to 500.",
+            difficulty: "core",
+            hints: ["For the nearest 100, look at the tens digit."],
+            strategy: "Identify the rounding place, then look one digit right",
+          },
+          {
+            id: "decimals-add-mcq09",
+            question: "Which fraction gives a recurring decimal?",
+            options: ["1/4", "3/8", "1/6", "7/20"],
+            answerIndex: 2,
+            explanation:
+              "1/6 = 0.1666… recurs. The others terminate (1/4 = 0.25, 3/8 = 0.375, 7/20 = 0.35).",
+            difficulty: "challenge",
+            hints: [
+              "A fraction terminates only if its denominator's prime factors are just 2s and 5s.",
+              "6 = 2 × 3, and the factor 3 forces a recurring decimal.",
+            ],
+            strategy: "Look at the denominator's prime factors",
           },
         ],
       },

@@ -87,6 +87,86 @@ export const sequencesGraphs: Topic = {
       whyItWorks:
         "Adding 1 to x adds m to y (because of the mx term), giving a constant slope — that constant rate of change is exactly what makes the graph a straight line.",
     },
+    {
+      heading: "Generating a sequence and function machines",
+      discovery: {
+        problem:
+          "A function machine takes an input, multiplies it by 4, then subtracts 1. Feed in 1, 2, 3, 4. What four numbers come out — and how does that relate to the rule 4n − 1?",
+        idea:
+          "The outputs are 3, 7, 11, 15. Feeding in the position numbers 1, 2, 3, … into the machine 'times 4, subtract 1' is exactly the same as evaluating the nth term 4n − 1. A function machine is a picture of a rule.",
+      },
+      body:
+        "A **function machine** takes an input, applies operations in order, and gives an output. The machine '×4 then −1' turns input n into output 4n − 1.\n\nTo **generate a sequence from its nth term**, substitute n = 1, 2, 3, 4, … in turn. For nth term 4n − 1: n = 1 gives 3, n = 2 gives 7, n = 3 gives 11, and so on.\n\nA **mapping** links each input to its output, often written as a table or with an arrow, e.g. 1 → 3, 2 → 7, 3 → 11. Reading a machine **backwards** (inverse) lets you find the input from an output: to undo '×4 then −1' you '+1 then ÷4'.",
+      keyPoints: [
+        "Generate a sequence by substituting n = 1, 2, 3, … into the nth term.",
+        "A function machine applies operations left to right to an input.",
+        "Reverse the machine (inverse operations, in reverse order) to find the input from an output.",
+        "A mapping shows input → output pairs, like a table of values.",
+      ],
+      strategies: ["Substitute the position numbers in order", "Reverse the machine to undo it"],
+      whyItWorks:
+        "Substituting n = 1, 2, 3, … is exactly what a function machine does step by step, so the machine and the nth-term formula always produce the same list.",
+    },
+    {
+      heading: "Fibonacci and other special sequences",
+      discovery: {
+        problem:
+          "A sequence starts 1, 1, then each new term is the sum of the previous two. Write the next six terms. Is this a term-to-term rule or a position-to-term rule?",
+        idea:
+          "The terms are 1, 1, 2, 3, 5, 8, 13, 21 — the Fibonacci sequence. Its rule is term-to-term (add the two before it); there is no simple nth-term formula. Not every sequence is linear or even has a tidy position-to-term rule.",
+      },
+      body:
+        "Some famous sequences are not linear:\n\n- **Fibonacci**: 1, 1, 2, 3, 5, 8, 13, 21, … — each term is the **sum of the two before it**. The rule is term-to-term, not a simple nth-term formula.\n- **Square numbers**: 1, 4, 9, 16, … (nth term n²).\n- **Triangular numbers**: 1, 3, 6, 10, … (nth term n(n + 1)/2).\n- **Cube numbers**: 1, 8, 27, 64, … (nth term n³).\n- **Powers of 2 (doubling)**: 1, 2, 4, 8, 16, … — each term is twice the last (geometric, not linear).\n\nRecognising the *type* of sequence is the first step to continuing it or finding a rule.",
+      keyPoints: [
+        "Fibonacci: 1, 1, 2, 3, 5, 8, 13, 21 — add the two previous terms.",
+        "A doubling sequence multiplies by 2 each time (1, 2, 4, 8, …).",
+        "Square (n²), triangular (n(n+1)/2) and cube (n³) sequences are non-linear.",
+        "If the difference is not constant, the sequence is not linear.",
+      ],
+      thinkDeeper:
+        "In the Fibonacci sequence, divide each term by the one before it: 8/5 = 1.6, 13/8 = 1.625, 21/13 ≈ 1.615… The ratios close in on the golden ratio ≈ 1.618.",
+      strategies: ["Identify the type before continuing", "Check whether the rule is term-to-term or position-to-term"],
+    },
+    {
+      heading: "Midpoint of a line segment",
+      discovery: {
+        problem:
+          "A line segment joins A(2, 1) to B(8, 5). Its midpoint sits exactly halfway along. What is the x-coordinate halfway between 2 and 8? What is the y-coordinate halfway between 1 and 5?",
+        idea:
+          "Halfway between 2 and 8 is (2 + 8) ÷ 2 = 5; halfway between 1 and 5 is (1 + 5) ÷ 2 = 3. So the midpoint is (5, 3). You average the x-values and average the y-values.",
+      },
+      body:
+        "The **midpoint** of the segment joining (x₁, y₁) and (x₂, y₂) is found by **averaging the coordinates**:\n\n**Midpoint = ((x₁ + x₂) ÷ 2, (y₁ + y₂) ÷ 2)**\n\nIt works with negatives too: the midpoint of (−3, 4) and (5, −2) is ((−3 + 5)/2, (4 + −2)/2) = (1, 1).\n\nTo go the other way — given one endpoint and the midpoint, find the other endpoint — notice the midpoint is the same distance from each end, so step from the known end to the midpoint, then take the same step again.",
+      keyPoints: [
+        "Midpoint = ((x₁ + x₂) ÷ 2, (y₁ + y₂) ÷ 2) — average each coordinate.",
+        "Average the x-values for the x-coordinate; average the y-values for the y-coordinate.",
+        "Works with negative coordinates.",
+        "The midpoint is equally far from both endpoints.",
+      ],
+      strategies: ["Average the x's and the y's separately", "Add the pair and halve"],
+      whyItWorks:
+        "Halfway between two numbers is their mean, so averaging the x-coordinates lands you halfway across and averaging the y-coordinates lands you halfway up — together that is exactly the middle of the segment.",
+    },
+    {
+      heading: "Real-life linear graphs: distance–time and conversion",
+      discovery: {
+        problem:
+          "A distance–time graph for a cyclist is a straight line passing through (0, 0) and (2, 30), with time in hours and distance in km. What does the steepness of the line tell you about the cyclist?",
+        idea:
+          "The line rises 30 km over 2 hours, a gradient of 15. On a distance–time graph the gradient is the **speed**: 15 km/h. A steeper line means a faster journey; a flat (horizontal) section means stopped.",
+      },
+      body:
+        "Straight-line graphs describe real situations where one quantity changes at a constant rate.\n\n- On a **distance–time graph**, the gradient is the **speed** (distance ÷ time). A horizontal line means not moving; a steeper line means faster.\n- A **conversion graph** turns one unit into another, e.g. miles ↔ kilometres or pounds ↔ euros. Read across and up to convert: find the value on one axis, go to the line, then read off the other axis.\n- Many real graphs have the form y = mx + c, where c is a **fixed starting amount** (like a call-out charge) and m is the **rate** (cost per unit).\n\nFor example, a plumber charges £20 call-out plus £15 per hour: cost = 15h + 20. The 20 is the y-intercept and the 15 is the gradient.",
+      keyPoints: [
+        "Distance–time graph: gradient = speed; horizontal = stopped.",
+        "Conversion graph: read across to the line, then up/down to the other unit.",
+        "Real-life y = mx + c: c is the fixed start, m is the rate per unit.",
+        "Steeper line = greater rate of change.",
+      ],
+      strategies: ["Read gradient as a rate (per unit time or per item)", "Use the line to convert by reading across and up"],
+      whyItWorks:
+        "When a quantity grows by the same amount each unit of time, the graph is straight and its gradient is that constant rate — which is exactly what 'speed' or 'cost per hour' means.",
+    },
   ],
   learn: {
     cards: [
@@ -183,6 +263,71 @@ export const sequencesGraphs: Topic = {
           "3n = 49, so n = 49/3 — not whole, so 50 is not a term.",
         ],
         strategy: "Solve nth term = target and check n is a whole number",
+      },
+      {
+        id: "seq-add-mcq01",
+        question: "A function machine is 'input → ×3 → +2 → output'. What comes out when 5 goes in?",
+        options: ["17", "21", "15", "10"],
+        answerIndex: 0,
+        explanation: "×3 gives 5 × 3 = 15, then +2 gives 15 + 2 = 17.",
+        difficulty: "warmup",
+        guideRef: "Generating a sequence and function machines",
+        strategy: "Apply the operations in order",
+      },
+      {
+        id: "seq-add-mcq02",
+        question: "The nth term of a sequence is n² + 1. What is the 4th term?",
+        options: ["17", "9", "16", "12"],
+        answerIndex: 0,
+        explanation: "Substitute n = 4: 4² + 1 = 16 + 1 = 17.",
+        difficulty: "core",
+        guideRef: "Generating a sequence and function machines",
+        hints: ["Square the 4 first.", "4² = 16, then add 1."],
+        strategy: "Substitute the position into the rule",
+      },
+      {
+        id: "seq-add-mcq03",
+        question: "What is the next term in the Fibonacci sequence 1, 1, 2, 3, 5, 8, …?",
+        options: ["13", "11", "16", "10"],
+        answerIndex: 0,
+        explanation: "Each term is the sum of the two before: 5 + 8 = 13.",
+        difficulty: "warmup",
+        guideRef: "Fibonacci and other special sequences",
+        strategy: "Add the two previous terms",
+      },
+      {
+        id: "seq-add-mcq04",
+        question: "What is the midpoint of the segment joining (2, 3) and (8, 7)?",
+        options: ["(5, 5)", "(6, 4)", "(10, 10)", "(4, 5)"],
+        answerIndex: 0,
+        explanation: "Average each coordinate: ((2 + 8)/2, (3 + 7)/2) = (5, 5).",
+        difficulty: "core",
+        guideRef: "Midpoint of a line segment",
+        hints: ["Average the x-values, then the y-values.", "(2 + 8)/2 = 5 and (3 + 7)/2 = 5."],
+        strategy: "Average the x's and the y's",
+      },
+      {
+        id: "seq-add-mcq05",
+        question:
+          "On a distance–time graph the line goes through (0, 0) and (3, 60), with distance in km and time in hours. What is the speed?",
+        options: ["20 km/h", "60 km/h", "180 km/h", "3 km/h"],
+        answerIndex: 0,
+        explanation: "Speed = gradient = distance ÷ time = 60 ÷ 3 = 20 km/h.",
+        difficulty: "core",
+        guideRef: "Real-life linear graphs: distance–time and conversion",
+        hints: ["On a distance–time graph the gradient is the speed.", "60 km ÷ 3 hours = 20 km/h."],
+        strategy: "Gradient = distance ÷ time",
+      },
+      {
+        id: "seq-add-mcq06",
+        question: "What is the midpoint of the segment joining (−3, 5) and (7, −1)?",
+        options: ["(2, 2)", "(2, 3)", "(5, 2)", "(4, 4)"],
+        answerIndex: 0,
+        explanation: "((−3 + 7)/2, (5 + −1)/2) = (4/2, 4/2) = (2, 2).",
+        difficulty: "challenge",
+        guideRef: "Midpoint of a line segment",
+        hints: ["Average works with negatives too.", "(−3 + 7)/2 = 2 and (5 + (−1))/2 = 2."],
+        strategy: "Average the coordinates carefully with signs",
       },
     ],
     qa: [
@@ -295,6 +440,89 @@ export const sequencesGraphs: Topic = {
             ],
           },
         ],
+      },
+      {
+        id: "seq-add-qa01",
+        question:
+          "A function machine is 'input → ×2 → +5 → output'. (a) Find the output when 8 goes in. (b) An output is 23 — find the input by reversing the machine.",
+        modelAnswer:
+          "(a) 8 × 2 = 16, then 16 + 5 = 21. (b) Reverse: −5 then ÷2. 23 − 5 = 18, 18 ÷ 2 = 9. The input is 9.",
+        markScheme: [
+          "(a) 8 × 2 = 16 then + 5 = 21 [1]",
+          "(b) Reverse operations: 23 − 5 = 18 [1]",
+          "18 ÷ 2 = 9 [1]",
+        ],
+        commonError: "Reversing in the wrong order (dividing before subtracting).",
+        difficulty: "core",
+        guideRef: "Generating a sequence and function machines",
+        hints: ["Forwards: ×2 then +5.", "To reverse, undo the last operation first: −5, then ÷2."],
+        strategy: "Apply forwards; reverse with inverse operations",
+      },
+      {
+        id: "seq-add-qa02",
+        question:
+          "(a) Find the midpoint of A(1, 2) and B(7, 10). (b) M(5, 4) is the midpoint of P(2, 1) and Q. Find the coordinates of Q.",
+        modelAnswer:
+          "(a) Midpoint = ((1 + 7)/2, (2 + 10)/2) = (4, 6). (b) From P(2, 1) to M(5, 4) the step is +3 across and +3 up. Take the same step again from M: Q = (5 + 3, 4 + 3) = (8, 7).",
+        markScheme: [
+          "(a) Midpoint = (4, 6) [1]",
+          "(b) Step from P to M is +3, +3 [1]",
+          "Q = (8, 7) [1]",
+        ],
+        difficulty: "challenge",
+        guideRef: "Midpoint of a line segment",
+        hints: [
+          "Average the coordinates for part (a).",
+          "For (b), the midpoint is the same step from each end.",
+          "Step P → M again to reach Q.",
+        ],
+        strategy: "Average for the midpoint; step twice to find an endpoint",
+        solutions: [
+          {
+            label: "Stepping method",
+            steps: ["P(2,1) → M(5,4) is +3 right, +3 up", "Repeat from M: (5+3, 4+3)", "Q = (8, 7)"],
+          },
+          {
+            label: "Algebra",
+            steps: ["(2 + x)/2 = 5 → x = 8", "(1 + y)/2 = 4 → y = 7", "Q = (8, 7)"],
+          },
+        ],
+      },
+      {
+        id: "seq-add-qa03",
+        question:
+          "A conversion graph for pounds (£) to euros (€) is a straight line through (0, 0) and (10, 12). (a) What is the gradient and what does it mean? (b) Convert £35 to euros.",
+        modelAnswer:
+          "(a) Gradient = 12 ÷ 10 = 1.2, meaning each £1 is worth €1.2. (b) £35 × 1.2 = €42.",
+        markScheme: [
+          "(a) Gradient = 12 ÷ 10 = 1.2 [1]",
+          "States it is euros per pound (exchange rate) [1]",
+          "(b) 35 × 1.2 = €42 [1]",
+        ],
+        difficulty: "core",
+        guideRef: "Real-life linear graphs: distance–time and conversion",
+        hints: [
+          "Gradient = rise ÷ run from the two points.",
+          "The gradient is euros per pound.",
+          "Multiply £35 by the rate.",
+        ],
+        strategy: "Read the rate from the gradient, then scale",
+      },
+      {
+        id: "seq-add-qa04",
+        question:
+          "Write the first five terms of the sequence with nth term n² − 2, then state whether this sequence is linear and explain how you know.",
+        modelAnswer:
+          "n = 1: −1; n = 2: 2; n = 3: 7; n = 4: 14; n = 5: 23. So −1, 2, 7, 14, 23. The differences are 3, 5, 7, 9 — not constant — so the sequence is NOT linear.",
+        markScheme: [
+          "Terms −1, 2, 7, 14, 23 [1]",
+          "Differences 3, 5, 7, 9 [1]",
+          "Not constant ⇒ not linear [1]",
+        ],
+        difficulty: "core",
+        guideRef: "Fibonacci and other special sequences",
+        hints: ["Square n then subtract 2 for each term.", "Look at the gaps between terms.", "Linear means a constant difference."],
+        strategy: "Generate terms, then check the differences",
       },
     ],
   },

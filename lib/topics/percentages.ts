@@ -50,6 +50,26 @@ export const percentages: Topic = {
         "Increasing by 20% means keeping the whole (100%) and adding 20% more: 100% + 20% = 120% = × 1.2. Decreasing keeps 100% − 20% = 80% = × 0.8.",
     },
     {
+      heading: "One quantity as a percentage of another",
+      discovery: {
+        problem:
+          "In a test Sam scored 18 out of 24, and Priya scored 21 out of 30. Who did better? Comparing 18 and 21 directly is unfair — why, and how do percentages fix it?",
+        idea:
+          "The tests are out of different totals, so raw marks are not comparable. Turn each into a percentage of its total: 18/24 = 0.75 = 75%, and 21/30 = 0.7 = 70%. Sam did better. A percentage rescales everything to 'out of 100'.",
+      },
+      body:
+        "To express one quantity **as a percentage of another**, write it as a fraction (part ÷ whole) and multiply by 100:\n\npercentage = (part ÷ whole) × 100.\n\nSo 18 out of 24 is (18 ÷ 24) × 100 = 75%. Make sure both quantities are in the **same units** first — 45p out of £2 must become 45 out of 200, giving (45 ÷ 200) × 100 = 22.5%.\n\nThis is the engine behind test scores, attendance figures, and 'what proportion?' questions.",
+      keyPoints: [
+        "Percentage = (part ÷ whole) × 100.",
+        "The 'whole' is the total you are comparing against (the denominator).",
+        "Convert to the same units before dividing (e.g. pounds to pence).",
+        "This rescales any 'part out of whole' to be 'out of 100'.",
+      ],
+      strategies: ["Write part over whole, then × 100", "Match the units before dividing"],
+      whyItWorks:
+        "A percentage is just a fraction with denominator 100. (part ÷ whole) gives the proportion as a decimal, and × 100 restates that same proportion out of 100 — so 0.75 becomes 75 per hundred, i.e. 75%.",
+    },
+    {
       heading: "Reverse percentages and percentage change",
       discovery: {
         problem:
@@ -100,6 +120,10 @@ export const percentages: Topic = {
       { front: "Percentage change formula", back: "(change ÷ original) × 100." },
       { front: "Simple interest formula", back: "principal × rate × time." },
       { front: "3/5 as a percentage", back: "0.6 = 60%." },
+      { front: "18 out of 24 as a %", back: "(18 ÷ 24) × 100 = 75%." },
+      { front: "One quantity as % of another", back: "(part ÷ whole) × 100 — match units first." },
+      { front: "45p as a % of £2", back: "(45 ÷ 200) × 100 = 22.5%. Convert £2 to 200p first." },
+      { front: "Convert 25% to a fraction", back: "25/100 = 1/4." },
     ],
   },
   quiz: {
@@ -192,6 +216,71 @@ export const percentages: Topic = {
         ],
         strategy: "Multiply the multipliers for successive changes",
       },
+      {
+        id: "percent-add-mcq01",
+        question: "What is 12 out of 50 as a percentage?",
+        options: ["12%", "24%", "38%", "50%"],
+        answerIndex: 1,
+        explanation: "(12 ÷ 50) × 100 = 24%. (Or 12/50 = 24/100.)",
+        difficulty: "warmup",
+        guideRef: "One quantity as a percentage of another",
+        hints: ["Write 12 over 50, then × 100.", "12/50 = 24/100."],
+        strategy: "Write part over whole, then × 100",
+      },
+      {
+        id: "percent-add-mcq02",
+        question: "Write 7/8 as a percentage.",
+        options: ["78%", "82.5%", "87.5%", "8.75%"],
+        answerIndex: 2,
+        explanation: "7 ÷ 8 = 0.875, and × 100 = 87.5%.",
+        difficulty: "core",
+        guideRef: "Simple interest and FDP conversions",
+        hints: ["Divide 7 by 8 to get a decimal first.", "Then multiply by 100."],
+        strategy: "Fraction → decimal → percentage",
+      },
+      {
+        id: "percent-add-mcq03",
+        question: "A team won 13 of its 20 matches. What percentage did it win?",
+        options: ["13%", "60%", "65%", "70%"],
+        answerIndex: 2,
+        explanation: "(13 ÷ 20) × 100 = 65%.",
+        difficulty: "core",
+        guideRef: "One quantity as a percentage of another",
+        hints: ["Part is 13, whole is 20.", "(13 ÷ 20) × 100."],
+        strategy: "Write part over whole, then × 100",
+      },
+      {
+        id: "percent-add-mcq04",
+        question:
+          "A trader buys a bike for £80 and sells it for £100. What is the percentage profit?",
+        options: ["20%", "25%", "80%", "125%"],
+        answerIndex: 1,
+        explanation:
+          "Profit = £20; percentage profit = (20 ÷ 80) × 100 = 25%. Divide by the cost price, not the selling price.",
+        difficulty: "challenge",
+        guideRef: "Reverse percentages and percentage change",
+        hints: [
+          "Profit = selling price − cost price.",
+          "Percentage profit compares profit to the cost (the original).",
+          "(20 ÷ 80) × 100.",
+        ],
+        strategy: "Compare the change to the original (cost price)",
+      },
+      {
+        id: "percent-add-mcq05",
+        question: "What is 30p as a percentage of £1.50?",
+        options: ["2%", "20%", "30%", "45%"],
+        answerIndex: 1,
+        explanation:
+          "Match units: £1.50 = 150p. (30 ÷ 150) × 100 = 20%.",
+        difficulty: "challenge",
+        guideRef: "One quantity as a percentage of another",
+        hints: [
+          "The two amounts must be in the same units.",
+          "Change £1.50 into 150p, then do (30 ÷ 150) × 100.",
+        ],
+        strategy: "Match the units before dividing",
+      },
     ],
     qa: [
       {
@@ -281,6 +370,97 @@ export const percentages: Topic = {
           "Profit ÷ cost × 100 gives the percentage profit.",
         ],
         strategy: "Find the multiplier, then divide to reverse",
+      },
+      {
+        id: "percent-add-qa01",
+        question:
+          "In a class of 25, 16 students walk to school. What percentage walk, and what percentage do not?",
+        modelAnswer:
+          "Walk: (16 ÷ 25) × 100 = 64%. Do not walk: 25 − 16 = 9, so (9 ÷ 25) × 100 = 36% (or 100% − 64% = 36%).",
+        markScheme: [
+          "(16 ÷ 25) × 100 = 64% [1]",
+          "9 do not walk (or 100% − 64%) [1]",
+          "36% do not walk [1]",
+        ],
+        commonError: "Dividing by 16 or 9 instead of by the whole class of 25.",
+        difficulty: "warmup",
+        guideRef: "One quantity as a percentage of another",
+        hints: [
+          "The whole is the class of 25.",
+          "(part ÷ 25) × 100 for each group.",
+        ],
+        strategy: "Write part over whole, then × 100",
+      },
+      {
+        id: "percent-add-qa02",
+        question:
+          "Two students sit different tests: Aisha scores 27 out of 36, Ben scores 22 out of 28. Convert each to a percentage (1 d.p. where needed) and say who did better.",
+        modelAnswer:
+          "Aisha: (27 ÷ 36) × 100 = 75%. Ben: (22 ÷ 28) × 100 = 78.57…% ≈ 78.6%. Ben did better.",
+        markScheme: [
+          "Aisha = 75% [1]",
+          "Ben = 78.6% (78.57…%) [1]",
+          "Ben did better [1]",
+        ],
+        commonError: "Comparing the raw marks 27 and 22 without rescaling to the same total.",
+        difficulty: "core",
+        guideRef: "One quantity as a percentage of another",
+        hints: [
+          "Each score is out of a different total, so make them percentages.",
+          "(mark ÷ total) × 100 for each.",
+        ],
+        strategy: "Write part over whole, then × 100",
+      },
+      {
+        id: "percent-add-qa03",
+        question:
+          "A shopkeeper buys oranges for £15 and sells them all for £12. Work out the percentage loss.",
+        modelAnswer:
+          "Loss = £15 − £12 = £3. Percentage loss = (3 ÷ 15) × 100 = 20%. Divide by the cost price £15.",
+        markScheme: [
+          "Loss = £3 [1]",
+          "(3 ÷ 15) × 100 [1]",
+          "= 20% loss [1]",
+        ],
+        commonError: "Dividing the loss by the selling price £12 instead of the cost price £15.",
+        difficulty: "core",
+        guideRef: "Reverse percentages and percentage change",
+        hints: [
+          "Loss = cost − selling price.",
+          "Percentage loss compares the loss to the cost price.",
+        ],
+        strategy: "Compare the change to the original (cost price)",
+      },
+      {
+        id: "percent-add-qa04",
+        question:
+          "Challenge: Complete the equivalents. (a) 0.36 as a fraction in simplest form and as a percentage. (b) 3/8 as a decimal and a percentage. (c) 85% as a decimal and a fraction in simplest form.",
+        modelAnswer:
+          "(a) 0.36 = 36/100 = 9/25, and 0.36 = 36%. (b) 3/8 = 0.375 = 37.5%. (c) 85% = 0.85 = 85/100 = 17/20.",
+        markScheme: [
+          "(a) 9/25 and 36% [1]",
+          "(b) 0.375 and 37.5% [1]",
+          "(c) 0.85 and 17/20 [1]",
+        ],
+        commonError: "Leaving 36/100 or 85/100 unsimplified.",
+        difficulty: "challenge",
+        guideRef: "Simple interest and FDP conversions",
+        hints: [
+          "Decimal → fraction: write over the right power of 10, then simplify.",
+          "Fraction → percentage: divide, then × 100.",
+          "Percentage → fraction: over 100, then simplify.",
+        ],
+        strategy: "Switch freely between fraction, decimal and percentage",
+        solutions: [
+          {
+            label: "Work each conversion",
+            steps: [
+              "0.36 = 36/100; divide by 4 → 9/25; × 100 → 36%",
+              "3 ÷ 8 = 0.375; × 100 → 37.5%",
+              "85% = 0.85 = 85/100; divide by 5 → 17/20",
+            ],
+          },
+        ],
       },
     ],
   },
@@ -425,6 +605,27 @@ export const percentages: Topic = {
               "Divide by the multiplier 1.2.",
             ],
             strategy: "Find the multiplier, then divide to reverse",
+          },
+          {
+            id: "percent-add-mcq06",
+            question: "What is 9 out of 12 as a percentage?",
+            options: ["60%", "70%", "75%", "90%"],
+            answerIndex: 2,
+            explanation: "(9 ÷ 12) × 100 = 75%.",
+            difficulty: "core",
+            hints: ["Part is 9, whole is 12.", "(9 ÷ 12) × 100."],
+            strategy: "Write part over whole, then × 100",
+          },
+          {
+            id: "percent-add-mcq07",
+            question:
+              "A jug holds 250 ml; 40 ml is poured out. What percentage of the jug was poured out?",
+            options: ["4%", "16%", "25%", "40%"],
+            answerIndex: 1,
+            explanation: "(40 ÷ 250) × 100 = 16%.",
+            difficulty: "challenge",
+            hints: ["Compare the 40 ml poured to the whole 250 ml.", "(40 ÷ 250) × 100."],
+            strategy: "Write part over whole, then × 100",
           },
         ],
       },

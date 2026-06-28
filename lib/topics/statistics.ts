@@ -90,6 +90,45 @@ export const statistics: Topic = {
         "Ice-cream sales and drowning incidents both rise in summer, so they correlate — but neither causes the other. A hidden third factor (hot weather) drives both. Always ask what else might explain a correlation.",
       strategies: ["Decide discrete vs continuous from how data arises", "Describe correlation by the slope direction"],
     },
+    {
+      heading: "Grouped data, stem-and-leaf and two-way tables",
+      discovery: {
+        problem:
+          "Twenty plants have these heights in cm: 12, 15, 15, 18, 21, 23, 23, 24, 27, 28, 31, 33, 34, 36, 39, 41, 42, 45, 48, 52. Which 10 cm group (10–19, 20–29, 30–39, 40–49, 50–59) contains the most plants? Could you find the exact mode?",
+        idea:
+          "Tally into classes: 10–19 has 4, 20–29 has 6, 30–39 has 5, 40–49 has 4, 50–59 has 1. The 20–29 class has the most, so it is the **modal class**. With grouped data you cannot name a single mode — you give the class with the highest frequency instead.",
+      },
+      body:
+        "When data is spread over a wide range it is grouped into **classes** (like 10–19, 20–29). The **modal class** is simply the class with the highest frequency. You cannot give a single modal value, only the class, because individual values are hidden inside the groups.\n\nA **stem-and-leaf diagram** keeps the actual values while grouping them. The 'stem' is the tens digit and each 'leaf' is a units digit, written in order. It shows the shape of the data *and* lets you read the median and mode back out. Always include a **key**, e.g. 2 | 3 means 23.\n\nA **two-way table** records two things at once (for example boys/girls against walk/bus). Row and column totals must agree with the grand total, so a missing entry can always be found by subtraction.",
+      keyPoints: [
+        "Modal class = the group with the highest frequency (grouped data has no single mode).",
+        "Stem-and-leaf: stem = tens, leaf = units, leaves in order, plus a key (3 | 1 = 31).",
+        "A stem-and-leaf diagram keeps every value, so you can still read off median and mode.",
+        "Two-way tables: every row and column adds to its total, and all totals meet at the grand total.",
+      ],
+      strategies: ["Tally into classes carefully", "Fill two-way tables using the totals"],
+      diagrams: [
+        '<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A stem-and-leaf diagram with stems 1 to 5 and a key 2 bar 3 means 23"><rect x="0" y="0" width="200" height="120" fill="#ffffff"/><line x1="40" y1="10" x2="40" y2="100" stroke="#333"/><g font-family="monospace" font-size="12"><text x="28" y="24">1</text><text x="48" y="24">2 5 5 8</text><text x="28" y="44">2</text><text x="48" y="44">1 3 3 4 7 8</text><text x="28" y="64">3</text><text x="48" y="64">1 3 4 6 9</text><text x="28" y="84">4</text><text x="48" y="84">1 2 5 8</text><text x="28" y="104">5</text><text x="48" y="104">2</text></g><text x="40" y="118" font-size="10" font-family="sans-serif">Key: 2 | 3 means 23</text></svg>',
+      ],
+    },
+    {
+      heading: "Collecting data: sampling and questionnaires",
+      discovery: {
+        problem:
+          "A school wants to know pupils' favourite sport. A teacher asks only the netball team. Why will the results be misleading, and what would be a fairer way to choose who to ask?",
+        idea:
+          "The netball team is biased toward netball, so the sample is not representative. A fairer method is a random sample across all year groups, so every pupil has an equal chance of being chosen.",
+      },
+      body:
+        "It is usually impossible to ask everyone (the whole **population**), so we collect a **sample**. A good sample is *representative*: large enough and chosen fairly, so it reflects the whole population. A **random sample** gives everyone an equal chance of selection, which helps avoid **bias**.\n\nA good **questionnaire** asks clear, fair questions:\n\n- Keep questions short and unambiguous.\n- Avoid **leading** questions ('Don't you agree that…?').\n- Offer response boxes that do not overlap and cover every case (for time spent: 0–1 h, 1–2 h, … with a clear rule for the boundary).\n- Ask one thing at a time.",
+      keyPoints: [
+        "Population = everyone; sample = the part you actually ask.",
+        "A good sample is representative: fairly chosen and big enough.",
+        "Random sampling gives everyone an equal chance and reduces bias.",
+        "Good questionnaire: clear, not leading, with non-overlapping response boxes that cover every case.",
+      ],
+      strategies: ["Ask: is the sample representative?", "Check response boxes don't overlap or leave gaps"],
+    },
   ],
   learn: {
     cards: [
@@ -101,6 +140,11 @@ export const statistics: Topic = {
       { front: "Pie-chart slice angle?", back: "(frequency ÷ total) × 360°. All slices add to 360°." },
       { front: "Discrete vs continuous data?", back: "Discrete = counted separate values; continuous = measured, any value in a range." },
       { front: "What does positive correlation look like?", back: "On a scatter graph the points slope upward: as one variable rises, so does the other." },
+      { front: "What is the modal class?", back: "For grouped data, the class (group) with the highest frequency. There is no single modal value." },
+      { front: "How do you read a stem-and-leaf diagram?", back: "Stem = tens digit, leaf = units digit; join them using the key (3 | 1 = 31). Leaves are written in order." },
+      { front: "How do you find a missing value in a two-way table?", back: "Use the row and column totals — every row and column adds to its total, all meeting at the grand total." },
+      { front: "What makes a sample good?", back: "It is representative: chosen fairly (ideally at random) and large enough to reflect the whole population." },
+      { front: "Name one fault in a questionnaire to avoid.", back: "Leading questions, or response boxes that overlap or leave gaps (e.g. 0–5 and 5–10)." },
     ],
   },
   quiz: {
@@ -172,6 +216,57 @@ export const statistics: Topic = {
         guideRef: "Data types, scatter graphs and correlation",
         strategy: "Ask: counted or measured?",
       },
+      {
+        id: "stats-add-mcq01",
+        question:
+          "Test scores are grouped: 0–9 (3 pupils), 10–19 (8 pupils), 20–29 (11 pupils), 30–39 (6 pupils). What is the modal class?",
+        options: ["0–9", "10–19", "20–29", "30–39"],
+        answerIndex: 2,
+        explanation: "The modal class is the group with the highest frequency: 20–29 has 11 pupils, more than any other.",
+        difficulty: "core",
+        guideRef: "Grouped data, stem-and-leaf and two-way tables",
+        hints: ["Look for the class with the largest frequency.", "11 is the biggest frequency."],
+        strategy: "Pick the class with the highest frequency",
+      },
+      {
+        id: "stats-add-mcq02",
+        question: "On a stem-and-leaf diagram the stem is 4 and a leaf is 7, with key 4 | 7 = 47. What value does this represent?",
+        options: ["4.7", "47", "74", "11"],
+        answerIndex: 1,
+        explanation: "The stem (tens) is 4 and the leaf (units) is 7, so the value is 47, as the key shows.",
+        difficulty: "warmup",
+        guideRef: "Grouped data, stem-and-leaf and two-way tables",
+        strategy: "Combine stem and leaf using the key",
+      },
+      {
+        id: "stats-add-mcq03",
+        question:
+          "In a two-way table, 30 pupils were asked. 12 are boys, and 7 of the 18 girls walk to school. If 20 pupils walk in total, how many boys walk?",
+        options: ["7", "13", "8", "12"],
+        answerIndex: 1,
+        explanation: "Girls walking = 7, total walking = 20, so boys walking = 20 − 7 = 13.",
+        difficulty: "core",
+        guideRef: "Grouped data, stem-and-leaf and two-way tables",
+        hints: ["The walk column must total 20.", "Subtract the girls who walk from 20."],
+        strategy: "Use the totals to fill a two-way table",
+      },
+      {
+        id: "stats-add-mcq04",
+        question:
+          "Which is the best (least biased) way to choose 30 pupils to survey about school lunches?",
+        options: [
+          "Ask the first 30 pupils in the lunch queue",
+          "Ask 30 pupils chosen at random from the whole school register",
+          "Ask the 30 members of the cookery club",
+          "Ask your own 30 friends",
+        ],
+        answerIndex: 1,
+        explanation: "A random sample from the whole school gives every pupil an equal chance, so it is the most representative and least biased.",
+        difficulty: "core",
+        guideRef: "Collecting data: sampling and questionnaires",
+        hints: ["Which method gives every pupil an equal chance?", "Avoid groups with a special interest in the topic."],
+        strategy: "Choose a representative, random sample",
+      },
     ],
     qa: [
       {
@@ -234,6 +329,58 @@ export const statistics: Topic = {
           "Add the totals, then divide by 25.",
         ],
         strategy: "Combine totals, not means",
+      },
+      {
+        id: "stats-add-qa01",
+        question:
+          "The ages (in years) of a club are shown in this stem-and-leaf diagram. Key: 2 | 3 means 23.\n1 | 4 7\n2 | 1 3 3 8\n3 | 0 5\nFind (a) the number of members, (b) the range, (c) the median age, and (d) the modal age.",
+        modelAnswer:
+          "Reading the leaves: 14, 17, 21, 23, 23, 28, 30, 35 — that is 8 members. (a) 8 members. (b) Range = 35 − 14 = 21. (c) With 8 values the median is the mean of the 4th and 5th: 23 and 23, so median = 23. (d) 23 appears twice (most often), so the modal age = 23.",
+        markScheme: [
+          "(a) 8 members [1]",
+          "(b) Range = 35 − 14 = 21 [1]",
+          "(c) Median = (23 + 23) ÷ 2 = 23 [1]",
+          "(d) Mode = 23 [1]",
+        ],
+        commonError: "Misreading a leaf (e.g. treating 2 | 3 as 2.3), or forgetting to average the two middle values.",
+        difficulty: "core",
+        guideRef: "Grouped data, stem-and-leaf and two-way tables",
+        hints: ["Use the key to turn each stem-leaf pair into a number.", "Count the leaves for the number of members.", "Median of 8 values = average of the 4th and 5th."],
+        strategy: "Read every value from the diagram, then work as a list",
+      },
+      {
+        id: "stats-add-qa02",
+        question:
+          "60 people were asked if they own a bike. 35 are adults; 12 adults do NOT own a bike. Of those who own a bike, 18 are children. Complete the reasoning to find how many children were asked and how many people own a bike in total.",
+        modelAnswer:
+          "Adults who own a bike = 35 − 12 = 23. Bike owners in total = 23 adults + 18 children = 41. Children asked = 60 − 35 adults = 25. (Check: children who do not own a bike = 25 − 18 = 7, and total non-owners = 12 + 7 = 19 = 60 − 41. ✓)",
+        markScheme: [
+          "Adults owning a bike = 35 − 12 = 23 [1]",
+          "Children asked = 60 − 35 = 25 [1]",
+          "Total bike owners = 23 + 18 = 41 [1]",
+        ],
+        commonError: "Mixing up rows and columns, or forgetting the totals must agree with the grand total of 60.",
+        difficulty: "core",
+        guideRef: "Grouped data, stem-and-leaf and two-way tables",
+        hints: ["Build a two-way table: rows adults/children, columns owns/does not own.", "Adults owning = 35 − 12.", "Children = 60 − 35; bike owners = adults owning + 18."],
+        strategy: "Set up a two-way table and use the totals",
+      },
+      {
+        id: "stats-add-qa03",
+        question:
+          "A pupil writes this survey question: 'Don't you agree that our great school canteen serves the best food? Yes / No.' Give two reasons why this is a poor question, and write an improved version with suitable response boxes.",
+        modelAnswer:
+          "Reasons (any two): it is a leading question ('Don't you agree… great… best') that pushes people to say yes; it is vague ('best food' is an opinion with no scale); only two boxes do not capture a range of views. Improved: 'How would you rate the canteen food?' with boxes: Very good / Good / OK / Poor / Very poor (non-overlapping and covering every view).",
+        markScheme: [
+          "Identifies it as leading/biased [1]",
+          "Gives a second valid fault (vague, too few options, etc.) [1]",
+          "Writes a neutral question with sensible, non-overlapping options [1]",
+        ],
+        commonError: "Replacing it with another leading question, or giving overlapping response boxes.",
+        difficulty: "challenge",
+        guideRef: "Collecting data: sampling and questionnaires",
+        hints: ["Look at the emotive words pushing a 'yes'.", "Is the question specific and neutral?", "Offer a clear rating scale that covers every opinion without overlap."],
+        strategy: "Spot leading/vague wording and replace with neutral, well-bounded options",
       },
     ],
   },

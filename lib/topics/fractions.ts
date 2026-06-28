@@ -87,6 +87,42 @@ export const fractions: Topic = {
       thinkDeeper:
         "Multiplying a positive number by a fraction less than 1 makes it *smaller*, and dividing by a fraction less than 1 makes it *bigger* — the opposite of what whole-number intuition expects.",
     },
+    {
+      heading: "Fractions on a number line; improper & mixed numbers",
+      discovery: {
+        problem:
+          "Mark 7⁄4 on a number line from 0 to 3. How many quarter-steps is that, and which two whole numbers does it sit between?",
+        idea: "7⁄4 means 7 steps of ¼, landing between 1 and 2 — exactly at 1¾. An improper fraction and its mixed number are the same point on the line.",
+      },
+      body:
+        "On a number line, the **denominator** tells you how many equal steps each whole number is split into, and the **numerator** counts the steps from 0. So 5⁄3 is five thirds — one whole and two thirds further, at 1⅔.\n\nAn **improper fraction** (top ≥ bottom) and a **mixed number** are two names for the same value:\n\n• Improper → mixed: divide. 17⁄5 = 17 ÷ 5 = 3 remainder 2 = 3⅖.\n• Mixed → improper: 3⅖ = (3 × 5 + 2)⁄5 = 17⁄5.\n\nPlacing fractions on a line also makes **ordering** visual: the further right, the larger.",
+      keyPoints: [
+        "Denominator = number of equal steps per whole; numerator = steps counted.",
+        "Improper → mixed: divide top by bottom; remainder over the denominator.",
+        "Mixed → improper: (whole × denominator + numerator) over the denominator.",
+        "Same point on the line ⇒ improper and mixed forms are equal.",
+      ],
+      strategies: ["Draw a diagram (number line)", "Convert between forms", "Count in unit fractions"],
+      whyItWorks:
+        "A mixed number like 3⅖ just groups the steps: 3 whole numbers are 3 × 5 = 15 fifths, plus 2 more fifths gives 17 fifths — which is why the conversion multiplies then adds.",
+    },
+    {
+      heading: "Linking fractions, decimals and percentages",
+      discovery: {
+        problem:
+          "What is ⅗ as a decimal, and as a percentage? Try dividing 3 by 5. What single picture (a tenths grid or a 0–1 line) shows all three at once?",
+        idea: "3 ÷ 5 = 0.6, and 0.6 = 60⁄100 = 60%. A fraction, a decimal and a percentage are three names for the same point between 0 and 1.",
+      },
+      body:
+        "A fraction, a decimal and a percentage are **three ways of writing the same number**.\n\n• **Fraction → decimal:** divide top by bottom. ¾ = 3 ÷ 4 = 0.75.\n• **Decimal → percentage:** multiply by 100. 0.75 = 75%.\n• **Percentage → fraction:** put over 100 and simplify. 40% = 40⁄100 = ⅖.\n\nKnowing the common conversions by heart (½ = 0.5 = 50%, ¼ = 0.25 = 25%, ⅕ = 0.2 = 20%, ⅒ = 0.1 = 10%) makes comparing and estimating much faster.",
+      keyPoints: [
+        "Fraction → decimal: divide numerator by denominator.",
+        "Decimal → percentage: × 100; percentage → decimal: ÷ 100.",
+        "Percentage → fraction: over 100, then simplify.",
+        "Learn key facts: ½=50%, ¼=25%, ⅕=20%, ⅒=10%, ¾=75%.",
+      ],
+      strategies: ["Convert to a common form", "Memorise key conversions", "Divide top by bottom"],
+    },
   ],
   learn: {
     cards: [
@@ -168,6 +204,59 @@ export const fractions: Topic = {
         hints: ["The ¼ litre is the DROP in fullness, ⅗ down to ½.", "Find ⅗ − ½ as a fraction of the jug.", "That fraction equals ¼ L; scale up to the whole."],
         strategy: "Work backwards",
       },
+      {
+        id: "fractions-add-mcq01",
+        question: "Which mixed number does the improper fraction 17⁄5 equal?",
+        options: ["3⅖", "2⅗", "3⅕", "4⅖"],
+        answerIndex: 0,
+        explanation: "17 ÷ 5 = 3 remainder 2, so 17⁄5 = 3⅖.",
+        difficulty: "warmup",
+        guideRef: "Fractions on a number line; improper & mixed numbers",
+        strategy: "Convert between forms",
+      },
+      {
+        id: "fractions-add-mcq02",
+        question: "A number line from 0 to 2 is divided into quarters. Which point is marked at 7⁄4?",
+        options: ["Halfway between 0 and 1", "At 1¾", "At 1¼", "At 2"],
+        answerIndex: 1,
+        explanation: "7⁄4 = 1¾, which is three quarter-steps past 1, just before 2.",
+        difficulty: "core",
+        guideRef: "Fractions on a number line; improper & mixed numbers",
+        hints: ["7⁄4 means 7 quarter-steps from 0.", "That is 1 whole and 3 quarters."],
+        strategy: "Count in unit fractions",
+      },
+      {
+        id: "fractions-add-mcq03",
+        question: "Write ⅗ as a decimal.",
+        options: ["0.35", "0.6", "0.53", "0.65"],
+        answerIndex: 1,
+        explanation: "⅗ = 3 ÷ 5 = 0.6.",
+        difficulty: "warmup",
+        guideRef: "Linking fractions, decimals and percentages",
+        strategy: "Divide top by bottom",
+      },
+      {
+        id: "fractions-add-mcq04",
+        question: "Which is largest: ⅗, 0.55 or 58%?",
+        options: ["⅗", "0.55", "58%", "They are equal"],
+        answerIndex: 0,
+        explanation: "Convert all to decimals: ⅗ = 0.6, 0.55 stays, 58% = 0.58. Largest is 0.6 = ⅗.",
+        difficulty: "core",
+        guideRef: "Linking fractions, decimals and percentages",
+        hints: ["Turn each into a decimal.", "⅗ = 0.6 and 58% = 0.58."],
+        strategy: "Convert to a common form",
+      },
+      {
+        id: "fractions-add-mcq05",
+        question: "Put in ascending order: ⅔, ⅗, ¾.",
+        options: ["⅗, ⅔, ¾", "⅔, ⅗, ¾", "¾, ⅔, ⅗", "⅗, ¾, ⅔"],
+        answerIndex: 0,
+        explanation: "Over 60: ⅔ = 40⁄60, ⅗ = 36⁄60, ¾ = 45⁄60. Order: 36 < 40 < 45, so ⅗ < ⅔ < ¾.",
+        difficulty: "core",
+        guideRef: "Comparing, ordering and a common denominator",
+        hints: ["Use a common denominator (LCM of 3, 5, 4 = 60).", "Compare the numerators."],
+        strategy: "Find a common denominator",
+      },
     ],
     qa: [
       {
@@ -247,6 +336,57 @@ export const fractions: Topic = {
         guideRef: "Multiplying, dividing and reciprocals",
         hints: ["'What fraction of A is B' means B ÷ A.", "Here A = ⅓ (chess), B = ¼ (both).", "¼ ÷ ⅓ = ¼ × 3."],
         strategy: "Translate the words (a fraction OF)",
+      },
+      {
+        id: "fractions-add-qa01",
+        question:
+          "Convert 23⁄6 to a mixed number, then mark its position between two whole numbers on a number line. Show your working.",
+        modelAnswer:
+          "23 ÷ 6 = 3 remainder 5, so 23⁄6 = 3⅚. On a number line it sits between 3 and 4, five sixths of the way from 3 towards 4.",
+        markScheme: [
+          "23 ÷ 6 = 3 remainder 5 [1]",
+          "23⁄6 = 3⅚ [1]",
+          "Places it between 3 and 4 (⅚ of the way) [1]",
+        ],
+        commonError: "Writing the remainder as 5⁄3 or forgetting it goes over the denominator 6.",
+        difficulty: "core",
+        guideRef: "Fractions on a number line; improper & mixed numbers",
+        hints: ["Divide 23 by 6.", "The remainder goes over 6.", "Between which whole numbers is 3-and-a-bit?"],
+        strategy: "Convert between forms",
+      },
+      {
+        id: "fractions-add-qa02",
+        question:
+          "Express ⅘ as a decimal and as a percentage. Then state which is bigger, ⅘ or 78%.",
+        modelAnswer:
+          "⅘ = 4 ÷ 5 = 0.8 = 80%. Since 80% > 78%, ⅘ is bigger.",
+        markScheme: ["⅘ = 0.8 [1]", "0.8 = 80% [1]", "80% > 78%, so ⅘ is bigger [1]"],
+        difficulty: "warmup",
+        guideRef: "Linking fractions, decimals and percentages",
+        hints: ["Divide 4 by 5.", "Multiply the decimal by 100 for the percentage.", "Compare 80% with 78%."],
+        strategy: "Convert to a common form",
+      },
+      {
+        id: "fractions-add-qa03",
+        question:
+          "Challenge: Find a fraction that lies exactly between ⅖ and ½, and prove it is between them.",
+        modelAnswer:
+          "Take the mean: (⅖ + ½) ÷ 2. Over 10, ⅖ = 4⁄10 and ½ = 5⁄10, so the sum is 9⁄10 and half of that is 9⁄20. Check: ⅖ = 8⁄20 and ½ = 10⁄20, and 8⁄20 < 9⁄20 < 10⁄20, so 9⁄20 lies between them.",
+        markScheme: [
+          "Uses the mean (or any valid method) to propose 9⁄20 [1]",
+          "Writes ⅖, ½ and 9⁄20 over a common denominator 20 [1]",
+          "Shows 8⁄20 < 9⁄20 < 10⁄20 [1]",
+        ],
+        difficulty: "challenge",
+        guideRef: "Comparing, ordering and a common denominator",
+        hints: ["The average of two numbers lies between them.", "Add ⅖ and ½, then halve.", "Compare all three over a common denominator."],
+        strategy: "Use the mean (average)",
+        solutions: [
+          {
+            label: "Mean method",
+            steps: ["⅖ + ½ = 4⁄10 + 5⁄10 = 9⁄10", "Halve: 9⁄10 ÷ 2 = 9⁄20", "Over 20: 8⁄20 < 9⁄20 < 10⁄20 ✓"],
+          },
+        ],
       },
     ],
   },
