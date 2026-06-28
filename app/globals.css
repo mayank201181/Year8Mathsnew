@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(1100px 700px at 12% -10%, #1e3a8a55, transparent),
+    radial-gradient(900px 600px at 100% 0%, #0d948855, transparent),
+    #0b1220;
+  color: #e2e8f0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+/* Markdown-lite rendering */
+.prose-lite p {
+  margin: 0 0 0.7rem;
+  line-height: 1.65;
+}
+.prose-lite strong {
+  color: #fff;
+  font-weight: 700;
+}
+.prose-lite code {
+  background: #0b1220;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.85em;
+}
+
+.diagram svg {
+  max-width: 100%;
+  height: auto;
+  background: #0b1220;
+  border-radius: 12px;
+  padding: 8px;
+  border: 1px solid #1f2a44;
+}
+
+/* Flashcard flip */
+.flip {
+  perspective: 1200px;
+}
+.flip-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+.flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  backface-visibility: hidden;
+}
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+@keyframes pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop {
+  animation: pop 0.25s ease-out;
+}
+
+@keyframes floaty {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-floaty {
+  animation: floaty 3s ease-in-out infinite;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
