@@ -213,7 +213,7 @@ export const equations: Topic = {
           "Divide by 2: x = 6 [1]",
           "Valid check by substitution [1]",
         ],
-        commonError: "Subtracting 5x instead of the smaller 3x, creating a negative x-term.",
+        commonError: "Doing an operation on only one side, or losing a minus sign when collecting terms. Subtracting 5x from both sides is also valid if done carefully.",
         difficulty: "core",
         guideRef: "Unknowns on both sides and brackets",
         hints: ["Collect x's on the side with more of them.", "Subtract 3x from both sides.", "Then solve the two-step equation."],

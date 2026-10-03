@@ -13,8 +13,9 @@ import type { Account, Profile, ProgressDoc } from "./profileTypes";
 import { emptyProgress } from "./profileTypes";
 import type { Difficulty } from "./types";
 import { nextDue, starsFor } from "./ranks";
+import { createProgressSaveQueue, withProgressTimeout } from "./progressSaveQueue";
 
-type Status = "loading" | "anon" | "no-profile" | "ready";
+type Status = "loading" | "anon" | "no-profile" | "ready" | "load-error";
 
 interface StoreValue {
   status: Status;
@@ -50,36 +51,59 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<Account | null>(null);
   const [activeProfile, setActiveProfile] = useState<Profile | null>(null);
   const [progress, setProgress] = useState<ProgressDoc>(emptyProgress());
-  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const accountRef = useRef(account);
+  accountRef.current = account;
+  const loadVersion = useRef(0);
+  const saveRevision = useRef(0);
+  const saver = useRef<ReturnType<typeof createProgressSaveQueue> | null>(null);
+  if (!saver.current) saver.current = createProgressSaveQueue(async (snapshot) => {
+    if (accountRef.current?.id !== snapshot.accountId) throw new Error("Account changed before save");
+    const response = await withProgressTimeout((signal) => fetch("/api/progress", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: snapshot.body, signal,
+    }));
+    if (!response.ok) throw new Error("Progress could not be saved");
+    try {
+      if (localStorage.getItem(`${snapshot.cacheKey}:dirty`) === snapshot.revision) {
+        localStorage.removeItem(`${snapshot.cacheKey}:dirty`);
+      }
+    } catch {}
+  }, 1200);
 
-  const loadProgress = useCallback(async (profile: Profile, hasAccount: boolean) => {
+  const loadProgress = useCallback(async (profile: Profile, hasAccount: boolean, version: number) => {
     // localStorage cache first (instant), then server.
     let local: ProgressDoc | null = null;
+    let dirty = false;
     try {
       const raw = localStorage.getItem(lsProgressKey(profile.id));
       if (raw) local = JSON.parse(raw);
+      dirty = !!localStorage.getItem(`${lsProgressKey(profile.id)}:dirty`);
     } catch {
       /* ignore */
     }
-    if (local) setProgress(local);
+    if (version !== loadVersion.current) return false;
+    setProgress(local ?? emptyProgress());
 
     if (hasAccount) {
       try {
-        const res = await fetch(`/api/progress?profileId=${profile.id}`, {
-          cache: "no-store",
+        const remote = await withProgressTimeout(async (signal) => {
+          const res = await fetch(`/api/progress?profileId=${profile.id}`, { cache: "no-store", signal });
+          if (res.status === 404) return null; // New profiles have no progress document yet.
+          if (!res.ok) throw new Error("Progress unavailable");
+          return (await res.json()) as ProgressDoc;
         });
-        if (res.ok) {
-          const remote = (await res.json()) as ProgressDoc;
-          if (!local || remote.updatedAt >= local.updatedAt) setProgress(remote);
-        }
+        if (version !== loadVersion.current) return false;
+        if (remote && (!local || (!dirty && remote.updatedAt >= local.updatedAt))) setProgress(remote);
       } catch {
-        /* offline: keep local */
+        if (!local) return false; // Do not overwrite an unreadable cloud document with zeros.
       }
     }
+    return true;
   }, []);
 
   const refresh = useCallback(async () => {
+    const version = ++loadVersion.current;
     setStatus("loading");
+    await saver.current!.flush().catch(() => {});
     let acct: Account | null = null;
     try {
       const res = await fetch("/api/auth/me", { cache: "no-store" });
@@ -90,6 +114,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch {
       /* treat as anon */
     }
+    if (version !== loadVersion.current) return;
     setAccount(acct);
 
     if (!acct) {
@@ -101,8 +126,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         createdAt: Date.now(),
       };
       setActiveProfile(guest);
-      await loadProgress(guest, false);
-      setStatus("anon");
+      await loadProgress(guest, false, version);
+      if (version === loadVersion.current) setStatus("anon");
       return;
     }
 
@@ -117,8 +142,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       acct.profiles.find((p) => p.id === savedId) ?? acct.profiles[0];
     setActiveProfile(chosen);
     localStorage.setItem(LS_PROFILE, chosen.id);
-    await loadProgress(chosen, true);
-    setStatus("ready");
+    const loaded = await loadProgress(chosen, true, version);
+    if (version === loadVersion.current) setStatus(loaded ? "ready" : "load-error");
   }, [loadProgress]);
 
   useEffect(() => {
@@ -129,20 +154,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const persist = useCallback(
     (next: ProgressDoc) => {
       if (!activeProfile) return;
+      const key = lsProgressKey(activeProfile.id);
+      const revision = `${Date.now()}:${++saveRevision.current}`;
       try {
-        localStorage.setItem(lsProgressKey(activeProfile.id), JSON.stringify(next));
+        localStorage.setItem(key, JSON.stringify(next));
+        if (account) localStorage.setItem(`${key}:dirty`, revision);
       } catch {
         /* ignore quota */
       }
-      if (saveTimer.current) clearTimeout(saveTimer.current);
       if (account) {
-        saveTimer.current = setTimeout(() => {
-          fetch("/api/progress", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ profileId: activeProfile.id, progress: next }),
-          }).catch(() => {});
-        }, 1200);
+        saver.current!.schedule({ accountId: account.id, profileId: activeProfile.id,
+          body: JSON.stringify({ profileId: activeProfile.id, progress: next }),
+          cacheKey: key, revision });
       }
     },
     [account, activeProfile]
@@ -274,14 +297,24 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (!account) return;
       const prof = account.profiles.find((p) => p.id === id);
       if (!prof) return;
-      localStorage.setItem(LS_PROFILE, id);
-      setActiveProfile(prof);
-      loadProgress(prof, true).then(() => setStatus("ready"));
+      const version = ++loadVersion.current;
+      setStatus("loading");
+      void (async () => {
+        await saver.current!.flush().catch(() => {});
+        if (version !== loadVersion.current) return;
+        try { localStorage.setItem(LS_PROFILE, id); } catch {}
+        setActiveProfile(prof);
+        const loaded = await loadProgress(prof, true, version);
+        if (version === loadVersion.current) setStatus(loaded ? "ready" : "load-error");
+      })();
     },
     [account, loadProgress]
   );
 
   const logout = useCallback(async () => {
+    ++loadVersion.current;
+    setStatus("loading");
+    await saver.current!.flush().catch(() => {});
     await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     localStorage.removeItem(LS_PROFILE);
     await refresh();
@@ -311,3 +344,4 @@ export function useStore(): StoreValue {
   if (!ctx) throw new Error("useStore must be used within StoreProvider");
   return ctx;
 }
+

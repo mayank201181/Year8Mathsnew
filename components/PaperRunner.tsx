@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { MCQ, QA } from "@/lib/types";
 import { useStore } from "@/lib/store";
-import { gradeWritten, type GradeVerdict } from "@/lib/grade";
 
 export interface RunnerItem {
   kind: "mcq" | "qa";
@@ -111,12 +110,9 @@ function McqView({ q, topicId, onScored }: { q: MCQ; topicId: string; onScored: 
 function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c: boolean) => void }) {
   const [answer, setAnswer] = useState("");
   const [revealed, setRevealed] = useState(false);
-  const [verdict, setVerdict] = useState<GradeVerdict | null>(null);
   const [selfMark, setSelfMark] = useState<boolean | null>(null);
 
   function reveal() {
-    const v = gradeWritten(answer, q.markScheme);
-    setVerdict(v);
     setRevealed(true);
   }
 
@@ -142,22 +138,11 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
         </button>
       ) : (
         <div className="mt-3 space-y-3">
-          {verdict && (
-            <p className="text-sm text-slate-300">
-              Auto-check:{" "}
-              <span
-                className={
-                  verdict === "correct"
-                    ? "text-emerald-300"
-                    : verdict === "partial"
-                    ? "text-amber-300"
-                    : "text-rose-300"
-                }
-              >
-                {verdict === "correct" ? "looks right ✓" : verdict === "partial" ? "partly there" : "needs work"}
-              </span>
-            </p>
-          )}
+          <p className="text-sm text-slate-300">
+            Compare your original answer and working with the model and mark scheme.
+            This is self-assessment: an automatic keyword check cannot reliably judge
+            signs, fractions, inequalities, or a different valid method.
+          </p>
           <div className="bg-slate-800/60 border border-slate-700 rounded-xl px-4 py-3 text-sm">
             <p className="font-semibold text-slate-200">Model answer</p>
             <p className="mt-1">{q.modelAnswer}</p>
@@ -193,8 +178,8 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
           </div>
 
           {selfMark === null ? (
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-slate-400">Did you get it right?</span>
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-slate-400">Does your original working meet the mark scheme?</span>
               <button
                 onClick={() => {
                   setSelfMark(true);
@@ -216,7 +201,7 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
             </div>
           ) : (
             <p className="text-sm text-slate-400">
-              {selfMark ? "Great — star earned! ⭐" : "Added to your review queue 🔁"}
+              {selfMark ? "Saved as self-assessed correct ⭐" : "Added to your review queue 🔁"}
             </p>
           )}
         </div>
@@ -313,3 +298,4 @@ export default function PaperRunner({
     </div>
   );
 }
+
