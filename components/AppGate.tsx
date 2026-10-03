@@ -6,7 +6,24 @@ import Mascot from "./Mascot";
 import ProfilePicker from "./ProfilePicker";
 
 export default function AppGate({ children }: { children: React.ReactNode }) {
-  const { status } = useStore();
+  const { status, activeProfile, selectProfile, logout } = useStore();
+
+  if (status === "load-error") {
+    return (
+      <div className="grid min-h-screen place-items-center p-6">
+        <div className="max-w-md text-center space-y-4">
+          <h1 className="text-xl font-bold">We couldn&apos;t safely load your progress</h1>
+          <p>Your cloud progress has not been replaced. Try again before continuing.</p>
+          <div className="flex justify-center gap-3">
+            {activeProfile && <button onClick={() => selectProfile(activeProfile.id)}
+              className="rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white">Try again</button>}
+            <button onClick={() => { void logout(); }}
+              className="rounded-xl border px-5 py-3 font-semibold">Sign out</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (status === "loading") {
     return (
@@ -34,3 +51,4 @@ export default function AppGate({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+

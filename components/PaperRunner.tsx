@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { MCQ, QA } from "@/lib/types";
 import { useStore } from "@/lib/store";
-import { gradeWritten, type GradeVerdict } from "@/lib/grade";
+import { attemptCacheKey, emptyDeviceAttempt, emptyQuestionAttempt, decodeDeviceAttempt, saveDeviceAttempt, scoreQuestionOnce,
+  type DeviceAttempt, type QuestionAttempt } from "@/lib/deviceAttempt";
 
 export interface RunnerItem {
   kind: "mcq" | "qa";
@@ -32,8 +33,7 @@ function Badge({ difficulty, strategy }: { difficulty: string; strategy?: string
   );
 }
 
-function HintLadder({ hints }: { hints?: string[] }) {
-  const [shown, setShown] = useState(0);
+function HintLadder({ hints, shown, onNext }: { hints?: string[]; shown: number; onNext: () => void }) {
   if (!hints || hints.length === 0) return null;
   return (
     <div className="mt-3">
@@ -49,7 +49,7 @@ function HintLadder({ hints }: { hints?: string[] }) {
       )}
       {shown < hints.length && (
         <button
-          onClick={() => setShown((n) => n + 1)}
+          onClick={onNext}
           className="text-sm text-amber-300 hover:underline"
         >
           💡 {shown === 0 ? "Stuck? Show a hint" : "Next hint"} ({shown}/{hints.length})
@@ -59,8 +59,10 @@ function HintLadder({ hints }: { hints?: string[] }) {
   );
 }
 
-function McqView({ q, topicId, onScored }: { q: MCQ; topicId: string; onScored: (c: boolean) => void }) {
-  const [picked, setPicked] = useState<number | null>(null);
+function McqView({ q, topicId, state, onPick, onHint }: {
+  q: MCQ; topicId: string; state: QuestionAttempt; onPick: (choice: number) => void; onHint: () => void;
+}) {
+  const picked = state.picked;
   return (
     <div>
       <Badge difficulty={q.difficulty} strategy={q.strategy} />
@@ -77,10 +79,7 @@ function McqView({ q, topicId, onScored }: { q: MCQ; topicId: string; onScored: 
             <button
               key={i}
               disabled={picked !== null}
-              onClick={() => {
-                setPicked(i);
-                onScored(i === q.answerIndex);
-              }}
+              onClick={() => onPick(i)}
               className={`text-left border rounded-xl px-4 py-2.5 transition ${cls}`}
             >
               {opt}
@@ -88,7 +87,7 @@ function McqView({ q, topicId, onScored }: { q: MCQ; topicId: string; onScored: 
           );
         })}
       </div>
-      {picked === null && <HintLadder hints={q.hints} />}
+      {picked === null && <HintLadder hints={q.hints} shown={state.hintsShown} onNext={onHint} />}
       {picked !== null && (
         <div
           className={`mt-3 rounded-xl px-4 py-3 text-sm ${
@@ -108,17 +107,11 @@ function McqView({ q, topicId, onScored }: { q: MCQ; topicId: string; onScored: 
   );
 }
 
-function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c: boolean) => void }) {
-  const [answer, setAnswer] = useState("");
-  const [revealed, setRevealed] = useState(false);
-  const [verdict, setVerdict] = useState<GradeVerdict | null>(null);
-  const [selfMark, setSelfMark] = useState<boolean | null>(null);
-
-  function reveal() {
-    const v = gradeWritten(answer, q.markScheme);
-    setVerdict(v);
-    setRevealed(true);
-  }
+function QaView({ q, topicId, state, onChange, onScored, onHint }: {
+  q: QA; topicId: string; state: QuestionAttempt; onChange: (patch: Partial<QuestionAttempt>) => void;
+  onScored: (correct: boolean) => void; onHint: () => void;
+}) {
+  const { answer, revealed, selfMark } = state;
 
   return (
     <div>
@@ -126,38 +119,27 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
       <h3 className="text-lg font-semibold mt-3 mb-3">{q.question}</h3>
       <textarea
         value={answer}
-        onChange={(e) => setAnswer(e.target.value)}
+        onChange={(e) => onChange({ answer: e.target.value })}
         disabled={revealed}
         rows={3}
         placeholder="Work it out on paper, then jot your answer & method here…"
         className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm"
       />
-      {!revealed && <HintLadder hints={q.hints} />}
+      {!revealed && <HintLadder hints={q.hints} shown={state.hintsShown} onNext={onHint} />}
       {!revealed ? (
         <button
-          onClick={reveal}
+          onClick={() => onChange({ revealed: true })}
           className="mt-3 bg-indigo-500 hover:bg-indigo-400 rounded-lg px-4 py-2 text-sm font-semibold"
         >
           I&apos;ve tried — show the model answer
         </button>
       ) : (
         <div className="mt-3 space-y-3">
-          {verdict && (
-            <p className="text-sm text-slate-300">
-              Auto-check:{" "}
-              <span
-                className={
-                  verdict === "correct"
-                    ? "text-emerald-300"
-                    : verdict === "partial"
-                    ? "text-amber-300"
-                    : "text-rose-300"
-                }
-              >
-                {verdict === "correct" ? "looks right ✓" : verdict === "partial" ? "partly there" : "needs work"}
-              </span>
-            </p>
-          )}
+          <p className="text-sm text-slate-300">
+            Compare your original answer and working with the model and mark scheme.
+            This is self-assessment: an automatic keyword check cannot reliably judge
+            signs, fractions, inequalities, or a different valid method.
+          </p>
           <div className="bg-slate-800/60 border border-slate-700 rounded-xl px-4 py-3 text-sm">
             <p className="font-semibold text-slate-200">Model answer</p>
             <p className="mt-1">{q.modelAnswer}</p>
@@ -193,11 +175,10 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
           </div>
 
           {selfMark === null ? (
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-slate-400">Did you get it right?</span>
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-slate-400">Does your original working meet the mark scheme?</span>
               <button
                 onClick={() => {
-                  setSelfMark(true);
                   onScored(true);
                 }}
                 className="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300"
@@ -206,7 +187,6 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
               </button>
               <button
                 onClick={() => {
-                  setSelfMark(false);
                   onScored(false);
                 }}
                 className="px-3 py-1 rounded-lg bg-rose-500/20 text-rose-300"
@@ -216,7 +196,7 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
             </div>
           ) : (
             <p className="text-sm text-slate-400">
-              {selfMark ? "Great — star earned! ⭐" : "Added to your review queue 🔁"}
+              {selfMark ? "Saved as self-assessed correct ⭐" : "Added to your review queue 🔁"}
             </p>
           )}
         </div>
@@ -225,90 +205,138 @@ function QaView({ q, topicId, onScored }: { q: QA; topicId: string; onScored: (c
   );
 }
 
-export default function PaperRunner({
-  items,
-  topicId,
-  title,
-  review = false,
-}: {
-  items: RunnerItem[];
-  topicId: string;
-  title?: string;
-  review?: boolean;
+type RunnerProps = { items: RunnerItem[]; topicId: string; title?: string; review?: boolean };
+
+export default function PaperRunner({ items, topicId, title, review = false }: RunnerProps) {
+  const { account, activeProfile } = useStore();
+  const paperId = JSON.stringify([topicId, title ?? "Practice"]);
+  const scopeKey = attemptCacheKey(account?.id ?? null, activeProfile?.id ?? "guest", paperId);
+  // Changing content invalidates a stale cached verdict even when question IDs are preserved.
+  const signature = JSON.stringify(items.map(({ kind, q }) => [kind, q.id, q.question,
+    kind === "mcq" ? [(q as MCQ).options, (q as MCQ).answerIndex] : [(q as QA).modelAnswer, (q as QA).markScheme]]));
+  return <AttemptRunner key={review ? `${scopeKey}:review` : `${scopeKey}:${signature}`}
+    items={items} topicId={topicId} title={title} review={review}
+    cacheKey={review ? null : scopeKey} signature={signature} />;
+}
+
+function AttemptRunner({ items: initialItems, topicId, title, review = false, cacheKey, signature }: RunnerProps & {
+  cacheKey: string | null; signature: string;
 }) {
   const { recordResult, reviewResult } = useStore();
-  const [index, setIndex] = useState(0);
-  const [done, setDone] = useState<Record<number, boolean>>({});
+  // Review gets a fresh in-memory queue each visit, independent of practice caches.
+  const [items] = useState(initialItems);
+  const descriptors = useMemo(() => items.map(({ kind, q }) => ({ id: q.id, kind,
+    optionCount: kind === "mcq" ? (q as MCQ).options.length : undefined,
+    answerIndex: kind === "mcq" ? (q as MCQ).answerIndex : undefined,
+    hintCount: q.hints?.length ?? 0 })), [items]);
+  const [attempt, setAttempt] = useState<DeviceAttempt>(() => emptyDeviceAttempt(signature));
+  const attemptRef = useRef(attempt);
+  const [ready, setReady] = useState(cacheKey === null);
+  const [cacheFailed, setCacheFailed] = useState(false);
+  const [confirmRestart, setConfirmRestart] = useState(false);
+
+  useEffect(() => {
+    if (cacheKey === null) return;
+    let restored = emptyDeviceAttempt(signature);
+    try { restored = decodeDeviceAttempt(window.localStorage.getItem(cacheKey), signature, descriptors); }
+    catch { setCacheFailed(true); }
+    attemptRef.current = restored;
+    setAttempt(restored);
+    setReady(true);
+  }, [cacheKey, signature, descriptors]);
+
+  function commit(next: DeviceAttempt) {
+    // Synchronous ref + write prevents duplicate clicks or reload from replaying a score.
+    attemptRef.current = next;
+    setAttempt(next);
+    if (cacheKey !== null) {
+      try { setCacheFailed(!saveDeviceAttempt(window.localStorage, cacheKey, next)); }
+      catch { setCacheFailed(true); }
+    }
+  }
   const total = items.length;
+  const index = Math.min(attempt.index, Math.max(0, total - 1));
   const item = items[index];
+  const state = item ? attempt.questions[item.q.id] ?? emptyQuestionAttempt() : emptyQuestionAttempt();
+  const answered = items.filter(({ q }) => attempt.questions[q.id]?.scored).length;
+  const score = items.filter(({ q }) => attempt.questions[q.id]?.correct === true).length;
 
-  const score = useMemo(() => Object.values(done).filter(Boolean).length, [done]);
-  const answered = Object.keys(done).length;
-
-  function handleScored(correct: boolean) {
-    setDone((d) => ({ ...d, [index]: correct }));
+  function updateQuestion(patch: Partial<QuestionAttempt>) {
+    const current = attemptRef.current;
+    const previous = current.questions[item.q.id] ?? emptyQuestionAttempt();
+    if (previous.scored) return;
+    commit({ ...current, questions: { ...current.questions, [item.q.id]: { ...previous, ...patch } } });
+  }
+  function handleScored(correct: boolean, patch: Partial<QuestionAttempt>) {
+    const current = attemptRef.current;
+    const previous = current.questions[item.q.id] ?? emptyQuestionAttempt();
+    const result = scoreQuestionOnce(current, item.q.id, { ...previous, ...patch }, correct);
+    if (!result.shouldRecord) return;
+    commit(result.attempt);
     recordResult(item.q.id, correct, item.q.difficulty);
     if (review) reviewResult(item.q.id, correct);
   }
+  function go(next: number) {
+    if (next < 0 || next >= total) return;
+    commit({ ...attemptRef.current, index: next });
+  }
+  function startNewAttempt() {
+    commit(emptyDeviceAttempt(signature));
+    setConfirmRestart(false);
+  }
 
   if (total === 0) return <p className="text-slate-400">No questions here yet.</p>;
+  if (!ready) return <p className="text-slate-400">Loading your saved attempt…</p>;
 
   return (
     <div className="bg-slate-900/60 border border-slate-700 rounded-2xl p-5">
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
         <div className="text-sm text-slate-400">
           {title ? `${title} · ` : ""}Question {index + 1} of {total}
         </div>
-        <div className="text-sm">⭐ {score}/{answered || 0}</div>
+        <div className="text-sm">⭐ {score}/{answered}</div>
       </div>
+      {!review && (
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4 text-xs text-slate-400">
+          <p>{cacheFailed ? "This device cannot save the attempt. Keep this page open to avoid losing it." : "Your attempt resumes on this device for this profile."}</p>
+          <button onClick={() => setConfirmRestart(true)} className="text-indigo-300 underline">New attempt</button>
+        </div>
+      )}
+      {confirmRestart && !review && (
+        <div className="rounded-xl border border-slate-600 p-3 mb-4 text-sm">
+          <p>Start this paper again? Your total stars and learning history will stay.</p>
+          <div className="flex gap-3 mt-2">
+            <button onClick={startNewAttempt} className="rounded-lg bg-indigo-500 px-3 py-2">Start fresh</button>
+            <button onClick={() => setConfirmRestart(false)} className="rounded-lg bg-slate-800 px-3 py-2">Keep current attempt</button>
+          </div>
+        </div>
+      )}
       <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden mb-4">
-        <div
-          className="h-full bg-gradient-to-r from-indigo-400 to-teal-400"
-          style={{ width: `${((index + (done[index] !== undefined ? 1 : 0)) / total) * 100}%` }}
-        />
+        <div className="h-full bg-gradient-to-r from-indigo-400 to-teal-400" style={{ width: `${(answered / total) * 100}%` }} />
       </div>
-
-      <div key={index} className="animate-pop">
+      <div key={item.q.id} className="animate-pop">
         {item.kind === "mcq" ? (
-          <McqView q={item.q as MCQ} topicId={topicId} onScored={handleScored} />
+          <McqView q={item.q as MCQ} topicId={topicId} state={state}
+            onPick={(choice) => handleScored(choice === (item.q as MCQ).answerIndex, { picked: choice })}
+            onHint={() => updateQuestion({ hintsShown: Math.min((item.q.hints?.length ?? 0), state.hintsShown + 1) })} />
         ) : (
-          <QaView q={item.q as QA} topicId={topicId} onScored={handleScored} />
+          <QaView q={item.q as QA} topicId={topicId} state={state} onChange={updateQuestion}
+            onScored={(correct) => handleScored(correct, { selfMark: correct, revealed: true })}
+            onHint={() => updateQuestion({ hintsShown: Math.min((item.q.hints?.length ?? 0), state.hintsShown + 1) })} />
         )}
       </div>
-
-      <div className="flex items-center justify-between mt-5">
-        <button
-          disabled={index === 0}
-          onClick={() => setIndex((i) => Math.max(0, i - 1))}
-          className="px-4 py-2 rounded-lg bg-slate-800 disabled:opacity-40 text-sm"
-        >
-          ← Prev
-        </button>
-        <div className="flex gap-1">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              className={`w-2.5 h-2.5 rounded-full ${
-                i === index
-                  ? "bg-indigo-400"
-                  : done[i] === true
-                  ? "bg-emerald-500"
-                  : done[i] === false
-                  ? "bg-rose-500"
-                  : "bg-slate-700"
-              }`}
-              aria-label={`Go to question ${i + 1}`}
-            />
+      <div className="flex items-center justify-between gap-3 mt-5">
+        <button disabled={index === 0} onClick={() => go(index - 1)}
+          className="px-4 py-2 rounded-lg bg-slate-800 disabled:opacity-40 text-sm">← Prev</button>
+        <div className="flex flex-wrap justify-center gap-1">
+          {items.map(({ q }, i) => (
+            <button key={q.id} onClick={() => go(i)}
+              className={`w-2.5 h-2.5 rounded-full ${i === index ? "bg-indigo-400" : attempt.questions[q.id]?.correct === true ? "bg-emerald-500" : attempt.questions[q.id]?.scored ? "bg-rose-500" : "bg-slate-700"}`}
+              aria-label={`Go to question ${i + 1}`} />
           ))}
         </div>
-        <button
-          disabled={index === total - 1}
-          onClick={() => setIndex((i) => Math.min(total - 1, i + 1))}
-          className="px-4 py-2 rounded-lg bg-slate-800 disabled:opacity-40 text-sm"
-        >
-          Next →
-        </button>
+        <button disabled={index === total - 1} onClick={() => go(index + 1)}
+          className="px-4 py-2 rounded-lg bg-slate-800 disabled:opacity-40 text-sm">Next →</button>
       </div>
     </div>
   );
