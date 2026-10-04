@@ -271,19 +271,25 @@ export const mcqPapers: Paper[] = [
       {
         kind: "mcq",
         id: "percentages-m1-q16",
-        question: "What single multiplier increases an amount by 2.5%?",
-        options: ["1.25", "1.025", "1.0025", "2.5"],
+        question:
+          "Ravi increases $250 by 12% by typing 250 × 1.12 into his calculator. Why does this single multiplication give the right answer?",
+        options: [
+          "Because 1.12 is 12% written as a decimal.",
+          "Because 250 × 1.12 = 250 × 1 + 250 × 0.12, which is the original amount plus 12% of it.",
+          "It doesn't: 250 × 1.12 finds only the increase, which he still needs to add on.",
+          "It only works because $250 is a round number.",
+        ],
         answerIndex: 1,
         explanation:
-          "You end with 100% + 2.5% = 102.5% of the amount, and 102.5 ÷ 100 = 1.025. 1.25 would be a 25% increase, 1.0025 only a 0.25% increase, and 2.5 multiplies the amount by two and a half (a 150% increase).",
+          "Split the multiplier: 1.12 = 1 + 0.12, so 250 × 1.12 = 250 × 1 + 250 × 0.12 = 250 + 30 = $280 — the original amount plus the 12% increase, in one step. This is just the distributive law, so it works for any amount, not only round ones. 1.12 is 112%, not 12% (12% is 0.12), and the calculation that finds only the increase is 250 × 0.12 = $30.",
         difficulty: "core",
         guideRef: "multipliers",
         hints: [
-          "What percentage of the original do you have after the increase?",
-          "100% + 2.5% = 102.5%.",
-          "Divide 102.5 by 100 to get the multiplier.",
+          "Can you write 1.12 as 1 + something?",
+          "Split it: 250 × 1.12 = 250 × 1 + 250 × 0.12.",
+          "What does 250 × 1 stand for? What does 250 × 0.12 stand for?",
         ],
-        strategy: "Write the new amount as a % of the old",
+        strategy: "Split the multiplier",
       },
       {
         kind: "mcq",
@@ -307,19 +313,19 @@ export const mcqPapers: Paper[] = [
         kind: "mcq",
         id: "percentages-m1-q18",
         question:
-          "A fruit-stall owner buys 40 mangoes for $30 altogether and sells every one of them for $1. What is her percentage profit?",
-        options: ["25%", "10%", "75%", "{{33 1/3}}%"],
+          "A fruit-stall owner buys mangoes at 3 for $2 and sells them at 2 for $3. What is her percentage profit?",
+        options: ["50%", "225%", "about 56%", "125%"],
         answerIndex: 3,
         explanation:
-          "She takes 40 × $1 = $40 and spent $30, so her profit is $10. Percentage profit compares the profit with the *cost*: {{10/30}} = {{1/3}} = {{33 1/3}}%. 25% divides by the $40 she took instead of the cost, 10% confuses $10 with 10%, and 75% is the cost as a percentage of the takings.",
+          "Compare the same number of mangoes. 6 mangoes (enough for whole lots of 3 and of 2) cost 2 × $2 = $4 and sell for 3 × $3 = $9, so the profit is $5. Percentage profit compares the profit with the *cost*: {{5/4}} = 1.25 = 125%. (Check per mango: she pays about 67 cents and gets $1.50.) 50% compares $2 with $3, but those prices are for different numbers of mangoes; 225% is the takings as a percentage of the cost ($9 ÷ $4), when the profit is only the part above 100%; and about 56% divides the profit by the takings ($9) instead of the cost.",
         difficulty: "challenge",
         guideRef: "money-percentages",
         hints: [
-          "First find how much she takes altogether and her profit in dollars.",
-          "Profit = $40 − $30 = $10. Which amount is the 'original' here?",
-          "Percentage profit = profit ÷ cost × 100.",
+          "The two prices are for different numbers of mangoes. How can you compare like with like?",
+          "Imagine she buys and sells 6 mangoes. What do they cost, and what does she get for them?",
+          "6 mangoes cost $4 and sell for $9. Percentage profit = profit ÷ cost × 100.",
         ],
-        strategy: "Compare with the original",
+        strategy: "Make it simpler",
       },
       {
         kind: "mcq",

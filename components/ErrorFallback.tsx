@@ -15,6 +15,8 @@ export function ErrorFallback({ error, onRetry }: { error?: Error & { digest?: s
             Try again
           </button>
         ) : null}
+        {/* A full page load on purpose: after a crash the client router may be in a bad state. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a href="/" style={{ padding: "10px 16px", borderRadius: 12, border: "1px solid #e0e3ef", fontWeight: 700, color: "inherit", textDecoration: "none" }}>
           Go home
         </a>

@@ -81,6 +81,10 @@ function coprimeTriple(rng: Rng, max: number): [number, number, number] {
   return [2, 3, 4];
 }
 
+function cap(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 function letter(i: number): string {
   return "ABC"[i];
 }
@@ -146,7 +150,7 @@ const UNIT_PAIRS: UnitPair[] = [
   },
   {
     small: "cents", f: 100, steps: [5, 10, 20, 25, 30, 40, 50], bigs: [1, 2, 3, 4, 5], bigs3: [1.5, 2.5, 1.2],
-    fs: (v) => `${big(v)} cents`, fb: (v) => money(v),
+    fs: (v) => `${big(v)} cents`, fb: (v) => dollars(v),
     ctx: (x, y) => `A pencil costs ${x} and a sticker book costs ${y}. Write the ratio pencil price : book price in its simplest form.`,
     t1: true,
   },
@@ -170,9 +174,9 @@ const RF = [
 ] as const;
 
 const RF3 = [
-  { intro: (r: string) => `The counters in a bag are red, blue or yellow in the ratio ${r}.`, cats: ["red", "blue", "yellow"], ask: (c: string, not: boolean) => `What fraction of the counters are ${not ? "not " : ""}${c}?` },
-  { intro: (r: string) => `Students in a class travel to school by MRT, by bus or on foot in the ratio ${r}.`, cats: ["by MRT", "by bus", "on foot"], ask: (c: string, not: boolean) => `What fraction of the students ${not ? "do not travel" : "travel"} ${c}?` },
-  { intro: (r: string) => `The songs on a playlist are pop, rock or jazz in the ratio ${r}.`, cats: ["pop", "rock", "jazz"], ask: (c: string, not: boolean) => `What fraction of the songs are ${not ? "not " : ""}${c}?` },
+  { intro: (r: string) => `The counters in a bag are red, blue or yellow in the ratio ${r}.`, cats: ["red", "blue", "yellow"], label: ["red", "blue", "yellow"], ask: (c: string, not: boolean) => `What fraction of the counters are ${not ? "not " : ""}${c}?` },
+  { intro: (r: string) => `Students in a class travel to school by MRT, by bus or on foot in the ratio ${r}.`, cats: ["by MRT", "by bus", "on foot"], label: ["MRT", "bus", "walking"], ask: (c: string, not: boolean) => `What fraction of the students ${not ? "do not travel" : "travel"} ${c}?` },
+  { intro: (r: string) => `The songs on a playlist are pop, rock or jazz in the ratio ${r}.`, cats: ["pop", "rock", "jazz"], label: ["pop", "rock", "jazz"], ask: (c: string, not: boolean) => `What fraction of the songs are ${not ? "not " : ""}${c}?` },
 ] as const;
 
 const SHOP = [
@@ -225,6 +229,7 @@ const RATES: RateCtx[] = [
 
 interface Product {
   title: string;
+  are: boolean;
   kind: "g" | "ml" | "count";
   lo: number;
   hi: number;
@@ -233,14 +238,14 @@ interface Product {
 }
 
 const PRODUCTS: Product[] = [
-  { title: "Basmati rice", kind: "g", lo: 20, hi: 60, one: "", many: "" },
-  { title: "Rolled oats", kind: "g", lo: 30, hi: 90, one: "", many: "" },
-  { title: "Peanut butter", kind: "g", lo: 80, hi: 200, one: "", many: "" },
-  { title: "Pasta", kind: "g", lo: 25, hi: 70, one: "", many: "" },
-  { title: "Oat milk", kind: "ml", lo: 30, hi: 80, one: "", many: "" },
-  { title: "Shampoo", kind: "ml", lo: 60, hi: 180, one: "", many: "" },
-  { title: "Pencils", kind: "count", lo: 15, hi: 80, one: "pencil", many: "pencils" },
-  { title: "Glue sticks", kind: "count", lo: 40, hi: 150, one: "glue stick", many: "glue sticks" },
+  { title: "Basmati rice", are: false, kind: "g", lo: 20, hi: 60, one: "", many: "" },
+  { title: "Rolled oats", are: true, kind: "g", lo: 30, hi: 90, one: "", many: "" },
+  { title: "Peanut butter", are: false, kind: "g", lo: 80, hi: 200, one: "", many: "" },
+  { title: "Pasta", are: false, kind: "g", lo: 25, hi: 70, one: "", many: "" },
+  { title: "Oat milk", are: false, kind: "ml", lo: 30, hi: 80, one: "", many: "" },
+  { title: "Shampoo", are: false, kind: "ml", lo: 60, hi: 180, one: "", many: "" },
+  { title: "Pencils", are: true, kind: "count", lo: 15, hi: 80, one: "pencil", many: "pencils" },
+  { title: "Glue sticks", are: true, kind: "count", lo: 40, hi: 150, one: "glue stick", many: "glue sticks" },
 ];
 
 interface Ingredient {
@@ -278,7 +283,7 @@ const RECIPES: { dish: string; items: Ingredient[] }[] = [
     dish: "dhal",
     items: [
       { name: "red lentils", unit: "g", per: [40, 50, 60, 75, 80] },
-      { name: "water", unit: "ml", per: [150, 200, 250, 300] },
+      { name: "water", unit: "ml", per: [100, 120, 150, 200] },
       { name: "chopped tomatoes", unit: "g", per: [30, 40, 50, 60] },
     ],
   },
@@ -546,7 +551,7 @@ export const drills: Drill[] = [
         break;
       }
       const [n1] = people(rng, 1);
-      const t = unitStep ? 0 : rng.int(0, 2);
+      const t = unitStep ? 0 : rng.int(0, b > a ? 2 : 1);
       const prompt =
         t === 0 ? `Write ${shown} in the form 1 : n.`
         : t === 1 ? `A garden has ${a} rose bushes and ${b} tulips. Write the ratio roses : tulips in the form 1 : n.`
@@ -703,8 +708,8 @@ export const drills: Drill[] = [
           prompt: `${intro} ${given} ${ask}`,
           answer: { type: "number", value: ans, display: fmt(ans) },
           solution: [
-            `${lab[gi]} ${isMoney ? "has" : "are"} ${plural(parts[gi], "part")}, worth ${fmt(X)}. So one part = ${fmt(X)} ÷ ${parts[gi]} = ${fmt(u)}.`,
-            mode === "other" ? `${lab[oi]}: ${parts[oi]} × ${fmt(u)} = ${fmt(ans)}.` : `Total: ${a} + ${b} = ${a + b} parts, and ${a + b} × ${fmt(u)} = ${fmt(ans)}.`,
+            `${cap(lab[gi])} ${isMoney ? "has" : "are"} ${plural(parts[gi], "part")}, worth ${fmt(X)}. So one part = ${fmt(X)} ÷ ${parts[gi]} = ${fmt(u)}.`,
+            mode === "other" ? `${cap(lab[oi])}: ${parts[oi]} × ${fmt(u)} = ${fmt(ans)}.` : `Total: ${a} + ${b} = ${a + b} parts, and ${a + b} × ${fmt(u)} = ${fmt(ans)}.`,
           ],
           hint: "Use the amount you know to find the value of one part.",
           traps,
@@ -721,7 +726,7 @@ export const drills: Drill[] = [
         const k = rng.int(0, 1);
         ans = parts[k] * u;
         ask = isMoney ? `How much does ${lab[k]} get?` : `How many ${lab[k]} are there?`;
-        last = `${lab[k]}: ${parts[k]} × ${fmt(u)} = ${fmt(ans)}.`;
+        last = `${cap(lab[k])}: ${parts[k]} × ${fmt(u)} = ${fmt(ans)}.`;
         if (dParts !== 1 && D * parts[k] !== ans) traps.push({ spec: { type: "number", value: D * parts[k] }, feedback: `The difference is ${dParts} parts, not 1 part. One part = ${fmt(D)} ÷ ${dParts}.` });
       } else {
         ans = (a + b) * u;
@@ -793,7 +798,7 @@ export const drills: Drill[] = [
           answer: { type: "ratio", parts: ans, simplest: true },
           solution: [
             `Think of the ${c.all} as ${q} equal parts: ${p} parts are ${c.A}.`,
-            `The rest, ${q} − ${p} = ${q - p} parts, are ${c.B}.`,
+            `The rest, ${q} − ${p} = ${plural(q - p, "part")}, ${q - p === 1 ? "is" : "are"} ${c.B}.`,
             `So ${askLabel} = ${rat(ans)}.`,
           ],
           hint: "The denominator tells you the total number of parts. How many parts are left for the rest?",
@@ -815,7 +820,7 @@ export const drills: Drill[] = [
           prompt: `The number of ${c.A} ${c.where} is ${frac(p, q)} of the number of ${c.B}. Write the ratio ${c.A} : ${c.B} in its simplest form.`,
           answer: { type: "ratio", parts: [p, q], simplest: true },
           solution: [
-            `If there are ${q} ${c.B}, then there are ${frac(p, q)} × ${q} = ${p} ${c.A}.`,
+            `If there are ${q} ${c.B}, the number of ${c.A} is ${frac(p, q)} × ${q} = ${p}.`,
             `So ${c.A} : ${c.B} = ${p} : ${q}.`,
           ],
           hint: `Try a number of ${c.B} that the fraction works nicely with — the denominator is a good choice.`,
@@ -832,7 +837,7 @@ export const drills: Drill[] = [
       const top = not ? S - parts[i] : parts[i];
       const g = gcd(top, S);
       const steps = [`Total number of parts: ${parts.join(" + ")} = ${S}.`];
-      if (not) steps.push(`${ctx.cats[i]} is ${parts[i]} parts, so the rest is ${S} − ${parts[i]} = ${top} parts.`);
+      if (not) steps.push(`${cap(ctx.label[i])} is ${plural(parts[i], "part")}, so the rest is ${S} − ${parts[i]} = ${plural(top, "part")}.`);
       steps.push(`Fraction = ${frac(top, S, { simplify: false })}${g > 1 ? ` = ${frac(top, S)}` : ""}.`);
       const wrongTop = not ? S - parts[i] : parts[i];
       const wrongBottom = not ? parts[i] : S - parts[i];
@@ -1010,7 +1015,7 @@ export const drills: Drill[] = [
       const [nm] = people(rng, 1);
       const lower = prod.title.charAt(0).toLowerCase() + prod.title.slice(1);
       const prompt = rng.bool()
-        ? `${prod.title} is sold in ${k === 2 ? "two" : "three"} pack sizes:\n\n${table}\n\nWhich pack is the best buy? Type ${letters}.`
+        ? `${prod.title} ${prod.are ? "are" : "is"} sold in ${k === 2 ? "two" : "three"} pack sizes:\n\n${table}\n\nWhich pack is the best buy? Type ${letters}.`
         : `${nm} is comparing packs of ${lower} at a supermarket:\n\n${table}\n\nWhich pack gives the most for your money? Type ${letters}.`;
       const lines = sizes.map((s, x) => {
         const p = money(priceC[x] / 100);
@@ -1023,7 +1028,7 @@ export const drills: Drill[] = [
       if (biggest !== best && biggest !== cheapest) traps.push({ spec: { type: "text", accept: [letter(biggest), `pack ${letter(biggest)}`] }, feedback: `Bigger isn't always better value. Work out the cost per ${per} for every pack.` });
       return {
         prompt,
-        answer: { type: "text", accept: [L, `pack ${L}`, `${L} is the best buy`, `${L} is best`, `${L} is better`, `${L} is better value`, `${L} is the best value`], display: `Pack ${L}` },
+        answer: { type: "text", accept: [L, `pack ${L}`, `${L} is the best buy`, `${L} is best`, `${L} is better`, `${L} is better value`, `${L} is the best value`, `pack ${L} is the best buy`, `pack ${L} is best`, `pack ${L} is better value`], display: `Pack ${L}` },
         solution: [...lines, `The lowest cost per ${per} is ${money(us[best] / 100)}, so pack ${L} is the best buy.`],
         hint: `Work out the cost per ${per} for every pack, then compare.`,
         traps,
@@ -1062,13 +1067,13 @@ export const drills: Drill[] = [
         traps.push({ spec: { type: "number", value: Math.max(p1, p2) }, feedback: "You'd run out of the other ingredient first. The SMALLER number of people is the limit." });
         const rem = (e: number, u: string) => (e ? ` remainder ${e} ${u}` : "");
         return {
-          prompt: `A recipe for ${rec.dish} for ${n1} people uses ${r1 * n1} ${i1.unit} of ${i1.name} and ${r2 * n1} ${i2.unit} of ${i2.name}. ${nm} has ${big(H1)} ${i1.unit} of ${i1.name} and ${big(H2)} ${i2.unit} of ${i2.name}, and plenty of everything else. What is the greatest number of people ${nm} can make it for?`,
+          prompt: `A recipe for ${rec.dish} for ${n1} people uses ${big(r1 * n1)} ${i1.unit} of ${i1.name} and ${big(r2 * n1)} ${i2.unit} of ${i2.name}. ${nm} has ${big(H1)} ${i1.unit} of ${i1.name} and ${big(H2)} ${i2.unit} of ${i2.name}, and plenty of everything else. What is the greatest number of people ${nm} can make it for?`,
           answer: { type: "number", value: ans },
           solution: [
-            `For 1 person: ${r1 * n1} ÷ ${n1} = ${r1} ${i1.unit} of ${i1.name} and ${r2 * n1} ÷ ${n1} = ${r2} ${i2.unit} of ${i2.name}.`,
-            `${i1.name}: ${big(H1)} ÷ ${r1} = ${p1}${rem(e1, i1.unit)}, enough for ${p1} people.`,
-            `${i2.name}: ${big(H2)} ÷ ${r2} = ${p2}${rem(e2, i2.unit)}, enough for ${p2} people.`,
-            `The ${p1 < p2 ? i1.name : i2.name} runs out first, so the greatest number is ${ans}.`,
+            `For 1 person: ${big(r1 * n1)} ÷ ${n1} = ${r1} ${i1.unit} of ${i1.name} and ${big(r2 * n1)} ÷ ${n1} = ${r2} ${i2.unit} of ${i2.name}.`,
+            `${cap(i1.name)}: ${big(H1)} ÷ ${r1} = ${p1}${rem(e1, i1.unit)}, enough for ${p1} people.`,
+            `${cap(i2.name)}: ${big(H2)} ÷ ${r2} = ${p2}${rem(e2, i2.unit)}, enough for ${p2} people.`,
+            `You run out of ${p1 < p2 ? i1.name : i2.name} first, so the greatest number is ${ans}.`,
           ],
           hint: "Work out how many people each ingredient could feed on its own.",
           traps,
@@ -1083,10 +1088,10 @@ export const drills: Drill[] = [
         const H = r * p + e;
         if (e > 0 && 2 * e >= r) traps.push({ spec: { type: "number", value: p + 1 }, feedback: `${p + 1} people would need ${p + 1} × ${r} = ${big((p + 1) * r)} ${i1.unit}. Round DOWN — you can't serve someone with not enough.` });
         return {
-          prompt: `A recipe for ${rec.dish} for ${n1} people uses ${r * n1} ${i1.unit} of ${i1.name}. ${nm} has ${big(H)} ${i1.unit} of ${i1.name}, and plenty of everything else. What is the greatest number of people ${nm} can make it for?`,
+          prompt: `A recipe for ${rec.dish} for ${n1} people uses ${big(r * n1)} ${i1.unit} of ${i1.name}. ${nm} has ${big(H)} ${i1.unit} of ${i1.name}, and plenty of everything else. What is the greatest number of people ${nm} can make it for?`,
           answer: { type: "number", value: p },
           solution: [
-            `For 1 person: ${r * n1} ÷ ${n1} = ${r} ${i1.unit}.`,
+            `For 1 person: ${big(r * n1)} ÷ ${n1} = ${r} ${i1.unit}.`,
             `${big(H)} ÷ ${r} = ${p}${e ? ` remainder ${e}` : ""}, so there is enough for ${p} people.`,
           ],
           hint: "Find the amount for one person, then see how many times it fits.",
@@ -1118,10 +1123,10 @@ export const drills: Drill[] = [
         const r2 = rng.pick(i2.per);
         const q2 = r2 * n1, a2 = r2 * n2;
         return {
-          prompt: `A recipe for ${rec.dish} for ${n1} people uses ${q1} ${i1.unit} of ${i1.name} and ${q2} ${i2.unit} of ${i2.name}. How much of each is needed for ${n2} people? Give the ${i1.name} (in ${i1.unit}) first, then the ${i2.name} (in ${i2.unit}).`,
+          prompt: `A recipe for ${rec.dish} for ${n1} people uses ${big(q1)} ${i1.unit} of ${i1.name} and ${big(q2)} ${i2.unit} of ${i2.name}. How much of each is needed for ${n2} people? Give the ${i1.name} (in ${i1.unit}) first, then the ${i2.name} (in ${i2.unit}).`,
           answer: { type: "list", values: [a1, a2], ordered: true, display: `${big(a1)} ${i1.unit} of ${i1.name} and ${big(a2)} ${i2.unit} of ${i2.name}` },
           solution: [
-            `For 1 person: ${q1} ÷ ${n1} = ${r1} ${i1.unit} of ${i1.name} and ${q2} ÷ ${n1} = ${r2} ${i2.unit} of ${i2.name}.`,
+            `For 1 person: ${big(q1)} ÷ ${n1} = ${r1} ${i1.unit} of ${i1.name} and ${big(q2)} ÷ ${n1} = ${r2} ${i2.unit} of ${i2.name}.`,
             `For ${n2} people: ${n2} × ${r1} = ${big(a1)} ${i1.unit} and ${n2} × ${r2} = ${big(a2)} ${i2.unit}.`,
           ],
           hint: "Find the amounts for one person, then multiply.",
@@ -1131,12 +1136,12 @@ export const drills: Drill[] = [
       const add = q1 + (n2 - n1);
       if (add > 0 && add !== a1) traps.push({ spec: { type: "number", value: add }, feedback: "Recipes scale by MULTIPLYING, not by adding the extra people on." });
       const steps = n2 % n1 === 0
-        ? [`${n2} people is ${n2 / n1} times as many as ${n1}.`, `${q1} × ${n2 / n1} = ${big(a1)} ${i1.unit}.`]
+        ? [`${n2} people is ${n2 / n1} times as many as ${n1}.`, `${big(q1)} × ${n2 / n1} = ${big(a1)} ${i1.unit}.`]
         : n1 % n2 === 0
-          ? [`${n2} people is ${frac(n2, n1)} of ${n1} people, so divide by ${n1 / n2}.`, `${q1} ÷ ${n1 / n2} = ${big(a1)} ${i1.unit}.`]
-          : [`For 1 person: ${q1} ÷ ${n1} = ${r1} ${i1.unit}.`, `For ${n2} people: ${n2} × ${r1} = ${big(a1)} ${i1.unit}.`];
+          ? [`${n2} people is ${frac(n2, n1)} of ${n1} people, so divide by ${n1 / n2}.`, `${big(q1)} ÷ ${n1 / n2} = ${big(a1)} ${i1.unit}.`]
+          : [`For 1 person: ${big(q1)} ÷ ${n1} = ${r1} ${i1.unit}.`, `For ${n2} people: ${n2} × ${r1} = ${big(a1)} ${i1.unit}.`];
       return {
-        prompt: `A recipe for ${rec.dish} for ${n1} people uses ${q1} ${i1.unit} of ${i1.name}. How many ${UNIT_WORD[i1.unit]} of ${i1.name} are needed for ${n2} people?`,
+        prompt: `A recipe for ${rec.dish} for ${n1} people uses ${big(q1)} ${i1.unit} of ${i1.name}. How many ${UNIT_WORD[i1.unit]} of ${i1.name} are needed for ${n2} people?`,
         answer: { type: "number", value: a1, display: `${big(a1)} ${i1.unit}` },
         solution: steps,
         hint: "Find the amount for ONE person, then multiply by the new number of people.",
@@ -1156,7 +1161,8 @@ export const drills: Drill[] = [
       const [nm] = people(rng, 1);
       const traps: Trap[] = [];
       const mode = tier === 1 ? rng.pick(["toForeign", "toSGD"] as const) : tier === 2 ? rng.pick(["toForeign", "toSGD", "toSGD"] as const) : rng.pick(["roundSGD", "backMul", "backDiv"] as const);
-      const pool = mode === "backMul" || mode === "backDiv" ? CURRENCIES.filter((c) => c.back) : CURRENCIES;
+      // Baht (÷ 25) always divides exactly, so it is no good for a rounding question.
+      const pool = mode === "backMul" || mode === "backDiv" ? CURRENCIES.filter((c) => c.back) : mode === "roundSGD" ? CURRENCIES.filter((c) => c.r !== 2500) : CURRENCIES;
       const cur = rng.pick(pool);
       const rate = `S$1 = ${cur.show(cur.r / 100)}`;
 
@@ -1188,7 +1194,7 @@ export const drills: Drill[] = [
         return {
           prompt: `${rng.pick(SOUVENIRS).replace(/^./, (m) => m.toUpperCase())} costs ${cur.show(F)}. The exchange rate is ${rate}. How much is this in Singapore dollars?`,
           answer: { type: "number", value: S, display: money(S, "S$") },
-          solution: [`Each S$1 is worth ${cur.show(cur.r / 100)}, so divide by ${num(cur.r / 100)}.`, `${big(F)} ÷ ${num(cur.r / 100)} = S$${S}.`],
+          solution: [`Each S$1 is worth ${cur.show(cur.r / 100)}, so divide by ${num(cur.r / 100)}.`, `${cur.whole ? big(F) : F.toFixed(2)} ÷ ${num(cur.r / 100)} = S$${S}.`],
           hint: "Going back to S$, how many lots of the rate fit into the price?",
           traps,
         };
@@ -1211,7 +1217,7 @@ export const drills: Drill[] = [
           prompt: `${nm} sees a jacket priced at ${cur.show(F)} while on holiday. The exchange rate is ${rate}. How much is this in Singapore dollars? Give your answer to the nearest cent.`,
           answer: { type: "number", value: S, display: money(S, "S$") },
           solution: [
-            `Divide by the rate: ${big(F)} ÷ ${num(cur.r / 100)} = ${num(Math.floor((F100 * 1000) / cur.r) / 1000)}…`,
+            `Divide by the rate: ${cur.whole ? big(F) : F.toFixed(2)} ÷ ${num(cur.r / 100)} = ${num(Math.floor((F100 * 1000) / cur.r) / 1000)}…`,
             `To the nearest cent: S$${S.toFixed(2)}.`,
           ],
           hint: "Divide by the exchange rate, then round to 2 decimal places.",
@@ -1267,7 +1273,6 @@ export const drills: Drill[] = [
     generate(rng, tier) {
       const mode = tier === 1 ? rng.pick(["mapToReal", "plan"] as const) : tier === 2 ? rng.pick(["mapToReal", "realToMap", "plan"] as const) : rng.pick(["mapToReal", "realToMap", "plan", "toScale"] as const);
       const traps: Trap[] = [];
-      const place = rng.pick(["towns", "MRT stations", "bus stops", "hilltops", "lighthouses", "villages"]);
 
       if (mode === "toScale") {
         const v = rng.pick([
@@ -1286,9 +1291,9 @@ export const drills: Drill[] = [
         const steps = /m$/.test(v.text) && v.text.startsWith("1 cm") && v.text.endsWith(" m")
           ? [`Write both in cm: ${v.text.replace("1 cm represents ", "")} = ${big(v.n)} cm.`, `So 1 cm represents ${big(v.n)} cm: the scale is 1 : ${big(v.n)}.`]
           : v.text.startsWith("1 cm")
-            ? [`1 km = 1000 m = 100 000 cm.`, `${v.text.replace("1 cm represents ", "")} = ${big(v.n)} cm, so the scale is 1 : ${big(v.n)}.`]
-            : [`1 km = 100 000 cm, so ${v.text.split(" ")[0]} cm represent 100 000 cm.`, `Divide both by ${v.text.split(" ")[0]}: 1 cm represents ${big(v.n)} cm, so the scale is 1 : ${big(v.n)}.`];
-        traps.push({ spec: { type: "ratio", parts: [1, v.wrong] }, feedback: "Check your unit conversion: 1 m = 100 cm and 1 km = 100 000 cm." });
+            ? [`1 km = 1000 m = 100,000 cm.`, `${v.text.replace("1 cm represents ", "")} = ${big(v.n)} cm, so the scale is 1 : ${big(v.n)}.`]
+            : [`1 km = 100,000 cm, so ${v.text.split(" ")[0]} cm represent 100,000 cm.`, `Divide both by ${v.text.split(" ")[0]}: 1 cm represents ${big(v.n)} cm, so the scale is 1 : ${big(v.n)}.`];
+        traps.push({ spec: { type: "ratio", parts: [1, v.wrong] }, feedback: "Check your unit conversion: 1 m = 100 cm and 1 km = 100,000 cm." });
         return {
           prompt: `On a map, ${v.text}. Write the map scale in the form 1 : n.`,
           answer: { type: "ratio", parts: [1, v.n], simplest: true, display: `1 : ${big(v.n)}` },
@@ -1361,10 +1366,11 @@ export const drills: Drill[] = [
       const km = clean(cm / 100000);
       const inM = km < 1;
       const realStr = inM ? `${big(clean(cm / 100))} m` : `${num(km)} km`;
+      const place = rng.pick(km <= 4 ? ["MRT stations", "bus stops", "lamp posts", "parks"] : km <= 30 ? ["towns", "villages", "hilltops", "lighthouses"] : ["cities", "towns", "lighthouses"]);
       if (mode === "mapToReal") {
         const ans = inM ? clean(cm / 100) : km;
-        traps.push({ spec: { type: "number", value: cm }, feedback: `That's the distance in centimetres. Convert to ${inM ? "metres (÷ 100)" : "kilometres (÷ 100 000)"}.` });
-        if (!inM && Math.abs(cm / 1000 - ans) > 1e-9) traps.push({ spec: { type: "number", value: clean(cm / 1000) }, feedback: "1 km = 100 000 cm (100 cm in a metre, 1000 m in a kilometre), so divide by 100 000." });
+        traps.push({ spec: { type: "number", value: cm }, feedback: `That's the distance in centimetres. Convert to ${inM ? "metres (÷ 100)" : "kilometres (÷ 100,000)"}.` });
+        if (!inM && Math.abs(cm / 1000 - ans) > 1e-9) traps.push({ spec: { type: "number", value: clean(cm / 1000) }, feedback: "1 km = 100,000 cm (100 cm in a metre, 1000 m in a kilometre), so divide by 100,000." });
         return {
           prompt: `A map has a scale of 1 : ${big(n)}. Two ${place} are ${num(d)} cm apart on the map. What is the real distance between them? Give your answer in ${inM ? "metres" : "km"}.`,
           answer: { type: "number", value: ans, display: realStr },
@@ -1378,7 +1384,7 @@ export const drills: Drill[] = [
         };
       }
       const wrongD = clean((cm / 100000) * 1000 / n);
-      if (dp(wrongD) <= 4 && Math.abs(wrongD - d) > 1e-9) traps.push({ spec: { type: "number", value: wrongD }, feedback: "Check the conversion: 1 km = 100 000 cm and 1 m = 100 cm." });
+      if (dp(wrongD) <= 4 && Math.abs(wrongD - d) > 1e-9) traps.push({ spec: { type: "number", value: wrongD }, feedback: "Check the conversion: 1 km = 100,000 cm and 1 m = 100 cm." });
       return {
         prompt: `Two ${place} are ${realStr} apart. How far apart are they on a map with a scale of 1 : ${big(n)}? Give your answer in cm.`,
         answer: { type: "number", value: d, display: `${num(d)} cm` },
@@ -1415,7 +1421,8 @@ export const drills: Drill[] = [
         break;
       }
       const W = clean(k * w), H = clean(k * h);
-      const ctx = rng.pick(tier === 3 || k < 1 ? ["rect", "triangle"] as const : ["rect", "triangle", "photo"] as const);
+      const photoOk = tier !== 3 && k > 1 && Math.min(w, h) >= 5;
+      const ctx = rng.pick(photoOk ? ["rect", "triangle", "photo"] as const : ["rect", "triangle"] as const);
       const traps: Trap[] = [];
       const cm = (v: number) => `${num(v)} cm`;
 
@@ -1443,6 +1450,11 @@ export const drills: Drill[] = [
       const steps = up
         ? [`Scale factor = ${num(W)} ÷ ${num(w)} = ${num(k)}.`, `Missing length = ${num(h)} × ${num(k)} = ${num(H)} cm.`]
         : [`Scale factor from A to B = ${num(W)} ÷ ${num(w)} = ${num(k)}.`, `Going back from B to A, divide: ${num(H)} ÷ ${num(k)} = ${num(h)} cm.`];
+      const names: [string, string] = ctx === "triangle" ? ["P", "Q"] : ctx === "photo" ? ["the photo", "the poster"] : ["A", "B"];
+      if (!up) {
+        steps[0] = `Scale factor from ${names[0]} to ${names[1]} = ${num(W)} ÷ ${num(w)} = ${num(k)}.`;
+        steps[1] = `Going back from ${names[1]} to ${names[0]}, divide: ${num(H)} ÷ ${num(k)} = ${num(h)} cm.`;
+      }
       let prompt: string;
       let diagram: string | undefined;
       if (ctx === "rect") {
@@ -1454,10 +1466,6 @@ export const drills: Drill[] = [
         prompt = up
           ? `Triangles P and Q are similar. Two sides of P are ${cm(w)} and ${cm(h)}. In Q, the side matching ${cm(w)} is ${cm(W)}. How long is the side of Q matching ${cm(h)}?`
           : `Triangles P and Q are similar. Two sides of Q are ${cm(W)} and ${cm(H)}. In P, the side matching ${cm(W)} is ${cm(w)}. How long is the side of P matching ${cm(H)}?`;
-        if (!up) {
-          steps[0] = `Scale factor from P to Q = ${num(W)} ÷ ${num(w)} = ${num(k)}.`;
-          steps[1] = `Going back from Q to P, divide: ${num(H)} ÷ ${num(k)} = ${num(h)} cm.`;
-        }
       } else {
         prompt = up
           ? `A photo is ${cm(w)} wide and ${cm(h)} tall. It is enlarged to make a poster ${cm(W)} wide. How tall is the poster? Give your answer in cm.`
@@ -1483,10 +1491,10 @@ export const drills: Drill[] = [
     guideRef: "inverse-proportion",
     generate(rng, tier) {
       const ctxs = [
-        { lead: (a: number, b: number) => `${a} workers take ${b} days to build a garden wall.`, askY: (a: number) => `How many days would ${a} workers take, working at the same rate?`, askX: (b: number) => `How many workers are needed to build it in ${b} days?`, more: (b: number) => `How many MORE workers are needed to build it in ${b} days?`, xs: [2, 16], ys: [2, 30], xw: "workers", yw: "days", speed: false },
-        { lead: (a: number, b: number) => `${a} identical pumps can empty a pond in ${b} hours.`, askY: (a: number) => `How many hours would ${a} pumps take?`, askX: (b: number) => `How many pumps are needed to empty it in ${b} hours?`, more: (b: number) => `How many MORE pumps are needed to empty it in ${b} hours?`, xs: [2, 12], ys: [2, 24], xw: "pumps", yw: "hours", speed: false },
-        { lead: (a: number, b: number) => `A camp has enough rice to feed ${a} hikers for ${b} days.`, askY: (a: number) => `How many days would the same rice last ${a} hikers?`, askX: (b: number) => `How many hikers would it feed for exactly ${b} days?`, more: (b: number) => `How many FEWER hikers would make it last ${b} days?`, xs: [4, 30], ys: [2, 20], xw: "hikers", yw: "days", speed: false },
-        { lead: (a: number, b: number) => `At an average speed of ${a} km/h, a bus journey takes ${b} minutes.`, askY: (a: number) => `How many minutes would the journey take at ${a} km/h?`, askX: (b: number) => `What average speed, in km/h, would make the journey take ${b} minutes?`, more: (b: number) => `By how many km/h must the speed increase for the journey to take ${b} minutes?`, xs: [20, 90], ys: [10, 90], xw: "km/h", yw: "minutes", speed: true },
+        { lead: (a: number, b: number) => `${a} workers take ${b} days to build a garden wall.`, askY: (a: number) => `How many days would ${a} workers take, working at the same rate?`, askX: (b: number) => `How many workers are needed to build it in ${b} days?`, more: (b: number) => `How many **more** workers are needed to build it in ${b} days?`, xs: [2, 16], ys: [2, 30], xw: "workers", yw: "days", speed: false, stays: "the total amount of work", pu: "worker-days" },
+        { lead: (a: number, b: number) => `${a} identical pumps can empty a pond in ${b} hours.`, askY: (a: number) => `How many hours would ${a} pumps take?`, askX: (b: number) => `How many pumps are needed to empty it in ${b} hours?`, more: (b: number) => `How many **more** pumps are needed to empty it in ${b} hours?`, xs: [2, 12], ys: [2, 24], xw: "pumps", yw: "hours", speed: false, stays: "the total amount of pumping", pu: "pump-hours" },
+        { lead: (a: number, b: number) => `A camp has enough rice to feed ${a} hikers for ${b} days.`, askY: (a: number) => `How many days would the same rice last ${a} hikers?`, askX: (b: number) => `How many hikers would it feed for exactly ${b} days?`, more: (b: number) => `How many **fewer** hikers would make the rice last ${b} days?`, xs: [4, 30], ys: [2, 20], xw: "hikers", yw: "days", speed: false, stays: "the total amount of rice", pu: "hiker-days" },
+        { lead: (a: number, b: number) => `At an average speed of ${a} km/h, a bus journey takes ${b} minutes.`, askY: (a: number) => `How many minutes would the journey take at ${a} km/h?`, askX: (b: number) => `What average speed, in km/h, would make the journey take ${b} minutes?`, more: (b: number) => `By how many km/h must the speed increase for the journey to take ${b} minutes?`, xs: [20, 90], ys: [10, 90], xw: "km/h", yw: "minutes", speed: true, stays: "the distance", pu: "" },
       ];
       const c = rng.pick(ctxs);
       let x1 = 6, y1 = 10, x2 = 4, y2 = 15;
@@ -1504,15 +1512,15 @@ export const drills: Drill[] = [
       const P = x1 * y1;
       const mode = tier === 1 ? "askY" : tier === 2 ? rng.pick(["askY", "askY", "askX"] as const) : rng.pick(["askY", "askX", "more"] as const);
       const traps: Trap[] = [];
-      const keep = c.speed ? `Speed × time stays the same: ${x1} × ${y1} = ${P}.` : `This is inverse proportion — the total amount of work stays the same: ${x1} × ${y1} = ${P} ${c.xw.replace(/s$/, "")}-${c.yw}.`;
+      const keep = c.speed ? `Inverse proportion: speed × time stays the same, ${x1} × ${y1} = ${P}.` : `Inverse proportion: ${c.stays} stays the same, ${x1} × ${y1} = ${P} ${c.pu}.`;
       if (mode === "askY") {
         const direct = (y1 * x2) / x1;
-        if (Number.isInteger(direct * 100) && Math.abs(direct - y2) > 1e-9) traps.push({ spec: { type: "number", value: clean(direct) }, feedback: `That's direct proportion. With ${x2 > x1 ? "more" : "fewer"} ${c.xw}, the time should go ${x2 > x1 ? "DOWN" : "UP"} — multiply to find the total, then divide.` });
+        if (Number.isInteger(direct * 100) && Math.abs(direct - y2) > 1e-9) traps.push({ spec: { type: "number", value: clean(direct) }, feedback: `That's direct proportion. With ${c.speed ? (x2 > x1 ? "a faster speed" : "a slower speed") : `${x2 > x1 ? "more" : "fewer"} ${c.xw}`}, the time should go ${x2 > x1 ? "down" : "up"}. Multiply to find the total, then divide.` });
         return {
           prompt: `${c.lead(x1, y1)} ${c.askY(x2)}`,
           answer: { type: "number", value: y2 },
           solution: [keep, `${P} ÷ ${x2} = ${y2} ${c.yw}.`],
-          hint: `Will ${x2 > x1 ? "more" : "fewer"} ${c.xw} take more time or less? Multiply the two numbers you know.`,
+          hint: `Will ${c.speed ? (x2 > x1 ? "a faster speed" : "a slower speed") : `${x2 > x1 ? "more" : "fewer"} ${c.xw}`} take more time or less? Multiply the two numbers you know.`,
           traps,
         };
       }
@@ -1528,13 +1536,13 @@ export const drills: Drill[] = [
         }
         ans = Math.abs(x2 - x1);
       }
-      if (!askMore && Number.isInteger(direct * 100) && Math.abs(direct - x2) > 1e-9) traps.push({ spec: { type: "number", value: clean(direct) }, feedback: `That's direct proportion. To finish in ${y2 < y1 ? "LESS" : "MORE"} time you need ${y2 < y1 ? "MORE" : "FEWER"} ${c.xw}.` });
-      if (askMore && x2 !== ans) traps.push({ spec: { type: "number", value: x2 }, feedback: `That's the total number of ${c.xw}. The question asks how many ${reduce ? "fewer" : "more"} than ${x1}.` });
+      if (!askMore && Number.isInteger(direct * 100) && Math.abs(direct - x2) > 1e-9) traps.push({ spec: { type: "number", value: clean(direct) }, feedback: c.speed ? `That's direct proportion. To take ${y2 < y1 ? "less" : "more"} time the bus must go ${y2 < y1 ? "faster" : "slower"}.` : `That's direct proportion. To take ${y2 < y1 ? "less" : "more"} time you need ${y2 < y1 ? "more" : "fewer"} ${c.xw}.` });
+      if (askMore && x2 !== ans) traps.push({ spec: { type: "number", value: x2 }, feedback: c.speed ? `That's the new speed. The question asks how much faster than ${x1} km/h it is.` : `That's the total number of ${c.xw}. The question asks how many ${reduce ? "fewer" : "more"} than ${x1}.` });
       return {
         prompt: `${c.lead(x1, y1)} ${askMore ? c.more(y2) : c.askX(y2)}`,
         answer: { type: "number", value: ans },
         solution: askMore
-          ? [c.speed ? `Speed × time stays the same: ${x1} × ${y1} = ${P}.` : `Total work: ${x1} × ${y1} = ${P} ${c.xw.replace(/s$/, "")}-${c.yw}.`, `${P} ÷ ${y2} = ${x2} ${c.xw}.`, `${c.speed ? "Change" : reduce ? "Fewer" : "Extra"}: ${Math.max(x1, x2)} − ${Math.min(x1, x2)} = ${ans}.`]
+          ? [c.speed ? `Inverse proportion: speed × time stays the same, ${x1} × ${y1} = ${P}.` : `Inverse proportion: ${c.stays} stays the same, ${x1} × ${y1} = ${P} ${c.pu}.`, `${P} ÷ ${y2} = ${x2} ${c.xw}.`, `${c.speed ? "Change" : reduce ? "Fewer" : "Extra"}: ${Math.max(x1, x2)} − ${Math.min(x1, x2)} = ${ans}.`]
           : [keep, `${P} ÷ ${y2} = ${x2} ${c.xw}.`],
         hint: "Multiply the two numbers you know — that product stays the same.",
         traps,
@@ -1577,8 +1585,8 @@ export const drills: Drill[] = [
         : `a : b = ${p} : ${q} and b : c = ${r} : ${s}.`;
       const askTotal = tier === 3 && ctx === 0 && rng.bool();
       const steps = [
-        `The shared quantity is ${lab[1]}: it is ${q} parts in the first ratio and ${r} parts in the second. Make these equal using the LCM of ${q} and ${r}, which is ${L}.`,
-        `${p} : ${q} = ${p * m1} : ${L}${m1 > 1 ? ` (× ${m1})` : ""} and ${r} : ${s} = ${L} : ${s * m2}${m2 > 1 ? ` (× ${m2})` : ""}.`,
+        `The shared quantity is ${lab[1]}: it is ${plural(q, "part")} in the first ratio and ${plural(r, "part")} in the second. Make these equal using the LCM of ${q} and ${r}, which is ${L}.`,
+        `${p} : ${q} = ${p * m1} : ${L}${m1 > 1 ? ` (× ${m1})` : " (unchanged)"} and ${r} : ${s} = ${L} : ${s * m2}${m2 > 1 ? ` (× ${m2})` : " (unchanged)"}.`,
         `So ${lab.join(" : ")} = ${rat(raw)}${g > 1 ? ` = ${rat(ans)}` : ""}.`,
       ];
       const traps: Trap[] = [];

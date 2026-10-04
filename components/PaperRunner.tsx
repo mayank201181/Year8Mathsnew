@@ -48,11 +48,11 @@ export function PaperRunner(props: PaperRunnerProps) {
   const [review, setReview] = useState(false);
   // Results show only when the learner asks (so the last question's feedback stays visible).
   const [viewResults, setViewResults] = useState(() => !!saved?.completed);
+  // Mirrors `state` for handlers; every write goes through persist/restart so it never lags.
   const stateRef = useRef(state);
-  stateRef.current = state;
   // Exams: save the start time as soon as the paper opens so the clock survives leaving early.
   useEffect(() => {
-    if (mode === "exam" && !saved) store.saveAttempt(attemptKey, { ...stateRef.current, updatedAt: Date.now() });
+    if (mode === "exam" && !saved) store.saveAttempt(attemptKey, stateRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const exam = mode === "exam";
@@ -62,8 +62,9 @@ export function PaperRunner(props: PaperRunnerProps) {
   const showSummary = state.completed && viewResults && !review;
 
   function persist(next: AttemptState) {
+    stateRef.current = next;
     setState(next);
-    store.saveAttempt(attemptKey, { ...next, updatedAt: Date.now() });
+    store.saveAttempt(attemptKey, next);
   }
 
   function go(i: number) {
@@ -189,7 +190,9 @@ export function PaperRunner(props: PaperRunnerProps) {
               onClick={() => {
                 store.clearAttempt(attemptKey);
                 setViewResults(false);
-                setState({ index: 0, answers: {}, results: {}, completed: false, updatedAt: Date.now(), ...(exam ? { startedAt: Date.now() } : {}) });
+                const fresh: AttemptState = { index: 0, answers: {}, results: {}, completed: false, updatedAt: Date.now(), ...(exam ? { startedAt: Date.now() } : {}) };
+                stateRef.current = fresh;
+                setState(fresh);
               }}
             >
               Start again

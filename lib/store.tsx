@@ -13,7 +13,7 @@
 // local copy, saving is disabled so we never overwrite real progress with zeros.
 // ---------------------------------------------------------------------------
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Difficulty } from "./types";
 import type { Account, AttemptState, DayStat, Profile, ProgressDoc, Slip } from "./profileTypes";
 import { emptyProgress, normalizeProgress } from "./profileTypes";
@@ -193,20 +193,24 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [activeProfile, setActiveProfile] = useState<Profile | null>(null);
   const [data, setData] = useState<ProgressDoc>(() => emptyProgress(0));
 
+  // Handlers read the latest committed values through these refs.
   const dataRef = useRef(data);
-  dataRef.current = data;
   const accountRef = useRef(account);
-  accountRef.current = account;
   const activeRef = useRef(activeProfile);
-  activeRef.current = activeProfile;
   const modeRef = useRef(mode);
-  modeRef.current = mode;
+  useLayoutEffect(() => {
+    dataRef.current = data;
+    accountRef.current = account;
+    activeRef.current = activeProfile;
+    modeRef.current = mode;
+  });
   const canSaveRef = useRef(false);
   const loadVersion = useRef(0);
   const saveRevision = useRef(0);
   const saver = useRef<ReturnType<typeof createProgressSaveQueue> | null>(null);
-  if (!saver.current) {
-    saver.current = createProgressSaveQueue(async (snapshot) => {
+  // Created on first use (never during render).
+  const getSaver = useCallback(() => {
+    saver.current ??= createProgressSaveQueue(async (snapshot) => {
       if (accountRef.current?.id !== snapshot.accountId) throw new Error("Account changed before save");
       const response = await withProgressTimeout((signal) =>
         fetch("/api/progress", {
@@ -220,7 +224,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (!response.ok) throw new Error("Progress could not be saved");
       if (lsGet(`${snapshot.cacheKey}:dirty`) === snapshot.revision) lsDel(`${snapshot.cacheKey}:dirty`);
     }, 1500);
-  }
+    return saver.current;
+  }, []);
 
   // Flush on hide; cancel on unmount (dirty cache keeps unsent work).
   useEffect(() => {
@@ -233,6 +238,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       document.removeEventListener("visibilitychange", onHide);
       window.removeEventListener("pagehide", onHide);
       canSaveRef.current = false;
+      // A counter, not a DOM ref: bumping the live value is the point (late loads become stale).
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       ++loadVersion.current;
       saver.current?.cancel();
     };
@@ -265,7 +272,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const version = ++loadVersion.current;
     canSaveRef.current = false;
     setStatus("loading");
-    await saver.current!.flush().catch(() => {});
+    await getSaver().flush().catch(() => {});
     if (version !== loadVersion.current) return;
     setMode("cloud");
     setActiveProfile(prof);
@@ -311,7 +318,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     lsSet(k.last(acc.id), prof.id);
     canSaveRef.current = true;
     setStatus("ready");
-  }, []);
+  }, [getSaver]);
 
   const safeLoadProfile = useCallback(
     async (acc: Account, prof: Profile) => {
@@ -326,8 +333,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     [loadProfile],
   );
 
+  // Starts in "loading" (initial state, or set by the caller) so the mount effect never sets state synchronously.
   const bootstrap = useCallback(async () => {
-    setStatus("loading");
     const r = await callJson("/api/auth/me", "GET");
     const cloud = r.ok && r.data.accounts === true;
     setCloudAvailable(cloud);
@@ -349,6 +356,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [loadGuest, safeLoadProfile]);
 
   useEffect(() => {
+    // bootstrap awaits /api/auth/me before it sets any state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void bootstrap();
   }, [bootstrap]);
 
@@ -366,8 +375,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const revision = `${Date.now()}:${++saveRevision.current}`;
     lsSet(key, JSON.stringify(data));
     lsSet(`${key}:dirty`, revision);
-    saver.current!.schedule({ accountId: acc.id, profileId: pid, cacheKey: key, revision, body: JSON.stringify({ profileId: pid, progress: data }) });
-  }, [data, status]);
+    getSaver().schedule({ accountId: acc.id, profileId: pid, cacheKey: key, revision, body: JSON.stringify({ profileId: pid, progress: data }) });
+  }, [data, status, getSaver]);
 
   // ----------------------------------------------------- time-on-task beat
   useEffect(() => {
@@ -434,14 +443,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     ++loadVersion.current;
     canSaveRef.current = false;
     setStatus("loading");
-    await saver.current!.flush().catch(() => {});
+    await getSaver().flush().catch(() => {});
     await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     setAccount(null);
     setActiveProfile(null);
     setData(emptyProgress());
     lsDel(k.mode);
     setStatus("anon");
-  }, []);
+  }, [getSaver]);
 
   const startGuest = useCallback(() => loadGuest(), [loadGuest]);
 
@@ -528,17 +537,20 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const switchProfile = useCallback(() => {
     ++loadVersion.current;
     canSaveRef.current = false;
-    void saver.current!.flush().catch(() => {});
+    void getSaver().flush().catch(() => {});
     setActiveProfile(null);
     setData(emptyProgress());
     setStatus("no-profile");
-  }, []);
+  }, [getSaver]);
 
   const retryLoad = useCallback(async () => {
     const acc = accountRef.current;
     const prof = activeRef.current;
     if (acc && prof) await safeLoadProfile(acc, prof);
-    else await bootstrap();
+    else {
+      setStatus("loading");
+      await bootstrap();
+    }
   }, [bootstrap, safeLoadProfile]);
 
   const refreshAccount = useCallback(async () => {
@@ -666,7 +678,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const saveAttempt = useCallback(
     (key: string, state: AttemptState) => {
-      update((d) => ({ ...d, attempts: { ...d.attempts, [key]: state } }));
+      const stamped = { ...state, updatedAt: Date.now() };
+      update((d) => ({ ...d, attempts: { ...d.attempts, [key]: stamped } }));
     },
     [update],
   );

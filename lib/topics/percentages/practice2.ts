@@ -148,7 +148,7 @@ export const morePapers: Paper[] = [
         kind: "written",
         id: "percentages-p3-q09",
         question:
-          "Two hawker stalls raise their prices.\n\n| Stall | Dish | Old price | New price |\n|---|---|---|---|\n| A | Chee cheong fun | $2.50 | $3.00 |\n| B | Vegetarian bee hoon set | $6.00 | $6.80 |\n\nWei Ling says, \"Stall B put its price up by more.\" Explain one way in which she is right and one way in which she is wrong. Show your working.",
+          "Two hawker stalls raise their prices.\n\n| Stall | Dish | Old price | New price |\n|---|---|---|---|\n| A | Plain chee cheong fun | $2.50 | $3.00 |\n| B | Vegetarian bee hoon set | $6.00 | $6.80 |\n\nWei Ling says, \"Stall B put its price up by more.\" Explain one way in which she is right and one way in which she is wrong. Show your working.",
         marks: 3,
         modelAnswer:
           "**In dollars she is right.** Stall A's price went up by $3.00 − $2.50 = $0.50. Stall B's went up by $6.80 − $6.00 = $0.80, which is more.\n\n**As a percentage she is wrong.** Stall A's increase is {{0.50/2.50}} × 100 = 20%. Stall B's is {{0.80/6.00}} × 100 ≈ 13.3%. Stall A's price rose by the bigger *percentage*, because its starting price was much smaller.",
@@ -171,7 +171,7 @@ export const morePapers: Paper[] = [
         answer: { type: "number", value: 1800, display: "$1800" },
         traps: [
           { spec: { type: "number", value: 300 }, feedback: "$300 is the interest. The question asks how much is in the account, so add the $1500 back." },
-          { spec: { type: "number", value: 1824.98, tolerance: 0.01 }, feedback: "That's compound interest — interest on the interest. Simple interest is the same $60 every year." },
+          { spec: { type: "number", value: 1824.98, tolerance: 0.5 }, feedback: "That's compound interest — interest on the interest. Simple interest is the same $60 every year." },
         ],
         solution: ["Interest each year = 4% of $1500 = $60.", "Interest for 5 years = 5 × $60 = $300.", "Total = $1500 + $300 = $1800."],
         solutions: [{ label: "Use the formula", steps: ["{{I = (PRT)/100 = (1500 * 4 * 5)/100}} = 300.", "Total = 1500 + 300 = $1800."] }],
@@ -487,7 +487,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "percentages-p4-q06",
         question:
-          "Over one year, the drama club grew from 24 to 30 members and the badminton CCA grew from 40 to 48 members. Which group grew by the greater **percentage**? Give that percentage increase.",
+          "Over one year, the drama club grew from 24 to 30 members and the badminton CCA grew from 40 to 48 members. Which group grew by the greater **percentage**? Type that group's percentage increase as your answer.",
         answer: { type: "number", value: 25, display: "25% (the drama club)" },
         traps: [
           { spec: { type: "number", value: 20 }, feedback: "20% is the badminton CCA's increase. Badminton gained more members (8), but drama grew by a bigger *percentage* because it started smaller." },
@@ -739,7 +739,7 @@ export const morePapers: Paper[] = [
           },
         ],
         commonError: "Assuming +20% and −20% cancel, so the area stays the same.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "multipliers",
         hints: ["Does +20% on one side and −20% on the other really cancel? Test it.", "Find the new length and width, then the new area.", "Or multiply the two multipliers together: 1.2 × 0.8."],
         strategy: "Multiply the multipliers",

@@ -711,11 +711,13 @@ interface Part {
 
 function spinner(vals: number[], short: string): Part {
   const consecutive = vals.every((v, i) => v === vals[0] + i);
-  const desc = consecutive && vals[0] === 1
+  const desc = consecutive && vals[0] === 1 && vals.length >= 3
     ? `a fair spinner with ${vals.length} equal sections numbered 1 to ${vals.length}`
     : `a fair spinner with ${vals.length} equal sections numbered ${listAnd(vals)}`;
   return { desc, short, vals };
 }
+/** "spinner A" stays as it is; "dice" → "the dice". */
+const theP = (short: string) => (/^spinner [AB]$/.test(short) ? short : `the ${short}`);
 const DICE = (short: string): Part => ({ desc: "a fair six-sided dice", short, vals: [1, 2, 3, 4, 5, 6] });
 
 function pickPair(rng: Rng, tier: Tier): [Part, Part, string] {
@@ -768,11 +770,12 @@ function sampleSpaceCount(rng: Rng, tier: Tier): DrillItem {
     if (kind === "eq" || kind === "gt" || kind === "lt") {
       const k = rng.pick(distinct);
       // "greater than"/"less than" must leave at least two different values on the counted side.
-      if (kind === "gt" && distinct.filter((v) => v > k).length < 2) continue;
-      if (kind === "lt" && distinct.filter((v) => v < k).length < 2) continue;
+      // Also keep at least two values on the other side, so the question isn't "everything but one".
+      if (kind === "gt" && (distinct.filter((v) => v > k).length < 2 || distinct.filter((v) => v <= k).length < 2)) continue;
+      if (kind === "lt" && (distinct.filter((v) => v < k).length < 2 || distinct.filter((v) => v >= k).length < 2)) continue;
       const ok = kind === "eq" ? (a: number, b: number) => O.f(a, b) === k : kind === "gt" ? (a: number, b: number) => O.f(a, b) > k : (a: number, b: number) => O.f(a, b) < k;
       const c = results.filter((r) => (kind === "eq" ? r === k : kind === "gt" ? r > k : r < k)).length;
-      if (c < (tier === 1 ? 2 : 1) || c === T) continue;
+      if (c < 2 || c === T) continue;
       const phrase = kind === "eq" ? `a ${O.res} of ${k}` : `a ${O.res} ${kind === "gt" ? "greater" : "less"} than ${k}`;
       const pairs: string[] = [];
       for (const a of A.vals) for (const b of B.vals) if (ok(a, b)) pairs.push(`(${a}, ${b})`);
@@ -781,11 +784,10 @@ function sampleSpaceCount(rng: Rng, tier: Tier): DrillItem {
         const withK = results.filter((r) => (kind === "gt" ? r >= k : r <= k)).length;
         traps = nTrap(withK, c, `"${kind === "gt" ? "Greater" : "Less"} than ${k}" does not include a ${O.res} of exactly ${k}.`);
       } else if (A.vals.join() === B.vals.join()) {
-        const unordered = pairs.filter((p) => {
-          const [x, y] = p.slice(1, -1).split(", ").map(Number);
-          return x <= y;
-        }).length;
-        traps = nTrap(unordered, c, `(${A.vals[0]}, ${B.vals[1]}) and (${A.vals[1]}, ${B.vals[0]}) are different outcomes — count both orders.`);
+        const xy = pairs.map((p) => p.slice(1, -1).split(", ").map(Number));
+        const unordered = xy.filter(([x, y]) => x <= y).length;
+        const asym = xy.find(([x, y]) => x < y);
+        if (asym) traps = nTrap(unordered, c, `(${asym[0]}, ${asym[1]}) and (${asym[1]}, ${asym[0]}) are different outcomes — count both orders.`);
       }
       return {
         prompt: `${intro} How many of the ${T} outcomes in the sample space give ${phrase}?`,
@@ -928,7 +930,7 @@ function combinedEvents(rng: Rng, tier: Tier): DrillItem {
       evs.push(
         { label: `the product is greater than ${kp}`, ok: (a, b) => a * b > kp, how: "The two scores are multiplied." },
         { label: `the total is less than ${k}`, ok: (a, b) => a + b < k, how: "The two scores are added." },
-        { label: `the score on the ${A.short} is higher than the score on the ${B.short}`, ok: (a, b) => a > b, how: "" },
+        { label: `the score on ${theP(A.short)} is higher than the score on ${theP(B.short)}`, ok: (a, b) => a > b, how: "" },
       );
       if (same) evs.push({ label: "both scores are the same", ok: (a, b) => a === b, how: "" });
     }
@@ -976,22 +978,22 @@ const TWO_WAY = [
   {
     intro: "Some Year 8 students were asked how they usually travel to school. The two-way table shows the results.",
     who: "student", rows: ["Boys", "Girls"], rowPred: ["is a boy", "is a girl"], rowGroup: ["boys", "girls"],
-    cols: ["MRT", "Bus", "Walk"], colPred: ["travels by MRT", "travels by bus", "walks"],
+    cols: ["MRT", "Bus", "Walk"], colPred: ["travels by MRT", "travels by bus", "walks"], colPredPl: ["travel by MRT", "travel by bus", "walk"],
   },
   {
     intro: "Students in Years 7 and 8 each chose one CCA. The two-way table shows their choices.",
     who: "student", rows: ["Year 7", "Year 8"], rowPred: ["is in Year 7", "is in Year 8"], rowGroup: ["Year 7 students", "Year 8 students"],
-    cols: ["Sport", "Music", "Robotics"], colPred: ["chose sport", "chose music", "chose robotics"],
+    cols: ["Sport", "Music", "Robotics"], colPred: ["chose sport", "chose music", "chose robotics"], colPredPl: ["chose sport", "chose music", "chose robotics"],
   },
   {
     intro: "Visitors leaving Sentosa were asked which attraction they enjoyed most. The two-way table shows the results.",
     who: "visitor", rows: ["Adult", "Child"], rowPred: ["is an adult", "is a child"], rowGroup: ["adults", "children"],
-    cols: ["Beach", "Aquarium", "Cable car"], colPred: ["chose the beach", "chose the aquarium", "chose the cable car"],
+    cols: ["Beach", "Aquarium", "Cable car"], colPred: ["chose the beach", "chose the aquarium", "chose the cable car"], colPredPl: ["chose the beach", "chose the aquarium", "chose the cable car"],
   },
   {
     intro: "Customers at an ice-cream stall each chose one flavour, served in a cone or a cup. The two-way table shows the orders.",
     who: "customer", rows: ["Cone", "Cup"], rowPred: ["had a cone", "had a cup"], rowGroup: ["customers who had a cone", "customers who had a cup"],
-    cols: ["Mango", "Chocolate", "Durian"], colPred: ["chose mango", "chose chocolate", "chose durian"],
+    cols: ["Mango", "Chocolate", "Durian"], colPred: ["chose mango", "chose chocolate", "chose durian"], colPredPl: ["chose mango", "chose chocolate", "chose durian"],
   },
 ];
 
@@ -1011,6 +1013,7 @@ function twoWayTable(rng: Rng, tier: Tier): DrillItem {
   const hj = hide ? (rng.bool(0.6) ? j : rng.int(0, nc - 1)) : -1;
   const colNames = colIdx.map((i) => ctx.cols[i]);
   const colPreds = colIdx.map((i) => ctx.colPred[i]);
+  const colPredsPl = colIdx.map((i) => ctx.colPredPl[i]);
   const rowsTxt = [0, 1].map((i) => `| ${ctx.rows[i]} | ${cells[i].map((v, jj) => (i === hr && jj === hj ? "?" : String(v))).join(" | ")} | ${R[i]} |`);
   const table = `| | ${colNames.join(" | ")} | Total |\n|${"---|".repeat(nc + 2)}\n${rowsTxt.join("\n")}\n| Total | ${C.join(" | ")} | ${G} |`;
   const cell = cells[r][j];
@@ -1020,7 +1023,7 @@ function twoWayTable(rng: Rng, tier: Tier): DrillItem {
   if (kind === "and") {
     q = `${pick} ${ctx.rowPred[r]} and ${colPreds[j]}.`;
     n = cell; d = G;
-    steps = [`${cap(ctx.rowGroup[r])} who ${colPreds[j].replace(/^chose/, "chose")}: ${cell} out of ${G} altogether.`];
+    steps = [`The cell for ${ctx.rows[r]} and ${colNames[j]}: ${cell} out of ${G} altogether.`];
   } else if (kind === "row") {
     q = `${pick} ${ctx.rowPred[r]}.`;
     n = R[r]; d = G;
@@ -1032,7 +1035,7 @@ function twoWayTable(rng: Rng, tier: Tier): DrillItem {
   } else if (kind === "cond") {
     q = `One of the ${ctx.rowGroup[r]} is chosen at random. Find the probability that this ${ctx.who} ${colPreds[j]}.`;
     n = cell; d = R[r];
-    steps = [`Only the ${ctx.rowGroup[r]} count: there are ${R[r]} of them.`, `Of these, ${cell} ${colPreds[j]}.`];
+    steps = [`Only the ${ctx.rowGroup[r]} count: there are ${R[r]} of them.`, `Of these, ${cell} ${colPredsPl[j]}.`];
   } else {
     q = `${pick} ${ctx.rowPred[r]} or ${colPreds[j]} (or both).`;
     n = R[r] + C[j] - cell; d = G;
@@ -1061,22 +1064,22 @@ const VENN = [
   {
     intro: "Students in a class were asked whether they play badminton and whether they swim.", who: "student",
     la: "Badminton", lb: "Swimming", predA: "plays badminton", predB: "swims", negA: "does not play badminton", negB: "does not swim",
-    neither: "does neither activity", exactly: "does exactly one of the two activities", bothV: "do both",
+    neither: "does neither activity", exactly: "does exactly one of the two activities", bothV: "do both", place: "in a class",
   },
   {
     intro: "Shoppers at a fruit stall were asked whether they like durian and whether they like mango.", who: "shopper",
     la: "Durian", lb: "Mango", predA: "likes durian", predB: "likes mango", negA: "does not like durian", negB: "does not like mango",
-    neither: "likes neither fruit", exactly: "likes exactly one of the two fruits", bothV: "like both",
+    neither: "likes neither fruit", exactly: "likes exactly one of the two fruits", bothV: "like both", place: "at a fruit stall",
   },
   {
     intro: "Students were asked whether they study French and whether they study Japanese.", who: "student",
     la: "French", lb: "Japanese", predA: "studies French", predB: "studies Japanese", negA: "does not study French", negB: "does not study Japanese",
-    neither: "studies neither language", exactly: "studies exactly one of the two languages", bothV: "study both",
+    neither: "studies neither language", exactly: "studies exactly one of the two languages", bothV: "study both", place: "in Year 8",
   },
   {
     intro: "Families in an HDB block were asked whether they own a cat and whether they own a dog.", who: "family",
     la: "Cat", lb: "Dog", predA: "owns a cat", predB: "owns a dog", negA: "does not own a cat", negB: "does not own a dog",
-    neither: "owns neither pet", exactly: "owns exactly one of the two pets", bothV: "own both",
+    neither: "owns neither pet", exactly: "owns exactly one of the two pets", bothV: "own both", place: "in an HDB block",
   },
 ];
 
@@ -1119,7 +1122,7 @@ function vennDrill(rng: Rng, tier: Tier): DrillItem {
     }
     const groupWord = ctx.who === "family" ? "families" : `${ctx.who}s`;
     return {
-      prompt: `There are ${T} ${groupWord} in a group. ${nA} of them ${verbPlural(ctx.predA)}, ${nB} ${verbPlural(ctx.predB)} and ${both} ${ctx.bothV}. One ${ctx.who} is chosen at random. Find the probability that this ${ctx.who} ${phrase}.${SIMPLEST}`,
+      prompt: `There are ${T} ${groupWord} ${ctx.place}. ${nA} of them ${verbPlural(ctx.predA)}, ${nB} ${verbPlural(ctx.predB)} and ${both} ${ctx.bothV}. One ${ctx.who} is chosen at random. Find the probability that this ${ctx.who} ${phrase}.${SIMPLEST}`,
       answer: fs(fav, T),
       solution: [
         `Draw a Venn diagram. Overlap = ${both}. ${ctx.la} only = ${nA} − ${both} = ${oA}. ${ctx.lb} only = ${nB} − ${both} = ${oB}.`,
@@ -1206,8 +1209,9 @@ function relFreq(rng: Rng, tier: Tier): DrillItem {
       if (last >= Math.ceil(N / n / 3)) { freqs.push(last); break; }
     }
     if (freqs.length !== n) freqs = labels.map((_, i) => (i < n - 1 ? Math.floor(N / n) : N - Math.floor(N / n) * (n - 1)));
-    const i1 = rng.int(0, n - 1);
-    const i2 = (i1 + rng.int(1, n - 1)) % n;
+    const j1 = rng.int(0, n - 1);
+    const j2 = (j1 + rng.int(1, n - 1)) % n;
+    const [i1, i2] = j1 < j2 ? [j1, j2] : [j2, j1];
     const or = kind === "tableOr";
     const fav = or ? freqs[i1] + freqs[i2] : freqs[i1];
     const what = dice ? (or ? `rolling a ${labels[i1]} or a ${labels[i2]}` : `rolling a ${labels[i1]}`) : or ? `landing on ${labels[i1].toLowerCase()} or ${labels[i2].toLowerCase()}` : `landing on ${labels[i1].toLowerCase()}`;
@@ -1348,7 +1352,9 @@ function expected(rng: Rng, tier: Tier): DrillItem {
     return {
       prompt: `${ctx.p(frac(a, b))} ${ctx.n(n)}`,
       answer: { type: "number", value: ans },
-      solution: [`Expected number = ${frac(a, b)} × ${n}.`, `${n} ÷ ${b} = ${n / b}, then × ${a} = ${ans}`],
+      solution: a === 1
+        ? [`Expected number = ${frac(a, b)} × ${n}.`, `${frac(1, b)} of ${n} is ${n} ÷ ${b} = ${ans}`]
+        : [`Expected number = ${frac(a, b)} × ${n}.`, `${n} ÷ ${b} = ${n / b}, then × ${a} = ${ans}`],
       hint,
       traps: a > 1 ? nTrap(n / b, ans, `That's ${frac(1, b)} of ${n}. You need ${frac(a, b)} of it.`) : [],
     };
@@ -1368,7 +1374,10 @@ function expected(rng: Rng, tier: Tier): DrillItem {
     return {
       prompt: `${ctx.p(pStr)} ${ctx.n(n)}`,
       answer: { type: "number", value: ans },
-      solution: [`Expected number = ${pStr} × ${n}${kind === "percent" ? ` = ${num(clean(k / 100))} × ${n}` : ""}.`, `= ${ans}`],
+      solution: [
+        "Expected number = probability × number of trials.",
+        kind === "percent" ? `${k}% of ${n} = ${num(clean(k / 100))} × ${n} = ${ans}` : `${pStr} × ${n} = ${ans}`,
+      ],
       hint,
       traps: nTrap(n - ans, ans, "That's the expected number for the opposite outcome."),
     };
@@ -1393,7 +1402,7 @@ function expected(rng: Rng, tier: Tier): DrillItem {
       ? `Over ${n} school days, on how many days ${ctx.q}?`
       : ctx.unit === "penalties"
         ? `She takes ${n} penalties. How many ${ctx.q}?`
-        : `${n} seeds are planted. How many ${ctx.q}?`;
+        : `Ravi plants ${n} seeds. How many ${ctx.q}?`;
     return {
       prompt: `The probability that ${ctx.yes} is ${num(clean(k / 100))}. ${qText}`,
       answer: { type: "number", value: ans },
@@ -1481,8 +1490,8 @@ function treeSvg(h1: string, h2: string, yes: string, no: string, p: string, pn:
   const txt = (x: number, y: number, s: string, anchor = "start", fill = "#1f2937") =>
     `<text x="${x}" y="${y}" font-size="13" font-family="sans-serif" fill="${fill}" text-anchor="${anchor}">${s}</text>`;
   return (
-    `<svg viewBox="0 0 440 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tree diagram: ${h1} ${yes} ${p} or ${no} ${pn}, then ${h2} ${yes} ${q} or ${no} ${qn} on each branch">` +
-    `<rect x="0" y="0" width="440" height="240" fill="#ffffff"/>` +
+    `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tree diagram: ${h1} ${yes} ${p} or ${no} ${pn}, then ${h2} ${yes} ${q} or ${no} ${qn} on each branch">` +
+    `<rect x="0" y="0" width="400" height="240" fill="#ffffff"/>` +
     txt(80, 16, h1, "middle", "#334155") + txt(262, 16, h2, "middle", "#334155") +
     line(20, 120, 140, 65) + line(20, 120, 140, 175) +
     txt(146, 70, yes) + txt(146, 180, no) +

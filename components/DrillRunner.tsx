@@ -1,7 +1,7 @@
 "use client";
 // Unlimited practice on one or more skills, with adaptive difficulty tiers and
 // visible mastery (New → Practising → Secure → Mastered).
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Drill, DrillItem } from "@/lib/drills/types";
 import { makeRng } from "@/lib/drills/rng";
 import { freshSeed } from "@/lib/drills";
@@ -59,11 +59,17 @@ export function DrillRunner({ drills, title, onExit }: { drills: Drill[]; title?
     return pool[pool.length - 1];
   }
 
-  useEffect(() => {
-    const d = pick();
-    setCur(build(d, store.data.skills[d.id]?.tier ?? 1, freshSeed()));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drills.map((d) => d.id).join(",")]);
+  // A new set of drills starts a fresh question (render-time reset, not an effect).
+  // Only ever rendered on the client (behind AppGate), so random seeds can't cause a hydration mismatch.
+  const drillKey = drills.map((d) => d.id).join(",");
+  const [curKey, setCurKey] = useState<string | null>(null);
+  if (curKey !== drillKey) {
+    setCurKey(drillKey);
+    if (drills.length) {
+      const d = pick();
+      setCur(build(d, store.data.skills[d.id]?.tier ?? 1, freshSeed()));
+    } else setCur(null);
+  }
 
   if (!drills.length) return <p className="text-ink-2">No skill drills here yet.</p>;
   if (!cur) return <div className="card p-6 text-ink-2">Getting a question ready…</div>;

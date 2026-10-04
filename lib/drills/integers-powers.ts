@@ -60,8 +60,8 @@ function monoAns(c: number, v: string, e: number): AnswerSpec {
 }
 
 /** Number traps, dropping any that equal the answer (or repeat). */
-function numTraps(answer: number, cands: Array<[number, string]>): Trap[] {
-  const seen = new Set<number>([answer]);
+function numTraps(answer: number | null, cands: Array<[number, string]>): Trap[] {
+  const seen = new Set<number>(answer === null ? [] : [answer]);
   const out: Trap[] = [];
   for (const [v, feedback] of cands) {
     if (!Number.isFinite(v) || seen.has(v)) continue;
@@ -203,9 +203,7 @@ export const drills: Drill[] = [
       const top = tier === 1 ? 10 : tier === 2 ? 12 : 15;
       const sgn = (lo: number, hi: number) => rng.int(lo, hi) * (rng.bool() ? 1 : -1);
       const signWord = (negs: number) =>
-        negs % 2 === 0
-          ? `${negs === 0 ? "no" : negs === 2 ? "two" : "four"} negative signs — an even number, so the answer is positive`
-          : `${negs === 1 ? "one negative sign" : `${negs === 3 ? "three" : negs} negative signs`} — an odd number, so the answer is negative`;
+        `${negs} negative sign${negs === 1 ? "" : "s"} — ${negs % 2 === 0 ? "an even number, so the answer is positive" : "an odd number, so the answer is negative"}`;
 
       if (kind === "mul") {
         let a = sgn(2, top);
@@ -229,20 +227,14 @@ export const drills: Drill[] = [
       }
 
       if (kind === "div") {
-        let q = rng.int(2, top);
-        let d = rng.int(2, tier === 3 ? 12 : top);
+        // At least one of dividend / divisor is negative:
+        // flip 0 → (−D) ÷ d,  flip 1 → (−D) ÷ (−d),  flip 2 → D ÷ (−d).
+        const qa = rng.int(2, top);
+        const da = rng.int(2, tier === 3 ? 12 : top);
         const flip = rng.int(0, 2);
-        if (flip === 0) q = -q;
-        else if (flip === 1) d = -d;
-        else {
-          q = -q;
-          d = -d;
-          // q < 0, d < 0 → dividend positive, divisor negative.
-        }
-        if (flip === 1) q = -q; // dividend negative and divisor negative → answer positive
-        // Rebuild so that: flip 0 → (−D) ÷ d = −q; flip 1 → (−D) ÷ (−d) = q; flip 2 → D ÷ (−d) = −q.
-        const D = flip === 1 ? -Math.abs(q) * Math.abs(d) : q * d;
-        const ans = flip === 1 ? Math.abs(q) : D / d;
+        const D = flip === 2 ? qa * da : -qa * da;
+        const d = flip === 0 ? da : -da;
+        const ans = D / d;
         const asFrac = tier > 1 && rng.bool();
         const shown = asFrac ? `{{${mk(D)}/${mk(d)}}}` : `${num(D)} ÷ ${br(d)}`;
         const same = (D < 0) === (d < 0);
@@ -280,7 +272,7 @@ export const drills: Drill[] = [
           prompt: `${rng.pick(["Work out", "Calculate"])} ${shown}.`,
           answer: { type: "number", value: prod },
           solution: [
-            `Count the negatives: there are ${signWord(negs)}.`,
+            `Count the negatives: ${signWord(negs)}.`,
             `Multiply the sizes: ${factors.map((f) => Math.abs(f)).join(" × ")} = ${Math.abs(prod)}.`,
             `So ${shown} = ${num(prod)}.`,
           ],
@@ -309,7 +301,7 @@ export const drills: Drill[] = [
           solution: [
             `× and ÷ have equal priority, so work from left to right: ${num(a)} × ${br(b)} = ${num(ab)}.`,
             `Then ${num(ab)} ÷ ${br(c)} = ${num(ans)}.`,
-            `Check the sign: there are ${signWord(negs)}.`,
+            `Check the sign: ${signWord(negs)}.`,
           ],
           hint: "Go left to right. Do the sizes first, then count the negative signs.",
           traps: numTraps(ans, [[-ans, "Count the negative signs: an even number gives a positive answer, an odd number gives a negative."]]),
@@ -368,6 +360,328 @@ export const drills: Drill[] = [
 
   // 3 ─────────────────────────────────────────────────────────────────────────
   {
+    id: "integers-powers.powers-roots-of-negatives",
+    topicId: "integers-powers",
+    title: "Squares, cubes and roots — including negatives",
+    level: 1,
+    guideRef: "squares-cubes-roots",
+    generate(rng, tier) {
+      const kind = rng.pick(
+        tier === 1
+          ? (["negSq", "sqrt", "negCube", "cbrtNeg"] as const)
+          : tier === 2
+            ? (["negSq", "minusSq", "sqrt", "negCube", "cbrtNeg", "negPow"] as const)
+            : (["minusSq", "negCube", "cbrtNeg", "negPow", "combo", "combo"] as const),
+      );
+      const sqMax = tier === 1 ? 12 : tier === 2 ? 15 : 20;
+      const cuMax = tier === 1 ? 5 : tier === 2 ? 6 : 10;
+      const verb = rng.pick(["Work out", "Find the value of", "Calculate"]);
+
+      if (kind === "negSq") {
+        const a = rng.int(2, sqMax);
+        return {
+          prompt: `${verb} {{(-${a})^2}}.`,
+          answer: { type: "number", value: a * a },
+          solution: [`{{(-${a})^2 = (-${a}) * (-${a})}}`, `A negative times a negative is positive, so the answer is ${a * a}.`],
+          hint: "Write it as a multiplication. What sign does negative × negative give?",
+          traps: numTraps(a * a, [[-a * a, `(−${a}) × (−${a}): a negative times a negative is positive.`], [-2 * a, "Squaring means multiplying by itself, not doubling."]]),
+        };
+      }
+      if (kind === "minusSq") {
+        const a = rng.int(2, sqMax);
+        return {
+          prompt: `${verb} {{-${a}^2}}.`,
+          answer: { type: "number", value: -a * a },
+          solution: [
+            `There are no brackets, so only the ${a} is squared: {{${a}^2 = ${a * a}}}.`,
+            `Then apply the minus sign: {{-${a}^2 = -(${a}^2) = -${a * a}}}.`,
+            `Compare: {{(-${a})^2 = ${a * a}}} — the brackets make the difference.`,
+          ],
+          hint: "Is the minus sign inside a bracket? If not, the power belongs to the number only.",
+          traps: numTraps(-a * a, [[a * a, `Without brackets, the square applies to the ${a} only: {{-${a}^2}} means {{-(${a} * ${a})}}.`]]),
+        };
+      }
+      if (kind === "sqrt") {
+        const a = rng.int(tier === 1 ? 2 : 4, tier === 1 ? 15 : sqMax);
+        const negOutside = tier === 3 && rng.bool();
+        const ans = negOutside ? -a : a;
+        return {
+          prompt: `${verb} {{${negOutside ? "-" : ""}sqrt(${a * a})}}.`,
+          answer: { type: "number", value: ans },
+          solution: [
+            `{{${a}^2 = ${a * a}}}, so {{sqrt(${a * a}) = ${a}}}.`,
+            ...(negOutside ? [`The minus sign is outside the root, so the answer is ${num(-a)}.`] : [`The √ sign means the positive square root, so the answer is ${a}.`]),
+          ],
+          hint: "Which number multiplied by itself gives the number under the root?",
+          traps: numTraps(ans, [[(negOutside ? -1 : 1) * ((a * a) / 2), "A square root is not half of the number. Which number times itself gives it?"]]),
+        };
+      }
+      if (kind === "negCube") {
+        const a = rng.int(2, cuMax);
+        const c = a ** 3;
+        return {
+          prompt: `${verb} {{(-${a})^3}}.`,
+          answer: { type: "number", value: -c },
+          solution: [
+            `{{(-${a})^3 = (-${a}) * (-${a}) * (-${a})}}`,
+            `{{(-${a}) * (-${a}) = ${a * a}}}, then {{${a * a} * (-${a}) = -${c}}}.`,
+            `Three negatives multiplied give a negative: ${num(-c)}.`,
+          ],
+          hint: "Multiply two of them first, then the third. Watch the sign at each step.",
+          traps: numTraps(-c, [[c, "Three negatives multiplied give a negative answer."], [-3 * a, "Cubing means multiplying the number by itself three times, not multiplying by 3."]]),
+        };
+      }
+      if (kind === "cbrtNeg") {
+        const a = rng.int(2, cuMax);
+        const c = a ** 3;
+        return {
+          prompt: `${verb} {{cbrt(-${c})}}.`,
+          answer: { type: "number", value: -a },
+          solution: [
+            `Which number cubes to {{-${c}}}? Try a negative number: {{(-${a})^3 = -${c}}}.`,
+            `So {{cbrt(-${c}) = -${a}}}.`,
+          ],
+          hint: "A cube root of a negative number does exist. Which number, cubed, gives this?",
+          traps: numTraps(-a, [[a, `{{${a}^3 = ${c}}}, which is positive. You need a number whose cube is {{-${c}}}.`]]),
+        };
+      }
+      if (kind === "negPow") {
+        const [b, e] = rng.pick([
+          [-1, rng.int(9, 25)],
+          [-2, rng.int(4, 7)],
+          [-3, rng.int(3, 4)],
+          [-10, rng.int(3, 5)],
+        ] as Array<[number, number]>);
+        const ans = b ** e;
+        return {
+          prompt: `${verb} {{(${b})^${e}}}.`,
+          answer: { type: "number", value: ans },
+          solution: [
+            `The index ${e} is ${e % 2 === 0 ? "even, so the negatives pair up and the answer is positive" : "odd, so one negative is left over and the answer is negative"}.`,
+            `{{${-b}^${e} = ${Math.abs(ans)}}}, so {{(${b})^${e} = ${ans}}}.`,
+          ],
+          hint: "Pair up the negative signs. Is there one left over?",
+          traps: numTraps(ans, [[-ans, "An even power of a negative number is positive; an odd power is negative."]]),
+        };
+      }
+      // combo (tier 3)
+      type Combo = { shown: string; ans: number; wrong: number; solution: string[]; fb: string };
+      const form = rng.int(0, 3);
+      const cq = attempt<Combo>(
+        () => {
+          const a = rng.int(2, 9), b = rng.int(2, 5);
+          let r: Combo;
+          if (form === 0) {
+            const ans = a * a - b ** 3;
+            r = {
+              shown: `(-${a})^2 + (-${b})^3`,
+              ans,
+              wrong: a * a + b ** 3,
+              solution: [`{{(-${a})^2 = ${a * a}}} and {{(-${b})^3 = -${b ** 3}}}.`, `${a * a} + (−${b ** 3}) = ${num(ans)}`],
+              fb: `{{(-${b})^3}} is negative: an odd number of negatives multiplied.`,
+            };
+          } else if (form === 1) {
+            const ans = -a * a - b * b;
+            r = {
+              shown: `-${a}^2 - (-${b})^2`,
+              ans,
+              wrong: a * a - b * b,
+              solution: [`{{-${a}^2 = -${a * a}}} (no brackets, so only the ${a} is squared).`, `{{(-${b})^2 = ${b * b}}}.`, `−${a * a} − ${b * b} = ${num(ans)}`],
+              fb: `{{-${a}^2}} has no brackets, so it is {{-(${a}^2) = -${a * a}}}.`,
+            };
+          } else if (form === 2) {
+            const ans = -(b ** 3) + a;
+            r = {
+              shown: `(-${b})^3 - cbrt(-${a ** 3})`,
+              ans,
+              wrong: -(b ** 3) - a,
+              solution: [`{{(-${b})^3 = -${b ** 3}}} and {{cbrt(-${a ** 3}) = -${a}}}.`, `−${b ** 3} − (−${a}) = −${b ** 3} + ${a} = ${num(ans)}`],
+              fb: `{{cbrt(-${a ** 3}) = -${a}}}, and subtracting a negative means adding.`,
+            };
+          } else {
+            const rt = rng.int(4, 12);
+            const ans = rt - b * b;
+            r = {
+              shown: `sqrt(${rt * rt}) - (-${b})^2`,
+              ans,
+              wrong: rt + b * b,
+              solution: [`{{sqrt(${rt * rt}) = ${rt}}} and {{(-${b})^2 = ${b * b}}}.`, `${rt} − ${b * b} = ${num(ans)}`],
+              fb: `{{(-${b})^2 = ${b * b}}} is positive, so you subtract ${b * b}.`,
+            };
+          }
+          return r.ans === 0 || r.ans === r.wrong ? null : r;
+        },
+        {
+          shown: "(-6)^2 + (-3)^3",
+          ans: 9,
+          wrong: 63,
+          solution: ["{{(-6)^2 = 36}} and {{(-3)^3 = -27}}.", "36 + (−27) = 9"],
+          fb: "{{(-3)^3}} is negative: an odd number of negatives multiplied.",
+        },
+      );
+      return {
+        prompt: `${verb} {{${cq.shown}}}.`,
+        answer: { type: "number", value: cq.ans },
+        solution: cq.solution,
+        hint: "Work out each power or root on its own first, sign included, then combine.",
+        traps: numTraps(cq.ans, [[cq.wrong, cq.fb]]),
+      };
+    },
+  },
+
+  // 4 ─────────────────────────────────────────────────────────────────────────
+  {
+    id: "integers-powers.index-notation-zero-power",
+    topicId: "integers-powers",
+    title: "Index notation and the power zero",
+    level: 1,
+    guideRef: "index-laws",
+    generate(rng, tier) {
+      const kind = rng.pick(
+        tier === 1 ? (["eval", "eval", "zero", "write"] as const) : tier === 2 ? (["eval", "zero2", "write2", "combo"] as const) : (["combo", "zero3", "write2", "eval"] as const),
+      );
+
+      if (kind === "eval") {
+        const pool: Array<[number, number]> =
+          tier === 1
+            ? [[2, 3], [2, 4], [2, 5], [2, 6], [3, 2], [3, 3], [3, 4], [4, 2], [4, 3], [5, 2], [5, 3], [6, 2], [7, 2], [8, 2], [9, 2], [10, 2], [10, 3], [10, 4], [10, 5], [10, 6], [11, 2], [12, 2], [1, 7], [6, 3]]
+            : [[2, 7], [2, 8], [2, 9], [2, 10], [3, 5], [4, 4], [5, 4], [6, 3], [7, 3], [8, 3], [9, 3], [11, 2], [12, 2], [13, 2], [15, 2], [20, 2], [20, 3], [3, 4], [10, 7], [1, 12], [4, 5], [5, 5]];
+        const [b, e] = rng.pick(pool);
+        const v = b ** e;
+        const written = Array(e).fill(b).join(" × ");
+        return {
+          prompt: `${rng.pick(["Work out", "Find the value of", "Evaluate"])} {{${b}^${e}}}.`,
+          answer: { type: "number", value: v, display: big(v) },
+          solution: [`{{${b}^${e}}} means ${e} lots of ${b} multiplied together: ${written}.`, `${written} = ${big(v)}`],
+          hint: `The small number tells you how many ${b}s to multiply together.`,
+          traps: numTraps(v, [
+            [b * e, `{{${b}^${e}}} is not ${b} × ${e}: the index tells you how many ${b}s to multiply together.`],
+            ...(e ** b <= 10000 ? ([[e ** b, `Check which number is the base: in {{${b}^${e}}} the base is ${b}.`]] as Array<[number, string]>) : []),
+          ]),
+        };
+      }
+
+      if (kind === "zero") {
+        const b = rng.pick([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 17, 20, 25, 50, 99, 100, 365, 1000]);
+        const c = b <= 12 ? b : 2;
+        return {
+          prompt: rng.pick([`Work out {{${b}^0}}.`, `What is the value of {{${b}^0}}?`, `Evaluate {{${b}^0}}.`]),
+          answer: { type: "number", value: 1 },
+          solution: [
+            `Follow the pattern of powers of ${c}: {{${c}^3 = ${c ** 3}}}, {{${c}^2 = ${c * c}}}, {{${c}^1 = ${c}}} — each step down divides by ${c}.`,
+            `So {{${c}^0 = ${c} ÷ ${c} = 1}}. The same happens for any non-zero base, so {{${b}^0 = 1}}.`,
+          ],
+          hint: "Write out the powers going down: the cube, the square, the first power … What do you divide by each time?",
+          traps: numTraps(1, [
+            [0, "Any non-zero number to the power 0 is 1, not 0. Follow the pattern: each step down divides by the base."],
+            [b, `{{${b}^1 = ${b}}}, but {{${b}^0}} is one more step down the pattern.`],
+          ]),
+        };
+      }
+
+      if (kind === "zero2" || kind === "zero3") {
+        const form = rng.int(0, kind === "zero2" ? 3 : 4);
+        const b = rng.int(2, 15), c = rng.int(2, 9);
+        let shown: string, ans: number, wrong: number, solution: string[];
+        let fb = `{{${b}^0}} is 1, not 0: each step down the pattern of powers divides by ${b}, and {{${b}^1 ÷ ${b} = 1}}.`;
+        if (form === 0) {
+          shown = `${b}^0 + ${c}^2`;
+          ans = 1 + c * c;
+          wrong = c * c;
+          solution = [`{{${b}^0 = 1}} and {{${c}^2 = ${c * c}}}.`, `1 + ${c * c} = ${ans}`];
+        } else if (form === 1) {
+          shown = `${b}^0 * ${c * 3}`;
+          ans = c * 3;
+          wrong = 0;
+          solution = [`{{${b}^0 = 1}}.`, `1 × ${c * 3} = ${ans}`];
+        } else if (form === 2) {
+          shown = `(-${b})^0`;
+          ans = 1;
+          wrong = -1;
+          fb = "Any non-zero number to the power 0 is 1 — a negative base included.";
+          solution = [`Any non-zero number to the power 0 is 1 — negatives included.`, `So {{(-${b})^0 = 1}}.`];
+        } else if (form === 3) {
+          shown = `${c}^3 - ${b}^0`;
+          ans = c ** 3 - 1;
+          wrong = c ** 3;
+          solution = [`{{${c}^3 = ${c ** 3}}} and {{${b}^0 = 1}}.`, `${c ** 3} − 1 = ${ans}`];
+        } else {
+          const d = rng.int(2, 9);
+          shown = `${b}^0 + ${c}^0 + ${d}^0`;
+          ans = 3;
+          wrong = 0;
+          solution = [`Each of {{${b}^0}}, {{${c}^0}} and {{${d}^0}} equals 1.`, `1 + 1 + 1 = 3`];
+          fb = "Each power of 0 is 1, not 0.";
+        }
+        return {
+          prompt: `${rng.pick(["Work out", "Evaluate"])} {{${shown}}}.`,
+          answer: { type: "number", value: ans },
+          solution,
+          hint: "Anything (except 0) to the power 0 is 1. Replace those first.",
+          traps: numTraps(ans, [[wrong, fb]]),
+        };
+      }
+
+      if (kind === "write") {
+        const b = rng.int(2, 9), n = rng.int(3, 7);
+        return {
+          prompt: `Write {{${Array(n).fill(b).join(" * ")}}} in index form.`,
+          answer: powerAns(b, n),
+          solution: [`There are ${n} lots of ${b} multiplied together.`, `So the base is ${b} and the index is ${n}: {{${b}^${n}}}.`],
+          hint: "Count how many times the number appears. That count is the index.",
+          traps: b === n ? [] : [{ spec: powerAns(n, b), feedback: `The base is the number being multiplied (${b}); the index counts how many there are (${n}).` }],
+        };
+      }
+
+      if (kind === "write2") {
+        const useLetters = rng.bool();
+        const [p, q] = useLetters ? rng.pick([["a", "b"], ["x", "y"], ["m", "n"], ["p", "q"]]) : rng.pick([["2", "3"], ["2", "5"], ["3", "5"], ["2", "7"], ["3", "7"], ["5", "7"]]);
+        const i = rng.int(2, 5), j = rng.int(2, 4);
+        let factors = [...Array(i).fill(p), ...Array(j).fill(q)];
+        if (tier === 3) factors = rng.shuffle(factors);
+        const accept = useLetters
+          ? [`${p}^${i}${q}^${j}`, `${p}^${i}*${q}^${j}`, `${q}^${j}${p}^${i}`, `${q}^${j}*${p}^${i}`]
+          : [`${p}^${i}*${q}^${j}`, `${q}^${j}*${p}^${i}`, `${p}^${i}x${q}^${j}`, `${q}^${j}x${p}^${i}`];
+        const disp = useLetters ? `${p}^${i}${q}^${j}` : `${p}^${i} * ${q}^${j}`;
+        return {
+          prompt: `Write {{${factors.join(" * ")}}} in index form.`,
+          answer: { type: "text", accept, display: `{{${disp}}}` },
+          solution: [`Count each one: there are ${i} lots of ${p} and ${j} lots of ${q}.`, `So it is {{${disp}}}.`],
+          hint: `Count the factors of ${p} and the factors of ${q} separately.`,
+          traps: i === j ? [] : [{ spec: { type: "text", accept: useLetters ? [`${p}^${j}${q}^${i}`] : [`${p}^${j}*${q}^${i}`] }, feedback: `Recount: how many factors of ${p} are there, and how many of ${q}?` }],
+        };
+      }
+
+      // combo: two powers combined
+      const small: Array<[number, number]> = [[2, 3], [2, 4], [2, 5], [3, 2], [3, 3], [4, 2], [5, 2], [4, 3], [5, 3], [6, 2], [7, 2], [10, 2], [10, 3], [2, 6], [3, 4], [9, 2]];
+      const pick = attempt(
+        () => {
+          const [b1, e1] = rng.pick(small), [b2, e2] = rng.pick(small);
+          if (b1 === b2) return null;
+          const op = rng.pick(["+", "-", "*"] as const);
+          const v1 = b1 ** e1, v2 = b2 ** e2;
+          const ans = op === "+" ? v1 + v2 : op === "-" ? v1 - v2 : v1 * v2;
+          if (ans === 0 || Math.abs(ans) > 2000) return null;
+          return { b1, e1, b2, e2, op, v1, v2, ans };
+        },
+        { b1: 2, e1: 3, b2: 3, e2: 2, op: "*" as "+" | "-" | "*", v1: 8, v2: 9, ans: 72 },
+      );
+      const { b1, e1, b2, e2, op, v1, v2, ans } = pick;
+      const glyph = op === "*" ? "×" : op === "-" ? "−" : "+";
+      const w1 = b1 * e1, w2 = b2 * e2;
+      const wrong = op === "+" ? w1 + w2 : op === "-" ? w1 - w2 : w1 * w2;
+      return {
+        prompt: `${rng.pick(["Work out", "Evaluate"])} {{${b1}^${e1} ${op} ${b2}^${e2}}}.`,
+        answer: { type: "number", value: ans },
+        solution: [`{{${b1}^${e1} = ${v1}}} and {{${b2}^${e2} = ${v2}}}.`, `${v1} ${glyph} ${v2} = ${num(ans)}`],
+        hint: "Work out each power first (powers come before +, − and ×).",
+        traps: numTraps(ans, [[wrong, `{{${b1}^${e1}}} means ${b1} multiplied by itself ${e1} times, not ${b1} × ${e1}.`]]),
+      };
+    },
+  },
+
+  // 5 ─────────────────────────────────────────────────────────────────────────
+  {
     id: "integers-powers.negatives-in-context",
     topicId: "integers-powers",
     title: "Negative numbers in real life: temperature, depth and money",
@@ -410,7 +724,7 @@ export const drills: Drill[] = [
             `${num(t0)} ${up ? "+" : "−"} ${d} = ${num(t1)}`,
             `The temperature at ${to} was ${num(t1)} °C.`,
           ],
-          hint: "Sketch a vertical number line (a thermometer). Which way does a rise move you?",
+          hint: `Sketch a vertical number line (a thermometer). Which way does a ${up ? "rise" : "fall"} move you?`,
           traps: numTraps(t1, [
             ...(up && t0 < 0 ? ([[t0 - d, "A rise moves you up the number line, towards zero — the temperature becomes less cold."]] as Array<[number, string]>) : []),
             ...(!up && t1 < 0 ? ([[-t1, "The temperature has dropped below zero, so the answer is negative."]] as Array<[number, string]>) : []),
@@ -477,7 +791,10 @@ export const drills: Drill[] = [
         const cold = rng.pick(COLD_CITIES);
         const prompt = fall
           ? `In ${cold} the temperature fell from ${hi} °C at noon to ${num(lo)} °C at midnight. By how many degrees did it fall?`
-          : `On a January day it was ${hi} °C in ${rng.pick(WARM_CITIES)} and ${num(lo)} °C in ${cold}. How many degrees warmer was it in the warmer city?`;
+          : (() => {
+              const warm = rng.pick(WARM_CITIES);
+              return `On a January day it was ${hi} °C in ${warm} and ${num(lo)} °C in ${cold}. How many degrees warmer was ${warm} than ${cold}?`;
+            })();
         const near = Math.abs(hi + lo);
         return {
           prompt,
@@ -618,300 +935,6 @@ export const drills: Drill[] = [
     },
   },
 
-  // 4 ─────────────────────────────────────────────────────────────────────────
-  {
-    id: "integers-powers.powers-roots-of-negatives",
-    topicId: "integers-powers",
-    title: "Squares, cubes and roots — including negatives",
-    level: 1,
-    guideRef: "squares-cubes-roots",
-    generate(rng, tier) {
-      const kind = rng.pick(
-        tier === 1
-          ? (["negSq", "sqrt", "negCube", "cbrtNeg"] as const)
-          : tier === 2
-            ? (["negSq", "minusSq", "sqrt", "negCube", "cbrtNeg", "negPow"] as const)
-            : (["minusSq", "negCube", "cbrtNeg", "negPow", "combo", "combo"] as const),
-      );
-      const sqMax = tier === 1 ? 12 : tier === 2 ? 15 : 20;
-      const cuMax = tier === 1 ? 5 : tier === 2 ? 6 : 10;
-      const verb = rng.pick(["Work out", "Find the value of", "Calculate"]);
-
-      if (kind === "negSq") {
-        const a = rng.int(2, sqMax);
-        return {
-          prompt: `${verb} {{(-${a})^2}}.`,
-          answer: { type: "number", value: a * a },
-          solution: [`{{(-${a})^2 = (-${a}) * (-${a})}}`, `A negative times a negative is positive, so the answer is ${a * a}.`],
-          hint: "Write it as a multiplication. What sign does negative × negative give?",
-          traps: numTraps(a * a, [[-a * a, `(−${a}) × (−${a}): a negative times a negative is positive.`], [-2 * a, "Squaring means multiplying by itself, not doubling."]]),
-        };
-      }
-      if (kind === "minusSq") {
-        const a = rng.int(2, sqMax);
-        return {
-          prompt: `${verb} {{-${a}^2}}.`,
-          answer: { type: "number", value: -a * a },
-          solution: [
-            `There are no brackets, so only the ${a} is squared: {{${a}^2 = ${a * a}}}.`,
-            `Then apply the minus sign: {{-${a}^2 = -(${a}^2) = -${a * a}}}.`,
-            `Compare: {{(-${a})^2 = ${a * a}}} — the brackets make the difference.`,
-          ],
-          hint: "Is the minus sign inside a bracket? If not, the power belongs to the number only.",
-          traps: numTraps(-a * a, [[a * a, `Without brackets, the square applies to the ${a} only: {{-${a}^2}} means {{-(${a} * ${a})}}.`]]),
-        };
-      }
-      if (kind === "sqrt") {
-        const a = rng.int(2, tier === 1 ? 15 : sqMax);
-        const negOutside = tier === 3 && rng.bool();
-        const ans = negOutside ? -a : a;
-        return {
-          prompt: `${verb} {{${negOutside ? "-" : ""}sqrt(${a * a})}}.`,
-          answer: { type: "number", value: ans },
-          solution: [
-            `{{${a}^2 = ${a * a}}}, so {{sqrt(${a * a}) = ${a}}}.`,
-            ...(negOutside ? [`The minus sign is outside the root, so the answer is ${num(-a)}.`] : [`The √ sign means the positive square root, so the answer is ${a}.`]),
-          ],
-          hint: "Which number multiplied by itself gives the number under the root?",
-          traps: numTraps(ans, [[(negOutside ? -1 : 1) * ((a * a) / 2), "A square root is not half of the number. Which number times itself gives it?"]]),
-        };
-      }
-      if (kind === "negCube") {
-        const a = rng.int(2, cuMax);
-        const c = a ** 3;
-        return {
-          prompt: `${verb} {{(-${a})^3}}.`,
-          answer: { type: "number", value: -c },
-          solution: [
-            `{{(-${a})^3 = (-${a}) * (-${a}) * (-${a})}}`,
-            `{{(-${a}) * (-${a}) = ${a * a}}}, then {{${a * a} * (-${a}) = -${c}}}.`,
-            `Three negatives multiplied give a negative: ${num(-c)}.`,
-          ],
-          hint: "Multiply two of them first, then the third. Watch the sign at each step.",
-          traps: numTraps(-c, [[c, "Three negatives multiplied give a negative answer."], [-3 * a, "Cubing means multiplying the number by itself three times, not multiplying by 3."]]),
-        };
-      }
-      if (kind === "cbrtNeg") {
-        const a = rng.int(2, cuMax);
-        const c = a ** 3;
-        return {
-          prompt: `${verb} {{cbrt(-${c})}}.`,
-          answer: { type: "number", value: -a },
-          solution: [
-            `Which number cubes to {{-${c}}}? Try a negative number: {{(-${a})^3 = -${c}}}.`,
-            `So {{cbrt(-${c}) = -${a}}}.`,
-          ],
-          hint: "A cube root of a negative number does exist. Which number, cubed, gives this?",
-          traps: numTraps(-a, [[a, `{{${a}^3 = ${c}}}, which is positive. You need a number whose cube is {{-${c}}}.`]]),
-        };
-      }
-      if (kind === "negPow") {
-        const [b, e] = rng.pick([
-          [-1, rng.int(9, 25)],
-          [-2, rng.int(4, 7)],
-          [-3, rng.int(3, 4)],
-          [-10, rng.int(3, 5)],
-        ] as Array<[number, number]>);
-        const ans = b ** e;
-        return {
-          prompt: `${verb} {{(${b})^${e}}}.`,
-          answer: { type: "number", value: ans },
-          solution: [
-            `The index ${e} is ${e % 2 === 0 ? "even, so the negatives pair up and the answer is positive" : "odd, so one negative is left over and the answer is negative"}.`,
-            `{{${-b}^${e} = ${-b === 1 ? 1 : big(Math.abs(ans)).replace(/,/g, "")}}}, so {{(${b})^${e} = ${ans}}}.`,
-          ],
-          hint: "Pair up the negative signs. Is there one left over?",
-          traps: numTraps(ans, [[-ans, "An even power of a negative number is positive; an odd power is negative."]]),
-        };
-      }
-      // combo (tier 3)
-      const form = rng.int(0, 3);
-      const a = rng.int(2, 9), b = rng.int(2, 5);
-      let prompt: string, ans: number, wrong: number, solution: string[], fb: string;
-      if (form === 0) {
-        ans = a * a - b ** 3;
-        wrong = a * a + b ** 3;
-        prompt = `{{(-${a})^2 + (-${b})^3}}`;
-        solution = [`{{(-${a})^2 = ${a * a}}} and {{(-${b})^3 = -${b ** 3}}}.`, `${a * a} + (−${b ** 3}) = ${num(ans)}`];
-        fb = `{{(-${b})^3}} is negative: an odd number of negatives multiplied.`;
-      } else if (form === 1) {
-        ans = -a * a - b * b;
-        wrong = a * a - b * b;
-        prompt = `{{-${a}^2 - (-${b})^2}}`;
-        solution = [`{{-${a}^2 = -${a * a}}} (no brackets, so only the ${a} is squared).`, `{{(-${b})^2 = ${b * b}}}.`, `−${a * a} − ${b * b} = ${num(ans)}`];
-        fb = `{{-${a}^2}} has no brackets, so it is {{-(${a}^2) = -${a * a}}}.`;
-      } else if (form === 2) {
-        ans = -(b ** 3) + a;
-        wrong = -(b ** 3) - a;
-        prompt = `{{(-${b})^3 - cbrt(-${a ** 3})}}`;
-        solution = [`{{(-${b})^3 = -${b ** 3}}} and {{cbrt(-${a ** 3}) = -${a}}}.`, `−${b ** 3} − (−${a}) = −${b ** 3} + ${a} = ${num(ans)}`];
-        fb = `{{cbrt(-${a ** 3}) = -${a}}}, and subtracting a negative means adding.`;
-      } else {
-        const r = rng.int(4, 12);
-        ans = r - b * b;
-        wrong = r + b * b;
-        prompt = `{{sqrt(${r * r}) - (-${b})^2}}`;
-        solution = [`{{sqrt(${r * r}) = ${r}}} and {{(-${b})^2 = ${b * b}}}.`, `${r} − ${b * b} = ${num(ans)}`];
-        fb = `{{(-${b})^2 = ${b * b}}} is positive, so you subtract ${b * b}.`;
-      }
-      return {
-        prompt: `${verb} ${prompt}.`,
-        answer: { type: "number", value: ans },
-        solution,
-        hint: "Work out each power or root on its own first, sign included, then combine.",
-        traps: ans === 0 ? [] : numTraps(ans, [[wrong, fb]]),
-      };
-    },
-  },
-
-  // 5 ─────────────────────────────────────────────────────────────────────────
-  {
-    id: "integers-powers.index-notation-zero-power",
-    topicId: "integers-powers",
-    title: "Index notation and the power zero",
-    level: 1,
-    guideRef: "index-laws",
-    generate(rng, tier) {
-      const kind = rng.pick(
-        tier === 1 ? (["eval", "eval", "zero", "write"] as const) : tier === 2 ? (["eval", "zero2", "write2", "combo"] as const) : (["combo", "zero3", "write2", "eval"] as const),
-      );
-
-      if (kind === "eval") {
-        const pool: Array<[number, number]> =
-          tier === 1
-            ? [[2, 3], [2, 4], [2, 5], [2, 6], [3, 2], [3, 3], [3, 4], [4, 2], [4, 3], [5, 2], [5, 3], [6, 2], [7, 2], [8, 2], [9, 2], [10, 2], [10, 3], [10, 4], [10, 5], [10, 6], [11, 2], [12, 2], [1, 7], [6, 3]]
-            : [[2, 7], [2, 8], [2, 9], [2, 10], [3, 5], [4, 4], [5, 4], [6, 3], [7, 3], [8, 3], [9, 3], [11, 2], [12, 2], [13, 2], [15, 2], [20, 2], [20, 3], [3, 4], [10, 7], [1, 12], [4, 5], [5, 5]];
-        const [b, e] = rng.pick(pool);
-        const v = b ** e;
-        const written = Array(e).fill(b).join(" × ");
-        return {
-          prompt: `${rng.pick(["Work out", "Find the value of", "Evaluate"])} {{${b}^${e}}}.`,
-          answer: { type: "number", value: v, display: big(v) },
-          solution: [`{{${b}^${e}}} means ${e} lots of ${b} multiplied together: ${written}.`, `${written} = ${big(v)}`],
-          hint: `The small number tells you how many ${b}s to multiply together.`,
-          traps: numTraps(v, [
-            [b * e, `{{${b}^${e}}} is not ${b} × ${e}: the index tells you how many ${b}s to multiply together.`],
-            [e ** b, `Check which number is the base: in {{${b}^${e}}} the base is ${b}.`],
-          ]),
-        };
-      }
-
-      if (kind === "zero") {
-        const b = rng.pick([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 17, 20, 25, 50, 99, 100, 365, 1000]);
-        const c = b <= 12 ? b : 2;
-        return {
-          prompt: `${rng.pick(["Work out", "What is the value of", "Evaluate"])} {{${b}^0}}?`.replace(/\?$/, "").concat(rng.bool() ? "." : "."),
-          answer: { type: "number", value: 1 },
-          solution: [
-            `Follow the pattern of powers of ${c}: {{${c}^3 = ${c ** 3}}}, {{${c}^2 = ${c * c}}}, {{${c}^1 = ${c}}} — each step down divides by ${c}.`,
-            `So {{${c}^0 = ${c} ÷ ${c} = 1}}. The same happens for any non-zero base, so {{${b}^0 = 1}}.`,
-          ],
-          hint: "Write out the powers going down: the cube, the square, the first power … What do you divide by each time?",
-          traps: numTraps(1, [
-            [0, "Any non-zero number to the power 0 is 1, not 0. Follow the pattern: each step down divides by the base."],
-            [b, `{{${b}^1 = ${b}}}, but {{${b}^0}} is one more step down the pattern.`],
-          ]),
-        };
-      }
-
-      if (kind === "zero2" || kind === "zero3") {
-        const form = rng.int(0, kind === "zero2" ? 3 : 4);
-        const b = rng.int(2, 15), c = rng.int(2, 9);
-        let shown: string, ans: number, wrong: number, solution: string[];
-        if (form === 0) {
-          shown = `${b}^0 + ${c}^2`;
-          ans = 1 + c * c;
-          wrong = c * c;
-          solution = [`{{${b}^0 = 1}} and {{${c}^2 = ${c * c}}}.`, `1 + ${c * c} = ${ans}`];
-        } else if (form === 1) {
-          shown = `${b}^0 * ${c * 3}`;
-          ans = c * 3;
-          wrong = 0;
-          solution = [`{{${b}^0 = 1}}.`, `1 × ${c * 3} = ${ans}`];
-        } else if (form === 2) {
-          shown = `(-${b})^0`;
-          ans = 1;
-          wrong = -1;
-          solution = [`Any non-zero number to the power 0 is 1 — negatives included.`, `So {{(-${b})^0 = 1}}.`];
-        } else if (form === 3) {
-          shown = `${c}^3 - ${b}^0`;
-          ans = c ** 3 - 1;
-          wrong = c ** 3;
-          solution = [`{{${c}^3 = ${c ** 3}}} and {{${b}^0 = 1}}.`, `${c ** 3} − 1 = ${ans}`];
-        } else {
-          const d = rng.int(2, 9);
-          shown = `${b}^0 + ${c}^0 + ${d}^0`;
-          ans = 3;
-          wrong = 0;
-          solution = [`Each of {{${b}^0}}, {{${c}^0}} and {{${d}^0}} equals 1.`, `1 + 1 + 1 = 3`];
-        }
-        return {
-          prompt: `${rng.pick(["Work out", "Evaluate"])} {{${shown}}}.`,
-          answer: { type: "number", value: ans },
-          solution,
-          hint: "Anything (except 0) to the power 0 is 1. Replace those first.",
-          traps: numTraps(ans, [[wrong, "A power of 0 gives 1, not 0 (and the sign of a negative base doesn't matter when the index is 0)."]]),
-        };
-      }
-
-      if (kind === "write") {
-        const b = rng.int(2, 9), n = rng.int(3, 7);
-        return {
-          prompt: `Write {{${Array(n).fill(b).join(" * ")}}} in index form.`,
-          answer: powerAns(b, n),
-          solution: [`There are ${n} lots of ${b} multiplied together.`, `So the base is ${b} and the index is ${n}: {{${b}^${n}}}.`],
-          hint: "Count how many times the number appears. That count is the index.",
-          traps: b === n ? [] : [{ spec: powerAns(n, b), feedback: `The base is the number being multiplied (${b}); the index counts how many there are (${n}).` }],
-        };
-      }
-
-      if (kind === "write2") {
-        const useLetters = rng.bool();
-        const [p, q] = useLetters ? rng.pick([["a", "b"], ["x", "y"], ["m", "n"], ["p", "q"]]) : rng.pick([["2", "3"], ["2", "5"], ["3", "5"], ["2", "7"], ["3", "7"], ["5", "7"]]);
-        const i = rng.int(2, 5), j = rng.int(2, 4);
-        let factors = [...Array(i).fill(p), ...Array(j).fill(q)];
-        if (tier === 3) factors = rng.shuffle(factors);
-        const accept = useLetters
-          ? [`${p}^${i}${q}^${j}`, `${p}^${i}*${q}^${j}`, `${q}^${j}${p}^${i}`, `${q}^${j}*${p}^${i}`]
-          : [`${p}^${i}*${q}^${j}`, `${q}^${j}*${p}^${i}`, `${p}^${i}x${q}^${j}`, `${q}^${j}x${p}^${i}`];
-        const disp = useLetters ? `${p}^${i}${q}^${j}` : `${p}^${i} * ${q}^${j}`;
-        return {
-          prompt: `Write {{${factors.join(" * ")}}} in index form.`,
-          answer: { type: "text", accept, display: `{{${disp}}}` },
-          solution: [`Count each one: there are ${i} lots of ${p} and ${j} lots of ${q}.`, `So it is {{${disp}}}.`],
-          hint: `Count the ${p}s and the ${q}s separately.`,
-          traps: i === j ? [] : [{ spec: { type: "text", accept: useLetters ? [`${p}^${j}${q}^${i}`] : [`${p}^${j}*${q}^${i}`] }, feedback: `Recount: how many ${p}s are there, and how many ${q}s?` }],
-        };
-      }
-
-      // combo: two powers combined
-      const small: Array<[number, number]> = [[2, 3], [2, 4], [2, 5], [3, 2], [3, 3], [4, 2], [5, 2], [4, 3], [5, 3], [6, 2], [7, 2], [10, 2], [10, 3], [2, 6], [3, 4], [9, 2]];
-      const pick = attempt(
-        () => {
-          const [b1, e1] = rng.pick(small), [b2, e2] = rng.pick(small);
-          if (b1 === b2) return null;
-          const op = rng.pick(["+", "-", "*"] as const);
-          const v1 = b1 ** e1, v2 = b2 ** e2;
-          const ans = op === "+" ? v1 + v2 : op === "-" ? v1 - v2 : v1 * v2;
-          if (ans === 0 || Math.abs(ans) > 2000) return null;
-          return { b1, e1, b2, e2, op, v1, v2, ans };
-        },
-        { b1: 2, e1: 3, b2: 3, e2: 2, op: "*" as "+" | "-" | "*", v1: 8, v2: 9, ans: 72 },
-      );
-      const { b1, e1, b2, e2, op, v1, v2, ans } = pick;
-      const glyph = op === "*" ? "×" : op === "-" ? "−" : "+";
-      const w1 = b1 * e1, w2 = b2 * e2;
-      const wrong = op === "+" ? w1 + w2 : op === "-" ? w1 - w2 : w1 * w2;
-      return {
-        prompt: `${rng.pick(["Work out", "Evaluate"])} {{${b1}^${e1} ${op} ${b2}^${e2}}}.`,
-        answer: { type: "number", value: ans },
-        solution: [`{{${b1}^${e1} = ${v1}}} and {{${b2}^${e2} = ${v2}}}.`, `${v1} ${glyph} ${v2} = ${num(ans)}`],
-        hint: "Work out each power first (powers come before +, − and ×).",
-        traps: numTraps(ans, [[wrong, `{{${b1}^${e1}}} means ${b1} multiplied by itself ${e1} times, not ${b1} × ${e1}.`]]),
-      };
-    },
-  },
-
   // 6 ─────────────────────────────────────────────────────────────────────────
   {
     id: "integers-powers.types-of-number",
@@ -1008,8 +1031,15 @@ export const drills: Drill[] = [
         };
       }
 
+      const several = (k: Kind, lo: number, hi: number): Kind[] => Array(rng.int(lo, hi)).fill(k);
       if (kindQ === "countNat") {
-        const kinds: Kind[] = ["nat", "nat", "negint", rng.pick(["zero", "negint"] as Kind[]), rng.pick(["dec", "frac"] as Kind[]), tier === 1 ? "nat" : "rootInt"];
+        const kinds: Kind[] = [
+          ...several("nat", 1, 3),
+          ...several("negint", 1, 2),
+          ...several(rng.pick(["dec", "frac"] as Kind[]), 1, 2),
+          ...(rng.bool() ? (["zero"] as Kind[]) : []),
+        ];
+        if (tier > 1) kinds.push("rootInt");
         if (tier === 3) kinds.push("fracInt");
         const items = build(kinds);
         const nat = items.filter(isNat);
@@ -1035,14 +1065,13 @@ export const drills: Drill[] = [
 
       // countRat / countIrr
       const kinds: Kind[] = [
-        rng.pick(["nat", "negint"] as Kind[]),
-        rng.pick(["nat", "negint", "zero"] as Kind[]),
-        rng.pick(["dec", "frac"] as Kind[]),
-        "irr",
-        rng.pick(["irr", "dec", "frac"] as Kind[]),
-        tier === 1 ? rng.pick(["irr", "nat"] as Kind[]) : "rootInt",
+        ...several(rng.pick(["nat", "negint"] as Kind[]), 1, 2),
+        ...(rng.bool(0.3) ? (["zero"] as Kind[]) : []),
+        ...several(rng.pick(["dec", "frac"] as Kind[]), 1, 2),
+        ...several("irr", 1, 3),
       ];
-      if (tier === 3) kinds.push(rng.pick(["fracInt", "irr"] as Kind[]));
+      if (tier > 1) kinds.push("rootInt");
+      if (tier === 3) kinds.push(rng.pick(["fracInt", "irr", "frac"] as Kind[]));
       const items = build(kinds);
       const rat = items.filter(isRat);
       const irr = items.filter((i) => !isRat(i));
@@ -1190,6 +1219,7 @@ export const drills: Drill[] = [
             const k = (rng.bool() ? -1 : 1) * rng.int(2, 9);
             const b = rng.int(-10, 10);
             const a = b + k;
+            if (a === 0 || b === 0) return null;
             const sq = k * k;
             const divs = [2, 3, 4, 6, 9].filter((d) => sq % d === 0);
             if (!divs.length) return null;
@@ -1297,8 +1327,8 @@ export const drills: Drill[] = [
         // Choose the rounded numbers first so that they divide exactly.
         const { rb, rq } = attempt(
           () => {
-            const lb = rng.int(1, 9), lq = rng.int(1, 9);
-            if (lb * lq > 9 || (lb === 1 && lq === 1)) return null;
+            const lb = rng.int(2, 9), lq = rng.int(1, 9);
+            if (lb * lq > 9) return null;
             const rb = lb * 10 ** (tier === 3 ? rng.int(1, 2) : 1);
             const rq = lq * 10 ** (tier === 1 ? 0 : tier === 2 ? 1 : rng.int(1, 2));
             if (rq === 1) return null;
@@ -1469,7 +1499,7 @@ export const drills: Drill[] = [
         ["square floor tile", "cm"],
         ["square vegetable plot", "m"],
         ["square photo frame", "cm"],
-        ["square HDB void deck mural", "m"],
+        ["square courtyard", "m"],
         ["square chessboard", "cm"],
       ]);
       const quarter = N / 4;
@@ -1658,7 +1688,7 @@ export const drills: Drill[] = [
           prompt: `${say} {{${v}^${m} * ${v}^${n}}}.${tail}`,
           answer: monoAns(1, v, e),
           solution: [`Same base, multiplying: add the indices.`, `{{${v}^${m} * ${v}^${n} = ${v}^(${m} + ${n}) = ${v}^${e}}}`],
-          hint: "How many " + v + "s are multiplied together altogether?",
+          hint: `How many factors of ${v} are multiplied together altogether?`,
           traps: m * n !== e ? [{ spec: monoAns(1, v, m * n), feedback: "When multiplying powers of the same letter, add the indices — don't multiply them." }] : [],
         };
       }
@@ -1670,7 +1700,7 @@ export const drills: Drill[] = [
           prompt: `${say} {{${v}^${m} ÷ ${v}^${n}}}.${tail}`,
           answer: monoAns(1, v, e),
           solution: [`Same base, dividing: subtract the indices.`, `{{${v}^${m} ÷ ${v}^${n} = ${v}^(${m} - ${n}) = ${v}^${e}}}`],
-          hint: `${n} of the ${v}s on top cancel with the ${n} below. How many are left?`,
+          hint: `${n} of the factors of ${v} on top cancel with the ${n} below. How many are left?`,
           traps: [{ spec: monoAns(1, v, t), feedback: "When dividing powers of the same letter, subtract the indices." }],
         };
       }
@@ -1681,7 +1711,7 @@ export const drills: Drill[] = [
           prompt: `${say} {{(${v}^${m})^${n}}}.${tail}`,
           answer: monoAns(1, v, e),
           solution: [`{{(${v}^${m})^${n}}} is {{${v}^${m}}} multiplied by itself ${n} times.`, `Power of a power: multiply the indices. {{(${v}^${m})^${n} = ${v}^(${m} * ${n}) = ${v}^${e}}}`],
-          hint: `Write out {{${v}^${m}}} ${n} times, multiplied. How many ${v}s is that?`,
+          hint: `Write out {{${v}^${m}}} ${n} times, multiplied. How many factors of ${v} is that?`,
           traps: m + n !== e ? [{ spec: monoAns(1, v, m + n), feedback: "For a power of a power, multiply the indices — you've added them." }] : [],
         };
       }
@@ -1702,7 +1732,7 @@ export const drills: Drill[] = [
             const c1 = (tier === 3 && rng.bool(0.4) ? -1 : 1) * rng.int(2, 9);
             const c2 = (rng.bool(0.3) ? -1 : 1) * rng.int(2, 9);
             const m = rng.int(2, 8), n = rng.int(2, 8);
-            if (c1 + c2 === c1 * c2 || m * n === m + n) return null;
+            if (c1 + c2 === c1 * c2 || c1 + c2 === 0 || m * n === m + n) return null;
             return { c1, c2, m, n };
           },
           { c1: 3, c2: 5, m: 4, n: 3 },
@@ -1716,7 +1746,7 @@ export const drills: Drill[] = [
             `Multiply the powers of ${v}: add the indices, {{${v}^${m} * ${v}^${n} = ${v}^${e}}}.`,
             `So the answer is {{${mono(c, v, e)}}}.`,
           ],
-          hint: `Deal with the numbers and the ${v}s separately.`,
+          hint: `Deal with the numbers and the powers of ${v} separately.`,
           traps: [
             { spec: monoAns(c1 + c2, v, e), feedback: "Multiply the numbers in front — don't add them." },
             { spec: monoAns(c, v, m * n), feedback: "Multiply the numbers, but add the indices." },
@@ -1740,7 +1770,7 @@ export const drills: Drill[] = [
           prompt: `${say} {{${shown}}}.${tail}`,
           answer: monoAns(c, v, e),
           solution: [`Divide the numbers: ${c1} ÷ ${c2} = ${c}.`, `Divide the powers of ${v}: subtract the indices, {{${v}^${m} ÷ ${v}^${n} = ${v}^${e}}}.`, `So the answer is {{${mono(c, v, e)}}}.`],
-          hint: `Deal with the numbers and the ${v}s separately.`,
+          hint: `Deal with the numbers and the powers of ${v} separately.`,
           traps: [
             ...(m % n === 0 && m / n !== e ? [{ spec: monoAns(c, v, m / n), feedback: "Divide the numbers, but subtract the indices." }] : []),
             { spec: monoAns(c1 - c2, v, e), feedback: "Divide the numbers in front — don't subtract them." },
@@ -1776,6 +1806,7 @@ export const drills: Drill[] = [
             if (top % c3 !== 0) return null;
             const c = top / c3, e = m1 + m2 - m3;
             if (c < 2 || e < 2 || m1 * m2 - m3 === e) return null;
+            if ((c3 === c1 && m3 === m1) || (c3 === c2 && m3 === m2)) return null;
             return { c1, c2, c3, m1, m2, m3, c, e };
           },
           { c1: 4, c2: 3, c3: 6, m1: 5, m2: 2, m3: 3, c: 2, e: 4 },
@@ -1918,7 +1949,7 @@ export const drills: Drill[] = [
             `{{${b}^${e} = ${p}}}, so {{${b}^(-${e}) = 1/${p}}}.`,
           ],
           hint: `Continue the pattern {{${b}^2}}, {{${b}^1}}, {{${b}^0}}, … dividing by ${b} each time.`,
-          traps: numTraps(-1, [
+          traps: numTraps(null, [
             [-p, `A negative index doesn't make the number negative: {{${b}^(-${e})}} means {{1/${b}^${e}}}.`],
             [-b * e, "The index isn't a multiplier, and a negative index means 'one over'."],
           ]),
@@ -1934,7 +1965,7 @@ export const drills: Drill[] = [
           hint: "Write it as a fraction with a power of 10 underneath first.",
           traps: numTraps(v, [
             [-(10 ** e), `A negative index doesn't make the number negative: {{10^(-${e}) = 1/10^${e}}}.`],
-            [Number(`1e-${e + 1}`), `Count the decimal places: {{1/${10 ** e}}} has its 1 in place ${e} after the decimal point.`],
+            [Number(`1e-${e + 1}`), `{{1/${10 ** e}}} = ${v.toFixed(e)}: the 1 goes in the ${["tenths", "hundredths", "thousandths", "ten-thousandths", "hundred-thousandths"][e - 1]} column.`],
           ]),
         };
       }
@@ -1955,7 +1986,7 @@ export const drills: Drill[] = [
           () => {
             const div = rng.bool();
             const m = rng.int(1, 7), n = rng.int(2, 8);
-            const e = div ? m - n : m - n; // m × b^(−n)  or  b^m ÷ b^n
+            const e = m - n; // b^m × b^(−n) and b^m ÷ b^n both give index m − n
             if (e === 0 || Math.abs(e) > 3 || b ** Math.abs(e) > 1000) return null;
             return { div, m, n, e };
           },
@@ -1975,7 +2006,7 @@ export const drills: Drill[] = [
           traps:
             r.e > 0
               ? [{ spec: { type: "fraction", n: 1, d: p }, feedback: "The index is positive here, so the answer is a whole number." }]
-              : numTraps(-1, [
+              : numTraps(null, [
                   [p, `The index is negative, so the answer is one over ${p}.`],
                   [-p, `A negative index means "one over", not a negative number.`],
                 ]),
@@ -2000,8 +2031,8 @@ export const drills: Drill[] = [
         ],
         hint: "Flip the fraction to make the index positive, then apply the power.",
         traps:
-          r.e === 2 && gcd(2 * r.q, r.p) !== 0 && 2 * r.q * D !== N * r.p
-            ? [{ spec: { type: "fraction", n: 2 * r.q, d: r.p }, feedback: "The index 2 means square the fraction, not double it." }]
+          r.e === 2 && 2 * r.p !== r.q
+            ? [{ spec: { type: "fraction", n: (2 * r.q) / gcd(2 * r.q, r.p), d: r.p / gcd(2 * r.q, r.p) }, feedback: "The index 2 means square the fraction, not double it." }]
             : [],
       };
     },

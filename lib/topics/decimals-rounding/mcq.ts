@@ -273,7 +273,7 @@ export const mcqPapers: Paper[] = [
         question:
           "Arjun rounds 3.45 to 1 decimal place and gets 3.5. Then he rounds 3.5 to the nearest whole number and gets 4. Which statement is correct?",
         options: [
-          "3.45 to the nearest whole number is 3: rounding in two stages pushed it over halfway, so always round the original number.",
+          "3.45 to the nearest whole number is 3: rounding in two stages pushed it up to the halfway point, so always round the original number.",
           "3.45 to the nearest whole number is 4, and his method is fine.",
           "3.45 to the nearest whole number is 3, because he should have rounded 3.45 to 3.4 first.",
           "3.45 to the nearest whole number is 4, because 3.45 is closer to 4 than to 3.",
@@ -334,7 +334,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 3,
         explanation:
           "Both products share the factor 0.6, so take it out: (19.9 + 0.1) × 0.6 = 20 × 0.6 = 12. 11.94 is only 19.9 × 0.6 — the extra 0.1 × 0.6 = 0.06 was forgotten. 1.2 is a place-value slip: 20 × 0.6 = 12, whereas 20 × 0.06 = 1.2.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "ordering-and-shortcuts",
         hints: [
           "What do the two products have in common?",
@@ -477,7 +477,7 @@ export const mcqPapers: Paper[] = [
         options: ["8.05", "8.052", "8.1", "8.0"],
         answerIndex: 0,
         explanation:
-          "The 0 between 8 and 5 is significant, so the first three significant figures are 8, 0 and 5. The next digit is 1, so keep the 5: 8.05. 8.052 is 3 decimal places (or comes from skipping the zero); 8.1 is 2 significant figures; 8.0 chops off a figure.",
+          "The 0 between 8 and 5 is significant, so the first three significant figures are 8, 0 and 5. The next digit is 1, so keep the 5: 8.05. 8.052 is 3 decimal places (or comes from skipping the zero); 8.1 is 2 significant figures; 8.0 chops the number off after 2 significant figures instead of rounding to 3.",
         difficulty: "core",
         guideRef: "significant-figures",
         hints: [
@@ -671,7 +671,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 1,
         explanation:
           "Multiply both numbers by 1000 so the divisor becomes 17: 3.91 ÷ 0.017 = 3910 ÷ 17. 3910 is 10 times 391, so the answer is 10 × 23 = 230. Check: 0.017 × 230 = 3.91. 0.23 only allows for 3.91 being 391 ÷ 100 and forgets that dividing by the small number 0.017 makes the answer much bigger.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "dividing-decimals",
         hints: [
           "Make the divisor 17 by multiplying both numbers by the same power of 10.",
@@ -1017,7 +1017,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "Split 1.01 into 1 + 0.01: 0.99 × 1.01 = 0.99 + 0.99 × 0.01 = 0.99 + 0.0099 = 0.9999. The extra 0.0099 is a little less than the 0.01 that was lost, so the answer is just under 1. '1' assumes the −0.01 and +0.01 cancel out. 0.999 misplaces the point: 99 × 101 = 9999 and there are 4 decimal places.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "ordering-and-shortcuts",
         hints: [
           "Split 1.01 into 1 + 0.01.",
@@ -1381,7 +1381,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 3,
         explanation:
           "Numbers that round to 4.7 run from the halfway point below (4.65) to the halfway point above (4.75). 4.65 rounds up to 4.7, so it is included (≤); 4.75 rounds up to 4.8, so it is excluded (<). {{4.65 <= x <= 4.75}} wrongly includes 4.75; {{4.7 <= x < 4.8}} is the interval for truncating, not rounding.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "error-intervals",
         hints: [
           "What is halfway between 4.6 and 4.7? Between 4.7 and 4.8?",

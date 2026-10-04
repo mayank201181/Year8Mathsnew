@@ -229,7 +229,7 @@ function RoundingMicroscope() {
         <div key={pos} className="flex flex-col items-center">
           <span className="h-4 text-[10px] font-bold leading-4 text-ink-2">{label}</span>
           <span
-            className={`flex h-10 w-7 items-center justify-center rounded-md border-2 text-xl font-extrabold tabular-nums ${cls} ${padded ? "border-dashed" : ""}`}
+            className={`flex h-10 w-6 items-center justify-center rounded-md border-2 text-lg sm:w-7 sm:text-xl font-extrabold tabular-nums ${cls} ${padded ? "border-dashed" : ""}`}
           >
             {digitAt(dec, pos)}
           </span>
@@ -868,7 +868,7 @@ function FractionDecimalMachine() {
               return (
                 <div key={i} className="ml-0.5 flex flex-col items-center">
                   <span
-                    className={`flex h-10 w-7 items-center justify-center rounded-md border-2 text-xl font-extrabold ${
+                    className={`flex h-10 w-6 items-center justify-center rounded-md border-2 text-lg sm:w-7 sm:text-xl font-extrabold ${
                       !shown ? (next ? "border-dashed border-brand text-brand" : "border-dashed border-line text-transparent") : inCycle ? "border-brand bg-brand-soft text-brand" : "border-line bg-surface text-ink"
                     }`}
                   >

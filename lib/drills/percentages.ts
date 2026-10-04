@@ -66,7 +66,7 @@ function bigDec(N: bigint, D: bigint, maxDp = 4): string {
   const exact = (N * f) % D === 0n;
   const s = scaled.toString().padStart(maxDp + 1, "0");
   const ip = s.slice(0, s.length - maxDp);
-  const fp = s.slice(s.length - maxDp).replace(/0+$/, "");
+  const fp = exact ? s.slice(s.length - maxDp).replace(/0+$/, "") : s.slice(s.length - maxDp);
   return ip + (fp ? "." + fp : "") + (exact ? "" : "…");
 }
 

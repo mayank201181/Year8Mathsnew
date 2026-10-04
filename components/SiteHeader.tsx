@@ -21,16 +21,18 @@ function active(path: string, href: string) {
 export function SiteHeader() {
   const { data, activeProfile, mode, account, switchProfile, logout, leaveGuest } = useStore();
   const path = usePathname() ?? "/";
-  const [open, setOpen] = useState(false);
+  // The menu remembers the page it was opened on, so navigating closes it.
+  const [openAt, setOpenAt] = useState<string | null>(null);
+  const open = openAt === path;
   const menuRef = useRef<HTMLDivElement>(null);
   const { rank } = rankFor(data.stars);
 
   useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent | TouchEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpenAt(null);
     };
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenAt(null);
     document.addEventListener("mousedown", onDown);
     document.addEventListener("touchstart", onDown);
     document.addEventListener("keydown", onKey);
@@ -40,8 +42,6 @@ export function SiteHeader() {
       document.removeEventListener("keydown", onKey);
     };
   }, [open]);
-
-  useEffect(() => setOpen(false), [path]);
 
   return (
     <header className="no-print sticky top-0 z-30 border-b border-line bg-surface/90 backdrop-blur">
@@ -69,7 +69,7 @@ export function SiteHeader() {
             </span>
           ) : null}
           <div className="relative" ref={menuRef}>
-            <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="menu" className="flex h-10 items-center gap-1 rounded-xl px-2 hover:bg-surface-2">
+            <button type="button" onClick={() => setOpenAt(open ? null : path)} aria-expanded={open} aria-haspopup="menu" className="flex h-10 items-center gap-1 rounded-xl px-2 hover:bg-surface-2">
               <span className="text-2xl" aria-hidden>
                 {activeProfile?.avatar ?? "🙂"}
               </span>

@@ -109,14 +109,21 @@ export function QuestionCard(props: QuestionCardProps) {
 }
 
 // ---------------------------------------------------------------- hints
-function useHintGate(started: number, wrongTries: number) {
-  const [now, setNow] = useState(() => Date.now());
+/** Seconds until hints unlock, counted from when the question first appeared (0 after a wrong try). */
+function useHintGate(wrongTries: number) {
+  const [left, setLeft] = useState(Math.ceil(HINT_DELAY_MS / 1000));
+  const started = useRef<number | null>(null);
   useEffect(() => {
     if (wrongTries > 0) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
+    started.current ??= Date.now();
+    const t0 = started.current;
+    const t = setInterval(() => {
+      const l = Math.max(0, Math.ceil((t0 + HINT_DELAY_MS - Date.now()) / 1000));
+      setLeft(l);
+      if (l === 0) clearInterval(t);
+    }, 1000);
     return () => clearInterval(t);
   }, [wrongTries]);
-  const left = Math.max(0, Math.ceil((started + HINT_DELAY_MS - now) / 1000));
   return wrongTries > 0 ? 0 : left;
 }
 
@@ -210,8 +217,7 @@ function McqBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextLab
   const [picked, setPicked] = useState<number | null>(typeof restored?.answer === "number" ? restored.answer : null);
   const [done, setDone] = useState<QuestionOutcome | null>(restored?.outcome ?? null);
   const [hints, setHints] = useState(restored?.outcome?.hints ?? 0);
-  const started = useRef(Date.now());
-  const wait = useHintGate(started.current, 0);
+  const wait = useHintGate(0);
   const exam = mode === "exam";
 
   function check() {
@@ -295,8 +301,7 @@ function ShortBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextL
   const [tries, setTries] = useState(restored?.outcome?.tries ?? 0);
   const [msg, setMsg] = useState<{ status: CheckStatus; text?: string } | null>(null);
   const [slip, setSlip] = useState<string | undefined>(undefined);
-  const started = useRef(Date.now());
-  const wait = useHintGate(started.current, tries);
+  const wait = useHintGate(tries);
   const exam = mode === "exam";
 
   function finish(o: QuestionOutcome) {
@@ -407,8 +412,7 @@ function WrittenBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nex
   const [marks, setMarks] = useState<boolean[]>(() => q.markScheme.map(() => false));
   const [hints, setHints] = useState(restored?.outcome?.hints ?? 0);
   const [result, setResult] = useState<QuestionOutcome | null>(restored?.outcome ?? null);
-  const started = useRef(Date.now());
-  const wait = useHintGate(started.current, 0);
+  const wait = useHintGate(0);
   const exam = mode === "exam";
   const enough = value.trim().length >= 3;
 
@@ -481,7 +485,7 @@ function WrittenBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nex
                 </li>
               ))}
             </ul>
-            {phase === "mark" ? <p className="mt-2 text-xs text-ink-2">Ticks are suggested from words in your answer — change them if they're not fair.</p> : null}
+            {phase === "mark" ? <p className="mt-2 text-xs text-ink-2">Ticks are suggested from words in your answer — change them if they&apos;re not fair.</p> : null}
           </fieldset>
           {phase === "mark" ? (
             <button
