@@ -214,7 +214,7 @@ function build(input: DailyInput): DailyItem[] {
   const usedKeys = new Set<string>();
   const usedTopics = new Set<string>();
   const topicCount = new Map<string, number>();
-  const useTopic = (t: string) => {
+  const countTopic = (t: string) => {
     usedTopics.add(t);
     topicCount.set(t, (topicCount.get(t) ?? 0) + 1);
   };
@@ -222,14 +222,14 @@ function build(input: DailyInput): DailyItem[] {
   const addDrill = (d: DailyDrillRef, tier: 1 | 2 | 3, reason: string, allowRepeat = false) => {
     if (!allowRepeat && usedKeys.has(d.id)) return false;
     usedKeys.add(d.id);
-    useTopic(d.topicId);
+    countTopic(d.topicId);
     items.push({ kind: "drill", skillId: d.id, tier, seed: nextSeed(), reason });
     return true;
   };
   const addQuestion = (qid: string, topicId: string, reason: string) => {
     if (usedKeys.has(qid)) return false;
     usedKeys.add(qid);
-    useTopic(topicId);
+    countTopic(topicId);
     items.push({ kind: "question", qid, reason });
     return true;
   };

@@ -455,7 +455,7 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
         {speech.supported ? (
           <button
             type="button"
-            className={`btn btn-sm min-h-10 shrink-0 ${speech.speaking ? "btn-secondary text-bad" : "btn-ghost"}`}
+            className={`btn btn-sm min-h-10 min-w-10 shrink-0 ${speech.speaking ? "btn-secondary text-bad" : "btn-ghost"}`}
             aria-pressed={speech.speaking}
             aria-label={speech.speaking ? `Stop reading “${s.heading}”` : `Read “${s.heading}” aloud`}
             onClick={() => speech.toggle(sectionSpeech(s, open, ideaShown))}
@@ -665,7 +665,7 @@ export function GuideView({ topic, extras, onPractise }: { topic: Topic; extras:
       ) : null}
 
       <div className="card p-4 sm:p-6">
-        <Rich text={topic.intro} className="text-[1.05rem]" />
+        {topic.intro ? <Rich text={topic.intro} className="text-[1.05rem]" /> : null}
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <AskAI context={askContext} />
         </div>

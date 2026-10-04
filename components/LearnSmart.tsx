@@ -45,6 +45,9 @@ function Flashcards({ cards }: { cards: Flashcard[] }) {
   const [flipped, setFlipped] = useState(false);
   const [marks, setMarks] = useState<Record<number, Mark>>({});
   const hintId = useId();
+  const cardRef = useRef<HTMLDivElement>(null);
+  /** Keep keyboard focus on the card when the buttons that were pressed disappear. */
+  const focusCard = () => window.requestAnimationFrame(() => cardRef.current?.focus({ preventScroll: true }));
 
   const total = order.length;
   const finished = pos >= total;
@@ -65,6 +68,7 @@ function Flashcards({ cards }: { cards: Flashcard[] }) {
     setMarks((cur) => ({ ...cur, [idx]: m }));
     setFlipped(false);
     setPos((p) => p + 1);
+    focusCard();
   }
 
   function restart(next: number[]) {
@@ -81,9 +85,11 @@ function Flashcards({ cards }: { cards: Flashcard[] }) {
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
       go(pos + 1);
+      focusCard();
     } else if (e.key === "ArrowLeft") {
       e.preventDefault();
       go(pos - 1);
+      focusCard();
     }
   }
 
@@ -126,16 +132,22 @@ function Flashcards({ cards }: { cards: Flashcard[] }) {
         </span>
         <span className="flex items-center gap-1.5">
           <span className="chip border-0 bg-good-soft text-good" title="Got it this round">
-            ✓ {got}
+            <span aria-hidden>✓</span> {got}
+            <span className="sr-only"> got it</span>
           </span>
           <span className="chip border-0 bg-bad-soft text-bad" title="Not yet this round">
-            ✗ {notYet.length}
+            <span aria-hidden>✗</span> {notYet.length}
+            <span className="sr-only"> not yet</span>
           </span>
         </span>
       </div>
 
       <div style={{ perspective: "1200px" }}>
+        {/* Keyed per card: a new card starts face-up with no flip animation, so the next
+            card's answer never flashes past while the previous card turns back over. */}
         <div
+          key={`${pos}:${idx}`}
+          ref={cardRef}
           role="button"
           tabIndex={0}
           aria-describedby={hintId}
@@ -182,7 +194,14 @@ function Flashcards({ cards }: { cards: Flashcard[] }) {
           </button>
         </div>
       ) : (
-        <button type="button" className="btn btn-primary w-full" onClick={() => setFlipped(true)}>
+        <button
+          type="button"
+          className="btn btn-primary w-full"
+          onClick={() => {
+            setFlipped(true);
+            focusCard();
+          }}
+        >
           Answer it in your head, then flip
         </button>
       )}
