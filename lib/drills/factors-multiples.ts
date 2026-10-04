@@ -135,7 +135,7 @@ export const drills: Drill[] = [
         t === 0
           ? `List all the factors of ${n}. Separate them with commas.`
           : t === 1
-            ? `${who} wants to put ${n} chairs into equal rows with none left over (one single long row is allowed). List every possible number of chairs in a row, separated by commas.`
+            ? `${who} wants to put ${n} chairs into equal rows with none left over. One long row of all ${n} chairs is allowed, and so are rows of just 1 chair. List every possible number of chairs in a row, separated by commas.`
             : `Which whole numbers divide exactly into ${n}? List them all, separated by commas.`;
       const multiples = fs.map((_, i) => n * (i + 1));
       return {
@@ -212,7 +212,7 @@ export const drills: Drill[] = [
         const testPrimes = [2, 3, 5, 7, 11, 13].filter((p) => p * p <= top);
         const next = [3, 5, 7, 11, 13, 17].find((p) => p * p > top) ?? 17;
         solution.push(
-          `You only need to test the primes ${joinAnd(testPrimes.map(String))}: a number below ${hi} that factorises must have a factor smaller than ${next}, because ${next} × ${next} = ${next * next}.`,
+          `You only need to test the primes ${joinAnd(testPrimes.map(String))}: a number below ${hi} that is not prime has a prime factor smaller than ${next}, because two factors of ${next} or more would make at least ${next} × ${next} = ${next * next}.`,
         );
       }
       solution.push(
@@ -306,7 +306,7 @@ export const drills: Drill[] = [
           prompt,
           answer: { type: "number", value: d },
           solution,
-          hint: kind === 9 ? "Use the digit-sum test for 9." : "Use the digit-sum test for 3.",
+          hint: kind === 9 ? "Use the digit-sum test for 9." : kind === 6 ? "6 = 2 × 3: the number must be even AND pass the digit-sum test for 3." : "Use the digit-sum test for 3.",
           traps,
         };
       }
@@ -788,7 +788,7 @@ export const drills: Drill[] = [
       const deep = tier === 3 && rng.bool(0.6);
       const lcmTraps = (a: number, b: number, h: number, L: number): Trap[] => {
         const tr: Trap[] = [{ spec: { type: "number", value: h }, feedback: "That's the HCF. Here you need a time (or amount) that BOTH patterns reach — a common multiple." }];
-        if (a * b !== L) tr.push({ spec: { type: "number", value: a * b }, feedback: `${a} × ${b} works, but it isn't the first time — find the LOWEST common multiple.` });
+        if (a * b !== L) tr.push({ spec: { type: "number", value: a * b }, feedback: `${a} × ${b} is a common multiple, but not the smallest one — find the LOWEST common multiple.` });
         return tr;
       };
       const hcfTrap = (L: number): Trap[] => [{ spec: { type: "number", value: L }, feedback: "That's the LCM. Splitting into equal parts with none left over needs a common FACTOR." }];
@@ -956,9 +956,12 @@ export const drills: Drill[] = [
       const a = hh * mm;
       const b = hh * nn;
       const L = lcm(a, b);
+      // Keep the surface believable for its size (a 20 cm × 70 cm "floor" is not).
+      const longest = Math.max(a, b);
+      const surface = longest < 100 ? "tray" : longest < 200 ? "tabletop" : "floor";
       if (deep) {
         return {
-          prompt: `A rectangular floor measures ${a} cm by ${b} cm. It is covered with identical square tiles, as large as possible, with no gaps and no cutting. How many tiles are needed?`,
+          prompt: `A rectangular ${surface} measures ${a} cm by ${b} cm. It is covered with identical square tiles, as large as possible, with no gaps and no cutting. How many tiles are needed?`,
           answer: { type: "number", value: mm * nn },
           solution: [
             `The tile side must divide both ${a} and ${b}; the largest is HCF(${a}, ${b}) = ${hh} cm.`,
@@ -970,7 +973,7 @@ export const drills: Drill[] = [
         };
       }
       return {
-        prompt: `A rectangular floor measures ${a} cm by ${b} cm. It is covered with identical square tiles with no gaps and no cutting. What is the largest possible side length of a tile, in cm?`,
+        prompt: `A rectangular ${surface} measures ${a} cm by ${b} cm. It is covered with identical square tiles with no gaps and no cutting. What is the largest possible side length of a tile, in cm?`,
         answer: { type: "number", value: hh },
         solution: [
           `The tile side must fit exactly along ${a} cm and along ${b} cm: a common factor.`,
@@ -1079,10 +1082,10 @@ export const drills: Drill[] = [
             ? `${intro}What is the smallest whole number you can divide ${N} by to get a square number?`
             : `${intro}${who} divides ${N} by a whole number and gets a square number. What is the smallest number ${who} could have divided by?`
           : t === 0
-            ? `${intro}What is the smallest whole number you can multiply ${N} by to get a ${target} number?`
+            ? `${intro}What is the smallest positive whole number you can multiply ${N} by to get a ${target} number?`
             : t === 1
-              ? `${intro}${who} multiplies ${N} by a whole number n and the answer is a ${target} number. What is the smallest possible value of n?`
-              : `${intro}${N} is not a ${target} number. What is the smallest whole number you could multiply it by to make a ${target} number?`;
+              ? `${intro}${who} multiplies ${N} by a positive whole number n and the answer is a ${target} number. What is the smallest possible value of n?`
+              : `${intro}${N} is not a ${target} number. What is the smallest positive whole number you could multiply it by to make a ${target} number?`;
       const fixList = pairs.filter(([, e]) => (mode === "cube" ? e % 3 !== 0 : e % 2 === 1));
       const result = mode === "div" ? N / k : N * k;
       const resPairs: PF = pf(result);

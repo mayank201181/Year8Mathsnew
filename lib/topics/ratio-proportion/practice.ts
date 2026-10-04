@@ -940,7 +940,7 @@ export const practice: TopicPractice = {
           kind: "written",
           id: "ratio-proportion-p2-q08",
           question:
-            "{{1/3}} of Ravi's money is equal to {{1/2}} of Hana's money.\n\nRavi says, 'So Ravi : Hana = 1 : 2.'\n\n(a) Explain why Ravi is wrong, and find the correct ratio Ravi : Hana.\n(b) Together they have $150. How much does Ravi have?",
+            "{{1/3}} of Ravi's money is equal to {{1/2}} of Hana's money.\n\nRavi says, 'So my money : Hana's money = 1 : 2.'\n\n(a) Explain why Ravi is wrong, and find the correct ratio Ravi : Hana.\n(b) Together they have $150. How much does Ravi have?",
           marks: 4,
           modelAnswer:
             "(a) Draw Ravi's money as a bar cut into 3 equal pieces and Hana's money as a bar cut into 2 equal pieces. One of Ravi's thirds equals one of Hana's halves, so all the pieces are the same size. Ravi's bar is 3 pieces long and Hana's is 2 pieces, so **Ravi : Hana = 3 : 2**. Ravi has *more* money, not less — a smaller fraction of a bigger amount equals a bigger fraction of a smaller amount.\n\n(b) 3 + 2 = 5 parts = $150, so one part = $30. Ravi has 3 × $30 = **$90** (and Hana has $60). Check: {{1/3}} of $90 = $30 = {{1/2}} of $60 ✓",
@@ -1202,7 +1202,7 @@ export const practice: TopicPractice = {
             },
             { spec: { type: "number", value: 3.5 }, feedback: "3.5 km is the real distance. Use it (in cm) to find n: real distance ÷ map distance." },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "scale-and-maps",
           hints: [
             "Find the real distance first, using map A.",
@@ -1366,7 +1366,7 @@ export const practice: TopicPractice = {
       kind: "short",
       id: "ratio-proportion-ch-q03",
       question:
-        "In a chess club, the ratio of boys to girls is 2 : 3. Among the boys, the ratio of those who wear glasses to those who don't is 1 : 4. Among the girls, the same ratio is 1 : 2. What is the smallest possible number of members in the club?",
+        "In a chess club, the ratio of boys to girls is 2 : 3. Among the boys, the ratio of those who wear glasses to those who don't is 1 : 4. Among the girls, the ratio of those who wear glasses to those who don't is 1 : 2. What is the smallest possible number of members in the club?",
       answer: { type: "number", value: 25 },
       solution: [
         "Boys : girls = 2 : 3, so the club has 2k boys and 3k girls (5k members) for some whole number k.",

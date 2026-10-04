@@ -293,7 +293,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "ratio-proportion-p3-q12",
         question:
-          "Siti wants to make a scale drawing of the school field, a rectangle 120 m long and 75 m wide. Her paper is 29.7 cm by 21 cm. She can choose a scale of 1 : 200, 1 : 500 or 1 : 1000, and she wants the **largest** drawing that still fits on the paper. Which scale should she use? Give the value of n in her scale 1 : n.",
+          "Siti wants to make a scale drawing of the school field, a rectangle 120 m long and 75 m wide. Her paper is 29.7 cm by 21 cm. She can choose a scale of 1 : 200, 1 : 500 or 1 : 1000, and she wants the **largest** drawing that still fits on the paper. Which scale should she use? Type only the number n from her scale 1 : n.",
         answer: { type: "number", value: 500, display: "1 : 500" },
         traps: [
           { spec: { type: "number", value: 1000 }, feedback: "1 : 1000 fits, but the drawing is only 12 cm by 7.5 cm. Is there a scale that gives a bigger drawing that still fits?" },
@@ -408,9 +408,9 @@ export const morePapers: Paper[] = [
         modelAnswer:
           "(a) With scale factor 2.4 the height becomes 15 × 2.4 = 36 cm, which is taller than the 30 cm frame — so it does not fit. In fact no enlargement can fill this frame exactly: the photo's width : height is 10 : 15 = 2 : 3, but the frame's is 24 : 30 = 4 : 5, so the shapes are not similar.\n\n(b) The width allows a scale factor of up to 24 ÷ 10 = 2.4, and the height allows up to 30 ÷ 15 = 2. Both lengths must use the same scale factor, so the largest is the smaller one: **2**. The enlarged photo is **20 cm wide and 30 cm tall**, leaving a 4 cm gap across the width.",
         markScheme: [
-          { point: "Height at scale factor 2.4 is 36 cm, more than 30 cm, so it doesn't fit", keywords: ["36", "too tall", "does not fit", "doesn't fit", "taller"] },
-          { point: "The shapes are not similar: 2 : 3 is not the same as 4 : 5", keywords: ["2 : 3", "2:3", "4 : 5", "4:5", "not similar", "different shape"] },
-          { point: "Largest scale factor is 2 — the smaller of 24 ÷ 10 and 30 ÷ 15", keywords: ["scale factor 2", "30 ÷ 15", "30/15", "smaller", "sf 2"] },
+          { point: "(a) Height at scale factor 2.4 is 36 cm, more than 30 cm, so it doesn't fit (or: the shapes are not similar, 2 : 3 is not 4 : 5)", keywords: ["36", "too tall", "does not fit", "doesn't fit", "taller", "not similar", "2 : 3", "4 : 5"] },
+          { point: "(b) Finds the limit set by each side: 24 ÷ 10 = 2.4 for the width and 30 ÷ 15 = 2 for the height", keywords: ["24 ÷ 10", "30 ÷ 15", "24/10", "30/15", "2.4", "height"] },
+          { point: "Largest scale factor is 2 — the smaller of the two limits", keywords: ["scale factor 2", "scale factor of 2", "sf 2", "smaller", "= 2"] },
           { point: "Enlarged photo is 20 cm by 30 cm", keywords: ["20 cm", "20 by 30", "20 × 30", "20 x 30", "20"] },
         ],
         commonError: "Choosing the scale factor from one side only. In an enlargement every length is multiplied by the same scale factor, so the tighter side decides.",
@@ -767,7 +767,7 @@ export const morePapers: Paper[] = [
           "(a) The pack holds 6 × 250 ml = 1500 ml = 1.5 litres. It costs $3.30 ÷ 1.5 = $2.20 per litre, compared with $2.35 per litre for the big carton. So **yes, the pack is better value** — by 15 cents per litre.\n\n(b) Ravi's conclusion is right but his reason is not. The number of cartons doesn't matter — six tiny cartons could easily hold less milk than one big one. To compare value you must compare the price of the **same amount** of milk (for example, the cost per litre).",
         markScheme: [
           { point: "Finds that the pack holds 1.5 litres (1500 ml)", keywords: ["1.5", "1500", "1500 ml", "1.5 litres"] },
-          { point: "Compares like with like, e.g. $2.20 per litre against $2.35 per litre", keywords: ["2.20", "2.2", "per litre", "2.35", "0.55"] },
+          { point: "Compares like with like, e.g. $2.20 per litre against $2.35 per litre", keywords: ["2.20", "2.2", "per litre", "2.35", "0.55", "0.59", "0.5875", "per 250 ml"] },
           { point: "Concludes the pack is better value", keywords: ["better value", "yes", "pack is better", "cheaper"] },
           { point: "Ravi's reason is wrong: the number of cartons doesn't matter; compare the price of the same amount", keywords: ["reason", "same amount", "number of cartons", "doesn't matter", "does not matter", "not because"] },
         ],

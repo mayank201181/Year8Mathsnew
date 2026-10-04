@@ -125,7 +125,7 @@ export const morePapers: Paper[] = [
         traps: [
           {
             spec: { type: "number", value: 0.0000025 },
-            feedback: "{{25 * 10^(-6)}} is right, but not in standard form. 25 = 2.5 × 10, and that extra 10 raises the power by one: {{2.5 * 10^(-5)}}.",
+            feedback: "That's {{2.5 * 10^(-6)}}: you changed 25 to 2.5 but kept the power −6. Making A ten times smaller means the power must go **up** by one: {{25 * 10^(-6) = 2.5 * 10^(-5)}}.",
           },
           {
             spec: { type: "number", value: 2.5e-7, standardForm: true },
@@ -216,7 +216,7 @@ export const morePapers: Paper[] = [
           "A recipe for 100 vegetarian curry puffs uses 2.4 kg of potato. Arjun only wants to make 10 curry puffs, so he multiplies every amount by 0.1. How much potato does he need? Give your answer in grams.",
         answer: { type: "number", value: 240, display: "240 g" },
         traps: [
-          { spec: { type: "number", value: 24 }, feedback: "Multiplying by 0.1 is the same as dividing by 10, not by 100: 2.4 × 0.1 = 0.24 kg. Now change that to grams." },
+          { spec: { type: "number", value: 24 }, feedback: "Check both steps. Multiplying by 0.1 is the same as dividing by 10 (not 100), so 2.4 × 0.1 = 0.24 kg. Then 1 kg = 1000 g, so multiply by 1000 (not 100) to get grams." },
           { spec: { type: "number", value: 0.24 }, feedback: "0.24 is the amount in kilograms. 1 kg = 1000 g, so multiply by 1000 to get grams." },
         ],
         solution: [
@@ -482,7 +482,7 @@ export const morePapers: Paper[] = [
           "After 5 steps: {{2.5 * 10^(-7)}} = 0.000 000 25, which is less than 0.000 001. Answer: 5 steps.",
         ],
         commonError: "Stopping as soon as the power reaches −6, without comparing the A values.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "comparing-standard-form",
         hints: [
           "What happens to the power of 10 each time you multiply by 0.1? What happens to A?",
@@ -498,7 +498,7 @@ export const morePapers: Paper[] = [
           "Jun is 13 years old. He claims he has been alive for about {{4 * 10^8}} seconds.\n\nWithout a calculator, show whether his claim is reasonable. Show your estimates clearly.",
         marks: 3,
         modelAnswer:
-          "One day has 24 × 60 × 60 = 86 400 seconds. One year has about 86 400 × 365 seconds. Estimate this as 90 000 × 350 = 31 500 000 ≈ {{3.2 * 10^7}} seconds (rounding one number up and the other down keeps the estimate close; the exact value is 31 536 000). In 13 years: 13 × {{3.2 * 10^7}} ≈ {{4.1 * 10^8}} seconds. That is very close to {{4 * 10^8}}, so Jun's claim is reasonable.",
+          "One day has 24 × 60 × 60 = 86 400 seconds. One year has about 86 400 × 365 seconds. Estimate this as 90 000 × 350 = 31 500 000 ≈ {{3.2 * 10^7}} seconds (rounding one number up and the other down keeps the estimate close; the exact value is 31 536 000). In 13 years: 13 × 31 500 000 = 409 500 000 ≈ {{4.1 * 10^8}} seconds. That is very close to {{4 * 10^8}}, so Jun's claim is reasonable.",
         markScheme: [
           {
             point: "Seconds in a day: 24 × 60 × 60 = 86 400 (or about 90 000)",
@@ -510,7 +510,7 @@ export const morePapers: Paper[] = [
           },
           {
             point: "13 years ≈ 4 × 10^8 seconds, so the claim is reasonable",
-            keywords: ["4.1 x 10^8", "4 x 10^8", "410 000 000", "400 000 000", "reasonable", "yes", "10^8"],
+            keywords: ["4.1 x 10^8", "4.2 x 10^8", "4 x 10^8", "409 500 000", "410 000 000", "400 000 000", "reasonable", "yes", "10^8"],
           },
         ],
         commonError: "Leaving out one of the conversions (often the 60 for minutes or the 24 for hours), which makes the estimate far too small.",
@@ -606,14 +606,14 @@ export const morePapers: Paper[] = [
           },
         ],
         solution: [
-          "Each column to the right is 10 times smaller.",
+          "Each time the power goes down by 1, the number is divided by 10. (Careful: this table skips {{10^2}} and {{10^(-2)}}, so not every step between columns is ÷ 10.)",
           "P: {{10^1}} = 10.",
           "Q: {{10^(-1)}} = 1 ÷ 10 = 0.1.",
           "R: {{10^(-3)}} = 1 ÷ 1000 = 0.001.",
         ],
         difficulty: "warmup",
         guideRef: "powers-of-ten",
-        hints: ["Each step to the right divides by 10. Start from {{10^0}} = 1 and keep dividing."],
+        hints: ["Each time the power goes down by 1, divide by 10. Start from {{10^0}} = 1 and keep dividing — and look closely at the powers, because the table skips some."],
         strategy: "Find a pattern",
       },
       {
@@ -869,7 +869,7 @@ export const morePapers: Paper[] = [
             steps: ["{{5 * 10^(-5)}} m = 0.000 05 m.", "3 × 0.000 05 = 0.000 15 m.", "0.000 15 = {{1.5 * 10^(-4)}} m."],
           },
         ],
-        commonError: "Writing {{15 * 10^(-5)}} and then moving the power the wrong way to {{1.5 * 10^(-6)}} or {{1.5 * 10^(-5)}}.",
+        commonError: "Changing {{15 * 10^(-5)}} to 1.5 but then leaving the power as −5, or moving it the wrong way to −6.",
         difficulty: "core",
         guideRef: "small-numbers",
         hints: [
@@ -946,7 +946,7 @@ export const morePapers: Paper[] = [
           { spec: { type: "number", value: 0.006 }, feedback: "0.006 is the thickness in metres. 1 m = 1000 mm, so multiply by 1000." },
           {
             spec: { type: "number", value: 6e-11, standardForm: true },
-            feedback: "When you multiply powers of 10, add the indices: {{10^(-7) * 10^4 = 10^(-7+4) = 10^(-3)}}, not {{10^(-11)}}.",
+            feedback: "When you multiply powers of 10, add the indices: {{10^(-7) * 10^4 = 10^(-7+4) = 10^(-3)}}, not {{10^(-11)}}. Then change the metres into millimetres.",
           },
         ],
         solution: [

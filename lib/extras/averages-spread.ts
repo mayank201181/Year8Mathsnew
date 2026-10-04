@@ -1,0 +1,68 @@
+// Engagement extras for "Averages, Range & Comparing Data" (not part of the audited question bank).
+import type { TopicExtras } from "../types.ts";
+
+export const extras: TopicExtras = {
+  hook:
+    "When a billionaire walks into a hawker centre, the *mean* wealth of the people inside shoots up to millions of dollars — yet nobody else is a cent richer. So which \"average\" tells the truth about a typical diner?",
+
+  didYouKnow: [
+    "The word **average** comes from sea trade. When a storm forced a crew to throw cargo overboard to save their ship, the loss — *avaria* in Italian, *avarie* in French, meaning \"damage\" — was shared out fairly among everyone with goods on board. Shipping law still has a rule called \"general average\" today.",
+    "Cricketer Don Bradman finished his Test career with a batting average of 99.94: 6996 runs ÷ 70 times out. In his last innings, in 1948, he was out for 0. Had he scored just 4 runs before getting out, his average would have been 7000 ÷ 70 = exactly 100.",
+    "Almost everyone has *more* than the mean number of legs. A few people have fewer than two and practically nobody has more, so the mean is a little under 2 — while the median and the mode are both exactly 2.",
+    "When Singapore's Ministry of Manpower reports what people earn, the headline figure is the **median** monthly income. A small number of very high earners would pull the mean above what a typical worker actually gets.",
+    "The **mode** was named by the statistician Karl Pearson in 1895. Francis Galton started calling the middle value the **median** in 1881, after trying out \"the middle-most value\" and \"the medium\".",
+    "Your friends probably have more friends than you do — and that's true for most people! Popular people appear in lots of friend lists, so when you average \"how many friends do my friends have?\" they get counted again and again, dragging the mean up. The sociologist Scott Feld explained this \"friendship paradox\" in 1991.",
+  ],
+
+  activities: [
+    {
+      title: "The ruler-drop reaction race",
+      emoji: "📏",
+      materials: ["A 30 cm ruler", "A partner", "Paper and a pencil", "A calculator"],
+      steps: [
+        "Your partner holds the ruler by the 30 cm end so it hangs straight down. Hold your thumb and first finger open on either side of the 0 cm mark, without touching it.",
+        "Without warning, your partner lets go. Catch the ruler as fast as you can and read the number just above your thumb: that is how far it fell, in cm. Smaller means faster.",
+        "Do 10 catches with your writing hand and 10 with your other hand. Record every result — if the ruler slips right through, write 30.",
+        "For each hand, find the median, the mean and the range. Draw a back-to-back stem-and-leaf diagram of the two sets of results.",
+        "Write two sentences comparing your hands: one using an average and one using the range, in context — for example, \"My writing hand was faster on average, because its median distance was smaller…\".",
+      ],
+      maths:
+        "A smaller average distance means a faster reaction, and a smaller range means more consistent catches. A single fumble (30 cm) is an outlier: it drags the mean and stretches the range but hardly moves the median, so the median is the fairer average here. Bonus physics: a dropped ruler falls about 5 cm in 0.1 s and about 20 cm in 0.2 s, so your distances are really reaction times.",
+    },
+    {
+      title: "Word-length detective",
+      emoji: "📚",
+      materials: ["A picture book or an early reader", "A newspaper or a science textbook", "Paper, a pencil and a calculator"],
+      steps: [
+        "Predict: which text uses longer words on average? By how much?",
+        "Choose a paragraph in each text and count the letters in each of the first 40 words. Ignore punctuation and skip any numbers.",
+        "Make a frequency table for each text with three columns: word length {{x}}, frequency {{f}} and {{f * x}}.",
+        "Find the mean (total of {{f * x}} ÷ 40), the median (halfway between the 20th and 21st word lengths), the mode and the range.",
+        "Compare the two texts in two sentences — one about an average, one about the range. Is 40 words a big enough sample to be sure?",
+      ],
+      maths:
+        "The {{f * x}} column adds up all the letters without writing out 40 numbers: a row of 12 three-letter words is 36 letters. Divide by the total frequency (40 words), not by the number of rows. Expect the newspaper's mean to be higher — but the modes may be the same, because short words like \"the\" and \"and\" are everywhere. That shows why one average on its own can hide a real difference.",
+    },
+  ],
+
+  bonusDiagrams: [
+    {
+      title: "The mean is the balance point",
+      svg: `<svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A number line from 0 to 10 drawn as a beam, with equal weights at 1, 2, 3, 4 and 10. A pivot under 4, the mean, balances it. Bars drawn to scale show the distances to the mean: 3, 2, 1 and 0 below it, a total of 6, and 6 above it."><rect x="0" y="0" width="440" height="230" fill="#ffffff"/><text x="220" y="20" font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937">Data: 1, 2, 3, 4, 10  ·  mean = 20 ÷ 5 = 4</text><text x="30" y="44" font-size="12" font-family="sans-serif" fill="#1f2937">Short of 4: 3 + 2 + 1 + 0 = 6</text><text x="410" y="44" font-size="12" font-family="sans-serif" text-anchor="end" fill="#1f2937">Over 4: 10 − 4 = 6</text><rect x="148" y="64" width="36" height="8" fill="#bae6fd" stroke="#334155"/><rect x="112" y="76" width="72" height="8" fill="#bae6fd" stroke="#334155"/><rect x="76" y="88" width="108" height="8" fill="#bae6fd" stroke="#334155"/><rect x="184" y="88" width="216" height="8" fill="#fecaca" stroke="#334155"/><text x="142" y="72" font-size="12" font-family="sans-serif" text-anchor="end" fill="#1f2937">1</text><text x="106" y="84" font-size="12" font-family="sans-serif" text-anchor="end" fill="#1f2937">2</text><text x="70" y="96" font-size="12" font-family="sans-serif" text-anchor="end" fill="#1f2937">3</text><text x="292" y="82" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">6</text><line x1="184" y1="54" x2="184" y2="128" stroke="#1f2937" stroke-width="1.5" stroke-dasharray="4 3"/><circle cx="76" cy="115" r="9" fill="#c7d2fe" stroke="#334155"/><circle cx="112" cy="115" r="9" fill="#c7d2fe" stroke="#334155"/><circle cx="148" cy="115" r="9" fill="#c7d2fe" stroke="#334155"/><circle cx="184" cy="115" r="9" fill="#c7d2fe" stroke="#334155"/><circle cx="400" cy="115" r="9" fill="#c7d2fe" stroke="#334155"/><line x1="30" y1="130" x2="410" y2="130" stroke="#334155" stroke-width="4"/><polygon points="184,132 166,162 202,162" fill="#fde68a" stroke="#334155"/><g font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937"><text x="40" y="180">0</text><text x="76" y="180">1</text><text x="112" y="180">2</text><text x="148" y="180">3</text><text x="184" y="180">4</text><text x="220" y="180">5</text><text x="256" y="180">6</text><text x="292" y="180">7</text><text x="328" y="180">8</text><text x="364" y="180">9</text><text x="400" y="180">10</text></g><text x="220" y="204" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">The beam balances at the mean (4), not at the median (3).</text><text x="220" y="222" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#334155">Total shortfall below the mean = total overshoot above it.</text></svg>`,
+      caption:
+        "Drawn to scale. The values 1, 2, 3 and 4 fall short of the mean by 3 + 2 + 1 + 0 = 6 altogether, and 10 overshoots it by 6, so the beam balances at 4. This always happens: the mean is exactly the point where the total distance below equals the total distance above. The median (3) only looks at the middle position, so it ignores how far away the 10 is.",
+    },
+    {
+      title: "Same average, different story",
+      svg: `<svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two dot plots on scales from 0 to 16. Siti's nine scores are 6, 7, 7, 8, 8, 8, 9, 9 and 10. Marcus's nine scores are 2, 4, 6, 8, 8, 8, 10, 12 and 14. Both have mean, median and mode 8, but Siti's range is 4 and Marcus's range is 12."><rect x="0" y="0" width="440" height="250" fill="#ffffff"/><text x="10" y="24" font-size="13" font-weight="bold" font-family="sans-serif" fill="#1f2937">Siti</text><text x="430" y="24" font-size="12" font-family="sans-serif" text-anchor="end" fill="#1f2937">mean 8 · median 8 · range 10 − 6 = 4</text><path d="M185 38 V33 H275 V38" fill="none" stroke="#334155" stroke-width="1.5"/><line x1="50" y1="95" x2="410" y2="95" stroke="#334155" stroke-width="1.5"/><circle cx="185" cy="86" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="207.5" cy="86" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="207.5" cy="69" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="230" cy="86" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="230" cy="69" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="230" cy="52" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="252.5" cy="86" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="252.5" cy="69" r="8" fill="#bbf7d0" stroke="#334155"/><circle cx="275" cy="86" r="8" fill="#bbf7d0" stroke="#334155"/><g stroke="#334155" stroke-width="1"><line x1="50" y1="95" x2="50" y2="99"/><line x1="95" y1="95" x2="95" y2="99"/><line x1="140" y1="95" x2="140" y2="99"/><line x1="185" y1="95" x2="185" y2="99"/><line x1="230" y1="95" x2="230" y2="99"/><line x1="275" y1="95" x2="275" y2="99"/><line x1="320" y1="95" x2="320" y2="99"/><line x1="365" y1="95" x2="365" y2="99"/><line x1="410" y1="95" x2="410" y2="99"/></g><g font-size="11" font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="50" y="111">0</text><text x="95" y="111">2</text><text x="140" y="111">4</text><text x="185" y="111">6</text><text x="230" y="111">8</text><text x="275" y="111">10</text><text x="320" y="111">12</text><text x="365" y="111">14</text><text x="410" y="111">16</text></g><text x="10" y="134" font-size="13" font-weight="bold" font-family="sans-serif" fill="#1f2937">Marcus</text><text x="430" y="134" font-size="12" font-family="sans-serif" text-anchor="end" fill="#1f2937">mean 8 · median 8 · range 14 − 2 = 12</text><path d="M95 146 V141 H365 V146" fill="none" stroke="#334155" stroke-width="1.5"/><line x1="50" y1="200" x2="410" y2="200" stroke="#334155" stroke-width="1.5"/><circle cx="95" cy="191" r="8" fill="#fde68a" stroke="#334155"/><circle cx="140" cy="191" r="8" fill="#fde68a" stroke="#334155"/><circle cx="185" cy="191" r="8" fill="#fde68a" stroke="#334155"/><circle cx="230" cy="191" r="8" fill="#fde68a" stroke="#334155"/><circle cx="230" cy="174" r="8" fill="#fde68a" stroke="#334155"/><circle cx="230" cy="157" r="8" fill="#fde68a" stroke="#334155"/><circle cx="275" cy="191" r="8" fill="#fde68a" stroke="#334155"/><circle cx="320" cy="191" r="8" fill="#fde68a" stroke="#334155"/><circle cx="365" cy="191" r="8" fill="#fde68a" stroke="#334155"/><g stroke="#334155" stroke-width="1"><line x1="50" y1="200" x2="50" y2="204"/><line x1="95" y1="200" x2="95" y2="204"/><line x1="140" y1="200" x2="140" y2="204"/><line x1="185" y1="200" x2="185" y2="204"/><line x1="230" y1="200" x2="230" y2="204"/><line x1="275" y1="200" x2="275" y2="204"/><line x1="320" y1="200" x2="320" y2="204"/><line x1="365" y1="200" x2="365" y2="204"/><line x1="410" y1="200" x2="410" y2="204"/></g><g font-size="11" font-family="sans-serif" text-anchor="middle" fill="#334155"><text x="50" y="216">0</text><text x="95" y="216">2</text><text x="140" y="216">4</text><text x="185" y="216">6</text><text x="230" y="216">8</text><text x="275" y="216">10</text><text x="320" y="216">12</text><text x="365" y="216">14</text><text x="410" y="216">16</text></g><line x1="230" y1="30" x2="230" y2="97" stroke="#1f2937" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="230" y1="138" x2="230" y2="202" stroke="#1f2937" stroke-width="1.5" stroke-dasharray="4 3"/><text x="220" y="240" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">Same mean, median and mode (8) — very different spread.</text></svg>`,
+      caption:
+        "Points scored by Siti and Marcus in 9 basketball games. Each scored 72 points in total, so both means are 72 ÷ 9 = 8 — and the medians and modes are 8 too. Only the range shows the difference: 4 for Siti, 12 for Marcus. Need a steady 8 points every game? Pick Siti. Want someone who might score 14? Marcus. That is why a fair comparison gives an average *and* a measure of spread.",
+    },
+  ],
+
+  history: {
+    title: "The average pilot who didn't exist",
+    story:
+      "In 1835 the Belgian astronomer Adolphe Quetelet had a bold idea. Astronomers averaged many measurements of a star to find its true position — so why not average measurements of people? He described *l'homme moyen*, \"the average man\", as a kind of ideal human.\n\nMore than a century later, the US Air Force had a problem: too many of its planes were crashing. The cockpits had been designed in 1926 to fit the average pilot of that time. In 1950 a young researcher, Lieutenant Gilbert Daniels, measured 4063 pilots on ten body sizes, such as height, chest and arm length, and counted how many were close to the average on all ten.\n\nThe answer was **none**. Not a single pilot was average. The Air Force switched to adjustable seats and pedals — a reminder that an average describes data, not a real person.",
+  },
+};

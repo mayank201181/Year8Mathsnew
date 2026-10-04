@@ -188,7 +188,7 @@ export const practice: TopicPractice = {
       options: ["Both of them", "Only Hana", "Neither of them", "Only Jun"],
       answerIndex: 3,
       explanation:
-        "Only Jun. On every roll a 6 either shows or it doesn't, so 'not a 6' is the complement of 'a 6' and P(not 6) = 1 − {{1/6}} = {{5/6}}. Hana's mistake is that 'rain' is not the opposite of 'sunny': tomorrow could be cloudy and dry. The complement of 'sunny' is 'not sunny', which has probability 0.4 but includes cloudy days, so P(rain) could be less than 0.4.",
+        "Only Jun. On every roll a 6 either shows or it doesn't, so 'not a 6' is the complement of 'a 6' and P(not 6) = 1 − {{1/6}} = {{5/6}}. Hana's mistake is that 'rain' is not the complement of 'sunny': tomorrow could be cloudy and dry (neither), or sunny in the morning with a storm later (both). The complement of 'sunny' is 'not sunny', which does have probability 0.4 — but 'not sunny' and 'rain' are different events, so P(rain) need not be 0.4.",
       difficulty: "core",
       guideRef: "complementary-events",
       hints: [
@@ -364,7 +364,7 @@ export const practice: TopicPractice = {
             },
             {
               spec: { type: "number", value: -0.25 },
-              feedback: "A probability can't be negative! Subtracting both 0.55 and 0.5 counts blue twice — it is in both groups.",
+              feedback: "A probability can't be negative! Subtracting 0.55, 0.5 and 0.2 counts blue twice (it's in both 'or' groups) and green twice (it's in 'blue or green' and on its own).",
             },
           ],
           commonError: "Using both 'red or blue' and 'blue or green', so blue is counted twice.",
@@ -844,7 +844,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "probability-p2-q01",
           question:
-            "This spinner is fair, but its four sectors are different sizes: red 135°, blue 90°, green 75° and yellow 60°. What is the probability that it lands on red? Give your answer as a fraction in its simplest form.",
+            "The pointer of this spinner is equally likely to stop anywhere around the circle, but the four sectors are different sizes: red 135°, blue 90°, green 75° and yellow 60°. What is the probability that it lands on red? Give your answer as a fraction in its simplest form.",
           diagram: spinnerAngles,
           answer: { type: "fraction", n: 3, d: 8, simplest: true },
           solution: [
@@ -1209,7 +1209,7 @@ export const practice: TopicPractice = {
           kind: "written",
           id: "probability-p2-q15",
           question:
-            "A bag holds 4 red and 6 blue counters. Hana and Arjun each take two counters at random. Hana puts her first counter back before taking her second; Arjun does not.\n\nWho is more likely to get two red counters? Show your working, and explain why the two answers are different.",
+            "A bag holds 4 red and 6 blue counters. Hana and Arjun each take two counters at random, one after the other, each starting with the full bag of 10. Hana puts her first counter back before taking her second; Arjun does not.\n\nWho is more likely to get two red counters? Show your working, and explain why the two answers are different.",
           marks: 4,
           modelAnswer:
             "Hana (with replacement): the bag is the same for both picks, so P(two reds) = {{4/10 * 4/10 = 16/100}} = 0.16.\n\nArjun (without replacement): after a red is taken, only 3 reds are left out of 9 counters, so P(two reds) = {{4/10 * 3/9 = 12/90 = 2/15}} ≈ 0.133.\n\nHana is more likely to get two reds. For Arjun the picks are **dependent**: taking out a red counter leaves fewer reds in the bag, so his second pick is less likely to be red. For Hana the picks are independent, because putting the counter back resets the bag.",
@@ -1306,7 +1306,7 @@ export const practice: TopicPractice = {
           solution: [
             "The sum of two whole numbers is even exactly when both are even or both are odd.",
             "Imagine choosing the numbers one at a time. Whatever the first number is, 9 numbers are left.",
-            "Of those 9, exactly 4 are odd-or-even in the same way as the first number — there were 5, and one has been used.",
+            "Of those 9, exactly 4 match the first number (odd if it was odd, even if it was even) — there were 5 of its kind, and one has been used.",
             "P(sum even) = {{4/9}}.",
           ],
           solutions: [
@@ -1381,7 +1381,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "probability-p2-q20",
           question:
-            "A coin is hidden under one of three cups, each equally likely. Mei points to one cup. Then Ravi, who knows where the coin is, lifts one of the **other two** cups — always one that is empty — and shows it to Mei. Mei can stick with her cup or switch to the last cup. What is the probability that she finds the coin if she **switches**? Give your answer as a fraction.",
+            "A coin is hidden under one of three cups, each equally likely. Mei points to one cup. Then Ravi, who knows where the coin is, lifts one of the **other two** cups — always one that is empty — and shows it to Mei. Mei can stick with her cup or switch to the last cup. What is the probability that she finds the coin if she **switches**? Give your answer as a fraction in its simplest form.",
           answer: { type: "fraction", n: 2, d: 3, simplest: true },
           solution: [
             "Mei's first pick is right with probability {{1/3}} and wrong with probability {{2/3}}.",
@@ -1461,7 +1461,7 @@ export const practice: TopicPractice = {
       kind: "short",
       id: "probability-ch-q02",
       question:
-        "In the 1650s a French gambler, the Chevalier de Méré, asked: how many times must you roll a fair dice for the probability of getting **at least one six** to be more than {{1/2}}? Find the smallest number of rolls. (You may use a calculator.)",
+        "In the 1650s a French gambler, the Chevalier de Méré, made money by betting that he would get **at least one six** in a few rolls of a fair dice. What is the smallest number of rolls for which the probability of getting at least one six is more than {{1/2}}? (You may use a calculator.)",
       answer: { type: "number", value: 4 },
       solution: [
         "Use the complement: P(at least one six in {{n}} rolls) = 1 − P(no six in {{n}} rolls).",
@@ -1670,7 +1670,7 @@ export const practice: TopicPractice = {
         "Focus on just one letter — say the letter for Aisha. It is equally likely to go in any of the 4 envelopes, so P(it's in the right one) = {{1/4}}.",
         "Over 120 goes, Aisha's letter is expected to be right {{1/4}} × 120 = 30 times.",
         "The same is true for each of the 4 letters.",
-        "Expected total = 4 × 30 = 120 — on average exactly one correct letter per go. (Amazingly, the answer would be 1 per go with 10 letters, or 100!)",
+        "Expected total = 4 × 30 = 120 — on average exactly one correct letter per go. (Amazingly, it would still be 1 per go with 10 letters, or even 100 letters.)",
       ],
       solutions: [
         {
@@ -1704,7 +1704,7 @@ export const practice: TopicPractice = {
       kind: "short",
       id: "probability-ch-q08",
       question:
-        "Aisha and Ben take turns to shoot at a basketball hoop, Aisha first. Aisha scores with probability 0.4 on each shot and Ben with probability 0.5, independently. The first person to score wins. What is the probability that Aisha wins? Give your answer as a fraction.",
+        "Aisha and Ben take turns to shoot at a basketball hoop, Aisha first. Aisha scores with probability 0.4 on each shot and Ben with probability 0.5, independently. The first person to score wins. What is the probability that Aisha wins? Give your answer as a fraction in its simplest form.",
       answer: { type: "fraction", n: 4, d: 7, simplest: true },
       solution: [
         "Think of one round as Aisha's shot followed, if she misses, by Ben's shot.",

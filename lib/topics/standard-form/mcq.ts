@@ -78,7 +78,7 @@ export const mcqPapers: Paper[] = [
           "{{0.4 * 10^(-2)}}",
         ],
         answerIndex: 2,
-        explanation: "To turn 0.004 into 4 the decimal point jumps **3** places, so 0.004 = {{4 * 10^(-3)}}. Check: {{10^(-3)}} = 0.001 and 4 × 0.001 = 0.004. {{4 * 10^(-2)}} comes from counting only the two zeros after the point — that equals 0.04. {{4 * 10^3}} = 4000, far too big.",
+        explanation: "To turn 0.004 into 4 the decimal point jumps **3** places, so 0.004 = {{4 * 10^(-3)}}. Check: {{10^(-3)}} = 0.001 and 4 × 0.001 = 0.004. {{4 * 10^(-2)}} comes from counting only the two zeros after the point — that equals 0.04. {{4 * 10^3}} = 4000, far too big. {{0.4 * 10^(-2)}} does equal 0.004, but 0.4 is less than 1, so it is not standard form.",
         difficulty: "warmup",
         guideRef: "small-numbers",
         hints: [
@@ -720,7 +720,7 @@ export const mcqPapers: Paper[] = [
           "Saturn",
           "Jupiter",
           "Mercury",
-          "None of these planets",
+          "No planet in the table is that far away",
         ],
         answerIndex: 0,
         explanation: "Ten times Earth's distance is {{1.5 * 10^9}} km, and Saturn's {{1.4 * 10^9}} km is very close — a little over 9 times as far. Jupiter is tempting because 7.8 is the biggest front number, but it has the same power as Earth, {{10^8}}, so it is only about 5 times as far. Mercury's power is one *lower* than Earth's, so it is closer to the Sun.",
@@ -788,7 +788,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 0,
         explanation: "Double 1 ten times: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024. So {{2^10}} = 1024, which is 24 more than {{10^3}} = 1000. \"Bigger by 980\" comes from working out {{2^10}} as 2 × 10 = 20, and \"bigger by 900\" from swapping it to {{10^2}} = 100. The two are close — that's why computer scientists borrowed the word \"kilo\" — but not equal.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "powers-of-ten",
         hints: [
           "{{2^10}} means ten 2s multiplied together, not 2 × 10.",
@@ -830,7 +830,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 3,
         explanation: "Distance = speed × time. 3 × 8.64 = 25.92 and {{10^5 * 10^4 = 10^9}}, giving {{25.92 * 10^9}}. 25.92 is too big to be the front number, so divide it by 10 and add 1 to the power: {{2.592 * 10^10}} ≈ {{2.6 * 10^10}} km. {{2.6 * 10^9}} forgets that last adjustment, so it is 10 times too small. {{2.6 * 10^20}} multiplies the powers, and 3.5 km divides the speed by the time.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "calculating-standard-form",
         hints: [
           "Distance = speed × time.",
@@ -1056,7 +1056,7 @@ export const mcqPapers: Paper[] = [
           "0.1 × 0.1 × 0.1",
         ],
         answerIndex: 1,
-        explanation: "{{1/(10 * 3)}} = {{1/30}}, which is about 0.033 — it mixes up {{10^3}} with 10 × 3. The others are all one thousandth: {{10^(-3)}} = {{1/10^3}} = {{1/1000}}, and 0.1 × 0.1 × 0.1 = 0.001 (a tenth of a tenth of a tenth). That last one is tempting to reject if you think 0.1 × 0.1 × 0.1 = 0.3.",
+        explanation: "{{1/(10 * 3)}} = {{1/30}}, which is about 0.033 — it mixes up {{10^3}} with 10 × 3. The others are all one thousandth: {{10^(-3)}} = {{1/10^3}} = {{1/1000}}, and 0.1 × 0.1 × 0.1 = 0.001 (a tenth of a tenth of a tenth). It is tempting to reject 0.1 × 0.1 × 0.1 if you think it equals 0.3.",
         difficulty: "core",
         guideRef: "powers-of-ten",
         hints: [
@@ -1226,7 +1226,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 3,
         explanation: "0.03 = {{3 * 10^(-2)}}, so the number is {{3 * 10^(-2) * 10^(-2)}} = {{3 * 10^(-4)}} = 0.0003. Making the front number 100 times bigger (0.03 → 3) means the power must make it 100 times smaller, so it goes *down* by 2: from −2 to −4. {{3 * 10^0}} = 3 moves the power the wrong way, and {{3 * 10^(-2)}} = 0.03 forgets to change it at all. {{3 * 10^(-3)}} treats 0.03 → 3 as one jump instead of two.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "small-numbers",
         hints: [
           "Write the number as an ordinary decimal first.",
@@ -1247,7 +1247,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 0,
         explanation: "You can only add front numbers when the powers match. Write them out: 30 000 + 5000 = 35 000 = {{3.5 * 10^4}}. {{8 * 10^4}} adds 3 + 5 as if both were ten-thousands — but {{5 * 10^3}} is only 5 thousands. {{8 * 10^7}} adds the front numbers *and* the powers, and {{1.5 * 10^8}} multiplies the two numbers instead of adding them.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "calculating-standard-form",
         hints: [
           "Write both numbers out in full.",
@@ -1621,7 +1621,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 2,
         explanation: "The front numbers match, so compare the powers. Going from {{10^(-4)}} down to {{10^(-7)}} is 3 steps, each one ÷ 10, so {{3 * 10^(-7)}} is {{10^3}} = 1000 times smaller. Check: 0.0003 ÷ 0.0000003 = 1000. \"3 times\" uses the difference of the powers directly — but a difference of 3 in the power means a factor of {{10^3}}. {{10^11}} adds 7 and 4, and thinking it is bigger comes from treating −7 as larger than −4.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "comparing-standard-form",
         hints: [
           "Which is smaller: {{10^(-7)}} or {{10^(-4)}}?",
@@ -1663,7 +1663,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 1,
         explanation: "The phone holds {{64 * 10^9}} bytes. Divide: 64 ÷ 4 = 16 and {{10^9 / 10^6 = 10^3}}, giving {{16 * 10^3}} = 16 000 = {{1.6 * 10^4}} photos. {{1.6 * 10^3}} turns 16 into 1.6 but forgets to add 1 to the power. {{2.56 * 10^17}} multiplies instead of dividing — more photos than there are bytes! {{1.6 * 10^(-5)}} forgets that 1 GB is {{10^9}} bytes.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "calculating-standard-form",
         hints: [
           "How many bytes are there in 64 GB?",

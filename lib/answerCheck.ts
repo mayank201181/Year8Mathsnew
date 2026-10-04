@@ -175,8 +175,33 @@ function checkFraction(spec: Extract<AnswerSpec, { type: "fraction" }>, input: s
   return { status: "correct" };
 }
 
+function isPrimeInt(n: number): boolean {
+  if (!Number.isInteger(n) || n < 2) return false;
+  for (let d = 2; d * d <= n; d++) if (n % d === 0) return false;
+  return true;
+}
+
+/** "2^3 × 3 × 5" (or "360 = 2³ × 3 × 5") → [2, 2, 2, 3, 5]; null if it isn't a product of powers. */
+function expandPowerProduct(input: string): number[] | null {
+  const s = normalizeInput(input)
+    .replace(/^\d+\s*=\s*/, "")
+    .replace(/(\d)\s*[xX]\s*(?=\d)/g, "$1*");
+  if (s.includes(",") || !/[*^]/.test(s)) return null;
+  const out: number[] = [];
+  for (const part of s.split("*")) {
+    const m = part.trim().match(/^(\d+)(?:\s*\^\s*\(?\s*(\d+)\s*\)?)?$/);
+    if (!m) return null;
+    const e = m[2] === undefined ? 1 : Number(m[2]);
+    if (e < 1 || e > 30) return null;
+    for (let i = 0; i < e; i++) out.push(Number(m[1]));
+  }
+  return out;
+}
+
 function checkList(spec: Extract<AnswerSpec, { type: "list" }>, input: string): CheckResult {
-  const got = extractNumbers(input);
+  // A list of prime factors may be typed as a product in index form.
+  const product = !spec.ordered && spec.values.length > 1 && spec.values.every(isPrimeInt) ? expandPowerProduct(input) : null;
+  const got = product ?? extractNumbers(input);
   if (!got) return { status: "invalid", feedback: "Separate your answers with commas, e.g. 28, 35." };
   if (got.length !== spec.values.length) {
     return {

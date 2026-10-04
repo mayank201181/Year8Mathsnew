@@ -325,7 +325,7 @@ export const mcqPapers: Paper[] = [
           "8 p.m.",
         ],
         answerIndex: 0,
-        explanation: "The charge falls 30% in 3 hours, which is 10% per hour (a gradient of −10). Losing all 100% takes 100 ÷ 10 = 10 hours from 8 a.m.: 6 p.m. (Or: the 70% left at 11 a.m. lasts 7 more hours.) 9 p.m. counts the 10 hours from 11 a.m. instead of from 8 a.m. 1:20 p.m. uses 30% per hour — forgetting to divide the 30% drop by the 3 hours.",
+        explanation: "The charge falls 30% in 3 hours, which is 10% per hour (a gradient of −10). Losing all 100% takes 100 ÷ 10 = 10 hours from 8 a.m.: 6 p.m. (Or: the 70% left at 11 a.m. lasts 7 more hours.) 9 p.m. counts the 10 hours from 11 a.m. instead of from 8 a.m. 1:20 p.m. takes the drop as 30% per hour (forgetting to divide by the 3 hours), so the 70% left at 11 a.m. seems to last only 2 hours 20 minutes.",
         difficulty: "core",
         guideRef: "real-life-graphs",
         hints: [
@@ -1001,7 +1001,7 @@ export const mcqPapers: Paper[] = [
         guideRef: "plotting-lines",
         hints: [
           "On a straight line, what happens to y each time x goes up by the same amount?",
-          "Work out the y-steps in each set. Careful: in one set the x-steps are 2, not 1.",
+          "Work out the y-steps in each set. Careful: the x-steps are not always 1, so compare the y-step with the x-step each time.",
           "A y-value that never changes still gives a straight line.",
         ],
         strategy: "Find a pattern",
@@ -1231,7 +1231,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 2,
         explanation: "The y-intercept gives a second point, (0, 3). From (0, 3) to (2, 7), y rises 4 over a run of 2, so the gradient is 2 and the line is {{y = 2x + 3}}. Test (−4, −5): 2 × (−4) + 3 = −5, so it is on the line. (4, 14) doubles (2, 7) as if the line went through the origin. (−1, −1) fits {{y = 4x + 3}}, which comes from forgetting to divide the rise by the run.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "gradient-intercept",
         hints: [
           "The y-intercept gives you a second point on the line. Which point?",
@@ -1630,7 +1630,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 0,
         explanation: "Always. Substitute x = 1: y = m × 1 + c = m + c, whatever the values of m and c. For example, {{y = 3x - 5}} passes through (1, −2), and −2 = 3 + (−5). \"Only when c = 0\" comes from testing lines through the origin, where it does work — but so does every other line, and the algebra shows it for all of them at once.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "equations-of-lines",
         hints: [
           "Try it with a particular line, such as {{y = 3x - 5}}.",

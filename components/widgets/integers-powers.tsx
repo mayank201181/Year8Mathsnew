@@ -122,7 +122,7 @@ function buildSub(a: number, b: number): Stage[] {
       const word = s > 0 ? "positive" : "negative";
       cols = [...cols, ...Array.from({ length: k }, (): Col => ({ pos: "pair", neg: "pair", group: 0, zp: true }))];
       stages.push({
-        title: `${have === 0 ? `No ${word}s` : `Only ${plural(have, word)}`} to take away, so add ${plural(k, "zero pair")}`,
+        title: `${have === 0 ? `No ${word}s` : `Only ${plural(have, word)}`} on the board, so add ${plural(k, "zero pair")}`,
         cols,
       });
     }
@@ -147,7 +147,10 @@ function buildMul(a: number, b: number): Stage[] {
   const B = Math.abs(b);
   const n = A * B;
   if (a === 0 || b === 0) {
-    stages.push(resultStage(0));
+    stages.push({
+      title: a === 0 ? "0 lots: nothing is put in or taken away, so the value stays 0" : "Every lot is empty: nothing to put in or take away, so the value stays 0",
+      cols: [],
+    });
     return stages;
   }
   const s = Math.sign(b);
@@ -392,7 +395,7 @@ function countersCaption(op: Op, a: number, b: number): ReactNode {
     const pairs = Math.min(Math.abs(a), Math.abs(b));
     return (
       <>
-        Every + counter pairs with a − counter to make 0, so {plural(pairs, "zero pair")} cancel
+        A + counter and a − counter together make 0, so {plural(pairs, "zero pair")} cancel{pairs === 1 ? "s" : ""}
         {r === 0 ? <> and nothing is left — {txt(a)} and {txt(b)} are opposites</> : <> and {kind(Math.sign(r), Math.abs(r))} {Math.abs(r) === 1 ? "is" : "are"} left</>}. {sum}.{" "}
         {b < 0 ? <>Adding a negative moves you <strong>left</strong>, just like subtracting {Math.abs(b)}.</> : <>Adding a positive moves you right.</>}
       </>
@@ -405,18 +408,29 @@ function countersCaption(op: Op, a: number, b: number): ReactNode {
     const k = zeroPairsNeeded(a, b);
     const B = Math.abs(b);
     const what = b > 0 ? "positives" : "negatives";
-    if (k === 0) return <>There are enough {what} to take {B} away directly, so {diff}.</>;
+    if (k === 0) {
+      return (
+        <>
+          There are enough {what} to take {B} away directly, so {diff}.{" "}
+          {b < 0 ? (
+            <>
+              Check: <M>{`${mm(a)} + ${B} = ${mm(r)}`}</M> too, because <strong>subtracting a negative is the same as adding a positive</strong>.
+            </>
+          ) : null}
+        </>
+      );
+    }
     return (
       <>
-        You need to take away {B} {what}, but there {B - k === 0 ? "are none" : B - k === 1 ? "is only 1" : `are only ${B - k}`}. Adding {plural(k, "zero pair")} doesn&apos;t change the value
+        You need to take away {kind(Math.sign(b), B)}, but there {B - k === 0 ? "are none" : B - k === 1 ? "is only 1" : `are only ${B - k}`}. Adding {plural(k, "zero pair")} doesn&apos;t change the value
         (still {txt(a)}), but it gives you enough {what} to take away. What&apos;s left is {diff}.{" "}
         {b < 0 ? (
           <>
-            Taking away the negatives leaves their positive partners behind, so <M>{`${mm(a)} - ${mm(b, true)} = ${mm(a)} + ${B}`}</M>:{" "}
+            Taking negatives out of the zero pairs leaves their positive partners behind, so <M>{`${mm(a)} - ${mm(b, true)} = ${mm(a)} + ${B}`}</M>:{" "}
             <strong>subtracting a negative is the same as adding a positive</strong>.
           </>
         ) : (
-          <>{a > 0 ? "Taking away more than you have takes you below zero." : "Taking away positives moves you further down the number line."}</>
+          <>{a > 0 ? "Taking away more than you have takes you below zero." : "Taking away positives moves you left (down) the number line."}</>
         )}
       </>
     );
@@ -431,7 +445,7 @@ function countersCaption(op: Op, a: number, b: number): ReactNode {
   if (a > 0) {
     return (
       <>
-        <M>{`${mm(a)} * ${mm(b, true)}`}</M> means {plural(A, "lot")} of {txt(b)}: put in {A} groups of {kind(Math.sign(b), B)}, which is{" "}
+        <M>{`${mm(a)} * ${mm(b, true)}`}</M> means {plural(A, "lot")} of {txt(b)}: put in {plural(A, "group")} of {kind(Math.sign(b), B)}, which is{" "}
         {kind(Math.sign(b), A * B)} altogether. So {prod}. {rule}
       </>
     );
@@ -439,8 +453,8 @@ function countersCaption(op: Op, a: number, b: number): ReactNode {
   return (
     <>
       <M>{`${mm(a)} * ${mm(b, true)}`}</M> means <em>take away</em> {plural(A, "lot")} of {txt(b)}. The board is empty, so first add {plural(A * B, "zero pair")}{" "}
-      (value still 0). Taking away {A * B} {b > 0 ? "positives" : "negatives"} leaves {kind(Math.sign(r), A * B)}: {prod}. On the number line the hops of {txt(b)} are{" "}
-      <strong>reflected</strong> through 0. {rule}
+      (value still 0). Taking away {kind(Math.sign(b), A * B)} leaves {kind(Math.sign(r), A * B)}: {prod}. On the number line {A === 1 ? "the hop" : "the hops"} of {txt(b)}{" "}
+      {A === 1 ? "is" : "are"} <strong>reflected</strong> through 0. {rule}
     </>
   );
 }
@@ -633,6 +647,13 @@ function indexCaption(base: Base, law: Law, m: number, n: number): ReactNode {
             {m - n}. So {eq}. <strong>Same base, dividing → subtract the indices.</strong>
           </>
         );
+    } else if (m === 0 && n === 0) {
+      main = (
+        <>
+          There are no factors on top or bottom: this is just 1 ÷ 1 = 1, and the law agrees: {eq}. Try a bigger matching pair, like <M>{"m = n = 3"}</M>, to see{" "}
+          <em>why</em> <M>{pw(base, 0)}</M> has to be 1.
+        </>
+      );
     } else if (m === n) {
       main = (
         <>
@@ -644,7 +665,7 @@ function indexCaption(base: Base, law: Law, m: number, n: number): ReactNode {
       const k = n - m;
       main = (
         <>
-          {m === 0 ? <>The top is just 1, so all {n} factors stay on the bottom</> : <>{m === 1 ? "The one factor" : `All ${m} factors`} on top cancel{m === 1 ? "s" : ""}, leaving {fac(k)} on the bottom</>}: the answer is{" "}
+          {m === 0 ? <>The top is just 1, so {n === 1 ? "the one factor stays" : `all ${n} factors stay`} on the bottom</> :<>{m === 1 ? "The one factor" : `All ${m} factors`} on top cancel{m === 1 ? "s" : ""}, leaving {fac(k)} on the bottom</>}: the answer is{" "}
           <M>{`1/${pw(base, k)}`}</M>. The law says {eq}, so <M>{`${pw(base, -k)} = 1/${pw(base, k)}`}</M>
           {xNote}. <strong>A negative index means “one over”</strong> (a stretch idea).
         </>
@@ -655,14 +676,15 @@ function indexCaption(base: Base, law: Law, m: number, n: number): ReactNode {
     if (n === 0) {
       main = (
         <>
-          Zero copies multiplied together means nothing to multiply, which gives 1 — so {eq}, matching <M>{`${pw(base, 0)} = 1`}</M>
+          Zero copies means nothing gets multiplied, so you are left with 1 — the number every multiplication starts from. The law agrees: {eq}, and{" "}
+          <M>{`${pw(base, 0)} = 1`}</M>
           {xNote}.
         </>
       );
     } else if (m === 0) {
       main = (
         <>
-          Each copy is <M>{pw(base, 0)}</M> = 1, and 1 × 1 × … = 1. So {eq}.
+          {n === 1 ? <>The one copy is</> : <>Each copy is</>} <M>{pw(base, 0)}</M> = 1{xNote}{n === 1 ? "" : ", and 1 × 1 × … = 1"}. So {eq}.
         </>
       );
     } else {
@@ -756,8 +778,12 @@ function IndexLawWidget() {
           />
         </div>
         <div className="grid gap-2 sm:grid-cols-2">
-          <Stepper label={<>First index <em>m</em></>} value={m} min={0} max={6} onChange={setM} />
-          <Stepper label={law === "pow" ? <>Outer index <em>n</em></> : <>Second index <em>n</em></>} value={n} min={0} max={nMax} onChange={setN} />
+          <div role="group" aria-label="First index m">
+            <Stepper label={<>First index <em>m</em></>} value={m} min={0} max={6} onChange={setM} />
+          </div>
+          <div role="group" aria-label={law === "pow" ? "Outer index n" : "Second index n"}>
+            <Stepper label={law === "pow" ? <>Outer index <em>n</em></> : <>Second index <em>n</em></>} value={n} min={0} max={nMax} onChange={setN} />
+          </div>
         </div>
 
         <div className="rounded-xl border border-line bg-surface p-3" role="img" aria-label={aria}>

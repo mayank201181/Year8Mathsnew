@@ -114,6 +114,7 @@ export const paper: ExamPaper = {
       traps: [
         { spec: { type: "number", value: 15 }, feedback: "15% is the part that was *not* paper. The question asks about the paper." },
         { spec: { type: "number", value: 34 }, feedback: "34 is the mass of paper in kg. Now write it as a percentage of the 40 kg total." },
+        { spec: { type: "number", value: 0.85 }, feedback: "{{34/40}} = 0.85 is the paper as a fraction (or decimal) of the total. Multiply by 100 to write it as a percentage." },
       ],
       commonError: "Writing the 34 kg itself as the percentage.",
     },
@@ -345,7 +346,7 @@ export const paper: ExamPaper = {
       guideRef: "area-of-a-circle",
       difficulty: "core",
       question:
-        "The top of a circular stool has an area of 49π cm². Work out the circumference of the stool top. Give your answer in terms of π.",
+        "The top of a circular stool has an area of 49π cm². Work out the circumference of the stool top in cm. Give your answer in terms of π. (Type it like 5π or 5pi, with no units.)",
       answer: { type: "expression", expr: "14pi", display: "{{14pi}} cm" },
       hints: [
         "Area = {{pi r^2}}. Which value of r makes {{pi r^2 = 49pi}}?",
@@ -358,6 +359,7 @@ export const paper: ExamPaper = {
       traps: [
         { spec: { type: "expression", expr: "7pi" }, feedback: "With r = 7, C = 2πr = 14π. 7π is only πr — you need the diameter, 14 cm, times π." },
         { spec: { type: "expression", expr: "28pi" }, feedback: "14 cm is the diameter, not the radius. C = πd = 14π." },
+        { spec: { type: "number", value: 44, tolerance: 0.1 }, feedback: "That's the right size, but the question asks for an exact answer in terms of π. Leave π as a symbol instead of using 3.14 or {{22/7}}." },
       ],
       commonError: "Mixing up the radius and the diameter once r = 7 has been found.",
       strategy: "Work backwards",
@@ -370,7 +372,7 @@ export const paper: ExamPaper = {
       difficulty: "core",
       question:
         "In a class of 30 students, 18 study Art, 14 study Music and 5 study neither subject. A student from the class is chosen at random.\n\nWhat is the probability that the student studies both Art and Music? Give your answer as a fraction in its simplest form.",
-      diagram: `<svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Venn diagram for a class of 30 students with two overlapping circles, Art and Music. The three regions inside the circles are marked with question marks, and 5 students are outside both circles"><rect x="0" y="0" width="360" height="220" fill="#ffffff"/><rect x="10" y="10" width="340" height="200" fill="none" stroke="#1f2937" stroke-width="2"/><text x="20" y="30" font-size="13" font-family="sans-serif" fill="#1f2937">Class: 30 students</text><circle cx="145" cy="122" r="72" fill="#c7d2fe" fill-opacity="0.7" stroke="#334155" stroke-width="2"/><circle cx="225" cy="122" r="72" fill="#fde68a" fill-opacity="0.7" stroke="#334155" stroke-width="2"/><text x="100" y="86" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Art</text><text x="270" y="86" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Music</text><text x="108" y="132" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">?</text><text x="185" y="132" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">?</text><text x="262" y="132" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">?</text><text x="322" y="196" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">5</text></svg>`,
+      diagram: `<svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Venn diagram for a class of 30 students with two overlapping circles, Art and Music. The three regions inside the circles are marked with question marks, and 5 students are outside both circles"><rect x="0" y="0" width="360" height="220" fill="#ffffff"/><rect x="10" y="10" width="340" height="200" fill="none" stroke="#1f2937" stroke-width="2"/><text x="20" y="30" font-size="13" font-family="sans-serif" fill="#1f2937">Class: 30 students</text><circle cx="145" cy="122" r="72" fill="#c7d2fe" fill-opacity="0.7" stroke="#334155" stroke-width="2"/><circle cx="225" cy="122" r="72" fill="#fde68a" fill-opacity="0.7" stroke="#334155" stroke-width="2"/><text x="106" y="86" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Art</text><text x="262" y="86" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Music</text><text x="108" y="132" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">?</text><text x="185" y="132" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">?</text><text x="262" y="132" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">?</text><text x="322" y="196" font-size="14" font-family="sans-serif" fill="#1f2937" text-anchor="middle">5</text></svg>`,
       answer: { type: "fraction", n: 7, d: 30, simplest: true, display: "{{7/30}}" },
       hints: [
         "How many students study at least one of the two subjects?",

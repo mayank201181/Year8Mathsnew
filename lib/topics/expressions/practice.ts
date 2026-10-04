@@ -14,7 +14,7 @@ export const practice: TopicPractice = {
       options: ["{{3(x + 2) = 3x + 6}}", "{{3x + 2 = 11}}", "{{2(x + 3) = 2x + 3}}", "{{x^2 = 2x}}"],
       answerIndex: 0,
       explanation:
-        "Expanding gives {{3(x + 2) = 3x + 6}} for any x, so it is an identity: we can write {{3(x + 2) ≡ 3x + 6}}. {{3x + 2 = 11}} is an equation, true only when x = 3. {{x^2 = 2x}} is only true when x = 0 or x = 2, because {{x^2}} means x × x, not 2 × x. {{2(x + 3) = 2x + 3}} is never true: the 2 must multiply the 3 as well, giving 2x + 6.",
+        "Expanding gives {{3(x + 2) = 3x + 6}} for any x, so it is an identity: we can write {{3(x + 2) ≡ 3x + 6}}. {{3x + 2 = 11}} is an equation, true only when x = 3. {{x^2 = 2x}} is only true when x = 0 or x = 2: {{x^2}} means x × x, not 2 × x, so the two sides usually differ. {{2(x + 3) = 2x + 3}} is never true: the 2 must multiply the 3 as well, giving 2x + 6.",
       difficulty: "warmup",
       guideRef: "language-of-algebra",
       hints: ["Try x = 5 in each statement. Which ones still balance? Then try a different value."],
@@ -611,7 +611,7 @@ export const practice: TopicPractice = {
               ],
             },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "writing-expressions",
           hints: [
             "Call the starting number n and write an expression after each step.",
@@ -636,7 +636,7 @@ export const practice: TopicPractice = {
             "Check with x = 1: {{(5)(-3) = -15}} and {{2 - 5 - 12 = -15}}. ✓",
           ],
           commonError: "Missing out the two middle products.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "double-brackets",
           hints: [
             "Every term in the first bracket multiplies every term in the second. How many products is that?",
@@ -651,7 +651,7 @@ export const practice: TopicPractice = {
           question: "Make x the subject of {{y = (3x - 2)/4 + 1}}.",
           answer: { type: "expression", expr: "(4y-2)/3", display: "{{x = (4y - 2)/3}}" },
           traps: [
-            { spec: { type: "expression", expr: "(4y-1)/3" }, feedback: "The + 1 was the **last** thing done to x, so undo it **first**: {{y - 1 = (3x - 2)/4}}. Then multiply by 4." },
+            { spec: { type: "expression", expr: "(4y+1)/3" }, feedback: "The + 1 was the **last** thing done to x, so undo it **first**: {{y - 1 = (3x - 2)/4}}. Then multiply the **whole** of y − 1 by 4: {{4y - 4 = 3x - 2}}. (Multiplying by 4 first is fine only if the 1 is multiplied by 4 too.)" },
             { spec: { type: "expression", expr: "(4y-6)/3" }, feedback: "From {{4y - 4 = 3x - 2}} you need to **add** 2 to both sides, giving {{3x = 4y - 2}}." },
           ],
           solution: [
@@ -1036,7 +1036,7 @@ export const practice: TopicPractice = {
             { point: "Correct values with n = 10: 8 and 6.5", keywords: ["8", "6.5", "13/2"] },
             { point: "Concludes Mei is wrong because the order of operations differs (the 3 is halved too)", keywords: ["wrong", "not the same", "different", "order", "bracket", "halved"] },
           ],
-          commonError: "Writing n + 3/2 for 'n plus 3, then halved': without a bracket only the 3 is halved.",
+          commonError: "Writing {{n + 3/2}} for 'n plus 3, then halved': without a bracket only the 3 is halved.",
           difficulty: "core",
           guideRef: "writing-expressions",
           hints: [
@@ -1114,7 +1114,7 @@ export const practice: TopicPractice = {
             "Check with x = 3: the rectangle is 11 by 2, perimeter 26. A square of side {{6 1/2}} has perimeter 26. ✓",
           ],
           commonError: "Adding one length and one width and calling it the perimeter.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "writing-expressions",
           hints: [
             "Find the rectangle's perimeter first, as an expression.",

@@ -296,8 +296,8 @@ function RatioBarModel() {
       )}
       {g > 1 ? (
         <p>
-          {ratioText} simplifies to <strong>{simp.join(" : ")}</strong> (divide every part by {g}). The fractions — and so the shares — are
-          exactly the same: only the proportions matter.
+          {ratioText} simplifies to <strong>{simp.join(" : ")}</strong> (divide every part by {g}). Sharing in {simp.join(" : ")} gives exactly
+          the same fractions — and so exactly the same shares: only the proportions matter, not the size of the numbers.
         </p>
       ) : null}
     </div>
@@ -445,14 +445,22 @@ function RatioBarModel() {
             </ol>
             {!unitPlain ? (
               <p className="mt-2">
-                As 1 : n with decimals: {unit.map((u) => decText(u).replace(/≈\s*/, "")).join(" : ")} to 2 d.p. (divide every part by {p[0]}).
+                As 1 : n with decimals (divide every part by {p[0]}, rounding to 2 d.p. where needed):{" "}
+                {unit.map((u) => decText(u).replace(/≈\s*/, "")).join(" : ")}.
               </p>
             ) : null}
             {roundingClash ? (
-              <p className="mt-2">
-                <span className="font-bold text-bad">Real-life snag:</span> rounded to the nearest cent the shares add to{" "}
-                {moneyCents(frac(roundedSum, 1))}, not {moneyCents(frac(roundedTotal, 1))} — someone has to take the odd cent.
-              </p>
+              mode === "total" ? (
+                <p className="mt-2">
+                  <span className="font-bold text-bad">Real-life snag:</span> rounded to the nearest cent the shares add to{" "}
+                  {moneyCents(frac(roundedSum, 1))}, not {moneyCents(frac(roundedTotal, 1))} — someone has to take the odd cent.
+                </p>
+              ) : (
+                <p className="mt-2">
+                  <span className="font-bold text-bad">Rounding snag:</span> the rounded shares add to {moneyCents(frac(roundedSum, 1))}, but the
+                  exact total rounds to {moneyCents(frac(roundedTotal, 1))}. Keep values exact and round only at the very end.
+                </p>
+              )
             ) : null}
           </div>
         ) : null}
@@ -481,6 +489,8 @@ const XMAX = 2000; // grams
 const YMAX = 20; // dollars
 
 const price = (c: number) => moneyCents(frac(c, 1), true);
+/** A (non-negative) saving in cents; never shows a misleading "≈ $0.00". */
+const saving = (q: Q) => (Math.floor((2 * q.n + q.d) / (2 * q.d)) === 0 ? "less than half a cent" : moneyCents(q, true));
 const dollarsPlain = (c: number) => (c / 100).toFixed(2);
 
 function PackControls({ name, tone, pack, onChange }: { name: string; tone: "a" | "b"; pack: Pack; onChange: (p: Pack) => void }) {
@@ -492,7 +502,11 @@ function PackControls({ name, tone, pack, onChange }: { name: string; tone: "a" 
       </p>
       <NudgeSlider
         name={`${name} mass`}
-        label="Mass"
+        label={
+          <>
+            <span className="sr-only">{name} </span>Mass
+          </>
+        }
         value={pack.g}
         min={25}
         max={XMAX}
@@ -502,7 +516,11 @@ function PackControls({ name, tone, pack, onChange }: { name: string; tone: "a" 
       />
       <NudgeSlider
         name={`${name} price`}
-        label="Price"
+        label={
+          <>
+            <span className="sr-only">{name} </span>Price
+          </>
+        }
         value={pack.c}
         min={10}
         max={YMAX * 100}
@@ -580,8 +598,8 @@ function BestBuyLines() {
       </p>
       {better ? (
         <p>
-          <strong>{better} is the better buy.</strong> Its line is less steep, so each gram costs less: {better} saves{" "}
-          {moneyCents(savePer100, true)} per 100 g, or {moneyCents(savePerKg, true)} per kilogram.
+          <strong>{better} is the better buy.</strong> Its line is less steep, so each gram costs less: {better} is cheaper by{" "}
+          {saving(savePer100)} per 100 g, or {saving(savePerKg)} per kilogram.
           {bulkTrap ? ` Notice the bigger pack is the worse buy here — bigger is not always cheaper per gram.` : ""}
         </p>
       ) : (
@@ -688,7 +706,12 @@ function BestBuyLines() {
             B
           </text>
         </svg>
-        <p className="-mt-2 text-xs text-ink-2">Big dots = the packs. Small dots = what each deal would cost at the dashed mass.</p>
+        <p className="-mt-2 text-xs text-ink-2">
+          Big dots = the packs. Small dots = what each deal would cost at the dashed mass.
+          {atAd > YMAX || atBd > YMAX
+            ? ` (${atAd > YMAX && atBd > YMAX ? "Both are" : atAd > YMAX ? "A’s is" : "B’s is"} above $${YMAX}, off the top of the graph.)`
+            : ""}
+        </p>
 
         <div className="grid gap-3 sm:grid-cols-2">
           <PackControls name="Pack A" tone="a" pack={A} onChange={setA} />

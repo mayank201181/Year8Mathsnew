@@ -142,7 +142,7 @@ export const practice: TopicPractice = {
       ],
       answerIndex: 2,
       explanation:
-        "On a number line, further left is smaller. Pad the sizes of the negatives: 0.700 > 0.650 > 0.607, and the negative with the biggest size is furthest left, so −0.7 < −0.65 < −0.607. The only positive number, 0.06, is largest. The list starting −0.607 sorts the negatives as if they were positive. The list with −0.607 before −0.65 treats 0.607 as bigger than 0.65 because it has more digits, but 0.607 < 0.650. The list starting 0.06 ignores the signs altogether.",
+        "On a number line, further left is smaller. Pad the sizes of the negatives: 0.700 > 0.650 > 0.607, and the negative with the biggest size is furthest left, so −0.7 < −0.65 < −0.607. The only positive number, 0.06, is largest. The list starting −0.607 sorts the negatives as if they were positive. The list −0.7, −0.607, −0.65, 0.06 treats 0.607 as bigger than 0.65 because it has more digits, but 0.607 < 0.650. The list starting 0.06 ignores the signs altogether.",
       difficulty: "core",
       guideRef: "ordering-and-shortcuts",
       hints: [
@@ -193,7 +193,7 @@ export const practice: TopicPractice = {
         },
         {
           point: "60 = 2 × 2 × 3 × 5 contains the prime factor 3, so {{11/60}} recurs",
-          keywords: ["factor of 3", "3", "recurs", "recurring", "0.183"],
+          keywords: ["factor of 3", "factor 3", "2 x 2 x 3 x 5", "2 × 2 × 3 × 5", "recurs", "recurring", "0.183"],
         },
       ],
       commonError: "Saying both recur because neither denominator is 10, 100 or 1000.",
@@ -306,7 +306,7 @@ export const practice: TopicPractice = {
           traps: [
             {
               spec: { type: "number", value: 0.92 },
-              feedback: "A fraction isn't 'top, point, bottom'. Scale to hundredths: {{9/20 = 45/100}} = 0.45.",
+              feedback: "That just writes the digits 9 and 20 after a point (0.920). A fraction means top ÷ bottom, so scale to hundredths instead: {{9/20 = 45/100}} = 0.45.",
             },
           ],
           difficulty: "warmup",
@@ -800,11 +800,11 @@ export const practice: TopicPractice = {
           traps: [
             {
               spec: { type: "number", value: 0.4 },
-              feedback: "Place the point before dropping zeros: 40 with 3 decimal places is 0.040 = 0.04. Dropping the 0 of 40 first gives 0.4, which is wrong.",
+              feedback: "Count the decimal places again: 0.05 has 2 and 0.8 has 1, so the answer has 3. 40 with 3 decimal places is 0.040 = 0.04. Check: 0.8 is less than 1, so the answer must be less than 0.05.",
             },
             {
               spec: { type: "number", value: 0.004 },
-              feedback: "40 with 3 decimal places is 0.040, which is 0.04. You've moved the point one place too far.",
+              feedback: "Place the point before dropping zeros: 40 with 3 decimal places is 0.040 = 0.04. Dropping the 0 of 40 first leaves 4, and 4 with 3 decimal places gives 0.004 — ten times too small.",
             },
           ],
           difficulty: "warmup",

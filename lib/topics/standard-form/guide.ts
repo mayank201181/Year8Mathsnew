@@ -11,7 +11,7 @@ export const guide: TopicGuide = {
   icon: "🔭",
   summary: "From atoms to galaxies: write any number as A × 10ⁿ and compare it at a glance.",
   intro:
-    "Some numbers are too big to say and some are too small to see: the distance to Neptune, the width of a red blood cell, the number of bytes on your phone. This chapter starts with the place-value moves behind multiplying and dividing by 10, 100, 0.1 and 0.01, stretches them into positive and negative powers of 10, and then builds standard form — one tidy way to write any number as A × 10ⁿ so you can read its size instantly, compare it and (as a stretch) calculate with it.",
+    "Some numbers are too big to say and some are too small to see: the distance to Neptune, the width of a red blood cell, the number of bytes on your phone. This chapter starts with the place-value moves behind multiplying and dividing by 10, 100, 0.1 and 0.01, stretches them into positive and negative powers of 10, and then builds standard form — one tidy way to write any number as {{A * 10^n}} so you can read its size instantly, compare it and (as a stretch) calculate with it.",
   guide: [
     // -----------------------------------------------------------------------
     {
@@ -143,7 +143,7 @@ export const guide: TopicGuide = {
         "Two ways to see that {{10^0 = 1}} and {{10^(-2) = 1/100}}:\n\n- **Pattern:** 1000, 100, 10, … each term is the one before ÷ 10, so the next terms must be 1, 0.1, 0.01.\n- **Index law:** {{10^3 ÷ 10^3}} is obviously 1, but the law says it is {{10^(3-3) = 10^0}}, so {{10^0}} has to be 1. Likewise {{10^2 ÷ 10^4 = 100/10000 = 1/100}}, and the law says it is {{10^(2-4) = 10^(-2)}}.\n\nNegative and zero powers are not a new rule to memorise — they are the only definitions that keep the old rules working.",
       strategies: ["Find a pattern", "Use the index laws", "Check by converting to ordinary numbers"],
       thinkDeeper:
-        "Is 10⁻² a negative number? Explain without a calculator. Then decide: how many times bigger is 10³ than 10⁻³? (Careful — it is not 6 times, and it is not 1000 times.)",
+        "Is {{10^(-2)}} a negative number? Explain without a calculator. Then decide: how many times bigger is {{10^3}} than {{10^(-3)}}? (Careful — it is not 6 times, and it is not 1000 times.)",
     },
     // -----------------------------------------------------------------------
     {
@@ -226,7 +226,7 @@ export const guide: TopicGuide = {
         "Standard form works for tiny numbers too. The rule is the same — {{A * 10^n}} with {{1 <= A < 10}} — but for numbers between 0 and 1 the power n is **negative**.\n\n**Converting a small number to standard form**\n\n1. Find the first non-zero digit and put the decimal point just after it to get A. For 0.000 52, A = 5.2.\n2. Count how many places the point moved to the right. From 0.000 52 to 5.2 it moves 4 places, so n = −4.\n3. Write {{5.2 * 10^(-4)}}, then check: 5.2 ÷ 10 000 = 0.000 52. ✓\n\nA quick way to find n: count the zeros in front of the first non-zero digit, **including** the zero before the decimal point. 0.000 52 has four of them, so n = −4.\n\n**Converting back:** {{2.6 * 10^(-3)}} means 2.6 ÷ 1000. Move the digits of 2.6 three places right: 0.0026.\n\n| Thing | Size in metres | Standard form |\n|---|---|---|\n| Ladybird | 0.005 | {{5 * 10^(-3)}} |\n| Width of a human hair | 0.000 08 | {{8 * 10^(-5)}} |\n| Red blood cell | 0.000 008 | {{8 * 10^(-6)}} |\n| Typical virus | 0.000 000 1 | {{1 * 10^(-7)}} |\n| Atom | 0.000 000 000 1 | {{1 * 10^(-10)}} |\n\n> The sign of the **power** tells you big or small. The sign of **A** tells you positive or negative. {{3 * 10^(-2)}} = 0.03 is small but positive; −0.03 = {{-3 * 10^(-2)}}.\n\nTiny times work the same way: a camera flash lasts about {{1 * 10^(-3)}} s (a millisecond), and light crosses a 30 cm ruler in about {{1 * 10^(-9)}} s (a nanosecond).",
       diagram: `<svg viewBox="0 0 480 172" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A zoom scale in metres marked with powers of ten from 10 to the 0 down to 10 to the minus 10, each step ten times smaller. Marked on it: ladybird 5 times 10 to the minus 3 metres, hair width 8 times 10 to the minus 5, red blood cell 8 times 10 to the minus 6, virus 1 times 10 to the minus 7, atom 1 times 10 to the minus 10."><rect x="0" y="0" width="480" height="172" fill="#ffffff"/><line x1="24" y1="110" x2="432" y2="110" stroke="#1f2937" stroke-width="2"/><g stroke="#1f2937" stroke-width="1.5"><line x1="24" y1="104" x2="24" y2="116"/><line x1="64" y1="104" x2="64" y2="116"/><line x1="104" y1="104" x2="104" y2="116"/><line x1="144" y1="104" x2="144" y2="116"/><line x1="184" y1="104" x2="184" y2="116"/><line x1="224" y1="104" x2="224" y2="116"/><line x1="264" y1="104" x2="264" y2="116"/><line x1="304" y1="104" x2="304" y2="116"/><line x1="344" y1="104" x2="344" y2="116"/><line x1="384" y1="104" x2="384" y2="116"/><line x1="424" y1="104" x2="424" y2="116"/></g><g font-size="10" font-family="sans-serif" fill="#334155" text-anchor="middle"><text x="24" y="130">10⁰</text><text x="64" y="130">10⁻¹</text><text x="104" y="130">10⁻²</text><text x="144" y="130">10⁻³</text><text x="184" y="130">10⁻⁴</text><text x="224" y="130">10⁻⁵</text><text x="264" y="130">10⁻⁶</text><text x="304" y="130">10⁻⁷</text><text x="344" y="130">10⁻⁸</text><text x="384" y="130">10⁻⁹</text><text x="424" y="130">10⁻¹⁰</text></g><text x="440" y="114" font-size="11" font-family="sans-serif" fill="#334155">m</text><g stroke="#64748b" stroke-width="1" stroke-dasharray="3 2"><line x1="116" y1="46" x2="116" y2="105"/><line x1="188" y1="82" x2="188" y2="105"/><line x1="228" y1="46" x2="228" y2="105"/><line x1="304" y1="82" x2="304" y2="105"/><line x1="424" y1="46" x2="424" y2="105"/></g><g stroke="#1f2937" stroke-width="1.2"><circle cx="116" cy="110" r="4.5" fill="#fecaca"/><circle cx="188" cy="110" r="4.5" fill="#fde68a"/><circle cx="228" cy="110" r="4.5" fill="#fecaca"/><circle cx="304" cy="110" r="4.5" fill="#bbf7d0"/><circle cx="424" cy="110" r="4.5" fill="#bae6fd"/></g><g font-size="11" font-family="sans-serif" fill="#1f2937" text-anchor="middle"><text x="116" y="26" font-weight="bold">ladybird</text><text x="116" y="40">5 × 10⁻³ m</text><text x="228" y="26" font-weight="bold">red blood cell</text><text x="228" y="40">8 × 10⁻⁶ m</text><text x="424" y="26" font-weight="bold">atom</text><text x="424" y="40">1 × 10⁻¹⁰ m</text><text x="188" y="62" font-weight="bold">hair width</text><text x="188" y="76">8 × 10⁻⁵ m</text><text x="304" y="62" font-weight="bold">virus</text><text x="304" y="76">1 × 10⁻⁷ m</text></g><text x="228" y="158" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Each step to the right is 10 times smaller (a powers-of-10 scale).</text></svg>`,
       diagramCaption:
-        "A zoom scale: each mark is 10 times smaller than the one before, so equal steps mean equal *powers*, not equal lengths. Standard form lets a ladybird and an atom share the same page.",
+        "A zoom scale: each mark is 10 times smaller than the one before, so every equal step along the line means *dividing by 10* again, not taking away the same length. Standard form lets a ladybird and an atom share the same page.",
       workedExamples: [
         {
           title: "Small number to standard form",
@@ -276,7 +276,7 @@ export const guide: TopicGuide = {
         "A negative power means divide: {{10^(-4) = 1/10^4}}. So\n\n    {{5.2 * 10^(-4) = 5.2 ÷ 10^4 = 5.2 ÷ 10000 = 0.00052}}\n\nDividing by 10 000 slides the digits 4 places to the right — exactly undoing the 4 places the point moved when you made A.",
       strategies: ["Count the places", "Check by converting back", "Make it simpler (fix A first, then the power)"],
       thinkDeeper:
-        "Siti says, \"A negative power makes the number negative.\" Write 3 × 10⁻² and −3 × 10⁻² as ordinary numbers. What does the sign of A control, and what does the sign of the power control? Is there a number in standard form where both are negative?",
+        "Siti says, \"A negative power makes the number negative.\" Write {{3 * 10^(-2)}} and {{-3 * 10^(-2)}} as ordinary numbers. What does the sign of A control, and what does the sign of the power control? Is there a number in standard form where both are negative?",
     },
     // -----------------------------------------------------------------------
     {
@@ -348,7 +348,7 @@ export const guide: TopicGuide = {
         "Because {{1 <= A < 10}}, every positive number with power n is trapped in a band:\n\n    {{10^n <= A * 10^n < 10^(n+1)}}\n\nThe band for power n ends exactly where the band for power n + 1 begins, so a number with a bigger power is always bigger, whatever its A. This is the real reason standard form insists on 1 ≤ A < 10 — without it, a number like {{25 * 10^3}} would sit in the wrong band and fool the rule.",
       strategies: ["Compare powers first", "Consider extremes (the biggest A with the smaller power)", "Check by converting back"],
       thinkDeeper:
-        "The rule \"bigger power means bigger number\" is for positive numbers. Test it on −2 × 10⁵ and −3 × 10⁴. Which is bigger? Write a rule for comparing negative numbers in standard form, and explain why it is the opposite way round.",
+        "The rule \"bigger power means bigger number\" is for positive numbers. Test it on {{-2 * 10^5}} and {{-3 * 10^4}}. Which is bigger? Write a rule for comparing negative numbers in standard form, and explain why it is the opposite way round.",
     },
     // -----------------------------------------------------------------------
     {
@@ -397,7 +397,7 @@ export const guide: TopicGuide = {
         {
           title: "Adding",
           problem:
-            "A new town has a population of {{6.2 * 10^5}}. Over the next five years another {{4.5 * 10^4}} people move in. Find the new population in standard form.",
+            "A city has a population of {{6.2 * 10^5}}. Over the next five years another {{4.5 * 10^4}} people move in. Find the new population in standard form.",
           steps: [
             "The powers are different, so you cannot just add the A parts.",
             "Convert: {{6.2 * 10^5}} = 620 000 and {{4.5 * 10^4}} = 45 000.",
@@ -418,7 +418,7 @@ export const guide: TopicGuide = {
         "Multiplication can be done in any order (it is *commutative* and *associative*), so you are allowed to regroup:\n\n    {{(4 * 10^3) * (6 * 10^5) = (4 * 6) * (10^3 * 10^5)}}\n\nand {{10^3 * 10^5}} is three tens times five tens, which is eight tens multiplied together: {{10^8}}. Addition has no such trick: {{10^2 + 10^3}} = 100 + 1000 = 1100, which is nowhere near {{10^5}}.",
       strategies: ["Group the numbers and the powers", "Estimate first", "Check by converting back"],
       thinkDeeper:
-        "4 × 10⁵ is multiplied by another number in standard form, and the answer (in standard form) has power 9. What could the other number's power be? Is there more than one possibility? (Think about when 4 × A needs re-normalising.)",
+        "{{4 * 10^5}} is multiplied by another number in standard form, and the answer (in standard form) has power 9. What could the other number's power be? Is there more than one possibility? (Think about when 4 × A needs re-normalising.)",
     },
   ],
   learn: {

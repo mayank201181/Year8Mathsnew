@@ -405,7 +405,7 @@ export const practice: TopicPractice = {
               point: "Identifies that he added 2 + 3 before squaring (worked left to right, as if it were {{(2 + 3)^2}})",
               keywords: ["2 + 3", "added first", "left to right", "(2+3)", "5", "25"],
             },
-            { point: "States that the index must be done first and applies only to the 3", keywords: ["indices first", "index", "square first", "only the 3", "bidmas", "3^2", "9"] },
+            { point: "States that the index must be done first and applies only to the 3", keywords: ["indices first", "index", "square first", "only the 3", "bidmas", "3^2", "3 squared", "= 9"] },
             { point: "Correct answer 37 with working (9 × 4 = 36)", keywords: ["37", "36"] },
           ],
           commonError: "Saying 'he did it in the wrong order' without explaining which step should have come first.",
@@ -528,7 +528,7 @@ export const practice: TopicPractice = {
           modelAnswer:
             "A rational number is any number that **can be written** as a fraction {{a/b}}, where a and b are integers and b ≠ 0. It doesn't have to be written that way already. {{0.75 = 75/100 = 3/4}}, so 0.75 is rational. {{-6 = (-6)/1}} (or {{-12/2}}), so −6 is rational too. In fact every integer and every terminating decimal is rational.",
           markScheme: [
-            { point: "States the definition: a rational number can be written as a fraction of two integers", keywords: ["can be written", "fraction", "a/b", "integers", "ratio"] },
+            { point: "States the definition: a rational number can be written as a fraction of two integers", keywords: ["can be written", "fraction", "a/b", "integers", "ratio of"] },
             { point: "Writes 0.75 as {{3/4}} (or {{75/100}})", keywords: ["3/4", "75/100", "three quarters"] },
             { point: "Writes −6 as a fraction, e.g. {{(-6)/1}}", keywords: ["-6/1", "−6/1", "6/1", "-12/2", "over 1"] },
           ],
@@ -605,7 +605,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "integers-powers-p1-q18",
           question:
-            "In this product pyramid, each brick is the **product** of the two bricks directly below it. Find **both** possible values of x.",
+            "In this product pyramid, each brick is the **product** of the two bricks directly below it. Find **both** possible values of x. Separate them with a comma.",
           diagram: `<svg viewBox="0 0 300 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A product pyramid. Bottom row: −2, x, 3. Middle row: two empty bricks. Top brick: −54."><rect x="0" y="0" width="300" height="175" fill="#ffffff"/><text x="150" y="24" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">Each brick = product of the two bricks below it</text><rect x="110" y="40" width="80" height="40" fill="#bbf7d0" stroke="#1f2937" stroke-width="1.5"/><text x="150" y="65" font-family="sans-serif" font-size="14" fill="#1f2937" text-anchor="middle">−54</text><rect x="70" y="80" width="80" height="40" fill="#ffffff" stroke="#1f2937" stroke-width="1.5"/><rect x="150" y="80" width="80" height="40" fill="#ffffff" stroke="#1f2937" stroke-width="1.5"/><rect x="30" y="120" width="80" height="40" fill="#bae6fd" stroke="#1f2937" stroke-width="1.5"/><text x="70" y="145" font-family="sans-serif" font-size="14" fill="#1f2937" text-anchor="middle">−2</text><rect x="110" y="120" width="80" height="40" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><text x="150" y="145" font-family="sans-serif" font-size="14" font-style="italic" fill="#1f2937" text-anchor="middle">x</text><rect x="190" y="120" width="80" height="40" fill="#bae6fd" stroke="#1f2937" stroke-width="1.5"/><text x="230" y="145" font-family="sans-serif" font-size="14" fill="#1f2937" text-anchor="middle">3</text></svg>`,
           answer: { type: "list", values: [3, -3], display: "x = 3 or x = −3" },
           traps: [
@@ -647,11 +647,11 @@ export const practice: TopicPractice = {
             "**Sometimes** true. It is true for numbers greater than 1: {{cbrt(8) = 2}}, and 2 < 8. It is false for numbers less than −1: {{cbrt(-8) = -2}}, and −2 is *bigger* than −8. It is also false for numbers between 0 and 1: {{cbrt(0.001) = 0.1}}, and 0.1 is bigger than 0.001. For 0, 1 and −1 the cube root equals the number. (It is true again for numbers between −1 and 0: {{cbrt(-0.001) = -0.1}}, which is less than −0.001.)",
           markScheme: [
             { point: "States sometimes true", keywords: ["sometimes"] },
-            { point: "An example where it is true, e.g. {{cbrt(8) = 2}} and 2 < 8", keywords: ["8", "2", "27", "3", "64", "4", "true"] },
+            { point: "An example where it is true, e.g. {{cbrt(8) = 2}} and 2 < 8", keywords: ["cbrt(8)", "∛8", "cube root of 8", "2 < 8", "27", "64", "greater than 1", "bigger than 1", "more than 1"] },
             { point: "A counterexample with a negative number, e.g. {{cbrt(-8) = -2}}, which is bigger than −8", keywords: ["-8", "−8", "-2", "−2", "negative", "-27", "−27"] },
             {
               point: "A counterexample between 0 and 1 (e.g. 0.001 → 0.1, or {{1/8}} → {{1/2}}), or notes that 0, 1 and −1 stay the same",
-              keywords: ["0.001", "0.1", "1/8", "1/2", "0.125", "0.5", "between 0 and 1", "equal", "same", "1", "0"],
+              keywords: ["0.001", "0.1", "1/8", "1/2", "0.125", "0.5", "between 0 and 1", "equal", "same", "itself"],
             },
           ],
           commonError: "Testing only positive whole numbers and concluding 'always'.",
@@ -673,6 +673,7 @@ export const practice: TopicPractice = {
           traps: [
             { spec: { type: "number", value: 23 }, feedback: "Don't add the indices — 2 and 5 are different bases. Instead, pair each 2 with a 5 to make a 10." },
             { spec: { type: "number", value: 10 }, feedback: "Ten (2 × 5) pairs make {{10^10}} — but there are three 5s left over, and {{5^3 = 125}} has 3 digits of its own." },
+            { spec: { type: "number", value: 14 }, feedback: "{{10^10}} has 11 digits, but multiplying by 125 replaces its leading 1 — it doesn't add 3 more digits to all 11. The number is 125 followed by ten zeros." },
           ],
           solution: [
             "Split the 5s: {{2^10 * 5^13 = 2^10 * 5^10 * 5^3}}.",
@@ -757,7 +758,7 @@ export const practice: TopicPractice = {
           answer: { type: "number", value: 21 },
           traps: [
             { spec: { type: "number", value: 20 }, feedback: "{{4^0 = 1}}, not 0: any non-zero number to the power 0 is 1." },
-            { spec: { type: "number", value: 12 }, feedback: "The index is not a multiplier: {{4^2 = 4 * 4 = 16}}, not 4 × 2." },
+            { spec: { type: "number", value: 12 }, feedback: "You used each index as a multiplier: 4 × 0 + 4 × 1 + 4 × 2 = 12. An index counts how many 4s to multiply: {{4^2 = 4 * 4 = 16}}, and {{4^0 = 1}}." },
           ],
           solution: ["{{4^0 = 1}} (any non-zero number to the power 0 is 1).", "{{4^1 = 4}} and {{4^2 = 16}}.", "1 + 4 + 16 = 21."],
           difficulty: "warmup",
@@ -833,7 +834,7 @@ export const practice: TopicPractice = {
           markScheme: [
             { point: "Counts 10 negative factors (an even number)", keywords: ["10", "ten", "even"] },
             { point: "Explains that the negatives pair up to give positives, so the product is positive", keywords: ["pair", "pairs", "positive", "even number"] },
-            { point: "Jun's answer is 0, because 0 is one of the numbers he multiplies", keywords: ["0", "zero"] },
+            { point: "Jun's answer is 0, because 0 is one of the numbers he multiplies", keywords: ["zero", "is 0", "= 0", "be 0", "includes 0", "times 0", "× 0", "x 0"] },
           ],
           commonError: "Saying 'negative, because all the numbers are negative'. It is *how many* negatives there are that decides the sign.",
           difficulty: "core",
@@ -897,8 +898,8 @@ export const practice: TopicPractice = {
           modelAnswer:
             "Mei is wrong about {{sqrt(16)}}: {{sqrt(16) = 4}}, which is a natural number, so it is rational ({{4 = 4/1}}). Having a √ sign does not make a number irrational — simplify first.\n\nShe is right about {{sqrt(17)}}: 17 is not a square number (16 < 17 < 25, so {{sqrt(17)}} lies between 4 and 5 and is not a whole number). The square root of a whole number that is not a square number is irrational: its decimal never ends and never repeats.",
           markScheme: [
-            { point: "States that {{sqrt(16) = 4}}", keywords: ["4", "√16 = 4", "sqrt(16) = 4"] },
-            { point: "So {{sqrt(16)}} is rational (natural number / integer / {{4/1}}): Mei is wrong about it", keywords: ["rational", "natural", "integer", "4/1", "wrong"] },
+            { point: "States that {{sqrt(16) = 4}}", keywords: ["= 4", "is 4", "equals 4", "√16 = 4", "sqrt(16) = 4"] },
+            { point: "So {{sqrt(16)}} is rational (natural number / integer / {{4/1}}): Mei is wrong about it", keywords: ["is rational", "it's rational", "a rational", "not irrational", "natural", "integer", "4/1", "wrong"] },
             {
               point: "{{sqrt(17)}} is irrational because 17 is not a square number",
               keywords: ["not a square", "17 is not", "irrational", "between 4 and 5", "never ends", "never repeats"],
@@ -1035,16 +1036,16 @@ export const practice: TopicPractice = {
         {
           kind: "short",
           id: "integers-powers-p2-q17",
-          question: "Work out {{1^3 + 2^3 + 3^3 + ... + 10^3}}.",
+          question: "Work out {{1^3 + 2^3 + 3^3 + … + 10^3}}.",
           answer: { type: "number", value: 3025 },
           traps: [
-            { spec: { type: "number", value: 385 }, feedback: "385 is {{1^2 + 2^2 + ... + 10^2}}, the sum of the *squares*. You need the cubes." },
+            { spec: { type: "number", value: 385 }, feedback: "385 is {{1^2 + 2^2 + … + 10^2}}, the sum of the *squares*. You need the cubes." },
             { spec: { type: "number", value: 55 }, feedback: "55 is 1 + 2 + … + 10. You need to add the *cubes* of these numbers." },
           ],
           solution: [
             "Look at the running totals: 1, 1 + 8 = 9, 9 + 27 = 36, 36 + 64 = 100, 100 + 125 = 225, …",
             "They are all square numbers: {{1^2}}, {{3^2}}, {{6^2}}, {{10^2}}, {{15^2}}, … and 1, 3, 6, 10, 15 are the totals 1, 1 + 2, 1 + 2 + 3, …",
-            "So {{1^3 + 2^3 + ... + 10^3 = (1 + 2 + ... + 10)^2 = 55^2}}.",
+            "So {{1^3 + 2^3 + … + 10^3 = (1 + 2 + … + 10)^2 = 55^2}}.",
             "{{55^2 = 3025}}.",
           ],
           solutions: [
@@ -1053,7 +1054,7 @@ export const practice: TopicPractice = {
               steps: [
                 "The cubes are 1, 8, 27, 64, 125, 216, 343, 512, 729, 1000.",
                 "Running totals: 1, 9, 36, 100, 225, 441, 784, 1296, 2025, 3025.",
-                "Answer 3025. Adding directly is fine for ten terms, but the pattern is slicker: it gives {{1^3 + 2^3 + ... + 100^3 = 5050^2}} just as easily.",
+                "Answer 3025. Adding directly is fine for ten terms, but the pattern is slicker: it gives {{1^3 + 2^3 + … + 100^3 = 5050^2}} just as easily.",
               ],
             },
           ],
@@ -1078,8 +1079,8 @@ export const practice: TopicPractice = {
           markScheme: [
             { point: "Shows {{2^3 + 2^4 = 24}} but {{2^7 = 128}}", keywords: ["24", "128", "8 + 16"] },
             { point: "States the 'add the indices' law is for multiplying, not adding", keywords: ["multiply", "multiplying", "not adding", "times", "product"] },
-            { point: "Explains {{2^3 + 2^3 = 2 * 2^3 = 2^4}} (or 8 + 8 = 16)", keywords: ["2 × 2^3", "2 x 2^3", "two lots", "2 lots", "double", "16", "8 + 8"] },
-            { point: "Writes {{2^3 + 2^4 = 3 * 2^3}}", keywords: ["3 × 2^3", "3 x 2^3", "k = 3", "3"] },
+            { point: "Explains {{2^3 + 2^3 = 2 * 2^3 = 2^4}} (or 8 + 8 = 16)", keywords: ["2 × 2^3", "2 x 2^3", "two lots", "2 lots", "double", "= 16", "8 + 8"] },
+            { point: "Writes {{2^3 + 2^4 = 3 * 2^3}}", keywords: ["3 × 2^3", "3 x 2^3", "3 × 8", "3 x 8", "k = 3", "k=3", "3 lots", "three lots"] },
           ],
           commonError: "Thinking the index laws work for adding — they only work for multiplying and dividing.",
           difficulty: "challenge",
@@ -1101,7 +1102,7 @@ export const practice: TopicPractice = {
             "**Sometimes** true. When both numbers are positive it works: 5 > 2 and 25 > 4. But it can fail when negative numbers are involved: 1 > −3, yet {{1^2 = 1}} and {{(-3)^2 = 9}}, so {{a^2 < b^2}}. It even fails when both are negative: −2 > −5, but 4 < 25. Squaring throws away the sign, so what decides which square is bigger is the **distance from zero**: {{a^2 > b^2}} exactly when a is further from 0 than b.",
           markScheme: [
             { point: "States sometimes true", keywords: ["sometimes"] },
-            { point: "An example where it is true (e.g. both positive: 5 > 2 and 25 > 4)", keywords: ["5", "25", "positive", "3", "9", "true"] },
+            { point: "An example where it is true (e.g. both positive: 5 > 2 and 25 > 4)", keywords: ["5 > 2", "25 > 4", "both positive", "positive numbers", "25", "when it works", "it works"] },
             { point: "A counterexample involving a negative number (e.g. 1 > −3 but 1 < 9)", keywords: ["negative", "-3", "−3", "-5", "−5", "counterexample", "9", "25"] },
             { point: "Explains why: squaring removes the sign, so it depends on distance from zero (size)", keywords: ["distance", "sign", "size", "further from 0", "further from zero", "positive"] },
           ],
@@ -1296,13 +1297,13 @@ export const practice: TopicPractice = {
     {
       kind: "short",
       id: "integers-powers-ch-q05",
-      question: "Work out {{1^2 - 2^2 + 3^2 - 4^2 + 5^2 - 6^2 + ... + 19^2 - 20^2}}.",
+      question: "Work out {{1^2 - 2^2 + 3^2 - 4^2 + 5^2 - 6^2 + … + 19^2 - 20^2}}.",
       answer: { type: "number", value: -210 },
       traps: [
         { spec: { type: "number", value: 210 }, feedback: "Each pair, such as {{1^2 - 2^2 = -3}}, is negative — so the total must be negative." },
       ],
       solution: [
-        "Group the terms in pairs: {{(1^2 - 2^2) + (3^2 - 4^2) + ... + (19^2 - 20^2)}}.",
+        "Group the terms in pairs: {{(1^2 - 2^2) + (3^2 - 4^2) + … + (19^2 - 20^2)}}.",
         "Work out the pairs: 1 − 4 = −3, 9 − 16 = −7, 25 − 36 = −11, … Each pair is 4 less than the one before.",
         "The ten pairs are −3, −7, −11, −15, −19, −23, −27, −31, −35, −39.",
         "Pair them from the outside in: (−3) + (−39) = −42, (−7) + (−35) = −42, and so on — five lots of −42.",
@@ -1313,8 +1314,8 @@ export const practice: TopicPractice = {
           label: "Difference of consecutive squares",
           steps: [
             "Notice {{3^2 - 4^2 = 9 - 16 = -7 = -(3 + 4)}}. In general the gap between consecutive squares is the sum of the two numbers: {{(n+1)^2 - n^2 = n + (n + 1)}}.",
-            "So every pair equals minus the sum of its two numbers, and the whole expression is {{-(1 + 2 + 3 + ... + 20)}}.",
-            "{{1 + 2 + ... + 20 = (20 * 21)/2 = 210}}.",
+            "So every pair equals minus the sum of its two numbers, and the whole expression is {{-(1 + 2 + 3 + … + 20)}}.",
+            "{{1 + 2 + … + 20 = (20 * 21)/2 = 210}}.",
             "Answer: −210. This is slicker — it turns a sum of squares into the simple sum 1 + 2 + … + 20.",
           ],
         },
@@ -1340,8 +1341,8 @@ export const practice: TopicPractice = {
         { spec: { type: "number", value: 39 }, feedback: "Close! Check the numbers that are both squares and cubes again: 1, 64 and one more below 1000." },
       ],
       solution: [
-        "Squares: {{1^2, 2^2, ..., 31^2}}, because {{31^2 = 961}} but {{32^2 = 1024}}. That is 31 numbers.",
-        "Cubes: {{1^3, 2^3, ..., 10^3 = 1000}}. That is 10 numbers.",
+        "Squares: {{1^2, 2^2, …, 31^2}}, because {{31^2 = 961}} but {{32^2 = 1024}}. That is 31 numbers.",
+        "Cubes: {{1^3, 2^3, …, 10^3 = 1000}}. That is 10 numbers.",
         "A number that is both a square and a cube is a sixth power: {{1^6 = 1}}, {{2^6 = 64}}, {{3^6 = 729}} ({{4^6 = 4096}} is too big). These 3 numbers were counted twice.",
         "Total: 31 + 10 − 3 = 38.",
       ],
@@ -1369,14 +1370,14 @@ export const practice: TopicPractice = {
       kind: "short",
       id: "integers-powers-ch-q07",
       question:
-        "Write {{2^(-1) + 2^(-2) + 2^(-3) + ... + 2^(-10)}} as a single fraction in its simplest form.",
+        "Write {{2^(-1) + 2^(-2) + 2^(-3) + … + 2^(-10)}} as a single fraction in its simplest form.",
       answer: { type: "fraction", n: 1023, d: 1024, simplest: true },
       traps: [
         { spec: { type: "number", value: 1 }, feedback: "The total gets closer and closer to 1, but each term only fills half of the gap that is left — so it never quite reaches 1." },
         { spec: { type: "fraction", n: 1, d: 1024 }, feedback: "{{1/1024}} is the gap that is left over — the total is 1 minus that gap." },
       ],
       solution: [
-        "Rewrite without negative indices: {{1/2 + 1/4 + 1/8 + ... + 1/1024}}, since {{2^(-n) = 1/2^n}} and {{2^10 = 1024}}.",
+        "Rewrite without negative indices: {{1/2 + 1/4 + 1/8 + … + 1/1024}}, since {{2^(-n) = 1/2^n}} and {{2^10 = 1024}}.",
         "Running totals: {{1/2}}, {{3/4}}, {{7/8}}, {{15/16}}, … Each running total is 1 minus the last term added.",
         "So after the last term, {{1/1024}}, the total is {{1 - 1/1024 = 1023/1024}}.",
       ],
@@ -1384,7 +1385,7 @@ export const practice: TopicPractice = {
         {
           label: "Double and subtract",
           steps: [
-            "Call the sum S. Doubling every term gives {{2S = 1 + 1/2 + 1/4 + ... + 1/512}}.",
+            "Call the sum S. Doubling every term gives {{2S = 1 + 1/2 + 1/4 + … + 1/512}}.",
             "Subtract S from 2S: almost everything cancels, leaving {{2S - S = 1 - 1/1024}}.",
             "So {{S = 1023/1024}}. This is slicker for long sums; the running-total pattern is easier to *see*, especially if you picture a square being cut in half again and again.",
           ],
@@ -1475,10 +1476,10 @@ export const practice: TopicPractice = {
         "**Sometimes** true.\n\nIt can be true: {{sqrt(2) * sqrt(3) = sqrt(6)}} (check: {{(sqrt(2) * sqrt(3))^2 = 2 * 3 = 6}}). 6 is not a square number, so {{sqrt(6)}} is irrational.\n\nBut it can be false: {{sqrt(2) * sqrt(2) = 2}}, which is rational ({{2 = 2/1}}). Another counterexample with two *different* irrational numbers: {{sqrt(2) * sqrt(8) = sqrt(16) = 4}}.\n\nSo the product of two irrational numbers can be either rational or irrational.",
       markScheme: [
         { point: "States sometimes true", keywords: ["sometimes"] },
-        { point: "An example where the product is irrational, e.g. {{sqrt(2) * sqrt(3) = sqrt(6)}}", keywords: ["√6", "sqrt(6)", "root 6", "√2 × √3", "irrational"] },
+        { point: "An example where the product is irrational, e.g. {{sqrt(2) * sqrt(3) = sqrt(6)}}", keywords: ["√6", "sqrt(6)", "root 6", "√2 × √3", "√2 x √3", "sqrt(2) * sqrt(3)"] },
         {
           point: "A counterexample where the product is rational, e.g. {{sqrt(2) * sqrt(2) = 2}} or {{sqrt(2) * sqrt(8) = 4}}",
-          keywords: ["√2 × √2", "sqrt(2) * sqrt(2)", "√8", "sqrt(8)", "√16", "2", "4", "rational"],
+          keywords: ["√2 × √2", "√2 x √2", "sqrt(2) * sqrt(2)", "√8", "sqrt(8)", "√16", "= 2", "= 4", "is rational", "a rational", "whole number"],
         },
       ],
       solutions: [

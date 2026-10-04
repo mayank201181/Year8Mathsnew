@@ -69,22 +69,20 @@ function digitAt(d: Dec, pos: number): number {
   return idx >= 0 && idx < str.length && d.m !== 0n ? Number(str[idx]) : 0;
 }
 
-const PLACE_NAMES: Record<number, string> = {
-  6: "millions",
-  5: "hundred thousands",
-  4: "ten thousands",
-  3: "thousands",
-  2: "hundreds",
-  1: "tens",
-  0: "ones",
-  [-1]: "tenths",
-  [-2]: "hundredths",
-  [-3]: "thousandths",
-  [-4]: "ten-thousandths",
-  [-5]: "hundred-thousandths",
-  [-6]: "millionths",
-};
-const placeName = (pos: number) => PLACE_NAMES[pos] ?? `10^${pos}`;
+const PLACE_UNITS = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion"];
+/** Place-value name for 10^pos: 0 → "ones", 4 → "ten thousands", −5 → "hundred-thousandths". */
+function placeName(pos: number): string {
+  const k = Math.abs(pos);
+  const unit = PLACE_UNITS[Math.floor(k / 3)];
+  const within = k % 3;
+  if (unit === undefined) return `10^${pos}`;
+  if (pos >= 0) {
+    if (k < 3) return ["ones", "tens", "hundreds"][k];
+    return `${["", "ten ", "hundred "][within]}${unit}s`;
+  }
+  if (k < 3) return ["", "tenths", "hundredths"][k];
+  return `${["", "ten-", "hundred-"][within]}${unit}ths`;
+}
 const ordinal = (k: number) => `${k}${k === 1 ? "st" : k === 2 ? "nd" : k === 3 ? "rd" : "th"}`;
 
 type Mode = "dp" | "sf";
@@ -106,6 +104,12 @@ interface Rounded {
   carry: boolean;
   /** Significant-figure rounding that gained a digit (9.97 → 10). */
   overflow: boolean;
+  /**
+   * Significant-figure answer is 1, 10, 100 … (or 1.0, 10.0 …): just below it the s.f. step is
+   * ten times smaller, so the error interval only reaches down half of that smaller step
+   * (10 to 2 s.f. covers 9.95 ≤ x < 10.5, not 9.5 ≤ x < 10.5).
+   */
+  lowEdge: boolean;
   /** Decimal places to show in the answer. */
   places: number;
   answer: string;
@@ -136,7 +140,11 @@ function roundDec(d: Dec, mode: Mode, n: number): Rounded | null {
   const places = mode === "dp" ? n : overflow ? Math.max(0, -p - 1) : Math.max(0, -p);
   const axisPlaces = Math.max(0, -p);
   const t = r === 0n ? 0 : Number((r * 10000n) / D) / 10000;
+  const lowEdge = mode === "sf" && !overflow && roundedQ === pow10(n - 1);
   const intervalHi = overflow ? fmt(roundedQ + 5n, p, Math.max(0, -p)) : fmt(roundedQ * 10n + 5n, p - 1, Math.max(0, 1 - p));
+  const intervalLo = lowEdge
+    ? fmt(roundedQ * 100n - 5n, p - 2, Math.max(0, 2 - p))
+    : fmt(roundedQ * 10n - 5n, p - 1, Math.max(0, 1 - p));
   return {
     p,
     lowQ,
@@ -148,14 +156,22 @@ function roundDec(d: Dec, mode: Mode, n: number): Rounded | null {
     decider: digitAt(d, p - 1),
     carry: up && lowQ % 10n === 9n,
     overflow,
+    lowEdge,
     places,
     answer: fmt(roundedQ, p, places),
     lower: fmt(lowQ, p, axisPlaces),
     upper: fmt(lowQ + 1n, p, axisPlaces),
     mid: fmt(lowQ * 10n + 5n, p - 1, Math.max(0, 1 - p)),
-    intervalLo: fmt(roundedQ * 10n - 5n, p - 1, Math.max(0, 1 - p)),
+    intervalLo,
     intervalHi,
   };
+}
+
+/** Rough rendered width of a numeric SVG label (digits ≈ 0.62em, point/narrow space thinner). */
+function textWidth(s: string, fontSize: number): number {
+  let em = 0;
+  for (const ch of s) em += ch === NNBSP ? 0.25 : ch === "." ? 0.3 : 0.62;
+  return Math.max(1, em * fontSize);
 }
 
 function trimZeros(s: string): string {
@@ -264,7 +280,16 @@ function RoundingMicroscope() {
     const xAt = (t: number) => X0 + (X1 - X0) * t;
     const xp = xAt(res.t);
     const chosenX = res.up ? X1 : X0;
-    const labelX = Math.min(300, Math.max(40, xp));
+    // Long numbers (up to 14 typed characters, plus places) must stay inside the 340-wide
+    // viewBox and not collide: shrink the font if needed, then nudge the centre inwards.
+    const fitFont = (s: string, base: number, maxW: number) => Math.min(base, (base * maxW) / textWidth(s, base));
+    const endFont = Math.min(fitFont(res.lower, 13, 96), fitFont(res.upper, 13, 96));
+    const midFont = fitFont(res.mid, 11, 116);
+    const xFont = fitFont(xStr, 13, 330);
+    const lowerX = Math.max(X0, textWidth(res.lower, endFont) / 2 + 3);
+    const upperX = Math.min(X1, 340 - textWidth(res.upper, endFont) / 2 - 3);
+    const xHalf = textWidth(xStr, xFont) / 2;
+    const labelX = Math.min(340 - xHalf - 3, Math.max(xHalf + 3, xp));
     const nearer = res.exact ? "exactly on" : res.halfway ? "exactly halfway, and by convention goes up to" : "nearer to";
     numberLine = (
       <svg
@@ -295,13 +320,13 @@ function RoundingMicroscope() {
             />
           );
         })}
-        <text x={X0} y={Y + 30} fontSize={13} textAnchor="middle" className={!res.up ? "fill-good" : "fill-ink-2"} fontWeight={!res.up ? 800 : 600}>
+        <text x={lowerX} y={Y + 30} fontSize={endFont} textAnchor="middle" className={!res.up ? "fill-good" : "fill-ink-2"} fontWeight={!res.up ? 800 : 600}>
           {res.lower}
         </text>
-        <text x={X1} y={Y + 30} fontSize={13} textAnchor="middle" className={res.up ? "fill-good" : "fill-ink-2"} fontWeight={res.up ? 800 : 600}>
+        <text x={upperX} y={Y + 30} fontSize={endFont} textAnchor="middle" className={res.up ? "fill-good" : "fill-ink-2"} fontWeight={res.up ? 800 : 600}>
           {res.upper}
         </text>
-        <text x={xAt(0.5)} y={Y + 30} fontSize={11} textAnchor="middle" className="fill-warn" fontWeight={700}>
+        <text x={xAt(0.5)} y={Y + 30} fontSize={midFont} textAnchor="middle" className="fill-warn" fontWeight={700}>
           {res.mid}
         </text>
         <text x={xAt(0.5)} y={Y + 44} fontSize={10} textAnchor="middle" className="fill-ink-2">
@@ -309,7 +334,7 @@ function RoundingMicroscope() {
         </text>
         <line x1={xp} y1={Y - 14} x2={xp} y2={Y - 7} className="stroke-brand" strokeWidth={1.5} />
         <circle cx={xp} cy={Y} r={6} className="fill-brand stroke-surface" strokeWidth={2} />
-        <text x={labelX} y={Y - 20} fontSize={13} textAnchor="middle" className="fill-brand" fontWeight={800}>
+        <text x={labelX} y={Y - 20} fontSize={xFont} textAnchor="middle" className="fill-brand" fontWeight={800}>
           {xStr}
         </text>
       </svg>
@@ -355,7 +380,7 @@ function RoundingMicroscope() {
       decide = (
         <>
           {xStr} has nothing after the {placeName(res.p)} place (any further digits are 0), so nothing changes — it is already exact
-          to {acc}.{" "}
+          to {acc}{" "}
         </>
       );
     } else if (res.halfway) {
@@ -400,6 +425,15 @@ function RoundingMicroscope() {
         <Fragment key="lopsided">
           (Stretch: the error interval is lopsided here — just below {res.answer} you round to the nearest {step}, but just above it the
           step is ten times bigger.){" "}
+        </Fragment>,
+      );
+    }
+    if (res.lowEdge) {
+      notes.push(
+        <Fragment key="lowedge">
+          (Stretch: the error interval is lopsided here — just above {res.answer} you round to the nearest {step}, but just below it
+          you round to the nearest {fmt(1n, res.p - 1, Math.max(0, 1 - res.p))}, so only numbers from {res.intervalLo} upwards round to{" "}
+          {res.answer}.){" "}
         </Fragment>,
       );
     }
@@ -614,7 +648,7 @@ function DotDecimal({ ld }: { ld: LongDivision }) {
           return (
             <span key={i} className="relative inline-block">
               {dg}
-              {dot ? <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[0.7em] leading-none">●</span> : null}
+              {dot ? <span className="absolute left-1/2 top-0 h-[0.2em] w-[0.2em] -translate-x-1/2 rounded-full bg-current" /> : null}
             </span>
           );
         })}
@@ -688,10 +722,10 @@ function RemainderClock({ ld, shown }: { ld: LongDivision; shown: number }) {
           </g>
         );
       })}
-      <text x={C} y={C - 4} fontSize={13} textAnchor="middle" className="fill-ink" fontWeight={800}>
+      <text x={C} y={C - 4} fontSize={13} textAnchor="middle" className="fill-ink stroke-surface" strokeWidth={4} paintOrder="stroke" fontWeight={800}>
         remainders
       </text>
-      <text x={C} y={C + 13} fontSize={12} textAnchor="middle" className="fill-ink-2">
+      <text x={C} y={C + 13} fontSize={12} textAnchor="middle" className="fill-ink-2 stroke-surface" strokeWidth={4} paintOrder="stroke">
         when dividing by {d}
       </text>
     </svg>
@@ -749,7 +783,7 @@ function FractionDecimalMachine() {
   } else if (k === 0) {
     caption = (
       <span>
-        <M>{frac}</M> means {num} ÷ {den}. {den} goes into {num} {ld.whole} time{ld.whole === 1 ? "" : "s"}, remainder {ld.rems[0]}. Each
+        <M>{frac}</M> means {num} ÷ {den}, which is {ld.whole} remainder {ld.rems[0]}, so the whole-number part is {ld.whole}. Each
         step: put a 0 after the remainder (×10), divide by {den}, write the result as the next digit and carry the new remainder. Use{" "}
         <strong>Next step</strong> — and predict each digit first.
       </span>
@@ -777,7 +811,7 @@ function FractionDecimalMachine() {
         {sd > 1 ? (
           <>
             The denominator <FactorEq k={sd} f={factors} /> has only 2s and 5s as prime factors, so it divides a power of 10:{" "}
-            <M>{`${sn}/${sd} = (${sn} * ${mult})/(${sd} * ${mult}) = ${sn * mult}/${pow}`}</M> = {soFar}. The denominator becomes{" "}
+            <M>{mult === 1 ? `${sn}/${sd}` : `${sn}/${sd} = (${sn} * ${mult})/(${sd} * ${mult}) = ${sn * mult}/${pow}`}</M> = {soFar}. The denominator {mult === 1 ? "is already" : "becomes"}{" "}
             {pow} (a 1 followed by {tdp} zero{tdp === 1 ? "" : "s"}), so there {tdp === 1 ? "is 1 decimal place" : `are ${tdp} decimal places`}.
           </>
         ) : null}

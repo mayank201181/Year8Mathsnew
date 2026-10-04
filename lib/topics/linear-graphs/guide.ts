@@ -341,7 +341,7 @@ export const guide: TopicGuide = {
         "Rearrange forms like 2x + y = 6 into y = mx + c before reading off m and c.",
       ],
       whyItWorks:
-        "Two lines with the same gradient go up by the same amount for every step across, so the vertical gap between them never changes — it is always the difference between their c values. A gap that never changes never closes, so the lines never meet: they are parallel.\n\nIf the gradients differ, the gap changes by a fixed amount every step, so sooner or later it shrinks to zero and the lines cross.",
+        "Two lines with the same gradient go up by the same amount for every step across, so the vertical gap between them never changes — it is always the difference between their c values. A gap that never changes never closes, so the lines never meet: they are parallel.\n\nIf the gradients differ, the gap changes by a fixed amount every step, so going one way or the other along the x-axis it shrinks to zero and the lines cross.",
       strategies: ["Read the features (sign of m, size of m, value of c)", "Check by substituting a point", "Introduce a variable (for word problems)"],
       thinkDeeper:
         "Stretch: the line 3x + 2y = 12 crosses both axes. Find both crossing points without rearranging (on the x-axis, what is y?). Use them to find the gradient. For drawing this line, which is quicker — a table of values, or the two intercepts?",
@@ -365,13 +365,13 @@ export const guide: TopicGuide = {
         {
           title: "Finding k, then using it",
           problem:
-            "The cost $C of rice is directly proportional to its mass m kg. 5 kg costs $9. (a) Find a formula for C in terms of m. (b) Find the cost of 12 kg.",
+            "The cost $C of rice is directly proportional to its mass, w kg. 5 kg costs $9. (a) Find a formula for C in terms of w. (b) Find the cost of 12 kg.",
           steps: [
-            "(a) C = km. Use the known pair: 9 = k × 5, so k = 9 ÷ 5 = 1.8.",
-            "So C = 1.8m. In words: rice costs $1.80 per kg — that is the gradient.",
+            "(a) C = kw. Use the known pair: 9 = k × 5, so k = 9 ÷ 5 = 1.8.",
+            "So C = 1.8w. In words: rice costs $1.80 per kg — that is the gradient.",
             "(b) C = 1.8 × 12 = 21.6.",
           ],
-          answer: "C = 1.8m; 12 kg costs $21.60",
+          answer: "C = 1.8w; 12 kg costs $21.60",
           yourTurn: {
             question:
               "Your turn: the cost of printing is directly proportional to the number of pages. 40 pages cost $6. How much do 150 pages cost, in dollars?",

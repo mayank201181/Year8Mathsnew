@@ -3,11 +3,11 @@ import type { TopicExtras } from "../types.ts";
 // Engagement extras for "Factors, Multiples & Primes" (not audited exam content).
 export const extras: TopicExtras = {
   hook:
-    "Some cicadas in North America live underground for exactly 13 or 17 years, then millions climb out in the same few weeks. Both numbers are prime. By the end of this topic you'll be able to use an LCM to explain why a prime life cycle might help them dodge predators.",
+    "Some cicadas in North America spend 13 or 17 years underground, then millions climb out together in the same few weeks. Both numbers are prime. By the end of this topic you'll be able to use an LCM to explain why a prime life cycle might help them dodge predators.",
   didYouKnow: [
     "There is **no biggest prime**. Around 300 BC Euclid showed why: multiply every prime on any list together and add 1. The result leaves remainder 1 when divided by each prime on the list, so its prime factors must be new ones.",
-    "In October 2024 a new record was set: the largest known prime is {{2^136279841 - 1}}, a number with more than 41 million digits. It was found by Luke Durant, a volunteer in the Great Internet Mersenne Prime Search, using powerful graphics processors rented in data centres around the world.",
-    "Online banking and secure messaging rely on codes such as RSA. They work because multiplying two huge primes is quick, but splitting the answer back into those two primes would take even the fastest computers far too long.",
+    "In October 2024, {{2^136279841 - 1}} became the largest prime ever found: a number with more than 41 million digits. It was found by Luke Durant, a volunteer in the Great Internet Mersenne Prime Search, using powerful graphics processors rented in data centres around the world.",
+    "RSA, one of the codes that helps keep websites and online payments secure, relies on a one-way trick: multiplying two huge primes is quick, but splitting the answer back into those two primes would take today's fastest computers far too long.",
     "A **perfect number** equals the sum of its other factors: 6 = 1 + 2 + 3 and 28 = 1 + 2 + 4 + 7 + 14. Every perfect number found so far is even, and nobody knows whether an odd one exists.",
     "In 1742, in letters between Christian Goldbach and Leonhard Euler, a famous guess appeared: every even number greater than 2 is the sum of two primes (28 = 5 + 23 = 11 + 17). Computers have checked it for every even number up to {{4 * 10^18}}, but no one has ever proved it.",
     "1 is **not** prime, and that's a deliberate choice. If it were, prime factorisation would stop being unique: 6 = 2 × 3 = 1 × 2 × 3 = 1 × 1 × 2 × 3 … Some mathematicians did list 1 as a prime until about a hundred years ago.",
@@ -22,7 +22,7 @@ export const extras: TopicExtras = {
         "Circle 2. Then shade every multiple of 2 after it (4, 6, 8, …) in your first colour.",
         "Circle 3, the next number that isn't shaded. Shade its multiples in a second colour. Some are already shaded: give those a stripe of the new colour.",
         "Do the same for 5 and then 7, each in a new colour.",
-        "Circle every number that is still unshaded, then count your circles.",
+        "Circle every number that is still unshaded (but not the crossed-out 1), then count your circles.",
         "Look at the striped squares from step 3. What do those numbers have in common?",
       ],
       maths:
@@ -58,8 +58,8 @@ export const extras: TopicExtras = {
     },
   ],
   history: {
-    title: "The oldest algorithm still in use",
+    title: "The granddaddy of all algorithms",
     story:
-      "Around 300 BC, in Book VII of his *Elements*, Euclid described a way to find the HCF of two numbers without listing a single factor: keep replacing the bigger number with the difference of the two. For 252 and 105:\n\n    (252, 105) → (147, 105) → (42, 105) → (42, 63) → (42, 21) → (21, 21)\n\nWhen the two numbers are equal, that number is the HCF: 21. It works because any number that divides two numbers also divides their difference, so the common factors never change along the way.\n\nMore than 2000 years later, computers still use Euclid's method, in a faster form that divides instead of subtracting. It even runs inside the codes that keep online banking secure. The computer scientist Donald Knuth called it \"the granddaddy of all algorithms\".",
+      "Around 300 BC, in Book VII of his *Elements*, Euclid described a way to find the HCF of two numbers without listing a single factor: keep replacing the bigger number with the difference of the two. For 252 and 105:\n\n    (252, 105) → (147, 105) → (42, 105) → (42, 63) → (42, 21) → (21, 21)\n\nWhen the two numbers are equal, that number is the HCF: 21. It works because any number that divides both numbers also divides their difference, and anything that divides the smaller number and the difference also divides the bigger one. So the common factors never change along the way.\n\nMore than 2000 years later, computers still use Euclid's method, in a faster form that divides instead of subtracting. It even runs inside the codes that keep online banking secure. The computer scientist Donald Knuth called it \"the granddaddy of all algorithms\".",
   },
 };

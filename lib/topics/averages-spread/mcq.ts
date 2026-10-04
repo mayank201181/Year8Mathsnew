@@ -289,7 +289,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 0,
         explanation:
           "Totals: before, 9 × 50 = 450; after, 10 × 53 = 530. The tenth number is 530 − 450 = 80. A neat second way: the new number has to be 53 itself *and* lift each of the 9 old numbers' share by 3, so it is 53 + 9 × 3 = 80. 53 forgets about lifting the old numbers; 56 lifts by 3 only once; 30 comes from using 10 × 50 = 500 as the old total, but there were only nine numbers then.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "working-backwards",
         hints: [
           "Work with totals, not means. What was the total of the nine numbers?",
@@ -312,7 +312,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 1,
         explanation:
           "A mean from 7 reviews can swing a lot: P's total is 7 × 4.9 = 34.3, and just three more reviews of 3 would drop its mean to (34.3 + 9) ÷ 10 ≈ 4.3. A mean from 850 reviews hardly moves. 4.9 > 4.6 is true, but with such a small sample you can't be confident P is 'definitely' better. Comparing means is fine — you just need to say how reliable each one is.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "comparing-distributions",
         hints: [
           "How much could P's mean change if three more people gave it a 3?",
@@ -347,7 +347,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "We don't know the exact times, so use each class midpoint: 5 × 4 + 15 × 7 + 25 × 6 + 35 × 3 = 20 + 105 + 150 + 105 = 380. Estimated mean = 380 ÷ 20 = 19 minutes. 24 minutes uses the top of each class, which overestimates; 20 minutes is the mean of the four midpoints, ignoring the frequencies; 95 minutes divides by the 4 classes instead of the 20 pupils.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "grouped-data",
         hints: [
           "You don't know the exact times. What single value best represents each class?",
@@ -650,7 +650,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 3,
         explanation:
           "Chess Club's 9 values are 1, 2, 2, 3, 3, 3, 4, 5, 8: median 3 (the 5th value), range 8 − 1 = 7. Library Club's are 3, 4, 4, 5, 5, 5, 6, 6, 7: median 5, range 7 − 3 = 4. So Library Club read more on a typical basis *and* were more consistent. One member reading 8 books doesn't make the whole club better, and a bigger range means *less* consistent. Different ranges don't stop you comparing — the range is part of the comparison.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "comparing-distributions",
         hints: [
           "Read off each club's values from its dot plot.",
@@ -713,7 +713,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 1,
         explanation:
           "The modal class has the highest frequency: 150 ≤ h < 160 (11 pupils). Using midpoints: 145 × 5 + 155 × 11 + 165 × 8 + 175 × 6 = 725 + 1705 + 1320 + 1050 = 4800, and 4800 ÷ 30 = 160 cm. It is only an *estimate* — we don't know the exact heights — so 'exactly 160 cm' claims too much. 155 cm comes from using the bottom of each class instead of the midpoint; 11 is the frequency, not the class.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "grouped-data",
         hints: [
           "Which class has the highest frequency?",
@@ -818,7 +818,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 2,
         explanation:
-          "Mean = (3 + 7 + 7 + 8 + 10 + 13) ÷ 6 = 48 ÷ 6 = 8. Median: the middle two values are 7 and 8, so it's 7.5. Mode: 7 (it appears twice). So mean 8 > median 7.5 > mode 7. If you take the median as just 7 (one of the middle pair), you'd wrongly think the median and mode are equal; the large value 13 pulls the mean above the median.",
+          "Mean = (3 + 7 + 7 + 8 + 10 + 13) ÷ 6 = 48 ÷ 6 = 8. Median: the middle two values are 7 and 8, so it's 7.5. Mode: 7 (it appears twice). So mean 8 > median 7.5 > mode 7. The trap is taking just one of the middle pair as the median: taking the 4th value, 8, makes the mean and the median look equal, but the median is halfway between 7 and 8. The large value 13 is what pulls the mean above the median.",
         difficulty: "core",
         guideRef: "mean-median-mode-range",
         hints: [
@@ -875,7 +875,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 3,
         explanation:
-          "Mode: 4 books has the highest frequency (10 pupils). Median: there are 30 pupils, so it's halfway between the 15th and 16th; the running total is 2, 8, 18, so both are 4 books. Mean: 2 × 2 + 3 × 6 + 4 × 10 + 5 × 8 + 6 × 4 = 126 books, and 126 ÷ 30 = 4.2. 'Mode 10' gives the frequency instead of the value; 'median 15.5' gives the position; 25.2 divides by the 5 columns instead of the 30 pupils.",
+          "Mode: 4 books has the highest frequency (10 pupils). Median: there are 30 pupils, so it's halfway between the 15th and 16th; the running total is 2, 8, 18, so both are 4 books. Mean: 2 × 2 + 3 × 6 + 4 × 10 + 5 × 8 + 6 × 4 = 126 books, and 126 ÷ 30 = 4.2. 'Mean 4' is just the mean of the column headings 2 to 6, ignoring the frequencies; 'mode 10' gives the frequency instead of the value; 'median 15.5' gives the position; 25.2 divides by the 5 columns instead of the 30 pupils.",
         difficulty: "core",
         guideRef: "frequency-tables",
         hints: [
@@ -1026,7 +1026,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "Total of all ten = 10 × 20 = 200. The two removed numbers total 2 × 32 = 64. That leaves 136 for 8 numbers: 136 ÷ 8 = 17. 21 subtracts 32 only once (168 ÷ 8); 13.6 still divides by 10; 8 pretends 20 is halfway between 32 and the answer, which would only work if the two groups were the same size.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "working-backwards",
         hints: [
           "Work with totals, not means.",

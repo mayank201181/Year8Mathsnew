@@ -71,7 +71,7 @@ export const morePapers: Paper[] = [
           "A ride at Sentosa has this sign: \"Riders must be at least 110 cm tall and shorter than 140 cm.\" Let h be a rider's height in cm. Write the rule as an inequality. Then work out how many different whole-number heights (in cm) are allowed.",
         answer: { type: "number", value: 30 },
         traps: [
-          { spec: { type: "number", value: 29 }, feedback: "'At least 110' includes 110 itself, so 110 cm is allowed. Count again from 110." },
+          { spec: { type: "number", value: 29 }, feedback: "'At least 110' includes 110 itself, so the allowed heights run from 110 to 139 with *both* ends counted. That is 139 − 110 + 1, not 139 − 110." },
           { spec: { type: "number", value: 31 }, feedback: "'Shorter than 140' leaves 140 out: someone exactly 140 cm tall cannot ride." },
         ],
         solution: [
@@ -557,7 +557,7 @@ export const morePapers: Paper[] = [
           { point: "Shows a mean of 85 needs s ≥ 119 (or that the best possible mean is 80.25), so the friend is wrong", keywords: ["119", "80.25", "impossible", "wrong", "not possible"] },
         ],
         commonError: "Setting the total equal to 75 instead of the mean: the four scores must add up to at least 4 × 75 = 300.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "solving-inequalities",
         hints: [
           "Mean = total ÷ 4. What total do the four scores need?",
@@ -711,7 +711,7 @@ export const morePapers: Paper[] = [
           "A bus route only runs if **more than** 12 passengers book. The bus has 40 seats, so **at most** 40 passengers can travel. Write a two-sided inequality for the number of passengers, p, on a bus that runs. (You can type ≤ as <=.)",
         answer: {
           type: "text",
-          accept: ["12<p<=40", "40>=p>12", "p>12andp<=40", "p<=40andp>12", "p>12,p<=40", "13<=p<=40", "40>=p>=13", "p>=13andp<=40"],
+          accept: ["12<p<=40", "40>=p>12", "p>12andp<=40", "p<=40andp>12", "p>12,p<=40", "p<=40,p>12", "13<=p<=40", "40>=p>=13", "p>=13andp<=40", "p<=40andp>=13", "p>=13,p<=40", "p<=40,p>=13"],
           display: "{{12 < p <= 40}}",
         },
         traps: [
@@ -737,7 +737,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "equations-p4-q06",
         question:
-          "In triangle ABC, the side BC is extended to D. The angles are marked in the diagram. Find x, and hence find the size of the exterior angle ACD, in degrees.",
+          "In triangle ABC, the side BC is extended to D. The angles are marked in the diagram. Find x, then use it to find the size of the exterior angle ACD. Give the size of angle ACD, in degrees, as your answer.",
         diagram: `<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangle ABC with side BC extended to D. Angle A is (2x + 15) degrees, angle B is (x + 25) degrees, and the exterior angle ACD is (5x − 10) degrees."><rect width="420" height="250" fill="#ffffff"/><polygon points="50,220 290,220 204.27,36.15" fill="#c7d2fe" stroke="#1f2937" stroke-width="2"/><line x1="290" y1="220" x2="400" y2="220" stroke="#1f2937" stroke-width="2"/><path d="M 76 220 A 26 26 0 0 0 66.71 200.08" fill="none" stroke="#1f2937" stroke-width="1.5"/><path d="M 188.84 54.54 A 24 24 0 0 0 214.41 57.9" fill="none" stroke="#1f2937" stroke-width="1.5"/><path d="M 314 220 A 24 24 0 0 0 279.86 198.25" fill="none" stroke="#1f2937" stroke-width="1.5"/><g font-size="14" font-family="sans-serif" fill="#1f2937"><text x="204" y="28" text-anchor="middle" font-weight="bold">A</text><text x="40" y="238" text-anchor="middle" font-weight="bold">B</text><text x="290" y="240" text-anchor="middle" font-weight="bold">C</text><text x="406" y="225" font-weight="bold">D</text></g><g font-size="13" font-family="sans-serif" fill="#1f2937"><text x="192" y="106" text-anchor="middle">(2x + 15)°</text><text x="118" y="212" text-anchor="middle">(x + 25)°</text><text x="318" y="200">(5x − 10)°</text></g></svg>`,
         answer: { type: "number", value: 115, display: "115°" },
         traps: [
@@ -775,8 +775,8 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "equations-p4-q07",
         question:
-          "The square and the equilateral triangle below have the same perimeter. Each side of the square is {{(x + 3)}} cm and each side of the triangle is {{(2x - 1)}} cm. Find the perimeter of each shape, in cm.",
-        diagram: `<svg viewBox="0 0 400 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A square with each side (x + 3) cm and an equilateral triangle with each side (2x − 1) cm. Tick marks show the equal sides."><rect width="400" height="215" fill="#ffffff"/><rect x="40" y="60" width="105" height="105" fill="#bbf7d0" stroke="#1f2937" stroke-width="2"/><g fill="none" stroke="#1f2937" stroke-width="1.2"><polyline points="40,70 50,70 50,60"/><polyline points="135,60 135,70 145,70"/><polyline points="40,155 50,155 50,165"/><polyline points="135,165 135,155 145,155"/></g><g stroke="#1f2937" stroke-width="1.5"><line x1="92.5" y1="54" x2="92.5" y2="66"/><line x1="92.5" y1="159" x2="92.5" y2="171"/><line x1="34" y1="112.5" x2="46" y2="112.5"/><line x1="139" y1="112.5" x2="151" y2="112.5"/></g><polygon points="200,170 340,170 270,48.76" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><g stroke="#1f2937" stroke-width="1.5"><line x1="270" y1="164" x2="270" y2="176"/><line x1="230.7" y1="106.9" x2="239.3" y2="111.9"/><line x1="300.7" y1="111.9" x2="309.3" y2="106.9"/></g><g font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937"><text x="92.5" y="192">(x + 3) cm</text><text x="270" y="195">(2x − 1) cm</text></g></svg>`,
+          "The square and the equilateral triangle below have the same perimeter. Each side of the square is {{(x + 3)}} cm and each side of the triangle is {{(2x - 1)}} cm. Find this shared perimeter, in cm.",
+        diagram: `<svg viewBox="0 0 400 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A square with each side (x + 3) cm and an equilateral triangle with each side (2x − 1) cm. Single tick marks show the four equal sides of the square; double tick marks show the three equal sides of the triangle."><rect width="400" height="215" fill="#ffffff"/><rect x="40" y="60" width="105" height="105" fill="#bbf7d0" stroke="#1f2937" stroke-width="2"/><g fill="none" stroke="#1f2937" stroke-width="1.2"><polyline points="40,70 50,70 50,60"/><polyline points="135,60 135,70 145,70"/><polyline points="40,155 50,155 50,165"/><polyline points="135,165 135,155 145,155"/></g><g stroke="#1f2937" stroke-width="1.5"><line x1="92.5" y1="54" x2="92.5" y2="66"/><line x1="92.5" y1="159" x2="92.5" y2="171"/><line x1="34" y1="112.5" x2="46" y2="112.5"/><line x1="139" y1="112.5" x2="151" y2="112.5"/></g><polygon points="200,170 340,170 270,48.76" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><g stroke="#1f2937" stroke-width="1.5"><line x1="266" y1="164" x2="266" y2="176"/><line x1="274" y1="164" x2="274" y2="176"/><line x1="228.67" y1="110.34" x2="237.33" y2="115.34"/><line x1="232.67" y1="103.42" x2="241.33" y2="108.42"/><line x1="302.67" y1="115.34" x2="311.33" y2="110.34"/><line x1="298.67" y1="108.42" x2="307.33" y2="103.42"/></g><g font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937"><text x="92.5" y="192">(x + 3) cm</text><text x="270" y="195">(2x − 1) cm</text></g></svg>`,
         answer: { type: "number", value: 42, display: "42 cm" },
         traps: [
           { spec: { type: "number", value: 7.5 }, feedback: "7.5 is x. Now find a side length and multiply by the number of sides." },
@@ -857,7 +857,7 @@ export const morePapers: Paper[] = [
           "One-third of Mr Tan's age 5 years ago is equal to one-quarter of his age in 9 years' time. Form and solve an equation to find Mr Tan's age now.",
         answer: { type: "number", value: 47, display: "47 years old" },
         traps: [
-          { spec: { type: "number", value: 14 }, feedback: "14 is the value of *each side* (a third of 42). It also comes from forgetting to expand: {{4(a - 5) = 4a - 20}}, not 4a − 5. Find a, his age now." },
+          { spec: { type: "number", value: 14 }, feedback: "14 is the value of *each side* (a third of 42). It also comes from not multiplying out the brackets: {{4(a - 5) = 4a - 20}} and {{3(a + 9) = 3a + 27}}, not 4a − 5 and 3a + 9. Find a, his age now." },
           { spec: { type: "number", value: -51 }, feedback: "Multiplying both sides by 12 gives {{4(a - 5) = 3(a + 9)}}: the 4 goes on the left because 12 ÷ 3 = 4." },
         ],
         solution: [
@@ -956,7 +956,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "equations-p4-q14",
         question:
-          "The mean of the three numbers {{2x + 1}}, {{x + 7}} and {{3x - 2}} is 12. Find x, then write down the three numbers in the order listed, separated by commas.",
+          "The mean of the three numbers {{2x + 1}}, {{x + 7}} and {{3x - 2}} is 12. Find x. For your answer, give just the three numbers, in the order listed, separated by commas.",
         answer: { type: "list", values: [11, 12, 13], ordered: true, display: "11, 12, 13" },
         traps: [
           { spec: { type: "list", values: [3, 8, 1], ordered: true }, feedback: "The *mean* is 12, so the *total* is 3 × 12 = 36. You set the total equal to 12." },
@@ -987,6 +987,7 @@ export const morePapers: Paper[] = [
         traps: [
           { spec: { type: "list", values: [3, -4], ordered: true }, feedback: "From {{-15 = 5x}}, x = −15 ÷ 5 = −3, not 3." },
           { spec: { type: "list", values: [-1, 8], ordered: true }, feedback: "Expand fully: {{2(x + 10) = 2x + 20}}, not 2x + 10. Then check that both expressions really give the same value." },
+          { spec: { type: "list", values: [14, -3], ordered: true }, feedback: "Right numbers, wrong order: give x first (−3), then the value both expressions take (14)." },
         ],
         solution: [
           "Set them equal: {{5 - 3x = 2(x + 10)}}.",
@@ -1078,7 +1079,7 @@ export const morePapers: Paper[] = [
           { point: "Explains Ravi is only right if x is an integer; non-integers such as 2.5 also work, so there are infinitely many solutions", keywords: ["integer", "whole number", "2.5", "1.5", "decimal", "infinitely many", "fraction"] },
         ],
         commonError: "Assuming the solutions of an inequality must be whole numbers.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "solving-inequalities",
         hints: [
           "Solve each inequality on its own first.",

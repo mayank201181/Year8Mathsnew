@@ -1308,7 +1308,7 @@ export const mcqPapers: Paper[] = [
           "A 60° angle at A",
         ],
         answerIndex: 1,
-        explanation: "Equal arcs are drawn from **both ends** of AB, above and below the line, and a line joins the two crossings — that's the **perpendicular bisector** of AB. An angle bisector starts with an arc centred on the corner of an angle. The perpendicular from a point starts with a single arc centred on a point off the line. A 60° angle uses arcs whose radius equals the length of the line, and there's no 60° marked here.",
+        explanation: "Equal arcs are drawn from **both ends** of AB, above and below the line, and a line joins the two crossings — that's the **perpendicular bisector** of AB. An angle bisector starts with an arc centred on the corner of an angle. The perpendicular from a point starts with a single arc centred on a point off the line. A 60° angle at A would finish with a line through A itself, but the line drawn here passes through neither end of AB.",
         difficulty: "warmup",
         guideRef: "perpendicular-bisector",
         hints: [
@@ -1366,7 +1366,7 @@ export const mcqPapers: Paper[] = [
           "Angle S",
         ],
         answerIndex: 1,
-        explanation: "**Q** is about a third of a right angle, so about 30°. R has the longest arms and the widest gap between its arm ends, but the turn between its arms is only about 15° — half of Q's. Judging an angle by arm length is the trap. P is about half a right angle (45°), and S is about two-thirds of a right angle (60°).",
+        explanation: "**Q** is about a third of a right angle, so about 30°. R has by far the longest arms, so it *looks* big, but the turn between its arms is only about 15° — half of Q's. Judging an angle by arm length is the trap. P is about half a right angle (45°), and S is about two-thirds of a right angle (60°).",
         difficulty: "core",
         guideRef: "measuring-angles",
         hints: [

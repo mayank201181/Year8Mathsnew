@@ -4,7 +4,7 @@
 // and rule out trivial or degenerate cases.
 import type { Drill, Rng } from "./types.ts";
 import type { AnswerSpec, Trap } from "../types.ts";
-import { frac, gcd, lcm, num, br, poly, money, clean, simplify, term } from "./helpers.ts";
+import { frac, gcd, lcm, num, br, poly, money, clean, simplify, term, big } from "./helpers.ts";
 
 const TOPIC = "equations";
 
@@ -137,8 +137,13 @@ function trapper(ansN: number, ansD = 1) {
 const stop = (t: string): string => (t.endsWith("…") ? t : `${t}.`);
 
 function approx(a: number, b: number): string {
-  if (a % b === 0) return num(a / b);
+  if ((a * 100) % b === 0) return num(clean(a / b)); // exact within 2 dp
   return `${(Math.floor((a * 100) / b) / 100).toFixed(2)}…`;
+}
+
+/** Money from integer cents: whole dollars as "$1,250" / "$15", otherwise "$4.50". */
+function cash(cents: number): string {
+  return cents % 100 === 0 ? `$${big(cents / 100)}` : money(cents / 100);
 }
 
 /** Rational → ASCII for use inside {{ }}: 7/2 → "7/2", −6/3 → "-2". */
@@ -1448,7 +1453,7 @@ export const drills: Drill[] = [
           answer: valueSpec(ans),
           solution: [
             `${M(`x ${rel} ${shown}`)} means x is ${rel[0] === ">" ? "bigger" : "smaller"} than ${said}${rel.length === 2 ? " or equal to it" : ""}.`,
-            `The integers that work are ${list}`,
+            `The integers that work are ${stop(list)}`,
             `So the ${dir} is ${num(ans)}. (${why.charAt(0).toUpperCase() + why.slice(1)}.)`,
           ],
           hint: "Sketch a number line, mark the boundary, and test the integers either side of it.",
@@ -1858,10 +1863,10 @@ export const drills: Drill[] = [
         const [thing, things, setup] =
           ctx === "shop" ? ["pen", "pens", `${P.name} has ${money(B / 100)} to spend. ${P.Sub} buys a file for ${money(p / 100)} and then some pens at ${money(q / 100)} each.`]
           : ctx === "party" ? ["carton", "cartons", `A class has ${money(B / 100)} to spend on a party. They spend ${money(p / 100)} on decorations and the rest on cartons of soya milk at ${money(q / 100)} each.`]
-          : ["student", "students", `A school trip to the Science Centre costs ${money(p / 100)} for the coach plus ${money(q / 100)} entry for each student. The total cost must be no more than ${money(B / 100)}.`];
+          : ["student", "students", `A school trip to the Science Centre costs ${cash(p)} for the coach plus ${cash(q)} entry for each student. The total cost must be no more than ${cash(B)}.`];
         const T = trapper(n);
-        if (!exact) T.add(n + 1, 1, `Round down, not up: ${n + 1} ${things} would cost ${money((p + q * (n + 1)) / 100)} in total, which is too much.`);
-        T.add(Math.floor(B / q), 1, `Don't forget the ${money(p / 100)} that is spent first.`);
+        if (!exact) T.add(n + 1, 1, `Round down, not up: ${n + 1} ${things} would cost ${cash(p + q * (n + 1))} in total, which is too much.`);
+        T.add(Math.floor(B / q), 1, `Don't forget the ${cash(p)} that is spent first.`);
         return {
           prompt: `${setup} What is the greatest number of ${things} ${ctx === "trip" ? "that can go" : ctx === "shop" ? `${P.sub} can buy` : "they can buy"}?`,
           answer: valueSpec(n),

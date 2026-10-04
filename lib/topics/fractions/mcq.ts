@@ -1,6 +1,6 @@
 import type { Paper } from "../../types.ts";
 
-// Fractions — four 20-question MCQ papers (5 warm-up, 11 core, 4 challenge each).
+// Fractions — four 20-question MCQ papers (5 warm-up, 11–12 core, 3–4 challenge each).
 // Every distractor is a specific misconception; explanations name it by value.
 
 export const mcqPapers: Paper[] = [
@@ -282,7 +282,7 @@ export const mcqPapers: Paper[] = [
         kind: "mcq",
         id: "fractions-m1-q17",
         question:
-          "Always, sometimes or never true?\n\n*Dividing a positive number by a fraction gives an answer bigger than the number you started with.*",
+          "Always, sometimes or never true?\n\n*Dividing a positive number by a positive fraction gives an answer bigger than the number you started with.*",
         options: [
           "Always — dividing by a fraction always gives a bigger answer",
           "Sometimes — only when the fraction is less than 1",
@@ -308,8 +308,8 @@ export const mcqPapers: Paper[] = [
         options: ["{{1/12}}", "{{1/6}}", "{{5/12}}", "{{-1/12}}"],
         answerIndex: 0,
         explanation:
-          "Use twelfths: {{-1/3 = -4/12}} and {{1/2 = 6/12}}. The gap is 10 twelfths, so halfway is 5 twelfths up from {{-4/12}}: {{-4/12 + 5/12 = 1/12}}. Or average them: {{(-1/3 + 1/2) ÷ 2 = 1/6 ÷ 2 = 1/12}}. {{5/12}} is half the gap, but it must be added to the starting point. {{1/6}} is the sum before halving. {{-1/12}} only counts the gap from 0 to {{1/2}}.",
-        difficulty: "challenge",
+          "Use twelfths: {{-1/3 = -4/12}} and {{1/2 = 6/12}}. The gap is 10 twelfths, so halfway is 5 twelfths up from {{-4/12}}: {{-4/12 + 5/12 = 1/12}}. Or average them: {{(-1/3 + 1/2) ÷ 2 = 1/6 ÷ 2 = 1/12}}. {{5/12}} is half the gap, but it must be added to the starting point. {{1/6}} is the sum before halving. {{-1/12}} has the right size but the wrong sign: the midpoint is above zero, because {{1/2}} is further from 0 than {{-1/3}} is.",
+        difficulty: "core",
         guideRef: "equivalence-ordering",
         hints: [
           "Write both numbers in twelfths.",
@@ -435,7 +435,7 @@ export const mcqPapers: Paper[] = [
         options: ["{{7/12}}, by {{1/24}}", "{{7/12}}, by {{1/2}}", "{{5/8}}, by {{1/20}}", "{{5/8}}, by {{1/24}}"],
         answerIndex: 3,
         explanation:
-          "The LCM of 8 and 12 is 24: {{5/8 = 15/24}} and {{7/12 = 14/24}}. So {{5/8}} is greater, by {{1/24}}. Choosing {{7/12}} assumes bigger numbers make a bigger fraction — but twelfths are smaller pieces than eighths. {{1/2}} comes from subtracting tops and bottoms, {{(7-5)/(12-8)}}. {{1/20}} adds the denominators (8 + 12) to get a 'common' denominator.",
+          "The LCM of 8 and 12 is 24: {{5/8 = 15/24}} and {{7/12 = 14/24}}. So {{5/8}} is greater, by {{1/24}}. Choosing {{7/12}} assumes bigger numbers make a bigger fraction — but twelfths are smaller pieces than eighths. {{1/2}} comes from subtracting tops and bottoms, {{(7-5)/(12-8)}}. {{1/20}} gets the right numerator (15 − 14 = 1) but then uses 8 + 12 = 20 as the denominator — adding denominators never gives a common denominator.",
         difficulty: "core",
         guideRef: "equivalence-ordering",
         hints: [
@@ -557,7 +557,7 @@ export const mcqPapers: Paper[] = [
         options: ["{{1/24}} litre", "{{19/24}} litre", "{{1 7/24}} litres", "{{4/15}} litre"],
         answerIndex: 1,
         explanation:
-          "Use twenty-fourths: {{2/3 = 16/24}}, {{1/4 = 6/24}} and {{3/8 = 9/24}}. Then {{16/24 - 6/24 + 9/24 = 19/24}} litre. {{1/24}} subtracts *both* amounts — but the {{3/8}} litre was added. {{1 7/24}} adds all three, ignoring the water poured out. {{4/15}} adds and subtracts tops and bottoms.",
+          "Use twenty-fourths: {{2/3 = 16/24}}, {{1/4 = 6/24}} and {{3/8 = 9/24}}. Then {{16/24 - 6/24 + 9/24 = 19/24}} litre. {{1/24}} subtracts *both* amounts — but the {{3/8}} litre was added. {{1 7/24}} adds all three, ignoring the water poured out. {{4/15}} combines the tops (2 − 1 + 3 = 4) and adds the bottoms (3 + 4 + 8 = 15) — fractions can't be combined like that.",
         difficulty: "core",
         guideRef: "adding-subtracting",
         hints: [
@@ -958,7 +958,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "Each bounce multiplies the height by {{2/3}}: 2.7 m → 1.8 m → 1.2 m → 0.8 m. In one go: {{2.7 × (2/3)^3 = 2.7 × 8/27 = 0.8}}. 1.8 m is after one bounce and 1.2 m after two. 0 m takes {{1/3}} of the *original* 2.7 m (0.9 m) off each time, but each bounce loses {{1/3}} of the *latest* height.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "multiplying",
         hints: [
           "After the first bounce it reaches {{2/3}} of 2.7 m.",
@@ -1108,7 +1108,7 @@ export const mcqPapers: Paper[] = [
         kind: "mcq",
         id: "fractions-m4-q06",
         question:
-          "Four friends each ate part of a margherita pizza. All the pizzas were the same size.\n\n| Name | Fraction eaten |\n|---|---|\n| Aisha | {{5/8}} |\n| Jun | {{2/3}} |\n| Mei | {{7/12}} |\n| Arjun | {{3/5}} |\n\nWho ate the most?",
+          "Four friends each had their own margherita pizza, all the same size. The table shows what fraction of their own pizza each friend ate.\n\n| Name | Fraction eaten |\n|---|---|\n| Aisha | {{5/8}} |\n| Jun | {{2/3}} |\n| Mei | {{7/12}} |\n| Arjun | {{3/5}} |\n\nWho ate the most?",
         options: ["Mei", "Aisha", "Jun", "Arjun"],
         answerIndex: 2,
         explanation:
@@ -1330,7 +1330,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "Divisions are done from left to right: {{1/2 ÷ 1/3 = 1/2 × 3 = 3/2}}, then {{3/2 ÷ 1/4 = 3/2 × 4 = 6}}. Only the fractions you divide *by* get flipped: {{1/2 × 3 × 4 = 6}}. {{3/8}} works from right to left. 24 flips the first fraction as well, and {{1/24}} multiplies everything.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "calculating-with-fractions",
         hints: [
           "When a calculation has only ÷ signs, which direction do you work in?",

@@ -84,6 +84,11 @@ test("lists and coordinates", () => {
   const roots: AnswerSpec = { type: "list", values: [2, -3] };
   assert.equal(st(roots, "x = 2 or x = -3"), "correct");
   assert.equal(st(roots, "x=-3, x=2"), "correct");
+  const primes: AnswerSpec = { type: "list", values: [2, 2, 2, 3, 5] };
+  for (const i of ["2, 2, 2, 3, 5", "2 × 2 × 2 × 3 × 5", "2^3 × 3 × 5", "2³×3×5", "120 = 2^3 * 3 * 5", "5 x 3 x 2^3"]) assert.equal(st(primes, i), "correct", i);
+  for (const i of ["2^2 × 3 × 5", "2 × 3 × 5", "120"]) assert.notEqual(st(primes, i), "correct", i);
+  // Non-prime lists are not read as products.
+  assert.equal(st(share, "28 × 35"), "invalid");
 });
 
 test("ratios", () => {

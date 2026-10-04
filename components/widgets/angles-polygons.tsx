@@ -8,7 +8,7 @@
 //  2. Polygon angle lab — interior angle sum by triangles from one corner,
 //     exterior angles that shrink into one full turn, symmetry of regular
 //     polygons (lines + rotation) and which regular polygons tile.
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useId, useState, type FormEvent, type ReactNode } from "react";
 import { WidgetFrame, Slider, Stepper, Segmented, Readout, M, type WidgetDef } from "./kit";
 
 /* ------------------------------------------------------------------------ */
@@ -265,6 +265,7 @@ function ParallelLines() {
   const [guess, setGuess] = useState("");
   const [showWork, setShowWork] = useState(false);
   const [score, setScore] = useState({ right: 0, streak: 0, best: 0 });
+  const inputId = useId();
 
   const inChallenge = mode === "challenge";
   const th = inChallenge && ch.kind === "find" ? ch.theta : theta;
@@ -336,7 +337,7 @@ function ParallelLines() {
         good: true,
         text: (
           <>
-            Yes! {L(ch.given)} and {L(i)} are {ch.rel} angles: {SHAPE[ch.rel]}. Because the lines are parallel,{" "}
+            Yes! {L(ch.given)} and {L(i)} are {ch.rel} angles: {SHAPE[ch.rel]}. {needsParallel(ch.rel) ? "Because the lines are parallel, " : "So "}
             {equalRel(ch.rel) ? `${L(ch.given)} = ${L(i)}` : `${L(ch.given)} + ${L(i)} = 180°`}.
           </>
         ),
@@ -416,7 +417,9 @@ function ParallelLines() {
           Shaded: every angle equal to it ({same.join(", ")}).{" "}
           {same.length === 8
             ? "All eight are right angles."
-            : `The other ${8 - same.length} are 180° − ${size(i)}° = ${180 - size(i)}°${parallel ? "" : " or something else, because the lines are not parallel"}.`}{" "}
+            : parallel
+              ? `The other ${8 - same.length} are 180° − ${size(i)}° = ${180 - size(i)}°.`
+              : `At this crossing the others are 180° − ${size(i)}° = ${180 - size(i)}°, but the other crossing is no longer a copy, because the lines are not parallel.`}{" "}
           Now tap a second angle.
         </p>
       );
@@ -503,11 +506,11 @@ function ParallelLines() {
         <p className="text-base font-bold text-ink">{prompt}</p>
         {ch.kind === "find" ? (
           <form onSubmit={checkFind} className="flex flex-wrap items-center gap-2">
-            <label className="sr-only" htmlFor="ap-find-answer">
+            <label className="sr-only" htmlFor={inputId}>
               Size of angle {L(ch.target)} in degrees
             </label>
             <input
-              id="ap-find-answer"
+              id={inputId}
               className="input max-w-[9rem]"
               inputMode="numeric"
               autoComplete="off"
@@ -818,7 +821,7 @@ function irregularPolygon(n: number, seed: number): { pts: Pt[]; centre: Pt } {
 
 const TRI_FILLS = ["fill-brand-soft", "fill-accent-soft", "fill-good-soft", "fill-info-soft"];
 const WEDGE_FILLS = ["fill-brand", "fill-accent", "fill-good", "fill-s-stats", "fill-info", "fill-s-ratio"];
-const TILE_FILLS = ["fill-brand-soft", "fill-accent-soft", "fill-good-soft", "fill-info-soft", "fill-warn-soft", "fill-bad-soft"];
+const TILE_FILLS = ["fill-brand-soft", "fill-accent-soft", "fill-good-soft", "fill-info-soft", "fill-bad-soft", "fill-warn-soft"];
 
 function PolygonLab() {
   const [n, setN] = useState(5);
@@ -1049,8 +1052,14 @@ function PolygonLab() {
             <>{rot === 0 ? "Turn the shape and watch the orange dot." : "A full turn: back to the start, which counts as position 1 of " + N + "."}</>
           ) : (
             <>
-              <strong>It fits!</strong> After turning {rot}°{fmt(nearest * step, 2) !== String(rot) ? ` (really ${extEach.plain.replace("≈", "")} × ${nearest})` : ""} it
-              matches its outline, but the orange dot shows it really has moved: position {pos + 1} of {N}.
+              <strong>It fits!</strong> After turning {rot}°
+              {Math.abs(nearest * step - rot) > 1e-9 ? (
+                <>
+                  {" "}
+                  (the exact turn is {nearest} × 360° ÷ {N} = {degExact(360 * nearest, N).node}; the slider rounds to whole degrees)
+                </>
+              ) : null}{" "}
+              it matches its outline, but the orange dot shows it really has moved: position {pos + 1} of {N}.
             </>
           )
         ) : (
@@ -1070,7 +1079,7 @@ function PolygonLab() {
     const used = degExact(k * (180 * N - 360), N);
     const E = 360 / N;
     const side = 2 * 56 * Math.sin(rad(180 / N));
-    const P: Pt = { x: CX, y: 132 };
+    const P: Pt = { x: CX, y: 152 };
     const gapDeg = 360 - k * I;
     const phi0 = 90 - k * I - gapDeg / 2;
     const copy = (j: number): Pt[] => {
@@ -1091,11 +1100,18 @@ function PolygonLab() {
           <>
             <polygon points={ptsAttr(copy(k))} fill="none" className="stroke-bad" strokeWidth={1.75} strokeDasharray="5 4" strokeLinejoin="round" />
             <path d={sector(P, 34, phi0 + k * I, gapDeg)} className="fill-bad stroke-bad" fillOpacity={0.35} strokeWidth={1.5} />
-            <Label p={polar(P, 46, 90)} size={11} bold className="fill-bad">
-              {`gap ${gap.plain.replace("≈", "≈ ")}`}
-            </Label>
+            <text x={10} y={16} fontSize={12} fontWeight={800} className="fill-bad">
+              {`Gap at the corner: ${gap.plain.replace("≈", "≈ ")}`}
+            </text>
+            <text x={10} y={31} fontSize={10} className="fill-ink-2">
+              Dashed: one more copy would overlap
+            </text>
           </>
-        ) : null}
+        ) : (
+          <text x={10} y={16} fontSize={12} fontWeight={800} className="fill-good">
+            No gap, no overlap: it tiles!
+          </text>
+        )}
         <circle cx={P.x} cy={P.y} r={3.5} className="fill-ink" />
       </>
     );
@@ -1151,7 +1167,7 @@ function PolygonLab() {
           ]}
         />
 
-        <svg viewBox="0 0 360 260" className="h-auto w-full" role="img" aria-label={aria}>
+        <svg viewBox={view === "tiling" ? "0 0 360 280" : "0 0 360 260"} className="h-auto w-full" role="img" aria-label={aria}>
           {picture}
         </svg>
 

@@ -33,6 +33,11 @@ function pushTrap(traps: Trap[], answer: number, value: number, feedback: string
   traps.push({ spec: { type: "number", value }, feedback });
 }
 
+/** As pushTrap, but only for whole-number values (e.g. a number of sides). */
+function pushIntTrap(traps: Trap[], answer: number, value: number, feedback: string) {
+  if (Number.isInteger(value)) pushTrap(traps, answer, value, feedback);
+}
+
 /** Random multiple of `step` in [lo, hi]. */
 function pickStep(rng: Rng, lo: number, hi: number, step: number): number {
   return step * rng.int(Math.ceil(lo / step), Math.floor(hi / step));
@@ -69,6 +74,10 @@ function regPlural(n: number): string {
   if (!nm) return `regular polygons with ${n} sides`;
   return n >= 7 ? `${nm[1]} (${n} sides)` : nm[1];
 }
+
+/** "a pentagon", "an octagon". */
+const withArt = (nm: string) => `${/^[aeiou]/i.test(nm) ? "an" : "a"} ${nm}`;
+const capFirst = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 const POLY_NAMES: Record<number, string> = { 5: "pentagon", 6: "hexagon", 7: "heptagon", 8: "octagon", 9: "nonagon", 10: "decagon", 12: "dodecagon" };
 
@@ -210,7 +219,7 @@ function render(sc: Scene, aria: string, maxW = 360, maxH = 250): string {
  * first side heading east). The first n−2 side lengths are given; the last two are solved so the
  * shape closes. Returns null if the shape would be degenerate.
  */
-function polygonFromAngles(interior: number[], lens: number[]): Pt[] | null {
+function polygonFromAngles(interior: number[], lens: number[], minRatio = 0.35): Pt[] | null {
   const n = interior.length;
   const dirs: number[] = [0];
   for (let i = 1; i < n; i++) dirs.push(dirs[i - 1] + 180 - interior[i]);
@@ -227,7 +236,7 @@ function polygonFromAngles(interior: number[], lens: number[]): Pt[] | null {
   const lb = (-a[0] * sy + a[1] * sx) / det;
   const all = [...lens.slice(0, n - 2), la, lb];
   const mx = Math.max(...all), mn = Math.min(...all);
-  if (!(mn > 0) || mn / mx < 0.35) return null;
+  if (!(mn > 0) || mn / mx < minRatio) return null;
   const pts: Pt[] = [[0, 0]];
   for (let i = 0; i < n - 1; i++) pts.push([pts[i][0] + all[i] * u[i][0], pts[i][1] + all[i] * u[i][1]]);
   return pts;
@@ -238,12 +247,17 @@ function findPolygon(interior: number[]): Pt[] | null {
   const n = interior.length;
   if (interior.some((x) => x <= 0 || x >= 180)) return null;
   const fr = (x: number) => x - Math.floor(x);
-  for (let k = 0; k < 120; k++) {
+  // Keep the candidate whose shortest side is longest relative to its longest side (least crowded labels).
+  let best: Pt[] | null = null, bestR = 0;
+  for (let k = 0; k < 160; k++) {
     const lens = Array.from({ length: n - 2 }, (_, i) => (k === 0 ? 1 : 0.55 + 0.9 * fr(Math.sin((k + 1) * 12.9898 + (i + 1) * 78.233) * 43758.5453)));
     const p = polygonFromAngles(interior, lens);
-    if (p) return p;
+    if (!p) continue;
+    const sides = p.map((q, i) => Math.hypot(p[(i + 1) % n][0] - q[0], p[(i + 1) % n][1] - q[1]));
+    const r = Math.min(...sides) / Math.max(...sides);
+    if (r > bestR) { bestR = r; best = p; }
   }
-  return null;
+  return best;
 }
 
 /** Triangle with angles b (at B, bottom left), c (at C, bottom right), a (at A, top). Points [B, C, A]. */
@@ -267,10 +281,10 @@ function posStart(pos: Pos, th: number): number {
   return pos === "UR" ? 0 : pos === "UL" ? th : pos === "LL" ? 180 : 180 + th;
 }
 const POS_WORDS: Record<Pos, string> = {
-  UR: "above its parallel line, to the right of the transversal",
-  UL: "above its parallel line, to the left of the transversal",
-  LL: "below its parallel line, to the left of the transversal",
-  LR: "below its parallel line, to the right of the transversal",
+  UR: "above their parallel line, to the right of the transversal",
+  UL: "above their parallel line, to the left of the transversal",
+  LL: "below their parallel line, to the left of the transversal",
+  LR: "below their parallel line, to the right of the transversal",
 };
 
 function parallelSvg(th: number, marks: { ref: ARef; label: string; kind: MarkKind }[], aria: string): string {
@@ -359,13 +373,13 @@ const CLUES: Clue[] = [
   { shape: "kite", hard: false, text: "two pairs of equal adjacent sides, where the two pairs are different lengths, and no reflex angle",
     why: "Two pairs of equal adjacent sides with no reflex angle is a kite. The pairs are different lengths, so it isn't a rhombus.",
     trap: ["rhombus", "A rhombus has all four sides equal — here the two pairs are different lengths."] },
-  { shape: "trapezium", hard: false, text: "exactly one pair of parallel sides, and its other two sides different lengths",
+  { shape: "trapezium", hard: false, text: "exactly one pair of parallel sides, with the other two sides different lengths",
     why: "Exactly one pair of parallel sides makes it a trapezium. If the other two sides were equal it would be an isosceles trapezium — they aren't.",
     trap: ["isosceles trapezium", "An isosceles trapezium needs its two non-parallel sides to be equal."] },
   { shape: "trapezium", hard: false, text: "exactly one pair of parallel sides and two right angles",
     why: "Exactly one pair of parallel sides makes it a trapezium (a right-angled one). It can't be a rectangle, which has two pairs of parallel sides.",
     trap: ["rectangle", "A rectangle has two pairs of parallel sides; this shape has exactly one pair."] },
-  { shape: "isosceles trapezium", hard: false, text: "exactly one pair of parallel sides, and its other two sides equal in length",
+  { shape: "isosceles trapezium", hard: false, text: "exactly one pair of parallel sides, with the other two sides equal in length",
     why: "Exactly one pair of parallel sides makes it a trapezium; equal non-parallel sides make it an isosceles trapezium.",
     trap: ["trapezium", "True — but there is a more specific name, because the other two sides are equal."] },
   { shape: "isosceles trapezium", hard: false, text: "exactly one pair of parallel sides, with the two angles at each end of the longer parallel side equal",
@@ -582,14 +596,14 @@ export const drills: Drill[] = [
       let solution: string[];
       if (eq) {
         const r = total - S;
-        solution = [fact, `The two equal angles share ${total}° − ${known.map(deg).join(" − ")} = ${deg(r)}.`, `${V} = ${deg(r)} ÷ 2 = ${deg(x)}`];
+        solution = [fact, `The two equal angles share ${total}° − ${known.map(deg).join(" − ")} = ${deg(r)}.`, `${V} = ${deg(r)} ÷ 2 = ${deg(x)}.`];
         pushTrap(traps, x, r, `That's the total for both angles marked ${v} — share it between them.`);
         if (isLine) pushTrap(traps, x, (360 - S) / 2, "Angles on a straight line add up to 180°, not 360°.");
       } else if (isLine) {
-        solution = [fact, `${V} = 180° − ${known.map(deg).join(" − ")} = ${deg(x)}`];
+        solution = [fact, `${V} = 180° − ${known.map(deg).join(" − ")} = ${deg(x)}.`];
         pushTrap(traps, x, 360 - S, "Angles on a straight line add up to 180°, not 360°.");
       } else {
-        solution = [fact, `The known angles add up to ${known.map(deg).join(" + ")} = ${deg(S)}.`, `${V} = 360° − ${deg(S)} = ${deg(x)}`];
+        solution = [fact, `The known angles add up to ${known.map(deg).join(" + ")} = ${deg(S)}.`, `${V} = 360° − ${deg(S)} = ${deg(x)}.`];
         pushTrap(traps, x, 180 - S, "Angles at a point make a full turn: they add up to 360°, not 180°.");
       }
       return {
@@ -814,7 +828,11 @@ export const drills: Drill[] = [
         const name = regName(n);
         if (n % 2 === 0) pushTrap(traps, n, n / 2, "You've only counted one kind of line. With an even number of sides, some lines go corner to corner and some go through the midpoints of opposite sides.");
         return {
-          prompt: rng.bool() ? `How many lines of symmetry does ${name} have?` : `Draw ${name} in your head. How many lines of symmetry does it have?`,
+          prompt: [
+            `How many lines of symmetry does ${name} have?`,
+            `Draw ${name} in your head. How many lines of symmetry does it have?`,
+            `${capFirst(name)} is cut out of paper. How many different fold lines make one half land exactly on the other half?`,
+          ][rng.int(0, 2)],
           answer: countAns(n),
           solution: [
             n % 2 === 1
@@ -829,7 +847,11 @@ export const drills: Drill[] = [
       if (kind === "order") {
         pushTrap(traps, n, 360 / n, "That's the angle of each turn. The order is HOW MANY turns map it onto itself in one full turn.");
         return {
-          prompt: rng.bool() ? `What is the order of rotational symmetry of ${regName(n)}?` : `${regName(n).replace(/^a/, "A")} is turned about its centre. What is its order of rotational symmetry?`,
+          prompt: [
+            `What is the order of rotational symmetry of ${regName(n)}?`,
+            `${capFirst(regName(n))} is turned about its centre. What is its order of rotational symmetry?`,
+            `${capFirst(regName(n))} is turned once all the way round its centre. How many times does it fit exactly onto its own outline?`,
+          ][rng.int(0, 2)],
           answer: countAns(n),
           solution: [`Turning it by 360° ÷ ${n} = ${deg(360 / n)} maps it onto itself.`, `That happens ${n} times in one full turn, so the order of rotational symmetry is ${n}.`],
           hint: "How many times does it look exactly the same during one full turn?",
@@ -841,7 +863,7 @@ export const drills: Drill[] = [
         if (n !== 4) pushTrap(traps, e, int(n), "That's the interior angle. The turn you need is 360° ÷ the number of sides.");
         pushTrap(traps, e, n, "That's the order of rotational symmetry. The question asks for the angle of the turn.");
         return {
-          prompt: `${regName(n).replace(/^a/, "A")} is rotated about its centre. What is the smallest angle of rotation (more than 0°) that maps it onto itself?`,
+          prompt: `${capFirst(regName(n))} is rotated about its centre. What is the smallest angle of rotation (more than 0°) that maps it onto itself?`,
           answer: angleAns(e),
           solution: [`It has rotational symmetry of order ${n}, so ${n} equal turns make a full turn of 360°.`, `Smallest turn = 360° ÷ ${n} = ${deg(e)}.`],
           hint: "How many equal turns fit into 360°?",
@@ -860,7 +882,7 @@ export const drills: Drill[] = [
       }
       if (kind === "reverseAngle") {
         const e = 360 / n;
-        pushTrap(traps, n, 180 / e, "A full turn is 360°, not 180°.");
+        pushIntTrap(traps, n, 180 / e, "A full turn is 360°, not 180°.");
         return {
           prompt: `A regular polygon maps onto itself when it is rotated ${deg(e)} about its centre, and by no smaller angle. How many sides does it have?`,
           answer: countAns(n),
@@ -926,7 +948,7 @@ export const drills: Drill[] = [
       pushTrap(traps, c.ans, (360 - used), "That's the angle left over. Now divide it by one interior angle of the other shape.");
       return {
         prompt: rng.bool()
-          ? `Regular polygons fit around a point with no gaps or overlaps. At the point there is ${haveText}, and the rest of the space is filled by ${regPlural(c.fill)}. How many ${regPlural(c.fill)} are there?`
+          ? `Regular polygons fit around a point with no gaps or overlaps. At the point there ${c.have.length === 1 && c.have[0][0] === 1 ? "is" : "are"} ${haveText}, and the rest of the space is filled by ${regPlural(c.fill)}. How many ${regPlural(c.fill)} are there?`
           : `A tiling pattern has ${haveText} meeting at a point, together with some ${regPlural(c.fill)}. There are no gaps. How many ${regPlural(c.fill)} meet at the point?`,
         answer: countAns(c.ans),
         solution: [
@@ -1053,7 +1075,7 @@ export const drills: Drill[] = [
       }
       pushTrap(traps, x, 180 - x, same ? `These two angles are equal — look again at how they are related.` : `These two angles are not equal: one is acute and one is obtuse, so they add up to 180°.`);
       const prompt = [
-        `The two lines marked with arrows are parallel. One angle is ${deg(gv)}. Find the size of angle ${V}, and say which angle facts you used.`,
+        `The two lines marked with arrows are parallel. One angle is ${deg(gv)}. Find the size of angle ${V}.`,
         `A straight line crosses two parallel lines, making an angle of ${deg(gv)} as shown. Work out ${V}.`,
         `In the diagram the arrows show parallel lines. Given the ${deg(gv)} angle, find ${V}.`,
       ][rng.int(0, 2)];
@@ -1141,7 +1163,7 @@ export const drills: Drill[] = [
         pushTrap(traps, base, 180 - apex, "That's the total for BOTH base angles — halve it.");
         return {
           prompt: `Triangle ${A}${B}${C} is isosceles with ${A}${B} = ${A}${C}. Angle ${B}${A}${C} = ${deg(apex)}. Find angle ${A}${B}${C}, marked {{x}}.${Number.isInteger(base) ? "" : " Give your answer as a decimal."}`,
-          answer: Number.isInteger(base) ? angleAns(base) : { type: "number", value: base, display: deg(base) },
+          answer: Number.isInteger(base) ? angleAns(base) : { type: "number", value: base, allowFraction: false, display: deg(base) },
           solution: [
             `${A}${B} = ${A}${C}, so the base angles at ${B} and ${C} are equal.`,
             `Together they make 180° − ${deg(apex)} = ${deg(180 - apex)}.`,
@@ -1255,7 +1277,7 @@ export const drills: Drill[] = [
         pushTrap(traps, a, e, "That's the whole exterior angle — it's shared equally between two angles.");
         return {
           prompt: `Triangle ABC has CA = CB. Side BC is extended to D, and the exterior angle ACD = ${deg(e)}. Find angle BAC, marked {{x}}.${Number.isInteger(a) ? "" : " Give your answer as a decimal."}`,
-          answer: angleAns(a),
+          answer: Number.isInteger(a) ? angleAns(a) : { type: "number", value: a, allowFraction: false, display: deg(a) },
           solution: [
             "CA = CB, so the angles opposite these sides are equal: angle BAC = angle ABC.",
             `The exterior angle equals the sum of the interior opposite angles: 2 × {{x}} = ${deg(e)}.`,
@@ -1306,15 +1328,15 @@ export const drills: Drill[] = [
           if (kind === "general") {
             const g = [pickStep(rng, 60, 150, step), pickStep(rng, 60, 150, step), pickStep(rng, 60, 150, step)];
             const x = 360 - g[0] - g[1] - g[2];
-            if (x < 50 || x > 170 || x === 90) continue;
+            if (x < 50 || x > 150 || x === 90) continue;
             const pos = rng.int(0, 3);
             a4 = [0, 1, 2, 3].map((k) => (k === pos ? x : g.shift() as number));
             u2 = [pos];
           } else {
-            const p = rng.int(60, 160), q = rng.int(60, 160), r = 360 - p - q;
+            const p = rng.int(60, 150), q = rng.int(60, 150), r = 360 - p - q;
             if (r % 2 !== 0) continue;
             const x = r / 2;
-            if (x < 50 || x > 160 || x === 90) continue;
+            if (x < 50 || x > 150 || x === 90) continue;
             if (rng.bool()) { a4 = [p, x, q, x]; u2 = [1, 3]; } else { a4 = [p, q, x, x]; u2 = [2, 3]; }
           }
           const p4 = findPolygon(a4);
@@ -1550,7 +1572,7 @@ export const drills: Drill[] = [
       if (kind === "sum") {
         const n = tier === 1 ? rng.int(5, 10) : rng.int(5, 20);
         const S = (n - 2) * 180;
-        const name = POLY_NAMES[n] ? `a ${POLY_NAMES[n]} (${n} sides)` : `a polygon with ${n} sides`;
+        const name = POLY_NAMES[n] ? `${withArt(POLY_NAMES[n])} (${n} sides)` : `a polygon with ${n} sides`;
         pushTrap(traps, S, n * 180, `That's ${n} × 180°. From one corner you can only draw ${n - 2} triangles, so use (n − 2) × 180°.`);
         return {
           prompt: rng.bool() ? `Work out the sum of the interior angles of ${name}.` : `What do the interior angles of ${name} add up to?`,
@@ -1587,18 +1609,18 @@ export const drills: Drill[] = [
         const a2: number[] = [];
         let u2: number[];
         if (kind === "missing") {
-          for (let k = 0; k < n - 1; k++) a2.push(pickStep(rng, Math.max(60, mean - 35), Math.min(170, mean + 30), step));
+          for (let k = 0; k < n - 1; k++) a2.push(pickStep(rng, Math.max(60, mean - 35), Math.min(165, mean + 30), step));
           const x = S - a2.reduce((p, q) => p + q, 0);
-          if (x < Math.max(60, mean - 40) || x > Math.min(170, mean + 35) || x === 90) continue;
+          if (x < Math.max(60, mean - 40) || x > Math.min(165, mean + 35) || x === 90) continue;
           const pos = rng.int(0, n - 1);
           a2.splice(pos, 0, x);
           u2 = [pos];
         } else {
-          for (let k = 0; k < n - 2; k++) a2.push(rng.int(Math.max(60, Math.ceil(mean - 30)), Math.min(170, Math.floor(mean + 30))));
+          for (let k = 0; k < n - 2; k++) a2.push(rng.int(Math.max(60, Math.ceil(mean - 30)), Math.min(165, Math.floor(mean + 30))));
           const r = S - a2.reduce((p, q) => p + q, 0);
           if (r % 2 !== 0) continue;
           const x = r / 2;
-          if (x < mean - 35 || x > Math.min(170, mean + 35) || x === 90) continue;
+          if (x < mean - 35 || x > Math.min(165, mean + 35) || x === 90) continue;
           const p1 = rng.int(0, n - 1);
           let p2 = rng.int(0, n - 2);
           if (p2 >= p1) p2++;
@@ -1629,25 +1651,25 @@ export const drills: Drill[] = [
       addPolygon(sc, pts);
       ang.forEach((s, k) => sc.marks.push(vertexMark(pts as Pt[], k, unk.includes(k) ? "x" : deg(s), unk.includes(k) ? "unknown" : "given")));
       const listed = andList(ang.map((s, k) => (unk.includes(k) ? "{{x}}" : deg(s))));
-      const diagram = render(sc, `A ${name} with angles ${listed.replace(/\{\{|\}\}/g, "")}`, 360, 260);
-      const sumStep = `A ${name} has ${n} sides, so it splits into ${n - 2} triangles: angle sum = (${n} − 2) × 180° = ${big(S)}°.`;
+      const diagram = render(sc, `${capFirst(withArt(name))} with angles ${listed.replace(/\{\{|\}\}/g, "")}`, 360, 260);
+      const sumStep = `${capFirst(withArt(name))} has ${n} sides, so it splits into ${n - 2} triangles: angle sum = (${n} − 2) × 180° = ${big(S)}°.`;
       if (kind === "missingEq") {
         pushTrap(traps, x, S - K, "That's the total for BOTH angles marked x — share it between them.");
         return {
-          prompt: `A ${name} has angles ${listed}. The two angles marked {{x}} are equal. Find {{x}}.`,
+          prompt: `${capFirst(withArt(name))} has angles ${listed}. The two angles marked {{x}} are equal. Find {{x}}.`,
           answer: angleAns(x),
           solution: [sumStep, `The known angles add up to ${known.map(deg).join(" + ")} = ${deg(K)}.`, `The two equal angles share ${big(S)}° − ${deg(K)} = ${deg(S - K)}, so {{x}} = ${deg(S - K)} ÷ 2 = ${deg(x)}.`],
-          hint: `First find the angle sum of a ${name}.`,
+          hint: `First find the angle sum of ${withArt(name)}.`,
           traps,
           diagram,
         };
       }
       pushTrap(traps, x, n * 180 - K, `It looks like you used ${n} × 180°. The angle sum is (n − 2) × 180°.`);
       return {
-        prompt: rng.bool() ? `A ${name} has interior angles of ${listed}. Find {{x}}.` : `The diagram shows a ${name} with angles ${listed}. Work out the size of angle {{x}}.`,
+        prompt: rng.bool() ? `${capFirst(withArt(name))} has interior angles of ${listed}. Find {{x}}.` : `The diagram shows ${withArt(name)} with angles ${listed}. Work out the size of angle {{x}}.`,
         answer: angleAns(x),
         solution: [sumStep, `The known angles add up to ${known.map(deg).join(" + ")} = ${deg(K)}.`, `{{x}} = ${big(S)}° − ${deg(K)} = ${deg(x)}.`],
-        hint: `First find the angle sum of a ${name} using (n − 2) × 180°.`,
+        hint: `First find the angle sum of ${withArt(name)} using (n − 2) × 180°.`,
         traps,
         diagram,
       };
@@ -1667,13 +1689,17 @@ export const drills: Drill[] = [
       const nSet = tier === 1 ? [4, 5, 6, 8, 9, 10, 12] : tier === 2 ? [5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36] : [8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72];
       const n = rng.pick(nSet);
       const e = 360 / n, ia = 180 - e;
-      const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+      const [who, pr] = rng.pick(PEOPLE);
 
       if (kind === "ext") {
         pushTrap(traps, e, ia, "That's the interior angle. The exterior angle is 360° ÷ the number of sides.");
         pushTrap(traps, e, 180 / n, "The exterior angles add up to 360°, not 180°.");
         return {
-          prompt: rng.bool() ? `What is the size of each exterior angle of ${regName(n)}?` : `${cap(regName(n))} has equal exterior angles. Find the size of one of them.`,
+          prompt: [
+            `What is the size of each exterior angle of ${regName(n)}?`,
+            `${capFirst(regName(n))} has equal exterior angles. Find the size of one of them.`,
+            `${who} walks once round the edge of ${regName(n)}, turning the same amount at every corner. Through what angle does ${pr} turn at each corner?`,
+          ][rng.int(0, 2)],
           answer: angleAns(e),
           solution: ["Walking all the way round any polygon you turn through 360°, so the exterior angles add up to 360°.", `The ${n} exterior angles are equal: each is 360° ÷ ${n} = ${deg(e)}.`],
           hint: "What do the exterior angles of any polygon add up to?",
@@ -1684,7 +1710,11 @@ export const drills: Drill[] = [
         if (n !== 4) pushTrap(traps, ia, e, "That's the exterior angle. The interior angle is 180° minus it.");
         pushTrap(traps, ia, (n - 2) * 180, `That's the SUM of all ${n} interior angles. Divide by ${n} to get one.`);
         return {
-          prompt: rng.bool() ? `Find the size of each interior angle of ${regName(n)}.` : `What is the size of one interior angle of ${regName(n)}?`,
+          prompt: [
+            `Find the size of each interior angle of ${regName(n)}.`,
+            `What is the size of one interior angle of ${regName(n)}?`,
+            `A floor tile is shaped like ${regName(n)}. What is the size of each angle inside the tile?`,
+          ][rng.int(0, 2)],
           answer: angleAns(ia),
           solution: [`Each exterior angle = 360° ÷ ${n} = ${deg(e)}.`, `Interior and exterior angles lie on a straight line: interior = 180° − ${deg(e)} = ${deg(ia)}.`, `(Or: sum = (${n} − 2) × 180° = ${big((n - 2) * 180)}°, and ${big((n - 2) * 180)}° ÷ ${n} = ${deg(ia)}.)`],
           hint: "Find the exterior angle first — it's quicker.",
@@ -1692,8 +1722,8 @@ export const drills: Drill[] = [
         };
       }
       if (kind === "nFromExt") {
-        pushTrap(traps, n, 180 / e, "The exterior angles add up to 360°, not 180°.");
-        pushTrap(traps, n, 360 / ia, "Divide 360° by the EXTERIOR angle, not the interior angle.");
+        pushIntTrap(traps, n, 180 / e, "The exterior angles add up to 360°, not 180°.");
+        pushIntTrap(traps, n, 360 / ia, "Divide 360° by the EXTERIOR angle, not the interior angle.");
         return {
           prompt: `Each exterior angle of a regular polygon is ${deg(e)}. How many sides does the polygon have?`,
           answer: countAns(n),
@@ -1704,7 +1734,7 @@ export const drills: Drill[] = [
       }
       if (kind === "nFromInt") {
         pushTrap(traps, n, e, "That's the exterior angle. Now divide 360° by it to get the number of sides.");
-        pushTrap(traps, n, 360 / ia, "Divide 360° by the EXTERIOR angle, not the interior angle.");
+        pushIntTrap(traps, n, 360 / ia, "Divide 360° by the EXTERIOR angle, not the interior angle.");
         return {
           prompt: `Each interior angle of a regular polygon is ${deg(ia)}. How many sides does it have?`,
           answer: countAns(n),
@@ -1859,7 +1889,7 @@ export const drills: Drill[] = [
       } else {
         const T = ctx === "point" || ctx === "quad" ? 360 : 180;
         const SA = co.reduce((p, q) => p + q, 0), SB = cs.reduce((p, q) => p + q, 0);
-        solution.push(`So {{${co.map((a, j) => `(${ex(a, cs[j])})`).join(" + ")} = ${T}}}.`);
+        solution.push(`So {{${co.map((a, j) => (cs[j] === 0 ? ex(a, 0) : `(${ex(a, cs[j])})`)).join(" + ")} = ${T}}}.`);
         solution.push(`Collect like terms: {{${ex(SA, SB)} = ${T}}}${SB !== 0 ? `, so {{${ex(SA, 0)} = ${T - SB}}}` : ""}.`);
         A = SA; R = T - SB;
         // Trap: used the wrong total (180 ↔ 360).

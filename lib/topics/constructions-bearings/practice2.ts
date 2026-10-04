@@ -365,7 +365,7 @@ export const morePapers: Paper[] = [
           "On an orienteering course, Hana walks 400 m due East and then 300 m due South. Her friend Marcus says: \"To get straight back to the start, walk 500 m on a bearing of 315°.\"\n\nMake a scale drawing (1 cm to 100 m) or reason carefully. Is Marcus right about the **distance**? Is he right about the **bearing**? Explain.",
         marks: 3,
         modelAnswer:
-          "Scale drawing: 4 cm East, then 3 cm South. The straight line back to the start measures 5 cm, so the distance is 5 × 100 = 500 m. Marcus is right about the distance.\n\nA bearing of 315° is exactly north-west, halfway between West and North. That would mean going the **same** distance west as north. Hana has to go 400 m west but only 300 m north, so her direction is closer to West (270°) than to north-west. The bearing is between 270° and 315° — measuring gives about 307°. So Marcus is wrong about the bearing.",
+          "Scale drawing: 4 cm East, then 3 cm South. The straight line back to the start measures 5 cm, so the distance is 5 × 100 = 500 m. Marcus is right about the distance.\n\nA bearing of 315° is exactly north-west, halfway between West and North. That would mean going the **same** distance west as north. Hana has to go 400 m west but only 300 m north, so her direction leans further towards West than north-west does. The bearing is between 270° and 315°, a little less than 315° — measuring gives about 307°. So Marcus is wrong about the bearing.",
         markScheme: [
           { point: "The distance 500 m is correct (the scale drawing measures 5 cm)", keywords: ["500", "5 cm", "right", "correct"] },
           {
@@ -374,7 +374,7 @@ export const morePapers: Paper[] = [
           },
           {
             point: "She needs more west (400 m) than north (300 m), so the bearing is less than 315° (about 307°): Marcus is wrong",
-            keywords: ["307", "less than 315", "closer to west", "wrong", "between 270"],
+            keywords: ["307", "less than 315", "more west", "towards west", "wrong", "between 270"],
           },
         ],
         commonError: "Assuming any direction that is 'roughly north-west' is exactly 315°.",
@@ -574,7 +574,7 @@ export const morePapers: Paper[] = [
         traps: [
           {
             spec: { type: "number", value: 19 },
-            feedback: "19 counts every way to split 15 into three whole numbers — but many of those fail the triangle inequality.",
+            feedback: "19 counts every way to split 15 into three positive whole numbers (ignoring order) — but many of those fail the triangle inequality, such as 1, 1, 13.",
           },
         ],
         solution: [
@@ -637,7 +637,7 @@ export const morePapers: Paper[] = [
           },
           {
             spec: { type: "number", value: 3 },
-            feedback: "The third leg is not the last one: on bearing 164° the yacht is heading away from the start, not back to it. Find the size of one turn.",
+            feedback: "The third leg is not the last one. A 3-leg course would need three turns of 360° ÷ 3 = 120°, but here the bearing changes by only 144° over two turns. Find the size of one turn.",
           },
         ],
         solution: [

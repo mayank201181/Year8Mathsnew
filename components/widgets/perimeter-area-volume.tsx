@@ -23,7 +23,7 @@ const LABEL_CLASS = "fill-ink stroke-surface";
 
 function Label({ x, y, children, anchor = "middle" }: { x: number; y: number; children: string; anchor?: "start" | "middle" | "end" }) {
   return (
-    <text x={x} y={y} fontSize={12} fontWeight={700} textAnchor={anchor} className={LABEL_CLASS} strokeWidth={3} paintOrder="stroke">
+    <text x={x} y={y} fontSize={14} fontWeight={700} textAnchor={anchor} className={LABEL_CLASS} strokeWidth={3} paintOrder="stroke">
       {children}
     </text>
   );
@@ -330,7 +330,6 @@ const C30 = Math.cos(Math.PI / 6);
 const UI = 18; // px per cm in the 3D drawing
 const WI = 480;
 const HI = 280;
-const UN = 14; // px per cm in the nets
 const WN = 480;
 const HN = 320;
 
@@ -360,11 +359,12 @@ interface NetFace {
   at: Pt;
 }
 
-function rectFace(key: string, x: number, y: number, fw: number, fh: number, cls: string, fwText = num(fw), approxArea = false): NetFace {
+/** A rectangular face of a net (cm, net coordinates) labelled with its size and area when it fits at `un` px per cm. */
+function rectFace(key: string, x: number, y: number, fw: number, fh: number, cls: string, un: number, approxArea = false): NetFace {
   const areaText = `${approxArea && !isWhole(fw * fh) ? "≈ " : "= "}${num(fw * fh)}`;
-  const pw = fw * UN;
-  const ph = fh * UN;
-  const text = pw >= 56 && ph >= 30 ? [`${fwText} × ${num(fh)}`, areaText] : pw >= 26 && ph >= 14 ? [num(fw * fh)] : [];
+  const pw = fw * un;
+  const ph = fh * un;
+  const text = pw >= 60 && ph >= 34 ? [`${num(fw)} × ${num(fh)}`, areaText] : pw >= 28 && ph >= 16 ? [`${approxArea && !isWhole(fw * fh) ? "≈" : ""}${num(fw * fh)}`] : [];
   return { key, pts: [[x, y], [x + fw, y], [x + fw, y + fh], [x, y + fh]], cls, text, at: [x + fw / 2, y + fh / 2] };
 }
 
@@ -503,34 +503,32 @@ function BoxBuilder() {
   const wMid = mid([l, 0, 0], [l, w, 0]);
   const hMid = mid([l, 0, 0], [l, 0, h]);
 
-  // ---- nets ----
+  // ---- nets (scaled to fit; every face uses the same scale, so the net stays in proportion) ----
+  const [bx0, by0, bw, bh] = solid === "cuboid" ? [0, 0, 2 * (l + w), 2 * w + h] : [-h, -h, l + 2 * h, h + w + s];
+  const un = Math.min(34, (WN - 40) / bw, (HN - 40) / bh);
+  const nx = (WN - bw * un) / 2 - bx0 * un;
+  const ny = (HN - bh * un) / 2 - by0 * un;
   const faces: NetFace[] = [];
-  let nx: number;
-  let ny: number;
   if (solid === "cuboid") {
-    faces.push(rectFace("endL", 0, w, w, h, "fill-good-soft"));
-    faces.push(rectFace("front", w, w, l, h, "fill-accent-soft"));
-    faces.push(rectFace("endR", w + l, w, w, h, "fill-good-soft"));
-    faces.push(rectFace("back", 2 * w + l, w, l, h, "fill-accent-soft"));
-    faces.push(rectFace("top", w, 0, l, w, "fill-brand-soft"));
-    faces.push(rectFace("bottom", w, w + h, l, w, "fill-brand-soft"));
-    nx = (WN - 2 * (l + w) * UN) / 2;
-    ny = (HN - (2 * w + h) * UN) / 2;
+    faces.push(rectFace("endL", 0, w, w, h, "fill-good-soft", un));
+    faces.push(rectFace("front", w, w, l, h, "fill-accent-soft", un));
+    faces.push(rectFace("endR", w + l, w, w, h, "fill-good-soft", un));
+    faces.push(rectFace("back", 2 * w + l, w, l, h, "fill-accent-soft", un));
+    faces.push(rectFace("top", w, 0, l, w, "fill-brand-soft", un));
+    faces.push(rectFace("bottom", w, w + h, l, w, "fill-brand-soft", un));
   } else {
-    faces.push(rectFace("back", 0, -h, l, h, "fill-accent-soft"));
-    faces.push(rectFace("bottom", 0, 0, l, w, "fill-brand-soft"));
-    // the sloping face is l by s (s rounded for its label)
-    const slope = rectFace("slope", 0, w, l, s, "fill-info-soft", num(l), true);
+    faces.push(rectFace("back", 0, -h, l, h, "fill-accent-soft", un));
+    faces.push(rectFace("bottom", 0, 0, l, w, "fill-brand-soft", un));
+    // the sloping face is l by s (s is usually not a whole number, so its label is rounded)
+    const slope = rectFace("slope", 0, w, l, s, "fill-info-soft", un, true);
     if (slope.text.length === 2) slope.text = [`${l} × ${isWhole(s) ? num(s) : `${s.toFixed(1)}…`}`, slope.text[1]];
     faces.push(slope);
-    const triText = w >= 2 && h >= 2 ? [num((w * h) / 2)] : [];
+    const triText = w * un >= 28 && h * un >= 28 ? [num((w * h) / 2)] : [];
     faces.push({ key: "triL", pts: [[0, 0], [0, w], [-h, 0]], cls: "fill-good-soft", text: triText, at: [-h / 3, w / 3] });
     faces.push({ key: "triR", pts: [[l, 0], [l, w], [l + h, 0]], cls: "fill-good-soft", text: triText, at: [l + h / 3, w / 3] });
-    nx = (WN - (l + 2 * h) * UN) / 2 + h * UN;
-    ny = (HN - (h + w + s) * UN) / 2 + h * UN;
   }
-  const NX = (x: number) => nx + x * UN;
-  const NY = (y: number) => ny + y * UN;
+  const NX = (x: number) => nx + x * un;
+  const NY = (y: number) => ny + y * un;
 
   const ariaSolid =
     solid === "cuboid"
@@ -618,8 +616,8 @@ function BoxBuilder() {
                 <text
                   key={`${f.key}-t${i}`}
                   x={NX(f.at[0])}
-                  y={NY(f.at[1]) + (f.text.length === 2 ? (i === 0 ? -3 : 11) : 4)}
-                  fontSize={11}
+                  y={NY(f.at[1]) + (f.text.length === 2 ? (i === 0 ? -4 : 12) : 4)}
+                  fontSize={12}
                   fontWeight={700}
                   textAnchor="middle"
                   className="fill-ink"

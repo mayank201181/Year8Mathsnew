@@ -279,7 +279,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "Consecutive odd numbers go up in 2s: n, n + 2, n + 4. So 3n + 6 = 147, 3n = 141, n = 47, and the numbers are 47, 49 and 51. Quicker: the middle number is the mean, 147 ÷ 3 = 49, so the largest is 51. 50 comes from using n, n + 1, n + 2, but 48, 49, 50 are not all odd. 49 is the middle number, not the largest.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "forming-equations",
         hints: [
           "If the smallest odd number is n, what is the next odd number?",
@@ -682,7 +682,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 1,
         explanation:
           "Multiply every term by 6: 3x + 2x = 60, so 5x = 60 and x = 12. Check: 6 + 4 = 10 ✓. x = 50 comes from adding the denominators ({{x/2 + x/3 = x/5}}): never add denominators! x = 25 comes from adding tops and bottoms ({{(2x)/5 = 10}}). x = 2 comes from multiplying the left side by 6 but forgetting the 10.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "fractional-equations",
         hints: [
           "You can't add fractions with different denominators directly. What could you multiply every term by?",
@@ -862,7 +862,7 @@ export const mcqPapers: Paper[] = [
         options: ["about 3 km", "about 12 km", "about 36 km", "about 30 km"],
         answerIndex: 3,
         explanation:
-          "The equation is 3.90 + 0.62d = 22.50. Round: 4 + 0.6d ≈ 22.5, so 0.6d ≈ 18.5 and d ≈ 18.5 ÷ 0.6 ≈ 30. (Exactly: 18.60 ÷ 0.62 = 30 km.) About 36 km comes from forgetting the flag-down charge (22.50 ÷ 0.62 ≈ 36). About 12 km comes from multiplying by 0.62 instead of dividing. About 3 km is a place-value slip.",
+          "The equation is 3.90 + 0.62d = 22.50. Round: 4 + 0.6d ≈ 22.5, so 0.6d ≈ 18.5, which is roughly 18, and d ≈ 18 ÷ 0.6 = 30. (Exactly: 18.60 ÷ 0.62 = 30 km.) About 36 km comes from forgetting the flag-down charge (22.50 ÷ 0.62 ≈ 36). About 12 km comes from multiplying by 0.62 instead of dividing. About 3 km is a place-value slip.",
         difficulty: "core",
         guideRef: "solving-equations",
         hints: [
@@ -879,7 +879,7 @@ export const mcqPapers: Paper[] = [
         options: ["{{x + 3 = 35}}", "{{x + 15 = 8}}", "{{x + 3 = 8}}", "{{5x + 3 = 8}}"],
         answerIndex: 2,
         explanation:
-          "Dividing the whole left side by 5 just removes the 5 in front of the bracket: x + 3 = 8, so x = 5. Expanding gives the same answer (5x + 15 = 40, 5x = 25, x = 5), but dividing first is quicker here because 40 is a multiple of 5. x + 15 = 8 mixes the two methods: it expands the bracket *and* divides only the right side. x + 3 = 35 subtracts 5 instead of dividing.",
+          "Dividing the whole left side by 5 just removes the 5 in front of the bracket: x + 3 = 8, so x = 5. Expanding gives the same answer (5x + 15 = 40, 5x = 25, x = 5), but dividing first is quicker here because 40 is a multiple of 5. {{x + 15 = 8}} mixes the two methods: it expands to 5x + 15 = 40, then divides the 5x and the 40 by 5 but not the 15. {{5x + 3 = 8}} divides the right side by 5 but not the left. {{x + 3 = 35}} subtracts 5 instead of dividing.",
         difficulty: "core",
         guideRef: "equations-with-brackets",
         hints: [

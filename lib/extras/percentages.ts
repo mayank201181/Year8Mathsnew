@@ -2,10 +2,10 @@ import type { TopicExtras } from "../types.ts";
 
 export const extras: TopicExtras = {
   hook:
-    "Is \"50% off, then a further 20% off\" the same as 70% off? Shops are counting on you to think so — it is actually only 60% off, and one idea, the **multiplier**, shows why in a single line: {{0.5 * 0.8 = 0.4}}.",
+    "Is \"50% off, then a further 20% off\" the same as 70% off? Lots of shoppers think so — it is actually only 60% off, and one idea, the **multiplier**, shows why in a single line: {{0.5 * 0.8 = 0.4}}.",
 
   didYouKnow: [
-    "The % sign grew out of handwritten abbreviations of the Italian *per cento*, \"for each hundred\", used by merchants from the 1400s. Over the next couple of centuries, writers squashed \"cento\" into a little circle–slash–circle, and eventually dropped the \"per\" as well.",
+    "The % sign grew out of handwritten abbreviations of the Italian *per cento*, \"for each hundred\", used by merchants from the 1400s. Over the next two centuries, writers squashed \"cento\" into a tiny symbol (a small circle, a bar and another circle) written after \"per\". Later the \"per\" was dropped, leaving the sign we use today.",
     "Singapore's GST went up from 8% to 9% on 1 January 2024. That is a rise of 1 **percentage point** — but the tax itself grew by {{1/8}} of its old size, which is a 12.5% increase. Percentage points and percent are not the same thing.",
     "On a Singapore menu, \"$20++\" means a 10% service charge *and then* 9% GST — and GST is charged on the service charge too. So the bill is multiplied by 1.1 × 1.09 = 1.199: you pay 19.9% extra, not 19%.",
     "If a share price falls by 50%, it then has to rise by **100%** just to get back to where it started. A × 0.5 can only be undone by × 2.",
@@ -62,6 +62,6 @@ export const extras: TopicExtras = {
   history: {
     title: "A Roman tax, Italian bankers and the rule of 72",
     story:
-      "Long before decimals, the Roman emperor Augustus taxed goods sold at auction at one hundredth of their price — the *centesima rerum venalium*, a 1% sales tax. Counting in hundredths stuck.\n\nIn the trading cities of medieval Italy, merchants and bankers quoted profits, losses and interest *per cento*, \"for each hundred\", because putting everything out of 100 made deals easy to compare and check. Their arithmetic textbooks were packed with percentage problems. In 1494 the friar Luca Pacioli published his *Summa de arithmetica* in Venice, which included a shortcut for compound interest: divide 72 by the yearly rate to estimate how many years it takes money to double.\n\nAll the while, writers kept abbreviating *per cento*, until the words shrank into the sign you write today: %.",
+      "Long before decimals, the Roman emperor Augustus taxed goods sold at auction at one hundredth of their price — the *centesima rerum venalium*, a 1% sales tax. Counting in hundredths stuck.\n\nIn the trading cities of medieval Italy, merchants and bankers quoted profits, losses and interest *per cento*, \"for each hundred\", because putting everything out of 100 made deals easy to compare and check. By around 1500, their arithmetic textbooks regularly included percentage problems on profit, loss and interest. In 1494 the friar Luca Pacioli published his *Summa de arithmetica* in Venice, which included a shortcut for compound interest: divide 72 by the yearly rate to estimate how many years it takes money to double.\n\nAll the while, writers kept abbreviating *per cento*, until the words shrank into the sign you write today: %.",
   },
 };

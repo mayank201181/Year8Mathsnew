@@ -56,6 +56,11 @@ function qText(a: Q): string {
   return qMark(a).replace("-", "−");
 }
 
+/** For rich-text strings: whole numbers as plain text, fractions as {{maths}}. */
+function qRich(a: Q): string {
+  return a.d === 1 ? qText(a) : `{{${qMark(a)}}}`;
+}
+
 /** Integer with a real minus sign. */
 function intText(v: number): string {
   return v < 0 ? `−${Math.abs(v)}` : String(v);
@@ -293,10 +298,10 @@ function LineLab() {
     }.`,
     ax === 0
       ? `A is on the y-axis, so the line crosses the y-axis at A: c = ${intText(ay)}.`
-      : `To find c, slide along the line from A to the y-axis. x changes by ${intText(-ax)}, so y changes by {{${qMark(pm)} * ${paren(-ax)}}} = ${qText(
+      : `To find c, slide along the line from A to the y-axis. x changes by ${intText(-ax)}, so y changes by {{${qMark(pm)} * ${paren(-ax)}}} = ${qRich(
           shift,
-        )}. That makes c = ${intText(ay)} ${shift.n < 0 ? "−" : "+"} ${qText(q(Math.abs(shift.n), shift.d))} = ${qText(pc)}.`,
-    `Set rise ${intText(pm.n)}, run ${pm.d} and c = ${qText(pc)} to get {{${lineMark(pm, pc.n / pc.d)}}}.${
+        )}. That makes c = ${intText(ay)} ${shift.n < 0 ? "−" : "+"} ${qRich(q(Math.abs(shift.n), shift.d))} = ${qRich(pc)}.`,
+    `Set rise ${intText(pm.n)}, run ${pm.d} and c = ${qRich(pc)} to get {{${lineMark(pm, pc.n / pc.d)}}}.${
       pm.n !== 0 && Math.abs(2 * pm.n) <= 6 ? ` Any equal fraction works too, e.g. rise ${intText(2 * pm.n)}, run ${2 * pm.d}.` : ""
     }`,
   ];
@@ -354,7 +359,7 @@ function LineLab() {
           const yl = yAt(p[0]);
           const gap = qAdd(q(p[1]), q(-yl.n, yl.d));
           parts.push(
-            `At x = ${intText(p[0])} your line is at y = ${qText(yl)}, so ${name}${ptText(p)} is ${qText(q(Math.abs(gap.n), gap.d))} ${
+            `At x = ${intText(p[0])} your line is at y = ${qRich(yl)}, so ${name}${ptText(p)} is ${qRich(q(Math.abs(gap.n), gap.d))} ${
               gap.n > 0 ? "above" : "below"
             } it.`,
           );
@@ -477,7 +482,7 @@ function LineLab() {
               </text>
               <text
                 x={px(tri.x0 + run) > 262 ? px(tri.x0 + run) - 6 : px(tri.x0 + run) + 6}
-                y={py(tri.y0 + rise / 2) + 4}
+                y={Math.abs(tri.y0 + rise / 2) < 0.5 ? py(0) - 6 : py(tri.y0 + rise / 2) + 4}
                 fontSize={11}
                 fontWeight={800}
                 textAnchor={px(tri.x0 + run) > 262 ? "end" : "start"}

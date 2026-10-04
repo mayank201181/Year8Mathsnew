@@ -327,8 +327,9 @@ export const guide: TopicGuide = {
             "From the front you see the **tallest** stack in each column.",
             "Left column: the taller of 2 and 3 is 3. Middle column: 1. Right column: the taller of 1 and 2 is 2.",
             "So the front elevation is three columns side by side, 3 cm, 1 cm and 2 cm tall.",
+            "Add a line across the left column 2 cm up and across the right column 1 cm up. That is where the shorter front stack stops and the taller stack behind it shows above — the depth changes there.",
           ],
-          answer: "10 cubes; front elevation columns of heights 3, 1, 2 cm.",
+          answer: "10 cubes; front elevation columns of heights 3, 1, 2 cm, with lines 2 cm up on the left and 1 cm up on the right.",
         },
         {
           title: "Drawing to scale",
@@ -353,7 +354,7 @@ export const guide: TopicGuide = {
         "Each view squashes the solid flat along one direction, so it keeps two of the three dimensions and loses the third. The plan keeps length and width, the front elevation keeps length and height, and the side elevation keeps width and height. Together the three views hold all three dimensions, which is why a builder can make a real object from them.",
       strategies: ["Draw a diagram", "Consider extremes", "Work systematically"],
       thinkDeeper:
-        "A solid made of 1 cm cubes has a front elevation that is a 2 by 2 square and a side elevation that is also a 2 by 2 square. Every cube rests on the table or on another cube. What is the greatest number of cubes it could contain? What is the fewest? Sketch a plan with stack heights for each.",
+        "A solid made of 1 cm cubes has a front elevation whose outline is a 2 by 2 square and a side elevation whose outline is also a 2 by 2 square. Every cube rests on the table or on another cube. What is the greatest number of cubes it could contain? What is the fewest? Sketch a plan with stack heights for each.",
     },
     // ------------------------------------------------------------------ 6
     {
@@ -520,7 +521,7 @@ export const guide: TopicGuide = {
           yourTurn: {
             question:
               "Your turn: a cylinder has radius 4 cm and height 5 cm. Find its volume in cm³, using the π button on your calculator. Give your answer to 1 decimal place.",
-            answer: { type: "number", value: 251.3, tolerance: 0.15 },
+            answer: { type: "number", value: 251.3, tolerance: 0.05 },
             solution: "{{pi * 4^2 * 5 = 80 pi}} = 251.327… ≈ 251.3 cm³.",
           },
         },

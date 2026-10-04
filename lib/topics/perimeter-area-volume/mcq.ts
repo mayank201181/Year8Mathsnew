@@ -321,7 +321,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 1,
         explanation:
           "The rod is a 10 by 1 by 1 cuboid: four long faces of 10 × 1 = 10 cm² each, plus two 1 × 1 ends, so 40 + 2 = 42 cm². 60 cm² is 10 separate cubes × 6 faces, but each of the 9 joins hides 2 faces, and 60 − 18 = 42. 40 cm² forgets the two square ends; 10 is the volume.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "surface-area",
         hints: [
           "Try small cases: what is the surface area of 2 cubes glued together? Of 3?",
@@ -999,7 +999,7 @@ export const mcqPapers: Paper[] = [
         options: ["1000 m²", "136 m²", "100 m²", "10 000 m²"],
         answerIndex: 0,
         explanation:
-          "Round each length to 1 significant figure: 50 × 20 = 1000 m² (the exact area is 954.52 m²). 136 is an estimate of the *perimeter*, 2 × (50 + 18), which is a length in metres. 100 and 10 000 slip a place value when multiplying 5 × 2.",
+          "Round each length to 1 significant figure: 50 × 20 = 1000 m² (the exact area is 954.52 m²). 136 is close to the *perimeter*, 2 × (48.7 + 19.6) = 136.6 m, which is a length, not an area. 100 and 10 000 slip a place value when multiplying 5 × 2.",
         difficulty: "core",
         guideRef: "rectangles-triangles",
         hints: ["Round each length to 1 significant figure.", "50 × 20 = ?"],
@@ -1298,7 +1298,7 @@ export const mcqPapers: Paper[] = [
         options: ["6 cm by 2.6 cm", "6 cm by 2.5 cm", "2.5 cm by 2.6 cm", "60 cm by 25 cm"],
         answerIndex: 1,
         explanation:
-          "From directly above you see the length and the width, 6 m by 2.5 m, and at 1 : 100 each metre (100 cm) becomes 1 cm: 6 cm by 2.5 cm. 6 cm by 2.6 cm is the front elevation (length by height), and 2.5 cm by 2.6 cm is the side elevation. 60 cm by 25 cm uses 1 m = 10 cm.",
+          "From directly above you see the length and the width, 6 m by 2.5 m, and at 1 : 100 each metre (100 cm) becomes 1 cm: 6 cm by 2.5 cm. 6 cm by 2.6 cm is the front elevation (length by height), and 2.5 cm by 2.6 cm is the side elevation. 60 cm by 25 cm makes each metre 10 cm on paper, which would be a scale of 1 : 10.",
         difficulty: "core",
         guideRef: "plans-elevations",
         hints: [

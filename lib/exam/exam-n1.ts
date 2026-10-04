@@ -161,7 +161,7 @@ export const paper: ExamPaper = {
       guideRef: "complementary-events",
       difficulty: "warmup",
       question:
-        "A weather app gives these probabilities for tomorrow afternoon in Singapore. Exactly one type of weather will be recorded.\n\n| Weather | Thunderstorm | Light rain | Cloudy but dry | Sunny |\n|---|---|---|---|---|\n| Probability | 0.45 | 0.2 | ? | 0.1 |\n\nWhat is the probability that tomorrow afternoon is cloudy but dry?",
+        "A weather app gives these probabilities for tomorrow afternoon in Singapore. Exactly one type of weather will be recorded.\n\n| Weather | Thunderstorm | Light rain | Cloudy but dry | Sunny |\n|---|---|---|---|---|\n| Probability | 0.45 | 0.2 | ? | 0.1 |\n\nWhat is the probability that tomorrow afternoon is cloudy but dry? Give your answer as a decimal or a fraction.",
       answer: { type: "number", value: 0.25 },
       hints: [
         "Exactly one of these outcomes will happen. What must the four probabilities add up to?",
@@ -347,7 +347,8 @@ export const paper: ExamPaper = {
         "Check: {{(27 + 1)/4 = 7}} and 9 − 2 = 7 ✓.",
       ],
       traps: [
-        { spec: { type: "number", value: -4.5 }, feedback: "You didn't multiply the right-hand side by 4. Both sides must be multiplied: 4(x − 2) = 4x − 8." },
+        { spec: { type: "number", value: -1.5 }, feedback: "You didn't multiply the right-hand side by 4. Both sides must be multiplied: 4(x − 2) = 4x − 8." },
+        { spec: { type: "number", value: -4.5 }, feedback: "You multiplied the 2 by 4 but not the x. 4(x − 2) = 4x − 8: every term in the bracket is multiplied." },
         { spec: { type: "number", value: 3 }, feedback: "4(x − 2) is 4x − 8, not 4x − 2. Multiply every term in the bracket." },
       ],
       commonError: "Multiplying only part of the right-hand side by 4.",
@@ -580,9 +581,9 @@ export const paper: ExamPaper = {
       modelAnswer:
         "Stall Q has the lower median (4 minutes against 6 minutes), so a typical customer waits less at Q. But Q has a much bigger range (11 minutes against 3 minutes), so its waiting times are far less consistent. At Stall P the shortest wait was at most 6 minutes (it can't be more than the median), so the longest wait was at most 6 + 3 = 9 minutes — every customer was served within 10 minutes. At Stall Q the longest wait was at least 11 minutes, because the range is 11 and no wait can be less than 0. So Marcus should choose Stall P: it is slower on average, but reliably within his 10 minutes.",
       markScheme: [
-        { point: "Compares the medians in context: a typical wait is shorter at Q (4 < 6 minutes)", keywords: ["median", "4", "shorter", "quicker", "faster", "on average", "typical"] },
+        { point: "Compares the medians in context: a typical wait is shorter at Q (4 < 6 minutes)", keywords: ["median", "4 minutes", "shorter", "quicker", "faster", "on average", "typical"] },
         { point: "Compares the ranges in context: P's waits are more consistent; Q's vary much more (3 vs 11 minutes)", keywords: ["range", "consistent", "reliable", "vary", "varied", "spread", "11"] },
-        { point: "Justified choice of P: its longest wait is at most 9 minutes, while Q had a wait of 11 minutes or more", keywords: ["stall p", "choose p", "9", "at most", "longest", "10 minutes", "risk"] },
+        { point: "Justified choice of P: its longest wait is at most 9 minutes, while Q had a wait of 11 minutes or more", keywords: ["stall p", "choose p", "9 minutes", "at most", "longest", "at least 11", "more than 10", "risk"] },
       ],
       hints: [
         "Which stall is quicker for a typical customer?",
@@ -599,7 +600,7 @@ export const paper: ExamPaper = {
       guideRef: "compound-circle-shapes",
       difficulty: "core",
       question:
-        "A flower bed at Gardens by the Bay is made from a rectangle 10 m long and 6 m wide, with a semicircle on each 6 m end, as shown. Work out the area of the flower bed. Give your answer in terms of π.",
+        "A flower bed at Gardens by the Bay is made from a rectangle 10 m long and 6 m wide, with a semicircle on each 6 m end, as shown. Work out the area of the flower bed in m². Give your answer in terms of π. (Type it like 20 + 5π or 20 + 5pi, with no units.)",
       diagram: `<svg viewBox="0 0 380 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A flower bed made of a rectangle 10 m long and 6 m wide with a semicircle on each 6 m end"><rect x="0" y="0" width="380" height="190" fill="#ffffff"/><path d="M 90 40 L 290 40 A 60 60 0 0 1 290 160 L 90 160 A 60 60 0 0 1 90 40 Z" fill="#bbf7d0" stroke="#1f2937" stroke-width="2"/><line x1="90" y1="40" x2="90" y2="160" stroke="#334155" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="290" y1="40" x2="290" y2="160" stroke="#334155" stroke-width="1.5" stroke-dasharray="5 4"/><text x="190" y="30" font-size="13" font-family="sans-serif" fill="#1f2937" text-anchor="middle">10 m</text><text x="266" y="105" font-size="13" font-family="sans-serif" fill="#1f2937" text-anchor="middle">6 m</text></svg>`,
       answer: { type: "expression", expr: "60+9pi", display: "{{60 + 9pi}} m²" },
       hints: [
@@ -741,7 +742,7 @@ export const paper: ExamPaper = {
       modelAnswer:
         "Let the middle date be n. Dates next to each other in a row differ by 1, and the date directly above is 7 less (one week earlier). So the block is:\n\n| n − 8 | n − 7 | n − 6 |\n|---|---|---|\n| n − 1 | n | n + 1 |\n| n + 6 | n + 7 | n + 8 |\n\nAdding all nine gives 9n + (−8 − 7 − 6 − 1 + 1 + 6 + 7 + 8) = 9n, because the numbers cancel in pairs. So the total is always 9 times the middle date.",
       markScheme: [
-        { point: "Lets the middle date be a letter, e.g. n", keywords: ["n", "let", "middle", "x"] },
+        { point: "Lets the middle date be a letter, e.g. n", keywords: ["let n", "let x", "n =", "x =", "n=", "x=", "middle date", "call the middle"] },
         { point: "Writes the dates above, below, left and right as n − 7, n + 7, n − 1, n + 1", keywords: ["n-7", "n+7", "n-1", "n+1", "n − 7", "n + 7"] },
         { point: "Writes the corner dates as n − 8, n − 6, n + 6, n + 8", keywords: ["n-8", "n+8", "n-6", "n+6", "n − 8", "n + 8"] },
         { point: "Adds to get 9n (the numbers cancel), so the total is 9 × the middle date", keywords: ["9n", "cancel", "9x", "9 times"] },

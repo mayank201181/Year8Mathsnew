@@ -32,7 +32,6 @@ function halfOr(rng: Rng, lo: number, hi: number, pHalf: number): number {
 const sq = (u: string) => `${u}²`;
 /** Always show exactly one decimal place (88 → "88.0") for "to 1 d.p." answers. */
 const dp1 = (x: number) => big(roundTo(x, 1)).replace(/^([^.]*)$/, "$1.0");
-const cu = (u: string) => `${u}³`;
 
 /** Pythagorean triples [leg1, leg2, hypotenuse], used so sloping sides are honest whole numbers. */
 const TRIPLES_SMALL: Array<[number, number, number]> = [
@@ -721,7 +720,7 @@ export const drills: Drill[] = [
           w = rng.int(8, 30);
           h = rng.int(6, 24);
           x = rng.int(2, 6);
-          if (w !== h && w + h !== 3 * x) break;
+          if (w !== h && 2 * x <= Math.min(w, h) && w + h !== 3 * x) break;
         }
         const W = w + 2 * x, H = h + 2 * x;
         const ans = W * H - w * h;
@@ -1206,12 +1205,12 @@ export const drills: Drill[] = [
         else { l = rng.int(4, 20); w = rng.int(3, 15); h = halfOr(rng, 2, 12, 0.35); }
         if (l !== w && w !== h && l !== h) break;
       }
+      if (kind === "open" && w > l) [l, w] = [w, l]; // "long" should be the longer side
       const lw = clean(l * w), lh = clean(l * h), wh = clean(w * h);
       const S = clean(2 * (lw + lh + wh));
       const V = clean(l * w * h);
 
       if (kind === "open") {
-        if (w > l) [l, w] = [w, l];
         const So = clean(lw + 2 * lh + 2 * wh);
         const thing = rng.pick(["open box (it has no lid)", "fish tank with no lid", "planter box with an open top"]);
         return {
@@ -1699,11 +1698,11 @@ export const drills: Drill[] = [
         const S = roundTo(2 * Math.PI * r * r + 2 * Math.PI * r * h, 1);
         return {
           prompt: `A closed ${thing} has ${dimText} and height ${h} cm. Find its total surface area in cm², to 1 decimal place. (Use the π key on your calculator.)`,
-          answer: { type: "number", value: S, display: `${num(S)} cm²` },
+          answer: { type: "number", value: S, display: `${dp1(S)} cm²` },
           solution: [
             ...(giveD ? [`Radius = ${2 * r} ÷ 2 = ${r} cm.`] : []),
             `Two circles: 2 × π × ${r}² = ${2 * r * r}π. Curved surface (unrolls to a rectangle 2πr by h): 2 × π × ${r} × ${h} = ${2 * r * h}π.`,
-            `Total = ${2 * r * r + 2 * r * h}π = ${num(S)} cm² (1 d.p.)`,
+            `Total = ${2 * r * r + 2 * r * h}π = ${dp1(S)} cm² (1 d.p.)`,
           ],
           hint: "The net is two circles and a rectangle. How long is the rectangle? (It wraps round the circle.)",
           traps: numTraps(S, [
@@ -1724,8 +1723,8 @@ export const drills: Drill[] = [
         const Lt = roundTo((Math.PI * R * R * H) / 1000, 1);
         return {
           prompt: `A cylindrical water tank has radius ${R} cm and height ${H} cm. How many litres does it hold when full? Give your answer to 1 decimal place.`,
-          answer: { type: "number", value: Lt, display: `${num(Lt)} litres` },
-          solution: [`Volume = π × ${R}² × ${H} = ${R * R * H}π cm³.`, `1 litre = 1000 cm³, so capacity = ${R * R * H}π ÷ 1000 = ${num(Lt)} litres (1 d.p.)`],
+          answer: { type: "number", value: Lt, display: `${dp1(Lt)} litres` },
+          solution: [`Volume = π × ${R}² × ${H} = ${R * R * H}π cm³.`, `1 litre = 1000 cm³, so capacity = ${R * R * H}π ÷ 1000 = ${dp1(Lt)} litres (1 d.p.)`],
           hint: "Find the volume in cm³ with π r² h, then change cm³ to litres.",
           traps: numTraps(Lt, [
             [roundTo((Math.PI * R * R * H) / 100, 1), "1 litre is 1000 cm³, not 100."],
@@ -1737,11 +1736,11 @@ export const drills: Drill[] = [
       const V = roundTo(Math.PI * r * r * h, 1);
       return {
         prompt: `A ${thing} has ${dimText} and height ${h} cm. Find its volume in cm³, to 1 decimal place. (Use the π key on your calculator.)`,
-        answer: { type: "number", value: V, display: `${num(V)} cm³` },
+        answer: { type: "number", value: V, display: `${dp1(V)} cm³` },
         solution: [
           ...(giveD ? [`Radius = ${2 * r} ÷ 2 = ${r} cm.`] : []),
           `A cylinder is a prism with a circular cross-section: area = π × ${r}² = ${r * r}π cm².`,
-          `Volume = ${r * r}π × ${h} = ${r * r * h}π = ${num(V)} cm³ (1 d.p.)`,
+          `Volume = ${r * r}π × ${h} = ${r * r * h}π = ${dp1(V)} cm³ (1 d.p.)`,
         ],
         hint: "Area of the circular end × height. Use the radius, not the diameter.",
         traps: numTraps(V, [

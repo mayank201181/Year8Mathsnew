@@ -55,7 +55,7 @@ export const morePapers: Paper[] = [
           "6 × 25 = 150, so P = 150 − 180 = −30.",
           "The stall made a **loss of $30** that day. It has to sell more than 30 plates (6 × 30 = 180) before it makes any profit.",
         ],
-        commonError: "Reading 6n as the two-digit-style number 625 instead of 6 × 25.",
+        commonError: "Writing the 6 and the 25 side by side to get 625, instead of working out 6 × 25 = 150.",
         difficulty: "warmup",
         guideRef: "substitution",
         hints: ["Swap n for 25 — remember 6n means 6 × n. Is 6 × 25 bigger or smaller than 180?"],
@@ -195,7 +195,7 @@ export const morePapers: Paper[] = [
         id: "expressions-p3-q08",
         question:
           "After a monsoon storm, a community garden's rainwater tank holds V litres. On Monday, {{1/3}} of the water is used. On Tuesday, half of the water that is **left** is used. Write a simplified expression for the amount of water, in litres, still in the tank.",
-        answer: { type: "expression", expr: "V/3", display: "{{1/3 V}} (or {{V/3}})" },
+        answer: { type: "expression", expr: "V/3", form: "simplified", display: "{{1/3 V}} (or {{V/3}})" },
         traps: [
           {
             spec: { type: "expression", expr: "V/6" },
@@ -679,7 +679,7 @@ export const morePapers: Paper[] = [
         traps: [
           {
             spec: { type: "expression", expr: "4ab" },
-            feedback: "{{5a * 2b}} means multiply the numbers: 5 × 2 = 10, so it is 10ab, not 7ab.",
+            feedback: "It looks as if you added the 5 and the 2. In {{5a * 2b}} the numbers are multiplied: 5 × 2 = 10, so the first term is 10ab.",
           },
           {
             spec: { type: "expression", expr: "13ab" },

@@ -1029,7 +1029,8 @@ export const morePapers: Paper[] = [
           },
           {
             spec: { type: "number", value: 0.7 },
-            feedback: "Multiply **along** each path (first kick × second kick), then add the paths together.",
+            feedback:
+              "0.7 is 0.1 + 0.6 — only the second-kick branches. Multiply **along** each path (first kick × second kick), then add the two paths together.",
           },
         ],
         commonError: "Using only one of the two paths, or adding along a path instead of multiplying.",

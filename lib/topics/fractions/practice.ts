@@ -40,7 +40,7 @@ export const practice: TopicPractice = {
     {
       kind: "short",
       id: "fractions-quiz-q03",
-      question: "A sack holds 96 kg of rice. Find {{3/8}} of 96 kg. Give your answer in kg.",
+      question: "A hawker stall buys 96 kg of rice for the month. It uses {{3/8}} of the rice in the first week. How many kg of rice is that?",
       answer: { type: "number", value: 36, display: "36 kg" },
       solution: ["One eighth: 96 ÷ 8 = 12 kg.", "Three eighths: 3 × 12 = 36 kg."],
       traps: [
@@ -117,7 +117,7 @@ export const practice: TopicPractice = {
       options: ["{{2 2/5}}", "{{3/5}}", "15", "{{1/15}}"],
       answerIndex: 2,
       explanation:
-        "Division asks how many {{2/5}}s fit into 6. Each whole holds {{2 1/2}} of them, so 6 wholes hold 15: {{6 × 5/2 = 30/2 = 15}}. {{2 2/5}} comes from multiplying by {{2/5}} instead of dividing — dividing a positive number by a fraction less than 1 should give a *bigger* answer. {{3/5}} comes from dividing 6 by the numerator only, and {{1/15}} from flipping the 6 instead of the {{2/5}}.",
+        "Division asks how many {{2/5}}s fit into 6. Each whole holds {{2 1/2}} of them, so 6 wholes hold 15: {{6 × 5/2 = 30/2 = 15}}. {{2 2/5}} comes from multiplying by {{2/5}} instead of dividing — dividing a positive number by a fraction less than 1 should give a *bigger* answer. {{3/5}} comes from dividing 6 by the numerator 2 but keeping the 5 as a denominator, and {{1/15}} from flipping the 6 instead of the {{2/5}}.",
       difficulty: "core",
       guideRef: "dividing",
       hints: ["How many {{2/5}}s fit into 1 whole?", "Keep the 6, change ÷ to ×, flip {{2/5}}.", "Work out {{6 × 5/2}}."],
@@ -182,7 +182,7 @@ export const practice: TopicPractice = {
       options: ["{{3 17/24}}", "{{3 7/24}}", "{{2 17/24}}", "{{2 7/24}}"],
       answerIndex: 3,
       explanation:
-        "Over 24: {{5 3/24 - 2 20/24}}. Since {{3/24}} is smaller than {{20/24}}, borrow a whole: {{4 27/24 - 2 20/24 = 2 7/24}}. Estimate check: about 5 − 3 = 2, and {{2 5/6}} was rounded up, so the answer is a bit more than 2. {{3 17/24}} comes from subtracting the fraction parts the wrong way round ({{20/24 - 3/24}}). {{3 7/24}} borrows the {{24/24}} but forgets to take 1 from the 5. {{2 17/24}} borrows correctly and then subtracts the wrong way round.",
+        "Over 24: {{5 3/24 - 2 20/24}}. Since {{3/24}} is smaller than {{20/24}}, borrow a whole: {{4 27/24 - 2 20/24 = 2 7/24}}. Estimate check: about 5 − 3 = 2, and {{2 5/6}} was rounded up, so the answer is a bit more than 2. {{3 17/24}} comes from subtracting the fraction parts the wrong way round ({{20/24 - 3/24}}). {{3 7/24}} borrows the {{24/24}} but forgets to take 1 from the 5. {{2 17/24}} takes 1 from the 5 but then still subtracts the fraction parts the wrong way round ({{20/24 - 3/24}}).",
       difficulty: "core",
       guideRef: "adding-subtracting",
       hints: [
@@ -222,7 +222,7 @@ export const practice: TopicPractice = {
   ],
 
   // ===========================================================================
-  // PRACTICE PAPERS — 16 short + 4 written each; ≈ 5 warmup, 11 core, 4 challenge
+  // PRACTICE PAPERS — 16 short + 4 written each; ≈ 5 warmup, 11–12 core, 3–4 challenge
   // ===========================================================================
   papers: [
     {
@@ -250,7 +250,7 @@ export const practice: TopicPractice = {
         {
           kind: "short",
           id: "fractions-p1-q02",
-          question: "Work out {{3/5 + 1/4}}. Give your answer as a fraction.",
+          question: "Work out {{3/5 + 1/4}}. Give your answer as a fraction in its simplest form.",
           answer: { type: "fraction", n: 17, d: 20, simplest: true },
           solution: ["The LCM of 5 and 4 is 20.", "{{3/5 = 12/20}} and {{1/4 = 5/20}}.", "{{12/20 + 5/20 = 17/20}}."],
           traps: [
@@ -285,7 +285,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "fractions-p1-q04",
           question: "Write down the reciprocal of {{2 3/4}}. Give your answer as a fraction.",
-          answer: { type: "fraction", n: 4, d: 11, simplest: true },
+          answer: { type: "fraction", n: 4, d: 11 },
           solution: [
             "Change to an improper fraction: {{2 3/4 = (2 × 4 + 3)/4 = 11/4}}.",
             "Flip it: the reciprocal is {{4/11}}.",
@@ -433,7 +433,7 @@ export const practice: TopicPractice = {
         {
           kind: "short",
           id: "fractions-p1-q09",
-          question: "Work out {{3 3/4 ÷ 2 1/2}}. Give your answer as a mixed number.",
+          question: "Work out {{3 3/4 ÷ 2 1/2}}. Give your answer as a mixed number in its simplest form.",
           answer: { type: "fraction", n: 3, d: 2, simplest: true, form: "mixed" },
           solution: [
             "Estimate: about 4 ÷ 2.5, so a bit more than 1.",
@@ -499,7 +499,7 @@ export const practice: TopicPractice = {
           kind: "written",
           id: "fractions-p1-q11",
           question:
-            "Marcus writes: {{4 1/5 - 1 7/8 = 3 27/40}}.\n\n(a) Without working out the exact answer, explain how an estimate shows that Marcus must be wrong.\n\n(b) Find the correct answer as a mixed number, showing your method.",
+            "Marcus writes: {{4 1/5 - 1 7/8 = 3 27/40}}.\n\n(a) Without working out the exact answer, explain how an estimate shows that Marcus must be wrong, and suggest what mistake he made.\n\n(b) Find the correct answer as a mixed number, showing your method.",
           marks: 4,
           modelAnswer:
             "(a) {{4 1/5}} is about 4 and {{1 7/8}} is about 2, so the answer should be about 4 − 2 = 2. Marcus's answer is nearly 4, which is far too big. His mistake: because {{1/5}} is smaller than {{7/8}}, he subtracted the fraction parts the wrong way round ({{35/40 - 8/40 = 27/40}}).\n\n(b) Over 40: {{4 8/40 - 1 35/40}}. Borrow 1 whole: {{4 8/40 = 3 48/40}}. Then {{3 48/40 - 1 35/40 = 2 13/40}}.",
@@ -689,7 +689,7 @@ export const practice: TopicPractice = {
               feedback: "That's halfway between {{2/3}} and {{1/4}}. Check the minus sign on {{-2/3}}.",
             },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "equivalence-ordering",
           hints: [
             "How do you find the number halfway between, say, 4 and 10?",
@@ -1270,7 +1270,7 @@ export const practice: TopicPractice = {
             "A ribbon is {{2 1/2}} m long. Siti cuts it into pieces that are each {{1/3}} m long.\n\nShe works out {{2 1/2 ÷ 1/3 = 7 1/2}} and says: 'So I get 7 pieces, and there is {{1/2}} m of ribbon left over.'\n\nExplain what is right and what is wrong with Siti's statement, and find the length of ribbon that is left over.",
           marks: 4,
           modelAnswer:
-            "Her division is right: {{2 1/2 ÷ 1/3 = 5/2 × 3 = 15/2 = 7 1/2}}, so she can cut 7 full pieces.\n\nBut the answer to 'how many fit?' is counted in *pieces*, not metres. The {{1/2}} in {{7 1/2}} means half of a piece, and half of a {{1/3}} m piece is {{1/2 × 1/3 = 1/6}} m.\n\nCheck: 7 pieces use {{7 × 1/3 = 7/3 = 2 1/3}} m, and {{2 1/2 - 2 1/3 = 3/6 - 2/6 = 1/6}} m is left. So the leftover is {{1/6}} m, not {{1/2}} m.",
+            "Her division is right: {{2 1/2 ÷ 1/3 = 5/2 × 3 = 15/2 = 7 1/2}}, so she can cut 7 full pieces.\n\nBut the answer to 'how many fit?' is counted in *pieces*, not metres. The {{1/2}} in {{7 1/2}} means half of a piece, and half of a {{1/3}} m piece is {{1/2 × 1/3 = 1/6}} m.\n\nCheck: 7 pieces use {{7 × 1/3 = 7/3 = 2 1/3}} m, and {{2 1/2 - 2 1/3 = 2 3/6 - 2 2/6 = 1/6}} m is left. So the leftover is {{1/6}} m, not {{1/2}} m.",
           markScheme: [
             { point: "Agrees she gets 7 full pieces ({{2 1/2 ÷ 1/3 = 15/2 = 7 1/2}}).", keywords: ["7 pieces", "7 full", "15/2", "7 1/2"] },
             { point: "Explains the {{1/2}} is half of a piece, not half a metre.", keywords: ["half of a piece", "half a piece", "pieces", "not metres", "not half a metre"] },
@@ -1493,7 +1493,7 @@ export const practice: TopicPractice = {
         {
           label: "The 'add tops and bottoms' shortcut",
           steps: [
-            "Adding the tops and the bottoms of {{2/5}} and {{1/2}} gives {{(2 + 1)/(5 + 2) = 3/7}}, which lies between them (challenge question 10 asks you to prove this always happens).",
+            "Adding the tops and the bottoms of {{2/5}} and {{1/2}} gives {{(2 + 1)/(5 + 2) = 3/7}}, which lies between them (another challenge in this set asks you to prove this always happens).",
             "That suggests a class of 7 — a fast way to find the candidate.",
             "But only the check of classes 1 to 6 proves that nothing smaller works, so you still need the case-by-case test.",
           ],

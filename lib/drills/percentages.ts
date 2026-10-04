@@ -88,9 +88,14 @@ function numTraps(answer: number, list: Array<[number, string]>): Trap[] {
   return out;
 }
 
-/** Number answer shown as a percentage. */
-function pctAnswer(value: number): AnswerSpec {
-  return { type: "number", value, display: `${num(value)}%` };
+/** A percentage value as text; a value rounded to 1 d.p. keeps its trailing zero (37.0%). */
+function pctTxt(value: number, rounded = false): string {
+  return rounded ? `${value.toFixed(1)}%` : `${num(value)}%`;
+}
+
+/** Number answer shown as a percentage (pass rounded = true when the question asked for 1 d.p.). */
+function pctAnswer(value: number, rounded = false): AnswerSpec {
+  return { type: "number", value, display: pctTxt(value, rounded) };
 }
 
 /** Number answer in dollars from whole cents. */
@@ -100,7 +105,7 @@ function cashAnswer(cents: number): AnswerSpec {
 
 /** "{{a/b}} × 100 = 37.5%" or "… = 16.666… ≈ 16.7% (1 d.p.)" */
 function pctOfStr(N: number, D: number, value: number): string {
-  return exactQ(N, D, 1) && clean(N / D) === value ? `${num(value)}%` : `${decStr(N, D, 3)} ≈ ${num(value)}% (to 1 d.p.)`;
+  return exactQ(N, D, 1) && clean(N / D) === value ? `${num(value)}%` : `${decStr(N, D, 3)} ≈ ${pctTxt(value, true)} (to 1 d.p.)`;
 }
 
 /** Non-calculator build-up of t tenths-of-a-per-cent of A (e.g. 35% = 3 × 10% + 5%). */
@@ -348,14 +353,17 @@ export const drills: Drill[] = [
       let prompt: string;
       let answer: AnswerSpec = { type: "number", value: ans };
       if (ctx === "people") {
-        prompt = `There are ${big(A)} students at a school. ${pc(t)} of them travel to school by MRT. How many students is that?${tail}`;
+        prompt = `A survey asked ${big(A)} students how they travel to school. ${pc(t)} of them said they travel by MRT. How many students is that?${tail}`;
       } else if (ctx === "litres") {
         prompt = `A water tank holds ${big(A)} litres when it is full. It is ${pc(t)} full. How many litres of water are in it?${tail}`;
       } else if (ctx === "money") {
+        // Match the purchase to the amount spent so the price is believable.
+        const spent = ans;
+        const buy = spent <= 25 ? "stationery" : spent <= 80 ? "books" : spent <= 250 ? "a new pair of trainers" : spent <= 600 ? "a new bicycle" : "a new laptop";
         prompt =
           t > 1000
-            ? `A concert ticket cost ${cash(A * 100)} last year. This year it costs ${pc(t)} of last year's price. How much does it cost this year?${tail}`
-            : `${name} has ${cash(A * 100)} in savings and spends ${pc(t)} of it on a new bicycle helmet. How much does ${name} spend?${tail}`;
+            ? `${A <= 250 ? "A concert ticket" : "A return flight to Tokyo"} cost ${cash(A * 100)} last year. This year it costs ${pc(t)} of last year's price. How much does it cost this year?${tail}`
+            : `${name} has ${cash(A * 100)} in savings and spends ${pc(t)} of it on ${buy}. How much does ${name} spend?${tail}`;
         answer = cashAnswer((t * A) / 10);
       } else {
         prompt = `Work out ${pc(t)} of ${big(A)} without a calculator.`;
@@ -418,7 +426,7 @@ export const drills: Drill[] = [
         const noConv = roundQ(100 * a * u.f, B, 1);
         return {
           prompt,
-          answer: pctAnswer(value),
+          answer: pctAnswer(value, !exact),
           solution: [
             `Use the same units: ${whole} = ${B} ${u.s}.`,
             `Write the part as a fraction of the whole: ${frac(a, B, { simplify: false })}.`,
@@ -468,7 +476,7 @@ export const drills: Drill[] = [
       }
       return {
         prompt,
-        answer: pctAnswer(value),
+        answer: pctAnswer(value, !exact),
         solution: [
           `Write the part as a fraction of the whole: ${frac(a, b, { simplify: false })}.`,
           `Multiply by 100: ${frac(a, b, { simplify: false })} × 100 = ${pctOfStr(100 * a, b, value)}.`,
@@ -566,7 +574,8 @@ export const drills: Drill[] = [
       const name = rng.pick(NAMES);
       // Keep contexts realistic: nobody saves 85% of their pay or pays a 90% deposit.
       type Ctx = "plain" | "field" | "save" | "deposit" | "rent" | "plant";
-      const options: Ctx[] = t > 1000 ? ["plain", "rent", "plant"] : ["plain", "field"];
+      // Rents don't jump by more than about 30%, so "rent" only for 101%–130%.
+      const options: Ctx[] = t > 1000 ? (t <= 1300 ? ["plain", "rent", "plant"] : ["plain", "plant"]) : ["plain", "field"];
       if (t <= 400) options.push("save");
       if (tier > 1 && t <= 500) options.push("deposit");
       const ctx = rng.pick(options);
@@ -597,7 +606,7 @@ export const drills: Drill[] = [
         answer = { type: "number", value };
         exactS = decStr(N, 1000, 4);
         rounded = N % 10 !== 0;
-        if (rounded) roundLine = `To 2 decimal places: ${num(value)}.`;
+        if (rounded) roundLine = `To 2 decimal places: ${value.toFixed(2)}.`;
       }
       const round = money ? " Give your answer to the nearest cent." : rounded ? " Give your answer to 2 decimal places." : "";
       let prompt: string;
@@ -701,7 +710,7 @@ export const drills: Drill[] = [
       const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
       return {
         prompt,
-        answer: { type: "list", values: [p1, p2], ordered: true, display: `${num(p1)}%, ${num(p2)}%` },
+        answer: { type: "list", values: [p1, p2], ordered: true, display: `${pctTxt(p1, !exactQ(100 * a1, b1, 1))}, ${pctTxt(p2, !exactQ(100 * a2, b2, 1))}` },
         solution: [
           `${cap(L1)}: ${frac(r1, b1 * k1, { simplify: false })} × 100 = ${pctOfStr(100 * a1, b1, p1)}.`,
           `${cap(L2)}: ${frac(r2, b2 * k2, { simplify: false })} × 100 = ${pctOfStr(100 * a2, b2, p2)}.`,
@@ -929,7 +938,7 @@ export const drills: Drill[] = [
       const divNew = exactQ(100 * c, N, 1) ? clean((100 * c) / N) : roundQ(100 * c, N, 1);
       return {
         prompt: `${what} Find the percentage ${word}.${exact ? "" : " Give your answer to 1 decimal place."}`,
-        answer: pctAnswer(pct),
+        answer: pctAnswer(pct, !exact),
         solution: [changeLine, pctLine],
         hint: "Find the actual change first. Then divide it by the **original** amount and multiply by 100.",
         traps: numTraps(pct, [
@@ -1066,7 +1075,7 @@ export const drills: Drill[] = [
         const divSell = exactQ(100 * c, S, 1) ? clean((100 * c) / S) : roundQ(100 * c, S, 1);
         return {
           prompt: `${ctx} Find the percentage ${word}.${exact ? "" : " Give your answer to 1 decimal place."}`,
-          answer: pctAnswer(pct),
+          answer: pctAnswer(pct, !exact),
           solution: [
             `${isProfit ? "Profit" : "Loss"} = ${isProfit ? `${dn(toC(S))} − ${dn(toC(C))}` : `${dn(toC(C))} − ${dn(toC(S))}`} = ${dn(toC(c))}.`,
             `Percentage ${word} = ${word} ÷ cost price × 100 = {{${dn(toC(c))}/${dn(toC(C))}}} × 100 = ${pctOfStr(100 * c, C, pct)}.`,

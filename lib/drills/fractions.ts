@@ -31,12 +31,12 @@ const recip = (a: Q): Q => q(a[1], a[0]);
 const topHeavy = (a: Q) => a[1] !== 1 && Math.abs(a[0]) > a[1];
 const ONE: Q = [1, 1];
 
-/** Nearest whole number (callers never pass an exact half). */
+/** Nearest whole number, halves rounded away from zero (7 1/2 → 8). */
 function nearestWhole(a: Q): number {
   const s = a[0] < 0 ? -1 : 1;
   const n = Math.abs(a[0]), d = a[1];
   const w = Math.floor(n / d), r = n % d;
-  return s * (2 * r > d ? w + 1 : w) || 0;
+  return s * (2 * r >= d ? w + 1 : w) || 0;
 }
 /** Whole-number part only ("chopping off" the fraction). */
 function chop(a: Q): number {
@@ -814,6 +814,7 @@ const multiplyDrill: Drill = {
       steps.push(`${k} × ${F(x)} means ${k} lots of ${F(x)}, so multiply the numerator by ${k}: ${fx(k * x[0], x[1])}.`);
       if (!same(res, [k * x[0], x[1]])) steps.push(`Simplify: ${fx(k * x[0], x[1])} = ${F(res)}.`);
       if (topHeavy(res)) steps.push(`As a mixed number that is ${M(res)}.`);
+      if (steps.length < 2) steps.push(`Check: ${k} pieces of size ${fx(x[0], x[1])} make ${F(res)} — that's ${k * x[0]} lots of ${fx(1, x[1])}.`);
       answer = fracAns(res);
       trapF(traps, res, x, `Multiplying the top AND the bottom by ${k} just gives a fraction equal to ${F(x)}. Only the numerator is multiplied.`);
       trapF(traps, res, q(x[0], k * x[1]), "You multiplied the denominator — that makes the pieces smaller. Multiply the numerator instead.");
@@ -982,7 +983,7 @@ const divideDrill: Drill = {
         `How many lots of ${F(x)} are there in ${k}?`,
       ]);
       steps.push(`You need ${k} ÷ ${F(x)}: how many ${F(x)}s fit into ${k}?`);
-      steps.push(`Multiply by the reciprocal: ${k} × ${F(recip(x))} = ${fx(k * x[1], x[0])} = ${N}.`);
+      steps.push(`Multiply by the reciprocal: ${k} × ${F(recip(x))} = ${x[0] > 1 ? `${fx(k * x[1], x[0])} = ` : ""}${N}.`);
       steps.push(`Check: ${N} × ${F(x)} = ${k}.`);
       answer = { type: "number", value: N };
       trapN(traps, N, (k * x[0]) / x[1], `You multiplied by ${F(x)}. You want how many ${F(x)}s fit into ${k}, which is ${k} ÷ ${F(x)}.`);
@@ -1204,7 +1205,7 @@ const ofAmountDrill: Drill = {
         solution:
           a > 1
             ? [`Find ${fx(1, b)} first: ${A} ÷ ${b} = ${m}.`, `${F(f)} is ${a} lots of that: ${a} × ${m} = ${ans}.`]
-            : [`To find ${F(f)}, divide by ${b}: ${A} ÷ ${b} = ${ans}.`],
+            : [`To find ${F(f)}, divide by ${b}: ${A} ÷ ${b} = ${ans}.`, `Check: ${b} lots of ${ans} make ${b} × ${ans} = ${A}.`],
         hint: "Divide by the denominator to find one part, then multiply by the numerator.",
         traps,
       };
@@ -1283,8 +1284,8 @@ const ofAmountDrill: Drill = {
         prompt,
         answer: { type: "number", value: ans },
         solution: [
-          `First step: ${F(f1)} of ${A} = ${A} ÷ ${f1[1]} × ${f1[0]} = ${first}.`,
-          `Second step: ${F(f2)} of ${first} = ${first} ÷ ${f2[1]} × ${f2[0]} = ${ans}.`,
+          `First step: ${F(f1)} of ${A} = ${A} ÷ ${f1[1]}${f1[0] > 1 ? ` × ${f1[0]}` : ""} = ${first}.`,
+          `Second step: ${F(f2)} of ${first} = ${first} ÷ ${f2[1]}${f2[0] > 1 ? ` × ${f2[0]}` : ""} = ${ans}.`,
           `(Or in one go: ${F(f1)} × ${F(f2)} = ${F(mul(f1, f2))}, and ${F(mul(f1, f2))} of ${A} is ${ans}.)`,
         ],
         hint: "Work in two steps: find the first fraction of the total, then the second fraction of THAT answer.",
@@ -1312,7 +1313,7 @@ const ofAmountDrill: Drill = {
         answer: { type: "number", value: W, display: c === 0 ? `$${W}` : String(W) },
         solution: [
           `The fraction left is 1 − ${F(sf)} = ${F(left)}.`,
-          `So ${F(left)} of the start is ${L}. One part (${fx(1, b)}) is ${L} ÷ ${b - s} = ${m}.`,
+          b - s > 1 ? `So ${F(left)} of the start is ${L}. One part (${fx(1, b)}) is ${L} ÷ ${b - s} = ${m}.` : `So ${F(left)} of the start is ${L}.`,
           `The start is ${b} × ${m} = ${W}.`,
           `Check: ${F(sf)} of ${W} is ${s * m}, and ${W} − ${s * m} = ${L}.`,
         ],
@@ -1554,7 +1555,7 @@ const estimateDrill: Drill = {
         if (op === "*" && (Math.abs(rx) < 2 || ry < 2 || Math.abs(rx * ry) > 150)) continue;
         if (op === "/" && (ry < 2 || rx % ry !== 0 || rx / ry < 2)) continue;
         const e = apply(rx, ry, op);
-        if (e === 0) continue;
+        if (e === 0 || isInt(applyQ(xx, y, op))) continue;
         nums = [xx, y];
         ops = [op];
         est = e;
@@ -1574,7 +1575,7 @@ const estimateDrill: Drill = {
         } else {
           e = rx + ry * rz; ex = add(x, mul(y, z)); ch = cx + cy * cz; ops = ["+", "*"];
         }
-        if (e <= 0 || ry < 2 || (pattern !== "+*" && rx < 2) || (pattern === "+*" && rz < 2) || e > 120) continue;
+        if (e <= 0 || ry < 2 || (pattern !== "+*" && rx < 2) || (pattern === "+*" && rz < 2) || e > 120 || isInt(ex)) continue;
         nums = [x, y, z];
         est = e;
         exact = ex;
@@ -1898,13 +1899,13 @@ const algebraicDrill: Drill = {
       s = rng.int(2, 9);
       let good = true;
       if (kind === "A" || kind === "D") good = a !== b && b <= 9;
-      else if (kind === "B") good = coprime(p, a) && coprime(b, c) && p * b !== a * c;
-      else if (kind === "C") good = coprime(p, a) && coprime(b, c) && !same(q(p * b, a * c), ONE);
-      else if (kind === "E") good = coprime(p, a) && coprime(c, b) && p * b !== a * c;
+      else if (kind === "B") good = coprime(p, a) && coprime(b, c) && p * b !== a * c && gcd(p * b, a * c) > 1;
+      else if (kind === "C") good = coprime(p, a) && coprime(b, c) && !same(q(p * b, a * c), ONE) && gcd(p * b, a * c) > 1;
+      else if (kind === "E") good = coprime(p, a) && coprime(c, b) && p * b !== a * c && gcd(p * b, a * c) > 1;
       else if (kind === "F" || kind === "H") good = a !== b;
       else if (kind === "G") good = coprime(p, a);
-      else if (kind === "J") good = coprime(p, c) && coprime(r, s) && p * r !== c * s;
-      else good = coprime(p, a) && coprime(b, c);
+      else if (kind === "J") good = coprime(p, c) && coprime(r, s) && p * r !== c * s && gcd(p * r, c * s) > 1;
+      else good = coprime(p, a) && coprime(b, c) && gcd(p * b, a * c) > 1;
       if (good) break;
     }
     let display: string;
@@ -1931,7 +1932,7 @@ const algebraicDrill: Drill = {
         const v = q(p * b, a * c);
         const e = coefExpr(v, "x");
         display = `{{(${p}x)/${a} * ${b}/${c}}}`;
-        steps = [`Multiply the tops and the bottoms: {{(${p * b}x)/${a * c}}}.`, `Simplify the numbers: ${e.show}.`];
+        steps = [`Multiply the tops and the bottoms: {{(${p * b}x)/${a * c}}}.`, `Divide the top and the bottom by ${gcd(p * b, a * c)}: ${e.show}.`];
         answer = exprAns(e);
         break;
       }

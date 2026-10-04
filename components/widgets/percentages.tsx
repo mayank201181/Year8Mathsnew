@@ -290,10 +290,12 @@ function PercentBar() {
           <li>
             {p}% = {P}
           </li>
-          <li>
-            1% = {P} ÷ {p} = {oneNode}
-            {oneExact ? null : " (keep it as a fraction to stay exact)"}
-          </li>
+          {p !== 1 ? (
+            <li>
+              1% = {P} ÷ {p} = {oneNode}
+              {oneExact ? null : " (keep it as a fraction to stay exact)"}
+            </li>
+          ) : null}
           <li className="font-bold text-good">
             100% = {oneNode} × 100 {eq(wholeText)}
           </li>
@@ -499,13 +501,17 @@ function MultiplierChain() {
   const second = moving.length >= 2 ? moving[1] : -1;
   const absChange = final - start;
   const absChangeText = absChange !== 0 && Math.abs(absChange) < 0.005 ? "less than 1 cent" : money(absChange, true);
-  const undoText = signedPct(undo, Math.abs(undo) < 1 ? 4 : 2);
+  // Show enough decimal places that the undo percentage visibly differs from the change it undoes.
+  let undoDp = 2;
+  while (undoDp < 12 && fmt(Math.abs(undo), undoDp) === fmt(Math.abs(change), undoDp)) undoDp++;
+  const undoText = signedPct(undo, undoDp);
   // When the change is tiny, the wrong answer can round to the start amount: show more places.
+  const wrongClose = Math.abs(wrongBack - start) < 0.005;
   let wrongText = money(wrongBack);
-  if (Math.abs(wrongBack - start) < 0.005) {
+  if (wrongClose) {
     let dp = 3;
-    while (dp < 8 && wrongBack.toFixed(dp) === start.toFixed(dp)) dp++;
-    wrongText = `≈$${wrongBack.toFixed(dp)} — very close, because the change is tiny, but still not exact —`;
+    while (dp < 12 && wrongBack.toFixed(dp) === start.toFixed(dp)) dp++;
+    wrongText = `≈$${wrongBack.toFixed(dp)}`;
   }
 
   const setStep = (i: number, v: number) => setSteps((prev) => prev.map((s, j) => (j === i ? v : s)));
@@ -710,8 +716,9 @@ function MultiplierChain() {
               </p>
               <p className="mt-1">
                 <span className="font-bold text-bad">Classic mistake:</span> {change < 0 ? "adding" : "taking off"} {approx(Math.abs(change), 4)}% of
-                the final {money(final)} gives {wrongText}, not {money(start)}. The percentage was of the <em>start</em>, not of the final
-                amount.
+                the final {money(final)} gives {wrongText}
+                {wrongClose ? ` — very close to ${money(start)} because the change is tiny, but still not exact` : `, not ${money(start)}`}. The
+                percentage was of the <em>start</em>, not of the final amount.
               </p>
             </>
           )}

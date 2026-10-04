@@ -74,6 +74,11 @@ function indexPlain(pf: PF): string {
 
 const product = (xs: number[]) => xs.reduce((s, x) => s * x, 1);
 
+/** "2", "2 and 3", "2, 3 and 5". */
+function listAnd(xs: (number | string)[]): string {
+  return xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`;
+}
+
 // ===========================================================================
 // 1. Factor tree builder
 // ===========================================================================
@@ -245,6 +250,8 @@ function FactorTreeBuilder() {
 
   const nBuilt = st.built.length;
   const rootIsPrime = isPrime(n);
+  // Exactly one tree exists when n has a single factor pair besides 1 × n (n = pq, p² or p³).
+  const firstSplits = factorPairs(n);
 
   let caption;
   if (rootIsPrime) {
@@ -275,6 +282,11 @@ function FactorTreeBuilder() {
         {nBuilt > 1 ? (
           <>
             You&apos;ve built <strong>{nBuilt} different trees</strong> for {n}, and every one ended with exactly the same primes.
+          </>
+        ) : firstSplits.length === 1 ? (
+          <>
+            This is the only tree {n} can have: apart from 1 × {n}, its only factor pair is {firstSplits[0][0]} × {firstSplits[0][1]}.
+            Pick 360 to compare lots of different trees.
           </>
         ) : (
           <>Press “Start again” and make a different first split. Will the primes change?</>
@@ -437,7 +449,7 @@ function FactorTreeBuilder() {
                 </>
               ) : (
                 <>
-                  the odd power{odd.length > 1 ? "s" : ""} of {odd.join(" and ")} {odd.length > 1 ? "stop" : "stops"} {n} being a square. Multiply by{" "}
+                  the odd power{odd.length > 1 ? "s" : ""} of {listAnd(odd)} {odd.length > 1 ? "stop" : "stops"} {n} being a square. Multiply by{" "}
                   <strong className="text-ink">{sqMult}</strong> to make every power even: {n} × {sqMult} = {n * sqMult} ={" "}
                   <M>{`${sqRoot}^2`}</M>.
                 </>
@@ -574,7 +586,7 @@ function HcfLcmLab() {
         <Chip key={`b${i}`} x={c.x} y={c.y} p={onlyB[i]} shared={false} />
       ))}
       <text x={200} y={234} fontSize={12} textAnchor="middle" className="fill-ink-2">
-        overlap → HCF · everything → LCM
+        overlap → HCF · every prime once → LCM
       </text>
     </svg>
   );
@@ -582,18 +594,18 @@ function HcfLcmLab() {
   // ---------- Bus timetable picture ----------
   const x0 = 40;
   const span = 340;
-  const window = (2 * lcm) / Math.min(a, b) <= 60 ? 2 * lcm : lcm;
-  const sx = span / window;
-  const busA = Array.from({ length: Math.floor(window / a) + 1 }, (_, k) => k * a);
-  const busB = Array.from({ length: Math.floor(window / b) + 1 }, (_, k) => k * b);
-  const together = Array.from({ length: Math.floor(window / lcm) + 1 }, (_, k) => k * lcm);
+  const horizon = (2 * lcm) / Math.min(a, b) <= 60 ? 2 * lcm : lcm;
+  const sx = span / horizon;
+  const busA = Array.from({ length: Math.floor(horizon / a) + 1 }, (_, k) => k * a);
+  const busB = Array.from({ length: Math.floor(horizon / b) + 1 }, (_, k) => k * b);
+  const together = Array.from({ length: Math.floor(horizon / lcm) + 1 }, (_, k) => k * lcm);
   const dots = Math.max(busA.length, busB.length) <= 40;
   const buses = (
     <svg
       viewBox="0 0 400 180"
       className="h-auto w-full"
       role="img"
-      aria-label={`Timeline from 0 to ${window} minutes. Bus A leaves every ${a} minutes, bus B every ${b} minutes. They leave together at ${together.join(", ")} minutes.`}
+      aria-label={`Timeline from 0 to ${horizon} minutes. Bus A leaves every ${a} minutes, bus B every ${b} minutes. They leave together at ${together.join(", ")} minutes.`}
     >
       {together.map((t) => (
         <g key={`t${t}`}>
@@ -603,10 +615,10 @@ function HcfLcmLab() {
           </text>
         </g>
       ))}
-      <text x={x0} y={34} fontSize={12} fontWeight={700} className="fill-ink">
+      <text x={x0 + 8} y={34} fontSize={12} fontWeight={700} className="fill-ink">
         Bus A: every {a} min
       </text>
-      <text x={x0} y={84} fontSize={12} fontWeight={700} className="fill-ink">
+      <text x={x0 + 8} y={84} fontSize={12} fontWeight={700} className="fill-ink">
         Bus B: every {b} min
       </text>
       <line x1={x0} x2={x0 + span} y1={55} y2={55} className="stroke-line" strokeWidth={1.5} />
@@ -648,7 +660,11 @@ function HcfLcmLab() {
       className="h-auto w-full"
       role="img"
       aria-label={`A floor ${a} cm by ${b} cm covered with ${t} cm square tiles: ${fx} across and ${fy} down${
-        fits ? ", fitting exactly" : `, leaving gaps of ${a % t} cm and ${b % t} cm`
+        fits
+          ? ", fitting exactly"
+          : `, leaving ${[a % t ? `${a % t} cm uncovered across the width` : "", b % t ? `${b % t} cm uncovered down the height` : ""]
+              .filter(Boolean)
+              .join(" and ")}`
       }.`}
     >
       <rect x={ox} y={oy} width={w} height={h} className="fill-bad-soft" />
@@ -720,8 +736,8 @@ function HcfLcmLab() {
     view === "venn" ? (
       <>
         Shared primes go in the overlap{shared.length ? <>: {shared.join(", ")}</> : <> (there are none)</>}.{" "}
-        <strong>HCF</strong> = product of the overlap = <strong>{hcf}</strong>. <strong>LCM</strong> = product of everything in
-        both circles = <strong>{lcm}</strong>. {special}{" "}
+        <strong>HCF</strong> = product of the overlap = <strong>{hcf}</strong>. <strong>LCM</strong> = product of every prime in the
+        picture, each used once = <strong>{lcm}</strong>. {special}{" "}
         {shared.length ? (
           <>
             The overlap is used twice in {a} × {b} and twice in HCF × LCM, so both equal {a * b}.
@@ -735,7 +751,7 @@ function HcfLcmLab() {
     ) : view === "buses" ? (
       <>
         Bus A leaves at the multiples of {a}; bus B at the multiples of {b}. Both leave at 0, then next leave together after{" "}
-        <strong>{lcm} minutes</strong>: the first number in both lists, the <strong>LCM</strong>. That&apos;s {lcm / a} trip
+        <strong>{lcm} minutes</strong>: the smallest number after 0 in both lists of multiples, the <strong>LCM</strong>. That&apos;s {lcm / a} trip
         {lcm / a === 1 ? "" : "s"} of A and {lcm / b} trip{lcm / b === 1 ? "" : "s"} of B, and it repeats every {lcm} minutes.{" "}
         {a === b ? (
           <>Same timetable, so they always leave together.</>

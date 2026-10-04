@@ -60,28 +60,28 @@ export const paper: ExamPaper = {
       guideRef: "small-numbers",
       difficulty: "warmup",
       question:
-        "A pack of 1800 sheets of tissue paper is pressed flat into a stack 6.3 mm tall.\n\nWork out the thickness of one sheet **in metres**. Give your answer in standard form.",
-      answer: { type: "number", value: 0.0000035, standardForm: true, display: "{{3.5 * 10^(-6)}} m" },
+        "A pack of 1800 sheets of tissue paper is pressed flat into a stack 63 mm tall.\n\nWork out the thickness of one sheet **in metres**. Give your answer in standard form.",
+      answer: { type: "number", value: 0.000035, standardForm: true, display: "{{3.5 * 10^(-5)}} m" },
       traps: [
         {
-          spec: { type: "number", value: 0.0035 },
-          feedback: "0.0035 is the thickness in millimetres. There are 1000 mm in 1 m, so divide by 1000 again to get metres.",
+          spec: { type: "number", value: 0.035 },
+          feedback: "0.035 is the thickness in millimetres. There are 1000 mm in 1 m, so divide by 1000 again to get metres.",
         },
         {
-          spec: { type: "number", value: 285.714, tolerance: 0.5 },
-          feedback: "1800 ÷ 6.3 tells you how many sheets fit in 1 mm. You want the thickness of one sheet: 6.3 ÷ 1800.",
+          spec: { type: "number", value: 28.571, tolerance: 0.5 },
+          feedback: "1800 ÷ 63 tells you how many sheets fit in 1 mm. You want the thickness of one sheet: 63 ÷ 1800.",
         },
       ],
       solution: [
-        "Thickness of one sheet = 6.3 ÷ 1800 = 0.0035 mm.",
-        "Change to metres (÷ 1000): 0.0035 mm = 0.000 003 5 m.",
-        "Move the decimal point 6 places to the right to get 3.5, so the answer is **{{3.5 * 10^(-6)}} m**.",
+        "Thickness of one sheet = 63 ÷ 1800 = 0.035 mm.",
+        "Change to metres (÷ 1000): 0.035 mm = 0.000 035 m.",
+        "Move the decimal point 5 places to the right to get 3.5, so the answer is **{{3.5 * 10^(-5)}} m**.",
       ],
-      commonError: "Forgetting to change millimetres to metres, giving {{3.5 * 10^(-3)}}.",
+      commonError: "Forgetting to change millimetres to metres, giving {{3.5 * 10^(-2)}}.",
       hints: [
         "Find the thickness of one sheet in millimetres first.",
         "1 m = 1000 mm, so divide by 1000 to change mm into m.",
-        "Write 0.000 003 5 as a number between 1 and 10 multiplied by a power of 10.",
+        "Write 0.000 035 as a number between 1 and 10 multiplied by a power of 10.",
       ],
       strategy: "Make it simpler",
     },
@@ -236,7 +236,7 @@ export const paper: ExamPaper = {
       ],
       answerIndex: 0,
       explanation:
-        "Compare the powers of 10 first: {{10^(-6)}} < {{10^(-5)}} < {{10^(-3)}}. So the mosquito and the sesame seed are lightest, and since 2.5 < 3.6 the mosquito comes first. Order: mosquito, sesame seed, grain of rice, $1 coin.\n\nPutting the grain of rice first comes from comparing only the numbers in front (2.2 is the smallest). Starting with the $1 coin comes from thinking {{10^(-6)}} is bigger than {{10^(-3)}} — but the more negative the power, the *smaller* the number. The list ending in the mosquito is in order from heaviest to lightest.",
+        "Compare the powers of 10 first: {{10^(-6)}} < {{10^(-5)}} < {{10^(-3)}}. So the mosquito and the sesame seed are lightest, and since 2.5 < 3.6 the mosquito comes first. Order: mosquito, sesame seed, grain of rice, $1 coin.\n\nPutting the grain of rice first comes from comparing only the numbers in front (2.2 is the smallest). $1 coin, grain of rice, mosquito, sesame seed comes from thinking {{10^(-6)}} is bigger than {{10^(-3)}} — but the more negative the power, the *smaller* the number. $1 coin, grain of rice, sesame seed, mosquito has the right order but backwards: heaviest to lightest.",
       hints: [
         "Compare the powers of 10 before you look at the numbers in front.",
         "Which is smaller: {{10^(-6)}} = 0.000 001 or {{10^(-3)}} = 0.001?",
@@ -735,7 +735,7 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "number", value: 3 },
-          feedback: "You multiplied the area by 25 000 — but the scale is for lengths. Area is length × length, so areas are scaled by 25 000².",
+          feedback: "12 × 0.25 = 3 treats the 12 cm² as if it were a length of 12 cm. The scale is for lengths: each 1 cm² on the map is a square 0.25 km by 0.25 km in real life, so areas are scaled by 25 000².",
         },
         {
           spec: { type: "number", value: 0.00003 },

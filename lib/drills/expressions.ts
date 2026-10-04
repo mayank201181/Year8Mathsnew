@@ -1596,7 +1596,7 @@ export const drills: Drill[] = [
     id: "expressions.change-subject",
     topicId: TOPIC,
     title: "Change the subject of a formula",
-    level: 3,
+    level: 2,
     guideRef: "changing-the-subject",
     generate(rng, tier) {
       const [x, y] = rng.pick([["x", "y"], ["a", "b"], ["n", "m"], ["t", "s"], ["p", "q"], ["h", "k"]] as Array<[string, string]>);

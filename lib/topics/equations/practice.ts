@@ -226,7 +226,7 @@ export const practice: TopicPractice = {
       modelAnswer:
         "Not always. {{5x + 3 = 2x + 9}} does have exactly one solution: subtract 2x to get {{3x + 3 = 9}}, so {{x = 2}}.\n\nBut if the x-terms on both sides are the same, they cancel. {{2x + 1 = 2x + 5}} becomes {{1 = 5}}, which is false whatever x is, so there is **no solution**. And {{2(x + 3) = 2x + 6}} becomes {{6 = 6}}, which is true for every x, so there are **infinitely many** solutions — it is an identity.\n\nSo an equation with x on both sides has exactly one solution only when the coefficients of x on the two sides are different.",
       markScheme: [
-        { point: "Says Arjun is wrong / it is only sometimes true", keywords: ["no", "not always", "sometimes", "wrong", "not true"] },
+        { point: "Says Arjun is wrong / it is only sometimes true", keywords: ["not always", "sometimes", "wrong", "not true", "not right", "incorrect"] },
         {
           point: "Gives an example with no solution (same x-coefficient, different numbers, e.g. 2x + 1 = 2x + 5)",
           keywords: ["no solution", "impossible", "1 = 5", "never", "false"],
@@ -360,7 +360,7 @@ export const practice: TopicPractice = {
               steps: [
                 "Divide both sides by 4: {{x + 3 = 7.5}}.",
                 "Subtract 3: {{x = 4.5}}.",
-                "Both take two steps. Dividing first brings in a decimal straight away, so expanding is slightly tidier when 30 isn't a multiple of 4.",
+                "Dividing first takes one step fewer, but it brings in a decimal (7.5) straight away; expanding keeps whole numbers until the last step because 30 isn't a multiple of 4. Either route is fine.",
               ],
             },
           ],
@@ -769,7 +769,7 @@ export const practice: TopicPractice = {
               keywords: ["3(n + 1)", "3(n+1)", "factor", "multiple of 3", "divisible by 3"],
             },
             {
-              point: "Explains 100 is not a multiple of 3 (or 3n + 3 = 100 gives n = 97/3, not an integer)",
+              point: "Explains 100 is not a multiple of 3 (or 3n + 3 = 100 gives {{n = 97/3}}, not an integer)",
               keywords: ["97/3", "not a multiple", "not divisible", "not an integer", "remainder", "32.3"],
             },
           ],
@@ -1632,7 +1632,7 @@ export const practice: TopicPractice = {
           keywords: ["b + c", "b+c", "positive", "b - a", "b − a", "d - c", "d − c", "add"],
         },
         { point: "(ii) sometimes true", keywords: ["sometimes"] },
-        { point: "(ii) gives one example where it is true and one where it is false", keywords: ["example", "counterexample", "false", "true", "e.g."] },
+        { point: "(ii) gives one example where it is true and one where it is false", keywords: ["example", "counterexample", "e.g.", "a =", "a=", "d =", "d="] },
       ],
       solutions: [
         {
