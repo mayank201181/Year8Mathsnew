@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
-import { currentAccount } from "@/lib/server/auth";
+import { accountsEnabled, currentAccount } from "@/lib/server/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const accounts = accountsEnabled();
+  if (!accounts) return NextResponse.json({ account: null, accounts });
   try {
-    const account = await currentAccount();
-    return NextResponse.json({ account });
+    return NextResponse.json({ account: await currentAccount(), accounts });
   } catch {
-    return NextResponse.json({ account: null });
+    return NextResponse.json({ error: "Couldn't reach the account service." }, { status: 503 });
   }
 }

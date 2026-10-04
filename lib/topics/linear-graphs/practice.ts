@@ -1,0 +1,1366 @@
+import type { TopicPractice } from "../../types.ts";
+
+// Diagrams are plotted exactly from the stated coordinates (generated, then pasted).
+const gradientUphill = `<svg viewBox="0 0 258 318" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A straight line on a coordinate grid passing through the points (−1, −4) and (3, 2)"><rect x="0" y="0" width="258" height="318" fill="#ffffff"/><line x1="24" y1="294" x2="24" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="54" y1="294" x2="54" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="84" y1="294" x2="84" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="114" y1="294" x2="114" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="144" y1="294" x2="144" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="174" y1="294" x2="174" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="204" y1="294" x2="204" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="234" y1="294" x2="234" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="294" x2="234" y2="294" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="264" x2="234" y2="264" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="234" x2="234" y2="234" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="204" x2="234" y2="204" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="174" x2="234" y2="174" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="144" x2="234" y2="144" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="114" x2="234" y2="114" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="84" x2="234" y2="84" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="54" x2="234" y2="54" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="24" x2="234" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="144" x2="244" y2="144" stroke="#334155" stroke-width="1.5"/><line x1="114" y1="294" x2="114" y2="14" stroke="#334155" stroke-width="1.5"/><text x="248" y="148" font-size="13" font-family="sans-serif" fill="#1f2937">x</text><text x="110" y="10" font-size="13" font-family="sans-serif" fill="#1f2937">y</text><text x="24" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">−3</text><text x="54" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">−2</text><text x="84" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">−1</text><text x="144" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">1</text><text x="174" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">2</text><text x="204" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">3</text><text x="234" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">4</text><text x="108" y="298" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−5</text><text x="108" y="268" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−4</text><text x="108" y="238" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−3</text><text x="108" y="208" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−2</text><text x="108" y="178" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−1</text><text x="108" y="118" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">1</text><text x="108" y="88" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">2</text><text x="108" y="58" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">3</text><text x="108" y="28" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">4</text><text x="108" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">0</text><line x1="66" y1="291" x2="222" y2="57" stroke="#1f2937" stroke-width="2.5"/><circle cx="84" cy="264" r="4.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><rect x="16" y="255" width="58" height="17" fill="#ffffff"/><text x="74" y="268" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="end">(−1, −4)</text><circle cx="204" cy="84" r="4.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><rect x="150" y="75" width="44" height="17" fill="#ffffff"/><text x="194" y="88" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="end">(3, 2)</text></svg>`;
+const sitiRide = `<svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Distance–time graph of Siti's ride: a straight line from (0, 0) up to (20, 6), flat from 20 to 35 minutes at 6 km, then a straight line down to (65, 0)"><rect x="0" y="0" width="420" height="280" fill="#ffffff"/><line x1="75" y1="230" x2="75" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="100" y1="230" x2="100" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="125" y1="230" x2="125" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="150" y1="230" x2="150" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="175" y1="230" x2="175" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="200" y1="230" x2="200" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="225" y1="230" x2="225" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="250" y1="230" x2="250" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="275" y1="230" x2="275" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="300" y1="230" x2="300" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="325" y1="230" x2="325" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="350" y1="230" x2="350" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="375" y1="230" x2="375" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="400" y1="230" x2="400" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="200" x2="400" y2="200" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="170" x2="400" y2="170" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="140" x2="400" y2="140" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="110" x2="400" y2="110" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="80" x2="400" y2="80" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="50" x2="400" y2="50" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="20" x2="400" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="230" x2="408" y2="230" stroke="#334155" stroke-width="1.5"/><line x1="50" y1="230" x2="50" y2="12" stroke="#334155" stroke-width="1.5"/><text x="50" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">0</text><text x="100" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">10</text><text x="150" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">20</text><text x="200" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">30</text><text x="250" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">40</text><text x="300" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">50</text><text x="350" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">60</text><text x="400" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">70</text><text x="44" y="234" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">0</text><text x="44" y="204" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">1</text><text x="44" y="174" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">2</text><text x="44" y="144" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">3</text><text x="44" y="114" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">4</text><text x="44" y="84" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">5</text><text x="44" y="54" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">6</text><text x="44" y="24" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">7</text><text x="225" y="264" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Time (minutes)</text><text x="14" y="125" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle" transform="rotate(-90 14 125)">Distance from home (km)</text><polyline points="50,230 150,50 225,50 375,230" fill="none" stroke="#1f2937" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+const phonePlans = `<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Graph of monthly cost against data used. Plan A is a straight line from (0, 18) to (10, 38). Plan B is a straight line from (0, 0) to (10, 50). They cross at (6, 30)."><rect x="0" y="0" width="400" height="270" fill="#ffffff"/><line x1="80" y1="220" x2="80" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="110" y1="220" x2="110" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="140" y1="220" x2="140" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="170" y1="220" x2="170" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="200" y1="220" x2="200" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="230" y1="220" x2="230" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="260" y1="220" x2="260" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="290" y1="220" x2="290" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="320" y1="220" x2="320" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="350" y1="220" x2="350" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="200" x2="350" y2="200" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="180" x2="350" y2="180" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="160" x2="350" y2="160" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="140" x2="350" y2="140" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="120" x2="350" y2="120" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="100" x2="350" y2="100" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="80" x2="350" y2="80" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="60" x2="350" y2="60" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="40" x2="350" y2="40" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="20" x2="350" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="220" x2="358" y2="220" stroke="#334155" stroke-width="1.5"/><line x1="50" y1="220" x2="50" y2="12" stroke="#334155" stroke-width="1.5"/><text x="50" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">0</text><text x="80" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">1</text><text x="110" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">2</text><text x="140" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">3</text><text x="170" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">4</text><text x="200" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">5</text><text x="230" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">6</text><text x="260" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">7</text><text x="290" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">8</text><text x="320" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">9</text><text x="350" y="236" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">10</text><text x="44" y="224" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">0</text><text x="44" y="184" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">10</text><text x="44" y="144" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">20</text><text x="44" y="104" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">30</text><text x="44" y="64" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">40</text><text x="44" y="24" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">50</text><text x="200" y="254" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Data used (GB)</text><text x="14" y="120" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle" transform="rotate(-90 14 120)">Monthly cost ($)</text><line x1="50" y1="148" x2="350" y2="68" stroke="#1f2937" stroke-width="2.5"/><line x1="50" y1="220" x2="350" y2="20" stroke="#334155" stroke-width="2.5" stroke-dasharray="7 4"/><circle cx="230" cy="100" r="4.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><text x="356" y="72" font-size="13" font-family="sans-serif" fill="#1f2937">A</text><text x="346" y="22" font-size="13" font-family="sans-serif" fill="#1f2937" text-anchor="end">B</text></svg>`;
+const gradientDownhill = `<svg viewBox="0 0 288 258" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A straight line on a coordinate grid passing through the points (−3, 3) and (3, −1)"><rect x="0" y="0" width="288" height="258" fill="#ffffff"/><line x1="24" y1="234" x2="24" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="54" y1="234" x2="54" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="84" y1="234" x2="84" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="114" y1="234" x2="114" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="144" y1="234" x2="144" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="174" y1="234" x2="174" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="204" y1="234" x2="204" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="234" y1="234" x2="234" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="264" y1="234" x2="264" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="234" x2="264" y2="234" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="204" x2="264" y2="204" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="174" x2="264" y2="174" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="144" x2="264" y2="144" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="114" x2="264" y2="114" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="84" x2="264" y2="84" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="54" x2="264" y2="54" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="24" x2="264" y2="24" stroke="#e2e8f0" stroke-width="1"/><line x1="24" y1="144" x2="274" y2="144" stroke="#334155" stroke-width="1.5"/><line x1="144" y1="234" x2="144" y2="14" stroke="#334155" stroke-width="1.5"/><text x="278" y="148" font-size="13" font-family="sans-serif" fill="#1f2937">x</text><text x="140" y="10" font-size="13" font-family="sans-serif" fill="#1f2937">y</text><text x="24" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">−4</text><text x="54" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">−3</text><text x="84" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">−2</text><text x="114" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">−1</text><text x="174" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">1</text><text x="204" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">2</text><text x="234" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">3</text><text x="264" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">4</text><text x="138" y="238" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−3</text><text x="138" y="208" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−2</text><text x="138" y="178" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">−1</text><text x="138" y="118" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">1</text><text x="138" y="88" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">2</text><text x="138" y="58" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">3</text><text x="138" y="28" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">4</text><text x="138" y="159" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">0</text><line x1="24" y1="34" x2="264" y2="194" stroke="#1f2937" stroke-width="2.5"/><circle cx="54" cy="54" r="4.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><rect x="64" y="33" width="51" height="17" fill="#ffffff"/><text x="64" y="46" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="start">(−3, 3)</text><circle cx="234" cy="174" r="4.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><rect x="175" y="183" width="51" height="17" fill="#ffffff"/><text x="226" y="196" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="end">(3, −1)</text></svg>`;
+const ringgitConversion = `<svg viewBox="0 0 400 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Conversion graph: a straight line from (0, 0) to (50, 170), with Singapore dollars across and ringgit up"><rect x="0" y="0" width="400" height="290" fill="#ffffff"/><line x1="90" y1="236" x2="90" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="120" y1="236" x2="120" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="150" y1="236" x2="150" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="180" y1="236" x2="180" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="210" y1="236" x2="210" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="240" y1="236" x2="240" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="270" y1="236" x2="270" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="300" y1="236" x2="300" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="330" y1="236" x2="330" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="360" y1="236" x2="360" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="224" x2="360" y2="224" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="212" x2="360" y2="212" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="200" x2="360" y2="200" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="188" x2="360" y2="188" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="176" x2="360" y2="176" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="164" x2="360" y2="164" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="152" x2="360" y2="152" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="140" x2="360" y2="140" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="128" x2="360" y2="128" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="116" x2="360" y2="116" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="104" x2="360" y2="104" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="92" x2="360" y2="92" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="80" x2="360" y2="80" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="68" x2="360" y2="68" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="56" x2="360" y2="56" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="44" x2="360" y2="44" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="32" x2="360" y2="32" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="20" x2="360" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="60" y1="236" x2="368" y2="236" stroke="#334155" stroke-width="1.5"/><line x1="60" y1="236" x2="60" y2="12" stroke="#334155" stroke-width="1.5"/><text x="60" y="252" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">0</text><text x="120" y="252" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">10</text><text x="180" y="252" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">20</text><text x="240" y="252" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">30</text><text x="300" y="252" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">40</text><text x="360" y="252" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">50</text><text x="54" y="240" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">0</text><text x="54" y="216" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">20</text><text x="54" y="192" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">40</text><text x="54" y="168" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">60</text><text x="54" y="144" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">80</text><text x="54" y="120" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">100</text><text x="54" y="96" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">120</text><text x="54" y="72" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">140</text><text x="54" y="48" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">160</text><text x="54" y="24" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">180</text><text x="210" y="270" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Singapore dollars (S$)</text><text x="14" y="128" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle" transform="rotate(-90 14 128)">Malaysian ringgit (RM)</text><line x1="60" y1="236" x2="360" y2="32" stroke="#1f2937" stroke-width="2.5"/><circle cx="360" cy="32" r="4.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><text x="352" y="24" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="end">(50, 170)</text></svg>`;
+const weiLingRun = `<svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Distance–time graph of Wei Ling's run: straight line from (0, 0) to (10, 2), flat to (15, 2), straight line up to (25, 5), then straight line down to (45, 0)"><rect x="0" y="0" width="420" height="280" fill="#ffffff"/><line x1="85" y1="230" x2="85" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="120" y1="230" x2="120" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="155" y1="230" x2="155" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="190" y1="230" x2="190" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="225" y1="230" x2="225" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="260" y1="230" x2="260" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="295" y1="230" x2="295" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="330" y1="230" x2="330" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="365" y1="230" x2="365" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="400" y1="230" x2="400" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="195" x2="400" y2="195" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="160" x2="400" y2="160" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="125" x2="400" y2="125" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="90" x2="400" y2="90" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="55" x2="400" y2="55" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="20" x2="400" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="50" y1="230" x2="408" y2="230" stroke="#334155" stroke-width="1.5"/><line x1="50" y1="230" x2="50" y2="12" stroke="#334155" stroke-width="1.5"/><text x="50" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">0</text><text x="85" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">5</text><text x="120" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">10</text><text x="155" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">15</text><text x="190" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">20</text><text x="225" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">25</text><text x="260" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">30</text><text x="295" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">35</text><text x="330" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">40</text><text x="365" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">45</text><text x="400" y="246" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="middle">50</text><text x="44" y="234" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">0</text><text x="44" y="199" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">1</text><text x="44" y="164" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">2</text><text x="44" y="129" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">3</text><text x="44" y="94" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">4</text><text x="44" y="59" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">5</text><text x="44" y="24" font-size="11" font-family="sans-serif" fill="#334155" text-anchor="end">6</text><text x="225" y="264" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle">Time (minutes)</text><text x="14" y="125" font-size="12" font-family="sans-serif" fill="#1f2937" text-anchor="middle" transform="rotate(-90 14 125)">Distance from entrance (km)</text><polyline points="50,230 120,160 155,160 225,55 365,230" fill="none" stroke="#1f2937" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+
+export const practice: TopicPractice = {
+  // =========================================================================
+  // QUICK QUIZ — 10 questions: 4 mcq, 5 short, 1 written
+  // =========================================================================
+  quiz: [
+    {
+      kind: "mcq",
+      id: "linear-graphs-quiz-q01",
+      question: "Which equation describes the **vertical** straight line that passes through (3, −2)?",
+      options: ["x = 3", "y = 3", "y = −2", "x = −2"],
+      answerIndex: 0,
+      explanation:
+        "Every point on a vertical line has the same x-coordinate, so the line is x = 3: x is stuck at 3 while y is free to move up and down. y = −2 is the *horizontal* line through the point. y = 3 is the classic mix-up: 3 is marked on the x-axis, but the line y = 3 runs horizontally.",
+      difficulty: "warmup",
+      guideRef: "special-lines",
+      hints: ["On a vertical line, which coordinate stays the same for every point?", "Every point on this line has x-coordinate 3."],
+      strategy: "Try points on the line",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-quiz-q02",
+      question: "Find the midpoint of A(−5, 8) and B(9, −2). Give your answer as coordinates (x, y).",
+      answer: { type: "list", values: [2, 3], ordered: true, display: "(2, 3)" },
+      solution: [
+        "Mean of the x-coordinates: {{(-5 + 9)/2 = 4/2 = 2}}.",
+        "Mean of the y-coordinates: {{(8 + (-2))/2 = 6/2 = 3}}.",
+        "Midpoint = (2, 3).",
+      ],
+      commonError: "Subtracting the coordinates instead of adding them, or forgetting to divide by 2.",
+      traps: [
+        { spec: { type: "list", values: [4, 6], ordered: true }, feedback: "You added the coordinates but didn't halve. The midpoint is the *mean*: add, then divide by 2." },
+        { spec: { type: "list", values: [7, -5], ordered: true }, feedback: "That's half the *difference* — the step from A to the midpoint, not the midpoint itself. Add the coordinates, then halve." },
+      ],
+      difficulty: "warmup",
+      guideRef: "coordinates-midpoints",
+      hints: ["Halfway between two numbers is their mean.", "Add the two x-coordinates and halve; do the same for the y-coordinates."],
+      strategy: "Find the mean",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-quiz-q03",
+      question: "Write down the gradient of the line y = 7 − 3x.",
+      answer: { type: "number", value: -3 },
+      solution: ["Rewrite in the form y = mx + c: y = −3x + 7.", "The gradient is the number multiplying x, sign included: m = −3."],
+      commonError: "Dropping the minus sign because the x-term is written second.",
+      traps: [{ spec: { type: "number", value: 7 }, feedback: "7 is the y-intercept (where the line crosses the y-axis). The gradient is the number multiplying x." }],
+      difficulty: "warmup",
+      guideRef: "gradient-intercept",
+      hints: ["Which number multiplies x — and what sign does it carry?", "Rewrite it as y = −3x + 7."],
+    },
+    {
+      kind: "mcq",
+      id: "linear-graphs-quiz-q04",
+      question: "Which of these points lies on the line y = 2x − 5?",
+      options: ["(3, 4)", "(4, 3)", "(−1, 3)", "(0, 5)"],
+      answerIndex: 1,
+      explanation:
+        "Substitute x = 4: y = 2 × 4 − 5 = 3, which matches, so (4, 3) is on the line. (3, 4) has the coordinates the wrong way round: at x = 3, y = 1. (−1, 3) comes from the slip 2 × (−1) − 5 = −2 + 5; it should be −2 − 5 = −7. (0, 5) has the wrong sign for the intercept: the line crosses the y-axis at (0, −5).",
+      difficulty: "core",
+      guideRef: "plotting-lines",
+      hints: [
+        "Take each point's x-coordinate and work out what y should be.",
+        "A point is on the line only if the equation gives exactly its y-coordinate.",
+        "Try x = 4: 2 × 4 − 5 = ?",
+      ],
+      strategy: "Check by substituting",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-quiz-q05",
+      question: "A straight line passes through (−2, 5) and (4, −7). Find its gradient.",
+      answer: { type: "number", value: -2 },
+      solution: [
+        "Run (left to right): from x = −2 to x = 4 is 4 − (−2) = 6.",
+        "Rise: from y = 5 to y = −7 is −7 − 5 = −12 (the line goes down).",
+        "Gradient = rise ÷ run = −12 ÷ 6 = −2.",
+      ],
+      commonError: "Subtracting in different orders on the top and the bottom, which flips the sign.",
+      traps: [{ spec: { type: "number", value: -0.5 }, feedback: "That's run ÷ rise. Gradient is rise ÷ run: the change in y divided by the change in x." }],
+      difficulty: "core",
+      guideRef: "gradient-intercept",
+      hints: [
+        "From the first point to the second: how far across (run) and how far up or down (rise)?",
+        "Run = 4 − (−2). Rise = −7 − 5.",
+        "Divide the rise by the run.",
+      ],
+      strategy: "Draw a diagram",
+    },
+    {
+      kind: "mcq",
+      id: "linear-graphs-quiz-q06",
+      question: "Which of these lines is parallel to y = 4x − 1?",
+      options: ["y = −4x + 7", "y = 7x + 4", "y = 7 + 4x", "y = {{1/4}}x − 1"],
+      answerIndex: 2,
+      explanation:
+        "Parallel lines have the same gradient. y = 7 + 4x is y = 4x + 7: gradient 4, so it is parallel (just shifted up). y = −4x + 7 has gradient −4, so it slopes downhill. y = 7x + 4 has gradient 7 — the 4 has become the intercept. y = {{1/4}}x − 1 shares the intercept, not the gradient, so it meets y = 4x − 1 at (0, −1).",
+      difficulty: "core",
+      guideRef: "equations-of-lines",
+      hints: [
+        "What do parallel lines have in common: the gradient or the y-intercept?",
+        "Find the number multiplying x in each equation — watch the order the terms are written in.",
+      ],
+      strategy: "Eliminate options",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-quiz-q07",
+      question: "The cost of ribbon is directly proportional to its length. 4 m of ribbon costs $18. How much does 10 m cost? Give your answer in dollars.",
+      answer: { type: "number", value: 45, display: "$45" },
+      solution: ["Cost of 1 m: 18 ÷ 4 = $4.50.", "Cost of 10 m: 10 × 4.50 = $45."],
+      solutions: [{ label: "Scale up", steps: ["10 m is 10 ÷ 4 = 2.5 times as long as 4 m.", "So it costs 2.5 × 18 = $45."] }],
+      commonError: "Adding the same amount to the cost as was added to the length.",
+      traps: [{ spec: { type: "number", value: 24 }, feedback: "That adds $6 because the length went up by 6 m. In direct proportion you *multiply*: find the cost of 1 m first." }],
+      difficulty: "core",
+      guideRef: "direct-proportion-graphs",
+      hints: ["What does 1 m cost?", "18 ÷ 4 = $4.50 per metre. Now scale up to 10 m."],
+      strategy: "Find the unit rate",
+    },
+    {
+      kind: "mcq",
+      id: "linear-graphs-quiz-q08",
+      question:
+        "Jun's distance–time graph (distance from home against time) has a horizontal section from (10 minutes, 3 km) to (25 minutes, 3 km). What was Jun doing during that section?",
+      options: [
+        "Walking back towards home",
+        "Moving at a steady speed of 3 km every 15 minutes",
+        "Stopped for 25 minutes",
+        "Stopped for 15 minutes",
+      ],
+      answerIndex: 3,
+      explanation:
+        "A horizontal section means his distance from home is not changing, so Jun is stationary — from the 10-minute mark to the 25-minute mark, which is 25 − 10 = 15 minutes. A steady speed would show as a sloping straight line, not a flat one. Walking back home would make the graph go *down*. 25 minutes is the clock time when he set off again, not how long he stopped.",
+      difficulty: "core",
+      guideRef: "real-life-graphs",
+      hints: ["What is happening to the distance from home during that section?", "How long is it from the 10-minute mark to the 25-minute mark?"],
+      strategy: "Read the axes first",
+    },
+    {
+      kind: "written",
+      id: "linear-graphs-quiz-q09",
+      question:
+        "Hana makes this table of values for y = 3 − 2x:\n\n| x | −2 | −1 | 0 | 1 | 2 |\n|---|---|---|---|---|---|\n| y | −1 | 5 | 3 | 1 | −1 |\n\nWithout redoing every calculation, explain how you can tell that one entry is wrong. Then find the wrong entry and correct it.",
+      marks: 3,
+      modelAnswer:
+        "In a straight-line table the y-values change by the same amount each time x goes up by 1. Here they go 5, 3, 1, −1 (down 2 each time), but from x = −2 to x = −1 the y-value jumps from −1 up to 5, which is out of step. So the entry for x = −2 is wrong.\n\nIt should be y = 3 − 2 × (−2) = 3 + 4 = 7, which fits the pattern 7, 5, 3, 1, −1. Hana probably worked out 3 − 4 instead of 3 + 4.",
+      markScheme: [
+        { point: "y should change by the same amount for each step in x (here it goes down by 2 each time)", keywords: ["same amount", "constant", "difference", "pattern", "down 2", "down by 2", "goes down by 2"] },
+        { point: "Identifies the entry for x = −2 as the wrong one", keywords: ["x = -2", "-2", "first", "first entry", "-1 is wrong"] },
+        { point: "Corrects it to 7, e.g. 3 − 2 × (−2) = 3 + 4 = 7", keywords: ["7", "3 + 4", "minus a negative"] },
+      ],
+      commonError: "Recalculating every entry without explaining the pattern, or extending the pattern the wrong way: going *left* from x = −1 the y-values go *up* by 2, so the entry is 5 + 2 = 7, not 5 − 2 = 3.",
+      difficulty: "core",
+      guideRef: "plotting-lines",
+      hints: [
+        "In a straight-line table, what should be the same from one column to the next?",
+        "Look at the gaps between neighbouring y-values.",
+        "Recalculate the odd one out carefully: 3 − 2 × (−2).",
+      ],
+      strategy: "Find a pattern",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-quiz-q10",
+      question: "The points A(1, 4), B(3, 10) and C(7, k) all lie on the same straight line. Find k.",
+      answer: { type: "number", value: 22 },
+      solution: [
+        "Gradient from A to B: rise 10 − 4 = 6 over run 3 − 1 = 2, so m = 6 ÷ 2 = 3.",
+        "From B to C the run is 7 − 3 = 4, so the rise is 3 × 4 = 12.",
+        "k = 10 + 12 = 22.",
+      ],
+      solutions: [
+        {
+          label: "Find the equation first",
+          steps: ["m = 3, so the line is y = 3x + c.", "Using A(1, 4): 4 = 3 + c, so c = 1 and the line is y = 3x + 1.", "At x = 7: y = 21 + 1 = 22."],
+        },
+      ],
+      commonError: "Copying the jump from A to B (+6) without noticing that the run from B to C is twice as long.",
+      traps: [{ spec: { type: "number", value: 16 }, feedback: "The jump from A to B was +6, but that was for a run of 2. From B to C the run is 4, so the rise is 12, not 6." }],
+      difficulty: "core",
+      guideRef: "line-through-two-points",
+      hints: [
+        "On a straight line the gradient is the same between any two of its points.",
+        "Find the gradient using A and B.",
+        "From B to C, x goes up by 4. How much must y go up?",
+      ],
+      strategy: "Use the gradient as a rate",
+    },
+  ],
+
+  // =========================================================================
+  // PRACTICE PAPERS — 20 questions each: 16 short + 4 written
+  // =========================================================================
+  papers: [
+    {
+      id: "linear-graphs-p1",
+      title: "Practice Paper 1",
+      questions: [
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q01",
+          question: "Point P is 3 units to the left of the y-axis and 5 units below the x-axis. Write down the coordinates of P.",
+          answer: { type: "list", values: [-3, -5], ordered: true, display: "(−3, −5)" },
+          solution: ["Left of the y-axis means the x-coordinate is negative: x = −3.", "Below the x-axis means the y-coordinate is negative: y = −5.", "P = (−3, −5)."],
+          traps: [
+            { spec: { type: "list", values: [3, 5], ordered: true }, feedback: "Left of the y-axis and below the x-axis both mean negative coordinates." },
+            { spec: { type: "list", values: [-5, -3], ordered: true }, feedback: "x comes first: across (left or right), then up or down." },
+          ],
+          difficulty: "warmup",
+          guideRef: "coordinates-midpoints",
+          hints: ["Which direction is negative for x? Which is negative for y?"],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q02",
+          question: "The lines x = −2 and y = 6 cross at a point. Write down its coordinates.",
+          answer: { type: "list", values: [-2, 6], ordered: true, display: "(−2, 6)" },
+          solution: ["Every point on x = −2 has x-coordinate −2.", "Every point on y = 6 has y-coordinate 6.", "The crossing point is on both lines: (−2, 6)."],
+          traps: [{ spec: { type: "list", values: [6, -2], ordered: true }, feedback: "x = −2 fixes the x-coordinate, so −2 goes first." }],
+          difficulty: "warmup",
+          guideRef: "special-lines",
+          hints: ["On the line x = −2, what is the x-coordinate of every point?", "On the line y = 6, what is the y-coordinate of every point?"],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q03",
+          question: "For the line y = 5x − 3, find the value of y when x = −2.",
+          answer: { type: "number", value: -13 },
+          solution: ["Substitute, using brackets: y = 5 × (−2) − 3.", "5 × (−2) = −10.", "−10 − 3 = −13."],
+          traps: [{ spec: { type: "number", value: -7 }, feedback: "5 × (−2) = −10, and then you *subtract* 3: −10 − 3 = −13, not −10 + 3." }],
+          difficulty: "warmup",
+          guideRef: "plotting-lines",
+          hints: ["Put −2 in brackets where x was.", "5 × (−2) = −10. Now subtract 3."],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q04",
+          question: "Write down the coordinates of the point where the line y = 4x − 9 crosses the y-axis.",
+          answer: { type: "list", values: [0, -9], ordered: true, display: "(0, −9)" },
+          solution: ["Every point on the y-axis has x = 0.", "y = 4 × 0 − 9 = −9.", "The line crosses the y-axis at (0, −9): the y-intercept is c = −9."],
+          traps: [
+            { spec: { type: "list", values: [-9, 0], ordered: true }, feedback: "On the y-axis x = 0, and x comes first: (0, −9)." },
+            { spec: { type: "list", values: [0, 4], ordered: true }, feedback: "4 is the gradient. The y-intercept is the constant term, −9." },
+          ],
+          difficulty: "warmup",
+          guideRef: "gradient-intercept",
+          hints: ["What is the x-coordinate of every point on the y-axis?", "Substitute x = 0 into the equation."],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q05",
+          question: "y is directly proportional to x. When x = 3, y = 12. Find y when x = 7.",
+          answer: { type: "number", value: 28 },
+          solution: ["Direct proportion means y = kx.", "12 = k × 3, so k = 4 and y = 4x.", "When x = 7: y = 4 × 7 = 28."],
+          traps: [{ spec: { type: "number", value: 16 }, feedback: "You added 4 to y because x went up by 4. In direct proportion y is always the same *multiple* of x — here 4 times." }],
+          difficulty: "warmup",
+          guideRef: "direct-proportion-graphs",
+          hints: ["Write y = kx and find k from the pair you know."],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q06",
+          question: "M(1, −2) is the midpoint of the line segment from A(−3, 5) to B. Find the coordinates of B.",
+          answer: { type: "list", values: [5, -9], ordered: true, display: "(5, −9)" },
+          solution: [
+            "Step from A to M: x goes from −3 to 1 (+4) and y goes from 5 to −2 (−7).",
+            "M is halfway, so B is the same step on from M: x = 1 + 4 = 5 and y = −2 − 7 = −9.",
+            "B = (5, −9). Check: the midpoint of (−3, 5) and (5, −9) is (1, −2).",
+          ],
+          solutions: [
+            {
+              label: "Use the midpoint rule backwards",
+              steps: ["{{(-3 + x)/2 = 1}}, so −3 + x = 2 and x = 5.", "{{(5 + y)/2 = -2}}, so 5 + y = −4 and y = −9."],
+            },
+          ],
+          commonError: "Averaging A and M, which gives a point between A and M instead of beyond M.",
+          traps: [
+            { spec: { type: "list", values: [-1, 1.5], ordered: true }, feedback: "That's the midpoint of A and M. M is already the middle; B is as far beyond M as A is before it." },
+            { spec: { type: "list", values: [4, -7], ordered: true }, feedback: "That's the step from A to M. Add the same step on to M to reach B." },
+          ],
+          difficulty: "core",
+          guideRef: "coordinates-midpoints",
+          hints: ["How do you get from A to M?", "M is halfway, so B is the same step again, beyond M.", "From A to M is +4 across and −7 up. Apply that step to M."],
+          strategy: "Work backwards",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q07",
+          question: "The point (k, 13) lies on the line y = 3x − 2. Find k.",
+          answer: { type: "number", value: 5 },
+          solution: ["The point is on the line, so its coordinates make the equation true: 13 = 3k − 2.", "Add 2: 15 = 3k.", "Divide by 3: k = 5. Check: 3 × 5 − 2 = 13."],
+          traps: [{ spec: { type: "number", value: 37 }, feedback: "You substituted 13 as the x-coordinate. In (k, 13), 13 is the y-coordinate, so solve 13 = 3k − 2." }],
+          difficulty: "core",
+          guideRef: "plotting-lines",
+          hints: ["Which coordinate is 13: x or y?", "Write 13 = 3k − 2 and solve it."],
+          strategy: "Use the inverse",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q08",
+          question: "The diagram shows a straight line through the points (−1, −4) and (3, 2). Find the gradient of the line. Give your answer as a fraction or a decimal.",
+          diagram: gradientUphill,
+          answer: { type: "number", value: 1.5, display: "{{3/2}} (= 1.5)" },
+          solution: ["Move from left to right, from (−1, −4) to (3, 2).", "Run = 3 − (−1) = 4. Rise = 2 − (−4) = 6.", "Gradient = rise ÷ run = 6 ÷ 4 = {{3/2}} = 1.5."],
+          commonError: "Dividing the run by the rise.",
+          traps: [
+            { spec: { type: "fraction", n: 2, d: 3 }, feedback: "That's run ÷ rise. Gradient is rise ÷ run: 6 ÷ 4." },
+            { spec: { type: "number", value: 6 }, feedback: "6 is the rise. Divide it by the run, 4." },
+          ],
+          difficulty: "core",
+          guideRef: "gradient-intercept",
+          hints: [
+            "Go from the left-hand point to the right-hand point. How far across? How far up?",
+            "Run = 4 and rise = 6.",
+            "Gradient = rise ÷ run.",
+          ],
+          strategy: "Draw a gradient triangle",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q09",
+          question:
+            "A wheelchair ramp rises 0.6 m over a horizontal distance of 7.2 m. Its gradient can be written as **1 in n**, meaning 1 m up for every n metres across. Find n.",
+          answer: { type: "number", value: 12 },
+          solution: ["Gradient = rise ÷ run = 0.6 ÷ 7.2 = {{1/12}}.", "So the ramp rises 1 m for every 12 m across: 1 in 12, and n = 12."],
+          solutions: [{ label: "Simplify the ratio", steps: ["Rise : run = 0.6 : 7.2.", "Divide both parts by 0.6: 1 : 12."] }],
+          traps: [
+            { spec: { type: "number", value: 4.32 }, feedback: "You multiplied 0.6 × 7.2. You want how many metres across for each 1 m up: divide 7.2 by 0.6." },
+            { spec: { type: "fraction", n: 1, d: 12 }, feedback: "{{1/12}} is the gradient itself. The question asks for n in '1 in n': how far across for each 1 m up." },
+          ],
+          difficulty: "core",
+          guideRef: "gradient-intercept",
+          hints: ["Write the gradient as rise ÷ run.", "How many lots of 0.6 make 7.2?"],
+          strategy: "Simplify the ratio",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p1-q10",
+          question:
+            "Arjun is asked for the gradient of the line through (1, 2) and (5, 4). He writes:\n\n> run = 5 − 1 = 4, rise = 4 − 2 = 2, so gradient = run ÷ rise = 4 ÷ 2 = 2\n\nExplain Arjun's mistake, find the correct gradient, and say how a quick sketch would have warned him that 2 is wrong.",
+          marks: 3,
+          modelAnswer:
+            "Arjun has divided the run by the rise. Gradient is rise ÷ run (change in y ÷ change in x), so the gradient is 2 ÷ 4 = {{1/2}}.\n\nA sketch shows the line goes up only 2 while going 4 across, so it is shallower than the 45° line y = x, which has gradient 1. A gradient of 2 would be steeper than y = x, so it cannot be right.",
+          markScheme: [
+            { point: "He divided run by rise; gradient is rise ÷ run (change in y ÷ change in x)", keywords: ["rise over run", "rise ÷ run", "rise/run", "upside down", "wrong way", "change in y", "the other way"] },
+            { point: "Correct gradient {{1/2}} (or 0.5)", keywords: ["1/2", "0.5", "half"] },
+            { point: "Sketch reasoning: up 2 for 4 across is shallow, so the gradient must be less than 1 (less steep than y = x)", keywords: ["shallow", "less than 1", "45", "not steep", "less steep", "y = x"] },
+          ],
+          commonError: "Saying he subtracted the wrong way round — the subtractions are fine; the division is upside down.",
+          difficulty: "core",
+          guideRef: "gradient-intercept",
+          hints: [
+            "What is the definition of gradient: rise ÷ run, or run ÷ rise?",
+            "Which goes on top: the change in y or the change in x?",
+            "Up 2 for every 4 across — is that steep or shallow?",
+          ],
+          strategy: "Estimate first",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q11",
+          question: "Write down the equation of the line that is parallel to y = 5 − 2x and passes through (0, −3). Give your answer in the form y = mx + c.",
+          answer: { type: "expression", expr: "-2x-3", display: "y = −2x − 3" },
+          solution: [
+            "Parallel lines have the same gradient. y = 5 − 2x has gradient −2.",
+            "Passing through (0, −3) means the line crosses the y-axis at −3, so c = −3.",
+            "y = −2x − 3.",
+          ],
+          traps: [
+            { spec: { type: "expression", expr: "2x-3" }, feedback: "The gradient of y = 5 − 2x is −2, not 2: the minus sign belongs to the x-term." },
+            { spec: { type: "expression", expr: "5x-3" }, feedback: "5 is the y-intercept of the first line. The gradient is the number multiplying x, which is −2." },
+          ],
+          difficulty: "core",
+          guideRef: "equations-of-lines",
+          hints: ["What do parallel lines share?", "Find the gradient of y = 5 − 2x — careful with the sign.", "(0, −3) is on the y-axis. What does that tell you about c?"],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q12",
+          question: "A mobile data plan costs $12 a month plus $3 for every GB of data used. Write a formula for the monthly cost, C dollars, when g GB of data is used.",
+          answer: { type: "expression", expr: "3g+12", display: "C = 3g + 12" },
+          solution: [
+            "The fixed part, paid even when g = 0, is $12. This is the intercept.",
+            "The rate is $3 for each GB, giving 3g. This is the gradient.",
+            "C = 3g + 12.",
+          ],
+          traps: [
+            { spec: { type: "expression", expr: "12g+3" }, feedback: "The $12 is a fixed monthly charge, not a charge per GB. The rate, $3 per GB, multiplies g." },
+            { spec: { type: "expression", expr: "15g" }, feedback: "You added 12 and 3. The $12 is paid once a month however much data is used; only the $3 is multiplied by g." },
+          ],
+          difficulty: "core",
+          guideRef: "equations-of-lines",
+          hints: ["Which amount is paid once, whatever happens? Which amount depends on g?", "Cost = fixed charge + rate × number of GB."],
+          strategy: "Words to symbols",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q13",
+          question: "Use 5 miles = 8 km to convert 120 km into miles.",
+          answer: { type: "number", value: 75, display: "75 miles" },
+          solution: ["120 ÷ 8 = 15, so 120 km is 15 lots of 8 km.", "15 lots of 5 miles = 75 miles."],
+          solutions: [{ label: "Use the rate", steps: ["8 km = 5 miles, so 1 km = {{5/8}} mile.", "120 × {{5/8}} = 75 miles."] }],
+          traps: [{ spec: { type: "number", value: 192 }, feedback: "You multiplied by 1.6, which turns miles into km. A mile is longer than a km, so there must be *fewer* miles than km." }],
+          difficulty: "core",
+          guideRef: "direct-proportion-graphs",
+          hints: ["Will the number of miles be bigger or smaller than 120?", "How many lots of 8 km are there in 120 km?"],
+          strategy: "Estimate first",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p1-q14",
+          question:
+            "Wei Ling records the cost of printing photos at a shop:\n\n| Number of photos, n | 10 | 20 | 30 | 40 |\n|---|---|---|---|---|\n| Cost, C ($) | 7 | 11 | 15 | 19 |\n\nShe says: 'The graph of C against n is a straight line, so C is directly proportional to n.'\n\nIs she right? Explain.",
+          marks: 3,
+          modelAnswer:
+            "She is not right. The points do lie on a straight line (the cost goes up $4 for every 10 photos), but a direct proportion graph must also pass through the origin.\n\nWorking back from (10, 7) by one step of 10 photos and $4 gives n = 0, C = 3. So the line crosses the cost axis at $3, not at 0: there is a fixed charge of $3. Also C ÷ n is not constant: 7 ÷ 10 = 0.7 but 19 ÷ 40 = 0.475.\n\nSo C is linear in n (C = 0.4n + 3) but not directly proportional to it.",
+          markScheme: [
+            { point: "States she is wrong: it is not direct proportion", keywords: ["not", "wrong", "isn't", "no"] },
+            { point: "Direct proportion also needs the line to pass through the origin (0, 0)", keywords: ["origin", "(0, 0)", "0,0", "through zero", "through 0"] },
+            { point: "Shows it does not: at n = 0, C = 3 (a fixed charge), or C ÷ n is not constant (e.g. 0.7 and 0.475)", keywords: ["3", "fixed", "0.7", "0.475", "not constant", "different", "intercept"] },
+          ],
+          commonError: "Thinking that any straight-line graph shows direct proportion.",
+          difficulty: "core",
+          guideRef: "direct-proportion-graphs",
+          hints: [
+            "A direct proportion graph needs two features. What are they?",
+            "What would 0 photos cost if you continue the pattern backwards?",
+            "Work out C ÷ n for two of the columns. Are they equal?",
+          ],
+          strategy: "Work backwards",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q15",
+          question: "The distance–time graph shows Siti's bike ride from home to the park and back. Find her speed on the way home. Give your answer in km/h.",
+          diagram: sitiRide,
+          answer: { type: "number", value: 12, display: "12 km/h" },
+          solution: [
+            "The way home is the section from 35 to 65 minutes, where the distance falls from 6 km to 0 km.",
+            "She rides 6 km in 30 minutes, which is {{1/2}} an hour.",
+            "Speed = 6 ÷ {{1/2}} = 12 km/h.",
+          ],
+          commonError: "Leaving the answer in km per minute.",
+          traps: [
+            { spec: { type: "number", value: 0.2 }, feedback: "That's km per *minute* (6 ÷ 30). Multiply by 60 to get km per hour." },
+            { spec: { type: "number", value: 18 }, feedback: "That's her speed on the way *to* the park (6 km in 20 minutes). The way home is the section going down." },
+          ],
+          difficulty: "core",
+          guideRef: "real-life-graphs",
+          hints: [
+            "Which section of the graph shows her riding home?",
+            "How far does she ride in that section, and how long does it take?",
+            "6 km in 30 minutes — how far would that be in 60 minutes?",
+          ],
+          strategy: "Read the axes first",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p1-q16",
+          question:
+            "The graph shows two phone plans. Plan A costs $18 a month plus $2 per GB of data. Plan B costs $5 per GB with no fixed charge. The lines cross at (6, 30).\n\n(a) What do the numbers 18 and 2 tell you about the line for Plan A?\n\n(b) Explain what the crossing point means.\n\n(c) Mei uses about 9 GB a month. Which plan should she choose? Show how you know.",
+          diagram: phonePlans,
+          marks: 4,
+          modelAnswer:
+            "(a) 18 is the y-intercept: the fixed $18 charge paid even when no data is used. 2 is the gradient: the cost rises by $2 for each extra GB.\n\n(b) At (6, 30) both plans cost the same: 6 GB costs $30 on either plan.\n\n(c) For 9 GB, Plan A costs 18 + 2 × 9 = $36 and Plan B costs 5 × 9 = $45, so Mei should choose Plan A. This fits the graph: beyond the crossing point Plan A's line is lower, because its gradient is smaller.",
+          markScheme: [
+            { point: "18 is the intercept (the fixed charge); 2 is the gradient (the cost per GB)", keywords: ["fixed", "intercept", "per gb", "gradient", "each gb", "starting"] },
+            { point: "Crossing point: both plans cost the same, $30, for 6 GB", keywords: ["same", "equal", "30", "6 gb", "break-even", "break even"] },
+            { point: "Costs for 9 GB: Plan A $36 and Plan B $45", keywords: ["36", "45"] },
+            { point: "Chooses Plan A because it is cheaper (its line is lower beyond 6 GB)", keywords: ["plan a", "cheaper", "lower", "less"] },
+          ],
+          commonError: "Choosing Plan B because it is cheaper for small amounts of data, without checking 9 GB.",
+          difficulty: "core",
+          guideRef: "real-life-graphs",
+          hints: [
+            "Write Plan A as C = 2g + 18. Which number is the gradient and which is the intercept?",
+            "What is true about two quantities at the point where their graphs cross?",
+            "Work out each plan's cost for 9 GB.",
+          ],
+          strategy: "Interpret the gradient and intercept",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q17",
+          question: "Find the equation of the straight line through (−1, 7) and (3, −5). Give your answer in the form y = mx + c.",
+          answer: { type: "expression", expr: "-3x+4", display: "y = −3x + 4" },
+          solution: [
+            "Gradient: m = {{(-5 - 7)/(3 - (-1)) = -12/4 = -3}}.",
+            "Substitute (−1, 7) into y = −3x + c: 7 = −3 × (−1) + c = 3 + c, so c = 4.",
+            "y = −3x + 4. Check with (3, −5): −3 × 3 + 4 = −5.",
+          ],
+          solutions: [
+            {
+              label: "Step to the y-axis",
+              steps: [
+                "The gradient is −3: for each 1 step right, y falls by 3.",
+                "From (−1, 7), one step right reaches x = 0, where y = 7 − 3 = 4.",
+                "So c = 4 and y = −3x + 4. Quicker here, because (−1, 7) is only one step from the y-axis.",
+              ],
+            },
+          ],
+          commonError: "Slipping on −3 × (−1), which is +3.",
+          traps: [
+            { spec: { type: "expression", expr: "-3x+10" }, feedback: "Careful: −3 × (−1) = +3, so 7 = 3 + c and c = 4." },
+            { spec: { type: "expression", expr: "3x+10" }, feedback: "The line goes downhill (y falls from 7 to −5 as x increases), so the gradient is −3, not 3." },
+          ],
+          difficulty: "core",
+          guideRef: "line-through-two-points",
+          hints: ["Start with the gradient: rise ÷ run between the two points.", "m = −3. Now put one of the points into y = −3x + c.", "7 = −3 × (−1) + c. Solve for c."],
+          strategy: "Check by substituting",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q18",
+          question: "The lines x = 2, y = 1 and y = x + 5 enclose a triangle. Find its area in square units.",
+          answer: { type: "number", value: 18 },
+          solution: [
+            "Find the corners. x = 2 meets y = 1 at (2, 1).",
+            "x = 2 meets y = x + 5 where y = 2 + 5 = 7: the point (2, 7).",
+            "y = 1 meets y = x + 5 where 1 = x + 5, so x = −4: the point (−4, 1).",
+            "There is a right angle at (2, 1): one side is vertical, length 7 − 1 = 6, and one is horizontal, length 2 − (−4) = 6.",
+            "Area = {{1/2}} × 6 × 6 = 18 square units.",
+          ],
+          traps: [
+            { spec: { type: "number", value: 36 }, feedback: "That's the whole 6 by 6 square. The triangle is half of it." },
+            { spec: { type: "number", value: 6 }, feedback: "Check the corner where y = 1 meets y = x + 5: 1 = x + 5 gives x = −4, so the horizontal side is 2 − (−4) = 6 units long." },
+          ],
+          difficulty: "challenge",
+          guideRef: "special-lines",
+          hints: ["Sketch the three lines. Which are horizontal or vertical?", "Find where each pair of lines meets.", "There's a right angle at (2, 1). How long are the two sides that meet there?"],
+          strategy: "Draw a diagram",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p1-q19",
+          question:
+            "At 08:00 Marcus starts walking from town A towards town B, 18 km away, at a steady 6 km/h. At 08:30 Zara sets off from B, cycling towards A along the same road at a steady 12 km/h. How far from A are they when they meet? Give your answer in km.",
+          answer: { type: "number", value: 8, display: "8 km" },
+          solution: [
+            "By 08:30 Marcus has walked 6 × {{1/2}} = 3 km, so the gap between them is 18 − 3 = 15 km.",
+            "From then on the gap closes by 6 + 12 = 18 km every hour.",
+            "Time to close 15 km: {{15/18 = 5/6}} of an hour = 50 minutes, so they meet at 09:20.",
+            "Marcus walks a further 6 × {{5/6}} = 5 km, so they meet 3 + 5 = 8 km from A.",
+            "Check: Zara cycles 12 × {{5/6}} = 10 km from B, and 18 − 10 = 8.",
+          ],
+          solutions: [
+            {
+              label: "Distance–time graph (or table)",
+              steps: [
+                "Plot distance from A against time. Marcus starts at (08:00, 0) and rises 1 km every 10 minutes. Zara starts at (08:30, 18) and falls 2 km every 10 minutes.",
+                "At 09:00: Marcus 6 km, Zara 12 km. At 09:10: Marcus 7, Zara 10. At 09:20: Marcus 8, Zara 8.",
+                "The lines cross at (09:20, 8 km). This is slower than closing the gap, but it shows exactly what the crossing point means.",
+              ],
+            },
+          ],
+          commonError: "Ignoring Marcus's 30-minute head start.",
+          traps: [
+            { spec: { type: "number", value: 6 }, feedback: "That would be right if they both set off at 08:00. Marcus has a 30-minute head start, so by 08:30 he has already walked 3 km." },
+            { spec: { type: "number", value: 10 }, feedback: "10 km is how far Zara has cycled, measured from B. The question asks for the distance from A." },
+          ],
+          difficulty: "challenge",
+          guideRef: "real-life-graphs",
+          hints: ["Where is Marcus when Zara sets off?", "After 08:30, how quickly does the gap between them shrink?", "The gap is 15 km and shrinks by 18 km each hour. How long does that take?"],
+          strategy: "Close the gap",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p1-q20",
+          question:
+            "The points A(−2, 1), B(4, 3), C(6, 9) and D(0, 7) are joined in order to make the quadrilateral ABCD. Use gradients to prove that ABCD is a parallelogram.",
+          marks: 4,
+          modelAnswer:
+            "Gradient of AB = {{(3 - 1)/(4 - (-2)) = 2/6 = 1/3}}. Gradient of DC = {{(9 - 7)/(6 - 0) = 2/6 = 1/3}}.\n\nGradient of AD = {{(7 - 1)/(0 - (-2)) = 6/2 = 3}}. Gradient of BC = {{(9 - 3)/(6 - 4) = 6/2 = 3}}.\n\nLines with equal gradients are parallel, so AB is parallel to DC, and AD is parallel to BC. A quadrilateral with both pairs of opposite sides parallel is a parallelogram, so ABCD is a parallelogram.",
+          markScheme: [
+            { point: "Gradients of AB and DC are both {{1/3}}", keywords: ["1/3", "2/6", "one third"] },
+            { point: "Gradients of AD and BC are both 3", keywords: ["3", "6/2"] },
+            { point: "Equal gradients mean the sides are parallel", keywords: ["parallel", "equal gradients", "same gradient"] },
+            { point: "Both pairs of opposite sides are parallel, so ABCD is a parallelogram", keywords: ["both pairs", "opposite sides", "parallelogram"] },
+          ],
+          solutions: [
+            {
+              label: "Midpoints of the diagonals",
+              steps: [
+                "Midpoint of AC: {{((-2 + 6)/2, (1 + 9)/2) = (2, 5)}}.",
+                "Midpoint of BD: {{((4 + 0)/2, (3 + 7)/2) = (2, 5)}}.",
+                "The diagonals bisect each other, which happens exactly when a quadrilateral is a parallelogram. Slicker — two calculations instead of four — but this question asks for gradients.",
+              ],
+            },
+          ],
+          commonError: "Showing only one pair of sides is parallel — that only proves a trapezium.",
+          difficulty: "challenge",
+          guideRef: "equations-of-lines",
+          hints: [
+            "What is true about the opposite sides of a parallelogram?",
+            "Which sides are opposite? AB with DC, and AD with BC.",
+            "Find all four gradients. What do equal gradients tell you?",
+          ],
+          strategy: "Prove it from the definition",
+        },
+      ],
+    },
+    {
+      id: "linear-graphs-p2",
+      title: "Practice Paper 2",
+      questions: [
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q01",
+          question: "A is the point (−6, 2) and B is the point (4, 2). Find the length of the line segment AB.",
+          answer: { type: "number", value: 10, display: "10 units" },
+          solution: ["A and B have the same y-coordinate, so AB is horizontal.", "Its length is the difference between the x-coordinates: 4 − (−6) = 4 + 6 = 10 units."],
+          traps: [{ spec: { type: "number", value: 2 }, feedback: "It looks as if you worked out 6 − 4 and lost the minus sign on −6. A is 6 units left of the y-axis and B is 4 units right of it, so AB = 6 + 4 = 10. As a calculation: 4 − (−6) = 10." }],
+          difficulty: "warmup",
+          guideRef: "coordinates-midpoints",
+          hints: ["Both points have y = 2. What kind of line joins them?", "Count along the x-axis from −6 to 4."],
+          strategy: "Draw a diagram",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q02",
+          question: "Write down the equation of the straight line that passes through (5, −3) and (−1, −3).",
+          answer: { type: "text", accept: ["y=-3", "-3=y"], display: "y = −3" },
+          solution: ["Both points have y-coordinate −3.", "So the line is horizontal, and every point on it has y = −3.", "Equation: y = −3."],
+          traps: [{ spec: { type: "text", accept: ["x=-3"] }, feedback: "x = −3 is a *vertical* line. Here the y-coordinate is fixed at −3, so the line is horizontal: y = −3." }],
+          difficulty: "warmup",
+          guideRef: "special-lines",
+          hints: ["Which coordinate is the same for both points?", "If y is always −3, what is the equation?"],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q03",
+          question: "For the line y = 4 − 3x, work out y when x = −2, when x = 0 and when x = 2. Give the three values in that order, separated by commas.",
+          answer: { type: "list", values: [10, 4, -2], ordered: true, display: "10, 4, −2" },
+          solution: [
+            "x = −2: y = 4 − 3 × (−2) = 4 + 6 = 10.",
+            "x = 0: y = 4 − 0 = 4.",
+            "x = 2: y = 4 − 6 = −2.",
+            "Check: y falls by 6 for each step of 2 in x, as a straight line should.",
+          ],
+          traps: [{ spec: { type: "list", values: [-2, 4, 10], ordered: true }, feedback: "Those are the values for y = 4 + 3x. With x = −2: −3 × (−2) = +6, so y = 4 + 6 = 10." }],
+          difficulty: "warmup",
+          guideRef: "plotting-lines",
+          hints: ["Use brackets when x is negative: 4 − 3 × (−2).", "Negative × negative = positive."],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q04",
+          question: "Write down the gradient of the line y = {{x/4}} − 2. Give your answer as a fraction or a decimal.",
+          answer: { type: "number", value: 0.25, display: "{{1/4}}" },
+          solution: ["{{x/4}} means {{1/4}} of x, so the equation is y = {{1/4}}x − 2.", "The gradient is the number multiplying x: {{1/4}}."],
+          traps: [
+            { spec: { type: "number", value: 4 }, feedback: "Dividing by 4 is the same as multiplying by {{1/4}}, so the gradient is {{1/4}}, not 4." },
+            { spec: { type: "number", value: -2 }, feedback: "−2 is the y-intercept. The gradient is the number multiplying x." },
+          ],
+          difficulty: "warmup",
+          guideRef: "gradient-intercept",
+          hints: ["Dividing by 4 is the same as multiplying by what?"],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q05",
+          question: "A distance–time graph for a coach journey is a straight line from (0 hours, 0 km) to (3 hours, 240 km). Find the coach's speed in km/h.",
+          answer: { type: "number", value: 80, display: "80 km/h" },
+          solution: ["On a distance–time graph, speed = gradient = distance ÷ time.", "240 ÷ 3 = 80 km/h."],
+          traps: [{ spec: { type: "number", value: 0.0125 }, feedback: "That's time ÷ distance. Speed is distance ÷ time." }],
+          difficulty: "warmup",
+          guideRef: "real-life-graphs",
+          hints: ["On a distance–time graph, what does the gradient tell you?"],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q06",
+          question: "The midpoint of the line segment joining (a, 7) and (9, b) is (4, 2). Find a and b. Give a first.",
+          answer: { type: "list", values: [-1, -3], ordered: true, display: "a = −1, b = −3" },
+          solution: ["x-coordinates: {{(a + 9)/2 = 4}}, so a + 9 = 8 and a = −1.", "y-coordinates: {{(7 + b)/2 = 2}}, so 7 + b = 4 and b = −3."],
+          solutions: [
+            {
+              label: "Think in steps",
+              steps: [
+                "From x = 9 to the midpoint x = 4 is a step of −5. The same step again gives a = 4 − 5 = −1.",
+                "From y = 7 to the midpoint y = 2 is a step of −5. The same step again gives b = 2 − 5 = −3.",
+              ],
+            },
+          ],
+          traps: [{ spec: { type: "list", values: [6.5, 4.5], ordered: true }, feedback: "You found midpoints of the numbers you were given. (4, 2) is already the midpoint — a and b belong to the far ends, so work backwards." }],
+          difficulty: "core",
+          guideRef: "coordinates-midpoints",
+          hints: ["The midpoint's x-coordinate is the mean of a and 9.", "Write {{(a + 9)/2 = 4}} and solve it.", "Do the same for the y-coordinates to find b."],
+          strategy: "Work backwards",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p2-q07",
+          question:
+            "Priya says: 'The line x = 4 is horizontal, because 4 is on the x-axis and the x-axis is horizontal.'\n\nExplain why Priya is wrong. Give the coordinates of two points on the line x = 4 to support your answer.",
+          marks: 3,
+          modelAnswer:
+            "The equation x = 4 means every point on the line has x-coordinate 4, while y can be anything. For example, (4, 0), (4, 3) and (4, −5) are all on the line.\n\nThese points are directly above and below each other, so the line is vertical, not horizontal. It crosses the x-axis at (4, 0), which is why 4 appears on the x-axis — but the line itself runs up and down.",
+          markScheme: [
+            { point: "Every point on x = 4 has x-coordinate 4 (x is fixed; y can be anything)", keywords: ["x is always 4", "x-coordinate", "x = 4", "fixed", "any", "y can be anything", "always 4"] },
+            { point: "Gives two correct points, e.g. (4, 0) and (4, 3)", keywords: ["(4,", "4, 0", "4, 1", "4, 2", "4, 3", "4, -"] },
+            { point: "Concludes the line is vertical (it crosses the x-axis at (4, 0))", keywords: ["vertical", "up and down", "upright", "parallel to the y-axis"] },
+          ],
+          commonError: "Mixing up 'crosses the x-axis at 4' with 'runs along the x-axis'.",
+          difficulty: "core",
+          guideRef: "special-lines",
+          hints: [
+            "What do all the points on the line x = 4 have in common?",
+            "Write down three points whose x-coordinate is 4. Picture them on a grid.",
+            "Are those points side by side, or above and below each other?",
+          ],
+          strategy: "Try specific points",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q08",
+          question: "The point (p, p + 6) lies on the line y = −x. Find p.",
+          answer: { type: "number", value: -3 },
+          solution: [
+            "On y = −x, the y-coordinate is the negative of the x-coordinate.",
+            "So p + 6 = −p.",
+            "Add p to both sides: 2p + 6 = 0, so 2p = −6 and p = −3. Check: the point is (−3, 3), and 3 = −(−3).",
+          ],
+          traps: [
+            { spec: { type: "number", value: 3 }, feedback: "If p = 3 the point is (3, 9), and 9 is not −3. On y = −x the two coordinates must be opposites." },
+            { spec: { type: "number", value: -6 }, feedback: "p + 6 = −p gives 2p = −6, so p = −6 ÷ 2." },
+          ],
+          difficulty: "core",
+          guideRef: "special-lines",
+          hints: ["What is true about the coordinates of every point on y = −x?", "Write an equation: p + 6 = −p.", "Add p to both sides, then solve."],
+          strategy: "Introduce a variable",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q09",
+          question: "These points all lie on one straight line:\n\n| x | −2 | 1 | 4 | 7 |\n|---|---|---|---|---|\n| y | 11 | 5 | ? | −7 |\n\nFind the missing y-value.",
+          answer: { type: "number", value: -1 },
+          solution: [
+            "From x = −2 to x = 1 (a step of 3), y goes from 11 to 5: down 6.",
+            "Each step of 3 in x takes 6 off y, so at x = 4: y = 5 − 6 = −1.",
+            "Check: −1 − 6 = −7 at x = 7, which matches.",
+          ],
+          solutions: [
+            {
+              label: "Average the neighbours",
+              steps: [
+                "x = 4 is exactly halfway between x = 1 and x = 7.",
+                "On a straight line, y is then halfway between 5 and −7: {{(5 + (-7))/2 = -1}}. Quicker, because x = 4 is the midpoint of 1 and 7.",
+              ],
+            },
+          ],
+          traps: [{ spec: { type: "number", value: 2 }, feedback: "2 is halfway between 11 and −7, but x = 4 is not halfway between x = −2 and x = 7. Use the steady step instead: −6 for every 3 across." }],
+          difficulty: "core",
+          guideRef: "plotting-lines",
+          hints: ["On a straight line, y changes by the same amount for equal steps in x.", "How much does y change when x goes from −2 to 1?"],
+          strategy: "Find a pattern",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q10",
+          question: "The diagram shows a straight line through the points (−3, 3) and (3, −1). Find the gradient of the line. Give your answer as a fraction in its simplest form.",
+          diagram: gradientDownhill,
+          answer: { type: "fraction", n: -2, d: 3, simplest: true, display: "{{-2/3}}" },
+          solution: ["Move from left to right, from (−3, 3) to (3, −1).", "Run = 3 − (−3) = 6. Rise = −1 − 3 = −4 (the line goes down).", "Gradient = {{-4/6 = -2/3}}."],
+          commonError: "Forgetting the minus sign for a line that goes downhill.",
+          traps: [
+            { spec: { type: "fraction", n: 2, d: 3 }, feedback: "The line goes *downhill* from left to right, so the gradient is negative." },
+            { spec: { type: "fraction", n: -3, d: 2 }, feedback: "That's run ÷ rise. Gradient is rise ÷ run: {{-4/6}}, which simplifies to {{-2/3}}." },
+          ],
+          difficulty: "core",
+          guideRef: "gradient-intercept",
+          hints: ["Uphill or downhill? That decides the sign.", "Find the run and the rise between the two marked points.", "Rise ÷ run, then simplify."],
+          strategy: "Draw a gradient triangle",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q11",
+          question: "A straight line crosses the y-axis at (0, 7) and passes through (2, 1). Find its equation in the form y = mx + c.",
+          answer: { type: "expression", expr: "-3x+7", display: "y = −3x + 7" },
+          solution: ["The y-intercept is c = 7.", "From (0, 7) to (2, 1): run = 2 and rise = 1 − 7 = −6, so m = −6 ÷ 2 = −3.", "y = −3x + 7. Check: at x = 2, y = −6 + 7 = 1."],
+          traps: [
+            { spec: { type: "expression", expr: "3x+7" }, feedback: "From (0, 7) to (2, 1) the line goes down, so the gradient is negative." },
+            { spec: { type: "expression", expr: "-6x+7" }, feedback: "The rise is −6, but the run is 2: gradient = −6 ÷ 2 = −3." },
+          ],
+          difficulty: "core",
+          guideRef: "equations-of-lines",
+          hints: ["(0, 7) is on the y-axis. Does it give you m or c?", "Find the gradient from (0, 7) to (2, 1)."],
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q12",
+          question: "Aisha has $240 in savings. She spends $15 of it every week. Write a formula for the amount, A dollars, she has left after w weeks.",
+          answer: { type: "expression", expr: "240-15w", display: "A = 240 − 15w" },
+          solution: [
+            "Starting amount (when w = 0): $240. This is the intercept.",
+            "Each week the amount goes *down* by $15, so the rate (gradient) is −15.",
+            "A = 240 − 15w.",
+          ],
+          traps: [
+            { spec: { type: "expression", expr: "240+15w" }, feedback: "She is spending, so the amount goes down each week: −15w." },
+            { spec: { type: "expression", expr: "15w-240" }, feedback: "At w = 0 she should have $240, but 15 × 0 − 240 = −240. Start with 240, then subtract 15w." },
+          ],
+          difficulty: "core",
+          guideRef: "equations-of-lines",
+          hints: ["How much does she have when w = 0?", "Does the amount go up or down each week, and by how much?"],
+          strategy: "Words to symbols",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q13",
+          question: "Find the gradient of the straight line 3x + 2y = 12. Give your answer as a fraction or a decimal.",
+          answer: { type: "number", value: -1.5, display: "{{-3/2}} (= −1.5)" },
+          solution: ["Make y the subject. Subtract 3x from both sides: 2y = 12 − 3x.", "Divide every term by 2: y = 6 − 1.5x, i.e. y = −1.5x + 6.", "The gradient is −1.5, which is {{-3/2}}."],
+          solutions: [
+            {
+              label: "Find two points",
+              steps: [
+                "When x = 0: 2y = 12, so y = 6. The point (0, 6).",
+                "When y = 0: 3x = 12, so x = 4. The point (4, 0).",
+                "Gradient = rise ÷ run = (0 − 6) ÷ (4 − 0) = −1.5. Both methods are quick; these two points are also the easiest way to draw the line.",
+              ],
+            },
+          ],
+          commonError: "Reading the gradient as 3 straight from 3x + 2y = 12, without making y the subject.",
+          traps: [
+            { spec: { type: "number", value: 3 }, feedback: "3 is the number in front of x *before* rearranging. Make y the subject first: y = 6 − 1.5x." },
+            { spec: { type: "number", value: 6 }, feedback: "6 is the y-intercept once you rearrange. The gradient is the number multiplying x." },
+          ],
+          difficulty: "core",
+          guideRef: "equations-of-lines",
+          hints: ["Rearrange to make y the subject.", "2y = 12 − 3x. Now divide every term by 2."],
+          strategy: "Rearrange first",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p2-q14",
+          question: "Without drawing them, show that the lines y = 3x − 2 and 6x − 2y = 10 are parallel. Will they ever meet? Explain.",
+          marks: 3,
+          modelAnswer:
+            "Rearrange the second equation: 6x − 2y = 10 gives 2y = 6x − 10, so y = 3x − 5.\n\nBoth lines have gradient 3, so they are parallel. Their y-intercepts are different (−2 and −5), so they are not the same line: the second is the first moved down 3 units. Parallel lines that are not the same line never meet.",
+          markScheme: [
+            { point: "Rearranges 6x − 2y = 10 to y = 3x − 5", keywords: ["y = 3x - 5", "3x - 5", "2y = 6x - 10", "y=3x-5"] },
+            { point: "Both gradients are 3, so the lines are parallel", keywords: ["gradient 3", "same gradient", "both 3", "parallel", "m = 3"] },
+            { point: "Different intercepts (−2 and −5), so they never meet", keywords: ["never meet", "-5", "different intercept", "don't meet", "do not meet", "not the same line"] },
+          ],
+          commonError: "Reading the gradient of 6x − 2y = 10 as 6 without rearranging.",
+          difficulty: "core",
+          guideRef: "equations-of-lines",
+          hints: [
+            "To compare gradients, write both equations in the form y = mx + c.",
+            "Get 2y on its own first: 2y = 6x − 10.",
+            "Same gradient means parallel. What would make them the *same* line instead?",
+          ],
+          strategy: "Rearrange first",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q15",
+          question:
+            "The conversion graph changes Singapore dollars (S$) into Malaysian ringgit (RM). The line passes through (0, 0) and (50, 170). Ravi has RM 255 left after a trip to Johor Bahru — more than the graph shows. How many Singapore dollars is that worth?",
+          diagram: ringgitConversion,
+          answer: { type: "number", value: 75, display: "S$75" },
+          solution: ["From the graph, S$50 = RM 170, so S$1 = 170 ÷ 50 = RM 3.40.", "RM 255 ÷ 3.40 = S$75."],
+          solutions: [
+            {
+              label: "Combine readings",
+              steps: ["RM 255 = RM 170 + RM 85.", "RM 170 is S$50, and RM 85 is half of that, S$25.", "Total: S$50 + S$25 = S$75. Neat when the numbers split nicely; the rate method always works."],
+            },
+          ],
+          traps: [{ spec: { type: "number", value: 867 }, feedback: "You multiplied by 3.4, which changes S$ into RM. Going from ringgit to S$ means dividing by 3.4 — each S$ is worth more, so you get fewer of them." }],
+          difficulty: "core",
+          guideRef: "direct-proportion-graphs",
+          hints: ["Read a pair of values off the graph to find the rate: how many RM is S$1?", "S$1 = RM 3.40. To go from RM to S$, do you multiply or divide?", "Work out 255 ÷ 3.4."],
+          strategy: "Find the unit rate",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p2-q16",
+          question:
+            "The distance–time graph shows Wei Ling's run in the park. Its corners are at (0, 0), (10, 2), (15, 2), (25, 5) and (45, 0), with time in minutes and distance from the park entrance in km.\n\nWei Ling says: 'I ran fastest on the way back, because that part of the graph is the longest.'\n\nUse the graph to show whether she is right.",
+          diagram: weiLingRun,
+          marks: 4,
+          modelAnswer:
+            "Speed is shown by the gradient (distance ÷ time), not by how long the section looks.\n\n- 0 to 10 min: 2 km in 10 min = 12 km/h.\n- 10 to 15 min: flat, so she stopped.\n- 15 to 25 min: 3 km in 10 min = 18 km/h.\n- 25 to 45 min (the way back): 5 km in 20 min = 15 km/h.\n\nHer fastest part was from 15 to 25 minutes, at 18 km/h — the steepest section. So she is wrong: the way back is the longest section only because she covered the most distance and took the most time.",
+          markScheme: [
+            { point: "Speed is shown by the gradient (steepness), not the length of the section", keywords: ["gradient", "steep", "steepness", "slope"] },
+            { point: "Way back: 5 km in 20 min = 15 km/h", keywords: ["15", "5 km in 20", "0.25"] },
+            { point: "Finds a faster section: 3 km in 10 min = 18 km/h (from 15 to 25 min)", keywords: ["18", "3 km in 10", "0.3"] },
+            { point: "Concludes she is wrong: she was fastest from 15 to 25 minutes", keywords: ["wrong", "not right", "isn't right", "15 to 25", "second"] },
+          ],
+          commonError: "Judging speed by how long a section looks, or by which section covers the most distance.",
+          difficulty: "core",
+          guideRef: "real-life-graphs",
+          hints: [
+            "On a distance–time graph, what shows speed: the length of a section or its steepness?",
+            "Work out the speed for each moving section: distance ÷ time.",
+            "To compare in km/h: km in 10 minutes × 6, km in 20 minutes × 3.",
+          ],
+          strategy: "Compare gradients",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q17",
+          question: "A straight line passes through (−6, −1) and (4, 4). Find the coordinates of the point where it crosses the x-axis.",
+          answer: { type: "list", values: [-4, 0], ordered: true, display: "(−4, 0)" },
+          solution: [
+            "Gradient: {{(4 - (-1))/(4 - (-6)) = 5/10 = 1/2}}.",
+            "Substitute (4, 4) into y = {{1/2}}x + c: 4 = 2 + c, so c = 2. The line is y = {{1/2}}x + 2.",
+            "On the x-axis y = 0: {{1/2}}x + 2 = 0, so {{1/2}}x = −2 and x = −4.",
+            "The line crosses the x-axis at (−4, 0).",
+          ],
+          solutions: [
+            {
+              label: "Step along the line",
+              steps: [
+                "A gradient of {{1/2}} means up 1 for every 2 across.",
+                "Start at (−6, −1). To raise y from −1 to 0 you need to go up 1, so move 2 to the right.",
+                "x = −6 + 2 = −4, giving (−4, 0). Slicker — no equation needed, because (−6, −1) is just 1 unit below the x-axis.",
+              ],
+            },
+          ],
+          traps: [
+            { spec: { type: "list", values: [0, 2], ordered: true }, feedback: "(0, 2) is where the line crosses the *y*-axis. On the x-axis, y = 0." },
+            { spec: { type: "list", values: [4, 0], ordered: true }, feedback: "Check the sign: {{1/2}}x + 2 = 0 gives {{1/2}}x = −2, so x = −4." },
+          ],
+          difficulty: "core",
+          guideRef: "line-through-two-points",
+          hints: ["Find the gradient first.", "Find the equation: y = {{1/2}}x + c.", "Every point on the x-axis has y = 0."],
+          strategy: "Check by substituting",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q18",
+          question:
+            "The table shows values of y = {{x^2}} − 5:\n\n| x | −3 | −2 | −1 | 0 | 1 | 2 | 3 |\n|---|---|---|---|---|---|---|---|\n| y | 4 | −1 | −4 | −5 | −4 | −1 | 4 |\n\nThe gaps between the y-values are not equal, so this graph is a curve, not a straight line. The curve meets the horizontal line y = 11 at two points. Find the x-coordinate of each point.",
+          answer: { type: "list", values: [-4, 4], display: "x = −4 and x = 4" },
+          solution: [
+            "Every point on the line y = 11 has y = 11, so {{x^2 - 5 = 11}}.",
+            "Add 5: {{x^2 = 16}}.",
+            "x = 4 or x = −4, since both square to 16. The curve is symmetrical about the y-axis, so the two meeting points (−4, 11) and (4, 11) are mirror images.",
+          ],
+          traps: [
+            { spec: { type: "list", values: [-8, 8] }, feedback: "{{x^2}} means x × x, not 2 × x. Which number multiplied by itself makes 16?" },
+            { spec: { type: "list", values: [-6, 6] }, feedback: "Check: {{6^2 - 5 = 31}}, not 11. Solve {{x^2 - 5 = 11}} by adding 5 first." },
+          ],
+          difficulty: "core",
+          guideRef: "plotting-lines",
+          hints: [
+            "Every point on the line y = 11 has y-coordinate 11. So what equation must x satisfy?",
+            "{{x^2 - 5 = 11}}. Get {{x^2}} on its own.",
+            "Which numbers square to 16? There are two.",
+          ],
+          strategy: "Use symmetry",
+        },
+        {
+          kind: "short",
+          id: "linear-graphs-p2-q19",
+          question:
+            "Candle A is 20 cm tall and burns down 2 cm every hour. Candle B is 14 cm tall and burns down 0.5 cm every hour. Both are lit at the same time. After how many hours are they the same height?",
+          answer: { type: "number", value: 4, display: "4 hours" },
+          solution: [
+            "Heights after t hours: A = 20 − 2t and B = 14 − 0.5t.",
+            "Same height: 20 − 2t = 14 − 0.5t.",
+            "Add 2t and subtract 14: 6 = 1.5t, so t = 4 hours. Check: A = 20 − 8 = 12 cm and B = 14 − 2 = 12 cm.",
+          ],
+          solutions: [
+            {
+              label: "Close the gap",
+              steps: [
+                "At the start, A is 20 − 14 = 6 cm taller.",
+                "Each hour A burns 2 − 0.5 = 1.5 cm more than B, so the gap shrinks by 1.5 cm per hour.",
+                "6 ÷ 1.5 = 4 hours. Slicker — and it's the same idea as two travellers closing a gap.",
+              ],
+            },
+          ],
+          traps: [
+            { spec: { type: "number", value: 12 }, feedback: "12 cm is their height when they match. The question asks *when*: after how many hours?" },
+            { spec: { type: "number", value: 2.4 }, feedback: "Both candles get shorter, so the gap closes by 2 − 0.5 = 1.5 cm per hour, not 2 + 0.5." },
+          ],
+          difficulty: "challenge",
+          guideRef: "real-life-graphs",
+          hints: [
+            "Write an expression for each candle's height after t hours.",
+            "On a height–time graph, where would their lines cross?",
+            "How fast does the gap between the two heights shrink?",
+          ],
+          strategy: "Close the gap",
+        },
+        {
+          kind: "written",
+          id: "linear-graphs-p2-q20",
+          question:
+            "For each statement, decide whether it is **always**, **sometimes** or **never** true. Justify each answer.\n\n(a) The midpoint of two points in the first quadrant is also in the first quadrant.\n\n(b) The midpoint of a point in the second quadrant and a point in the fourth quadrant is in the first quadrant.",
+          marks: 4,
+          modelAnswer:
+            "(a) Always. Both x-coordinates are positive, so their mean is positive; both y-coordinates are positive, so their mean is positive too. The midpoint has a positive x and a positive y, so it is in the first quadrant.\n\n(b) Sometimes. (−1, 5) and (7, −1) have midpoint (3, 2), which is in the first quadrant. But (−7, 1) and (1, −5) have midpoint (−3, −2), which is in the third quadrant. (The midpoint can even land on an axis: (−2, 2) and (2, −2) give (0, 0).)",
+          markScheme: [
+            { point: "(a) Always", keywords: ["always"] },
+            { point: "(a) Reason: the mean of two positive numbers is positive, for both x and y", keywords: ["positive", "mean", "average", "both"] },
+            { point: "(b) Sometimes", keywords: ["sometimes"] },
+            { point: "(b) An example in the first quadrant and an example that is not", keywords: ["(3, 2)", "third", "example", "(-3, -2)", "counterexample", "not always", "(0, 0)"] },
+          ],
+          commonError: "Giving one example for (b) and calling it 'always' — one example can't show always, but one counterexample does show 'not always'.",
+          difficulty: "challenge",
+          guideRef: "coordinates-midpoints",
+          hints: [
+            "Try some examples first: pick two points and find their midpoint.",
+            "For (a): what can you say about the mean of two positive numbers?",
+            "For (b): try making the second-quadrant point far to the left. Where does the midpoint go?",
+          ],
+          strategy: "Always, sometimes or never",
+        },
+      ],
+    },
+  ],
+
+  // =========================================================================
+  // CHALLENGE — 10 AoPS / UKMT-style problems
+  // =========================================================================
+  challenge: [
+    {
+      kind: "short",
+      id: "linear-graphs-ch-q01",
+      question: "A triangle has vertices P(1, 1), Q(7, 3) and R(3, 9). Find its area in square units.",
+      answer: { type: "number", value: 22 },
+      solution: [
+        "None of the sides is horizontal or vertical, so draw the smallest rectangle around the triangle with horizontal and vertical sides: x from 1 to 7 and y from 1 to 9. It is 6 by 8, so its area is 48.",
+        "Cut away the three right-angled triangles between the rectangle and PQR.",
+        "Below PQ: legs 7 − 1 = 6 and 3 − 1 = 2, area {{1/2}} × 6 × 2 = 6.",
+        "Right of QR: legs 9 − 3 = 6 and 7 − 3 = 4, area {{1/2}} × 6 × 4 = 12.",
+        "Left of RP: legs 3 − 1 = 2 and 9 − 1 = 8, area {{1/2}} × 2 × 8 = 8.",
+        "Area of PQR = 48 − (6 + 12 + 8) = 48 − 26 = 22 square units.",
+      ],
+      solutions: [
+        {
+          label: "The shoelace formula",
+          steps: [
+            "List the vertices in order and repeat the first: (1, 1), (7, 3), (3, 9), (1, 1).",
+            "Multiply diagonally down-right and add: 1 × 3 + 7 × 9 + 3 × 1 = 3 + 63 + 3 = 69.",
+            "Multiply diagonally up-right and add: 1 × 7 + 3 × 3 + 9 × 1 = 7 + 9 + 9 = 25.",
+            "Area = {{1/2}} × (69 − 25) = {{1/2}} × 44 = 22. Slicker once you know it — but the box method shows *why* the answer is 22 and needs nothing new.",
+          ],
+        },
+      ],
+      traps: [
+        { spec: { type: "number", value: 24 }, feedback: "Half the rectangle would be 24, but the triangle doesn't cut the rectangle exactly in half. Subtract the three corner triangles instead." },
+        { spec: { type: "number", value: 26 }, feedback: "26 is the total area of the three corner triangles. Subtract it from the rectangle's 48." },
+      ],
+      difficulty: "challenge",
+      guideRef: "coordinates-midpoints",
+      hints: [
+        "No side is horizontal or vertical, so 'half base × height' is awkward. What shape with an easy area could you fit around the triangle?",
+        "Draw a rectangle with horizontal and vertical sides that just encloses the triangle.",
+        "The rectangle minus three right-angled triangles leaves PQR. Find each of those three areas.",
+      ],
+      strategy: "Box and subtract",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-ch-q02",
+      question:
+        "Every line y = mx + c whose gradient m and intercept c satisfy 2m + c = 7 passes through one special point, whatever the value of m. For example, y = 7 and y = x + 5 are two such lines. Find the coordinates of the special point.",
+      answer: { type: "list", values: [2, 7], ordered: true, display: "(2, 7)" },
+      solution: [
+        "Write c in terms of m: c = 7 − 2m.",
+        "So y = mx + 7 − 2m = m(x − 2) + 7.",
+        "When x = 2, the m-term vanishes: y = m × 0 + 7 = 7, whatever m is.",
+        "So every such line passes through (2, 7).",
+      ],
+      solutions: [
+        {
+          label: "Try two cases",
+          steps: [
+            "The special point must lie on both example lines, y = 7 and y = x + 5.",
+            "They meet where x + 5 = 7, so x = 2: the point (2, 7).",
+            "Test a third line to be safe: m = 3 gives c = 1, and y = 3x + 1 at x = 2 gives 7. This finds the point fastest; the algebra *proves* it works for every m.",
+          ],
+        },
+      ],
+      traps: [{ spec: { type: "list", values: [0, 7], ordered: true }, feedback: "(0, 7) is only on lines with c = 7. Test y = x + 5: at x = 0 it gives 5, not 7." }],
+      difficulty: "challenge",
+      guideRef: "equations-of-lines",
+      hints: [
+        "Try small cases: where do the two example lines meet?",
+        "Write c in terms of m: c = 7 − 2m, and substitute.",
+        "y = m(x − 2) + 7. Which value of x makes m disappear?",
+      ],
+      strategy: "Look for an invariant",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-ch-q03",
+      question:
+        "Three vertices of a parallelogram are (1, 1), (5, 2) and (2, 4). The fourth vertex could be in three different places. Find the **sum** of the x-coordinates of all three possible fourth vertices.",
+      answer: { type: "number", value: 8 },
+      solution: [
+        "In a parallelogram the diagonals bisect each other, so the two ends of one diagonal have the same midpoint — and hence the same coordinate sums — as the two ends of the other.",
+        "If (5, 2) and (2, 4) are opposite: (1, 1) + D = (5, 2) + (2, 4), so D = (6, 5).",
+        "If (1, 1) and (2, 4) are opposite: (5, 2) + D = (1, 1) + (2, 4), so D = (−2, 3).",
+        "If (1, 1) and (5, 2) are opposite: (2, 4) + D = (1, 1) + (5, 2), so D = (4, −1).",
+        "Sum of the x-coordinates: 6 + (−2) + 4 = 8.",
+      ],
+      solutions: [
+        {
+          label: "Add them without finding them",
+          steps: [
+            "Call the given x-coordinates a, b and c (here 1, 5 and 2).",
+            "The three possible x-coordinates are b + c − a, a + c − b and a + b − c.",
+            "Add them: each letter appears twice with a plus and once with a minus, so the total is a + b + c = 1 + 5 + 2 = 8. Slicker — and it shows the answer is always the sum of the three given x-coordinates.",
+          ],
+        },
+      ],
+      traps: [
+        { spec: { type: "number", value: 6 }, feedback: "(6, 5) is one possible fourth vertex. Try each pair of given points as the ends of a diagonal — there are three cases." },
+        { spec: { type: "number", value: 4 }, feedback: "(4, −1) is one possible fourth vertex. There are two more: each pair of given points could be a diagonal." },
+      ],
+      difficulty: "challenge",
+      guideRef: "coordinates-midpoints",
+      hints: [
+        "Sketch the three points. Which pairs of them could be the two ends of a diagonal?",
+        "The diagonals of a parallelogram share a midpoint, so the two pairs of opposite vertices have the same coordinate sums.",
+        "Each choice of diagonal gives one fourth vertex. Find all three — or look for a short cut when you add them.",
+      ],
+      strategy: "Split into cases",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-ch-q04",
+      question:
+        "Ethan walks from home to school at 4 km/h, then walks straight back along the same route at 6 km/h. What is his average speed for the whole round trip, in km/h? (Average speed = total distance ÷ total time.)",
+      answer: { type: "number", value: 4.8, display: "4.8 km/h" },
+      solution: [
+        "The distance isn't given, so choose a convenient one: 12 km each way (12 divides by both 4 and 6).",
+        "There: 12 ÷ 4 = 3 hours. Back: 12 ÷ 6 = 2 hours.",
+        "Total: 24 km in 5 hours, so average speed = 24 ÷ 5 = 4.8 km/h.",
+        "It's below 5 km/h because he spends *longer* walking at the slower speed.",
+      ],
+      solutions: [
+        {
+          label: "Use a letter for the distance",
+          steps: [
+            "Let the distance each way be d km. Time there = {{d/4}} hours; time back = {{d/6}} hours.",
+            "Total time = {{d/4 + d/6 = (3d)/12 + (2d)/12 = (5d)/12}} hours.",
+            "Average speed = 2d ÷ {{(5d)/12}} = 2d × {{12/(5d)}} = {{24/5}} = 4.8 km/h.",
+            "The d cancels, which *proves* the distance doesn't matter. Choosing 12 km is quicker; the algebra shows why any distance gives the same answer.",
+          ],
+        },
+      ],
+      commonError: "Averaging the two speeds to get 5 km/h.",
+      traps: [{ spec: { type: "number", value: 5 }, feedback: "5 km/h is the mean of the two speeds, but he spends longer walking at 4 km/h than at 6 km/h, so the slower speed counts for more." }],
+      difficulty: "challenge",
+      guideRef: "real-life-graphs",
+      hints: [
+        "Is the answer 5? Test it by choosing an actual distance.",
+        "Choose a distance that divides nicely by both 4 and 6.",
+        "With 12 km each way, find the total distance and the total time.",
+      ],
+      strategy: "Choose a convenient number",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-ch-q05",
+      question: "How many points with whole-number coordinates lie on the line segment from (0, 0) to (84, 60), including both ends?",
+      answer: { type: "number", value: 13 },
+      solution: [
+        "The gradient is {{60/84 = 5/7}} in its simplest form.",
+        "So the smallest whole-number step along the line is 7 across and 5 up. Any shorter step would need fractions, because 5 and 7 have no common factor.",
+        "The points are (0, 0), (7, 5), (14, 10), …, (84, 60).",
+        "84 ÷ 7 = 12 steps, which join 12 + 1 = 13 points (counting both ends).",
+      ],
+      solutions: [
+        {
+          label: "Use the HCF",
+          steps: [
+            "The number of equal whole-number steps from (0, 0) to (84, 60) is the HCF of 84 and 60, which is 12.",
+            "12 steps join 13 points. Quicker once you see the HCF is doing the work; the gradient method explains why.",
+          ],
+        },
+      ],
+      commonError: "Counting the steps (12) instead of the points (13).",
+      traps: [
+        { spec: { type: "number", value: 12 }, feedback: "12 is the number of *steps*. 12 steps join 13 points — like fence panels and posts." },
+        { spec: { type: "number", value: 85 }, feedback: "Not every whole-number x gives a whole-number y. On this line y = {{5/7}}x, so x must be a multiple of 7." },
+      ],
+      difficulty: "challenge",
+      guideRef: "gradient-intercept",
+      hints: [
+        "Simplify the gradient {{60/84}}.",
+        "With gradient {{5/7}}, what is the smallest whole-number step from one point to the next?",
+        "How many steps of 7 fit into 84? Then count the points, including both ends.",
+      ],
+      strategy: "Make it simpler",
+    },
+    {
+      kind: "written",
+      id: "linear-graphs-ch-q06",
+      question: "Prove that there is **no** value of k for which the points A(2, 3), B(5, 9) and C(k, 2k) lie on one straight line.",
+      marks: 4,
+      modelAnswer:
+        "The gradient of AB is {{(9 - 3)/(5 - 2) = 6/3 = 2}}, so the line through A and B is y = 2x + c with 3 = 4 + c, giving c = −1: the line is y = 2x − 1. (Check: 2 × 5 − 1 = 9.)\n\nFor C(k, 2k) to be on this line we would need 2k = 2k − 1, which simplifies to 0 = −1. That is impossible, so no value of k works.\n\nThe reason: every point (k, 2k) lies on the line y = 2x. That line has the same gradient, 2, as AB but a different intercept (0 instead of −1), so it is parallel to AB and never meets it.",
+      markScheme: [
+        { point: "Gradient of AB is 2 (or the line is y = 2x − 1)", keywords: ["2", "y = 2x - 1", "2x - 1", "6/3"] },
+        { point: "Sets up the condition for C to be on the line, e.g. 2k = 2k − 1 or {{(2k - 3)/(k - 2) = 2}}", keywords: ["2k = 2k - 1", "2k - 1", "2k - 3", "substitute"] },
+        { point: "Shows this is impossible (it leads to a false statement such as 0 = −1)", keywords: ["impossible", "0 = -1", "-3 = -4", "contradiction", "no solution", "never"] },
+        { point: "Explains why: C always lies on y = 2x, which is parallel to AB", keywords: ["y = 2x", "parallel", "same gradient"] },
+      ],
+      solutions: [
+        {
+          label: "Gradient from A to C",
+          steps: [
+            "If C were on line AB, the gradient from A to C would also be 2: {{(2k - 3)/(k - 2) = 2}} (for k ≠ 2).",
+            "Then 2k − 3 = 2k − 4, so −3 = −4: impossible.",
+            "If k = 2, C = (2, 4) is directly above A, which would need a vertical line, not gradient 2. This works, but needs that special case; the parallel-lines picture is slicker and explains *why*.",
+          ],
+        },
+      ],
+      commonError: "Trying lots of values of k and concluding 'none worked' — testing examples can never prove that *no* value works.",
+      difficulty: "challenge",
+      guideRef: "line-through-two-points",
+      hints: [
+        "Find the equation of the line through A and B.",
+        "If C were on that line, what equation would k have to satisfy? What happens when you try to solve it?",
+        "As k changes, where do all the points (k, 2k) lie? How does that line compare with AB?",
+      ],
+      strategy: "Look for an invariant",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-ch-q07",
+      question:
+        "The lines y = x, y = −x and y = 6 enclose a triangle. How many points with whole-number coordinates lie strictly inside the triangle (not on its edges)?",
+      answer: { type: "number", value: 25 },
+      solution: [
+        "The triangle has corners (0, 0), (6, 6) and (−6, 6). Strictly inside it, y is between 0 and 6, so check the rows y = 1, 2, 3, 4 and 5.",
+        "In row y = k, the edges are at x = −k and x = k, so the inside points have x = −(k − 1), …, k − 1. That is 2k − 1 points.",
+        "The rows contain 1, 3, 5, 7 and 9 points.",
+        "Total: 1 + 3 + 5 + 7 + 9 = 25. (The sum of the first five odd numbers is {{5^2}}.)",
+      ],
+      solutions: [
+        {
+          label: "Pick's theorem",
+          steps: [
+            "Pick's theorem: Area = I + {{B/2}} − 1, where I counts the inside points and B counts the boundary points.",
+            "Area = {{1/2}} × 12 × 6 = 36.",
+            "Boundary: 7 points on each sloping side from (0, 0) to (±6, 6) and 13 on the top edge; the 3 corners have each been counted twice, so B = 7 + 7 + 13 − 3 = 24.",
+            "36 = I + 12 − 1, so I = 25. Slick if you know Pick's theorem — but counting rows is easier to trust and shows the odd-number pattern.",
+          ],
+        },
+      ],
+      traps: [
+        { spec: { type: "number", value: 36 }, feedback: "36 is the area. Count the whole-number points row by row instead — area and point count are different things." },
+        { spec: { type: "number", value: 49 }, feedback: "That includes the 24 points on the edges. The question asks for points strictly inside." },
+      ],
+      difficulty: "challenge",
+      guideRef: "special-lines",
+      hints: [
+        "Sketch the triangle. Where are its corners?",
+        "Work row by row: on the line y = 3, which whole-number x-values are strictly inside?",
+        "Row y = k has 2k − 1 inside points. Which rows count?",
+      ],
+      strategy: "Try small cases, then find a pattern",
+    },
+    {
+      kind: "short",
+      id: "linear-graphs-ch-q08",
+      question:
+        "Buses leave town A for town B every 15 minutes, all day, starting at 06:00, and each journey takes exactly 1 hour. Mei leaves B at 07:00 and travels to A along the same road, also taking exactly 1 hour. How many buses heading from A to B does she pass on the road? (Don't count buses she meets at a bus station.)",
+      answer: { type: "number", value: 7 },
+      solution: [
+        "Mei is on the road from 07:00 to 08:00. Picture a distance–time graph: each A-to-B bus is a rising line, and Mei is one falling line from B at 07:00 to A at 08:00.",
+        "The 06:00 bus reaches B at exactly 07:00, as Mei leaves — they meet in the bus station, which doesn't count. Earlier buses have already arrived.",
+        "The 08:00 bus leaves A at exactly 08:00, as Mei arrives — also in the station. Later buses leave after she has arrived.",
+        "Every bus that leaves A strictly between 06:00 and 08:00 crosses her line on the road: 06:15, 06:30, 06:45, 07:00, 07:15, 07:30 and 07:45.",
+        "That is 7 buses.",
+      ],
+      solutions: [
+        {
+          label: "Count the road at 07:00, then add departures",
+          steps: [
+            "At 07:00 the buses already on the road towards B are the 06:15, 06:30 and 06:45 buses. Mei must pass all 3 before she reaches A.",
+            "During her hour, buses leave A at 07:00, 07:15, 07:30 and 07:45 and come towards her: 4 more.",
+            "Total 3 + 4 = 7. The graph is slicker: it makes it hard to miss a bus or to count a station meeting by mistake.",
+          ],
+        },
+      ],
+      traps: [
+        { spec: { type: "number", value: 4 }, feedback: "4 counts only the buses that set off during Mei's hour. Buses that left A between 06:00 and 07:00 are still on the road, coming towards her." },
+        { spec: { type: "number", value: 9 }, feedback: "That includes the 06:00 bus (met at B at 07:00) and the 08:00 bus (met at A at 08:00). Those meetings happen in bus stations, which don't count." },
+      ],
+      difficulty: "challenge",
+      guideRef: "real-life-graphs",
+      hints: [
+        "Draw a distance–time graph with A at the bottom and B at the top. Draw Mei's journey as one line.",
+        "Draw the A-to-B buses as parallel rising lines, one every 15 minutes. Which of them cross Mei's line?",
+        "Be careful at the ends: the 06:00 bus arrives at B at exactly 07:00, and the 08:00 bus leaves A at exactly 08:00.",
+      ],
+      strategy: "Draw a diagram",
+    },
+    {
+      kind: "written",
+      id: "linear-graphs-ch-q09",
+      question: "Prove that no straight line can pass through all four quadrants.",
+      marks: 4,
+      modelAnswer:
+        "To get from one quadrant to another, a line must cross an axis (or pass through the origin, where both axes meet).\n\nA straight line that is not itself an axis crosses the x-axis at most once and the y-axis at most once. (If it met an axis at two points, it would *be* that axis — and then it lies in no quadrant at all.)\n\nSo travelling along the line from one end to the other, it can change quadrant at most twice, which means it visits at most three quadrants.\n\nFor example, y = x + 1 crosses the x-axis at (−1, 0) and the y-axis at (0, 1), and visits the third, second and first quadrants only. A line through the origin, such as y = 2x, crosses both axes at the same point and visits only two quadrants.",
+      markScheme: [
+        { point: "Moving from one quadrant to another requires crossing an axis", keywords: ["cross", "axis", "axes"] },
+        { point: "A straight line crosses each axis at most once (unless it is that axis)", keywords: ["at most once", "only once", "once", "one point"] },
+        { point: "So at most two crossings, so at most three quadrants", keywords: ["three", "3", "two crossings", "twice", "at most"] },
+        { point: "A correct example, e.g. y = x + 1 visits three quadrants, or a line through the origin visits two", keywords: ["y = x + 1", "example", "origin", "two quadrants", "three quadrants"] },
+      ],
+      solutions: [
+        {
+          label: "Uphill and downhill",
+          steps: [
+            "A horizontal or vertical line visits at most two quadrants. Any other line is uphill (m > 0) or downhill (m < 0).",
+            "Uphill: to go from the second quadrant (x < 0, y > 0) to the fourth (x > 0, y < 0), x must increase while y decreases. An uphill line can't do that, so it misses the second or the fourth quadrant.",
+            "Downhill: to go from the third quadrant (x < 0, y < 0) to the first (x > 0, y > 0), x and y must both increase. A downhill line can't do that, so it misses the first or the third quadrant.",
+            "Either way, at least one quadrant is missed. Slicker — no counting of crossings needed.",
+          ],
+        },
+      ],
+      commonError: "Drawing a few lines that miss a quadrant and calling that a proof — examples can't cover every possible line.",
+      difficulty: "challenge",
+      guideRef: "special-lines",
+      hints: [
+        "Draw some lines. What is the largest number of quadrants you can get one to pass through?",
+        "To move from one quadrant into the next, what must the line do?",
+        "How many times can a straight line cross the x-axis? And the y-axis?",
+      ],
+      strategy: "Consider extremes",
+    },
+    {
+      kind: "written",
+      id: "linear-graphs-ch-q10",
+      question: "Five points are chosen, each with whole-number coordinates. Prove that two of them must have a midpoint that also has whole-number coordinates.",
+      marks: 4,
+      modelAnswer:
+        "The midpoint of (a, b) and (c, d) is {{((a + c)/2, (b + d)/2)}}. This has whole-number coordinates exactly when a + c and b + d are both even.\n\nA sum of two whole numbers is even exactly when they are both even or both odd. So sort every point by the type of its coordinates: (even, even), (even, odd), (odd, even) or (odd, odd). There are only four types.\n\nWith five points and only four types, two of the points must be the same type (the pigeonhole principle). For those two, the x-coordinates add to an even number and the y-coordinates add to an even number, so their midpoint has whole-number coordinates.\n\nFour points would not be enough: (0, 0), (0, 1), (1, 0) and (1, 1) are all different types, and no two of them have a whole-number midpoint.",
+      markScheme: [
+        { point: "The midpoint has whole-number coordinates exactly when the x-sum and the y-sum are both even", keywords: ["even", "sum", "a + c", "both even"] },
+        { point: "Two numbers have an even sum when both are odd or both are even", keywords: ["odd", "parity", "both odd", "same type"] },
+        { point: "There are only four types: (even, even), (even, odd), (odd, even), (odd, odd)", keywords: ["four", "4", "types", "(odd, odd)", "(even, even)"] },
+        { point: "Five points and four types, so two share a type (pigeonhole) and their midpoint works", keywords: ["pigeonhole", "five", "5", "two must", "share", "same"] },
+      ],
+      commonError: "Checking a few sets of five points — that shows it happens for those sets, not that it must always happen.",
+      difficulty: "challenge",
+      guideRef: "coordinates-midpoints",
+      hints: [
+        "When is {{(a + c)/2}} a whole number?",
+        "It depends on whether a and c are odd or even. How many odd-or-even 'types' can a point (x, y) have?",
+        "There are 4 types and 5 points. What must happen?",
+      ],
+      strategy: "Pigeonhole principle",
+    },
+  ],
+};

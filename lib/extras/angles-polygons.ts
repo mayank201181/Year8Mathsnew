@@ -1,38 +1,67 @@
-import type { TopicExtras } from "../types";
+import type { TopicExtras } from "../types.ts";
 
-export const anglesPolygonsExtras: TopicExtras = {
-  topicId: "angles-polygons",
+export const extras: TopicExtras = {
   hook:
-    "Bees build honeycomb out of perfect hexagons — and it is no accident. The hexagon's 120° angles let cells tile a flat surface with no gaps using the least possible wax. Angle rules are nature's engineering.",
+    "Why do bees build honeycomb from hexagons and not pentagons? Three regular pentagons around a point leave a 36° gap that no fourth pentagon can fill, but three hexagons fit perfectly, because 3 × 120° = 360°.",
+
   didYouKnow: [
-    "Only three regular shapes tile the plane on their own — equilateral triangles (60°), squares (90°) and hexagons (120°). It works precisely because those angles divide exactly into 360°.",
-    "The exterior angles of ANY polygon always add to 360°, no matter how many sides — a triangle, a 20-gon, even a wonky one. You make exactly one full turn walking around it.",
-    "A regular polygon with very many sides looks almost like a circle: a 360-sided regular polygon has interior angles of 179°, nearly straight.",
-    "The word 'polygon' comes from Greek — 'poly' (many) and 'gon' (angle). So a polygon is literally a 'many-angled' shape.",
+    "Only three regular polygons tile a flat floor on their own: equilateral triangles, squares and regular hexagons. Their interior angles, 60°, 90° and 120°, are the only interior angles of regular polygons that divide exactly into 360°.",
+    "In 1999 the mathematician Thomas Hales proved the **honeycomb conjecture**: of all the ways to split a flat surface into cells of equal area, a grid of regular hexagons uses the least total wall length. For a flat layer of equal cells, hexagons hold the most for the least wax.",
+    "Regular pentagons can't tile, but some *irregular* pentagons can. Mathematicians have found exactly 15 types of convex pentagon that tile a flat surface (the 15th was only discovered in 2015), and in 2017 Michaël Rao gave a computer-assisted proof that there are no more.",
+    "In 2023 mathematicians announced the \"hat\", a 13-sided shape found by David Smith, a retired print technician and shape hobbyist from England. Copies of it (some flipped over) cover a flat surface with no gaps or overlaps, but the pattern never repeats itself. People had hunted for a single tile like this, nicknamed an *einstein* (German for \"one stone\"), for decades.",
+    "On a globe, triangles break the 180° rule. Walk from the North Pole down to the equator, turn 90° and walk a quarter of the way round the equator, then turn 90° and walk back up to the Pole. Your triangle has three right angles: 270° in total.",
+    "Splitting a full turn into 360 degrees is usually traced back to astronomers in ancient Babylon, who counted in base 60. It is a handy number: 360 has 24 factors, so a full turn splits into 2, 3, 4, 5, 6, 8, 9, 10, 12 or 15 equal parts of a whole number of degrees, and many more.",
   ],
-  experiments: [
+
+  activities: [
     {
-      title: "Tear-and-fit triangle angle sum",
-      materials: ["Paper", "Scissors or a ruler", "Pencil"],
+      title: "Tear the corners off a triangle",
+      emoji: "✂️",
+      materials: ["Scrap paper", "A ruler and a pencil", "Coloured pens or pencils", "Scissors (optional: tearing works too)"],
       steps: [
-        "Draw any triangle and colour its three corners differently.",
-        "Tear (or cut) off the three corners.",
-        "Place the three corners together so their points meet at one spot, edges touching.",
+        "Draw a large triangle with a ruler. Make it an awkward one: long and thin, or with one obtuse angle.",
+        "Colour each corner a different colour and mark each angle with a small arc, so you can still recognise the corners once they are torn off.",
+        "Cut out the triangle, then tear off its three corners.",
+        "Draw a straight line. Put the three corner points together at one point on the line, side by side with edges touching. What do you notice?",
+        "Now draw a quadrilateral that is not a rectangle, tear off its four corners and fit them round a point. Before you try a pentagon, predict what its five corners will make.",
       ],
-      whatToNotice:
-        "The three corners always line up to make a straight line — showing the angles add to 180°, whatever triangle you started with.",
+      maths:
+        "The three corners of any triangle fit together along a straight line, so they add to 180°. A quadrilateral's four corners fill a full turn, 360°, because one diagonal splits it into two triangles. A pentagon splits into three triangles, so its corners make 540°: a full turn plus a straight line. Each extra side adds one more triangle, which is where (n − 2) × 180° comes from. Tearing paper isn't a proof (the edges are never perfect), but it shows you the pattern that the proof explains.",
     },
     {
-      title: "Walk the exterior angles",
-      materials: ["Chalk or tape", "An open floor"],
+      title: "Walk a polygon with a phone compass",
+      emoji: "🧭",
+      materials: ["A phone with a compass app", "Chalk or masking tape, or an open space such as a void deck, a court or a field", "Pencil and paper"],
       steps: [
-        "Mark out a large triangle (or any polygon) on the floor.",
-        "Walk along each side, and at every corner turn through the exterior angle to face along the next side.",
-        "Keep going until you return to your start, facing your original direction.",
+        "Find a safe open space away from traffic and mark out a big polygon on the ground with at least five sides, each 2 to 4 metres long. Any shape will do, as long as the sides don't cross and every corner points outwards.",
+        "Stand at the start of one side, facing along it, with the shape on your **right**. Hold the phone flat and write down the compass heading in degrees.",
+        "Walk to the corner and turn right to face along the next side. Write down the new heading. Your turn is the new heading minus the old one (add 360 if the answer is negative).",
+        "Carry on round the whole shape until you are back at the start, facing the way you began.",
+        "Add up all your turns. Then mark out a completely different shape, with a different number of sides, and do it again. Compare the two totals.",
       ],
-      whatToNotice:
-        "By the time you get back you have turned through exactly one full circle — 360° — which is why the exterior angles of any polygon add to 360°.",
+      maths:
+        "Each turn you make is an **exterior angle** of the polygon. Back at the start and facing the same way, you have turned through exactly one full turn, so the exterior angles of any polygon add to 360°, whatever its shape and however many sides it has. Compass headings are measured clockwise from North, just like bearings, which is why walking with the shape on your right makes the headings go up. Phone compasses can be a few degrees out near metal, so expect a total close to 360°, not exactly 360°.",
     },
   ],
-  interactive: "angle-explorer",
+
+  bonusDiagrams: [
+    {
+      title: "Why the exterior angles always make 360°",
+      svg: `<svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Left: a pentagon walked anticlockwise, with each side extended as a dashed line and the five exterior angles shaded: 60, 80, 70, 60 and 90 degrees. Right: the same five shaded angles slid together around one point, filling a full circle of 360 degrees."><rect x="0" y="0" width="480" height="270" fill="#ffffff"/><text x="125" y="20" font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">Walk round, turning at each corner</text><text x="370" y="20" font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">Slide the turns together</text><path d="M80.2 198.8 L93.2 221.3 A26 26 0 0 0 106.2 198.8 Z" fill="#c7d2fe" stroke="#334155" stroke-width="1"/><line x1="80.2" y1="198.8" x2="100.2" y2="233.4" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M194.2 198.8 L220.2 198.8 A26 26 0 0 0 198.7 173.2 Z" fill="#fde68a" stroke="#334155" stroke-width="1"/><line x1="194.2" y1="198.8" x2="234.2" y2="198.8" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M207.4 124 L211.9 98.3 A26 26 0 0 0 184.9 111 Z" fill="#bbf7d0" stroke="#334155" stroke-width="1"/><line x1="207.4" y1="124" x2="214.4" y2="84.6" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M133.4 81.2 L110.9 68.2 A26 26 0 0 0 110.9 94.2 Z" fill="#fecaca" stroke="#334155" stroke-width="1"/><line x1="133.4" y1="81.2" x2="98.7" y2="61.2" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M42.6 133.6 L20.1 146.6 A26 26 0 0 0 55.6 156.1 Z" fill="#bae6fd" stroke="#334155" stroke-width="1"/><line x1="42.6" y1="133.6" x2="7.9" y2="153.6" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 3"/><polygon points="80.2,198.8 194.2,198.8 207.4,124 133.4,81.2 42.6,133.6" fill="none" stroke="#1f2937" stroke-width="2.5" stroke-linejoin="round"/><path d="M143.2 198.8 L132.3 195.4 L132.3 202.2 Z" fill="#1f2937"/><path d="M201.9 155.5 L196.6 165.6 L203.4 166.8 Z" fill="#1f2937"/><path d="M165.2 99.6 L172.9 108 L176.4 102.1 Z" fill="#1f2937"/><path d="M82.8 110.4 L94 107.9 L90.5 102 Z" fill="#1f2937"/><path d="M64.4 171.4 L61.9 160.2 L56 163.7 Z" fill="#1f2937"/><text x="112.3" y="221.3" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">60°</text><text x="222.6" y="179" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">80°</text><text x="191.8" y="94.4" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">70°</text><text x="96.4" y="85.2" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">60°</text><text x="33" y="173.4" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">90°</text><line x1="250" y1="140" x2="282" y2="140" stroke="#334155" stroke-width="2"/><path d="M290 140 L280 135 L280 145 Z" fill="#334155"/><path d="M370 140 L401 193.7 A62 62 0 0 0 432 140 Z" fill="#c7d2fe" stroke="#334155" stroke-width="1.5"/><path d="M370 140 L432 140 A62 62 0 0 0 380.8 78.9 Z" fill="#fde68a" stroke="#334155" stroke-width="1.5"/><path d="M370 140 L380.8 78.9 A62 62 0 0 0 316.3 109 Z" fill="#bbf7d0" stroke="#334155" stroke-width="1.5"/><path d="M370 140 L316.3 109 A62 62 0 0 0 316.3 171 Z" fill="#fecaca" stroke="#334155" stroke-width="1.5"/><path d="M370 140 L316.3 171 A62 62 0 0 0 401 193.7 Z" fill="#bae6fd" stroke="#334155" stroke-width="1.5"/><text x="404.6" y="164" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">60°</text><text x="400.6" y="118.3" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">80°</text><text x="353.1" y="107.7" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">70°</text><text x="330" y="144" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">60°</text><text x="359.6" y="182.6" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">90°</text><circle cx="370" cy="140" r="3" fill="#1f2937"/><text x="370" y="228" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">60° + 80° + 70° + 60° + 90° = 360°</text><text x="370" y="246" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">One full turn</text></svg>`,
+      caption:
+        "Walk anticlockwise round this pentagon. At each corner you turn through the shaded exterior angle. Slide the five turns to one point without rotating them and they fill a full circle: 60° + 80° + 70° + 60° + 90° = 360°. The same happens for any polygon, because walking all the way round always adds up to one full turn.",
+    },
+    {
+      title: "Which regular polygons fit around a point?",
+      svg: `<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Copies of a regular polygon placed around one point. Six equilateral triangles (6 times 60 degrees), four squares (4 times 90 degrees) and three regular hexagons (3 times 120 degrees) each fill 360 degrees exactly. Three regular pentagons make 324 degrees and leave a 36 degree gap."><rect x="0" y="0" width="480" height="210" fill="#ffffff"/><polygon points="60,100 60,55 21,77.5" fill="#c7d2fe" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="60,100 21,77.5 21,122.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="60,100 21,122.5 60,145" fill="#bbf7d0" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="60,100 60,145 99,122.5" fill="#c7d2fe" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="60,100 99,122.5 99,77.5" fill="#fde68a" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="60,100 99,77.5 60,55" fill="#bbf7d0" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><circle cx="60" cy="100" r="2.5" fill="#1f2937"/><text x="60" y="22" font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">Triangles</text><text x="60" y="172" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">6 × 60° = 360°</text><text x="60" y="190" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">fits ✓</text><polygon points="180,100 180,63.2 143.2,63.2 143.2,100" fill="#c7d2fe" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="180,100 143.2,100 143.2,136.8 180,136.8" fill="#fde68a" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="180,100 180,136.8 216.8,136.8 216.8,100" fill="#bbf7d0" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="180,100 216.8,100 216.8,63.2 180,63.2" fill="#bae6fd" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><circle cx="180" cy="100" r="2.5" fill="#1f2937"/><text x="180" y="22" font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">Squares</text><text x="180" y="172" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">4 × 90° = 360°</text><text x="180" y="190" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">fits ✓</text><polygon points="300,100 300,74 277.5,61 255,74 255,100 277.5,113" fill="#c7d2fe" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="300,100 277.5,113 277.5,139 300,152 322.5,139 322.5,113" fill="#bbf7d0" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="300,100 322.5,113 345,100 345,74 322.5,61 300,74" fill="#fde68a" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><circle cx="300" cy="100" r="2.5" fill="#1f2937"/><text x="300" y="22" font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">Hexagons</text><text x="300" y="172" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">3 × 120° = 360°</text><text x="300" y="190" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">fits ✓</text><polygon points="420,100 410.6,70.9 380,70.9 370.5,100 395.3,118" fill="#c7d2fe" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="420,100 395.3,118 404.7,147 435.3,147 444.7,118" fill="#bbf7d0" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><polygon points="420,100 444.7,118 469.5,100 460,70.9 429.4,70.9" fill="#fde68a" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/><path d="M420 100 L429.3 71.5 A30 30 0 0 0 410.7 71.5 Z" fill="#fecaca" stroke="#334155" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="420" cy="100" r="2.5" fill="#1f2937"/><text x="420" y="22" font-size="13" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">Pentagons</text><text x="420" y="172" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">3 × 108° = 324°</text><text x="420" y="190" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">36° gap ✗</text></svg>`,
+      caption:
+        "Copies of a regular polygon tile only if its interior angle divides exactly into 360°. Triangles, squares and hexagons work. Three regular pentagons make 3 × 108° = 324°, leaving a 36° gap, and a fourth would overlap, because 4 × 108° = 432°.",
+    },
+  ],
+
+  history: {
+    title: "The postulate that took 2000 years to crack",
+    story:
+      "Around 300 BC, Euclid wrote the *Elements*, building geometry from a few starting assumptions. His fifth, the **parallel postulate**, is about co-interior angles: if a line crosses two others and the co-interior angles on one side add to less than 180°, those two lines meet on that side. It seemed less obvious than the rest, so for 2000 years mathematicians tried to prove it from the others, and failed.\n\nIn 1820 the Hungarian mathematician Farkas Bolyai begged his son János to give the problem up, warning that it had taken all the light and joy from his own life. János instead asked: what if the postulate is false? He found a whole new geometry in which a triangle's angles add to *less* than 180°. In Russia, Nikolai Lobachevsky had found the same idea on his own, and published first, in 1829.",
+  },
 };

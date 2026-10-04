@@ -1,43 +1,49 @@
 "use client";
+// "Ask Professor Pi" — AoPS-style AI tutor panel. Gives hints, not answers.
+import { useEffect, useRef, useState } from "react";
+import { useStore } from "@/lib/store";
+import { Rich } from "./Rich";
 
-import { useState } from "react";
-
-interface Msg {
+interface Turn {
   role: "user" | "assistant";
   content: string;
 }
 
-const PRESETS = [
-  { label: "Explain simply", text: "Explain this topic simply with an example." },
-  { label: "Give a hint", text: "I'm stuck — give me just one hint, not the answer." },
-  { label: "Why does it work?", text: "Why does this method work?" },
+const PRESETS: { label: string; prompt: string }[] = [
+  { label: "Give me a hint", prompt: "Can you give me a hint for the next step? Don't tell me the answer." },
+  { label: "Explain simply", prompt: "Can you explain this idea simply, with an example?" },
+  { label: "Why does it work?", prompt: "Why does this method work?" },
+  { label: "Another example", prompt: "Can you give me a similar example to try myself?" },
 ];
 
-export default function AskAI({ context }: { context?: string }) {
+export function AskAI({ context, compact }: { context: string; compact?: boolean }) {
+  const { mode } = useStore();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Msg[]>([]);
-  const [input, setInput] = useState("");
+  const [turns, setTurns] = useState<Turn[]>([]);
+  const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const endRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ block: "nearest" });
+  }, [turns, busy]);
 
   async function send(text: string) {
-    if (!text.trim() || busy) return;
-    const next = [...messages, { role: "user" as const, content: text }];
-    setMessages(next);
-    setInput("");
+    const q = text.trim();
+    if (!q || busy) return;
+    const next = [...turns, { role: "user" as const, content: q }];
+    setTurns(next);
+    setDraft("");
     setBusy(true);
     setError(null);
     try {
-      const res = await fetch("/api/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next, context }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Tutor unavailable");
-      setMessages([...next, { role: "assistant", content: data.reply }]);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Error");
+      const r = await fetch("/api/ai", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: next, context }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || typeof j.reply !== "string") setError(typeof j.error === "string" ? j.error : "Professor Pi couldn't answer just now.");
+      else setTurns([...next, { role: "assistant", content: j.reply }]);
+    } catch {
+      setError("Couldn't reach Professor Pi. Check your internet connection.");
     } finally {
       setBusy(false);
     }
@@ -45,74 +51,58 @@ export default function AskAI({ context }: { context?: string }) {
 
   if (!open) {
     return (
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed bottom-4 left-4 z-30 bg-gradient-to-br from-indigo-500 to-teal-400 text-white rounded-full px-4 py-2.5 text-sm font-semibold shadow-lg hover:scale-105 transition"
-      >
+      <button type="button" className={compact ? "btn btn-ghost btn-sm" : "btn btn-secondary"} onClick={() => setOpen(true)}>
         🦉 Ask Professor Pi
       </button>
     );
   }
 
   return (
-    <div className="fixed bottom-4 left-4 z-40 w-[min(92vw,360px)] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col max-h-[70vh]">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
-        <span className="font-bold">🦉 Professor Pi</span>
-        <button onClick={() => setOpen(false)} className="text-slate-500 hover:text-slate-200">
+    <div className="w-full basis-full rounded-2xl border border-line bg-surface p-3 sm:p-4" role="region" aria-label="Professor Pi tutor">
+      <div className="mb-2 flex items-center justify-between">
+        <div className="font-extrabold">🦉 Professor Pi</div>
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setOpen(false)} aria-label="Close tutor">
           ✕
         </button>
       </div>
-
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 text-sm">
-        {messages.length === 0 && (
-          <p className="text-slate-400">
-            Hi! I&apos;m your maths tutor. I&apos;ll nudge you with hints rather than just give answers.
-            What are you working on?
-          </p>
-        )}
-        {messages.map((m, i) => (
-          <div
-            key={i}
-            className={`rounded-xl px-3 py-2 ${
-              m.role === "user" ? "bg-indigo-500/20 ml-6" : "bg-slate-800 mr-6"
-            }`}
-          >
-            {m.content}
+      {mode === "guest" ? (
+        <p className="text-sm text-ink-2">Professor Pi is available with a family account (so a grown-up can keep an eye on usage). Sign in from the menu to use it.</p>
+      ) : (
+        <>
+          <p className="text-xs text-ink-2">I give hints and explanations — you do the thinking! 🧠</p>
+          <div className="mt-2 max-h-80 space-y-2 overflow-y-auto">
+            {turns.map((t, i) => (
+              <div key={i} className={t.role === "user" ? "ml-8 rounded-xl bg-brand-soft px-3 py-2 text-sm" : "mr-4 rounded-xl bg-surface-2 px-3 py-2 text-sm"}>
+                {t.role === "assistant" ? <Rich text={t.content} /> : t.content}
+              </div>
+            ))}
+            {busy ? <div className="mr-4 rounded-xl bg-surface-2 px-3 py-2 text-sm text-ink-2">Professor Pi is thinking…</div> : null}
+            {error ? <div className="rounded-xl bg-bad-soft px-3 py-2 text-sm">{error}</div> : null}
+            <div ref={endRef} />
           </div>
-        ))}
-        {busy && <p className="text-slate-500">Professor Pi is thinking…</p>}
-        {error && <p className="text-rose-400">{error}</p>}
-      </div>
-
-      <div className="px-3 pb-3">
-        <div className="flex flex-wrap gap-1.5 mb-2">
-          {PRESETS.map((p) => (
-            <button
-              key={p.label}
-              onClick={() => send(p.text)}
-              className="text-xs bg-slate-800 hover:bg-slate-700 rounded-full px-2.5 py-1"
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && send(input)}
-            placeholder="Ask a question…"
-            className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm"
-          />
-          <button
-            onClick={() => send(input)}
-            disabled={busy}
-            className="bg-indigo-500 hover:bg-indigo-400 disabled:opacity-50 rounded-lg px-3 text-sm font-semibold"
+          {turns.length === 0 ? (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {PRESETS.map((p) => (
+                <button key={p.label} type="button" className="chip hover:bg-brand-soft" onClick={() => send(p.prompt)}>
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+          <form
+            className="mt-2 flex gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              void send(draft);
+            }}
           >
-            ➤
-          </button>
-        </div>
-      </div>
+            <input className="input text-sm" value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Ask about this…" maxLength={500} aria-label="Your question" />
+            <button type="submit" className="btn btn-primary btn-sm" disabled={busy || !draft.trim()}>
+              Ask
+            </button>
+          </form>
+        </>
+      )}
     </div>
   );
 }
