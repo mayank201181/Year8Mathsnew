@@ -457,7 +457,8 @@ function checkTerm(s: Seq, k: Q): Verdict {
       if (p !== 0 && t !== 0 && Math.sign(p) === Math.sign(t) && Math.min(Math.abs(p), Math.abs(t)) > Math.abs(k.n)) {
         const listed = ts.slice(0, i + 1).map((x) => q(x));
         if (positions.length) {
-          const where = positions.slice(0, 3).map((p2) => `term ${p2}`).join(" and ");
+          const where =
+            positions.length === 1 ? `term ${positions[0]}` : `terms ${positions.slice(0, -1).join(", ")} and ${positions[positions.length - 1]}`;
           return { yes: true, positions, working: [listMark(listed, true)], note: <>{K} is {where}.</> };
         }
         return {
@@ -466,8 +467,8 @@ function checkTerm(s: Seq, k: Q): Verdict {
           working: [listMark(listed, true)],
           note: (
             <>
-              From term {i} on, the terms all have the same sign and keep growing (each is the sum of the two before), and they are already further from 0 than{" "}
-              {K} — so it never appears.
+              Terms {i} and {i + 1} have the same sign and are both further from 0 than {K}. Each later term is the sum of the two before it, so from there on the
+              terms only get further from 0 — {K} never appears.
             </>
           ),
         };
@@ -495,9 +496,14 @@ function SeqGraph({ seq, terms, zero, kv, hits }: { seq: Seq; terms: Q[]; zero: 
   const px = (n: number) => L + (n * (W - L - R)) / SHOW;
   const py = (v: number) => H - B - ((v - sc.lo) / (sc.hi - sc.lo)) * (H - T - B);
   const linear = seq.kind === "arith";
+  const flat = vals.every((v) => v === vals[0]);
   const showK = kv !== null && kv >= sc.lo && kv <= sc.hi;
   const aria = `Graph of term against position n for n = 1 to ${SHOW}: ${terms.map((t, i) => `(${i + 1}, ${qPlain(t)})`).join(", ")}. ${
-    linear ? `The points lie on a straight line that meets the vertical axis at the zero term, ${qPlain(zero ?? q(0))}.` : "The points do not lie on a straight line."
+    linear
+      ? `The points lie on a straight line that meets the vertical axis at the zero term, ${qPlain(zero ?? q(0))}.`
+      : flat
+        ? "The points all lie on a flat line."
+        : "The points do not lie on a straight line."
   }`;
 
   return (
@@ -891,19 +897,26 @@ function SequenceExplorer() {
     const t19 = all[18];
     const t20 = all[19];
     const ratio = t19.n !== 0 ? qVal(t20) / qVal(t19) : null;
-    caption = (
-      <>
-        Each term is the <strong>sum of the two before it</strong>, so you need two starting terms. Look at the differences: apart from the first, they are the
-        terms of the sequence again, shifted one place along. The terms grow, but not by a fixed amount or a fixed multiplier.
-        {ratio !== null ? (
-          <>
-            {" "}
-            Divide each term by the one before: by term 20 the ratio is {ratio.toFixed(6)}, close to the <strong>golden ratio</strong> 1.618… — whatever two
-            starting numbers you choose (as long as they are not both 0).
-          </>
-        ) : null}
-      </>
-    );
+    caption =
+      f1 === 0 && f2 === 0 ? (
+        <>
+          Each term is the <strong>sum of the two before it</strong>, so you need two starting terms. Starting from 0 and 0, every term is 0 + 0 = 0 — the one
+          start that goes nowhere. Change either starting number and watch the terms take off.
+        </>
+      ) : (
+        <>
+          Each term is the <strong>sum of the two before it</strong>, so you need two starting terms. Look at the differences: apart from the first, they are
+          the terms of the sequence again, shifted one place along. Sooner or later the terms grow further and further from 0, but not by a fixed amount or a
+          fixed multiplier.
+          {ratio !== null ? (
+            <>
+              {" "}
+              Divide each term by the one before: by term 20 the ratio is {ratio.toFixed(6)}, close to the <strong>golden ratio</strong> 1.618… — whatever two
+              whole numbers you start with (as long as they are not both 0).
+            </>
+          ) : null}
+        </>
+      );
   } else {
     caption = (
       <>

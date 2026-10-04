@@ -704,7 +704,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "standard-form-p4-q07",
         question:
-          "Hana is asked to write {{4.07 * 10^(-4)}} as an ordinary number. She writes 0.000 047.\n\nWhat mistake has Hana made? Write the correct ordinary number.",
+          "Hana is asked to write {{4.07 * 10^(-4)}} as an ordinary number. She writes 0.000 047, but that is wrong.\n\nWrite {{4.07 * 10^(-4)}} correctly as an ordinary number.",
         answer: { type: "number", value: 0.000407, allowFraction: false, display: "0.000407" },
         traps: [
           { spec: { type: "number", value: 0.000047 }, feedback: "That's Hana's answer — she lost the 0 in the middle of 4.07. A zero between other digits is a real digit and must stay." },

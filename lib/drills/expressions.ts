@@ -389,6 +389,13 @@ function evalPoly(t: Poly1, x: Q): Q[] {
 }
 const qsum = (vals: Q[]): Q => vals.reduce((s, x) => qadd(s, x), q(0));
 
+/** Re-roll (bounded) when a number answer would be 0 — a zero answer is usually a dull, trivial question. */
+function nonZeroAnswer(make: () => DrillItem): DrillItem {
+  let item = make();
+  for (let i = 0; i < 30 && item.answer.type === "number" && item.answer.value === 0; i++) item = make();
+  return item;
+}
+
 // ===========================================================================
 // Drills
 // ===========================================================================
@@ -677,244 +684,246 @@ export const drills: Drill[] = [
     level: 1,
     guideRef: "substitution",
     generate(rng, tier) {
-      const v = rng.pick(ONE);
-      const [a, b] = rng.pick(PAIRS);
-      const ask = (expr: string, vals: string) => rng.pick([`Find the value of ${M(expr)} when ${vals}.`, `Work out ${M(expr)} when ${vals}.`, `Evaluate ${M(expr)} when ${vals}.`]);
-      if (tier === 1) {
-        const kind = rng.int(0, 5);
-        if (kind <= 1) {
-          // one-letter polynomial with positive values
-          const x = rng.int(2, 9);
-          const t: Poly1 = kind === 0 ? [[rng.int(2, 9), 1], [-rng.int(1, 9), 0]] : [[1, 2], [rng.int(1, 20), 0]];
-          if (kind === 0 && t[0][0] * x + t[1][0] <= 0) t[1][0] = -1;
-          const vals = evalPoly(t, q(x));
-          const ans = qsum(vals)[0];
-          const traps: Trap[] = [];
-          if (kind === 1 && x !== 2) traps.push(ntrap(2 * x + t[1][0], `${M(`${v}^2`)} means ${M(`${v} × ${v}`)}, not ${M(`2 × ${v}`)}.`));
+      return nonZeroAnswer(() => {
+        const v = rng.pick(ONE);
+        const [a, b] = rng.pick(PAIRS);
+        const ask = (expr: string, vals: string) => rng.pick([`Find the value of ${M(expr)} when ${vals}.`, `Work out ${M(expr)} when ${vals}.`, `Evaluate ${M(expr)} when ${vals}.`]);
+        if (tier === 1) {
+          const kind = rng.int(0, 5);
+          if (kind <= 1) {
+            // one-letter polynomial with positive values
+            const x = rng.int(2, 9);
+            const t: Poly1 = kind === 0 ? [[rng.int(2, 9), 1], [-rng.int(1, 9), 0]] : [[1, 2], [rng.int(1, 20), 0]];
+            if (kind === 0 && t[0][0] * x + t[1][0] <= 0) t[1][0] = -1;
+            const vals = evalPoly(t, q(x));
+            const ans = qsum(vals)[0];
+            const traps: Trap[] = [];
+            if (kind === 1 && x !== 2) traps.push(ntrap(2 * x + t[1][0], `${M(`${v}^2`)} means ${M(`${v} × ${v}`)}, not ${M(`2 × ${v}`)}.`));
+            return {
+              prompt: ask(polyStr(t, v), `${v} = ${x}`),
+              answer: { type: "number", value: ans },
+              solution: [`Replace ${v} with ${x}: ${M(subStr(t, `${x}`))}`, `${M(`= ${joinVals(vals)}`)}`, `${M(`= ${ans}`)}`],
+              hint: `Write the expression again with ${x} in place of ${v}. Powers first, then multiply, then add or subtract.`,
+              traps,
+            };
+          }
+          const A = rng.int(2, 10), B = rng.int(2, 10);
+          if (kind === 2) {
+            const p = rng.int(2, 9), qq = rng.int(2, 9);
+            return {
+              prompt: ask(`${p}${a} + ${qq}${b}`, `${a} = ${A} and ${b} = ${B}`),
+              answer: { type: "number", value: p * A + qq * B },
+              solution: [`${M(`${p} × ${A} + ${qq} × ${B}`)}`, `${M(`= ${p * A} + ${qq * B} = ${p * A + qq * B}`)}`],
+              hint: `${M(`${p}${a}`)} means ${M(`${p} × ${a}`)}.`,
+              traps: Number(`${p}${A}`) + Number(`${qq}${B}`) !== p * A + qq * B ? [ntrap(Number(`${p}${A}`) + Number(`${qq}${B}`), `${M(`${p}${a}`)} means ${p} × ${a}, not the digits ${p} and ${A} side by side.`)] : [],
+            };
+          }
+          if (kind === 3) {
+            const p = rng.int(2, 9);
+            const traps: Trap[] = [];
+            if (p * A + B !== p * (A + B)) traps.push(ntrap(p * A + B, `The bracket means ${p} multiplies the whole of ${M(`${a} + ${b}`)}. Add first: ${A} + ${B} = ${A + B}.`));
+            return {
+              prompt: ask(`${p}(${a} + ${b})`, `${a} = ${A} and ${b} = ${B}`),
+              answer: { type: "number", value: p * (A + B) },
+              solution: [`${M(`${p}(${A} + ${B})`)}`, `Brackets first: ${M(`${A} + ${B} = ${A + B}`)}`, `${M(`${p} × ${A + B} = ${p * (A + B)}`)}`],
+              hint: "Work out the bracket first.",
+              traps,
+            };
+          }
+          if (kind === 4) {
+            const C = rng.int(1, A * B - 1);
+            return {
+              prompt: ask(`${a}${b} - ${a === "c" ? "e" : "c"}`, `${a} = ${A}, ${b} = ${B} and ${a === "c" ? "e" : "c"} = ${C}`),
+              answer: { type: "number", value: A * B - C },
+              solution: [`${M(`${a}${b}`)} means ${M(`${a} × ${b}`)}: ${M(`${A} × ${B} = ${A * B}`)}.`, `${M(`${A * B} - ${C} = ${A * B - C}`)}`],
+              hint: `${M(`${a}${b}`)} means ${M(`${a} × ${b}`)}.`,
+            };
+          }
+          const C = rng.int(2, 6), k = rng.int(2, 8), A2 = rng.int(1, C * k - 1), B2 = C * k - A2;
+          const cL = a === "c" ? "e" : "c";
           return {
-            prompt: ask(polyStr(t, v), `${v} = ${x}`),
-            answer: { type: "number", value: ans },
-            solution: [`Replace ${v} with ${x}: ${M(subStr(t, `${x}`))}`, `${M(`= ${joinVals(vals)}`)}`, `${M(`= ${ans}`)}`],
-            hint: `Write the expression again with ${x} in place of ${v}. Powers first, then multiply, then add or subtract.`,
+            prompt: ask(`(${a} + ${b})/${cL}`, `${a} = ${A2}, ${b} = ${B2} and ${cL} = ${C}`),
+            answer: { type: "number", value: k },
+            solution: [`${M(`(${A2} + ${B2})/${C}`)}`, `The top first: ${M(`${A2} + ${B2} = ${C * k}`)}`, `${M(`${C * k} ÷ ${C} = ${k}`)}`],
+            hint: "The fraction line works like a bracket — add the top first, then divide.",
+          };
+        }
+        // ---- tiers 2 and 3 ----
+        const kind = tier === 2 ? rng.int(0, 5) : rng.int(0, 6);
+        if (kind <= 1 || (tier === 3 && kind === 6)) {
+          // one-letter polynomial
+          let t: Poly1;
+          let x: Q;
+          let xs: string;
+          let xText: string;
+          let decimal = false;
+          const style = tier === 2 ? 0 : rng.int(0, 2);
+          if (style === 0) {
+            const xi = rng.bool(0.85) ? -rng.int(1, tier === 2 ? 6 : 9) : rng.int(2, 6);
+            x = q(xi);
+            xs = bq(xi);
+            xText = num(xi);
+            t = rng.pick([
+              [[rng.int(1, 3), 2], [rng.nonZero(-7, 7), 1], [rng.int(-9, 9), 0]],
+              [[rng.int(-12, 20) || 5, 0], [-1, 2]],
+              [[-1, 2], [rng.nonZero(-7, 7), 1]],
+              [[1, 3], [rng.nonZero(-6, 6), 1]],
+              [[rng.int(2, 3), 3], [-1, 2]],
+            ] as Poly1[]).filter(([c]) => c !== 0);
+            if (t.some(([, p]) => p === 3) && Math.abs(xi) > 4) {
+              x = q(-rng.int(1, 3));
+              xs = bq(x[0]);
+              xText = num(x[0]);
+            }
+          } else if (style === 1) {
+            const d = rng.pick([2, 3, 4, 5]);
+            let n = 1;
+            for (let i = 0; i < 20; i++) {
+              n = rng.int(1, d - 1);
+              if (gcd(n, d) === 1) break;
+            }
+            if (gcd(n, d) !== 1) n = 1;
+            x = q(rng.bool() ? -n : n, d);
+            xs = `(${qin(x)})`;
+            xText = frac(x[0], x[1]);
+            t = rng.pick([
+              [[rng.int(2, 9) * (rng.bool(0.5) ? d : 1), 2], [rng.int(-9, 9), 0]],
+              [[d * rng.int(1, 4), 1], [rng.nonZero(-9, 9), 0]],
+              [[d * d, 2], [d * rng.nonZero(-4, 4), 1]],
+            ] as Poly1[]).filter(([c]) => c !== 0);
+          } else {
+            decimal = true;
+            const k = rng.pick([5, 15, 25, 2, 4, 12, 35]) * (rng.bool(0.6) ? -1 : 1);
+            x = q(k, 10);
+            xs = bq(clean(k / 10));
+            xText = num(clean(k / 10));
+            t = rng.pick([
+              [[rng.int(1, 4), 2], [rng.nonZero(-6, 6), 1]],
+              [[rng.int(-10, 20) || 4, 0], [-rng.int(1, 4), 2]],
+              [[rng.nonZero(-9, 9), 1], [rng.int(-9, 9), 0]],
+            ] as Poly1[]).filter(([c]) => c !== 0);
+          }
+          const vals = evalPoly(t, x);
+          const ans = qsum(vals);
+          const traps: Trap[] = [];
+          const toSpec = (r: Q): AnswerSpec => (r[1] === 1 ? { type: "number", value: r[0] } : decimal ? { type: "number", value: clean(r[0] / r[1]) } : { type: "fraction", n: r[0], d: r[1] });
+          if (x[0] < 0 && t.some(([, p]) => p === 2)) {
+            const wrong = qsum(t.map(([c, p]) => qmul(q(c), p === 2 ? qmul(q(-1), qpow(x, 2)) : qpow(x, p))));
+            traps.push({ spec: toSpec(wrong), feedback: `Square the whole negative number: ${M(`${xs}^2 = ${qin(qpow(x, 2))}`)} — a negative times a negative is positive. Then use the sign in front of the term.` });
+          }
+          if (x[0] < 0 && t.some(([, p]) => p === 3)) {
+            const wrong = qsum(t.map(([c, p]) => qmul(q(c), p === 3 ? qmul(q(-1), qpow(x, 3)) : qpow(x, p))));
+            traps.push({ spec: toSpec(wrong), feedback: `${M(`${xs}^3 = ${qin(qpow(x, 3))}`)} — three negatives multiplied together give a negative.` });
+          }
+          const sq = t.find(([c, p]) => p === 2 && Math.abs(c) >= 2);
+          if (sq && x[1] === 1) {
+            const wrong = qsum(t.map(([c, p]) => (p === 2 ? qpow(qmul(q(c), x), 2) : qmul(q(c), qpow(x, p)))));
+            traps.push({ spec: toSpec(wrong), feedback: `Only ${v} is squared in ${M(`${sq[0]}${v}^2`)}: square first, then multiply by ${Math.abs(sq[0])}.` });
+          }
+          const isWhole = ans[1] === 1;
+          const formNote = isWhole || decimal ? "" : " Give your answer as a fraction in its simplest form.";
+          const answer: AnswerSpec = isWhole ? { type: "number", value: ans[0] } : decimal ? { type: "number", value: clean(ans[0] / ans[1]) } : { type: "fraction", n: ans[0], d: ans[1], simplest: true };
+          const shown = decimal ? vals.map((r) => clean(r[0] / r[1])) : null;
+          const valsLine = shown
+            ? shown.map((x2, i) => (i === 0 ? num(x2).replace("−", "-") : x2 < 0 ? ` - ${clean(-x2)}` : ` + ${clean(x2)}`)).join("")
+            : joinVals(vals);
+          const ansText = isWhole ? `${ans[0]}` : decimal ? `${clean(ans[0] / ans[1])}` : qin(ans);
+          return {
+            prompt: ask(polyStr(t, v), `${v} = ${xText}`) + formNote,
+            answer,
+            solution: [
+              `Replace ${v} with ${xText}: ${M(subStr(t, xs))}`,
+              `Powers first, then multiply: ${M(`= ${valsLine}`)}`,
+              `${M(`= ${ansText}`)}`,
+            ],
+            hint: `Put ${xText} in brackets wherever you see ${v}. Work out powers first.`,
             traps,
           };
         }
-        const A = rng.int(2, 10), B = rng.int(2, 10);
         if (kind === 2) {
-          const p = rng.int(2, 9), qq = rng.int(2, 9);
+          // p·a − q·b with negatives
+          let A = 0, B = 0;
+          for (let i = 0; i < 50; i++) {
+            A = rng.nonZero(-9, 9); B = rng.nonZero(-9, 9);
+            if (A < 0 || B < 0) break;
+          }
+          const p = rng.int(2, 9), qq = rng.int(2, 9), minus = rng.bool(0.6);
+          const ans = minus ? p * A - qq * B : p * A + qq * B;
+          const traps: Trap[] = [];
+          if (minus && B < 0) traps.push(ntrap(p * A + qq * B, `${M(`-${qq} × (${B})`)} is positive: subtracting a negative is the same as adding.`));
           return {
-            prompt: ask(`${p}${a} + ${qq}${b}`, `${a} = ${A} and ${b} = ${B}`),
-            answer: { type: "number", value: p * A + qq * B },
-            solution: [`${M(`${p} × ${A} + ${qq} × ${B}`)}`, `${M(`= ${p * A} + ${qq * B} = ${p * A + qq * B}`)}`],
-            hint: `${M(`${p}${a}`)} means ${M(`${p} × ${a}`)}.`,
-            traps: Number(`${p}${A}`) + Number(`${qq}${B}`) !== p * A + qq * B ? [ntrap(Number(`${p}${A}`) + Number(`${qq}${B}`), `${M(`${p}${a}`)} means ${p} × ${a}, not the digits ${p} and ${A} side by side.`)] : [],
+            prompt: ask(`${p}${a} ${minus ? "-" : "+"} ${qq}${b}`, `${a} = ${num(A)} and ${b} = ${num(B)}`),
+            answer: { type: "number", value: ans },
+            solution: [`${M(`${p} × ${bq(A)} ${minus ? "-" : "+"} ${qq} × ${bq(B)}`)}`, `${M(`= ${p * A}${pm(minus ? -qq * B : qq * B)}`)}`, `${M(`= ${ans}`)}`],
+            hint: "Put each negative number in brackets, then multiply before you add or subtract.",
+            traps,
           };
         }
         if (kind === 3) {
-          const p = rng.int(2, 9);
-          const traps: Trap[] = [];
-          if (p * A + B !== p * (A + B)) traps.push(ntrap(p * A + B, `The bracket means ${p} multiplies the whole of ${M(`${a} + ${b}`)}. Add first: ${A} + ${B} = ${A + B}.`));
+          // (a + b)^2 vs a^2 + b^2
+          let A = 0, B = 0;
+          for (let i = 0; i < 50; i++) {
+            A = rng.nonZero(-6, 6); B = rng.nonZero(-6, 6);
+            if (A + B !== 0 && (A < 0 || B < 0)) break;
+          }
+          if (A + B === 0) B = A < 0 ? 2 : -2;
+          const ans = (A + B) * (A + B);
           return {
-            prompt: ask(`${p}(${a} + ${b})`, `${a} = ${A} and ${b} = ${B}`),
-            answer: { type: "number", value: p * (A + B) },
-            solution: [`${M(`${p}(${A} + ${B})`)}`, `Brackets first: ${M(`${A} + ${B} = ${A + B}`)}`, `${M(`${p} × ${A + B} = ${p * (A + B)}`)}`],
-            hint: "Work out the bracket first.",
-            traps,
+            prompt: ask(`(${a} + ${b})^2`, `${a} = ${num(A)} and ${b} = ${num(B)}`),
+            answer: { type: "number", value: ans },
+            solution: [`${M(`(${bq(A)} + ${bq(B)})^2`)}`, `Bracket first: ${M(`${bq(A)} + ${bq(B)} = ${A + B}`)}`, `${M(`${bq(A + B)}^2 = ${ans}`)}`],
+            hint: "Work out the bracket first, then square the result.",
+            traps: [ntrap(A * A + B * B, `${M(`(${a} + ${b})^2`)} means square the **sum**. You squared each letter separately.`)],
           };
         }
         if (kind === 4) {
-          const C = rng.int(1, A * B - 1);
+          // a(b − c)
+          const A = rng.nonZero(-6, 6), B = rng.nonZero(-9, 9);
+          let C = rng.nonZero(-9, 9);
+          if (B - C === 0) C = B > 0 ? B - 3 : B + 3;
+          if (C === 0) C = 2;
+          const cL = a === "c" ? "e" : "c";
+          const ans = A * (B - C);
+          const traps: Trap[] = [];
+          if (A * B - C !== ans) traps.push(ntrap(A * B - C, `The bracket means ${a} multiplies the whole of ${M(`${b} - ${cL}`)}. Do the bracket first.`));
           return {
-            prompt: ask(`${a}${b} - ${a === "c" ? "e" : "c"}`, `${a} = ${A}, ${b} = ${B} and ${a === "c" ? "e" : "c"} = ${C}`),
-            answer: { type: "number", value: A * B - C },
-            solution: [`${M(`${a}${b}`)} means ${M(`${a} × ${b}`)}: ${M(`${A} × ${B} = ${A * B}`)}.`, `${M(`${A * B} - ${C} = ${A * B - C}`)}`],
-            hint: `${M(`${a}${b}`)} means ${M(`${a} × ${b}`)}.`,
+            prompt: ask(`${a}(${b} - ${cL})`, `${a} = ${num(A)}, ${b} = ${num(B)} and ${cL} = ${num(C)}`),
+            answer: { type: "number", value: ans },
+            solution: [`${M(`${bq(A)} × (${bq(B)} - ${bq(C)})`)}`, `Bracket first: ${M(`${bq(B)} - ${bq(C)} = ${B - C}`)}`, `${M(`${bq(A)} × ${bq(B - C)} = ${ans}`)}`],
+            hint: "Do the bracket first. Subtracting a negative is the same as adding.",
+            traps,
           };
         }
-        const C = rng.int(2, 6), k = rng.int(2, 8), A2 = rng.int(1, C * k - 1), B2 = C * k - A2;
-        const cL = a === "c" ? "e" : "c";
-        return {
-          prompt: ask(`(${a} + ${b})/${cL}`, `${a} = ${A2}, ${b} = ${B2} and ${cL} = ${C}`),
-          answer: { type: "number", value: k },
-          solution: [`${M(`(${A2} + ${B2})/${C}`)}`, `The top first: ${M(`${A2} + ${B2} = ${C * k}`)}`, `${M(`${C * k} ÷ ${C} = ${k}`)}`],
-          hint: "The fraction line works like a bracket — add the top first, then divide.",
-        };
-      }
-      // ---- tiers 2 and 3 ----
-      const kind = tier === 2 ? rng.int(0, 5) : rng.int(0, 6);
-      if (kind <= 1 || (tier === 3 && kind === 6)) {
-        // one-letter polynomial
-        let t: Poly1;
-        let x: Q;
-        let xs: string;
-        let xText: string;
-        let decimal = false;
-        const style = tier === 2 ? 0 : rng.int(0, 2);
-        if (style === 0) {
-          const xi = rng.bool(0.85) ? -rng.int(1, tier === 2 ? 6 : 9) : rng.int(2, 6);
-          x = q(xi);
-          xs = bq(xi);
-          xText = num(xi);
-          t = rng.pick([
-            [[rng.int(1, 3), 2], [rng.nonZero(-7, 7), 1], [rng.int(-9, 9), 0]],
-            [[rng.int(-12, 20) || 5, 0], [-1, 2]],
-            [[-1, 2], [rng.nonZero(-7, 7), 1]],
-            [[1, 3], [rng.nonZero(-6, 6), 1]],
-            [[rng.int(2, 3), 3], [-1, 2]],
-          ] as Poly1[]).filter(([c]) => c !== 0);
-          if (t.some(([, p]) => p === 3) && Math.abs(xi) > 4) {
-            x = q(-rng.int(1, 3));
-            xs = bq(x[0]);
-            xText = num(x[0]);
+        // kind 5: two letters — fractions (tier 3) or a product of negatives (tier 2)
+        {
+          if (tier === 3) {
+            const d1 = rng.pick([2, 3, 4]), d2 = rng.pick([2, 3, 5]);
+            const A: Q = q(rng.bool() ? 1 : -1, d1), B: Q = q(rng.pick([1, 2, -1, -2, 3].filter((n) => gcd(n, d2) === 1)), d2);
+            const p = d1 * rng.int(1, 3), qq = rng.int(2, 9);
+            const vals = [qmul(q(p), A), qmul(q(qq), B)];
+            const ans = qsum(vals);
+            const isWhole = ans[1] === 1;
+            return {
+              prompt: ask(`${p}${a} + ${qq}${b}`, `${a} = ${frac(A[0], A[1])} and ${b} = ${frac(B[0], B[1])}`) + (isWhole ? "" : " Give your answer as a fraction in its simplest form."),
+              answer: isWhole ? { type: "number", value: ans[0] } : { type: "fraction", n: ans[0], d: ans[1], simplest: true },
+              solution: [`${M(`${p} × ${A[0] < 0 ? `(${qin(A)})` : qin(A)} + ${qq} × ${B[0] < 0 ? `(${qin(B)})` : qin(B)}`)}`, `${M(`= ${joinVals(vals)}`)}`, `${M(`= ${qin(ans)}`)}`],
+              hint: "Multiply each fraction by its coefficient, then add.",
+            };
           }
-        } else if (style === 1) {
-          const d = rng.pick([2, 3, 4, 5]);
-          let n = 1;
-          for (let i = 0; i < 20; i++) {
-            n = rng.int(1, d - 1);
-            if (gcd(n, d) === 1) break;
-          }
-          if (gcd(n, d) !== 1) n = 1;
-          x = q(rng.bool() ? -n : n, d);
-          xs = `(${qin(x)})`;
-          xText = frac(x[0], x[1]);
-          t = rng.pick([
-            [[rng.int(2, 9) * (rng.bool(0.5) ? d : 1), 2], [rng.int(-9, 9), 0]],
-            [[d * rng.int(1, 4), 1], [rng.nonZero(-9, 9), 0]],
-            [[d * d, 2], [d * rng.nonZero(-4, 4), 1]],
-          ] as Poly1[]).filter(([c]) => c !== 0);
-        } else {
-          decimal = true;
-          const k = rng.pick([5, 15, 25, 2, 4, 12, 35]) * (rng.bool(0.6) ? -1 : 1);
-          x = q(k, 10);
-          xs = bq(clean(k / 10));
-          xText = num(clean(k / 10));
-          t = rng.pick([
-            [[rng.int(1, 4), 2], [rng.nonZero(-6, 6), 1]],
-            [[rng.int(-10, 20) || 4, 0], [-rng.int(1, 4), 2]],
-            [[rng.nonZero(-9, 9), 1], [rng.int(-9, 9), 0]],
-          ] as Poly1[]).filter(([c]) => c !== 0);
-        }
-        const vals = evalPoly(t, x);
-        const ans = qsum(vals);
-        const traps: Trap[] = [];
-        const toSpec = (r: Q): AnswerSpec => (r[1] === 1 ? { type: "number", value: r[0] } : decimal ? { type: "number", value: clean(r[0] / r[1]) } : { type: "fraction", n: r[0], d: r[1] });
-        if (x[0] < 0 && t.some(([, p]) => p === 2)) {
-          const wrong = qsum(t.map(([c, p]) => qmul(q(c), p === 2 ? qmul(q(-1), qpow(x, 2)) : qpow(x, p))));
-          traps.push({ spec: toSpec(wrong), feedback: `Square the whole negative number: ${M(`${xs}^2 = ${qin(qpow(x, 2))}`)} — a negative times a negative is positive. Then use the sign in front of the term.` });
-        }
-        if (x[0] < 0 && t.some(([, p]) => p === 3)) {
-          const wrong = qsum(t.map(([c, p]) => qmul(q(c), p === 3 ? qmul(q(-1), qpow(x, 3)) : qpow(x, p))));
-          traps.push({ spec: toSpec(wrong), feedback: `${M(`${xs}^3 = ${qin(qpow(x, 3))}`)} — three negatives multiplied together give a negative.` });
-        }
-        const sq = t.find(([c, p]) => p === 2 && Math.abs(c) >= 2);
-        if (sq && x[1] === 1) {
-          const wrong = qsum(t.map(([c, p]) => (p === 2 ? qpow(qmul(q(c), x), 2) : qmul(q(c), qpow(x, p)))));
-          traps.push({ spec: toSpec(wrong), feedback: `Only ${v} is squared in ${M(`${sq[0]}${v}^2`)}: square first, then multiply by ${Math.abs(sq[0])}.` });
-        }
-        const isWhole = ans[1] === 1;
-        const formNote = isWhole || decimal ? "" : " Give your answer as a fraction in its simplest form.";
-        const answer: AnswerSpec = isWhole ? { type: "number", value: ans[0] } : decimal ? { type: "number", value: clean(ans[0] / ans[1]) } : { type: "fraction", n: ans[0], d: ans[1], simplest: true };
-        const shown = decimal ? vals.map((r) => clean(r[0] / r[1])) : null;
-        const valsLine = shown
-          ? shown.map((x2, i) => (i === 0 ? num(x2).replace("−", "-") : x2 < 0 ? ` - ${clean(-x2)}` : ` + ${clean(x2)}`)).join("")
-          : joinVals(vals);
-        const ansText = isWhole ? `${ans[0]}` : decimal ? `${clean(ans[0] / ans[1])}` : qin(ans);
-        return {
-          prompt: ask(polyStr(t, v), `${v} = ${xText}`) + formNote,
-          answer,
-          solution: [
-            `Replace ${v} with ${xText}: ${M(subStr(t, xs))}`,
-            `Powers first, then multiply: ${M(`= ${valsLine}`)}`,
-            `${M(`= ${ansText}`)}`,
-          ],
-          hint: `Put ${xText} in brackets wherever you see ${v}. Work out powers first.`,
-          traps,
-        };
-      }
-      if (kind === 2) {
-        // p·a − q·b with negatives
-        let A = 0, B = 0;
-        for (let i = 0; i < 50; i++) {
-          A = rng.nonZero(-9, 9); B = rng.nonZero(-9, 9);
-          if (A < 0 || B < 0) break;
-        }
-        const p = rng.int(2, 9), qq = rng.int(2, 9), minus = rng.bool(0.6);
-        const ans = minus ? p * A - qq * B : p * A + qq * B;
-        const traps: Trap[] = [];
-        if (minus && B < 0) traps.push(ntrap(p * A + qq * B, `${M(`-${qq} × (${B})`)} is positive: subtracting a negative is the same as adding.`));
-        return {
-          prompt: ask(`${p}${a} ${minus ? "-" : "+"} ${qq}${b}`, `${a} = ${num(A)} and ${b} = ${num(B)}`),
-          answer: { type: "number", value: ans },
-          solution: [`${M(`${p} × ${bq(A)} ${minus ? "-" : "+"} ${qq} × ${bq(B)}`)}`, `${M(`= ${p * A}${pm(minus ? -qq * B : qq * B)}`)}`, `${M(`= ${ans}`)}`],
-          hint: "Put each negative number in brackets, then multiply before you add or subtract.",
-          traps,
-        };
-      }
-      if (kind === 3) {
-        // (a + b)^2 vs a^2 + b^2
-        let A = 0, B = 0;
-        for (let i = 0; i < 50; i++) {
-          A = rng.nonZero(-6, 6); B = rng.nonZero(-6, 6);
-          if (A + B !== 0 && (A < 0 || B < 0)) break;
-        }
-        if (A + B === 0) B = A < 0 ? 2 : -2;
-        const ans = (A + B) * (A + B);
-        return {
-          prompt: ask(`(${a} + ${b})^2`, `${a} = ${num(A)} and ${b} = ${num(B)}`),
-          answer: { type: "number", value: ans },
-          solution: [`${M(`(${bq(A)} + ${bq(B)})^2`)}`, `Bracket first: ${M(`${bq(A)} + ${bq(B)} = ${A + B}`)}`, `${M(`${bq(A + B)}^2 = ${ans}`)}`],
-          hint: "Work out the bracket first, then square the result.",
-          traps: [ntrap(A * A + B * B, `${M(`(${a} + ${b})^2`)} means square the **sum**. You squared each letter separately.`)],
-        };
-      }
-      if (kind === 4) {
-        // a(b − c)
-        const A = rng.nonZero(-6, 6), B = rng.nonZero(-9, 9);
-        let C = rng.nonZero(-9, 9);
-        if (B - C === 0) C = B > 0 ? B - 3 : B + 3;
-        if (C === 0) C = 2;
-        const cL = a === "c" ? "e" : "c";
-        const ans = A * (B - C);
-        const traps: Trap[] = [];
-        if (A * B - C !== ans) traps.push(ntrap(A * B - C, `The bracket means ${a} multiplies the whole of ${M(`${b} - ${cL}`)}. Do the bracket first.`));
-        return {
-          prompt: ask(`${a}(${b} - ${cL})`, `${a} = ${num(A)}, ${b} = ${num(B)} and ${cL} = ${num(C)}`),
-          answer: { type: "number", value: ans },
-          solution: [`${M(`${bq(A)} × (${bq(B)} - ${bq(C)})`)}`, `Bracket first: ${M(`${bq(B)} - ${bq(C)} = ${B - C}`)}`, `${M(`${bq(A)} × ${bq(B - C)} = ${ans}`)}`],
-          hint: "Do the bracket first. Subtracting a negative is the same as adding.",
-          traps,
-        };
-      }
-      // kind 5: two letters — fractions (tier 3) or a product of negatives (tier 2)
-      {
-        if (tier === 3) {
-          const d1 = rng.pick([2, 3, 4]), d2 = rng.pick([2, 3, 5]);
-          const A: Q = q(rng.bool() ? 1 : -1, d1), B: Q = q(rng.pick([1, 2, -1, -2, 3].filter((n) => gcd(n, d2) === 1)), d2);
-          const p = d1 * rng.int(1, 3), qq = rng.int(2, 9);
-          const vals = [qmul(q(p), A), qmul(q(qq), B)];
-          const ans = qsum(vals);
-          const isWhole = ans[1] === 1;
+          const A = -rng.int(2, 9), B = rng.nonZero(-9, 9);
+          let C = rng.nonZero(-12, 12);
+          if (A * B + C === 0) C = C > 0 ? C + 1 : C - 1;
+          const cL = a === "c" ? "e" : "c";
+          const ans = A * B + C;
           return {
-            prompt: ask(`${p}${a} + ${qq}${b}`, `${a} = ${frac(A[0], A[1])} and ${b} = ${frac(B[0], B[1])}`) + (isWhole ? "" : " Give your answer as a fraction in its simplest form."),
-            answer: isWhole ? { type: "number", value: ans[0] } : { type: "fraction", n: ans[0], d: ans[1], simplest: true },
-            solution: [`${M(`${p} × ${A[0] < 0 ? `(${qin(A)})` : qin(A)} + ${qq} × ${B[0] < 0 ? `(${qin(B)})` : qin(B)}`)}`, `${M(`= ${joinVals(vals)}`)}`, `${M(`= ${qin(ans)}`)}`],
-            hint: "Multiply each fraction by its coefficient, then add.",
+            prompt: ask(`${a}${b} + ${cL}`, `${a} = ${num(A)}, ${b} = ${num(B)} and ${cL} = ${num(C)}`),
+            answer: { type: "number", value: ans },
+            solution: [`${M(`${bq(A)} × ${bq(B)} + ${bq(C)}`)}`, `Multiply first: ${M(`${bq(A)} × ${bq(B)} = ${A * B}`)}`, `${M(`${A * B}${pm(C)} = ${ans}`)}`],
+            hint: "Multiply first, then add. Watch the signs.",
+            traps: B < 0 ? [ntrap(-A * B + C, `A negative times a negative is positive: ${M(`${bq(A)} × ${bq(B)} = ${A * B}`)}.`)] : [],
           };
         }
-        const A = -rng.int(2, 9), B = rng.nonZero(-9, 9);
-        let C = rng.nonZero(-12, 12);
-        if (A * B + C === 0) C = C > 0 ? C + 1 : C - 1;
-        const cL = a === "c" ? "e" : "c";
-        const ans = A * B + C;
-        return {
-          prompt: ask(`${a}${b} + ${cL}`, `${a} = ${num(A)}, ${b} = ${num(B)} and ${cL} = ${num(C)}`),
-          answer: { type: "number", value: ans },
-          solution: [`${M(`${bq(A)} × ${bq(B)} + ${bq(C)}`)}`, `Multiply first: ${M(`${bq(A)} × ${bq(B)} = ${A * B}`)}`, `${M(`${A * B}${pm(C)} = ${ans}`)}`],
-          hint: "Multiply first, then add. Watch the signs.",
-          traps: B < 0 ? [ntrap(-A * B + C, `A negative times a negative is positive: ${M(`${bq(A)} × ${bq(B)} = ${A * B}`)}.`)] : [],
-        };
-      }
+      });
     },
   },
 
@@ -926,175 +935,177 @@ export const drills: Drill[] = [
     level: 2,
     guideRef: "substitution",
     generate(rng, tier) {
-      const pool = tier === 1 ? ["v", "P", "A", "F", "s", "C"] : tier === 2 ? ["v", "P", "A", "F", "s", "C"] : ["E", "s2", "rev", "FC", "circle", "v"];
-      const kind = rng.pick(pool);
-      if (kind === "v") {
-        let u = 0, A10 = 20, t = 2, V10 = 0;
-        for (let i = 0; i < 100; i++) {
-          t = rng.int(2, 6);
-          if (tier === 1) { u = rng.int(0, 10); A10 = 10 * rng.int(2, 3); }
-          else { u = rng.int(5, 25); A10 = rng.bool(0.5) ? -10 * rng.int(1, 4) : rng.pick([15, 25, 5, 10, 20]); }
-          V10 = 10 * u + A10 * t;
-          if (V10 >= 0 && V10 % 1 === 0) break;
-        }
-        const a = clean(A10 / 10), v = clean(V10 / 10);
-        const traps: Trap[] = [];
-        const wrong = clean((u + a) * t);
-        if (wrong !== v) traps.push(ntrap(wrong, `Multiply before adding: work out ${M("at")} first, then add u.`));
-        return {
-          prompt: `The formula ${M("v = u + at")} gives the speed v (in m/s) of a car after t seconds, where u is its starting speed and a is its acceleration. Find v when u = ${u}, a = ${num(a)} and t = ${t}.`,
-          answer: { type: "number", value: v },
-          solution: [`${M(`v = ${u} + ${bq(a)} × ${t}`)}`, `Multiply first: ${M(`${bq(a)} × ${t} = ${clean(a * t)}`)}`, `${M(`v = ${u}${pm(clean(a * t))} = ${v}`)} m/s`],
-          hint: `${M("at")} means a × t. Do the multiplication before the addition.`,
-          traps,
-        };
-      }
-      if (kind === "P") {
-        const dec = tier === 2;
-        const L = dec ? rng.int(21, 99) : 10 * rng.int(3, 20), W = dec ? rng.int(11, L - 1) : 10 * rng.int(2, L / 10 - 1);
-        const l = clean(L / 10), w = clean(W / 10), P = clean((2 * (L + W)) / 10);
-        return {
-          prompt: `The perimeter of a rectangle is given by ${M("P = 2(l + w)")}. Find P when l = ${l} cm and w = ${w} cm. Give your answer in cm.`,
-          answer: { type: "number", value: P },
-          solution: [`${M(`P = 2(${l} + ${w})`)}`, `Bracket first: ${M(`${l} + ${w} = ${clean((L + W) / 10)}`)}`, `${M(`P = 2 × ${clean((L + W) / 10)} = ${P}`)} cm`],
-          hint: "Work out the bracket first, then double it.",
-          traps: [ntrap(clean((2 * L + W) / 10), "The 2 multiplies the whole bracket — double both l and w (add them first).")],
-        };
-      }
-      if (kind === "A") {
-        let b = 4, h = 6;
-        for (let i = 0; i < 50; i++) {
-          b = rng.int(3, 20); h = rng.int(3, 20);
-          if (tier === 2 || (b * h) % 2 === 0) break;
-        }
-        const A = clean((b * h) / 2);
-        return {
-          prompt: `The area of a triangle is ${M("A = 1/2 bh")}. Find A when b = ${b} cm and h = ${h} cm. Give your answer in {{cm^2}}.`,
-          answer: { type: "number", value: A },
-          solution: [`${M(`A = 1/2 × ${b} × ${h}`)}`, `${M(`${b} × ${h} = ${b * h}`)}`, `${M(`${b * h} ÷ 2 = ${A}`)} {{cm^2}}`],
-          hint: `${M("1/2 bh")} means half of b × h.`,
-          traps: [ntrap(b * h, "Don't forget the half — a triangle is half of a rectangle.")],
-        };
-      }
-      if (kind === "F") {
-        const C = tier === 1 ? 5 * rng.int(0, 8) : rng.int(-20, 40);
-        const F = clean((18 * C + 320) / 10);
-        const wrong = clean((18 * (C + 32)) / 10);
-        return {
-          prompt: `To change a temperature from °C to °F you can use ${M("F = 1.8C + 32")}. Find F when C = ${num(C)}.`,
-          answer: { type: "number", value: F },
-          solution: [`${M(`F = 1.8 × ${bq(C)} + 32`)}`, `Multiply first: ${M(`1.8 × ${bq(C)} = ${clean((18 * C) / 10)}`)}`, `${M(`F = ${clean((18 * C) / 10)} + 32 = ${F}`)}`],
-          hint: "Multiply by 1.8 first, then add 32.",
-          traps: wrong !== F ? [ntrap(wrong, "Multiply C by 1.8 first, then add 32 — don't add 32 before multiplying.")] : [],
-        };
-      }
-      if (kind === "s") {
-        const t = rng.int(2, 6);
-        const s = tier === 1 ? rng.int(3, 20) : clean(rng.int(7, 40) / 2);
-        const d = clean(s * t);
-        return {
-          prompt: `Average speed is given by ${M("s = d/t")}. A cyclist rides ${d} km in ${t} hours. Find her average speed s in km/h.`,
-          answer: { type: "number", value: s },
-          solution: [`${M(`s = ${d}/${t}`)}`, `${M(`${d} ÷ ${t} = ${s}`)} km/h`],
-          hint: `${M("d/t")} means distance divided by time.`,
-          traps: [ntrap(clean(d * t), "Divide the distance by the time — don't multiply.")],
-        };
-      }
-      if (kind === "C") {
-        const f = rng.int(5, 30), r = tier === 1 ? rng.int(3, 15) : clean(rng.int(25, 90) / 10), n = rng.int(2, 12);
-        const C = clean(f + r * n);
-        const ctx = rng.pick([
-          `The cost in dollars of a school CCA trip for n students is ${M(`C = ${f} + ${r}n`)}.`,
-          `The cost in dollars of hiring a bike for n hours at East Coast Park is ${M(`C = ${f} + ${r}n`)}.`,
-          `A printing shop charges ${M(`C = ${f} + ${r}n`)} dollars to print n posters.`,
-        ]);
-        const wrong = clean((f + r) * n);
-        return {
-          prompt: `${ctx} Find C when n = ${n}.`,
-          answer: { type: "number", value: C, display: `$${C % 1 === 0 ? C : C.toFixed(2)}` },
-          solution: [`${M(`C = ${f} + ${r} × ${n}`)}`, `Multiply first: ${M(`${r} × ${n} = ${clean(r * n)}`)}`, `${M(`C = ${f} + ${clean(r * n)} = ${C}`)}, so the cost is $${C % 1 === 0 ? C : C.toFixed(2)}.`],
-          hint: `${M(`${r}n`)} means ${r} × n. Multiply before adding.`,
-          traps: wrong !== C ? [ntrap(wrong, "Multiply before you add: work out the n part first, then add the fixed amount.")] : [],
-        };
-      }
-      if (kind === "E") {
-        const m = rng.int(2, 12), v = rng.int(2, 10);
-        const E = clean((m * v * v) / 2);
-        const traps: Trap[] = [ntrap(m * v * v, "Don't forget to halve.")];
-        const w2 = clean((m * v) * (m * v) / 2);
-        if (w2 !== E) traps.push(ntrap(w2, `Only v is squared: ${M(`v^2 = ${v * v}`)}. Then multiply by m and halve.`));
-        return {
-          prompt: `The kinetic energy (in joules) of a moving object is ${M("E = 1/2 m v^2")}, where m is its mass in kg and v its speed in m/s. Find E when m = ${m} and v = ${v}.`,
-          answer: { type: "number", value: E },
-          solution: [`Square first: ${M(`v^2 = ${v}^2 = ${v * v}`)}`, `${M(`E = 1/2 × ${m} × ${v * v} = ${E}`)} J`],
-          hint: "Square v first, then multiply by m, then halve.",
-          traps,
-        };
-      }
-      if (kind === "s2") {
-        const u = rng.int(0, 10), t = rng.int(2, 6), a = rng.int(2, 6);
-        const s = clean(u * t + (a * t * t) / 2);
-        const traps: Trap[] = [];
-        if (u * t + a * t * t !== s) traps.push(ntrap(u * t + a * t * t, `Don't forget the half in ${M("1/2 at^2")}.`));
-        const w2 = clean(u * t + (a * t) * (a * t) / 2);
-        if (w2 !== s) traps.push(ntrap(w2, "Only t is squared, not a × t."));
-        return {
-          prompt: `The distance s metres travelled by a car is ${M("s = ut + 1/2 at^2")}. Find s when u = ${u}, a = ${a} and t = ${t}.`,
-          answer: { type: "number", value: s },
-          solution: [`${M(`ut = ${u} × ${t} = ${u * t}`)}`, `${M(`1/2 at^2 = 1/2 × ${a} × ${t}^2 = 1/2 × ${a} × ${t * t} = ${clean((a * t * t) / 2)}`)}`, `${M(`s = ${u * t} + ${clean((a * t * t) / 2)} = ${s}`)} m`],
-          hint: "Work out each term separately. In the second term, square t first.",
-          traps,
-        };
-      }
-      if (kind === "rev") {
-        const a = rng.int(2, 6), t = rng.int(2, 8), u = rng.int(0, 20);
-        const v = u + a * t;
-        if (rng.bool()) {
+      return nonZeroAnswer(() => {
+        const pool = tier === 1 ? ["v", "P", "A", "F", "s", "C"] : tier === 2 ? ["v", "P", "A", "F", "s", "C"] : ["E", "s2", "rev", "FC", "circle", "v"];
+        const kind = rng.pick(pool);
+        if (kind === "v") {
+          let u = 0, A10 = 20, t = 2, V10 = 0;
+          for (let i = 0; i < 100; i++) {
+            t = rng.int(2, 6);
+            if (tier === 1) { u = rng.int(0, 10); A10 = 10 * rng.int(2, 3); }
+            else { u = rng.int(5, 25); A10 = rng.bool(0.5) ? -10 * rng.int(1, 4) : rng.pick([15, 25, 5, 10, 20]); }
+            V10 = 10 * u + A10 * t;
+            if (V10 >= 0 && V10 % 1 === 0) break;
+          }
+          const a = clean(A10 / 10), v = clean(V10 / 10);
+          const traps: Trap[] = [];
+          const wrong = clean((u + a) * t);
+          if (wrong !== v) traps.push(ntrap(wrong, `Multiply before adding: work out ${M("at")} first, then add u.`));
           return {
-            prompt: `The formula ${M("v = u + at")} links the final speed v, the starting speed u, the acceleration a and the time t. Find u when v = ${v}, a = ${a} and t = ${t}.`,
-            answer: { type: "number", value: u },
-            solution: [`${M(`${v} = u + ${a} × ${t}`)}`, `${M(`${v} = u + ${a * t}`)}`, `Subtract ${a * t} from both sides: ${M(`u = ${v} - ${a * t} = ${u}`)}`],
-            hint: "Substitute the values you know, then solve the equation for u.",
-            traps: [ntrap(v + a * t, `Substitute first: ${M(`${v} = u + ${a * t}`)}. To undo + ${a * t}, subtract it.`)],
+            prompt: `The formula ${M("v = u + at")} gives the speed v (in m/s) of a car after t seconds, where u is its starting speed and a is its acceleration. Find v when u = ${u}, a = ${num(a)} and t = ${t}.`,
+            answer: { type: "number", value: v },
+            solution: [`${M(`v = ${u} + ${bq(a)} × ${t}`)}`, `Multiply first: ${M(`${bq(a)} × ${t} = ${clean(a * t)}`)}`, `${M(`v = ${u}${pm(clean(a * t))} = ${v}`)} m/s`],
+            hint: `${M("at")} means a × t. Do the multiplication before the addition.`,
+            traps,
           };
         }
+        if (kind === "P") {
+          const dec = tier === 2;
+          const L = dec ? rng.int(21, 99) : 10 * rng.int(3, 20), W = dec ? rng.int(11, L - 1) : 10 * rng.int(2, L / 10 - 1);
+          const l = clean(L / 10), w = clean(W / 10), P = clean((2 * (L + W)) / 10);
+          return {
+            prompt: `The perimeter of a rectangle is given by ${M("P = 2(l + w)")}. Find P when l = ${l} cm and w = ${w} cm. Give your answer in cm.`,
+            answer: { type: "number", value: P },
+            solution: [`${M(`P = 2(${l} + ${w})`)}`, `Bracket first: ${M(`${l} + ${w} = ${clean((L + W) / 10)}`)}`, `${M(`P = 2 × ${clean((L + W) / 10)} = ${P}`)} cm`],
+            hint: "Work out the bracket first, then double it.",
+            traps: [ntrap(clean((2 * L + W) / 10), "The 2 multiplies the whole bracket — double both l and w (add them first).")],
+          };
+        }
+        if (kind === "A") {
+          let b = 4, h = 6;
+          for (let i = 0; i < 50; i++) {
+            b = rng.int(3, 20); h = rng.int(3, 20);
+            if (tier === 2 || (b * h) % 2 === 0) break;
+          }
+          const A = clean((b * h) / 2);
+          return {
+            prompt: `The area of a triangle is ${M("A = 1/2 bh")}. Find A when b = ${b} cm and h = ${h} cm. Give your answer in {{cm^2}}.`,
+            answer: { type: "number", value: A },
+            solution: [`${M(`A = 1/2 × ${b} × ${h}`)}`, `${M(`${b} × ${h} = ${b * h}`)}`, `${M(`${b * h} ÷ 2 = ${A}`)} {{cm^2}}`],
+            hint: `${M("1/2 bh")} means half of b × h.`,
+            traps: [ntrap(b * h, "Don't forget the half — a triangle is half of a rectangle.")],
+          };
+        }
+        if (kind === "F") {
+          const C = tier === 1 ? 5 * rng.int(0, 8) : rng.int(-20, 40);
+          const F = clean((18 * C + 320) / 10);
+          const wrong = clean((18 * (C + 32)) / 10);
+          return {
+            prompt: `To change a temperature from °C to °F you can use ${M("F = 1.8C + 32")}. Find F when C = ${num(C)}.`,
+            answer: { type: "number", value: F },
+            solution: [`${M(`F = 1.8 × ${bq(C)} + 32`)}`, `Multiply first: ${M(`1.8 × ${bq(C)} = ${clean((18 * C) / 10)}`)}`, `${M(`F = ${clean((18 * C) / 10)} + 32 = ${F}`)}`],
+            hint: "Multiply by 1.8 first, then add 32.",
+            traps: wrong !== F ? [ntrap(wrong, "Multiply C by 1.8 first, then add 32 — don't add 32 before multiplying.")] : [],
+          };
+        }
+        if (kind === "s") {
+          const t = rng.int(2, 6);
+          const s = tier === 1 ? rng.int(3, 20) : clean(rng.int(7, 40) / 2);
+          const d = clean(s * t);
+          return {
+            prompt: `Average speed is given by ${M("s = d/t")}. A cyclist rides ${d} km in ${t} hours. Find her average speed s in km/h.`,
+            answer: { type: "number", value: s },
+            solution: [`${M(`s = ${d}/${t}`)}`, `${M(`${d} ÷ ${t} = ${s}`)} km/h`],
+            hint: `${M("d/t")} means distance divided by time.`,
+            traps: [ntrap(clean(d * t), "Divide the distance by the time — don't multiply.")],
+          };
+        }
+        if (kind === "C") {
+          const f = rng.int(5, 30), r = tier === 1 ? rng.int(3, 15) : clean(rng.int(25, 90) / 10), n = rng.int(2, 12);
+          const C = clean(f + r * n);
+          const ctx = rng.pick([
+            `The cost in dollars of a school CCA trip for n students is ${M(`C = ${f} + ${r}n`)}.`,
+            `The cost in dollars of hiring a bike for n hours at East Coast Park is ${M(`C = ${f} + ${r}n`)}.`,
+            `A printing shop charges ${M(`C = ${f} + ${r}n`)} dollars to print n posters.`,
+          ]);
+          const wrong = clean((f + r) * n);
+          return {
+            prompt: `${ctx} Find C when n = ${n}.`,
+            answer: { type: "number", value: C, display: `$${C % 1 === 0 ? C : C.toFixed(2)}` },
+            solution: [`${M(`C = ${f} + ${r} × ${n}`)}`, `Multiply first: ${M(`${r} × ${n} = ${clean(r * n)}`)}`, `${M(`C = ${f} + ${clean(r * n)} = ${C}`)}, so the cost is $${C % 1 === 0 ? C : C.toFixed(2)}.`],
+            hint: `${M(`${r}n`)} means ${r} × n. Multiply before adding.`,
+            traps: wrong !== C ? [ntrap(wrong, "Multiply before you add: work out the n part first, then add the fixed amount.")] : [],
+          };
+        }
+        if (kind === "E") {
+          const m = rng.int(2, 12), v = rng.int(2, 10);
+          const E = clean((m * v * v) / 2);
+          const traps: Trap[] = [ntrap(m * v * v, "Don't forget to halve.")];
+          const w2 = clean((m * v) * (m * v) / 2);
+          if (w2 !== E) traps.push(ntrap(w2, `Only v is squared: ${M(`v^2 = ${v * v}`)}. Then multiply by m and halve.`));
+          return {
+            prompt: `The kinetic energy (in joules) of a moving object is ${M("E = 1/2 m v^2")}, where m is its mass in kg and v its speed in m/s. Find E when m = ${m} and v = ${v}.`,
+            answer: { type: "number", value: E },
+            solution: [`Square first: ${M(`v^2 = ${v}^2 = ${v * v}`)}`, `${M(`E = 1/2 × ${m} × ${v * v} = ${E}`)} J`],
+            hint: "Square v first, then multiply by m, then halve.",
+            traps,
+          };
+        }
+        if (kind === "s2") {
+          const u = rng.int(0, 10), t = rng.int(2, 6), a = rng.int(2, 6);
+          const s = clean(u * t + (a * t * t) / 2);
+          const traps: Trap[] = [];
+          if (u * t + a * t * t !== s) traps.push(ntrap(u * t + a * t * t, `Don't forget the half in ${M("1/2 at^2")}.`));
+          const w2 = clean(u * t + (a * t) * (a * t) / 2);
+          if (w2 !== s) traps.push(ntrap(w2, "Only t is squared, not a × t."));
+          return {
+            prompt: `The distance s metres travelled by a car is ${M("s = ut + 1/2 at^2")}. Find s when u = ${u}, a = ${a} and t = ${t}.`,
+            answer: { type: "number", value: s },
+            solution: [`${M(`ut = ${u} × ${t} = ${u * t}`)}`, `${M(`1/2 at^2 = 1/2 × ${a} × ${t}^2 = 1/2 × ${a} × ${t * t} = ${clean((a * t * t) / 2)}`)}`, `${M(`s = ${u * t} + ${clean((a * t * t) / 2)} = ${s}`)} m`],
+            hint: "Work out each term separately. In the second term, square t first.",
+            traps,
+          };
+        }
+        if (kind === "rev") {
+          const a = rng.int(2, 6), t = rng.int(2, 8), u = rng.int(0, 20);
+          const v = u + a * t;
+          if (rng.bool()) {
+            return {
+              prompt: `The formula ${M("v = u + at")} links the final speed v, the starting speed u, the acceleration a and the time t. Find u when v = ${v}, a = ${a} and t = ${t}.`,
+              answer: { type: "number", value: u },
+              solution: [`${M(`${v} = u + ${a} × ${t}`)}`, `${M(`${v} = u + ${a * t}`)}`, `Subtract ${a * t} from both sides: ${M(`u = ${v} - ${a * t} = ${u}`)}`],
+              hint: "Substitute the values you know, then solve the equation for u.",
+              traps: [ntrap(v + a * t, `Substitute first: ${M(`${v} = u + ${a * t}`)}. To undo + ${a * t}, subtract it.`)],
+            };
+          }
+          const traps: Trap[] = [];
+          if (v / a - u !== t && v / a - u > 0 && Number.isInteger(v / a - u)) traps.push(ntrap(v / a - u, "Subtract u before you divide by a."));
+          return {
+            prompt: `The formula ${M("v = u + at")} links the final speed v, the starting speed u, the acceleration a and the time t. Find t when v = ${v}, u = ${u} and a = ${a}.`,
+            answer: { type: "number", value: t },
+            solution: [`${M(`${v} = ${u} + ${a}t`)}`, `Subtract ${u}: ${M(`${v - u} = ${a}t`)}`, `Divide by ${a}: ${M(`t = ${t}`)}`],
+            hint: "Substitute the values you know, then solve the equation for t.",
+            traps,
+          };
+        }
+        if (kind === "FC") {
+          const k = rng.nonZero(-5, 12);
+          const F = 32 + 9 * k, C = 5 * k;
+          return {
+            prompt: `To change °F to °C you can use ${M("C = 5(F - 32)/9")}. Find C when F = ${num(F)}.`,
+            answer: { type: "number", value: C },
+            solution: [`Bracket first: ${M(`${bq(F)} - 32 = ${F - 32}`)}`, `${M(`5 × ${bq(F - 32)} = ${5 * (F - 32)}`)}`, `${M(`${5 * (F - 32)} ÷ 9 = ${C}`)}, so C = ${num(C)}.`],
+            hint: "Work out the bracket first, then multiply by 5 and divide by 9.",
+            traps: [ntrap(5 * (F - 32), "Don't forget to divide by 9.")],
+          };
+        }
+        // circle area to 1 dp
+        const half = rng.bool(0.3);
+        const r = half ? clean(rng.int(3, 15) + 0.5) : rng.int(2, 15);
+        const A = roundTo(Math.PI * r * r, 1);
         const traps: Trap[] = [];
-        if (v / a - u !== t && v / a - u > 0 && Number.isInteger(v / a - u)) traps.push(ntrap(v / a - u, "Subtract u before you divide by a."));
+        const circ = roundTo(2 * Math.PI * r, 1);
+        if (circ !== A) traps.push(ntrap(circ, `That is ${M("2 pi r")} (the circumference). The area uses ${M("r^2")}.`));
+        const big = roundTo(Math.pow(Math.PI * r, 2), 1);
+        if (big !== A) traps.push(ntrap(big, `Only r is squared, not ${M("pi r")}.`));
         return {
-          prompt: `The formula ${M("v = u + at")} links the final speed v, the starting speed u, the acceleration a and the time t. Find t when v = ${v}, u = ${u} and a = ${a}.`,
-          answer: { type: "number", value: t },
-          solution: [`${M(`${v} = ${u} + ${a}t`)}`, `Subtract ${u}: ${M(`${v - u} = ${a}t`)}`, `Divide by ${a}: ${M(`t = ${t}`)}`],
-          hint: "Substitute the values you know, then solve the equation for t.",
+          prompt: `The area of a circle is ${M("A = pi r^2")}. Find A when r = ${r} cm. Use the {{pi}} button on your calculator and give your answer to 1 decimal place.`,
+          answer: { type: "number", value: A, allowFraction: false },
+          solution: [`Square first: ${M(`r^2 = ${r}^2 = ${clean(r * r)}`)}`, `${M(`A = pi × ${clean(r * r)} = ${roundTo(Math.PI * r * r, 4)}…`)}`, `To 1 decimal place, A = ${A} {{cm^2}}.`],
+          hint: "Square the radius first, then multiply by π.",
           traps,
         };
-      }
-      if (kind === "FC") {
-        const k = rng.nonZero(-5, 12);
-        const F = 32 + 9 * k, C = 5 * k;
-        return {
-          prompt: `To change °F to °C you can use ${M("C = 5(F - 32)/9")}. Find C when F = ${num(F)}.`,
-          answer: { type: "number", value: C },
-          solution: [`Bracket first: ${M(`${bq(F)} - 32 = ${F - 32}`)}`, `${M(`5 × ${bq(F - 32)} = ${5 * (F - 32)}`)}`, `${M(`${5 * (F - 32)} ÷ 9 = ${C}`)}, so C = ${num(C)}.`],
-          hint: "Work out the bracket first, then multiply by 5 and divide by 9.",
-          traps: [ntrap(5 * (F - 32), "Don't forget to divide by 9.")],
-        };
-      }
-      // circle area to 1 dp
-      const half = rng.bool(0.3);
-      const r = half ? clean(rng.int(3, 15) + 0.5) : rng.int(2, 15);
-      const A = roundTo(Math.PI * r * r, 1);
-      const traps: Trap[] = [];
-      const circ = roundTo(2 * Math.PI * r, 1);
-      if (circ !== A) traps.push(ntrap(circ, `That is ${M("2 pi r")} (the circumference). The area uses ${M("r^2")}.`));
-      const big = roundTo(Math.pow(Math.PI * r, 2), 1);
-      if (big !== A) traps.push(ntrap(big, `Only r is squared, not ${M("pi r")}.`));
-      return {
-        prompt: `The area of a circle is ${M("A = pi r^2")}. Find A when r = ${r} cm. Use the {{pi}} button on your calculator and give your answer to 1 decimal place.`,
-        answer: { type: "number", value: A, allowFraction: false },
-        solution: [`Square first: ${M(`r^2 = ${r}^2 = ${clean(r * r)}`)}`, `${M(`A = pi × ${clean(r * r)} = ${roundTo(Math.PI * r * r, 4)}…`)}`, `To 1 decimal place, A = ${A} {{cm^2}}.`],
-        hint: "Square the radius first, then multiply by π.",
-        traps,
-      };
+      });
     },
   },
 

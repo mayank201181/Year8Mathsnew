@@ -491,7 +491,7 @@ const compareDrill: Drill = {
       if (differs) {
         traps.push({
           spec: { type: "text", accept: orderAccept(wrong, asc ? "<" : ">") },
-          feedback: "Check the negatives: the bigger the number after the minus sign, the SMALLER the value (for example −3/4 is less than −1/2).",
+          feedback: "Check the negatives: the bigger the number after the minus sign, the SMALLER the value (for example {{-3/4}} is less than {{-1/2}}).",
         });
       }
     }
@@ -671,7 +671,7 @@ const mixedAddSubDrill: Drill = {
       if (kind === "add") {
         prompt = rng.pick([
           `${who.name} cycles ${M(A.m)} km to the library and then ${M(B.m)} km to a friend's house. How far does ${who.he} cycle altogether? ${MIXP}`,
-          `A vegetable curry needs ${M(A.m)} cups of rice for lunch and ${M(B.m)} cups for dinner. How many cups of rice is that in total? ${MIXP}`,
+          `A hawker stall cooks ${M(A.m)} kg of rice for lunch and ${M(B.m)} kg for dinner. How many kilograms of rice does it cook altogether? ${MIXP}`,
         ]);
       } else if (kind === "sub" || kind === "sub-borrow") {
         prompt = rng.pick([
