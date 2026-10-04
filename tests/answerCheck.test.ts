@@ -84,6 +84,8 @@ test("lists and coordinates", () => {
   const roots: AnswerSpec = { type: "list", values: [2, -3] };
   assert.equal(st(roots, "x = 2 or x = -3"), "correct");
   assert.equal(st(roots, "x=-3, x=2"), "correct");
+  const hcfLcm: AnswerSpec = { type: "list", values: [36, 7560], ordered: true };
+  assert.equal(st(hcfLcm, "HCF = 36, LCM = 7560"), "correct");
   const primes: AnswerSpec = { type: "list", values: [2, 2, 2, 3, 5] };
   for (const i of ["2, 2, 2, 3, 5", "2 × 2 × 2 × 3 × 5", "2^3 × 3 × 5", "2³×3×5", "120 = 2^3 * 3 * 5", "5 x 3 x 2^3"]) assert.equal(st(primes, i), "correct", i);
   for (const i of ["2^2 × 3 × 5", "2 × 3 × 5", "120"]) assert.notEqual(st(primes, i), "correct", i);
@@ -117,6 +119,11 @@ test("expressions: equivalence", () => {
   assert.equal(st({ type: "expression", expr: "-x^2" }, "-x^2"), "correct");
   assert.equal(st({ type: "expression", expr: "x^-1" }, "1/x"), "correct");
   assert.equal(st({ type: "expression", expr: "2x+6" }, "2x+"), "invalid");
+  // A unit typed after the answer is ignored — unless its letters are variables of the answer.
+  const area: AnswerSpec = { type: "expression", expr: "60+9pi" };
+  for (const i of ["60 + 9π m²", "60+9pi m^2", "9π + 60 m", "60 + 9pi cm2"]) assert.equal(st(area, i), "correct", i);
+  assert.equal(st(area, "60 + 8π m²"), "incorrect");
+  assert.equal(st({ type: "expression", expr: "5m" }, "5 m^2"), "incorrect");
 });
 
 test("expressions: forms", () => {

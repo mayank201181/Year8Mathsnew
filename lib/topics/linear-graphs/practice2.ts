@@ -163,6 +163,10 @@ export const morePapers: Paper[] = [
             spec: { type: "number", value: 0.25 },
             feedback: "0.25 is in km per *minute*. Change both speeds into km per hour first (multiply by 60).",
           },
+          {
+            spec: { type: "number", value: 5 },
+            feedback: "Jun's line is flat until 10 minutes — he hadn't set off yet. His journey took 20 minutes, not 30, so his speed is 30 km/h.",
+          },
         ],
         solution: [
           "Speed is the gradient of each line. Read where each sloping line starts and ends.",
@@ -269,7 +273,7 @@ export const morePapers: Paper[] = [
         guideRef: "plotting-lines",
         hints: [
           "Which value do you know: x or y?",
-          "Substitute x = 80 to find the height of the zipline above the tree.",
+          "Substitute x = 80 to find how high the zipline is above the *ground* at the tree.",
           "Compare that height with the height of the tree.",
         ],
         strategy: "Check by substituting",
@@ -1230,7 +1234,7 @@ export const morePapers: Paper[] = [
             keywords: ["each side", "either side", "both sides", "two squares", "midpoint", "diagonal", "check"],
           },
         ],
-        commonError: "Drawing a 'square' with sides 3 right and 3 up — a tilted side has to be turned through 90°, not copied.",
+        commonError: "Swapping the numbers without changing a sign (using '1 right, 3 up' for the next side). That side is not at 90° to AB — a quarter turn swaps the two numbers AND reverses one direction.",
         difficulty: "challenge",
         guideRef: "coordinates-midpoints",
         hints: [

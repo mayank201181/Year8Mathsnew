@@ -313,7 +313,7 @@ export const guide: TopicGuide = {
       keyPoints: [
         "The angles in any quadrilateral add to 360°.",
         "Parallelogram family: opposite angles are equal and neighbouring angles add to 180°.",
-        "Diagonals identify shapes: equal (rectangle, square); at 90° (rhombus, square, kite); bisecting each other (the parallelogram family).",
+        "Diagonals identify shapes: equal (rectangle, square, isosceles trapezium); at 90° (rhombus, square, kite); bisecting each other (the parallelogram family).",
         "A square is a special rectangle and a special rhombus, so it has all their properties.",
       ],
       whyItWorks:
@@ -472,7 +472,7 @@ export const guide: TopicGuide = {
         "A regular n-sided polygon has n lines of symmetry and rotational symmetry of order n.",
         "Smallest angle of rotation = 360° ÷ order. For a regular polygon this equals the exterior angle.",
         "To tessellate there must be no gaps and no overlaps: the angles at every meeting point add to 360°.",
-        "Only equilateral triangles, squares and regular hexagons tessellate on their own.",
+        "Of the regular polygons, only equilateral triangles, squares and regular hexagons tessellate on their own (but every triangle and every quadrilateral tessellates).",
       ],
       whyItWorks:
         "Turn a regular n-gon about its centre by 360° ÷ n. Every corner moves to the next corner, and because all the sides and angles are equal, the shape lands exactly on its old outline. You can do this n times before you are back at the start, so the order is n.\n\n" +

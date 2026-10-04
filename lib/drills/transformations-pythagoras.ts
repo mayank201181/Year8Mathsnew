@@ -166,7 +166,7 @@ function gridSvg(w: Win, shapes: GridShape[], aria: string): string {
   for (const s of shapes) {
     const cx = s.pts.reduce((a, p) => a + p[0], 0) / s.pts.length;
     const cy = s.pts.reduce((a, p) => a + p[1], 0) / s.pts.length;
-    parts.push(`<text x="${clean(X(cx))}" y="${clean(Y(cy) + 5)}" font-size="13" font-weight="bold" font-family="sans-serif" fill="#1f2937" text-anchor="middle">${s.label}</text>`);
+    parts.push(`<text x="${clean(X(cx))}" y="${clean(Y(cy) + 5)}" font-size="13" font-weight="bold" font-family="sans-serif" fill="#1f2937" text-anchor="middle" stroke="#ffffff" stroke-width="3" stroke-opacity="0.8" paint-order="stroke">${s.label}</text>`);
   }
   return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${aria}">${parts.join("")}</svg>`;
 }
@@ -1095,7 +1095,7 @@ export const drills: Drill[] = [
           prompt: `The point P${pt(P)} is rotated ${TURN_TEXT[q1]} about the origin. Its image is then rotated ${TURN_TEXT[q2]} about the origin. Give the coordinates of the final image as (x, y).`,
           answer: coordSpec(ans),
           solution: [
-            `Count quarter-turns: anticlockwise = +1, clockwise = −1, a half-turn = 2. Total: ${signed(q1)} + ${br(signed(q2))} = ${sum}, which is the same as one rotation of ${TURN_TEXT[t]}.`,
+            `Count quarter-turns: anticlockwise = +1, clockwise = −1, a half-turn = 2. Total: ${num(signed(q1))} + ${br(signed(q2))} = ${num(sum)}, which is the same as one rotation of ${TURN_TEXT[t]}.`,
             ...ruleSteps(t, P),
             `(Or do it in two steps: ${pt(P)} → ${pt(rotQ(q1, P))} → ${pt(ans)}.)`,
           ],
@@ -1211,19 +1211,19 @@ export const drills: Drill[] = [
         const BASE: Array<[number, number, number]> = [[3, 4, 5], [4, 5, 6], [5, 6, 8], [6, 7, 9], [2, 3, 4], [5, 5, 8], [4, 6, 7], [7, 8, 10], [5, 7, 9], [3, 5, 7]];
         const kind = rng.pick(["congruent", "similar", "neither"] as const);
         const ks2 = tier === 1 ? [4, 6] : tier === 2 ? [3, 4, 5, 6] : [1, 3, 5, 8]; // k × 2
+        // Safe fallback (P = 3, 4, 5): Q = 3, 4, 5 / 6, 8, 10 / 3, 4, 6 — replaced by the loop almost always.
         let A = BASE[0];
-        let B2: number[] = [6, 8, 10];
-        let k2 = 4;
+        let B2: number[] = kind === "congruent" ? [6, 8, 10] : kind === "similar" ? [12, 16, 20] : [6, 8, 12];
         for (let i = 0; i < 100; i++) {
-          A = rng.pick(BASE);
-          k2 = rng.pick(ks2);
-          const A2 = A.map((x) => 2 * x);
+          const T = rng.pick(BASE);
+          const k2 = rng.pick(ks2);
+          const A2 = T.map((x) => 2 * x);
           let cand: number[];
           if (kind === "congruent") cand = A2;
-          else if (kind === "similar") cand = A.map((x) => k2 * x);
+          else if (kind === "similar") cand = T.map((x) => k2 * x);
           else if (rng.bool()) {
             const delta = rng.pick([-2, 2]); // ±1 cm on the longest side
-            cand = [k2 * A[0], k2 * A[1], k2 * A[2] + delta];
+            cand = [k2 * T[0], k2 * T[1], k2 * T[2] + delta];
           } else cand = [A2[0], A2[1], A2[2] + 2];
           const s = [...cand].sort((x, y) => x - y);
           if (s[0] + s[1] <= s[2] || s[0] <= 0) continue; // must be a real triangle
@@ -1232,10 +1232,10 @@ export const drills: Drill[] = [
           const congruent = s.every((x, j) => x === sa[j]);
           if (kind === "neither" && (similar || congruent)) continue;
           if (kind === "similar" && congruent) continue;
+          A = T;
           B2 = cand;
           break;
         }
-        if (kind === "similar" && B2.length === 3 && B2.every((x, j) => x === 2 * A[j])) B2 = A.map((x) => 4 * x);
         const Bshow = rng.shuffle(B2.map((x) => clean(x / 2)));
         const sa = [...A].sort((x, y) => x - y);
         const sb = [...Bshow].sort((x, y) => x - y);
@@ -1444,7 +1444,7 @@ export const drills: Drill[] = [
           : `A rotation of 180° maps the point P${pt(P)} onto P′${pt(Q)}. Find the centre of rotation. Give the coordinates as (x, y).`;
         const steps = [
           `In a half-turn, the centre is exactly halfway between each point and its image.`,
-          `Midpoint of ${pt(P)} and ${pt(Q)}: ((${num(P[0])} + ${br(Q[0])}) ÷ 2, (${num(P[1])} + ${br(Q[1])}) ÷ 2) = ${pt(C)}.`,
+          `Midpoint of ${pt(P)} and ${pt(Q)}: x = (${num(P[0])} + ${br(Q[0])}) ÷ 2 = ${num(C[0])} and y = (${num(P[1])} + ${br(Q[1])}) ÷ 2 = ${num(C[1])}, so the centre is ${pt(C)}.`,
         ];
         if (tri) steps.push(`Check with another pair: the midpoint of ${pt(A[1])} and ${pt(B[1])} is also ${pt(C)} ✓.`);
         else steps.push(`Check: the step from the centre to P is across ${num(clean(P[0] - C[0]))}, up ${num(clean(P[1] - C[1]))}, and the step to P′ is exactly the opposite ✓.`);
@@ -1534,7 +1534,8 @@ export const drills: Drill[] = [
       }
       const B = A.map((p) => add(C, scale(k, sub(p, C))));
       const bb = bbox([...A, ...B, C]);
-      const win: Win = { x0: bb.x0 - 1, x1: bb.x1 + 1, y0: bb.y0 - 1, y1: bb.y1 + 1 };
+      // Tier 1 grids start at the origin so both axes show; otherwise frame the shapes with a one-square border.
+      const win: Win = tier === 1 ? { x0: 0, x1: bb.x1 + 1, y0: 0, y1: bb.y1 + 1 } : { x0: bb.x0 - 1, x1: bb.x1 + 1, y0: bb.y0 - 1, y1: bb.y1 + 1 };
       const step = sub(B[0], A[0]); // = (k − 1) × (A − C)
       const back = scale(1 / (k - 1), step);
       const lenA = Math.abs(A[1][0] - A[0][0]) + Math.abs(A[1][1] - A[0][1]);

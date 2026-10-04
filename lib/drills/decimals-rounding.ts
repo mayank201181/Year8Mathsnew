@@ -327,7 +327,7 @@ export const drills: Drill[] = [
       const rB = roundInt(B, digits(B) - 1);
       if (rA !== A || rB !== B) {
         solution.push(
-          `Check the size with an estimate: ${ft(A, da)} × ${ft(B, db)} ≈ ${ft(rA, da)} × ${ft(rB, db)} = ${ft(rA * rB, dp)}, which is close to ${tidy}.`,
+          `Check the size with an estimate: ${ft(A, da)} × ${ft(B, db)} ≈ ${ft(rA, da)} × ${ft(rB, db)} = ${ft(rA * rB, dp)}. ${tidy} is about the same size, so the decimal point is in the right place.`,
         );
       }
       const traps: Trap[] = [];
@@ -335,7 +335,7 @@ export const drills: Drill[] = [
       numTrap(traps, val(sign * P, dp - 1), value, slip);
       numTrap(traps, val(sign * P, dp + 1), value, slip);
       const answer: AnswerSpec =
-        kind === "money"
+        kind === "money" && prompt.includes("$")
           ? { type: "number", value, allowFraction: false, display: `$${fx(P, 2)}` }
           : { type: "number", value, allowFraction: false };
       return {
@@ -1430,10 +1430,12 @@ export const drills: Drill[] = [
       let X = 52, k = 1, ctx: Ctx = CTX.dp1[1], acc = "1 decimal place";
       let truncText = "";
       if (kind === "sf") {
+        // lo starts above a power of 10 (11, not 10): a value like 1.0 (2 s.f.) has a smaller
+        // rounding unit just below it (0.99 is also 2 s.f.), so its lower bound is 0.995, not 0.95.
         const opts: { c: Ctx; s: number; k: number }[] = [
-          { c: { what: "The mass of a durian", v: "w", unit: "kg", lo: 10, hi: 39 }, s: 2, k: 1 },
-          { c: { what: "The mass of a durian", v: "w", unit: "kg", lo: 100, hi: 399 }, s: 3, k: 2 },
-          { c: { what: "The thickness of a sheet of card", v: "T", unit: "mm", lo: 10, hi: 95 }, s: 2, k: 2 },
+          { c: { what: "The mass of a durian", v: "w", unit: "kg", lo: 11, hi: 39 }, s: 2, k: 1 },
+          { c: { what: "The mass of a durian", v: "w", unit: "kg", lo: 101, hi: 399 }, s: 3, k: 2 },
+          { c: { what: "The thickness of a sheet of card", v: "T", unit: "mm", lo: 11, hi: 95 }, s: 2, k: 2 },
           { c: { what: "The volume of water in a tank", v: "V", unit: "litres", lo: 12, hi: 98 }, s: 2, k: -1 },
           { c: { what: "The height of an HDB block", v: "h", unit: "m", lo: 40, hi: 99 }, s: 2, k: 0 },
         ];
@@ -1459,7 +1461,7 @@ export const drills: Drill[] = [
         const lo = k >= 0 ? ctx.lo * p10(k) : Math.ceil(ctx.lo / p10(-k));
         const hi = k >= 0 ? ctx.hi * p10(k) : Math.floor(ctx.hi / p10(-k));
         X = rng.int(lo, hi);
-        acc = kind === "whole" ? `the nearest ${ctx.unit === "litres" ? "litre" : ctx.unit}` : kind === "ten" ? `the nearest 10 ${ctx.unit}` : kind === "hundred" ? `the nearest 100 ${ctx.unit}` : kind === "dp1" ? "1 decimal place" : "2 decimal places";
+        acc = kind === "whole" ? `the nearest ${ctx.unit === "litres" ? "litre" : ctx.unit === "m" ? "metre" : ctx.unit}` : kind === "ten" ? `the nearest 10 ${ctx.unit}` : kind === "hundred" ? `the nearest 100 ${ctx.unit}` : kind === "dp1" ? "1 decimal place" : "2 decimal places";
       }
       const x = fx(X, k);
       const g = Math.max(k + 1, 0);
@@ -1473,10 +1475,11 @@ export const drills: Drill[] = [
       const unitS = ft(1, k);
       const halfS = ft(5, k + 1);
       const u = ctx.unit ? ` ${ctx.unit}` : "";
+      const unit1 = k === 0 && ctx.unit === "litres" ? " litre" : u; // "1 litre", not "1 litres"
       const v = ctx.v;
       const ask = rng.pick([
-        `Write down the lower bound and the upper bound of ${v}. Give the lower bound first.`,
-        `Find the error interval for ${v}: give the lower bound, then the upper bound.`,
+        `Write down the lower bound and the upper bound of ${v}, separated by a comma. Give the lower bound first.`,
+        `Find the error interval for ${v}: give the lower bound, then the upper bound, separated by a comma.`,
       ]);
       const prompt = isTrunc ? `${truncText} ${ask}` : `${ctx.what}, ${v}${u}, is ${x}${u}, correct to ${acc}. ${ask}`;
       const interval = `{{${loS} <= ${v} < ${hiS}}}`;
@@ -1491,7 +1494,7 @@ export const drills: Drill[] = [
               ? `${x} to ${acc} means it was rounded to the nearest ${unitS}.`
               : kind === "dp1" || kind === "dp2"
                 ? `Correct to ${acc} means to the nearest ${unitS}.`
-                : `Rounding to ${acc} means the rounding unit is ${unitS}${u}.`) + ` Half of ${unitS} is ${halfS}.`,
+                : `Rounding to ${acc} means the rounding unit is ${unitS}${unit1}.`) + ` Half of ${unitS} is ${halfS}.`,
             `Lower bound: ${x} − ${halfS} = ${ft(lo, g)}. Upper bound: ${x} + ${halfS} = ${ft(hi, g)}.`,
             `${ft(hi, g)} itself would round up to ${fx(X + 1, k)}, so it is not included: ${interval}.`,
           ];

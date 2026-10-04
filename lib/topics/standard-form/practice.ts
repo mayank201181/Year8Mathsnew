@@ -14,10 +14,10 @@ export const practice: TopicPractice = {
       kind: "mcq",
       id: "standard-form-quiz-q01",
       question: "Which of these always gives the same answer as **dividing by 0.1**?",
-      options: ["Multiplying by 0.1", "Dividing by 10", "Multiplying by 10", "Dividing by 100"],
+      options: ["Multiplying by 100", "Dividing by 10", "Multiplying by 10", "Dividing by 100"],
       answerIndex: 2,
       explanation:
-        "0.1 is one tenth, and every 1 contains 10 tenths. So dividing by 0.1 asks *how many tenths fit in*, which is 10 times the number: 6 ÷ 0.1 = 60 = 6 × 10. 'Dividing by 10' is what **multiplying** by 0.1 does (6 × 0.1 = 0.6), so it goes the wrong way. 'Dividing by 100' matches multiplying by 0.01, not dividing by 0.1.",
+        "0.1 is one tenth, and every 1 contains 10 tenths. So dividing by 0.1 asks *how many tenths fit in*, which is 10 times the number: 6 ÷ 0.1 = 60 = 6 × 10. 'Dividing by 10' is what **multiplying** by 0.1 does (6 × 0.1 = 0.6), so it goes the wrong way. 'Multiplying by 100' is what dividing by **0.01** does — it mixes up tenths and hundredths. 'Dividing by 100' matches multiplying by 0.01, not dividing by 0.1.",
       difficulty: "warmup",
       guideRef: "multiplying-dividing-by-powers-of-ten",
       hints: ["How many tenths fit into 1? So how many tenths fit into 6?"],
@@ -237,7 +237,7 @@ export const practice: TopicPractice = {
         "Answer: {{3 * 10^8}}. Check: 600 000 ÷ 0.002 = 300 000 000 ✓",
       ],
       commonError: "Subtracting the powers as 5 − 3 = 2 and losing the minus sign.",
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "calculating-standard-form",
       hints: [
         "Which operation answers 'how many times bigger'?",
@@ -590,24 +590,24 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "standard-form-p1-q13",
           question:
-            "Four tiny things are measured in metres:\n\n| Label | Size (m) |\n|---|---|\n| A | {{4.5 * 10^(-3)}} |\n| B | {{8 * 10^(-4)}} |\n| C | {{1.2 * 10^(-3)}} |\n| D | {{9.9 * 10^(-5)}} |\n\nWrite the letters in order of size, **smallest first** (type them like this: ABCD).",
-          answer: { type: "text", accept: ["DBCA", "D,B,C,A", "D<B<C<A", "D B C A"], display: "D, B, C, A" },
+            "Four tiny things are measured in metres:\n\n| Label | Size (m) |\n|---|---|\n| P | {{4.5 * 10^(-3)}} |\n| Q | {{8 * 10^(-4)}} |\n| R | {{1.2 * 10^(-3)}} |\n| S | {{9.9 * 10^(-5)}} |\n\nWrite the letters in order of size, **smallest first** (type them like this: PQRS).",
+          answer: { type: "text", accept: ["SQRP", "S,Q,R,P", "S<Q<R<P", "S Q R P"], display: "S, Q, R, P" },
           traps: [
             {
-              spec: { type: "text", accept: ["CABD"] },
+              spec: { type: "text", accept: ["RPQS"] },
               feedback:
-                "You sorted by the A parts (or treated −5 as the biggest power). Compare the powers first: −5 < −4 < −3, so D (power −5) is the smallest.",
+                "You sorted by the A parts (or treated −5 as the biggest power). Compare the powers first: −5 < −4 < −3, so S (power −5) is the smallest.",
             },
             {
-              spec: { type: "text", accept: ["ACBD"] },
+              spec: { type: "text", accept: ["PRQS"] },
               feedback: "That is largest first — the question asks for smallest first.",
             },
           ],
           solution: [
             "Compare the powers first: −5 < −4 < −3.",
-            "So D ({{10^(-5)}}) is smallest, then B ({{10^(-4)}}), then the two {{10^(-3)}} numbers.",
-            "Same power: compare A. 1.2 < 4.5, so C comes before A.",
-            "Order: D, B, C, A. Check: 0.000 099 < 0.0008 < 0.0012 < 0.0045 ✓",
+            "So S ({{10^(-5)}}) is smallest, then Q ({{10^(-4)}}), then the two {{10^(-3)}} numbers.",
+            "Same power: compare A. 1.2 < 4.5, so R comes before P.",
+            "Order: S, Q, R, P. Check: 0.000 099 < 0.0008 < 0.0012 < 0.0045 ✓",
           ],
           commonError: "Ordering by the A parts (1.2, 4.5, 8, 9.9) and ignoring the powers.",
           difficulty: "core",
@@ -686,7 +686,7 @@ export const practice: TopicPractice = {
               feedback: "30 = 3 × 10, so the power goes **up** by one: {{30 * 10^7 = 3 * 10^8}}.",
             },
             {
-              spec: { type: "number", value: 3000000000000, standardForm: true },
+              spec: { type: "number", value: 30000000000000 },
               feedback: "Don't multiply the indices. {{10^4 * 10^3}} is seven 10s multiplied together: add the indices.",
             },
           ],
@@ -738,7 +738,7 @@ export const practice: TopicPractice = {
             },
           ],
           commonError: "Subtracting the powers as −1 − 5 instead of −1 − (−5).",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "calculating-standard-form",
           hints: [
             "Which operation tells you how many thicknesses fit into the height?",
@@ -1190,30 +1190,30 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "standard-form-p2-q13",
           question:
-            "Four numbers are written below. Some of them are **not** in standard form.\n\n| Label | Number |\n|---|---|\n| A | {{3.1 * 10^6}} |\n| B | {{42 * 10^5}} |\n| C | {{0.39 * 10^7}} |\n| D | {{3.05 * 10^6}} |\n\nWrite the letters in order of size, **largest first** (type them like this: ABCD).",
-          answer: { type: "text", accept: ["BCAD", "B,C,A,D", "B>C>A>D", "B C A D"], display: "B, C, A, D" },
+            "Four numbers are written below. Some of them are **not** in standard form.\n\n| Label | Number |\n|---|---|\n| P | {{3.1 * 10^6}} |\n| Q | {{42 * 10^5}} |\n| R | {{0.39 * 10^7}} |\n| S | {{3.05 * 10^6}} |\n\nWrite the letters in order of size, **largest first** (type them like this: PQRS).",
+          answer: { type: "text", accept: ["QRPS", "Q,R,P,S", "Q>R>P>S", "Q R P S"], display: "Q, R, P, S" },
           traps: [
             {
-              spec: { type: "text", accept: ["CADB"] },
+              spec: { type: "text", accept: ["RPSQ"] },
               feedback:
-                "You compared the powers as they are written. B and C aren't in standard form — rewrite them first: B = {{4.2 * 10^6}} and C = {{3.9 * 10^6}}.",
+                "You compared the powers as they are written. Q and R aren't in standard form — rewrite them first: Q = {{4.2 * 10^6}} and R = {{3.9 * 10^6}}.",
             },
             {
-              spec: { type: "text", accept: ["DACB"] },
+              spec: { type: "text", accept: ["SPRQ"] },
               feedback: "That is smallest first — the question asks for largest first.",
             },
           ],
           solution: [
-            "Put every number in standard form first: B = {{42 * 10^5}} = {{4.2 * 10^6}} and C = {{0.39 * 10^7}} = {{3.9 * 10^6}}.",
+            "Put every number in standard form first: Q = {{42 * 10^5}} = {{4.2 * 10^6}} and R = {{0.39 * 10^7}} = {{3.9 * 10^6}}.",
             "Now all four have power 6, so compare A: 4.2 > 3.9 > 3.1 > 3.05.",
-            "Order: B, C, A, D. Check: 4 200 000 > 3 900 000 > 3 100 000 > 3 050 000 ✓",
+            "Order: Q, R, P, S. Check: 4 200 000 > 3 900 000 > 3 100 000 > 3 050 000 ✓",
           ],
           commonError: "Using 'bigger power wins' on numbers that are not in standard form.",
           difficulty: "core",
           guideRef: "comparing-standard-form",
           hints: [
             "Which of these are not in standard form? Why does that matter when comparing?",
-            "Rewrite B and C so that A is between 1 and 10.",
+            "Rewrite Q and R so that A is between 1 and 10.",
             "Once all the powers match, compare the A parts. Is 3.05 bigger or smaller than 3.1?",
           ],
           strategy: "Make it simpler",
@@ -1388,11 +1388,11 @@ export const practice: TopicPractice = {
           answer: { type: "number", value: 418000, standardForm: true, display: "{{4.18 * 10^5}}" },
           traps: [
             {
-              spec: { type: "number", value: 1120000, standardForm: true },
+              spec: { type: "number", value: 1120000 },
               feedback: "You added the A parts (3.4 + 7.8 = 11.2) as if the powers matched. They don't: {{7.8 * 10^4}} is only 78 000.",
             },
             {
-              spec: { type: "number", value: 112000, standardForm: true },
+              spec: { type: "number", value: 112000 },
               feedback: "You added the A parts and kept the smaller power. The powers are different, so convert first: 340 000 + 78 000.",
             },
           ],
@@ -1413,7 +1413,7 @@ export const practice: TopicPractice = {
             },
           ],
           commonError: "Adding A parts when the powers are different.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "calculating-standard-form",
           hints: [
             "Can you add the A parts when the powers are different?",
@@ -1596,10 +1596,10 @@ export const practice: TopicPractice = {
       traps: [
         {
           spec: { type: "number", value: 0.0000000256, standardForm: true },
-          feedback: "{{256 * 10^(-8)}} is right, but 256 isn't between 1 and 10. Moving the point two places left in A means the power goes **up** by 2.",
+          feedback: "{{256 * 10^(-8)}} has the right value, but when you turned 256 into 2.56 you forgot the power. Making A 100 times smaller means the power must go **up** by 2.",
         },
         {
-          spec: { type: "number", value: 390625, standardForm: true },
+          spec: { type: "number", value: 390625 },
           feedback: "That is {{5^8}} itself. You need 1 divided by it.",
         },
       ],

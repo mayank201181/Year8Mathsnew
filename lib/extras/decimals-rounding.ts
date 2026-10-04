@@ -45,7 +45,7 @@ export const extras: TopicExtras = {
         "Finale: ask them to try 142857 × 7. You already know the answer: 999 999.",
       ],
       maths:
-        "142857 is the repeating block of {{1/7}}. Dividing by 7 can only leave the remainders 1 to 6, and {{1/7}} visits all six of them in one loop. So {{2/7}}, {{3/7}}, … {{6/7}} just join the same loop at a different place: their decimals are rotations of 142857, and 142857 × n is exactly the repeating block of {{n/7}}.\n\nThe last-digit shortcut works because 142857 ends in 7. And × 7 gives 999 999 because {{7/7}} = 0.999999… = 1.",
+        "142857 is the repeating block of {{1/7}}. Dividing by 7 can only leave the remainders 1 to 6, and {{1/7}} visits all six of them in one loop. So {{2/7}}, {{3/7}}, … {{6/7}} just join the same loop at a different place: their decimals are rotations of 142857, and 142857 × n is exactly the repeating block of {{n/7}}.\n\nThe last-digit shortcut works because 142857 ends in 7. And × 7 gives 999 999 because seven lots of 0.142857142857… make 0.999999…, which is exactly {{7/7}} = 1.",
     },
   ],
 

@@ -137,7 +137,7 @@ const UNIT_PAIRS: UnitPair[] = [
     t1: true,
   },
   {
-    small: "seconds", f: 60, steps: [5, 10, 15, 20, 30, 40], bigs: [1, 2, 3, 4], bigs3: [1.5, 2.5, 0.5],
+    small: "seconds", f: 60, steps: [5, 10, 15, 20, 30, 40], bigs: [1, 2, 3, 4], bigs3: [1.5, 2.5, 3.5],
     fs: (v) => `${big(v)} seconds`, fb: (v) => (v === 1 ? "1 minute" : `${num(v)} minutes`),
     ctx: (x, y) => `Two video clips last ${x} and ${y}. Write the ratio of the first time to the second in its simplest form.`,
     t1: false,
@@ -309,18 +309,37 @@ interface Currency {
   whole: boolean;
 }
 
+/** 2-decimal-place amount with thousands separators: 1020.5 → "1,020.50". */
+function dec2(v: number): string {
+  return clean(v).toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+/** a ÷ b (positive integers) as a decimal: exact if it stops within 4 d.p., else truncated to 3 d.p. with "…". */
+function quotient(a: number, b: number): string {
+  if ((a * 10000) % b === 0) return big(a / b);
+  return big(Math.floor((a * 1000) / b) / 1000) + "…";
+}
+
 const CURRENCIES: Currency[] = [
-  { name: "US dollars", r: 75, show: (v) => `US$${v.toFixed(2)}`, back: 133, whole: false },
-  { name: "Malaysian ringgit", r: 340, show: (v) => `RM ${v.toFixed(2)}`, whole: false },
+  { name: "US dollars", r: 75, show: (v) => `US$${dec2(v)}`, back: 133, whole: false },
+  { name: "Malaysian ringgit", r: 340, show: (v) => `RM ${dec2(v)}`, whole: false },
   { name: "Thai baht", r: 2500, show: (v) => `${big(v)} baht`, whole: true },
   { name: "Japanese yen", r: 11000, show: (v) => `¥${big(v)}`, whole: true },
-  { name: "euros", r: 68, show: (v) => `€${v.toFixed(2)}`, back: 148, whole: false },
+  { name: "euros", r: 68, show: (v) => `€${dec2(v)}`, back: 148, whole: false },
   { name: "Indian rupees", r: 6400, show: (v) => `₹${big(v)}`, whole: true },
-  { name: "Australian dollars", r: 115, show: (v) => `A$${v.toFixed(2)}`, back: 87, whole: false },
-  { name: "British pounds", r: 58, show: (v) => `£${v.toFixed(2)}`, back: 172, whole: false },
+  { name: "Australian dollars", r: 115, show: (v) => `A$${dec2(v)}`, back: 87, whole: false },
+  { name: "British pounds", r: 58, show: (v) => `£${dec2(v)}`, back: 172, whole: false },
 ];
 
-const SOUVENIRS = ["a souvenir T-shirt", "a pair of trainers", "a theme-park ticket", "a hotel night", "a set of postcards", "a backpack"];
+/** Holiday purchases with a sensible price range in S$. */
+const SOUVENIRS = [
+  { name: "A souvenir T-shirt", lo: 15, hi: 45 },
+  { name: "A pair of trainers", lo: 60, hi: 220 },
+  { name: "A theme-park ticket", lo: 40, hi: 120 },
+  { name: "A hotel room for one night", lo: 80, hi: 300 },
+  { name: "A set of postcards", lo: 6, hi: 20 },
+  { name: "A backpack", lo: 30, hi: 120 },
+] as const;
 
 /** Two similar rectangles drawn to scale, bottoms aligned. */
 function rectsSvg(w: number, h: number, W: number, H: number, la: [string, string], lb: [string, string]): string {
@@ -554,8 +573,8 @@ export const drills: Drill[] = [
       const t = unitStep ? 0 : rng.int(0, b > a ? 2 : 1);
       const prompt =
         t === 0 ? `Write ${shown} in the form 1 : n.`
-        : t === 1 ? `A garden has ${a} rose bushes and ${b} tulips. Write the ratio roses : tulips in the form 1 : n.`
-        : `${n1} mixes ${a} spoonfuls of cordial with ${b} spoonfuls of water. Write the ratio cordial : water in the form 1 : n.`;
+        : t === 1 ? `A garden has ${plural(a, "rose bush", "rose bushes")} and ${plural(b, "tulip")}. Write the ratio roses : tulips in the form 1 : n.`
+        : `${n1} mixes ${plural(a, "spoonful")} of cordial with ${plural(b, "spoonful")} of water. Write the ratio cordial : water in the form 1 : n.`;
       const steps: string[] = [];
       if (unitStep) steps.push(unitStep);
       steps.push(`Divide both parts by the first part, ${big(a)}, so that the first part becomes 1.`);
@@ -590,7 +609,8 @@ export const drills: Drill[] = [
       // One part, in cents (money) or items.
       const unit = isMoney ? (tier === 1 ? 100 * rng.int(2, 12) : tier === 2 ? 100 * rng.int(2, 25) : 5 * rng.int(21, 199)) : rng.int(2, tier === 1 ? 10 : 20);
       const val = (x: number) => (isMoney ? clean(x / 100) : x);
-      const fmt = (x: number) => (isMoney ? dollars(x / 100) : big(x));
+      // If one part has cents, show every amount with cents so the working lines up ($46.00, not $46).
+      const fmt = (x: number) => (!isMoney ? big(x) : unit % 100 === 0 ? dollars(x / 100) : money(x / 100));
       const shares = parts.map((p) => p * unit);
       const tot = S * unit;
       const who = people(rng, parts.length);
@@ -698,7 +718,7 @@ export const drills: Drill[] = [
           ans = parts[oi] * u;
           ask = isMoney ? `How much does ${lab[oi]} get?` : `How many ${lab[oi]} are there?`;
           const add = X + (parts[oi] - parts[gi]);
-          if (add > 0 && add !== ans) traps.push({ spec: { type: "number", value: add }, feedback: `Ratios work by multiplying, not adding. Find one part first: ${X} ÷ ${parts[gi]}.` });
+          if (add > 0 && add !== ans) traps.push({ spec: { type: "number", value: add }, feedback: `Ratios work by multiplying, not adding. Find one part first: ${fmt(X)} ÷ ${parts[gi]}.` });
         } else {
           ans = (a + b) * u;
           ask = isMoney ? "How much money is shared altogether?" : `How many ${g.A} and ${g.B} are there altogether?`;
@@ -792,12 +812,12 @@ export const drills: Drill[] = [
         const ans = swap ? [q - p, p] : [p, q - p];
         const wrong = swap ? [q, p] : [p, q];
         const askLabel = swap ? `${c.B} : ${c.A}` : `${c.A} : ${c.B}`;
-        if (!proportional(wrong, ans)) traps.push({ spec: { type: "ratio", parts: wrong }, feedback: `${q} is the WHOLE, not the ${c.B}. The ${c.B} make up ${q} − ${p} = ${q - p} parts.` });
+        if (!proportional(wrong, ans)) traps.push({ spec: { type: "ratio", parts: wrong }, feedback: `${q} is the WHOLE, not the ${c.B}. The ${c.B} make up ${q} − ${p} = ${plural(q - p, "part")}.` });
         return {
           prompt: `${frac(p, q)} of the ${c.all} ${c.where} are ${c.A} and the rest are ${c.B}. Write the ratio ${askLabel} in its simplest form.`,
           answer: { type: "ratio", parts: ans, simplest: true },
           solution: [
-            `Think of the ${c.all} as ${q} equal parts: ${p} parts are ${c.A}.`,
+            `Think of the ${c.all} as ${q} equal parts: ${plural(p, "part")} ${p === 1 ? "is" : "are"} ${c.A}.`,
             `The rest, ${q} − ${p} = ${plural(q - p, "part")}, ${q - p === 1 ? "is" : "are"} ${c.B}.`,
             `So ${askLabel} = ${rat(ans)}.`,
           ],
@@ -1006,7 +1026,7 @@ export const drills: Drill[] = [
       const showSize = (s: number) => {
         if (prod.kind === "count") return `${s} ${prod.many}`;
         if (tier >= 2 && s >= 1000) return prod.kind === "g" ? `${num(s / 1000)} kg` : s === 1000 ? "1 litre" : `${num(s / 1000)} litres`;
-        return `${s} ${unit}`;
+        return `${big(s)} ${unit}`;
       };
       const per = prod.kind === "count" ? prod.one : `100 ${unit}`;
       const table = ["| Pack | Size | Price |", "|---|---|---|", ...sizes.map((s, x) => `| ${letter(x)} | ${showSize(s)} | ${money(priceC[x] / 100)} |`)].join("\n");
@@ -1020,8 +1040,7 @@ export const drills: Drill[] = [
       const lines = sizes.map((s, x) => {
         const p = money(priceC[x] / 100);
         if (prod.kind === "count") return `Pack ${letter(x)}: ${p} ÷ ${s} = ${money(us[x] / 100)} per ${prod.one}.`;
-        const conv = tier >= 2 && s >= 1000 ? ` (${big(s)} ${unit})` : "";
-        return `Pack ${letter(x)}${conv}: ${p} ÷ ${num(s / 100)} = ${money(us[x] / 100)} per 100 ${unit}.`;
+        return `Pack ${letter(x)}: ${big(s)} ${unit} is ${num(s / 100)} lots of 100 ${unit}, so ${p} ÷ ${num(s / 100)} = ${money(us[x] / 100)} per 100 ${unit}.`;
       });
       const traps: Trap[] = [];
       if (cheapest !== best) traps.push({ spec: { type: "text", accept: [letter(cheapest), `pack ${letter(cheapest)}`] }, feedback: `Pack ${letter(cheapest)} costs the least in total, but you get less. Compare the cost per ${per}.` });
@@ -1134,7 +1153,7 @@ export const drills: Drill[] = [
       }
       traps.push({ spec: { type: "number", value: q1 * n2 }, feedback: `You multiplied by ${n2} but didn't divide by ${n1}. Find the amount for 1 person first.` });
       const add = q1 + (n2 - n1);
-      if (add > 0 && add !== a1) traps.push({ spec: { type: "number", value: add }, feedback: "Recipes scale by MULTIPLYING, not by adding the extra people on." });
+      if (add > 0 && add !== a1) traps.push({ spec: { type: "number", value: add }, feedback: n2 > n1 ? "Recipes scale by MULTIPLYING, not by adding the extra people on." : "Recipes scale by MULTIPLYING or DIVIDING, not by taking away the difference in people." });
       const steps = n2 % n1 === 0
         ? [`${n2} people is ${n2 / n1} times as many as ${n1}.`, `${big(q1)} × ${n2 / n1} = ${big(a1)} ${i1.unit}.`]
         : n1 % n2 === 0
@@ -1170,7 +1189,14 @@ export const drills: Drill[] = [
         const S = tier === 1 ? 10 * rng.int(1, 30) : rng.int(12, 400);
         const F = clean((S * cur.r) / 100);
         const wrong = roundHalfUp(S * 100 * 100, cur.r) / 100;
-        if (Math.abs(wrong - F) > 1e-9) traps.push({ spec: { type: "number", value: clean(wrong) }, feedback: `Each S$1 is worth ${cur.show(cur.r / 100)}, so you get MORE of the foreign money — multiply, don't divide.` });
+        if (Math.abs(wrong - F) > 1e-9) {
+          traps.push({
+            spec: { type: "number", value: clean(wrong) },
+            feedback: cur.r > 100
+              ? `You divided. Each S$1 is worth ${cur.show(cur.r / 100)}, so you get MORE ${cur.name} than Singapore dollars — multiply by ${num(cur.r / 100)}.`
+              : `You divided. Each S$1 is worth only ${cur.show(cur.r / 100)}, so you get FEWER ${cur.name} than Singapore dollars — multiply by ${num(cur.r / 100)}.`,
+          });
+        }
         return {
           prompt: rng.bool()
             ? `${nm} changes S$${S} into ${cur.name} for a holiday. The exchange rate is ${rate}. How many ${cur.name} does ${nm} get?`
@@ -1183,18 +1209,19 @@ export const drills: Drill[] = [
       }
 
       if (mode === "toSGD") {
+        const item = rng.pick(SOUVENIRS);
         let S = 40, F = 30;
         for (let t = 0; t < 100; t++) {
-          S = tier === 1 ? 10 * rng.int(1, 30) : rng.int(8, 300);
+          S = tier === 1 ? 10 * rng.int(Math.ceil(item.lo / 10), Math.floor(item.hi / 10)) : rng.int(item.lo, item.hi);
           F = clean((S * cur.r) / 100);
           if (cur.whole || dp(F) <= 2) break;
         }
         const wrong = clean((S * cur.r * cur.r) / 10000);
         traps.push({ spec: { type: "number", value: Math.round(wrong * 100) / 100 }, feedback: `You multiplied by the rate. To change ${cur.name} BACK into Singapore dollars, divide by ${num(cur.r / 100)}.` });
         return {
-          prompt: `${rng.pick(SOUVENIRS).replace(/^./, (m) => m.toUpperCase())} costs ${cur.show(F)}. The exchange rate is ${rate}. How much is this in Singapore dollars?`,
+          prompt: `${item.name} costs ${cur.show(F)}. The exchange rate is ${rate}. How much is this in Singapore dollars?`,
           answer: { type: "number", value: S, display: money(S, "S$") },
-          solution: [`Each S$1 is worth ${cur.show(cur.r / 100)}, so divide by ${num(cur.r / 100)}.`, `${cur.whole ? big(F) : F.toFixed(2)} ÷ ${num(cur.r / 100)} = S$${S}.`],
+          solution: [`Each S$1 is worth ${cur.show(cur.r / 100)}, so divide by ${num(cur.r / 100)}.`, `${cur.whole ? big(F) : dec2(F)} ÷ ${num(cur.r / 100)} = S$${S}.`],
           hint: "Going back to S$, how many lots of the rate fit into the price?",
           traps,
         };
@@ -1217,8 +1244,8 @@ export const drills: Drill[] = [
           prompt: `${nm} sees a jacket priced at ${cur.show(F)} while on holiday. The exchange rate is ${rate}. How much is this in Singapore dollars? Give your answer to the nearest cent.`,
           answer: { type: "number", value: S, display: money(S, "S$") },
           solution: [
-            `Divide by the rate: ${cur.whole ? big(F) : F.toFixed(2)} ÷ ${num(cur.r / 100)} = ${num(Math.floor((F100 * 1000) / cur.r) / 1000)}…`,
-            `To the nearest cent: S$${S.toFixed(2)}.`,
+            `Divide by the rate: ${cur.whole ? big(F) : dec2(F)} ÷ ${num(cur.r / 100)} = ${quotient(F100, cur.r)}`,
+            `To the nearest cent: S$${dec2(S)}.`,
           ],
           hint: "Divide by the exchange rate, then round to 2 decimal places.",
           traps,
@@ -1232,11 +1259,16 @@ export const drills: Drill[] = [
         const F = rng.int(12, 400);
         const S = clean((F * back) / 100);
         const wrong = roundHalfUp(F * 100 * 100, back) / 100;
-        traps.push({ spec: { type: "number", value: clean(wrong) }, feedback: `Here each ${cur.show(1)} is worth MORE than S$1, so multiply by ${num(back / 100)}.` });
+        traps.push({
+          spec: { type: "number", value: clean(wrong) },
+          feedback: back > 100
+            ? `You divided. Each ${cur.show(1)} is worth MORE than S$1, so you should end up with more S$ — multiply by ${num(back / 100)}.`
+            : `You divided. Each ${cur.show(1)} is worth S$${(back / 100).toFixed(2)}, a little LESS than S$1, so you should end up with fewer S$ — multiply by ${num(back / 100)}.`,
+        });
         return {
           prompt: `The exchange rate is ${brate}. ${nm} has ${cur.show(F)} left after a trip. How much is this in Singapore dollars?`,
           answer: { type: "number", value: S, display: money(S, "S$") },
-          solution: [`Each ${cur.show(1)} is worth S$${(back / 100).toFixed(2)}.`, `${F} × ${num(back / 100)} = S$${S.toFixed(2)}.`],
+          solution: [`Each ${cur.show(1)} is worth S$${(back / 100).toFixed(2)}.`, `${F} × ${num(back / 100)} = S$${dec2(S)}.`],
           hint: "The rate tells you what ONE unit of the foreign money is worth in S$.",
           traps,
         };
@@ -1254,7 +1286,7 @@ export const drills: Drill[] = [
         prompt: `The exchange rate is ${brate}. ${nm} changes S$${S} into ${cur.name}. How many ${cur.name} does ${nm} get? Give your answer to the nearest cent.`,
         answer: { type: "number", value: F, display: cur.show(F) },
         solution: [
-          `Each ${cur.show(1)} costs S$${(back / 100).toFixed(2)}, so divide: ${S} ÷ ${num(back / 100)} = ${num(Math.floor((S * 100000) / back) / 1000)}…`,
+          `Each ${cur.show(1)} costs S$${(back / 100).toFixed(2)}, so divide: ${S} ÷ ${num(back / 100)} = ${quotient(S * 100, back)}`,
           `To the nearest cent: ${cur.show(F)}.`,
         ],
         hint: "How many lots of S$" + (back / 100).toFixed(2) + " fit into S$" + S + "?",
@@ -1366,7 +1398,7 @@ export const drills: Drill[] = [
       const km = clean(cm / 100000);
       const inM = km < 1;
       const realStr = inM ? `${big(clean(cm / 100))} m` : `${num(km)} km`;
-      const place = rng.pick(km <= 4 ? ["MRT stations", "bus stops", "lamp posts", "parks"] : km <= 30 ? ["towns", "villages", "hilltops", "lighthouses"] : ["cities", "towns", "lighthouses"]);
+      const place = rng.pick(km <= 4 ? ["MRT stations", "bus stops", "schools", "parks"] : km <= 30 ? ["towns", "villages", "hilltops", "lighthouses"] : ["cities", "towns", "lighthouses"]);
       if (mode === "mapToReal") {
         const ans = inM ? clean(cm / 100) : km;
         traps.push({ spec: { type: "number", value: cm }, feedback: `That's the distance in centimetres. Convert to ${inM ? "metres (÷ 100)" : "kilometres (÷ 100,000)"}.` });
@@ -1428,7 +1460,8 @@ export const drills: Drill[] = [
 
       if (mode === "factor") {
         const inv = clean(w / W);
-        if (dp(inv) <= 3 && Math.abs(inv - k) > 1e-9) traps.push({ spec: { type: "number", value: inv }, feedback: "That's the scale factor from B back to A. Divide B's length by A's length." });
+        const [S1, S2] = ctx === "rect" ? ["A", "B"] : ["P", "Q"];
+        if (dp(inv) <= 3 && Math.abs(inv - k) > 1e-9) traps.push({ spec: { type: "number", value: inv }, feedback: `That's the scale factor from ${S2} back to ${S1}. For ${S1} to ${S2}, divide ${S2}'s length by ${S1}'s length.` });
         return {
           prompt: ctx === "rect"
             ? `Rectangles A and B are similar. A is ${cm(w)} wide and B is ${cm(W)} wide. What is the scale factor from A to B?`

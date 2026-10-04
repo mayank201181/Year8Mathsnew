@@ -287,6 +287,8 @@ export const drills: Drill[] = [
             const a = sgn(2, 12), b = sgn(2, 12), c = sgn(2, 9);
             if ((a * b) % c !== 0) return null;
             if (a > 0 && b > 0 && c > 0) return null;
+            // Avoid the trivial a × b ÷ a (the divisor just cancels one factor).
+            if (Math.abs(c) === Math.abs(a) || Math.abs(c) === Math.abs(b)) return null;
             if (Math.abs((a * b) / c) < 2) return null;
             return [a, b, c];
           },
@@ -371,7 +373,7 @@ export const drills: Drill[] = [
           ? (["negSq", "sqrt", "negCube", "cbrtNeg"] as const)
           : tier === 2
             ? (["negSq", "minusSq", "sqrt", "negCube", "cbrtNeg", "negPow"] as const)
-            : (["minusSq", "negCube", "cbrtNeg", "negPow", "combo", "combo"] as const),
+            : (["minusSq", "negCube", "cbrtNeg", "negPow", "sqrt", "combo", "combo"] as const),
       );
       const sqMax = tier === 1 ? 12 : tier === 2 ? 15 : 20;
       const cuMax = tier === 1 ? 5 : tier === 2 ? 6 : 10;
@@ -648,7 +650,15 @@ export const drills: Drill[] = [
           answer: { type: "text", accept, display: `{{${disp}}}` },
           solution: [`Count each one: there are ${i} lots of ${p} and ${j} lots of ${q}.`, `So it is {{${disp}}}.`],
           hint: `Count the factors of ${p} and the factors of ${q} separately.`,
-          traps: i === j ? [] : [{ spec: { type: "text", accept: useLetters ? [`${p}^${j}${q}^${i}`] : [`${p}^${j}*${q}^${i}`] }, feedback: `Recount: how many factors of ${p} are there, and how many of ${q}?` }],
+          traps:
+            i === j
+              ? []
+              : [
+                  {
+                    spec: { type: "text", accept: useLetters ? [`${p}^${j}${q}^${i}`, `${p}^${j}*${q}^${i}`, `${q}^${i}${p}^${j}`, `${q}^${i}*${p}^${j}`] : [`${p}^${j}*${q}^${i}`, `${q}^${i}*${p}^${j}`, `${p}^${j}x${q}^${i}`, `${q}^${i}x${p}^${j}`] },
+                    feedback: `Recount: how many factors of ${p} are there, and how many of ${q}?`,
+                  },
+                ],
         };
       }
 

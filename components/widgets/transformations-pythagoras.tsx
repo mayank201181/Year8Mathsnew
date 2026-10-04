@@ -484,7 +484,7 @@ function TransformationLab() {
 
   let mirrorLine: { x1: number; y1: number; x2: number; y2: number; lx: number; ly: number } | null = null;
   if (p.kind === "reflect") {
-    if (p.mirror === "x") mirrorLine = { x1: px(p.m), y1: py(LIM), x2: px(p.m), y2: py(-LIM), lx: px(p.m) + 4, ly: py(LIM) + 12 };
+    if (p.mirror === "x") mirrorLine = { x1: px(p.m), y1: py(LIM), x2: px(p.m), y2: py(-LIM), lx: px(p.m) + 4, ly: py(-LIM) - 6 };
     else if (p.mirror === "y") mirrorLine = { x1: px(-LIM), y1: py(p.m), x2: px(LIM), y2: py(p.m), lx: px(-LIM) + 4, ly: py(p.m) - 5 };
     else if (p.mirror === "yx") mirrorLine = { x1: px(-LIM), y1: py(-LIM), x2: px(LIM), y2: py(LIM), lx: px(5.8), ly: py(4.4) };
     else mirrorLine = { x1: px(-LIM), y1: py(LIM), x2: px(LIM), y2: py(-LIM), lx: px(5.6), ly: py(-4.6) };

@@ -138,7 +138,7 @@ export function parseNumberAnswer(raw: string): ParsedNumber | null {
  */
 export function extractNumbers(raw: string): number[] | null {
   const s = normalizeInput(raw)
-    .replace(/\b[a-z]\s*=/gi, " ") // "x =" labels
+    .replace(/\b[a-z]+\s*=/gi, " ") // "x =", "HCF =" labels
     .replace(/\b(?:or|and)\b/gi, ",")
     .replace(/[()\[\]{}]/g, " ")
     .replace(/(?:s\$|[£$€¥₹])/gi, "");

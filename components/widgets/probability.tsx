@@ -264,7 +264,7 @@ function SampleSpace() {
   const bw = Math.max(2, slot * 0.72);
   const labelEvery = Math.ceil(m / 14);
   const showCounts = m <= 16;
-  const barAria = `Bar chart of how many cells give each ${R.noun}. The most common ${R.noun}${modes.length > 1 ? "s are" : " is"} ${modes.join(" and ")}, with ${maxCount} cells each.`;
+  const barAria = `Bar chart of how many cells give each ${R.noun}. The most common ${R.noun}${modes.length > 1 ? "s are" : " is"} ${modes.join(" and ")}, with ${maxCount} cell${maxCount === 1 ? "" : "s"}${modes.length > 1 ? " each" : ""}.`;
 
   const condOptions: { value: Cond; label: ReactNode }[] = [
     { value: "eq", label: "= k" },
@@ -560,7 +560,9 @@ function ExperimentLab() {
   const [trackF, setTrackF] = useState(5);
   const [angle, setAngle] = useState<number | null>(null);
   const [mystery, setMystery] = useState<Mystery | null>(null);
-  const [verdict, setVerdict] = useState<"fair" | "loaded" | null>(null);
+  // The verdict remembers how many rolls it was based on, so the feedback stays
+  // true even if the learner keeps rolling (or resets) after the reveal.
+  const [verdict, setVerdict] = useState<{ call: "fair" | "loaded"; n: number; lfRf: string } | null>(null);
 
   const isDie = exp === "die";
   const N = sec[0] + sec[1] + sec[2];
@@ -652,6 +654,11 @@ function ExperimentLab() {
   }, [outcomes, track, K]);
 
   const last = n ? outcomes[n - 1] : null;
+
+  const giveVerdict = (call: "fair" | "loaded") => {
+    if (!mystery || n === 0) return;
+    setVerdict({ call, n, lfRf: approx(counts[mystery.face] / n, 3) });
+  };
   const [rn, rd] = refP[track];
   const ref = rn / rd;
   const kTrack = counts[track] ?? 0;
@@ -682,9 +689,9 @@ function ExperimentLab() {
     if (n === 0) {
       caption = (
         <p>
-          This spinner has {N} equal section{N === 1 ? "" : "s"}, so each section is equally likely. {c} of them {c === 1 ? "is" : "are"}{" "}
-          {trackName}, so P({trackName}) = <FracText n={c} d={N} />
-          {c > 0 && c < N ? ` ${eqApprox(p)}` : ""}. In 100 spins you would <strong>expect</strong> about P × 100 = {expectedText(100, c, N)}{" "}
+          {N === 1 ? "This spinner has only 1 section, so it always lands on it." : `This spinner has ${N} equal sections, so each section is equally likely.`}{" "}
+          {c} of {N === 1 ? "it" : "them"} {c === 1 ? "is" : "are"} {trackName}, so P({trackName}) = <FracText n={c} d={N} />
+          {c > 0 && c < N ? ` ${eqApprox(p)}` : ""}. In 100 spins you would <strong>expect</strong> P × 100 {eqCount((100 * c) / N)}{" "}
           {trackName}s. Spin and compare: <strong>relative frequency</strong> = number of times it happened ÷ number of spins.
         </p>
       );
@@ -772,7 +779,7 @@ function ExperimentLab() {
               {n > 0 ? (
                 <>
                   {" "}
-                  Your relative frequency for face {lf + 1} was {approx(counts[lf] / n, 3)}.
+                  After {n} roll{n === 1 ? "" : "s"}, your relative frequency for face {lf + 1} is {approx(counts[lf] / n, 3)}.
                 </>
               ) : null}
             </>
@@ -794,23 +801,24 @@ function ExperimentLab() {
   // ---- verdict feedback ----
   let feedback: ReactNode = null;
   if (revealed && mystery) {
-    const correct = (verdict === "loaded") === mystery.loaded;
-    const lfRf = n ? approx(counts[mystery.face] / n, 3) : "0";
+    const correct = (verdict?.call === "loaded") === mystery.loaded;
+    const vn = verdict?.n ?? 0;
+    const lfRf = verdict?.lfRf ?? "0";
     feedback = correct ? (
       <p className="font-bold text-good">
-        {n < 100
-          ? `Correct — though with only ${n} roll${n === 1 ? "" : "s"}, that was partly luck.`
-          : n < 1000
-            ? `Correct, and ${n} rolls gave you decent evidence.`
-            : `Correct, and ${n} rolls gave you strong evidence.`}
+        {vn < 100
+          ? `Correct — though with only ${vn} roll${vn === 1 ? "" : "s"}, that was partly luck.`
+          : vn < 1000
+            ? `Correct, and ${vn} rolls gave you decent evidence.`
+            : `Correct, and ${vn} rolls gave you strong evidence.`}
       </p>
     ) : (
       <p className="font-bold text-bad">
-        {n < 100
-          ? `Not this time — but with only ${n} roll${n === 1 ? "" : "s"}, random wobble can easily hide a bias or fake one. More rolls, better verdicts.`
+        {vn < 100
+          ? `Not this time — but with only ${vn} roll${vn === 1 ? "" : "s"}, random wobble can easily hide a bias or fake one. More rolls, better verdicts.`
           : mystery.loaded
-            ? `Not this time. Face ${mystery.face + 1} came up with relative frequency ${lfRf}, against 0.167 for a fair die. With more rolls the gap becomes impossible to miss.`
-            : `Not this time. Every face was equally likely; gaps of a few hundredths are normal random variation with ${n} rolls.`}
+            ? `Not this time. Face ${mystery.face + 1} really has probability 0.25, but in your ${vn} rolls its relative frequency was ${lfRf} (a fair die gives about 0.167). With more rolls the gap becomes hard to miss.`
+            : `Not this time. Every face was equally likely; gaps of a few hundredths are normal random variation with ${vn} rolls.`}
       </p>
     );
   }
@@ -1004,10 +1012,10 @@ function ExperimentLab() {
               <>
                 <p className="text-sm font-bold text-ink">Fair or loaded? Roll as many times as you like, then give your verdict.</p>
                 <div className="flex flex-wrap gap-2">
-                  <button type="button" className="btn btn-secondary btn-sm" disabled={n === 0} onClick={() => setVerdict("fair")}>
+                  <button type="button" className="btn btn-secondary btn-sm" disabled={n === 0} onClick={() => giveVerdict("fair")}>
                     It’s fair
                   </button>
-                  <button type="button" className="btn btn-secondary btn-sm" disabled={n === 0} onClick={() => setVerdict("loaded")}>
+                  <button type="button" className="btn btn-secondary btn-sm" disabled={n === 0} onClick={() => giveVerdict("loaded")}>
                     It’s loaded
                   </button>
                 </div>

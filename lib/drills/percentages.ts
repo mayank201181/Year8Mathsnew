@@ -553,7 +553,10 @@ export const drills: Drill[] = [
         },
         solution: steps,
         hint: "Turn every number into a percentage first, then compare like with like.",
-        traps: [{ spec: { type: "list", values: [...values].reverse(), ordered: true }, feedback: "That's largest first — the question asks for smallest first." }],
+        traps: [
+          { spec: { type: "list", values: [...values].reverse(), ordered: true }, feedback: "That's largest first — the question asks for smallest first." },
+          { spec: { type: "list", values: values.map((v) => clean(v / 100)), ordered: true }, feedback: "Right order, but those are decimals. Multiply each by 100 and give the percentages." },
+        ],
       };
     },
   },
@@ -660,8 +663,10 @@ export const drills: Drill[] = [
         p1 = roundQ(100 * a1, b1, 1);
         p2 = roundQ(100 * a2, b2, 1);
         if (p1 === p2) continue;
-        k1 = ctx === "discount" && b1 < 40 ? rng.pick([4, 5, 10]) : 1;
-        k2 = ctx === "discount" && b2 < 40 ? rng.pick([4, 5, 10]) : 1;
+        // Scale small totals up for prices and school year groups (the percentage is unchanged).
+        const scale = ctx === "discount" || ctx === "schools";
+        k1 = scale && b1 < 40 ? rng.pick([4, 5, 10]) : 1;
+        k2 = scale && b2 < 40 ? rng.pick([4, 5, 10]) : 1;
         // Prefer cases where the bigger raw number has the SMALLER percentage.
         const misleading = (a1 * k1 - a2 * k2) * (p1 - p2) < 0;
         if (tier >= 2 && i < 300 && !misleading) continue;
@@ -685,10 +690,10 @@ export const drills: Drill[] = [
       } else if (ctx === "schools") {
         L1 = "Hillview";
         L2 = "Bayside";
-        prompt = `At Hillview School, ${a1} of the ${b1} Year 8 students walk to school. At Bayside School, ${a2} of the ${b2} Year 8 students walk to school. Which school has the greater proportion of walkers?\n\nWrite each as a percentage — Hillview first, then Bayside.${roundNote}`;
+        prompt = `At Hillview School, ${r1} of the ${b1 * k1} Year 8 students walk to school. At Bayside School, ${r2} of the ${b2 * k2} Year 8 students walk to school. Which school has the greater proportion of walkers?\n\nWrite each as a percentage — Hillview first, then Bayside.${roundNote}`;
         verdict = `${p1 > p2 ? L1 : L2} has the greater proportion of walkers`;
-        raw1 = `${a1}`;
-        raw2 = `${a2}`;
+        raw1 = `${r1}`;
+        raw2 = `${r2}`;
       } else if (ctx === "discount") {
         L1 = "Shop A";
         L2 = "Shop B";
@@ -708,13 +713,15 @@ export const drills: Drill[] = [
       const hiRaw = r1 > r2 ? raw1 : raw2;
       const loRaw = r1 > r2 ? raw2 : raw1;
       const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+      const s1 = pctTxt(p1, !exactQ(100 * a1, b1, 1));
+      const s2 = pctTxt(p2, !exactQ(100 * a2, b2, 1));
       return {
         prompt,
-        answer: { type: "list", values: [p1, p2], ordered: true, display: `${pctTxt(p1, !exactQ(100 * a1, b1, 1))}, ${pctTxt(p2, !exactQ(100 * a2, b2, 1))}` },
+        answer: { type: "list", values: [p1, p2], ordered: true, display: `${s1}, ${s2}` },
         solution: [
           `${cap(L1)}: ${frac(r1, b1 * k1, { simplify: false })} × 100 = ${pctOfStr(100 * a1, b1, p1)}.`,
           `${cap(L2)}: ${frac(r2, b2 * k2, { simplify: false })} × 100 = ${pctOfStr(100 * a2, b2, p2)}.`,
-          `${num(Math.max(p1, p2))}% is more than ${num(Math.min(p1, p2))}%, so ${verdict}${misleading ? ` — even though ${hiRaw} is more than ${loRaw}. The totals are different, so the raw numbers can't be compared directly.` : "."}`,
+          `${p1 > p2 ? s1 : s2} is more than ${p1 > p2 ? s2 : s1}, so ${verdict}${misleading ? ` — even though ${hiRaw} is more than ${loRaw}. The totals are different, so the raw numbers can't be compared directly.` : "."}`,
         ],
         hint: "The totals are different, so compare percentages (out of 100), not the raw numbers.",
         traps: [{ spec: { type: "list", values: [p2, p1], ordered: true }, feedback: `Right percentages, wrong order — give ${L1} first.` }],
@@ -790,7 +797,16 @@ export const drills: Drill[] = [
       const val = (n: number) => (money ? clean(roundQ(n, 1000, 0) / 100) : clean(n / 1000));
       const value = val(N);
       const answer: AnswerSpec = money ? cashAnswer(roundQ(N, 1000, 0)) : { type: "number", value };
-      const item = rng.pick(["bicycle", "school bag", "guitar", "board game", "desk lamp", "scooter"]);
+      // Choose an item whose price fits A (in cents).
+      const item = rng.pick(
+        A < 3000
+          ? ["board game", "desk lamp", "T-shirt", "paperback book"]
+          : A < 15000
+            ? ["school bag", "desk lamp", "pair of trainers", "board game"]
+            : A < 60000
+              ? ["guitar", "scooter", "bicycle", "pair of headphones"]
+              : ["bicycle", "laptop", "television", "sofa"],
+      );
       let prompt: string;
       if (ctx === "plain") prompt = `Use a multiplier to ${inc ? "increase" : "decrease"} ${big(A)} by ${pc(t)}.`;
       else if (ctx === "money")
@@ -808,7 +824,7 @@ export const drills: Drill[] = [
         prompt,
         answer,
         solution: steps,
-        hint: `${inc ? "An increase" : "A decrease"} of ${pc(t)} leaves you with what percentage of the original? Write that as a decimal and multiply.`,
+        hint: `After ${inc ? "an increase" : "a decrease"} of ${pc(t)}, you have what percentage of the original? Write that as a decimal and multiply.`,
         traps: numTraps(value, [
           [val(A * t), `That's only the ${inc ? "increase" : "decrease"}. ${inc ? "Add it to" : "Take it away from"} the original — or multiply by ${num(mult)} in one step.`],
           [val(A * other), `You ${inc ? "decreased" : "increased"} it. ${inc ? "An increase uses a multiplier bigger" : "A decrease uses a multiplier smaller"} than 1: ${num(mult)}.`],
@@ -828,52 +844,54 @@ export const drills: Drill[] = [
         tier === 1 ? "basic" : tier === 2 ? (rng.bool(0.7) ? "basic" : "absRel") : rng.pick(["basic", "absRel", "points"] as const);
 
       if (mode === "points") {
-        let r1 = 20, d = 5, up = true, ok = false;
+        let r1 = 20, d = 5, up = true, interest = false, ok = false;
         for (let i = 0; i < 200; i++) {
           r1 = rng.pick([2, 4, 5, 8, 10, 12, 15, 16, 20, 25, 30, 40, 50, 60]);
           up = rng.bool();
-          const maxD = up ? Math.min(30, 99 - r1) : r1 - 1;
+          interest = r1 <= 10 && rng.bool();
+          // Savings rates move by a few points at most; other percentages can move further.
+          const maxD = interest ? (up ? Math.min(4, r1) : r1 - 1) : up ? Math.min(30, 99 - r1) : r1 - 1;
           d = rng.int(1, maxD);
           if (!exactQ(100 * d, r1, 1)) continue;
           ok = true;
           break;
         }
         if (!ok) {
-          r1 = 20; d = 5; up = true;
+          r1 = 20; d = 5; up = true; interest = false;
         }
         const r2 = up ? r1 + d : r1 - d;
         const rel = clean((100 * d) / r1);
-        const what =
-          r1 <= 10 && rng.bool()
-            ? `The interest rate on a savings account ${up ? "rises" : "falls"} from ${r1}% to ${r2}%.`
-            : rng.pick([
-                `The percentage of students at a school who cycle to school ${up ? "rose" : "fell"} from ${r1}% to ${r2}%.`,
-                `The percentage of HDB blocks in a town with solar panels ${up ? "rose" : "fell"} from ${r1}% to ${r2}%.`,
-                `The percentage of households that recycle their glass ${up ? "rose" : "fell"} from ${r1}% to ${r2}%.`,
-              ]);
+        const pp = d === 1 ? "1 percentage point" : `${d} percentage points`;
+        const what = interest
+          ? `The interest rate on a savings account ${up ? "rises" : "falls"} from ${r1}% to ${r2}%.`
+          : rng.pick([
+              `The percentage of students at a school who cycle to school ${up ? "rose" : "fell"} from ${r1}% to ${r2}%.`,
+              `The percentage of HDB blocks in a town with solar panels ${up ? "rose" : "fell"} from ${r1}% to ${r2}%.`,
+              `The percentage of households that recycle their glass ${up ? "rose" : "fell"} from ${r1}% to ${r2}%.`,
+            ]);
         const verb = up ? "rise" : "fall";
         return {
           prompt: `${what}\n\n(a) By how many percentage points did it ${verb}?\n\n(b) By what percentage did it ${verb}?\n\nGive (a) first, then (b).`,
-          answer: { type: "list", values: [d, rel], ordered: true, display: `${d} percentage points, ${num(rel)}%` },
+          answer: { type: "list", values: [d, rel], ordered: true, display: `${pp}, ${num(rel)}%` },
           solution: [
-            `(a) Percentage points are a plain difference: ${up ? `${r2}% − ${r1}%` : `${r1}% − ${r2}%`} = ${d} percentage points.`,
+            `(a) Percentage points are a plain difference: ${up ? `${r2}% − ${r1}%` : `${r1}% − ${r2}%`} = ${pp}.`,
             `(b) Compare the change with the original ${r1}%: ${frac(d, r1, { simplify: false })} × 100 = ${num(rel)}%.`,
-            `So it ${up ? "rose" : "fell"} by ${d} percentage points, which is ${an(num(rel))} ${num(rel)}% ${up ? "increase" : "decrease"}.`,
+            `So it ${up ? "rose" : "fell"} by ${pp}, which is ${an(num(rel))} ${num(rel)}% ${up ? "increase" : "decrease"}.`,
           ],
           hint: "Percentage points = the plain difference between the two percentages. Percentage change = that difference compared with the original.",
           traps: [
-            { spec: { type: "list", values: [d, d], ordered: true }, feedback: `A change of ${d} percentage points is not ${an(String(d))} ${d}% change — divide the change by the original ${r1}% and multiply by 100.` },
+            { spec: { type: "list", values: [d, d], ordered: true }, feedback: `A change of ${pp} is not ${an(String(d))} ${d}% change — divide the change by the original ${r1}% and multiply by 100.` },
             { spec: { type: "list", values: [rel, d], ordered: true }, feedback: "Right numbers, wrong order — give the percentage points first." },
           ],
         };
       }
 
       const inc = rng.bool();
-      // Money is the only context for absRel; basic uses all four.
+      // absRel uses money or visitors (contexts with units); basic also uses plain numbers.
       const ctx = mode === "absRel" ? rng.pick(["money", "visitors"] as const) : rng.pick(["money", "visitors", "plain"] as const);
       // O and c are integers in base units; scale/format by context.
       let O = 40, c = 10, ok = false;
-      const k = rng.pick([10, 100]);
+      let k = rng.pick([10, 100]);
       for (let i = 0; i < 400; i++) {
         if (tier === 1) {
           O = rng.pick([20, 25, 40, 50, 80, 200, 250, 400, 500, 60, 120]);
@@ -896,6 +914,9 @@ export const drills: Drill[] = [
       if (!ok) {
         O = 40; c = 10;
       }
+      // A list answer typed with a thousands comma ("1,260, 25") is split into three numbers by the
+      // checker, so keep the actual change in an absRel answer below 1000.
+      if (mode === "absRel" && ctx === "visitors") while (k > 1 && c * k >= 1000) k /= 10;
       const N = inc ? O + c : O - c;
       // tier 3 money is in cents (e.g. $2.40); otherwise whole dollars.
       const centsMode = ctx === "money" && tier === 3 && mode === "basic";
@@ -966,7 +987,16 @@ export const drills: Drill[] = [
         const gstC = roundQ(Xc * 9, 100, 0);
         const totalC = Xc + gstC;
         const rounded = (Xc * 9) % 100 !== 0;
-        const item = Xc >= 50000 ? rng.pick(["A laptop", "A bicycle", "A television", "A sofa"]) : rng.pick(["A pair of headphones", "A school bag", "A desk lamp", "A box of mooncakes", "A badminton racket"]);
+        // Choose an item whose price fits Xc (in cents).
+        const item = rng.pick(
+          Xc < 6000
+            ? ["A box of mooncakes", "A desk lamp", "A school bag", "A badminton racket"]
+            : Xc < 20000
+              ? ["A pair of headphones", "A badminton racket", "A school bag", "A rice cooker"]
+              : Xc < 50000
+                ? ["A pair of headphones", "A rice cooker", "A printer", "A bookshelf"]
+                : ["A laptop", "A bicycle", "A television", "A sofa"],
+        );
         if (rng.bool(0.7)) {
           const steps = [`The price with GST is 100% + 9% = 109% of the price, so multiply by 1.09.`, `${dn(Xc)} × 1.09 = ${decStr(Xc * 109, 10000, 4)}${rounded ? "" : "."}`];
           if (rounded) steps.push(`To the nearest cent: ${cash(totalC)}.`);
@@ -1015,7 +1045,9 @@ export const drills: Drill[] = [
         const saleC = (Xc * (1000 - t)) / 1000;
         const saveC = Xc - saleC;
         const m = clean((1000 - t) / 1000);
-        const item = rng.pick(["A jacket", "A pair of trainers", "A rice cooker", "A keyboard", "A suitcase", "A camera"]);
+        const item = rng.pick(
+          Xc < 10000 ? ["A T-shirt", "A jacket", "A keyboard", "A rice cooker"] : ["A jacket", "A pair of trainers", "A rice cooker", "A suitcase", "A camera"],
+        );
         const opener = `${item} is priced at ${cash(Xc)}. In the Great Singapore Sale it is ${pc(t)} off.`;
         if (rng.bool(0.7)) {
           return {
@@ -1067,11 +1099,12 @@ export const drills: Drill[] = [
         const exact = exactQ(100 * c, C, 1);
         const pct = exact ? clean((100 * c) / C) : roundQ(100 * c, C, 1);
         const word = isProfit ? "profit" : "loss";
-        const ctx = rng.pick([
+        const ctxs = [
           `${name} buys a second-hand bicycle for ${cash(toC(C))} and later sells it for ${cash(toC(S))}.`,
-          `A market stall buys a box of mangoes for ${cash(toC(C))} and sells all the mangoes for ${cash(toC(S))} in total.`,
           `The school craft club spends ${cash(toC(C))} making candles and sells them all for ${cash(toC(S))}.`,
-        ]);
+        ];
+        if (toC(C) <= 15000) ctxs.push(`A market stall buys a box of mangoes for ${cash(toC(C))} and sells all the mangoes for ${cash(toC(S))} in total.`);
+        const ctx = rng.pick(ctxs);
         const divSell = exactQ(100 * c, S, 1) ? clean((100 * c) / S) : roundQ(100 * c, S, 1);
         return {
           prompt: `${ctx} Find the percentage ${word}.${exact ? "" : " Give your answer to 1 decimal place."}`,
@@ -1243,7 +1276,9 @@ export const drills: Drill[] = [
       if (mode === "gst") {
         const O = tier === 2 ? rng.int(10, 400) : rng.int(10, 2000); // dollars before GST
         const Nc = 109 * O; // cents with GST
-        const item = rng.pick(["pair of trainers", "rice cooker", "printer", "bookshelf", "set of paints"]);
+        const item = rng.pick(
+          O < 60 ? ["set of paints", "desk lamp", "school bag"] : O < 400 ? ["pair of trainers", "rice cooker", "printer", "bookshelf"] : ["laptop", "sofa", "television", "bicycle"],
+        );
         return {
           prompt: `A ${item} costs ${cash(Nc)} including 9% GST. What was the price before GST was added?`,
           answer: cashAnswer(100 * O),
@@ -1285,7 +1320,9 @@ export const drills: Drill[] = [
       const m = clean(after / 1000);
       const Sc = (O * after) / 10; // cents after the change
       if (isDiscount) {
-        const item = rng.pick(["a pair of trainers", "a school bag", "a jacket", "a keyboard", "a bicycle helmet", "a pair of headphones"]);
+        const item = rng.pick(
+          O < 100 ? ["a school bag", "a keyboard", "a jacket", "a bicycle helmet"] : ["a pair of trainers", "a pair of headphones", "a jacket", "a bicycle", "a guitar"],
+        );
         const prompt = rng.bool()
           ? `In a sale, everything is ${pc(t)} off. ${name} pays ${cash(Sc)} for ${item}. What was the price before the sale?`
           : `${name} buys ${item} for ${cash(Sc)} after ${aPc(t)} discount. What was the original price?`;

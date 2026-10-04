@@ -362,7 +362,7 @@ function pieStep(N: number): number {
 // ---------------------------------------------------------------------------
 
 interface SLCtx {
-  intro: (n: number) => string;
+  intro: (n: string) => string;
   s0: number;
   s1: number;
   /** 1 = value is stem×10 + leaf; 10 = value is (stem×10 + leaf) ÷ 10. */
@@ -604,6 +604,8 @@ interface FitCtx {
   x: Axis;
   y: Axis;
   dir: 1 | -1;
+  /** Allowed gradients in grid units (default 0.5 or 1). */
+  slopes?: number[];
   who: string;
   fwd: (xv: string) => string;
   inv: (yv: string) => string;
@@ -631,7 +633,7 @@ const FIT_CTX: FitCtx[] = [
     xu: "years", yu: "thousand dollars",
   },
   {
-    x: { lo: 130, hi: 180, step: 5, label: "Height (cm)" }, y: { lo: 130, hi: 180, step: 5, label: "Arm span (cm)", every: 2 }, dir: 1, who: "pupils",
+    x: { lo: 130, hi: 180, step: 5, label: "Height (cm)" }, y: { lo: 130, hi: 180, step: 5, label: "Arm span (cm)", every: 2 }, dir: 1, slopes: [1], who: "pupils",
     fwd: (xv) => `Use the line of best fit to estimate the arm span, in cm, of a pupil who is ${xv} cm tall.`,
     inv: (yv) => `A pupil has an arm span of ${yv} cm. Use the line of best fit to estimate their height in cm.`,
     xu: "cm", yu: "cm",
@@ -1037,7 +1039,7 @@ export const drills: Drill[] = [
         if (wrong !== ans) traps.push(numTrap(wrong, `"Less than ${num(val(X))}" does not include ${num(val(X))} itself.`));
       }
       return {
-        prompt: `${ctx.intro(n)}\n\n${diagram}\n\n${key}\n\n${question}`,
+        prompt: `${ctx.intro(q === "count" ? "some" : String(n))}\n\n${diagram}\n\n${key}\n\n${question}`,
         answer: { type: "number", value: ans },
         solution,
         hint: "Use the key to turn each stem and leaf into a value. The leaves are in order, smallest first.",
@@ -1165,7 +1167,7 @@ export const drills: Drill[] = [
         answer: { type: "number", value: ans },
         solution: [
           `In the sample, ${c} out of ${n} said yes: that's {{${c}/${n}}}.`,
-          `Estimate = {{${c}/${n}}} × ${P} = ${ans}.`,
+          `Estimate = {{${c}/${n}}} × ${big(P)} = ${big(ans)}.`,
           "It is only an estimate: a different random sample would give a slightly different answer.",
         ],
         hint: "What fraction of the sample said yes? Assume the same fraction of everyone would.",
@@ -1404,12 +1406,12 @@ export const drills: Drill[] = [
           ans = a + b;
           question = `How many ${ctx.who} ${ctx.A}?`;
           sol = carroll ? [`Add both boxes in the **${ctx.rowY}** row.`, `${b} + ${a} = ${ans}.`] : [`Everything inside the ${ctx.labA} circle counts, including the overlap.`, `${a} + ${b} = ${ans}.`];
-          if (a !== ans) trap = numTrap(a, `Count everyone who ${ctx.A}: that includes the ${b} who ${ctx.B} as well.`);
+          if (a !== ans) trap = numTrap(a, `Count all the ${ctx.who} who ${ctx.A}: that includes the ${b} who ${ctx.B} as well.`);
         } else if (q === "inB") {
           ans = c + b;
           question = `How many ${ctx.who} ${ctx.B}?`;
           sol = carroll ? [`Add both boxes in the **${ctx.colY}** column.`, `${b} + ${c} = ${ans}.`] : [`Everything inside the ${ctx.labB} circle counts, including the overlap.`, `${b} + ${c} = ${ans}.`];
-          if (c !== ans) trap = numTrap(c, `Count everyone who ${ctx.B}: that includes the ${b} who ${ctx.A} as well.`);
+          if (c !== ans) trap = numTrap(c, `Count all the ${ctx.who} who ${ctx.B}: that includes the ${b} who ${ctx.A} as well.`);
         } else if (q === "both") {
           ans = b;
           question = `How many ${ctx.who} ${ctx.A} and ${ctx.B}?`;
@@ -1653,7 +1655,7 @@ export const drills: Drill[] = [
       let s = 1, c = 0, xs = 1, xe = 9, xq = 5, yq = 5;
       let found = false;
       for (let i = 0; i < 300 && !found; i++) {
-        s = ctx.dir * rng.pick([0.5, 1]);
+        s = ctx.dir * rng.pick(ctx.slopes ?? [0.5, 1]);
         c = s > 0 ? (s === 1 ? rng.int(-2, 2) / 2 : rng.int(2, 10) / 2) : s === -1 ? rng.int(18, 22) / 2 : rng.int(12, 20) / 2;
         // Data x-range where the line stays between 1 and 9.
         const xa = s > 0 ? (1 - c) / s : (9 - c) / s;
@@ -1677,14 +1679,33 @@ export const drills: Drill[] = [
       }
       const X = (xg: number) => clean(ctx.x.lo + xg * ctx.x.step);
       const Y = (yg: number) => clean(ctx.y.lo + yg * ctx.y.step);
-      // Scatter points around the line.
+      // Scatter points around the line. The noise is adjusted to have zero mean and no
+      // trend, so the drawn line is exactly the least-squares line through the points.
       const n = rng.int(10, 12);
-      const pts: Array<[number, number]> = [];
-      for (let g = 0; g < 400 && pts.length < n; g++) {
-        const xg = xs + (xe - xs) * rng.next();
-        const yg = c + s * xg + (rng.next() * 2 - 1) * 1.1;
-        if (yg < 0.3 || yg > 9.7) continue;
-        pts.push([ctx.x.lo + xg * ctx.x.step, ctx.y.lo + yg * ctx.y.step]);
+      let pts: Array<[number, number]> = [];
+      for (let g = 0; g < 200; g++) {
+        const xgs = Array.from({ length: n }, () => xs + (xe - xs) * rng.next());
+        // Make sure the data spans the whole range, so every estimate is an interpolation.
+        xgs[0] = xs + 0.3 * rng.next();
+        xgs[1] = xe - 0.3 * rng.next();
+        const es = xgs.map(() => (rng.next() * 2 - 1) * 1.1);
+        const mx = sumOf(xgs) / n, me = sumOf(es) / n;
+        let sxe = 0, sxx = 0;
+        for (let i = 0; i < n; i++) {
+          sxe += (xgs[i] - mx) * (es[i] - me);
+          sxx += (xgs[i] - mx) * (xgs[i] - mx);
+        }
+        const beta = sxx > 0 ? sxe / sxx : 0;
+        const ygs = xgs.map((xg, i) => c + s * xg + es[i] - me - beta * (xg - mx));
+        if (ygs.some((yg) => yg < 0.3 || yg > 9.7)) continue;
+        pts = xgs.map((xg, i) => [ctx.x.lo + xg * ctx.x.step, ctx.y.lo + ygs[i] * ctx.y.step]);
+        break;
+      }
+      if (!pts.length) {
+        for (let i = 0; i < n; i++) {
+          const xg = xs + ((xe - xs) * (i + 0.5)) / n;
+          pts.push([ctx.x.lo + xg * ctx.x.step, ctx.y.lo + (c + s * xg + (i % 2 === 0 ? 0.6 : -0.6)) * ctx.y.step]);
+        }
       }
       const l0 = Math.max(0, xs - 0.5), l1 = Math.min(10, xe + 0.5);
       const line = [ctx.x.lo + l0 * ctx.x.step, ctx.y.lo + (c + s * l0) * ctx.y.step, ctx.x.lo + l1 * ctx.x.step, ctx.y.lo + (c + s * l1) * ctx.y.step] as const;
@@ -1694,13 +1715,13 @@ export const drills: Drill[] = [
       const question = inverse ? ctx.inv(num(yv)) : ctx.fwd(num(xv));
       const solution = inverse
         ? [
-            `Find ${num(yv)} on the vertical axis (${lower(ctx.y.label)}).`,
+            `Find ${num(yv)} on the vertical axis.`,
             "Go straight across to the line of best fit, then straight down to the horizontal axis.",
             `The line is at ${num(xv)} there, so the estimate is about ${num(xv)} ${ctx.xu}.`,
             "This is inside the range of the data, so the estimate is fairly reliable.",
           ]
         : [
-            `Find ${num(xv)} on the horizontal axis (${lower(ctx.x.label)}).`,
+            `Find ${num(xv)} on the horizontal axis.`,
             "Go straight up to the line of best fit, then straight across to the vertical axis.",
             `The line is at ${num(yv)} there, so the estimate is about ${num(yv)} ${ctx.yu}.`,
             "This is inside the range of the data, so the estimate is fairly reliable.",
@@ -1773,7 +1794,7 @@ export const drills: Drill[] = [
           V2 = qn * j;
           if (V1 < 20 || V1 > 95) continue;
           S0 = Math.floor((V1 - rng.int(2, 15)) / 5) * 5;
-          if (S0 < 10 || V1 - S0 < 2) continue;
+          if (S0 < 10 || V1 - S0 < 3) continue;
           const look = (V2 - S0) / (V1 - S0);
           if (look < qn / qd + 1 || look > 12) continue;
           found = true;
@@ -1806,9 +1827,9 @@ export const drills: Drill[] = [
         if ((V1 * (100 + p)) % 100 !== 0) continue;
         V2 = (V1 * (100 + p)) / 100;
         S0 = Math.floor((V1 - rng.int(2, 15)) / 5) * 5;
-        if (S0 < 10 || V1 - S0 < 2) continue;
+        if (S0 < 10 || V1 - S0 < 3) continue;
         const lookPct = ((V2 - V1) / (V1 - S0)) * 100;
-        if (lookPct < 2 * p || V2 - S0 > 70) continue;
+        if (lookPct < 2 * p || V2 - S0 > 70 || (V2 - S0) / (V1 - S0) > 12) continue;
         found = true;
       }
       if (!found) { p = 25; V1 = 40; V2 = 50; S0 = 35; }
@@ -1852,7 +1873,7 @@ export const drills: Drill[] = [
         const ans = less ? sumOf(below) : sumOf(above);
         const wrong = less ? sumOf(fs.slice(0, j + 1)) : sumOf(fs.slice(j + 1));
         const traps: Trap[] = [];
-        if (wrong !== ans) {
+        if (wrong !== ans && wrong > 0) {
           traps.push(numTrap(wrong, less ? `The class ${cls(j)} starts at ${num(X)}, so those values are *not* less than ${num(X)}.` : `Values in ${cls(j)} are at least ${num(X)}, so include that class.`));
         }
         const used = less ? below.map((_, i) => cls(i)) : above.map((_, i) => cls(i + j));
@@ -1862,7 +1883,7 @@ export const drills: Drill[] = [
           answer: { type: "number", value: ans },
           solution: [
             `${less ? "Less than" : "At least"} ${num(X)} means the class${used.length > 1 ? "es" : ""} ${used.join(", ")}.`,
-            `${usedF.length > 1 ? `${usedF.join(" + ")} = ` : ""}${ans}.`,
+            usedF.length > 1 ? `${usedF.join(" + ")} = ${ans}.` : `That class has frequency ${ans}.`,
           ],
           hint: `Which classes contain only values ${less ? "below" : "of at least"} ${num(X)}? Look carefully at the inequality signs.`,
           traps,

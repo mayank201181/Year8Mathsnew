@@ -13,6 +13,7 @@ import type { AnswerSpec } from "./types.ts";
 import {
   countTerms,
   exprEquivalent,
+  exprVars,
   extractNumbers,
   gcd,
   hasGroup,
@@ -262,10 +263,24 @@ function stripEquation(input: string): string {
   return s;
 }
 
+/** "60 + 9π m²" → "60 + 9π" when the unit's letters aren't variables of the answer. */
+function stripTrailingUnit(input: string, vars: Set<string>): string | null {
+  const m = normalizeInput(input).match(/^(.*?\S)\s*(mm|cm|km|m|ml|l|kg|g|units?|degrees|°)(\s*\^?\s*[23])?\.?$/i);
+  if (!m) return null;
+  for (const ch of m[2].toLowerCase()) if (vars.has(ch)) return null;
+  return m[1];
+}
+
 function checkExpression(spec: Extract<AnswerSpec, { type: "expression" }>, input: string): CheckResult {
   const expected = parseExpr(stripEquation(spec.expr));
   if (!expected) return { status: "invalid", feedback: "This question's answer couldn't be checked automatically." };
-  const got = parseExpr(stripEquation(input));
+  let got = parseExpr(stripEquation(input));
+  if (!got || !exprEquivalent(expected, got)) {
+    // Allow a unit typed after the answer, e.g. "60 + 9π m²".
+    const unitless = stripTrailingUnit(input, exprVars(expected));
+    const retry = unitless === null ? null : parseExpr(stripEquation(unitless));
+    if (retry && exprEquivalent(expected, retry)) got = retry;
+  }
   if (!got) {
     return { status: "invalid", feedback: "I couldn't read that expression. Use * or nothing for ×, ^ for powers, e.g. 3x^2 + 2(x − 1)." };
   }
