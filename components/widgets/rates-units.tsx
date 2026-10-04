@@ -120,7 +120,7 @@ function NudgeSlider({
       </div>
       <button
         type="button"
-        className="kbd h-10 min-w-10"
+        className="kbd h-10 min-w-10 disabled:opacity-40"
         onClick={() => onChange(Math.max(min, value - step))}
         disabled={value <= min}
         aria-label={`${name}: decrease`}
@@ -129,7 +129,7 @@ function NudgeSlider({
       </button>
       <button
         type="button"
-        className="kbd h-10 min-w-10"
+        className="kbd h-10 min-w-10 disabled:opacity-40"
         onClick={() => onChange(Math.min(max, value + step))}
         disabled={value >= max}
         aria-label={`${name}: increase`}
@@ -332,7 +332,7 @@ function ZoomPicture({ d, p, big, small }: { d: number; p: number; big: string; 
 }
 
 function UnitZoom() {
-  const [dim, setDim] = useState<Dim>("2");
+  const [dim, setDim] = useState<Dim>("1");
   const [pair, setPair] = useState<Pair>("m-cm");
   const [dir, setDir] = useState<Dir>("down");
   const [t, setT] = useState(35); // tenths of the big unit: 35 → 3.5
@@ -429,7 +429,7 @@ function UnitZoom() {
     <WidgetFrame
       title="Unit zoom"
       tryThis={[
-        "Predict how many cm² are in 1 m² before you choose Area. Were you right?",
+        "Start on Length: 1 m = 100 cm. Predict how many cm² are in 1 m² before you switch to Area. Were you right?",
         "Keep m and cm and switch between Length, Area and Volume. Why is the factor 100, then 10 000, then 1 000 000?",
         "How many litres of water fill a 2 m³ tank? Use Volume to check.",
         "Convert 25 000 cm² to m², then compare with what the classic slip gives.",
@@ -461,12 +461,16 @@ function UnitZoom() {
         </div>
 
         <ZoomPicture d={d} p={p} big={big} small={small} />
-        <p className="-mt-2 text-xs text-ink-2">Amber = the piece that gets zoomed into next. Dashed lines show the zoom.</p>
+        {p > 1 ? (
+          <p className="-mt-2 text-xs text-ink-2">Amber = the piece that gets zoomed into next. Dashed lines show the zoom.</p>
+        ) : null}
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           <Readout label="Zooms" value={String(p)} tone="ink" />
           <Readout label="Each zoom" value={`× ${group(perZoom)}`} tone="ink" />
-          <Readout label={`${DIM_NAME[d]} factor`} value={`× ${group(f)}`} tone="good" />
+          <div className="col-span-2">
+            <Readout label={`${DIM_NAME[d]} factor`} value={`× ${group(f)}`} tone="good" />
+          </div>
         </div>
 
         <p className="text-sm text-ink-2">
@@ -533,7 +537,7 @@ interface Journey {
 }
 
 const JOURNEYS: { label: string; j: Journey }[] = [
-  { label: "There and back", j: { d1: 30, s1: 60, rest: 0, d2: 30, s2: 40 } },
+  { label: "Equal distances", j: { d1: 30, s1: 60, rest: 0, d2: 30, s2: 40 } },
   { label: "Equal times", j: { d1: 40, s1: 80, rest: 0, d2: 20, s2: 40 } },
   { label: "Bike ride with a hawker stop", j: { d1: 10, s1: 20, rest: 30, d2: 10, s2: 15 } },
 ];
@@ -656,7 +660,7 @@ function JourneyLab() {
   const O = { x: gx(0), y: gy(0) };
 
   const aria =
-    `Distance–time graph. Leg 1: ${d1} km at ${s1} km per hour, taking ${durationText(t1)}. ` +
+    `Graph of distance travelled against time. Leg 1: ${d1} km at ${s1} km per hour, taking ${durationText(t1)}. ` +
     (rest ? `Then a flat section: a ${rest} minute rest. ` : "") +
     `Leg 2: ${d2} km at ${s2} km per hour, taking ${durationText(t2)}. ` +
     `A dashed line from the start to the finish has gradient equal to the average speed, ${avgText} km per hour.`;
@@ -727,7 +731,7 @@ function JourneyLab() {
     <WidgetFrame
       title="Journey lab"
       tryThis={[
-        "Choose “There and back”: 30 km at 60 km/h, then 30 km at 40 km/h. Predict the average speed before you look. Is it 50 km/h?",
+        "Choose “Equal distances”: 30 km at 60 km/h, then 30 km at 40 km/h. Predict the average speed before you read it off. Is it 50 km/h?",
         "Find settings where the average speed *does* equal the mean of the two speeds. What do the two legs have in common?",
         "Add a 30-minute rest stop. Which part of the graph shows it, and what happens to the average speed?",
         "Set leg 1 to 30 km at 30 km/h and leg 2 to 30 km. Can any speed for leg 2 make the average 60 km/h? Explain why or why not.",
@@ -773,7 +777,7 @@ function JourneyLab() {
             transform={`rotate(-90 12 ${(GT + GB) / 2})`}
             className="fill-ink-2"
           >
-            distance (km)
+            distance travelled (km)
           </text>
 
           {/* average-speed line */}

@@ -389,10 +389,20 @@ function evalPoly(t: Poly1, x: Q): Q[] {
 }
 const qsum = (vals: Q[]): Q => vals.reduce((s, x) => qadd(s, x), q(0));
 
-/** Re-roll (bounded) when a number answer would be 0 — a zero answer is usually a dull, trivial question. */
-function nonZeroAnswer(make: () => DrillItem): DrillItem {
+/**
+ * Re-roll (bounded) a number question whose answer is 0 (dull and trivial), or where a trap lies within 1% of
+ * the answer — the checker would call that wrong answer "very close — check your rounding" instead of
+ * giving the trap's feedback.
+ */
+function sensibleAnswer(make: () => DrillItem): DrillItem {
+  const poor = (it: DrillItem): boolean => {
+    const a = it.answer;
+    if (a.type !== "number") return false;
+    if (a.value === 0) return true;
+    return (it.traps ?? []).some((t) => t.spec.type === "number" && Math.abs(t.spec.value - a.value) <= 0.01 * Math.abs(a.value));
+  };
   let item = make();
-  for (let i = 0; i < 30 && item.answer.type === "number" && item.answer.value === 0; i++) item = make();
+  for (let i = 0; i < 30 && poor(item); i++) item = make();
   return item;
 }
 
@@ -684,7 +694,7 @@ export const drills: Drill[] = [
     level: 1,
     guideRef: "substitution",
     generate(rng, tier) {
-      return nonZeroAnswer(() => {
+      return sensibleAnswer(() => {
         const v = rng.pick(ONE);
         const [a, b] = rng.pick(PAIRS);
         const ask = (expr: string, vals: string) => rng.pick([`Find the value of ${M(expr)} when ${vals}.`, `Work out ${M(expr)} when ${vals}.`, `Evaluate ${M(expr)} when ${vals}.`]);
@@ -935,7 +945,7 @@ export const drills: Drill[] = [
     level: 2,
     guideRef: "substitution",
     generate(rng, tier) {
-      return nonZeroAnswer(() => {
+      return sensibleAnswer(() => {
         const pool = tier === 1 ? ["v", "P", "A", "F", "s", "C"] : tier === 2 ? ["v", "P", "A", "F", "s", "C"] : ["E", "s2", "rev", "FC", "circle", "v"];
         const kind = rng.pick(pool);
         if (kind === "v") {

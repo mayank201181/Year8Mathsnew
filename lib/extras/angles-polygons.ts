@@ -2,15 +2,15 @@ import type { TopicExtras } from "../types.ts";
 
 export const extras: TopicExtras = {
   hook:
-    "Why do bees build honeycomb from hexagons and never from pentagons? Three regular pentagons around a point leave a 36° gap that no fourth pentagon can fill, but three hexagons fit perfectly, because 3 × 120° = 360°.",
+    "Why do bees build honeycomb from hexagons and not pentagons? Three regular pentagons around a point leave a 36° gap that no fourth pentagon can fill, but three hexagons fit perfectly, because 3 × 120° = 360°.",
 
   didYouKnow: [
     "Only three regular polygons tile a flat floor on their own: equilateral triangles, squares and regular hexagons. Their interior angles, 60°, 90° and 120°, are the only interior angles of regular polygons that divide exactly into 360°.",
-    "In 1999 the mathematician Thomas Hales proved the **honeycomb conjecture**: of all the ways to split a flat surface into cells of equal area, a grid of regular hexagons uses the least total wall length. Hexagons give the most storage for the least wax.",
+    "In 1999 the mathematician Thomas Hales proved the **honeycomb conjecture**: of all the ways to split a flat surface into cells of equal area, a grid of regular hexagons uses the least total wall length. For a flat layer of equal cells, hexagons hold the most for the least wax.",
     "Regular pentagons can't tile, but some *irregular* pentagons can. Mathematicians have found exactly 15 types of convex pentagon that tile a flat surface (the 15th was only discovered in 2015), and in 2017 Michaël Rao gave a computer-assisted proof that there are no more.",
-    "In 2023 mathematicians announced the \"hat\", a 13-sided shape found by David Smith, a retired print technician and shape hobbyist from England. Copies of it cover a flat surface with no gaps, but the pattern never repeats itself. People had hunted for a single tile like this, nicknamed an *einstein* (German for \"one stone\"), for decades.",
+    "In 2023 mathematicians announced the \"hat\", a 13-sided shape found by David Smith, a retired print technician and shape hobbyist from England. Copies of it (some flipped over) cover a flat surface with no gaps or overlaps, but the pattern never repeats itself. People had hunted for a single tile like this, nicknamed an *einstein* (German for \"one stone\"), for decades.",
     "On a globe, triangles break the 180° rule. Walk from the North Pole down to the equator, turn 90° and walk a quarter of the way round the equator, then turn 90° and walk back up to the Pole. Your triangle has three right angles: 270° in total.",
-    "Splitting a full turn into 360 degrees is usually traced back to astronomers in ancient Babylon, who counted in base 60. It is a handy number: 360 has 24 factors, so a full turn splits exactly into 2, 3, 4, 5, 6, 8, 9, 10, 12 or 15 equal parts, and many more.",
+    "Splitting a full turn into 360 degrees is usually traced back to astronomers in ancient Babylon, who counted in base 60. It is a handy number: 360 has 24 factors, so a full turn splits into 2, 3, 4, 5, 6, 8, 9, 10, 12 or 15 equal parts of a whole number of degrees, and many more.",
   ],
 
   activities: [
@@ -33,7 +33,7 @@ export const extras: TopicExtras = {
       emoji: "🧭",
       materials: ["A phone with a compass app", "Chalk or masking tape, or an open space such as a void deck, a court or a field", "Pencil and paper"],
       steps: [
-        "Mark out a big polygon on the ground with at least five sides, each 2 to 4 metres long. Any shape will do, as long as the sides don't cross and every corner points outwards.",
+        "Find a safe open space away from traffic and mark out a big polygon on the ground with at least five sides, each 2 to 4 metres long. Any shape will do, as long as the sides don't cross and every corner points outwards.",
         "Stand at the start of one side, facing along it, with the shape on your **right**. Hold the phone flat and write down the compass heading in degrees.",
         "Walk to the corner and turn right to face along the next side. Write down the new heading. Your turn is the new heading minus the old one (add 360 if the answer is negative).",
         "Carry on round the whole shape until you are back at the start, facing the way you began.",
