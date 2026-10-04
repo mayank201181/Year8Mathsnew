@@ -2,7 +2,7 @@ import type { TopicExtras } from "../types.ts";
 
 export const extras: TopicExtras = {
   hook:
-    "In 1999 NASA lost its US$125 million Mars Climate Orbiter because one team's software gave thruster data in pound-force seconds (a non-metric unit) while the navigators assumed newton-seconds (metric), so the spacecraft flew far too close to Mars and was lost. A number with the wrong unit isn't just untidy — here every value was out by a factor of about 4.45.",
+    "In 1999 NASA lost its US$125 million Mars Climate Orbiter because one team's software gave thruster data in pound-force seconds (a non-metric unit) while the navigators assumed newton-seconds (metric), so the spacecraft flew far too close to Mars and was lost. A number with the wrong unit isn't just untidy — here the numbers were out by a factor of about 4.45.",
 
   didYouKnow: [
     "In 1983 an Air Canada Boeing 767 ran out of fuel in mid-flight. Its fuel had been worked out in **pounds**, but the new plane measured fuel in **kilograms**, so it took off with less than half the fuel it needed. The pilots glided it down to a former air-force base at Gimli, Canada, and everyone on board survived. It is still called the *Gimli Glider*.",

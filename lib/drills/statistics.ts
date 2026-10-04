@@ -424,12 +424,12 @@ const STRAT_CTX: Array<{ intro: string; head: string; groups: string[]; unit: st
   { intro: "A community centre wants to survey the people who come to its classes.", head: "Class", groups: ["Yoga", "Cooking", "Dance", "Art"], unit: "people" },
 ];
 
-const EST_CTX: Array<{ sample: string; pop: string; verb: string }> = [
-  { sample: "pupils at a school", pop: "pupils at the school", verb: "walk to school" },
-  { sample: "residents of an estate", pop: "residents in the estate", verb: "would use a community garden" },
-  { sample: "visitors to Sentosa one Sunday", pop: "visitors to Sentosa that day", verb: "were visiting for the first time" },
-  { sample: "Year 8 pupils", pop: "Year 8 pupils in the district", verb: "own a pet" },
-  { sample: "people at a hawker centre", pop: "people at the hawker centre that evening", verb: "pay by card" },
+const EST_CTX: Array<{ sample: string; pop: string; verb: string; be: "are" | "were" }> = [
+  { sample: "pupils at a school", pop: "pupils at the school", verb: "walk to school", be: "are" },
+  { sample: "residents of an estate", pop: "residents in the estate", verb: "would use a community garden", be: "are" },
+  { sample: "visitors to Sentosa one Sunday", pop: "visitors to Sentosa that day", verb: "were visiting for the first time", be: "were" },
+  { sample: "Year 8 pupils", pop: "Year 8 pupils in the district", verb: "own a pet", be: "are" },
+  { sample: "people at a hawker centre one evening", pop: "people at the hawker centre that evening", verb: "paid by card", be: "were" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -1143,14 +1143,14 @@ export const drills: Drill[] = [
         const n = p * sumOf(as);
         const ans = p * as[t];
         const g = gs[t];
-        const table = `| ${ctx.head} | Number of ${ctx.unit} |\n|---|---|\n${groups.map((gr, j) => `| ${gr} | ${gs[j]} |`).join("\n")}`;
+        const table = `| ${ctx.head} | Number of ${ctx.unit} |\n|---|---|\n${groups.map((gr, j) => `| ${gr} | ${big(gs[j])} |`).join("\n")}`;
         const traps: Trap[] = [];
         if (n % G === 0 && n / G !== ans) traps.push(numTrap(n / G, "That's an equal split. Stratified sampling shares the sample *in proportion* to the group sizes."));
         return {
           prompt: `${ctx.intro} The table shows the number of ${ctx.unit} in each group.\n\n${table}\n\n${name} takes a stratified sample of ${n} ${ctx.unit}, in proportion to the size of each group. How many should be chosen from **${groups[t]}**?`,
           answer: { type: "number", value: ans },
           solution: [
-            `Total = ${gs.join(" + ")} = ${N}.`,
+            `Total = ${gs.map(big).join(" + ")} = ${big(N)}.`,
             `${groups[t]} is {{${g}/${N}}} of the population, so it gets {{${g}/${N}}} of the sample.`,
             `{{${g}/${N}}} × ${n} = ${ans}.`,
           ],
@@ -1173,7 +1173,7 @@ export const drills: Drill[] = [
       }
       const ans = (P * c) / n;
       return {
-        prompt: `In a random sample of ${n} ${ctx.sample}, ${c} said they ${ctx.verb}. There are ${big(P)} ${ctx.pop}. Estimate how many of them ${ctx.verb}.`,
+        prompt: `In a random sample of ${n} ${ctx.sample}, ${c} said they ${ctx.verb}. There ${ctx.be} ${big(P)} ${ctx.pop}. Estimate how many of them ${ctx.verb}.`,
         answer: { type: "number", value: ans },
         solution: [
           `In the sample, ${c} out of ${n} said yes: that's {{${c}/${n}}}.`,
@@ -1342,6 +1342,8 @@ export const drills: Drill[] = [
           N = 60; f = 10; g = 15;
         }
         const A = (f * 360) / N, B = (g * 360) / N;
+        const gAB = gcd(A, B);
+        const ratio = A / gAB === 1 ? `${B / gAB}` : `{{${B / gAB}/${A / gAB}}}`;
         const traps: Trap[] = [];
         if (B !== g) traps.push(numTrap(B, `That's the angle of the ${cats[1]} sector. Turn it into a number of ${ctx.who}.`));
         return {
@@ -1350,7 +1352,7 @@ export const drills: Drill[] = [
           solution: [
             `Total: ${f} × 360 ÷ ${A} = ${N} ${ctx.who}.`,
             `${cats[1]}: {{${B}/360}} × ${N} = ${g} ${ctx.who}.`,
-            `Check: ${B}° is {{${B}/${A}}} of ${A}°, and ${g} is {{${B}/${A}}} of ${f}.`,
+            `Check: ${B}° ÷ ${A}° = ${ratio}, and ${f} × ${ratio} = ${g}.`,
           ],
           hint: "Find the total first: how many people does the whole 360° stand for?",
           traps,
@@ -1486,7 +1488,7 @@ export const drills: Drill[] = [
         if (askBoth) {
           if (b - d > 0) traps.push(numTrap(b - d, `You forgot the ${d} who ${ctx.neither}. Take them away from the total first.`));
         } else {
-          traps.push(numTrap(x, `Some of those ${x} also ${ctx.B}. Take away the overlap.`));
+          traps.push(numTrap(x, `Some of those ${x} are in the overlap: they ${ctx.B} as well. Take away the ${ctx.who} in both groups.`));
         }
         return {
           prompt: `${T} ${ctx.who} were surveyed. ${x} ${ctx.A}, ${y} ${ctx.B}, and ${d} ${ctx.neither}. How many ${ctx.who} ${askBoth ? `${ctx.A} and ${ctx.B}` : `${ctx.A} but ${ctx.notB}`}?`,
