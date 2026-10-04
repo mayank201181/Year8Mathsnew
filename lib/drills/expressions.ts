@@ -169,8 +169,12 @@ function vocabCoef(rng: Rng, tier: Tier): DrillItem {
   if (p.fd > 1) {
     answer = { type: "fraction", n: p.c, d: p.fd, allowDecimal: true };
     ansText = frac(p.c, p.fd);
-  } else {
+  } else if (ask === "con") {
     answer = { type: "number", value: p.c };
+    ansText = num(p.c);
+  } else {
+    // A text answer, so typing the whole term (e.g. "-5x") is not accepted as the coefficient −5.
+    answer = { type: "text", accept: [String(p.c), p.c < 0 ? `(${p.c})` : `+${p.c}`], display: num(p.c) };
     ansText = num(p.c);
   }
   if (ask === "con") {
@@ -186,6 +190,7 @@ function vocabCoef(rng: Rng, tier: Tier): DrillItem {
   if (p.fd > 1) sol.push(`${M(signedBody(p))} means ${ansText} × ${M(key)}, so the coefficient is ${ansText}.`);
   else if (Math.abs(p.c) === 1) sol.push(`${M(signedBody(p))} means ${num(p.c)} × ${M(key)}, so the coefficient is ${num(p.c)}.`);
   else sol.push(`The coefficient is the number multiplying ${M(key)}, with its sign: ${ansText}.`);
+  if (p.fd === 1) traps.push(etrap(term(p.c, key), `${M(signedBody(p))} is the whole term. The coefficient is just the number multiplying ${M(key)}: ${ansText}.`));
   if (ask === "sq" && Math.abs(p.c) !== 2) traps.push(ntrap(2, `2 is the power (index) in ${M(key)}. The coefficient is the number multiplying ${M(key)}.`));
   if (p.fd === 1 && Math.abs(p.c) === 1) traps.push(ntrap(0, `No number is written, but ${M(signedBody(p))} means ${num(p.c)} × ${M(key)}.`));
   return {

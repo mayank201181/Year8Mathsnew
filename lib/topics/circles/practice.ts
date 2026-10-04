@@ -174,7 +174,7 @@ export const practice: TopicPractice = {
       markScheme: [
         { point: "Sets area equal to circumference: πr² = 2πr", keywords: ["πr² = 2πr", "pi r^2 = 2 pi r", "equal", "same", "2πr"] },
         { point: "Divides by πr (r is not 0) to get r = 2 cm", keywords: ["divide", "r = 2", "r=2", "2 cm"] },
-        { point: "Checks (both 4π) and explains why only one, e.g. area ÷ circumference = r/2", keywords: ["4π", "4pi", "r/2", "only", "bigger", "smaller"] },
+        { point: "Checks (both 4π) and explains why only one, e.g. area ÷ circumference = {{r/2}}", keywords: ["4π", "4pi", "r/2", "only", "bigger", "smaller"] },
       ],
       commonError: "Just trying numbers until one works, without explaining why no other radius can work.",
       difficulty: "challenge",
@@ -366,7 +366,7 @@ export const practice: TopicPractice = {
             "π is **irrational**: its decimal 3.14159… goes on for ever without repeating, so it cannot be written exactly as a fraction of whole numbers. In fact {{22/7 = 3.142857…}}, which is about 0.0013 bigger than π, so {{22/7}} is only an approximation.\n\nIt is still useful because it is very close to π, and when a radius or diameter is a multiple of 7 the 7s cancel, so you can work without a calculator. For example, {{22/7 * 14 = 44}}.",
           markScheme: [
             { point: "π is irrational: it cannot be written exactly as a fraction / its decimal never ends or repeats", keywords: ["irrational", "not a fraction", "cannot be written", "never ends", "never repeats", "doesn't repeat"] },
-            { point: "Compares values: 22/7 = 3.1428… but π = 3.1415…, so they are different", keywords: ["3.142", "3.1415", "3.14159", "too big", "bigger", "different"] },
+            { point: "Compares values: {{22/7}} = 3.1428… but π = 3.1415…, so they are different", keywords: ["3.142", "3.1415", "3.14159", "too big", "bigger", "different"] },
             { point: "Useful as a close approximation, especially when the radius or diameter is a multiple of 7 (it cancels)", keywords: ["approximation", "close", "multiple of 7", "cancel", "without a calculator", "estimate"] },
           ],
           commonError: "Saying {{22/7}} is wrong just because it is a fraction, without comparing its value with π.",
@@ -530,7 +530,7 @@ export const practice: TopicPractice = {
             { spec: { type: "number", value: 49 }, feedback: "49 is {{r^2}}. Take the square root to find the radius, then find the circumference." },
           ],
           commonError: "Forgetting to square-root {{r^2}}, or stopping at the radius.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "area-of-a-circle",
           hints: [
             "Work backwards: what radius gives an area of 154 m²?",
@@ -667,7 +667,7 @@ export const practice: TopicPractice = {
           id: "circles-p2-q05",
           question: "Find the area of a quarter circle of radius 4 cm, in terms of π. (Type it like 5π or 5pi.)",
           answer: { type: "expression", expr: "4pi", display: "{{4 pi}} cm²" },
-          solution: ["Whole circle: {{pi * 4^2 = 16 pi}} cm².", "Quarter: {{16 pi / 4 = 4 pi}} cm²."],
+          solution: ["Whole circle: {{pi * 4^2 = 16 pi}} cm².", "Quarter: {{(16 pi)/4 = 4 pi}} cm²."],
           traps: [
             { spec: { type: "expression", expr: "16pi" }, feedback: "{{16 pi}} is the whole circle. A quarter circle is {{1/4}} of it." },
             { spec: { type: "expression", expr: "2pi" }, feedback: "{{2 pi}} is the length of the curved edge (a quarter of {{8 pi}}), not the area." },
@@ -956,7 +956,7 @@ export const practice: TopicPractice = {
             { point: "Equal to the area of a circle of radius r, for any r", keywords: ["same", "equal", "radius r", "any"] },
           ],
           commonError: "Writing {{(2r)^2 = 2r^2}}, which squares only the r.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "area-of-a-circle",
           hints: [
             "Write the area of a whole circle of radius {{2r}}. Be careful: what is {{(2r)^2}}?",
@@ -992,6 +992,7 @@ export const practice: TopicPractice = {
           traps: [
             { spec: { type: "number", value: 78.5, tolerance: 0.05 }, feedback: "78.5 cm² is one whole quarter circle. The leaf is only the part covered by **both**." },
             { spec: { type: "number", value: 42.9, tolerance: 0.05 }, feedback: "42.9 cm² is the two unshaded corners of the square together. The leaf is the rest of the square." },
+            { spec: { type: "number", value: 57, tolerance: 0.01 }, feedback: "Right method, but 57.0 comes from using π = 3.14. The question asks for the π button: {{50 pi - 100 = 57.079…}}." },
           ],
           difficulty: "challenge",
           guideRef: "compound-circle-shapes",
@@ -1016,6 +1017,7 @@ export const practice: TopicPractice = {
           ],
           traps: [
             { spec: { type: "number", value: 127.3, tolerance: 0.05 }, feedback: "127.3 cm² is the circle's whole area. The question asks how much **bigger** it is than the square." },
+            { spec: { type: "number", value: 27.4, tolerance: 0.01 }, feedback: "Close, but 27.4 comes from using π = 3.14. Use the π button and keep the exact radius {{20/pi}} until the end: the circle's area is {{400/pi = 127.32…}} cm²." },
           ],
           commonError: "Rounding the radius early (e.g. to 6.37), which throws the final answer off.",
           difficulty: "challenge",
@@ -1293,13 +1295,13 @@ export const practice: TopicPractice = {
         "Follow the **centre** of the rolling coin. It always stays {{3 + 1 = 4}} cm from the centre of the fixed coin, so it travels round a circle of radius 4 cm.",
         "That path has length {{2 * pi * 4 = 8 pi}} cm.",
         "When a coin of radius 1 cm rolls without slipping, its centre moves {{2 pi * 1 = 2 pi}} cm for each complete turn.",
-        "Turns = {{8 pi / (2 pi) = 4}}.",
+        "Turns = {{(8 pi)/(2 pi) = 4}}.",
       ],
       solutions: [
         {
           label: "Unroll, then add the loop",
           steps: [
-            "If the fixed coin's edge were straightened into a line {{6 pi}} cm long, the small coin would turn {{6 pi / (2 pi) = 3}} times.",
+            "If the fixed coin's edge were straightened into a line {{6 pi}} cm long, the small coin would turn {{(6 pi)/(2 pi) = 3}} times.",
             "But this track bends round through a full 360°, and going once round a loop adds one more turn (walk round a table always facing the edge: you turn round once).",
             "3 + 1 = 4 turns. Try it with two equal coins: you get 2 turns, not 1!",
             "The centre-path method is slicker because it avoids the tricky 'extra turn' argument.",
@@ -1355,7 +1357,7 @@ export const practice: TopicPractice = {
       kind: "short",
       id: "circles-ch-q09",
       question:
-        "Six points are placed on a circle so that no three of the chords joining them pass through the same point. Every pair of points is joined by a chord. Into how many regions is the inside of the circle divided?",
+        "Six points are placed on a circle, and every pair of points is joined by a chord. The points are placed so that no three chords meet at the same point **inside** the circle. Into how many regions is the inside of the circle divided?",
       answer: { type: "number", value: 31 },
       solution: [
         "Small cases: 2 points → 2 regions, 3 → 4, 4 → 8, 5 → 16. It looks like doubling, but don't trust it yet!",

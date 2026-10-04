@@ -355,9 +355,19 @@ function AveragesBalance() {
   } else if (Math.abs(mean - median) < 0.5) {
     shape = <>The mean and median are close, so the data are fairly balanced about the middle — either is a fair average here.</>;
   } else if (mean > median) {
-    shape = <>The mean is above the median because the values above the middle stretch further out than those below: a long tail pulls the mean towards it.</>;
+    shape = (
+      <>
+        The mean is above the median: altogether, the values above the middle lie further from it than the values below do. The mean feels those
+        distances; the median only cares about order.
+      </>
+    );
   } else {
-    shape = <>The mean is below the median because the values below the middle stretch further out than those above: a long tail pulls the mean towards it.</>;
+    shape = (
+      <>
+        The mean is below the median: altogether, the values below the middle lie further from it than the values above do. The mean feels those
+        distances; the median only cares about order.
+      </>
+    );
   }
   const modeNote =
     st.modes.length >= 2 ? (
@@ -424,7 +434,7 @@ function AveragesBalance() {
           {ticks.map((t) => (
             <g key={`t${t}`}>
               <line x1={px(t)} x2={px(t)} y1={yAxis} y2={yAxis + 4} className="stroke-ink-2" strokeWidth={1} />
-              {Math.abs(px(t) - mx) >= 11 ? (
+              {Math.abs(px(t) - mx) >= (t >= 10 ? 14 : 11) ? (
                 <text x={px(t)} y={yAxis + 15} fontSize={10} textAnchor="middle" className="fill-ink-2">
                   {t}
                 </text>
@@ -485,7 +495,7 @@ function AveragesBalance() {
                 <button
                   key={d.id}
                   type="button"
-                  className={`kbd tabular-nums ${on ? "bg-brand text-brand-ink" : ""}`}
+                  className={`kbd h-10 min-w-10 tabular-nums ${on ? "bg-brand text-brand-ink" : ""}`}
                   aria-pressed={on}
                   aria-label={`Value ${d.v}${on ? ", selected" : ""}`}
                   onClick={() => setSel(d.id)}
@@ -530,7 +540,7 @@ function AveragesBalance() {
           />
           {view === "list" ? (
             <>
-              <div className="flex flex-wrap gap-1" aria-label="Values in order, middle highlighted">
+              <div className="flex flex-wrap gap-1" role="group" aria-label="Values in order, middle highlighted">
                 {sorted.map((v, i) => (
                   <span
                     key={i}
@@ -741,6 +751,7 @@ function CompareGroups() {
   const k = clamp(shift, kMin, kMax);
   const bVals = scaled.map((v) => v + k);
   const range0 = Math.max(...b0) - Math.min(...b0);
+  const medScaled = medianOf([...scaled].sort((x, y) => x - y));
 
   const A = stats(p.a.values);
   const B = stats(bVals);
@@ -774,7 +785,7 @@ function CompareGroups() {
   const spreadSentence =
     cons === -1 ? (
       <>
-        Both groups had the same range ({A.range} {p.unit}), so their {p.what} were equally spread out.
+        Both groups had the same range ({A.range} {p.unit}), so by this measure their {p.what} were equally spread out.
       </>
     ) : (
       <>
@@ -882,7 +893,7 @@ function CompareGroups() {
     caption = (
       <>
         <p>
-          A strong comparison gives <strong>one average</strong> (which group is typically {p.higherIsBetter ? "higher" : "lower"}) <em>and</em> the{" "}
+          A strong comparison gives <strong>one average</strong> (which group is typically higher or lower) <em>and</em> the{" "}
           <strong>range</strong> (which group is more consistent), says what each means <strong>in context</strong>, and mentions anything that makes
           the conclusion less reliable.
         </p>
@@ -894,8 +905,9 @@ function CompareGroups() {
         ) : null}
         {spreadPct !== 100 ? (
           <p className="mt-2">
-            Stretching {p.b.name} ×{fmt(s)} about its median changed its range from {range0} to {B.range} {p.unit}, but barely moved its median.
-            Average and spread are two separate features of data — that’s why you need both.
+            Stretching {p.b.name} ×{fmt(s)} about its median (then rounding to whole numbers) changed its range from {range0} to {B.range} {p.unit},
+            but {medScaled === medB0 ? `kept its median at ${fmt(medB0)}` : `only moved its median from ${fmt(medB0)} to ${fmt(medScaled)}`}
+            {k !== 0 ? " (before the shift)" : ""}. Average and spread are two separate features of data — that’s why you need both.
           </p>
         ) : null}
       </>
@@ -1015,7 +1027,7 @@ function CompareGroups() {
                         {r.a.map((l) => (
                           <span
                             key={l.idx}
-                            className={`inline-block w-[1.25em] text-center ${!hidden && midA.includes(l.idx) ? "rounded bg-brand-soft font-extrabold text-brand" : "text-ink"}`}
+                            className={`inline-block w-[1em] text-center ${!hidden && midA.includes(l.idx) ? "rounded bg-brand-soft font-extrabold text-brand" : "text-ink"}`}
                           >
                             {l.leaf}
                           </span>
@@ -1026,7 +1038,7 @@ function CompareGroups() {
                         {r.b.map((l) => (
                           <span
                             key={l.idx}
-                            className={`inline-block w-[1.25em] text-center ${!hidden && midB.includes(l.idx) ? "rounded bg-accent-soft font-extrabold text-ink" : "text-ink"}`}
+                            className={`inline-block w-[1em] text-center ${!hidden && midB.includes(l.idx) ? "rounded bg-accent-soft font-extrabold text-ink" : "text-ink"}`}
                           >
                             {l.leaf}
                           </span>

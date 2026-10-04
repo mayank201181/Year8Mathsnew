@@ -433,7 +433,7 @@ export const drills: Drill[] = [
       traps.push({ spec: { type: "list", values: noC, ordered: true }, feedback: `Don't forget the constant: after multiplying, ${c > 0 ? "add" : "subtract"} ${num(Math.abs(c))}.` });
       if (rev) {
         const wrongSign = xs.map((x) => c + k * x);
-        if (!sameList(wrongSign, ys)) traps.push({ spec: { type: "list", values: wrongSign, ordered: true }, feedback: `The x-term is being subtracted: y = ${num(c)} − ${k} × x. For a negative x, subtracting a negative makes y bigger.` });
+        if (!sameList(wrongSign, ys)) traps.push({ spec: { type: "list", values: wrongSign, ordered: true }, feedback: `You added the x-term, but it is subtracted: y = ${num(c)} − ${k} × x. Work out ${k} × x, then take it away from ${num(c)}.` });
       } else if (xs.some((x) => x < 0)) {
         const slip = xs.map((x) => (n * Math.abs(x)) / d + c);
         if (!sameList(slip, ys)) traps.push({ spec: { type: "list", values: slip, ordered: true }, feedback: "Check the negative x-values: a negative times a negative is positive, and a positive times a negative is negative." });
@@ -598,7 +598,7 @@ export const drills: Drill[] = [
           rng.pick([
             `${name} made this table of values for ${eq}, but one of the y-values is wrong.`,
             `One y-value in this table for ${eq} has been worked out wrongly.`,
-          ]) + `\n\n${tableMd(xs, shown)}\n\nWhat should the wrong y-value be?`,
+          ]) + `\n\n${tableMd(xs, shown)}\n\nFind the wrong y-value. What should it be? Type the correct value.`,
         answer: { type: "number", value: y },
         solution: [
           `Substitute each x-value into ${eq} and compare with the table.`,
@@ -868,7 +868,7 @@ export const drills: Drill[] = [
           traps.push({ spec: lineSpec(w.n, w.d, w.c), feedback: w.feedback });
         }
       }
-      return { prompt, answer: lineSpec(n, d, c), solution, hint, traps };
+      return { prompt: `${prompt} Give your answer in the form {{y = mx + c}}.`, answer: lineSpec(n, d, c), solution, hint, traps };
     },
   },
 
@@ -898,7 +898,7 @@ export const drills: Drill[] = [
         return {
           prompt: rng.pick([
             `A straight-line graph passes through the origin and the point ${pt(a, b)}. Write down its equation in the form {{y = kx}}.`,
-            `y is directly proportional to x. The graph of y against x passes through ${pt(a, b)}. Find the equation of the graph.`,
+            `y is directly proportional to x. The graph of y against x passes through ${pt(a, b)}. Find the equation of the graph in the form {{y = kx}}.`,
           ]),
           answer: lineSpec(kn, kd, 0),
           solution: [
@@ -971,7 +971,8 @@ export const drills: Drill[] = [
       const traps: Trap[] = [];
       if (kind === "value") {
         const additive = clean(ya + (b - a));
-        if (additive !== yb) traps.push({ spec: { type: "number", value: additive }, feedback: `You added ${b - a} on. In direct proportion you multiply: find the amount for 1 (the gradient), then multiply by ${b}.` });
+        const shift = b > a ? `added ${b - a} on` : `took ${a - b} off`;
+        if (additive !== yb) traps.push({ spec: { type: "number", value: additive }, feedback: `You ${shift}. In direct proportion you multiply: find the amount for 1 (the gradient), then multiply by ${b}.` });
         return {
           prompt: `${setup}\n\n${ask}`,
           answer: { type: "number", value: yb, display: ctx.money ? money(yb) : `${num(yb)}${yUnit}` },
@@ -1203,8 +1204,10 @@ export const drills: Drill[] = [
       const lines = pFirst ? [`- ${nameP}: ${describe(fP, rP)}`, `- ${nameQ}: ${describe(fQ, rQ)}`] : [`- ${nameQ}: ${describe(fQ, rQ)}`, `- ${nameP}: ${describe(fP, rP)}`];
       const askCost = tier === 3 && rng.bool(0.5);
       const d = (c: number) => asc(c / 100);
-      const exprP = fP === 0 ? `${d(rP)}${v}` : `${d(fP)} + ${d(rP)}${v}`;
-      const exprQ = `${d(fQ)} + ${d(rQ)}${v}`;
+      // Coefficient × variable inside {{ }}: a rate of $1 is written "h", not "1h".
+      const cv = (c: number) => (c === 100 ? v : `${d(c)}${v}`);
+      const exprP = fP === 0 ? cv(rP) : `${d(fP)} + ${cv(rP)}`;
+      const exprQ = `${d(fQ)} + ${cv(rQ)}`;
       const question = askCost
         ? `The graphs of total cost against number of ${ctx.axis} are straight lines that cross. What is the total cost at the crossing point? Give your answer in dollars.`
         : `The graphs of total cost against number of ${ctx.axis} are straight lines. ${ctx.q} (This is where the two lines cross.)`;
@@ -1217,7 +1220,7 @@ export const drills: Drill[] = [
       const solution = [
         `${nameP} costs {{${exprP}}} dollars and ${nameQ} costs {{${exprQ}}} dollars for ${v} ${ctx.unit}.`,
         `The lines cross where the costs are equal: {{${exprP} = ${exprQ}}}.`,
-        `Subtract {{${d(rQ)}${v}}}${fP === 0 ? "" : ` and ${d(fP)}`} from both sides: {{${d(fQ - fP)} = ${d(diff)}${v}}}, so ${v} = ${d(fQ - fP)} ÷ ${d(diff)} = ${x}.`,
+        `Subtract {{${cv(rQ)}}}${fP === 0 ? "" : ` and ${d(fP)}`} from both sides: {{${d(fQ - fP)} = ${cv(diff)}}}, so ${diff === 100 ? `${v} = ${x}` : `${v} = ${d(fQ - fP)} ÷ ${d(diff)} = ${x}`}.`,
         `Check: when ${v} = ${x}, ${nameP} costs ${dollars(fP + rP * x)} and ${nameQ} costs ${dollars(fQ + rQ * x)}. ✓${askCost ? ` So the cost at the crossing point is ${dollars(cost)}.` : ""}`,
       ];
       return {
@@ -1276,7 +1279,9 @@ export const drills: Drill[] = [
         solution: [
           `Gradient: rise = ${num(y2)} − ${br(y1)} = ${num(rise)}, run = ${num(x2)} − ${br(x1)} = ${num(run)}, so m = ${num(rise)} ÷ ${br(run)} = ${mText(n, d)}.`,
           `Substitute ${pt(x1, y1)} into y = mx + c: ${num(y1)} = ${mText(n, d)} × ${br(x1)} + c = ${num(mx1)} + c, so c = ${num(y1)} − ${br(mx1)} = ${num(c)}.`,
-          `Check with ${pt(x2, y2)}: ${mText(n, d)} × ${br(x2)} ${signed(c)} = ${num(mx2)} ${signed(c)} = ${num(y2)}. ✓`,
+          c === 0
+            ? `Check with ${pt(x2, y2)}: ${mText(n, d)} × ${br(x2)} = ${num(y2)}. ✓`
+            : `Check with ${pt(x2, y2)}: ${mText(n, d)} × ${br(x2)} ${signed(c)} = ${num(mx2)} ${signed(c)} = ${num(y2)}. ✓`,
           `So the equation is ${lineMarkup(n, d, c)}.`,
         ],
         hint: "First find the gradient (rise ÷ run). Then substitute one point into y = mx + c to find c.",

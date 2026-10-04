@@ -250,7 +250,8 @@ function DigitPicker({ name, value, min, onChange }: { name: string; value: numb
       <button type="button" className="kbd h-10 w-11" onClick={() => onChange(value + 1)} disabled={value >= 9} aria-label={`${name}: increase`}>
         +
       </button>
-      <span className="w-11 rounded-lg border border-line bg-surface py-1 text-center text-2xl font-extrabold tabular-nums text-ink" aria-label={`${name}: ${value}`}>
+      <span className="w-11 rounded-lg border border-line bg-surface py-1 text-center text-2xl font-extrabold tabular-nums text-ink">
+        <span className="sr-only">{name}: </span>
         {value}
       </span>
       <button type="button" className="kbd h-10 w-11" onClick={() => onChange(value - 1)} disabled={value <= min} aria-label={`${name}: decrease`}>
@@ -344,8 +345,14 @@ function PlaceValueSlider() {
   if (n > 0) {
     caption = (
       <>
-        <M>{`${pow10Markup(n)}`}</M> = {pow10Plain(n)}, so multiplying by it moves every digit <strong>{places(n)} left</strong>. The decimal point (red
-        line) never moves — the digits do — and the empty columns between them and the point fill with place-holder zeros. Because{" "}
+        <M>{`${pow10Markup(n)}`}</M> = {pow10Plain(n)}, so multiplying by it moves every digit <strong>{places(n)} left</strong>. The decimal point (dashed
+        line) never moves — the digits do.{" "}
+        {lastN > 0
+          ? `The ${lastN} empty column${lastN === 1 ? "" : "s"} between the last digit and the point fill${lastN === 1 ? "s" : ""} with ${lastN === 1 ? "a place-holder zero" : "place-holder zeros"}.`
+          : lastN === 0
+            ? "The last digit lands in the ones column, so no place-holder zeros are needed."
+            : "Some digits are still after the point, so no place-holder zeros are needed."}{" "}
+        Because{" "}
         <M>{"1 <= A < 10"}</M>, the power is simply the column of the first digit: the {sig[0]} lands in the <M>{pow10Markup(n)}</M> column.
       </>
     );
@@ -513,7 +520,7 @@ function PlaceValueSlider() {
           <circle cx={xDot} cy={rowN + rh - 6} r={2.8} className="fill-bad" />
         </svg>
         <p className="-mt-2 text-xs text-ink-2">
-          Top row: A. Bottom row: A × 10ⁿ. The red dashed line is the decimal point — it stays put while the digits move. Grey zeros are place holders.
+          Top row: A. Bottom row: A × 10ⁿ. The dashed line is the decimal point — it stays put while the digits move. Grey zeros are place holders.
         </p>
 
         <div className="flex flex-wrap items-end justify-center gap-4">
@@ -613,8 +620,10 @@ interface SF {
 
 const N2_MIN = -10;
 const N2_MAX = 12;
-const LAD_MIN = -10;
-const LAD_MAX = 13;
+// "Any A" allows 0.1 × 10⁻¹⁰ = 10⁻¹¹ up to 99.9 × 10¹² < 10¹⁴, so the ladder
+// covers 10⁻¹¹ to 10¹⁴ and every value the sliders can make is on it.
+const LAD_MIN = -11;
+const LAD_MAX = 14;
 
 type AMode = "std" | "any";
 
@@ -649,10 +658,20 @@ function compare(p: SF, q: SF): number {
   return L === R ? 0 : L > R ? 1 : -1;
 }
 
-/** Rewrite in standard form, rounding A to 1 d.p. (used when leaving "any A" mode). */
-function normalise(p: SF): SF {
+interface Normalised {
+  p: SF;
+  /** A had to be rounded to 1 d.p. */
+  rounded: boolean;
+  /** The power fell outside the slider range, so the nearest value it can show was used. */
+  capped: boolean;
+}
+
+/** Rewrite in standard form, rounding A to 1 d.p. (half up) — used when leaving "any A" mode. */
+function normalise(p: SF): Normalised {
   let { a, n } = p;
+  let rounded = false;
   while (a >= 100) {
+    if (a % 10 !== 0) rounded = true;
     a = Math.round(a / 10);
     n += 1;
   }
@@ -660,7 +679,36 @@ function normalise(p: SF): SF {
     a *= 10;
     n -= 1;
   }
-  return { a, n: clamp(n, N2_MIN, N2_MAX) };
+  if (n > N2_MAX) return { p: { a: 99, n: N2_MAX }, rounded, capped: true };
+  if (n < N2_MIN) return { p: { a: 10, n: N2_MIN }, rounded, capped: true };
+  return { p: { a, n }, rounded, capped: false };
+}
+
+/**
+ * A ÷ B (positive whole numbers) to 2 significant figures, rounded half up, using
+ * whole-number arithmetic only: A ÷ B ≈ (d/10) × 10^e with 10 ≤ d ≤ 99.
+ */
+function twoSF(A: number, B: number): { d: number; e: number; exact: boolean } {
+  const atLeast = (k: number) => (k >= 0 ? A >= B * 10 ** k : A * 10 ** -k >= B); // A ÷ B ≥ 10^k
+  let e = 0;
+  while (atLeast(e + 1)) e++;
+  while (!atLeast(e)) e--;
+  const s = 1 - e;
+  const num = s >= 0 ? A * 10 ** s : A;
+  const den = s >= 0 ? B : B * 10 ** -s;
+  const rem = num % den;
+  let d = (num - rem) / den;
+  if (2 * rem >= den) d += 1;
+  if (d === 100) {
+    d = 10;
+    e += 1;
+  }
+  return { d, e, exact: rem === 0 };
+}
+
+/** Significant digits of a 2-digit d with trailing zeros dropped: 40 → "4". */
+function dSig(d: number): string {
+  return String(d).replace(/0+$/, "");
 }
 
 function sfOf(p: SF): string {
@@ -785,19 +833,37 @@ function SizeLadder() {
   const [mode, setMode] = useState<AMode>("std");
   const [p, setP] = useState<SF>({ a: 99, n: 4 });
   const [q, setQ] = useState<SF>({ a: 11, n: 5 });
+  // What happened to P and Q when they were rewritten in standard form.
+  const [notes, setNotes] = useState<{ name: "P" | "Q"; before: SF; res: Normalised }[]>([]);
 
   const changeMode = (m: AMode) => {
     if (m === mode) return;
     setMode(m);
+    setNotes([]);
     if (m === "std") {
-      setP(normalise(p));
-      setQ(normalise(q));
+      const np = normalise(p);
+      const nq = normalise(q);
+      setP(np.p);
+      setQ(nq.p);
+      const out: { name: "P" | "Q"; before: SF; res: Normalised }[] = [];
+      if (!isStd(p)) out.push({ name: "P", before: p, res: np });
+      if (!isStd(q)) out.push({ name: "Q", before: q, res: nq });
+      setNotes(out);
     }
   };
   const applyPreset = (ps: Preset) => {
     setMode(ps.mode);
+    setNotes([]);
     setP(ps.p);
     setQ(ps.q);
+  };
+  const changeP = (v: SF) => {
+    setNotes([]);
+    setP(v);
+  };
+  const changeQ = (v: SF) => {
+    setNotes([]);
+    setQ(v);
   };
 
   const c = compare(p, q);
@@ -811,27 +877,15 @@ function SizeLadder() {
   const pSL = sigLead(p);
   const qSL = sigLead(q);
 
-  // ---- how many times bigger ----
-  let m = big.a / small.a;
-  let e = big.n - small.n;
-  while (m >= 10) {
-    m /= 10;
-    e += 1;
-  }
-  while (m < 1) {
-    m *= 10;
-    e -= 1;
-  }
-  let r = Number(m.toPrecision(2));
-  if (r >= 10) {
-    r = 1;
-    e += 1;
-  }
-  const exact = Math.abs(m - r) < 1e-9;
+  // ---- how many times bigger (2 s.f., exact whole-number arithmetic) ----
+  // (big.a/10) ÷ (small.a/10) = big.a ÷ small.a ≈ (d/10) × 10^qe
+  const { d, e: qe, exact } = twoSF(big.a, small.a);
+  const powDiff = big.n - small.n;
+  const e = qe + powDiff; // the ratio is about (d/10) × 10^e, and e ≥ 0 because big > small
+  const rText = aFromSig(dSig(d)); // d/10, e.g. 1.8 or 4
+  const quotientText = ordinary(dSig(d), qe); // big.a ÷ small.a to 2 s.f., e.g. 0.18
   const ratioNode: ReactNode =
-    e === 0 ? r.toFixed(1) : e <= 5 ? groupInt(String(Math.round(r * 10 ** e))) : <M>{`${r} * 10^${e}`}</M>;
-  const quotient = big.a / small.a;
-  const quotientText = Number(quotient.toPrecision(2)).toString();
+    e === 0 ? `${String(d)[0]}.${String(d)[1]}` : e <= 5 ? groupInt(`${d}${"0".repeat(e - 1)}`) : <M>{`${rText} * 10^${e}`}</M>;
 
   // ---- ladder geometry ----
   const PX = 16;
@@ -861,7 +915,7 @@ function SizeLadder() {
       );
   } else if (both && p.n !== q.n) {
     const aSays = big.a < small.a;
-    const negs = big.n <= 0 && small.n < 0;
+    const negs = big.n < 0; // both powers negative
     reason = (
       <>
         {bigName} has the bigger power ({int(big.n)} &gt; {int(small.n)}), so {bigName} is bigger — whatever A is.
@@ -901,7 +955,12 @@ function SizeLadder() {
             Q is not in standard form: <M>{sfOf(q)}</M> = <M>{`${aFromSig(qSL.sig)} * ${pow10Markup(qSL.lead)}`}</M>.{" "}
           </>
         ) : null}
-        {ruleFails ? (
+        {p.n === q.n ? (
+          <>
+            Both are written with the same power (<M>{pow10Markup(p.n)}</M>), so comparing A still works here: {aText(big.a)} &gt; {aText(small.a)}. But
+            to use “bigger power wins”, rewrite both in standard form first.
+          </>
+        ) : ruleFails ? (
           <strong className="text-bad">
             The “bigger power wins” rule just failed! It only works when both numbers are in standard form — rewrite them first.
           </strong>
@@ -917,7 +976,7 @@ function SizeLadder() {
     <>
       Each rung of the ladder is <strong>10 times</strong> the rung below. A number in standard form <M>{"A * 10^n"}</M> with{" "}
       <M>{"1 <= A < 10"}</M> always sits on the band from <M>{"10^n"}</M> up to (but not including) <M>{"10^(n+1)"}</M>. So the power tells you the band
-      first, and A only says how far up the band you are. A calculator shows {calc(p)} for P: the E means “× 10 to the power”, so it is{" "}
+      first, and A only says how far up the band you are. Many calculators show P as {calc(p)}: the E means “× 10 to the power”, so it is{" "}
       <M>{sfOf(p)}</M>, not <M>{`${aText(p.a)}^${br(p.n)}`}</M>.
     </>
   ) : (
@@ -953,7 +1012,7 @@ function SizeLadder() {
             ]}
           />
         </div>
-        <div className="flex flex-wrap gap-2" aria-label="Examples to try">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Examples to try">
           {PRESETS.map((ps) => (
             <button key={ps.label} type="button" className="btn btn-secondary text-sm" onClick={() => applyPreset(ps)}>
               {ps.label}
@@ -1014,10 +1073,40 @@ function SizeLadder() {
           </svg>
 
           <div className="space-y-3">
-            <NumberControls name="P" tone="bg-brand" value={p} mode={mode} onChange={setP} />
-            <NumberControls name="Q" tone="bg-accent" value={q} mode={mode} onChange={setQ} />
+            <NumberControls name="P" tone="bg-brand" value={p} mode={mode} onChange={changeP} />
+            <NumberControls name="Q" tone="bg-accent" value={q} mode={mode} onChange={changeQ} />
           </div>
         </div>
+
+        {notes.length ? (
+          <div className="space-y-1 rounded-xl border border-line bg-surface-2 p-3 text-sm text-ink" aria-live="polite">
+            {notes.map(({ name, before, res }) => {
+              const sl = sigLead(before);
+              const exactStd = `${aFromSig(sl.sig)} * ${pow10Markup(sl.lead)}`;
+              return (
+                <p key={name}>
+                  <strong>{name}</strong> = <M>{sfOf(before)}</M>
+                  {res.capped ? (
+                    <>
+                      {" "}
+                      = <M>{exactStd}</M> is outside this widget’s range, so {name} was set to the nearest value it can show, <M>{sfOf(res.p)}</M>.
+                    </>
+                  ) : res.rounded ? (
+                    <>
+                      {" "}
+                      = <M>{exactStd}</M>, which rounds to <M>{sfOf(res.p)}</M> (A to 1 decimal place).
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      is rewritten in standard form as <M>{sfOf(res.p)}</M>.
+                    </>
+                  )}
+                </p>
+              );
+            })}
+          </div>
+        ) : null}
 
         <div className="rounded-xl border border-line p-3 text-sm text-ink-2" aria-live="polite">
           <p className="text-2xl font-extrabold text-ink">{verdict}</p>
@@ -1028,15 +1117,16 @@ function SizeLadder() {
                 <span className="font-bold text-ink">How many times bigger?</span> {bigName} is {exact ? "exactly" : "about"}{" "}
                 <strong className="text-ink">{ratioNode}</strong> times as long as {smallName}.
               </p>
-              <p className="mt-1 tabular-nums">
+              <p className="mt-1 overflow-x-auto tabular-nums">
                 <M>{`(${sfOf(big)}) ÷ (${sfOf(small)})`}</M> = <M>{`(${aText(big.a)} ÷ ${aText(small.a)}) * 10^(${big.n} - ${br(small.n)})`}</M>{" "}
-                {Math.abs(quotient - Number(quotientText)) < 1e-9 ? "=" : "≈"} <M>{`${quotientText} * ${pow10Markup(big.n - small.n)}`}</M>
-                {quotient >= 1 && Number(quotientText) < 10 ? null : (
+                {exact ? "=" : "≈"} <M>{`${quotientText} * ${pow10Markup(powDiff)}`}</M>
+                {qe === 0 ? null : (
                   <>
                     {" "}
-                    {exact ? "=" : "≈"} <M>{`${r} * ${pow10Markup(e)}`}</M>
+                    = <M>{`${rText} * ${pow10Markup(e)}`}</M>
                   </>
                 )}
+                {exact ? null : <span className="text-ink-2"> (2 s.f.)</span>}
               </p>
             </>
           ) : null}

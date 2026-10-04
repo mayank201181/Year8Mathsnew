@@ -330,7 +330,7 @@ export const mcqPapers: Paper[] = [
         kind: "mcq",
         id: "angles-polygons-m1-q19",
         question:
-          "Mei wants to prove that the angles of a pentagon add to 540°. She picks a point O inside the pentagon and joins it to all five vertices, making five triangles. Which calculation completes her proof?",
+          "Mei wants to prove that the angles of a pentagon add to 540°. She picks a point O inside the pentagon and joins it to all five vertices, making five triangles. Which calculation completes her proof using these five triangles?",
         diagram: D_P1Q19,
         options: ["5 × 180° = 900°", "3 × 180° = 540°", "5 × 180° − 180° = 720°", "5 × 180° − 360° = 540°"],
         answerIndex: 3,
@@ -1078,7 +1078,7 @@ export const mcqPapers: Paper[] = [
           "Co-interior angles sit between the parallel lines on the same side of the transversal. One is acute and one is obtuse (unless both are 90°), and they add to 180°. Alternate (Z), corresponding (F) and vertically opposite (X) angles are all pairs of equal angles.",
         difficulty: "warmup",
         guideRef: "parallel-lines",
-        hints: ["Picture the C-shape: one angle is small and the other is large. Can they be equal?"],
+        hints: ["Sketch two parallel lines and a slanted line. Find a pair of angles where one is acute and the other is obtuse — can those two ever be equal?"],
         strategy: "Spot the F, Z or C shape",
       },
       {

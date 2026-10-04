@@ -201,7 +201,7 @@ const DATASETS: Record<DsId, Dataset> = {
       [6, 52], [7, 66], [7, 41], [8, 85], [8, 57], [9, 48],
     ],
     limits: { min: 0, max: 100, why: "a test score can't be below 0% or above 100%" },
-    trend: "knowing someone's shoe size tells you nothing about their maths score",
+    trend: "knowing someone's shoe size tells you almost nothing about their maths score",
     predDefault: 6.5,
   },
   icecream: {
@@ -290,7 +290,7 @@ function ScatterLab() {
   const [showMean, setShowMean] = useState(false);
   const [showResid, setShowResid] = useState(false);
   const [showBest, setShowBest] = useState(false);
-  const [useOutlier, setUseOutlier] = useState(true);
+  const [includeOutlier, setIncludeOutlier] = useState(true);
   const [predX, setPredX] = useState(DATASETS.revision.predDefault);
   const [drag, setDrag] = useState<"L" | "R" | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -309,7 +309,7 @@ function ScatterLab() {
 
   // ---- the data and the statistics ----
   const all: Pt[] = ds.outlier ? [...ds.pts, ds.outlier.pt] : ds.pts;
-  const used: Pt[] = ds.outlier && useOutlier ? all : ds.pts;
+  const used: Pt[] = ds.outlier && includeOutlier ? all : ds.pts;
   const fit = fitLine(used);
   const corr = describe(fit.r);
   const xs = used.map((p) => p[0]);
@@ -380,8 +380,9 @@ function ScatterLab() {
   const yp = yAt(predX);
   const ypBest = bestAt(predX);
   const inside = predX >= x1 - 1e-9 && predX <= x2 + 1e-9;
+  // Matches the whole-number prediction shown: −0.5 is displayed as −1, 100.5 as 101.
   const impossible =
-    (ds.limits.min !== undefined && yp < ds.limits.min - 0.5) || (ds.limits.max !== undefined && yp > ds.limits.max + 0.5);
+    (ds.limits.min !== undefined && yp <= ds.limits.min - 0.5) || (ds.limits.max !== undefined && yp >= ds.limits.max + 0.5);
 
   // ---- feedback on the learner's line ----
   let lineMsg: ReactNode;
@@ -390,14 +391,14 @@ function ScatterLab() {
       <>
         Your line is a good line of best fit: {above} {above === 1 ? "point" : "points"} above it and {below} below
         {on ? <>, with {on} exactly on it</> : null}
-        {throughMean ? ", and it passes through the mean point" : ""}.
+        {throughMean ? ", and it passes very close to the mean point" : ""}.
       </>
     );
   } else if (Math.abs(offset) > 0.06 * yRange) {
     lineMsg = (
       <>
-        Your line is too {offset > 0 ? "high" : "low"}: {offset > 0 ? below : above} of the {used.length} points are{" "}
-        {offset > 0 ? "below" : "above"} it. Aim for about as many points on each side.
+        Your line is too {offset > 0 ? "high" : "low"}: {offset > 0 ? below : above} of the {used.length} points{" "}
+        {(offset > 0 ? below : above) === 1 ? "is" : "are"} {offset > 0 ? "below" : "above"} it. Aim for about as many points on each side.
       </>
     );
   } else if (Math.abs(yourRise - bestRise) > 0.08 * yRange) {
@@ -425,7 +426,7 @@ function ScatterLab() {
       )}
       {lineMsg}{" "}
       {ds.outlier ? (
-        useOutlier ? (
+        includeOutlier ? (
           <>
             The orange point ({ds.fx(ds.outlier.pt[0])}, {ds.fy(ds.outlier.pt[1])}) is an <strong>outlier</strong>: {ds.outlier.why}. It pulls the
             best-fit line towards itself, making it flatter, and weakens the correlation. Tap <em>Ignore outlier</em> to leave it out.
@@ -449,7 +450,7 @@ function ScatterLab() {
         "Drag the two purple ends until your fit score is over 90%. How many points are above your line, and how many below?",
         "Turn on *Mean point*. Does a really good line pass through it? Try it on every data set.",
         "On *Revision*, tap *Ignore outlier* on and off. Which way does the best line move, and why?",
-        "Extrapolate: on *Ice cream*, predict the sunburn cases on a day when 0 ice creams are sold. Why can't that be right?",
+        "Extrapolate: on *Ice cream*, get your fit score over 90%, then predict the sunburn cases on a day when 0 ice creams are sold. What goes wrong?",
       ]}
       caption={caption}
     >
@@ -542,9 +543,9 @@ function ScatterLab() {
                 cx={px(ds.outlier.pt[0])}
                 cy={py(ds.outlier.pt[1])}
                 r={5}
-                className={useOutlier ? "fill-bad" : "fill-none stroke-bad"}
-                strokeWidth={useOutlier ? 0 : 1.5}
-                strokeDasharray={useOutlier ? undefined : "2 2"}
+                className={includeOutlier ? "fill-bad" : "fill-none stroke-bad"}
+                strokeWidth={includeOutlier ? 0 : 1.5}
+                strokeDasharray={includeOutlier ? undefined : "2 2"}
               />
               <text
                 x={px(ds.outlier.pt[0]) + 8}
@@ -555,7 +556,7 @@ function ScatterLab() {
                 strokeWidth={3}
                 paintOrder="stroke"
               >
-                outlier{useOutlier ? "" : " (ignored)"}
+                outlier{includeOutlier ? "" : " (ignored)"}
               </text>
             </g>
           ) : null}
@@ -605,7 +606,7 @@ function ScatterLab() {
             Best-fit line
           </Toggle>
           {ds.outlier ? (
-            <Toggle pressed={!useOutlier} onClick={() => setUseOutlier((v) => !v)}>
+            <Toggle pressed={!includeOutlier} onClick={() => setIncludeOutlier((v) => !v)}>
               Ignore outlier
             </Toggle>
           ) : null}
@@ -667,7 +668,9 @@ function ScatterLab() {
               <>
                 This is <strong className="text-ink">interpolation</strong>: inside the data, which runs from {ds.fx(x1)} to {ds.fx(x2)}.{" "}
                 {corr.strength === "strong"
-                  ? "With strong correlation, it should be fairly reliable."
+                  ? score >= 90
+                    ? "With strong correlation and a well-fitting line, it should be fairly reliable."
+                    : "The correlation is strong, but your line doesn't fit the points well yet, so improve your line first."
                   : corr.strength === "none"
                     ? "But with no correlation, it's really just a guess."
                     : `But the correlation is only ${corr.strength}, so don't trust it too much.`}
@@ -679,7 +682,7 @@ function ScatterLab() {
               </>
             )}
             {dsId === "drinks" && predX > 37 ? (
-              <> Singapore&rsquo;s hottest day on record reached 37 °C, so there is no real data anywhere near this temperature.</>
+              <> Singapore&rsquo;s highest temperature on record is 37.0 °C, so a day this hot has never been measured there.</>
             ) : null}
           </p>
           {impossible ? (
@@ -805,7 +808,12 @@ function ChartStudio() {
   const realRatio = minPos ? maxF / minPos : 1;
   const drawnSmall = minPos - s;
   const looksRatio = drawnSmall > 0 ? (maxF - s) / drawnSmall : Infinity;
-  const ratioText = (v: number) => (Number.isFinite(v) ? `${fmt(v, 2)}×` : "∞");
+  /** Is v exactly what it shows when rounded to 2 d.p.? */
+  const exact2 = (v: number) => Math.abs(+v.toFixed(2) - v) < 1e-9;
+  /** "3×" when exact, "≈1.29×" when rounded. */
+  const ratioText = (v: number) => (Number.isFinite(v) ? `${exact2(v) ? "" : "≈"}${fmt(v, 2)}×` : "∞");
+  /** "= 3" when exact, "≈ 1.29" when rounded. */
+  const ratioEq = (v: number) => `${exact2(v) ? "=" : "≈"} ${fmt(v, 2)}`;
 
   // ---- pie chart geometry ----
   const cx = 180;
@@ -842,15 +850,22 @@ function ChartStudio() {
   } else if (view === "bar") {
     if (s === 0) {
       caption = sameBar ? (
-        <>
-          Every bar starts at 0, so each bar&rsquo;s height is in proportion to its frequency. Right now the bars you can compare are equal, so they
-          are drawn equally tall. Change a frequency and watch the heights stay honest.
-        </>
+        positives.length === 1 ? (
+          <>
+            Every bar starts at 0, so each bar&rsquo;s height is in proportion to its frequency. Only {CATS[big].name} has any pupils right now: give
+            another way of travelling some pupils to compare bar heights.
+          </>
+        ) : (
+          <>
+            Every bar starts at 0, so each bar&rsquo;s height is in proportion to its frequency. Right now every non-zero frequency is {maxF}, so
+            those bars are drawn the same height. Change a frequency and watch the heights stay honest.
+          </>
+        )
       ) : (
         <>
-          Every bar starts at 0, so each bar&rsquo;s height is in proportion to its frequency. {CATS[big].name} ({maxF}) is{" "}
-          {ratioText(realRatio)} {CATS[small].name} ({minPos}), and its bar is exactly {ratioText(realRatio)} as tall. That&rsquo;s what makes a
-          bar chart honest.
+          Every bar starts at 0, so each bar&rsquo;s height is in proportion to its frequency. {CATS[big].name} has {maxF} pupils and{" "}
+          {CATS[small].name} has {minPos}: {maxF} ÷ {minPos} {ratioEq(realRatio)}, and {CATS[big].name}&rsquo;s bar is drawn exactly that many
+          times as tall as {CATS[small].name}&rsquo;s. That&rsquo;s what makes a bar chart honest.
         </>
       );
     } else {
@@ -860,8 +875,9 @@ function ChartStudio() {
           {sameBar ? null : (
             <>
               {CATS[big].name}&rsquo;s bar is drawn {maxF - s} units tall and {CATS[small].name}&rsquo;s {Math.max(0, drawnSmall)}, so{" "}
-              {CATS[big].name} <em>looks</em> {Number.isFinite(looksRatio) ? `${fmt(looksRatio, 2)} times` : "infinitely many times"} as big, when{" "}
-              {maxF} is really only {fmt(realRatio, 2)} times {minPos}.{" "}
+              {CATS[big].name} <em>looks</em>{" "}
+              {Number.isFinite(looksRatio) ? `${exact2(looksRatio) ? "" : "about "}${fmt(looksRatio, 2)} times` : "infinitely many times"} as big
+              as {CATS[small].name}, when really {maxF} ÷ {minPos} {ratioEq(realRatio)}.{" "}
             </>
           )}
           {vanished ? (
@@ -1042,21 +1058,21 @@ function ChartStudio() {
 
         {/* the frequency table */}
         <div className="rounded-xl border border-line">
-          <div className="grid grid-cols-[1fr_auto_4.5rem] items-center gap-x-2 border-b border-line px-3 py-2 text-xs font-bold uppercase tracking-wide text-ink-2">
+          <div className="grid grid-cols-[minmax(0,1fr)_7.5rem_3.75rem] items-center gap-x-2 border-b border-line px-3 py-2 text-xs font-bold uppercase tracking-wide text-ink-2">
             <span>Travel</span>
             <span className="text-center">Frequency</span>
             <span className="text-right">{view === "pie" ? "Angle" : ""}</span>
           </div>
           {CATS.map((c, i) => (
-            <div key={c.name} className="grid grid-cols-[1fr_auto_4.5rem] items-center gap-x-2 px-3 py-1.5">
+            <div key={c.name} className="grid grid-cols-[minmax(0,1fr)_7.5rem_3.75rem] items-center gap-x-2 px-3 py-1.5">
               <span className="flex items-center gap-2 text-sm font-semibold text-ink">
                 <span className={`inline-block h-3 w-3 shrink-0 rounded-sm ${c.bg}`} aria-hidden="true" />
                 {c.name}
               </span>
               {hidden ? (
-                <span className="min-w-[8.5rem] text-center text-lg font-extrabold text-ink-2">?</span>
+                <span className="text-center text-lg font-extrabold text-ink-2">?</span>
               ) : (
-                <span className="flex items-center gap-2">
+                <span className="flex items-center justify-center gap-1.5">
                   <button
                     type="button"
                     className="kbd h-10 min-w-10"
@@ -1081,9 +1097,9 @@ function ChartStudio() {
               <span className="text-right text-sm font-bold tabular-nums text-ink">{view === "pie" && N ? angleText(freqs[i], N) : ""}</span>
             </div>
           ))}
-          <div className="grid grid-cols-[1fr_auto_4.5rem] items-center gap-x-2 border-t border-line px-3 py-2 text-sm font-extrabold text-ink">
+          <div className="grid grid-cols-[minmax(0,1fr)_7.5rem_3.75rem] items-center gap-x-2 border-t border-line px-3 py-2 text-sm font-extrabold text-ink">
             <span>Total</span>
-            <span className="min-w-[8.5rem] text-center tabular-nums">{N}</span>
+            <span className="text-center tabular-nums">{N}</span>
             <span className="text-right tabular-nums">{view === "pie" && N ? "360°" : ""}</span>
           </div>
         </div>

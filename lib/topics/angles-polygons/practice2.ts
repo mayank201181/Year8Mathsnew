@@ -412,10 +412,10 @@ export const morePapers: Paper[] = [
         kind: "written",
         id: "angles-polygons-p3-q15",
         question:
-          "Marcus says: \"My quadrilateral's diagonals are equal in length, so it must be a rectangle.\"\n\nIs Marcus right? Explain your answer.",
+          "Marcus says: \"My quadrilateral's diagonals are equal in length, so it must be a rectangle.\"\n\nIs Marcus right? Explain your answer. Then say what extra fact about the diagonals *would* guarantee a rectangle.",
         marks: 3,
         modelAnswer:
-          "No, Marcus is not necessarily right.\n\nAn **isosceles trapezium** (one pair of parallel sides, with the other two sides equal) has diagonals that are equal in length, but it has no right angles, so it is not a rectangle. One counter-example is enough to show his claim is false.\n\nEqual diagonals are not enough on their own. If the diagonals are equal **and** cut each other in half (bisect each other), then the quadrilateral must be a rectangle.",
+          "No, Marcus is not necessarily right.\n\nAn **isosceles trapezium** (exactly one pair of parallel sides, with the two non-parallel sides equal) has diagonals that are equal in length, but it has no right angles, so it is not a rectangle. One counter-example is enough to show his claim is false.\n\nEqual diagonals are not enough on their own. If the diagonals are equal **and** cut each other in half (bisect each other), then the quadrilateral must be a rectangle.",
         markScheme: [
           { point: "States that Marcus is not (necessarily) right", keywords: ["no", "not", "wrong", "not necessarily"] },
           { point: "Gives a valid counter-example, e.g. an isosceles trapezium (or a sketch of a non-rectangle with equal diagonals)", keywords: ["isosceles trapezium", "trapezium", "kite"] },
@@ -427,7 +427,7 @@ export const morePapers: Paper[] = [
         hints: [
           "To show a claim is false, one counter-example is enough.",
           "Think of a symmetrical quadrilateral with exactly one pair of parallel sides.",
-          "What extra fact about the diagonals would force the shape to be a rectangle?",
+          "For the extra fact: a rectangle is a special parallelogram. What do the diagonals of every parallelogram do to each other?",
         ],
         strategy: "Find a counter-example",
       },
@@ -775,7 +775,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "angles-polygons-p4-q07",
         question:
-          "Find the **total** number of lines of symmetry of these four shapes:\n\n- a rhombus that is not a square\n- a parallelogram that is not a rectangle and not a rhombus\n- a kite that is not a rhombus\n- an isosceles trapezium",
+          "Find the **total** number of lines of symmetry of these four shapes:\n\n- a rhombus that is not a square\n- a parallelogram that is not a rectangle and not a rhombus\n- a kite that is not a rhombus\n- an isosceles trapezium (exactly one pair of parallel sides)",
         answer: { type: "number", value: 4 },
         traps: [
           {
@@ -1176,7 +1176,7 @@ export const morePapers: Paper[] = [
         diagram: `<svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two parallel horizontal lines, AB on top and CD underneath, marked with arrows. Point P lies between them, to the right of A and C. Lines AP and CP are drawn. Angle a is at A, between AB and AP. Angle c is at C, between CD and CP. Angle APC is marked at P."><rect width="440" height="260" fill="#ffffff"/><line x1="40" y1="50" x2="420" y2="50" stroke="#1f2937" stroke-width="2"/><line x1="40" y1="230" x2="420" y2="230" stroke="#1f2937" stroke-width="2"/><path d="M376,44 L384,50 L376,56 M376,224 L384,230 L376,236" fill="none" stroke="#1f2937" stroke-width="2"/><line x1="120" y1="50" x2="300" y2="140" stroke="#334155" stroke-width="2"/><line x1="100" y1="230" x2="300" y2="140" stroke="#334155" stroke-width="2"/><path d="M141.47,60.73 A24,24 0 0 0 144,50" fill="none" stroke="#b91c1c" stroke-width="1.5"/><path d="M124,230 A24,24 0 0 0 121.88,220.15" fill="none" stroke="#b91c1c" stroke-width="1.5"/><path d="M280.32,130.16 A22,22 0 0 0 279.94,149.03" fill="none" stroke="#1d4ed8" stroke-width="1.5"/><g font-family="sans-serif" font-size="14" fill="#1f2937"><text x="158" y="64" font-style="italic">a</text><text x="140" y="226" font-style="italic">c</text><text x="114" y="40">A</text><text x="412" y="42">B</text><text x="94" y="250">C</text><text x="412" y="250">D</text><text x="308" y="145">P</text></g></svg>`,
         marks: 3,
         modelAnswer:
-          "Draw a line through P parallel to AB. It is then also parallel to CD, and it splits angle APC into an upper part and a lower part.\n\n- The upper part and angle a are **alternate angles** (AB is parallel to the new line), so the upper part = a.\n- The lower part and angle c are **alternate angles** (CD is parallel to the new line), so the lower part = c.\n\nSo angle APC = a + c. Nothing depended on the actual sizes of the angles, so this is true wherever P is between the lines.",
+          "Draw a line through P parallel to AB. It is then also parallel to CD, and it splits angle APC into an upper part and a lower part.\n\n- The upper part and angle a are **alternate angles** (AB is parallel to the new line), so the upper part = a.\n- The lower part and angle c are **alternate angles** (CD is parallel to the new line), so the lower part = c.\n\nSo angle APC = a + c. Nothing depended on the actual sizes of a and c, so this is true for every diagram like this one: P between the lines, with a and c marked as shown.",
         markScheme: [
           { point: "Draws (or describes) a line through P parallel to AB and CD", keywords: ["parallel", "line through p", "draw a line", "extra line"] },
           { point: "Upper part of angle APC equals a, because they are alternate angles", keywords: ["alternate", "= a"] },
@@ -1192,7 +1192,7 @@ export const morePapers: Paper[] = [
             ],
           },
         ],
-        commonError: "Measuring the angles in the diagram. A proof must work for every position of P, so it uses angle facts, not a protractor.",
+        commonError: "Measuring the angles in the diagram. A proof must work for every diagram of this kind, wherever P is, so it uses angle facts, not a protractor.",
         difficulty: "challenge",
         guideRef: "angle-proofs",
         hints: [

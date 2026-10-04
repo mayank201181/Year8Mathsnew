@@ -344,6 +344,7 @@ function LineLab() {
       parts.push(`**c = ${intText(c)}**: the line crosses the y-axis at (0, ${intText(c)}) — look at the x = 0 column of the table.`);
     }
     if (showGhost) parts.push("The dashed line is {{y = mx}}: same gradient, so it is **parallel** — changing c just slides the line up or down.");
+    else if (ghost && c === 0) parts.push("With c = 0 your line *is* {{y = mx}}, so the dashed parallel line sits exactly underneath it. Change c to pull them apart.");
     caption = parts.join(" ");
   } else {
     const parts: string[] = [];
@@ -712,6 +713,17 @@ function JourneyGraph() {
   const meets: Meet[] = [];
   let together: { from: number; to: number } | null = null;
   if (friend) {
+    // Pass 1: legs whose line lies exactly on Jun's line (same speed, same place).
+    // Consecutive legs can do this, so merge them into one overlap interval.
+    for (const L of info) {
+      const N = 60 * L.dur * L.d0 - 60 * L.change * L.t0 + jv * L.dur * js;
+      const Dn = jv * L.dur - 60 * L.change;
+      const lo = Math.max(L.t0, js);
+      const hi = Math.min(L.t1, jEndT);
+      if (Dn !== 0 || N !== 0 || !(hi > lo)) continue;
+      together = together ? { from: Math.min(together.from, lo), to: Math.max(together.to, hi) } : { from: lo, to: hi };
+    }
+    // Pass 2: single crossing / touching points (skipping any inside the overlap).
     for (const L of info) {
       // Siti: d = d0 + change·(t − t0)/dur.  Jun: d = jv·(t − js)/60.
       // Equal ⇔ t·(jv·dur − 60·change) = 60·dur·d0 − 60·change·t0 + jv·dur·js (all integers).
@@ -720,12 +732,10 @@ function JourneyGraph() {
       const lo = Math.max(L.t0, js);
       const hi = Math.min(L.t1, jEndT);
       if (lo > hi + 1e-9) continue;
-      if (Dn === 0) {
-        if (N === 0 && hi > lo) together = { from: lo, to: hi };
-        continue;
-      }
+      if (Dn === 0) continue;
       const t = N / Dn;
       if (t < lo - 1e-9 || t > hi + 1e-9) continue;
+      if (together && t > together.from - 1e-9 && t < together.to + 1e-9) continue;
       if (meets.some((mt) => Math.abs(mt.t - t) < 1e-6)) continue;
       const d = (jv * (t - js)) / 60;
       const inside = t > L.t0 + 1e-9 && t < L.t1 - 1e-9 && t > js + 1e-9;
@@ -764,17 +774,25 @@ function JourneyGraph() {
     );
   if (maxSpeed === 0) parts.push("Every leg is flat, so Siti never moves.");
   else if (fastest.length === 1) parts.push(`Leg ${fastest[0]} has the steepest line, so it is the fastest (${fmt(maxSpeed)} km/h).`);
-  else parts.push(`Legs ${fastest.join(" and ")} are equally steep, so they have the same speed (${fmt(maxSpeed)} km/h) — even if one goes up and one comes down.`);
+  else {
+    const names = fastest.length === 2 ? fastest.join(" and ") : `${fastest.slice(0, -1).join(", ")} and ${fastest[fastest.length - 1]}`;
+    const mixed = fastest.some((i) => info[i - 1].change > 0) && fastest.some((i) => info[i - 1].change < 0);
+    parts.push(
+      `Legs ${names} are equally steep, so they have the same speed (${fmt(maxSpeed)} km/h)${
+        mixed ? " — even though one line goes up and another comes down" : ""
+      }.`,
+    );
+  }
   parts.push(
     `Average speed for the whole trip = total distance ÷ total time = ${totalD} km ÷ {{${qMark(q(totalT, 60))}}} h = ${approx(avg, 2)} km/h${
-      hasStop ? " — the stop drags it down" : ""
+      hasStop && totalD > 0 ? " — the time spent stopped counts too, so it drags the average down" : ""
     }.`,
   );
   if (pts[pts.length - 1].d === 0 && totalD > 0) parts.push(`She ends back home (0 km from home), but she has still travelled ${totalD} km.`);
   if (friend) {
     if (together) parts.push(`Their lines overlap from ${clock(together.from)} to ${clock(together.to)}: they ride side by side.`);
     if (meets.length) parts.push(`Where the lines cross, they meet. ${meets.map((mt) => mt.text).join(" ")}`);
-    else if (!together) parts.push("Jun's line never crosses Siti's, so they never meet.");
+    else if (!together) parts.push("Jun's line never touches Siti's, so they don't meet during her trip.");
   }
   const caption = parts.join(" ");
 
@@ -782,7 +800,11 @@ function JourneyGraph() {
     `Distance–time graph. Siti: ${info
       .map((L, i) => `leg ${i + 1}, ${clock(L.t0)} to ${clock(L.t1)}, from ${L.d0} km to ${L.d1} km, ${fmt(L.speed)} km/h`)
       .join("; ")}.` +
-    (friend ? ` Jun leaves home at ${clock(js)} at ${jv} km/h. ${meets.length ? meets.map((mt) => mt.text).join(" ") : "They never meet."}` : "");
+    (friend
+      ? ` Jun leaves home at ${clock(js)} at ${jv} km/h.${together ? ` They ride together from ${clock(together.from)} to ${clock(together.to)}.` : ""} ${
+          meets.length ? meets.map((mt) => mt.text).join(" ") : together ? "" : "They don't meet during her trip."
+        }`
+      : "");
 
   const timeTicks = [0, 30, 60, 90, 120, 150, 180];
   const distTicks = [0, 2, 4, 6, 8, 10, 12];
@@ -792,7 +814,7 @@ function JourneyGraph() {
     <WidgetFrame
       title="Journey graph: gradient = speed"
       tryThis={[
-        "Make leg 2 a rest stop at the hawker centre. What does stopping look like on the graph?",
+        "Leg 2 is a rest stop at a hawker centre. What does stopping look like on the graph? Shorten the stop — what happens to the average speed?",
         "Predict which leg is fastest just from the steepness — then check the speeds.",
         "Make one leg 6 km in 20 min and another 6 km in 40 min. Which line is steeper, and why?",
         "Add Jun. Can you make him catch Siti exactly as she reaches her furthest point?",

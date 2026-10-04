@@ -85,7 +85,7 @@ function Step({ name, value, min, max, onChange }: { name: string; value: number
       >
         −
       </button>
-      <output className="min-w-[2.5ch] text-center text-xl font-extrabold tabular-nums text-ink" aria-label={name}>
+      <output className="min-w-[2.5ch] text-center text-xl font-extrabold tabular-nums text-ink" aria-label={`${name}: ${value}`}>
         {value}
       </output>
       <button
@@ -228,10 +228,10 @@ function FractionWall() {
 
   // ---- aria ----
   const aria = compare
-    ? `Fraction wall with rows cut into 1 to 12 equal parts. Line A at ${a}/${b} lands exactly on a join in ${rowsText(rowsA)}. Line B at ${c}/${d} lands exactly in ${rowsText(ROWS.filter(hitsB))}. ${
+    ? `Fraction wall with rows cut into 1 to 12 equal parts. Line A at ${a}/${b} lines up exactly with a piece edge in ${rowsText(rowsA)}. Line B at ${c}/${d} lines up exactly in ${rowsText(ROWS.filter(hitsB))}. ${
         L <= 12 ? `Row ${L} holds both.` : `No row of this wall holds both; the lowest common denominator is ${L}.`
       } Below, a number line from −1 to 1 shows ${a}/${b} and ${c}/${d} and their negatives.`
-    : `Fraction wall with rows cut into 1 to 12 equal parts. A line at ${a}/${b} lands exactly on a join in ${rowsText(rowsA)}, giving the equivalent fractions ${eqTerms.join(", ")}.`;
+    : `Fraction wall with rows cut into 1 to 12 equal parts. A line at ${a}/${b} lines up exactly with a piece edge in ${rowsText(rowsA)}, giving the equivalent fractions ${eqTerms.join(", ")}.`;
 
   // ---- 0 label on the number line: avoid the point labels ----
   // (If A or B is 0, its own label already says 0.)
@@ -292,7 +292,7 @@ function FractionWall() {
         of {B.d}, so rows that are multiples of both hold both fractions
         {L <= 12 ? (
           <>
-            {" "}— the first is row {L} (★), and {L} is the <strong>lowest common denominator</strong>.
+            {" "}(marked ★). The first of them is row {L}, so {L} is the <strong>lowest common denominator</strong>.
           </>
         ) : (
           <>
@@ -359,7 +359,7 @@ function FractionWall() {
             extra={
               !compare && a > 0 && g > 1 ? (
                 <>
-                  = <M>{`${A.n}/${A.d}`}</M>
+                  = <M>{mixed(A)}</M>
                 </>
               ) : undefined
             }
@@ -592,7 +592,12 @@ function HowManyFit() {
     caption = (
       <>
         Answer hidden. How many pieces of size <M>{mixed(Y)}</M> fit into <M>{mixed(X)}</M>? Estimate first —{" "}
-        {p < q ? "the pieces are smaller than 1, so will the answer be bigger or smaller than the amount?" : "is each piece bigger or smaller than 1?"} Then
+        {p < q
+          ? "the pieces are smaller than 1, so will the answer be bigger or smaller than the amount?"
+          : p === q
+            ? "each piece is exactly 1, so what must the answer be?"
+            : "the pieces are bigger than 1, so will the answer be bigger or smaller than the amount?"}{" "}
+        Then
         press Reveal.
       </>
     );
@@ -691,7 +696,7 @@ function HowManyFit() {
           <p className="text-xl text-ink">
             <M>{hidden ? `${sumMarkup} = ?` : `${sumMarkup} = ${mixed(ans)}`}</M>
           </p>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setHidden((h) => !h)} aria-pressed={hidden}>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setHidden((h) => !h)}>
             {hidden ? "Reveal" : "Hide the answer (predict first)"}
           </button>
         </div>
@@ -716,14 +721,11 @@ function HowManyFit() {
           ))}
 
           {/* pieces */}
-          <text x={BX0} y={66} fontSize={11} className="fill-ink-2">
-            pieces
-          </text>
           {hidden ? (
             <rect x={BX0} y={PCS_Y} width={BW} height={PCS_H} rx={4} fill="none" className="stroke-line" strokeWidth={1.5} strokeDasharray="5 4" />
           ) : (
             <>
-              {guides.map((v) => (
+              {(pieceW >= 10 ? guides : []).map((v) => (
                 <line key={`g${v}`} x1={xs(v)} x2={xs(v)} y1={AMT_Y - 2} y2={PCS_Y + PCS_H} className="stroke-ink-2" strokeWidth={0.75} strokeDasharray="2 3" />
               ))}
               {pieces.map((i) => (
@@ -760,6 +762,11 @@ function HowManyFit() {
               ) : null}
             </>
           )}
+
+          {/* drawn after the guides, with a halo, so dotted lines never cross the word */}
+          <text x={BX0} y={66} fontSize={11} className="fill-ink-2 stroke-surface" strokeWidth={3} paintOrder="stroke">
+            pieces
+          </text>
 
           {/* axis */}
           <line x1={BX0} x2={BX1} y1={AX_Y} y2={AX_Y} className="stroke-ink-2" strokeWidth={1.25} />

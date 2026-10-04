@@ -127,17 +127,22 @@ function trapper(ansN: number, ansD = 1) {
     const key = `${p}/${q}`;
     if (seen.has(key)) return;
     seen.add(key);
-    traps.push({ spec: valueSpec(p, q, true), feedback }); // traps also catch the equal decimal
+    // Traps match the wrong VALUE in any form (unsimplified fraction or equal decimal),
+    // so no `simplest` flag here — otherwise "9/27" would slip past the 1/3 trap.
+    traps.push({ spec: q === 1 ? { type: "number", value: p } : { type: "fraction", n: p, d: q, allowDecimal: true }, feedback });
   };
   return { traps, add };
 }
 
-/** Integer-safe "a ÷ b = 20.07…" for positive integers (shows 2 dp, truncated). */
 /** Add a full stop unless the text already ends with an ellipsis. */
 const stop = (t: string): string => (t.endsWith("…") ? t : `${t}.`);
 
+/**
+ * Integer-safe "a ÷ b" for positive integers: the exact value when it has at most
+ * 3 decimal places (29 ÷ 8 = 3.625), otherwise 2 dp truncated with "…" (20.07…).
+ */
 function approx(a: number, b: number): string {
-  if ((a * 100) % b === 0) return num(clean(a / b)); // exact within 2 dp
+  if ((a * 1000) % b === 0) return num(clean(a / b));
   return `${(Math.floor((a * 100) / b) / 100).toFixed(2)}…`;
 }
 
@@ -807,11 +812,15 @@ export const drills: Drill[] = [
         prompt: `${lead} ${M(`${m}(${lin(a, p, v)}) = ${c}`)}.${fracNote}`,
         answer: valueSpec(R, m * a),
         solution: [
-          `Expand the bracket: ${M(`${lin(m * a, m * p, v)} = ${c}`)}. (Dividing by ${m} first would give fractions straight away.)`,
+          `Expand the bracket: ${M(`${lin(m * a, m * p, v)} = ${c}`)}. ${
+            c % m === 0
+              ? `(Dividing by ${m} first also works: ${M(`${lin(a, p, v)} = ${c / m}`)}.)`
+              : `(Dividing by ${m} first would give a fraction straight away, because ${num(c)} ÷ ${m} is not a whole number.)`
+          }`,
           `${undo(m * p)}: ${M(`${term(m * a, v)} = ${R}`)}.`,
           divideStep(m * a, R, v),
         ],
-        hint: `Expand the bracket first, then solve the two-step equation.`,
+        hint: c % m === 0 ? `Divide both sides by ${m} first, or expand the bracket — then solve the two-step equation.` : `${num(c)} ÷ ${m} is not a whole number, so expand the bracket first, then solve the two-step equation.`,
         traps: T.traps,
       };
     },
@@ -1286,7 +1295,7 @@ export const drills: Drill[] = [
             `Let ${P.name}'s age now be ${M("a")}, so the ${rel} is ${M(`${k}a`)}.`,
             `In ${y} years: ${P.name} is ${M(`a + ${y}`)} and the ${rel} is ${M(`${k}a + ${y}`)}. So ${M(`${k}a + ${y} = ${j}(a + ${y})`)}.`,
             `Expand: ${M(`${k}a + ${y} = ${j}a + ${j * y}`)}.`,
-            `Subtract ${M(`${j}a`)} and ${y}: ${M(`${term(k - j, "a")} = ${(j - 1) * y}`)}, so a = ${a}. (Check: ${k * a} + ${y} = ${k * a + y} = ${j} × ${a + y} ✓)`,
+            `Subtract ${M(`${j}a`)} and ${y} from both sides: ${M(`${term(k - j, "a")} = ${(j - 1) * y}`)}${k - j === 1 ? "" : `, so a = ${(j - 1) * y} ÷ ${k - j} = ${a}`}. (Check: ${k * a} + ${y} = ${k * a + y} = ${j} × ${a + y} ✓)`,
           ],
           hint: `Let ${P.name}'s age be a. Write both ages in ${y} years, then use "${times(j)} as old".`,
           traps: T.traps,
@@ -1299,7 +1308,7 @@ export const drills: Drill[] = [
           ["notebook", "notebooks", [180, 250, 320]],
           ["potato curry puff", "potato curry puffs", [120, 140, 160]],
           ["kaya bun", "kaya buns", [90, 110, 130]],
-          ["bottle of water", "bottles of water", [80, 100, 120]],
+          ["bottle of water", "bottles of water", [80, 90, 120]], // never $1.00 (would give "1n" and "÷ 1")
         ];
         const extras: Array<[string, number, number]> = [["a drink", 150, 250], ["a ruler", 80, 150], ["a pencil case", 300, 550], ["a packet of tissues", 50, 120]];
         const [, pl, prices] = rng.pick(items);
@@ -1584,7 +1593,7 @@ export const drills: Drill[] = [
         }
         const steps = [
           "Perimeter = 2 × (length + width).",
-          `${M(`2(${lin(a, b)} + ${lin(c, d)}) = ${P}`)}, so ${M(`2(${lin(a + c, b + d)}) = ${P}`)}.`,
+          `${M(`2(${lin(a, b)} + ${lin(c, d)}) = ${P}`)}, so ${M(`${b + d === 0 ? `2 * ${term(a + c, "x")}` : `2(${lin(a + c, b + d)})`} = ${P}`)}.`,
           `Divide by 2: ${M(`${lin(a + c, b + d)} = ${P / 2}`)}.`,
           ...solveSteps(a + c, b + d, 0, P / 2, "x"),
         ];
@@ -1857,7 +1866,8 @@ export const drills: Drill[] = [
             q = rng.int(6, 20) * 100;
           }
           n = best((k) => p + q * k <= B, "max");
-          if (n >= 3 && n <= 60) break;
+          // q ≠ $1.00: that would give "1n" and "÷ 1" in the working
+          if (q !== 100 && n >= 3 && n <= 60) break;
         }
         const exact = (B - p) % q === 0;
         const [thing, things, setup] =
@@ -1893,9 +1903,9 @@ export const drills: Drill[] = [
         const rel: Rel = strict ? ">" : ">=";
         const exact = (G - s) % w === 0;
         const T = trapper(n);
-        T.add(n - 1, 1, exact && strict ? `After ${n - 1} weeks ${P.sub} has exactly ${money(G)} — that is not MORE than ${money(G)}.` : `After ${n - 1} weeks ${P.sub} only has ${money(s + w * (n - 1))} — not enough yet. Round UP here.`);
+        T.add(n - 1, 1, exact && strict ? `After ${n - 1} weeks ${P.sub} has exactly ${cash(G * 100)} — that is not MORE than ${cash(G * 100)}.` : `After ${n - 1} weeks ${P.sub} only has ${cash((s + w * (n - 1)) * 100)} — not enough yet.${exact ? "" : " Round UP here."}`);
         return {
-          prompt: `${P.name} has ${money(s)} saved and saves another ${money(w)} every week. What is the smallest number of whole weeks until ${P.sub} has ${strict ? "more than" : "at least"} ${money(G)}?`,
+          prompt: `${P.name} has ${cash(s * 100)} saved and saves another ${cash(w * 100)} every week. What is the smallest number of whole weeks until ${P.sub} has ${strict ? "more than" : "at least"} ${cash(G * 100)}?`,
           answer: valueSpec(n),
           solution: [
             `After ${M("n")} weeks ${P.sub} has ${M(`${s} + ${w}n`)} dollars. "${strict ? "More than" : "At least"}" means ${SYM[rel]}: ${M(`${s} + ${w}n ${rel} ${G}`)}.`,
@@ -2076,7 +2086,7 @@ export const drills: Drill[] = [
       if (m2 > 1) steps.push(`Multiply the second equation by ${m2}: ${M(eqS(s2[0], s2[1], s2[2]))}.`);
       steps.push(`The ${elim}-terms ${same ? "are the same, so subtract" : "have opposite signs, so add"} the equations: ${M(`${term(K, keep)} = ${r[2]}`)}${K === 1 ? "" : `, so ${keep} = ${num(keepVal)}`}.`);
       const kc = elim === "y" ? a : b; // coefficient of the kept variable in equation 1
-      steps.push(`Substitute into the first equation: ${M(`${term(p1, elim)} = ${c} - ${kc * keepVal < 0 ? `(${kc * keepVal})` : kc * keepVal}`)} = ${num(c - kc * keepVal)}, so ${elim} = ${num(otherVal)}.`);
+      steps.push(`Substitute ${keep} = ${num(keepVal)} into the first equation: ${M(`${term(p1, elim)} = ${c} - ${kc * keepVal < 0 ? `(${kc * keepVal})` : kc * keepVal}`)} = ${num(c - kc * keepVal)}${p1 === 1 ? "" : `, so ${elim} = ${num(otherVal)}`}.`);
       steps.push(`Check in the second equation: ${subLin(d, 0, x)} ${e < 0 ? "−" : "+"} ${Math.abs(e) === 1 ? br(y) : `${Math.abs(e)} × ${br(y)}`} = ${num(f)} ✓`);
 
       if (ctx) {
@@ -2111,9 +2121,9 @@ function finishIneq(rng: Rng, v: string, rel: Rel, k: number, shown: string, rhs
     prompt,
     answer: ineqSpec(v, rel, k),
     solution: [...pre, ...steps],
-    hint: "Solve it just like an equation, keeping the inequality sign. Dividing by a positive number doesn't change the sign.",
+    hint: "Solve it just like an equation, keeping the inequality sign. Multiplying or dividing both sides by a positive number doesn't change the sign.",
     traps: [
-      { spec: ineqSpec(v, FLIP[rel], k), feedback: flipShow ? `Careful — the ${v}-terms are on the right. ${M(`${rhs} ${FLIP[rel]} ${shown}`)} means ${M(`${shown} ${rel} ${rhs}`)}.` : "Your sign points the wrong way. You only reverse it when you multiply or divide by a NEGATIVE number." },
+      { spec: ineqSpec(v, FLIP[rel], k), feedback: flipShow ? `Your sign points the wrong way. Read the question the other way round first: ${M(`${rhs} ${FLIP[rel]} ${shown}`)} means ${M(`${shown} ${rel} ${rhs}`)} — the sign turns round with the sides.` : "Your sign points the wrong way. You only reverse it when you multiply or divide by a NEGATIVE number." },
       { spec: { type: "text", accept: [`${v}=${k}`, `${k}=${v}`] } as AnswerSpec, feedback: "An inequality has a whole range of answers — keep the inequality sign in your answer." },
       { spec: ineqSpec(v, TOGGLE[rel], k), feedback: `Keep the same type of sign all the way through: ${SYM[rel]} stays ${SYM[rel]}.` },
     ],

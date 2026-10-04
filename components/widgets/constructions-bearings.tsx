@@ -474,7 +474,7 @@ function SSSMode({ picker }: { picker: ReactNode }) {
           <Slider label="BC (arc from B)" value={a} min={1} max={9} step={0.5} onChange={setA} format={(v) => `${fmt(v)} cm`} />
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           <Readout label="Two shorter" value={`${fmt(s1.v + s2.v)} cm`} tone="ink" />
           <Readout label={`Longest (${s3.n})`} value={`${fmt(s3.v)} cm`} tone="ink" />
           <Readout label="Triangle?" value={kind === "ok" ? "Yes" : kind === "flat" ? "Flat" : "No"} tone={kind === "ok" ? "good" : "bad"} />
@@ -520,7 +520,8 @@ function PerpBisectorMode({ picker }: { picker: ReactNode }) {
 
   const steps = [
     <>
-      Open the compasses to <strong>more than half of AB</strong> (here {fmt(r)} cm). Point on A, draw arcs above and below the line.
+      Open the compasses to <strong>more than half of AB</strong> (here {fmt(r)} cm{cmp > 0 ? "" : ", which is not more than half, so too small"}). Point
+      on A, draw arcs above and below the line.
     </>,
     <>Keep the same radius. Point on B, draw arcs that cross the first two at P and Q.</>,
     <>Rule the straight line through P and Q. It cuts AB at its midpoint M, at right angles.</>,
@@ -640,10 +641,10 @@ function PerpBisectorMode({ picker }: { picker: ReactNode }) {
             <>
               <Dot S={S} p={P} />
               <Dot S={S} p={Q} />
-              <PLabel S={S} p={P} off={{ x: 0.45, y: 0.45 }}>
+              <PLabel S={S} p={P} off={{ x: 0.5, y: hh > 6.2 ? -0.4 : 0.45 }}>
                 P
               </PLabel>
-              <PLabel S={S} p={Q} off={{ x: 0.45, y: -0.45 }}>
+              <PLabel S={S} p={Q} off={{ x: 0.5, y: hh > 6.2 ? 0.4 : -0.45 }}>
                 Q
               </PLabel>
             </>
@@ -708,7 +709,9 @@ function AngleBisectorMode({ picker }: { picker: ReactNode }) {
   const [r2, setR2] = useState(3.5);
   const [step, setStep] = useState(3);
   const [X, setX] = useState<Pt | null>(null);
-  const ox = 160;
+  // Slide O left for acute angles (R can be up to ~14 cm out along the bisector) and
+  // right for obtuse ones (arm OB points left), so the whole construction stays on the paper.
+  const ox = Math.round(clamp(20 - 9 * K * Math.cos(th * DEG), 50, 165));
   const oy = 245;
   const S: Mapper = (p) => ({ x: ox + p.x * K, y: oy - p.y * K });
 
@@ -736,6 +739,7 @@ function AngleBisectorMode({ picker }: { picker: ReactNode }) {
   const phi = X ? norm360(Math.atan2(X.y, X.x) / DEG) : 0;
   const inside = X ? Math.hypot(X.x, X.y) > 1e-9 && phi <= th + 1e-9 : false;
   const sameTo1dp = X ? fmt(d1) === fmt(d2) : false;
+  const onBisector = inside && Math.abs(phi - th / 2) < 1e-6;
   const xTone = !X ? "fill-ink" : sameTo1dp ? "fill-good" : d1 < d2 ? "fill-brand" : "fill-accent";
 
   const steps = [
@@ -749,7 +753,7 @@ function AngleBisectorMode({ picker }: { picker: ReactNode }) {
   const aria = `Angle bisector of angle AOB, which is ${th} degrees. Arc from O of radius ${fmt(r1)} cm cuts the arms at P and Q. Arcs of radius ${fmt(
     r2,
   )} cm from P and Q ${rk === "ok" ? `cross at R; OR splits the angle into two angles of ${fmt(th / 2)} degrees` : rk === "touch" ? "just touch" : "do not meet"}.${
-    X ? ` Test point X is ${fmt(d1)} cm from arm OA and ${fmt(d2)} cm from arm OB.` : ""
+    X ? ` Test point X is ${fmt(d1)} cm from line OA and ${fmt(d2)} cm from line OB.` : ""
   }`;
 
   let xLine: ReactNode = null;
@@ -758,16 +762,25 @@ function AngleBisectorMode({ picker }: { picker: ReactNode }) {
       sameTo1dp && inside ? (
         <>
           {" "}
-          X is {fmt(d1)} cm from <em>both</em> arms (measured along the perpendiculars, the shortest routes to each line), so it sits on the
-          bisector. Every point on the bisector is equidistant from the two arms.
+          {onBisector ? (
+            <>
+              X is {fmt(d1)} cm from <em>both</em> arms (measured along the perpendiculars, the shortest routes to each line), so it sits on the
+              bisector. Every point on the bisector is equidistant from the two arms.
+            </>
+          ) : (
+            <>
+              X&rsquo;s distances to the two arms are equal to 1 d.p. ({fmt(d1)} cm), so X is almost exactly on the bisector. Every point on the
+              bisector is equidistant from the two arms.
+            </>
+          )}
         </>
       ) : sameTo1dp ? (
-        <> X is the same distance from both arm lines, but it is outside angle AOB — it is on the bisector of one of the other angles the two lines make.</>
+        <> X is the same distance (to 1 d.p.) from both arm lines, but it is outside angle AOB — it is on the bisector of one of the other angles the two lines make.</>
       ) : (
         <>
           {" "}
-          X is closer to arm {d1 < d2 ? "OA" : "OB"} ({fmt(Math.min(d1, d2))} cm against {fmt(Math.max(d1, d2))} cm). Distances to a line are measured
-          along the perpendicular, the shortest route.
+          X is closer to line {d1 < d2 ? "OA" : "OB"} ({fmt(Math.min(d1, d2))} cm against {fmt(Math.max(d1, d2))} cm). Distances to a line are
+          measured along the perpendicular, the shortest route.
         </>
       );
   }
@@ -776,8 +789,8 @@ function AngleBisectorMode({ picker }: { picker: ReactNode }) {
   if (rk === "none") {
     caption = (
       <>
-        The arcs from P and Q don&rsquo;t meet: P and Q are {fmt(2 * halfPQ, 2)} cm apart, so each arc must reach more than half of that (
-        {fmt(halfPQ, 2)} cm). Make the second radius bigger.{xLine}
+        The arcs from P and Q don&rsquo;t meet: P and Q are {approx(2 * halfPQ, 2)} cm apart, so each arc must reach more than half of that (
+        {approx(halfPQ, 2)} cm). Make the second radius bigger.{xLine}
       </>
     );
   } else if (rk === "touch") {
@@ -930,8 +943,8 @@ function AngleBisectorMode({ picker }: { picker: ReactNode }) {
           <Readout label="Arcs meet?" value={rk === "ok" ? "Yes" : rk === "touch" ? "Touch" : "No"} tone={rk === "ok" ? "good" : "bad"} />
           {X ? (
             <>
-              <Readout label="X to arm OA" value={`${fmt(d1)} cm`} tone="brand" />
-              <Readout label="X to arm OB" value={`${fmt(d2)} cm`} tone="ink" />
+              <Readout label="X to line OA" value={`${fmt(d1)} cm`} tone="brand" />
+              <Readout label="X to line OB" value={`${fmt(d2)} cm`} tone="ink" />
             </>
           ) : null}
         </div>
@@ -963,7 +976,9 @@ function DropPerpMode({ picker }: { picker: ReactNode }) {
   const built = step >= 3 && cmp > 0;
 
   const steps = [
-    <>Point on P: draw an arc (here radius {fmt(r)} cm) that crosses the line twice, at A and B.</>,
+    <>
+      Point on P: draw an arc (here radius {fmt(r)} cm{cmp > 0 ? "" : ", which is too small"}) that crosses the line twice, at A and B.
+    </>,
     <>Keep the same radius. Point on A, then on B: draw arcs on the other side of the line. They cross at P′.</>,
     <>Rule the line from P to P′. It meets the line at F, at 90°. PF is the shortest distance from P to the line.</>,
   ];
@@ -1028,7 +1043,7 @@ function DropPerpMode({ picker }: { picker: ReactNode }) {
             <polygon points={[P, F, T].map((p) => `${n2(S(p).x)},${n2(S(p).y)}`).join(" ")} className="fill-warn-soft" opacity={0.9} />
           ) : null}
           <FullLine S={S} p={F} d={{ x: 1, y: 0 }} cls="stroke-ink" w={2.5} />
-          <PLabel S={S} p={{ x: 8.3, y: 0 }} off={{ x: 0, y: 0.45 }} cls="fill-ink-2" size={13}>
+          <PLabel S={S} p={{ x: t >= 0 ? -8.2 : 8.2, y: 0 }} off={{ x: 0, y: -0.5 }} cls="fill-ink-2" size={13}>
             line
           </PLabel>
           {step >= 1 && cmp > 0 ? (
@@ -1096,7 +1111,7 @@ function DropPerpMode({ picker }: { picker: ReactNode }) {
           <NudgeSlider name="Point T" label="Slide T along the line" value={t} min={-8} max={8} step={0.5} onChange={setT} format={(v) => `${fmt(v)} cm`} />
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           <Readout label="PF (perpendicular)" value={`${fmt(h)} cm`} tone="good" />
           <Readout label="PT" value={`${approx(PT)} cm`} tone={Math.abs(t) < 1e-9 ? "good" : "bad"} />
           <Readout label="Arc crosses line?" value={cmp > 0 ? "Twice" : cmp === 0 ? "Touches" : "No"} tone={cmp > 0 ? "good" : "bad"} />
@@ -1187,19 +1202,22 @@ function labelSpot(p: Pt, bearings: number[], dist = 15): Pt {
   return { x: p.x - (dist * sx) / l, y: p.y - (dist * sy) / l };
 }
 
-/** Fit the drawing on the page (whole-cm shift, so the start stays on a grid corner). */
-function fitLayout(ptsKm: Pt[], s: number) {
+/**
+ * Fit the drawing on the page (whole-cm shift, so the start stays on a grid corner).
+ * `headroom` (px) leaves space above every point for its North arrow.
+ */
+function fitLayout(ptsKm: Pt[], s: number, headroom = 0) {
   const cm = ptsKm.map((p) => ({ x: p.x / s, y: p.y / s }));
   const minX = Math.min(...cm.map((p) => p.x));
   const maxX = Math.max(...cm.map((p) => p.x));
   const minY = Math.min(...cm.map((p) => p.y));
   const maxY = Math.max(...cm.map((p) => p.y));
   const ox = Math.round((MW / 2 - ((minX + maxX) / 2) * KP) / KP) * KP;
-  const oy = Math.round((MH / 2 + ((minY + maxY) / 2) * KP) / KP) * KP;
+  const oy = Math.round((MH / 2 + ((minY + maxY + headroom / KP) / 2) * KP) / KP) * KP;
   const toPx = (p: Pt): Pt => ({ x: ox + (p.x / s) * KP, y: oy - (p.y / s) * KP });
   const fits = ptsKm.every((p) => {
     const q = toPx(p);
-    return q.x >= 14 && q.x <= MW - 14 && q.y >= 24 && q.y <= MH - 14;
+    return q.x >= 14 && q.x <= MW - 14 && q.y >= Math.max(24, headroom + 4) && q.y <= MH - 14;
   });
   const extent = Math.max(maxX - minX, maxY - minY);
   return { toPx, fits, extent };
@@ -1307,7 +1325,7 @@ function BearingsNavigator() {
       : mode === "journey"
         ? [A, B, C]
         : [A, T, { x: ring, y: 0 }, { x: -ring, y: 0 }, { x: 0, y: ring }, { x: 0, y: -ring }];
-  const { toPx, fits, extent } = fitLayout(pts, s);
+  const { toPx, fits, extent } = fitLayout(pts, s, mode === "back" ? 48 : mode === "journey" ? 38 : 0);
   const pA = toPx(A);
   const pB = toPx(B);
   const pC = toPx(C);
@@ -1324,7 +1342,10 @@ function BearingsNavigator() {
   const AC = Math.hypot(C.x, C.y);
   const atStart = AC < 1e-6;
   const bAC = atStart ? 0 : bearingOf(A, C);
-  const home = norm360(bAC + 180);
+  // Work with the bearing as you would read it off a protractor (nearest degree), so
+  // "bearing ± 180° = home" always adds up (359.6° reads as 000°, home as 180°).
+  const bACr = norm360(Math.round(bAC));
+  const home = norm360(bACr + 180);
   const turn = norm360(b2 - b1);
   const rightTurn = turn === 90 || turn === 270;
 
@@ -1367,7 +1388,11 @@ function BearingsNavigator() {
   );
 
   const fitNote =
-    mode !== "island" && !fits ? (
+    mode === "island" && !fits ? (
+      <p className="rounded-lg bg-bad-soft px-3 py-2 text-sm font-semibold text-bad">
+        At {scaleLabel} this island is off the edge of the page. Choose a scale with more km per cm, or press New island.
+      </p>
+    ) : mode !== "island" && !fits ? (
       <p className="rounded-lg bg-bad-soft px-3 py-2 text-sm font-semibold text-bad">
         At {scaleLabel} this drawing is too big for the page. Choose a scale with more km per cm.
       </p>
@@ -1477,7 +1502,7 @@ function BearingsNavigator() {
     const lc = labelSpot(pC, [norm360(b2 + 180), home]);
     const aLab = bPt(pA, 44, arcMid(b1));
     const bLab = bPt(pB, 44, arcMid(b2));
-    const cLab = bPt(pC, 40, arcMid(Math.round(home)));
+    const cLab = bPt(pC, 40, arcMid(home));
     const mAC = { x: (pA.x + pC.x) / 2, y: (pA.y + pC.y) / 2 };
     const acLab = bPt(mAC, 14, bAC + 90);
     svg = (
@@ -1492,7 +1517,7 @@ function BearingsNavigator() {
         {!atStart ? <NorthArrow p={pC} /> : null}
         <path d={bArc(pA, 30, 0, b1)} fill="none" className="stroke-brand" strokeWidth={2} />
         <path d={bArc(pB, 30, 0, b2)} fill="none" className="stroke-accent" strokeWidth={2} />
-        {!atStart ? <path d={bArc(pC, 26, 0, Math.round(home))} fill="none" className="stroke-good" strokeWidth={2} /> : null}
+        {!atStart ? <path d={bArc(pC, 26, 0, home)} fill="none" className="stroke-good" strokeWidth={2} /> : null}
         {!atStart ? (
           <line x1={n2(pA.x)} y1={n2(pA.y)} x2={n2(pC.x)} y2={n2(pC.y)} className="stroke-good" strokeWidth={2} strokeDasharray="6 4" />
         ) : null}
@@ -1535,7 +1560,7 @@ function BearingsNavigator() {
         Leg 1 takes you {fmt(d1)} km on {three(b1)} to B, then leg 2 goes {fmt(d2)} km on {three(b2)} to C. Every point gets its own North line,
         because a bearing is always measured from where you are <em>now</em>. On an accurate scale drawing you would measure AC with a ruler (
         {approx(AC / s)} cm), multiply by {s} for the real distance ({approx(AC)} km), and measure its bearing with a protractor: about{" "}
-        <strong>{three(bAC)}</strong>. The way home is the back bearing: {three(bAC)} {bAC < 180 ? "+" : "−"} 180° ={" "}
+        <strong>{three(bACr)}</strong>. The way home is the back bearing: {three(bACr)} {bACr < 180 ? "+" : "−"} 180° ={" "}
         <strong>{three(home)}</strong>.
         {rightTurn ? (
           <>
@@ -1627,9 +1652,13 @@ function BearingsNavigator() {
         </Tag>
       </MapPaper>
     );
+    // Bearings are whole degrees and distances are multiples of 0.5 km, so these comparisons are exact.
+    // A miss always has a non-zero error in at least one of them, so the advice is always something to act on.
     const bAdvice =
-      Math.abs(bErr) <= 1 ? "your bearing is spot on" : `turn ${bErr > 0 ? "anticlockwise" : "clockwise"} ${Math.abs(bErr) > 10 ? "a lot" : "a little"}`;
-    const dAdvice = Math.abs(dErr) <= 0.25 * s ? "your distance is about right" : `go ${dErr > 0 ? "less far" : "further"}`;
+      bErr === 0
+        ? "your bearing is spot on"
+        : `turn ${bErr > 0 ? "anticlockwise" : "clockwise"} ${Math.abs(bErr) > 10 ? "a lot" : "a little"}`;
+    const dAdvice = dErr === 0 ? "your distance is exactly right" : `go ${dErr > 0 ? "less far" : "further"}`;
     caption = landed ? (
       <>
         <strong>Landed{tries === 1 ? " first time" : ` in ${tries} tries`}!</strong> The island is on a bearing of {three(target.b)} and {fmt(target.d)}{" "}
@@ -1642,7 +1671,7 @@ function BearingsNavigator() {
       </>
     ) : sailed ? (
       <>
-        Missed by about {approx(miss)} km: {bAdvice}, and {dAdvice}. Re-measure from the map and try again.
+        Missed by {approx(miss)} km: {bAdvice}, and {dAdvice}. Re-measure from the map and try again.
       </>
     ) : (
       <>

@@ -39,6 +39,9 @@ const UNIT_WORDS: Record<string, string[]> = {
   kg: ["kg", "kilograms"],
   years: ["years"],
   bytes: ["bytes"],
+  people: ["people"],
+  passengers: ["passengers"],
+  cells: ["cells"],
 };
 
 // ---------------------------------------------------------------------------
@@ -210,13 +213,13 @@ const BIG_FACTS: Fact[] = [
   { m: 15, e: 7, unit: "km", say: (x) => `The Sun is about ${x} km from Earth.` },
   { m: 3, e: 5, unit: "km", say: (x) => `Light travels about ${x} km in one second.` },
   { m: 384, e: 3, unit: "km", say: (x) => `The Moon is about ${x} km from Earth.` },
-  { m: 604, e: 4, unit: "", say: (x) => `In 2024, about ${x} people lived in Singapore.` },
-  { m: 81, e: 8, unit: "", say: (x) => `About ${x} people live on Earth.` },
+  { m: 604, e: 4, unit: "people", say: (x) => `In 2024, about ${x} people lived in Singapore.` },
+  { m: 81, e: 8, unit: "people", say: (x) => `About ${x} people live on Earth.` },
   { m: 778, e: 6, unit: "km", say: (x) => `Jupiter is about ${x} km from the Sun.` },
   { m: 45, e: 8, unit: "km", say: (x) => `Neptune is about ${x} km from the Sun.` },
   { m: 2, e: 12, unit: "bytes", say: (x) => `A 2-terabyte hard drive stores about ${x} bytes.` },
-  { m: 677, e: 5, unit: "", say: (x) => `Changi Airport handled about ${x} passengers in 2024.` },
-  { m: 37, e: 12, unit: "", say: (x) => `The human body is made of roughly ${x} cells.` },
+  { m: 677, e: 5, unit: "passengers", say: (x) => `Changi Airport handled about ${x} passengers in 2024.` },
+  { m: 37, e: 12, unit: "cells", say: (x) => `The human body is made of roughly ${x} cells.` },
   { m: 138, e: 8, unit: "years", say: (x) => `The universe is about ${x} years old.` },
   { m: 8849, e: 3, unit: "mm", say: (x) => `Mount Everest is about ${x} mm tall.` },
   { m: 597, e: 22, unit: "kg", say: (x) => `The mass of the Earth is about ${x} kg.` },
@@ -298,7 +301,7 @@ export const drills: Drill[] = [
       if (mult && start <= 50) {
         options.push({ prompt: `One bag of rice has a mass of ${a} kg. What is the total mass of ${P} of these bags, in kg?`, why: `Total mass = mass of one bag × ${P}.` });
       }
-      if (!mult && start <= 200) {
+      if (!mult && k <= 2 && start >= 1 && start <= 200) {
         options.push({ prompt: `A roll of ribbon ${a} m long is cut into ${P} equal pieces. How long is each piece, in metres?`, why: `Share the length equally: divide by ${P}.` });
       }
       const chosen = rng.pick(options);
@@ -441,7 +444,7 @@ export const drills: Drill[] = [
         const traps: Trap[] = [];
         let solution: string[];
         if (n > 0) {
-          solution = [`${p} means ${n} tens multiplied together, which is 1 followed by ${plural(n, "zero")}.`, `${p} = ${dec(1, n)}`];
+          solution = [`${p} means ${n === 1 ? "just one 10" : `${n} tens multiplied together`}, which is 1 followed by ${plural(n, "zero")}.`, `${p} = ${dec(1, n)}`];
           if (n >= 2) traps.push(ordTrap(10 * n, 0, `${p} means ${n} tens multiplied together (10 × 10 × …), not 10 × ${n}.`));
         } else if (n === 0) {
           solution = ["Each step down the powers divides by 10: {{10^2}} = 100, {{10^1}} = 10, so {{10^0}} = 10 ÷ 10.", "{{10^0}} = 1"];
@@ -455,6 +458,10 @@ export const drills: Drill[] = [
           traps.push({
             spec: { type: "text", accept: Array.from(new Set([`-${dec(1, k, false)}`, `-${dec(1, k, true)}`])) },
             feedback: `A negative power does not make a negative number. ${p} = {{1/${dec(1, k, false)}}}, a small positive number.`,
+          });
+          traps.push({
+            spec: { type: "fraction", n: 1, d: 10 ** k },
+            feedback: `{{1/${dec(1, k, false)}}} is the right value — now write it as a decimal.`,
           });
         }
         return {
@@ -540,10 +547,10 @@ export const drills: Drill[] = [
         const xs = dec(xm, -xd, false);
         const ans = sf(xm, w - xd);
         const x = val(xm, -xd);
-        const prompt = rng.pick([
-          `Write ${xs} ${word} in standard form.`,
-          `A video has ${xs} ${word} views. Write the number of views in standard form.`,
-        ]);
+        const prompts = [`Write ${xs} ${word} in standard form.`];
+        // Keep the context believable: no video has hundreds of billions of views.
+        if (w <= 6 || x < 10) prompts.push(`A video has ${xs} ${word} views. Write the number of views in standard form.`);
+        const prompt = rng.pick(prompts);
         const traps: Trap[] = [];
         if (x >= 10) traps.push(sfTrap(sfOf(xm, w), `${xs} ${word} = {{${xs} * 10^${w}}}, but ${xs} is not between 1 and 10. Make A smaller and the power bigger to match.`));
         return {
@@ -551,7 +558,9 @@ export const drills: Drill[] = [
           answer: sfSpec(ans),
           solution: [
             `1 ${word} = ${dec(1, w)} = {{10^${w}}}, so ${xs} ${word} = {{${xs} * 10^${w}}}.`,
-            ...(x >= 10 ? [`${xs} = {{${ans.A} * ${p10(ans.n - w)}}}, so add the powers: ${ans.n - w} + ${w} = ${ans.n}.`] : []),
+            x >= 10
+              ? `${xs} is not between 1 and 10: ${xs} = {{${ans.A} * ${p10(ans.n - w)}}}, so add the powers: ${ans.n - w} + ${w} = ${ans.n}.`
+              : `${xs} is already between 1 and 10, so no adjusting is needed.`,
             `${xs} ${word} = ${ans.tex}`,
           ],
           hint: `Write 1 ${word} as a power of 10 first.`,
@@ -575,12 +584,14 @@ export const drills: Drill[] = [
         }
         m = mantissa(rng, s);
         e = n - (s - 1);
-        say = rng.pick([
+        // Contexts only where the size is believable.
+        const says: Array<(x: string) => string> = [
           (x: string) => `Write ${x} in standard form.`,
           (x: string) => `Write the number ${x} in standard form.`,
-          (x: string) => `A computer can do ${x} calculations per second.`,
-          (x: string) => `A song has been streamed ${x} times.`,
-        ]);
+        ];
+        if (n >= 8) says.push((x: string) => `A computer can do ${x} calculations per second.`);
+        if (n <= 8) says.push((x: string) => `A song has been streamed ${x} times.`);
+        say = rng.pick(says);
       }
       const N = dec(m, e);
       const ans = sf(m, e);
@@ -993,16 +1004,17 @@ export const drills: Drill[] = [
         const mantI = As.indexOf(largest ? Math.max(...As) : Math.min(...As));
         const word = largest ? "largest" : "smallest";
         const traps: Trap[] = [];
-        if (mantI !== ansI) traps.push(sfTrap(items[mantI].x, "That one has the " + (largest ? "biggest" : "smallest") + " A, but compare the powers of 10 first. A only matters when the powers are the same."));
+        const valTrap = (i: number, feedback: string): Trap => sfTrap(items[i].x, feedback);
+        if (mantI !== ansI) traps.push(valTrap(mantI, "That one has the " + (largest ? "biggest" : "smallest") + " A, but compare the powers of 10 first. A only matters when the powers are the same."));
         if (allSmall) {
-          const ns = items.map((it) => it.x.n);
+          const ns = items.map((it) => it.shownN); // the powers the learner actually sees
           const target = largest ? Math.min(...ns) : Math.max(...ns);
           const cand = ns.filter((n) => n === target).length === 1 ? ns.indexOf(target) : -1;
           if (cand >= 0 && cand !== ansI && cand !== mantI) {
-            const nC = items[cand].x.n, nA = items[ansI].x.n;
+            const nC = items[cand].shownN, nA = items[ansI].shownN;
             traps.push(
-              sfTrap(
-                items[cand].x,
+              valTrap(
+                cand,
                 `Careful with negative powers: {{${p10(nC)}}} is ${largest ? "smaller" : "bigger"} than {{${p10(nA)}}}, because ${num(nC)} is ${largest ? "less" : "greater"} than ${num(nA)}.`,
               ),
             );
@@ -1026,13 +1038,14 @@ export const drills: Drill[] = [
       const L = ["P", "Q", "R", "S"];
       const byVal = sortedIdx.map((i) => L[i]);
       const byA = [0, 1, 2, 3].sort((a, b) => As[a] - As[b]).map((i) => L[i]);
-      const accept = (ls: string[]) => [ls.join(""), ls.join(","), ls.join("<")];
+      const accept = (ls: string[]) => [ls.join(""), ls.join(","), ls.join("<"), ls.join(";"), `${ls.slice(0, 3).join(",")}and${ls[3]}`];
       const traps: Trap[] = [];
       if (byA.join("") !== byVal.join("")) {
         traps.push({ spec: { type: "text", accept: accept(byA) }, feedback: "That orders them by A only. Sort by the power of 10 first, then use A to break ties." });
       }
       return {
-        prompt: `Put these numbers in order of size, smallest first. Write the letters, e.g. ${L.join(", ")}.\n\n${items.map((it, i) => `- **${L[i]}** = ${it.tex}`).join("\n")}`,
+        // No example order in the prompt: an example like "P, Q, R, S" could be the answer itself.
+        prompt: `Put these numbers in order of size, smallest first. Write the four letters in order, separated by commas.\n\n${items.map((it, i) => `- **${L[i]}** = ${it.tex}`).join("\n")}`,
         answer: { type: "text", accept: accept(byVal), display: byVal.join(", ") },
         solution: [
           ...fixStep,
@@ -1137,7 +1150,8 @@ export const drills: Drill[] = [
         const s = tier === 1 ? rng.int(1, 2) : rng.int(2, 3);
         const n = rng.nonZero(lo, hi);
         x = sfOf(mantissa(rng, s), n);
-        if (dp(x.m, x.e) <= 8 && tidy(x.value) && (kind === "read" || n <= 10)) break;
+        // Calculators only switch to E-notation for very big or very small numbers, so |n| ≥ 3.
+        if (Math.abs(n) >= 3 && dp(x.m, x.e) <= 8 && tidy(x.value) && (kind === "read" || n <= 10)) break;
       }
       const E = eNote(x, style);
       if (kind === "read") {

@@ -56,7 +56,7 @@ export const mcqPapers: Paper[] = [
         options: ["15.7 cm", "78.5 cm", "314 cm", "31.4 cm"],
         answerIndex: 3,
         explanation:
-          "C = πd = 3.14 × 10 = 31.4 cm. 15.7 cm uses the radius 5 in C = πd, which gives only half the circumference. 78.5 cm is the area (πr² = 3.14 × 25), which is a different quantity measured in cm².",
+          "C = πd = 3.14 × 10 = 31.4 cm. 15.7 cm uses the radius 5 in C = πd, which gives only half the circumference. 78.5 cm is the area (πr² = 3.14 × 25), which is a different quantity measured in cm². 314 cm squares the diameter (3.14 × 10²), mixing up the circumference and area formulas.",
         difficulty: "warmup",
         guideRef: "circumference",
         hints: ["Which circumference formula uses the diameter directly?"],
@@ -203,7 +203,7 @@ export const mcqPapers: Paper[] = [
         options: ["66 cm", "33 cm", "650 cm", "8 cm"],
         answerIndex: 0,
         explanation:
-          "C = πd, so d = C ÷ π = 207 ÷ π ≈ 65.9, which is **66 cm**. 33 cm is the radius (207 ÷ 2π). 650 cm multiplies by π instead of dividing. A diameter bigger than the circumference is impossible. 8 cm comes from treating 207 as an area and square-rooting.",
+          "C = πd, so d = C ÷ π = 207 ÷ π ≈ 65.9, which is **66 cm**. 33 cm is the radius (207 ÷ 2π). 650 cm multiplies by π instead of dividing. A diameter bigger than the circumference is impossible. 8 cm comes from treating 207 as an area: √(207 ÷ π) ≈ 8.1.",
         difficulty: "core",
         guideRef: "circumference",
         hints: [
@@ -278,7 +278,7 @@ export const mcqPapers: Paper[] = [
         options: ["70.6 cm", "1.4 cm", "3.2 cm", "1.6 cm"],
         answerIndex: 0,
         explanation:
-          "Let the diameter be d. Then πd = 3d + 10, so πd − 3d = 10, so d(π − 3) = 10, and d = 10 ÷ 0.14159… ≈ **70.6 cm**. π is only a little more than 3, so the circle must be big for the ‘bit extra’ to reach 10 cm. 1.4 cm multiplies 10 by (π − 3) instead of dividing. 3.2 cm is 10 ÷ π, which ignores the 3d. 1.6 cm divides by (π + 3) after a sign slip.",
+          "Let the diameter be d. Then πd = 3d + 10, so πd − 3d = 10, so d(π − 3) = 10, and d = 10 ÷ 0.14159… ≈ **70.6 cm**. π is only a little more than 3, so the circle must be big for the ‘bit extra’ to reach 10 cm. 1.4 cm multiplies 10 by (π − 3) instead of dividing. 3.2 cm is 10 ÷ π, which ignores the 3d. 1.6 cm divides by (π + 3) after a sign slip. Rounding π to 3.14 here would give 71.4 cm, because π − 3 is so small that any rounding of π is magnified; that's why the question asks for the π button.",
         difficulty: "challenge",
         guideRef: "circumference",
         hints: [
@@ -295,7 +295,7 @@ export const mcqPapers: Paper[] = [
         options: ["3", "9", "6", "27"],
         answerIndex: 1,
         explanation:
-          "If A has radius r, B has radius 3r, and its area is π(3r)² = 9πr²: **9 times** as big. Both length directions are stretched by 3, so the area is stretched by 3 × 3. The answer 3 is true for the circumference, which is a length. 27 would be the scale factor for a volume.",
+          "If A has radius r, B has radius 3r, and its area is π(3r)² = 9πr²: **9 times** as big. Both length directions are stretched by 3, so the area is stretched by 3 × 3. The answer 3 is true for the circumference, which is a length. 6 doubles the scale factor instead of squaring it. 27 would be the scale factor for a volume.",
         difficulty: "challenge",
         guideRef: "area-of-a-circle",
         hints: [
@@ -314,7 +314,7 @@ export const mcqPapers: Paper[] = [
         options: ["{{pi/16}}", "{{pi/2}}", "{{pi/4}}", "{{4/pi}}"],
         answerIndex: 2,
         explanation:
-          "The square's side is 4 radii = 4 cm, so its area is 16 cm². The circles cover 4 × π × 1² = 4π cm². Fraction = {{(4pi)/16 = pi/4}} ≈ 0.785. That is exactly the same as **one** circle in its own square, because each quarter of the picture is one circle in a 2 cm square. {{pi/16}} counts only one circle. {{4/pi}} is upside down and is more than 1, which is impossible.",
+          "The square's side is 4 radii = 4 cm, so its area is 16 cm². The circles cover 4 × π × 1² = 4π cm². Fraction = {{(4pi)/16 = pi/4}} ≈ 0.785. That is exactly the same as **one** circle in its own square, because each quarter of the picture is one circle in a 2 cm square. {{pi/16}} counts only one circle. {{pi/2}} uses each circle's circumference, 2π, instead of its area, π. {{4/pi}} is upside down and is more than 1, which is impossible.",
         difficulty: "challenge",
         guideRef: "compound-circle-shapes",
         hints: [
@@ -532,7 +532,7 @@ export const mcqPapers: Paper[] = [
         options: ["5.73 m²", "5.72 m²", "8.48 m²", "22.9 m²"],
         answerIndex: 0,
         explanation:
-          "A = π × 1.35² = π × 1.8225 = 5.7255… m². The fourth significant figure is 5, so round up to **5.73 m²**. 5.72 m² chops off the extra digits (truncates) instead of rounding. 8.48 m² is the circumference, 2π × 1.35. 22.9 m² uses the diameter, 2.7 m, as the radius.",
+          "A = π × 1.35² = π × 1.8225 = 5.7255… m². The fourth significant figure is 5, so round up to **5.73 m²**. 5.72 m² chops off the extra digits (truncates) instead of rounding; using 3.14 instead of the π button also gives 5.72, which is why the question asks for the π button. 8.48 m² is the circumference, 2π × 1.35. 22.9 m² uses the diameter, 2.7 m, as the radius.",
         difficulty: "core",
         guideRef: "area-of-a-circle",
         hints: [
@@ -585,10 +585,10 @@ export const mcqPapers: Paper[] = [
         id: "circles-m2-q15",
         question:
           "The Singapore Flyer is a giant wheel of diameter 150 m. Suppose a capsule goes round once in 30 minutes. Using the π button, what is the capsule's average speed, to 1 d.p.?",
-        options: ["5 metres per minute", "31.4 metres per minute", "589 metres per minute", "15.7 metres per minute"],
+        options: ["5.0 metres per minute", "31.4 metres per minute", "589.0 metres per minute", "15.7 metres per minute"],
         answerIndex: 3,
         explanation:
-          "In one turn the capsule travels the circumference: π × 150 ≈ 471.2 m. Speed = 471.2 ÷ 30 ≈ **15.7 metres per minute**. 5 metres per minute uses the diameter as the distance travelled. 31.4 metres per minute uses 150 m as the radius (2π × 150). 589 metres per minute divides the *area* by the time.",
+          "In one turn the capsule travels the circumference: π × 150 ≈ 471.2 m. Speed = 471.2 ÷ 30 ≈ **15.7 metres per minute**. 5.0 metres per minute uses the diameter as the distance travelled. 31.4 metres per minute uses 150 m as the radius (2π × 150). 589.0 metres per minute divides the *area* by the time.",
         difficulty: "core",
         guideRef: "circumference",
         hints: [
@@ -1015,7 +1015,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 0,
         explanation:
-          "Square: side 4 cm, area 16 cm². Circle: 2πr = 16, so r = 8 ÷ π ≈ 2.55 cm, and the area is π × 2.55² ≈ 20.4 cm². So **the circle wins by about 4 cm²**. Equal perimeters do *not* force equal areas. In fact, of all shapes with a given perimeter, the circle encloses the most area, which is why soap bubbles are round. The square's corners are the tempting answer, but they actually ‘waste’ boundary.",
+          "Square: side 4 cm, area 16 cm². Circle: 2πr = 16, so r = 8 ÷ π ≈ 2.55 cm, and the area is π × 2.55² ≈ 20.4 cm². So **the circle wins by about 4 cm²**. Equal perimeters do *not* force equal areas. In fact, of all shapes with a given perimeter, the circle encloses the most area (the 3D version of this fact is why soap bubbles are round). The square's corners are the tempting answer, but they actually ‘waste’ boundary.",
         difficulty: "challenge",
         guideRef: "area-of-a-circle",
         hints: [
@@ -1196,10 +1196,10 @@ export const mcqPapers: Paper[] = [
         kind: "mcq",
         id: "circles-m4-q09",
         question: "A circle has area {{49pi}} cm². What is its exact circumference?",
-        options: ["{{7pi}} cm", "{{98pi}} cm", "{{14pi}} cm", "{{24.5pi}} cm"],
+        options: ["{{7pi}} cm", "{{98pi}} cm", "{{14pi}} cm", "{{49pi}} cm"],
         answerIndex: 2,
         explanation:
-          "πr² = 49π, so r² = 49 and r = 7. Then C = 2π × 7 = **{{14pi}} cm**. {{7pi}} uses the radius in C = πd. {{98pi}} doubles the area's 49 instead of finding r. {{24.5pi}} halves 49, as if r² were 2r.",
+          "πr² = 49π, so r² = 49 and r = 7. Then C = 2π × 7 = **{{14pi}} cm**. {{7pi}} uses the radius in C = πd. {{98pi}} puts 49 into 2πr as if it were the radius, but 49 is r², not r. {{49pi}} treats r² as 2r: then 2r = 49, so the diameter would be 49 and C = 49π.",
         difficulty: "core",
         guideRef: "area-of-a-circle",
         hints: [
@@ -1258,7 +1258,7 @@ export const mcqPapers: Paper[] = [
         options: ["9.42 cm", "15.42 cm", "28.26 cm", "6 cm"],
         answerIndex: 0,
         explanation:
-          "Semicircle: arc 18.84 + diameter 12 = 30.84 cm. Quarter circle: arc 9.42 + two radii 12 = 21.42 cm. Difference = **9.42 cm**. Neat shortcut: both have 12 cm of straight edges, so the difference is just the arcs, 18.84 − 9.42. 15.42 cm gives the quarter circle only one radius. 28.26 cm is the difference in *areas*.",
+          "Semicircle: arc 18.84 + diameter 12 = 30.84 cm. Quarter circle: arc 9.42 + two radii 12 = 21.42 cm. Difference = **9.42 cm**. Neat shortcut: both have 12 cm of straight edges, so the difference is just the arcs, 18.84 − 9.42. 15.42 cm gives the quarter circle only one radius. 6 cm assumes the only difference is one extra radius, ignoring the arcs. 28.26 cm is the difference in *areas*.",
         difficulty: "core",
         guideRef: "semicircles-quarter-circles",
         hints: [
@@ -1354,7 +1354,7 @@ export const mcqPapers: Paper[] = [
         options: ["14 cm", "7 cm", "3.5 cm", "{{7pi/3}} cm"],
         answerIndex: 1,
         explanation:
-          "OA = OB = 7 cm (radii), so triangle OAB is isosceles. Its base angles are (180° − 60°) ÷ 2 = 60° each, so all three angles are 60° and the triangle is **equilateral**: AB = **7 cm**. {{7pi/3}} cm (about 7.33 cm) is the *arc* AB, which is the curved route and a little longer than the straight chord. 14 cm is the diameter, the longest possible chord.",
+          "OA = OB = 7 cm (radii), so triangle OAB is isosceles. Its base angles are (180° − 60°) ÷ 2 = 60° each, so all three angles are 60° and the triangle is **equilateral**: AB = **7 cm**. {{7pi/3}} cm (about 7.33 cm) is the *arc* AB, which is the curved route and a little longer than the straight chord. 14 cm is the diameter, the longest possible chord. 3.5 cm halves the radius, but nothing here is halved.",
         difficulty: "challenge",
         guideRef: "parts-of-a-circle",
         hints: [
@@ -1372,7 +1372,7 @@ export const mcqPapers: Paper[] = [
         options: ["2.5 cm", "5 cm", "40 cm", "1.25 cm"],
         answerIndex: 0,
         explanation:
-          "Volume = π × 3² × 10 = 90π cm³. In the jug, π × 6² × depth = 90π, so 36 × depth = 90 and depth = **2.5 cm**. Doubling the radius makes the base area 2² = 4 times bigger, so the depth is 4 times smaller. 5 cm assumes that doubling the radius only doubles the area. 40 cm multiplies by 4 instead of dividing; a wider jug can't make the water deeper.",
+          "Volume = π × 3² × 10 = 90π cm³. In the jug, π × 6² × depth = 90π, so 36 × depth = 90 and depth = **2.5 cm**. Doubling the radius makes the base area 2² = 4 times bigger, so the depth is 4 times smaller. 5 cm assumes that doubling the radius only doubles the area. 40 cm multiplies by 4 instead of dividing; a wider jug can't make the water deeper. 1.25 cm divides by 2³ = 8, as if it were a volume scale factor.",
         difficulty: "challenge",
         guideRef: "area-of-a-circle",
         hints: [

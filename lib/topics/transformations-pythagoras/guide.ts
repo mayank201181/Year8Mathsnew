@@ -215,7 +215,7 @@ export const guide: TopicGuide = {
         "The mirror line passes through the midpoint of every object–image pair.",
       ],
       whyItWorks:
-        "Why does reflecting in y = x swap coordinates? Take a point (a, b) and its swapped partner (b, a). Their midpoint is ({{(a + b)/2}}, {{(a + b)/2}}), whose two coordinates are equal, so it lies on y = x. The step from (a, b) to (b, a) goes across b − a and up a − b — equal amounts in opposite directions, so it runs at 45° the other way, at right angles to the mirror. Same distance, opposite sides, perpendicular: exactly a reflection. The rule for x = a works the same way: the mirror sits halfway between the old x-coordinate and the new one, so the new one is 2a − x.",
+        "Why does reflecting in y = x swap coordinates? Take a point (p, q) and its swapped partner (q, p). Their midpoint is ({{(p + q)/2}}, {{(p + q)/2}}), whose two coordinates are equal, so it lies on y = x. The step from (p, q) to (q, p) goes across q − p and up p − q — equal amounts in opposite directions, so it runs at 45° the other way, at right angles to the mirror. Same distance, opposite sides, perpendicular: exactly a reflection. The rule for x = a works the same way: the mirror sits halfway between the old x-coordinate and the new one, so the new one is 2a − x.",
       strategies: ["Count squares to the mirror", "Use midpoints", "Check by substituting"],
       thinkDeeper:
         "Reflect the point (5, 1) in the x-axis, then reflect that image in the line y = x. Where does it end up? Now do the two reflections in the opposite order. Do you land in the same place? Which single transformation could replace each pair?",

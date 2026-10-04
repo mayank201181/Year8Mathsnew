@@ -1,6 +1,6 @@
 // Procedural skill drills for "Constructions, Scale Drawings & Bearings".
 // Every answer is built from integers (or tenths) so it is exact.
-import type { Drill } from "./types.ts";
+import type { Drill, Rng } from "./types.ts";
 import type { AnswerSpec, Trap } from "../types.ts";
 import { br, clean, num, poly, term } from "./helpers.ts";
 
@@ -110,6 +110,26 @@ const PLACES: Array<[string, string]> = [
   ["the bus interchange", "the sports hall"],
   ["the visitor centre", "the reservoir hut"],
 ];
+/** First places of the PLACES pairs that are on the water (so you sail/kayak between them). */
+const WATER_PLACES = new Set(["the lighthouse", "the ferry terminal", "the jetty"]);
+
+/** A context that suits a real distance of `km` kilometres: [noun phrase, "apart" | "long"]. */
+function placeFor(rng: Rng, km: number): [string, "apart" | "long"] {
+  const opts: Array<[string, "apart" | "long"]> =
+    km < 3
+      ? [["two bus stops", "apart"], ["two hawker centres", "apart"], ["a nature trail", "long"], ["two MRT stations", "apart"]]
+      : km <= 30
+        ? [["two MRT stations", "apart"], ["a cycling route", "long"], ["a hiking trail", "long"], ["two towns", "apart"], ["a ferry route", "long"], ["two hawker centres", "apart"]]
+        : km <= 100
+          ? [["two towns", "apart"], ["a cycling route", "long"], ["a ferry route", "long"]]
+          : [["two cities", "apart"], ["a railway line", "long"], ["a ferry route", "long"]];
+  return rng.pick(opts);
+}
+
+/** Two places a real distance of `km` kilometres apart, for "between …". */
+function pairFor(rng: Rng, km: number): string {
+  return rng.pick(km < 3 ? ["two bus stops", "two hawker centres", "two playgrounds"] : km <= 40 ? ["two MRT stations", "two towns", "two hawker centres"] : ["two towns", "two cities"]);
+}
 
 export const drills: Drill[] = [
   // -------------------------------------------------------------------------
@@ -194,13 +214,13 @@ export const drills: Drill[] = [
 
       if (mode === "reflex") {
         const a = angle();
-        const ctx = rng.pick([
-          `${who} measures an angle with a protractor and gets ${a}°.`,
-          `Two straight roads meet at a junction, making an angle of ${a}°.`,
-          `The two arms of a pair of compasses are opened to an angle of ${a}°.`,
-        ]);
+        const [ctx, arms] = rng.pick([
+          [`${who} measures an angle with a protractor and gets ${a}°.`, "the same two arms"],
+          [`Two straight roads meet at a junction, making an angle of ${a}°.`, "the two roads"],
+          [`The two arms of a pair of compasses are opened to an angle of ${a}°.`, "the two arms"],
+        ] as const);
         return {
-          prompt: `${ctx} What is the reflex angle on the other side of the same two arms?`,
+          prompt: `${ctx} What is the reflex angle on the other side of ${arms}?`,
           answer: numAns(360 - a, deg(360 - a)),
           solution: [
             "The angle and the reflex angle together make a full turn.",
@@ -404,11 +424,12 @@ export const drills: Drill[] = [
       }
 
       if (mode === "adjacent") {
+        // Keep the whole angle AOB at most 180° so "the whole angle" is never a reflex angle.
         let a = 60, b = 80;
         for (let i = 0; i < 100; i++) {
           a = rng.int(25, 140);
           b = rng.int(25, 140);
-          if (a !== b && a + b <= 240) break;
+          if (a !== b && a + b <= 180) break;
         }
         const ans = clean((a + b) / 2);
         return {
@@ -435,8 +456,14 @@ export const drills: Drill[] = [
       for (let i = 0; i < k; i++) chain.push(clean(chain[chain.length - 1] / 2));
       const ans = chain[chain.length - 1];
       const times = k === 1 ? "once" : k === 2 ? "twice" : "three times";
+      const doing =
+        k === 1
+          ? `${who} then bisects it once.`
+          : k === 2
+            ? `${who} then bisects it, and then bisects one of the two new angles: 2 bisections in total.`
+            : `${who} then bisects it, then bisects one of the two new angles, then bisects one of the newest angles again: 3 bisections in total.`;
       return {
-        prompt: `Using only compasses and a straight edge, ${who} constructs an angle of ${base.b}° ${base.how}. ${who} then bisects it, and keeps bisecting one of the new smaller angles, so that ${times === "once" ? "one bisection is" : `${k} bisections are`} done in total. What size is the final angle?`,
+        prompt: `Using only compasses and a straight edge, ${who} constructs an angle of ${base.b}° ${base.how}. ${doing} What size is the final angle?`,
         answer: numAns(ans, deg(ans)),
         solution: [
           "Each bisection halves the angle.",
@@ -594,11 +621,11 @@ export const drills: Drill[] = [
         prompt: `${vessel} is travelling on a bearing of ${brg(b)}. It turns ${t}° ${cw ? "clockwise" : "anticlockwise"}. What is its new bearing?`,
         answer: numAns(ans, brg(ans)),
         solution: [
-          `${cw ? "Clockwise adds" : "Anticlockwise subtracts"}: ${b} ${cw ? "+" : "−"} ${t} = ${raw}.`,
+          `${cw ? "Clockwise adds" : "Anticlockwise subtracts"}: ${b} ${cw ? "+" : "−"} ${t} = ${num(raw)}.`,
           raw >= 360
             ? `That is past a full turn, so subtract 360°: ${raw} − 360 = ${ans}.`
             : raw < 0
-              ? `That has gone back past North, so add 360°: ${raw} + 360 = ${ans}.`
+              ? `That has gone back past North, so add 360°: ${num(raw)} + 360 = ${ans}.`
               : "That is between 000° and 360°, so no adjustment is needed.",
           `The new bearing is ${brg(ans)}.`,
         ],
@@ -965,21 +992,13 @@ export const drills: Drill[] = [
       const who = rng.pick(NAMES);
       const modes = tier === 1 ? ["words", "map-to-real", "plan"] : tier === 2 ? ["map-to-real", "real-to-map", "plan", "words"] : ["find-scale", "real-to-map", "map-to-real", "find-scale"];
       const mode = rng.pick(modes);
-      const things = [
-        ["two MRT stations", "apart"],
-        ["a cycling route", "long"],
-        ["a hiking trail", "long"],
-        ["two towns", "apart"],
-        ["two hawker centres", "apart"],
-        ["a ferry route", "long"],
-      ];
-      const [thing, word] = rng.pick(things);
 
       if (mode === "words") {
         const ks = tier === 1 ? [2, 3, 4, 5, 10, 20, 25] : [0.5, 1.5, 2, 2.5, 4, 5, 20, 25];
         const k = rng.pick(ks);
         const d10 = tier === 1 ? rng.int(2, 15) * 10 : rng.int(12, 150);
         const ans = clean((d10 * k) / 10);
+        const [thing, word] = placeFor(rng, ans);
         return {
           prompt: `On a map, 1 cm represents ${num(k)} km. On the map, ${thing} ${word === "apart" ? "are" : "is"} ${num(d10 / 10)} cm ${word}. How far is that in real life, in km?`,
           answer: numAns(ans, `${num(ans)} km`),
@@ -993,13 +1012,20 @@ export const drills: Drill[] = [
       }
 
       if (mode === "plan") {
-        const n = rng.pick([50, 100, 200]);
-        const room = rng.pick(["bedroom", "living room", "kitchen", "study", "balcony"]);
-        let d10 = 60;
-        for (let i = 0; i < 100; i++) {
+        // Realistic HDB room lengths (metres) for each room.
+        const [room, lo, hi] = rng.pick([
+          ["bedroom", 2.5, 5],
+          ["living room", 3, 8],
+          ["kitchen", 2, 5],
+          ["study", 2, 4],
+          ["balcony", 1.5, 4],
+        ] as const);
+        let n = 100, d10 = 40;
+        for (let i = 0; i < 200; i++) {
+          n = rng.pick([50, 100, 200]);
           d10 = tier === 1 ? rng.int(2, 12) * 10 : rng.int(15, 140);
           const m = (d10 * n) / 1000;
-          if (m >= 1.5 && m <= 12) break;
+          if (m >= lo && m <= hi) break;
         }
         const m = clean((d10 * n) / 1000);
         const toPlan = tier > 1 && rng.bool(0.4);
@@ -1042,6 +1068,7 @@ export const drills: Drill[] = [
         const useKm = cm >= 100000 && cm % 1000 === 0;
         const ans = useKm ? km : clean(cm / 100);
         const unit = useKm ? "km" : "m";
+        const [thing, word] = placeFor(rng, km);
         return {
           prompt: `A map has a scale of 1 : ${spaced(n)}. On the map, ${thing} ${word === "apart" ? "are" : "is"} ${num(d10 / 10)} cm ${word}. How far is that in real life? Give your answer in ${useKm ? "km" : "metres"}.`,
           answer: numAns(ans, `${num(ans)} ${unit}`),
@@ -1053,7 +1080,12 @@ export const drills: Drill[] = [
           hint: "Multiply by the scale number to get centimetres, then convert.",
           traps: numTraps(ans, [
             [cm, `That is in centimetres. Divide by ${useKm ? "100 000 to get km" : "100 to get m"}.`],
-            ...(useKm ? ([[clean(cm / 1000), "1 km = 100 000 cm (1000 m, and 100 cm in each metre)."]] as Array<[number, string]>) : []),
+            ...(useKm
+              ? ([
+                  [clean(cm / 100), "That is in metres. The question asks for km: divide by 1000."],
+                  [clean(cm / 1000), "1 km = 100 000 cm (1000 m, and 100 cm in each metre)."],
+                ] as Array<[number, string]>)
+              : []),
           ]),
         };
       }
@@ -1069,6 +1101,7 @@ export const drills: Drill[] = [
         const cm = (d10 * n) / 10;
         const km = clean(cm / 100000);
         const ans = clean(d10 / 10);
+        const [thing, word] = placeFor(rng, km);
         return {
           prompt: `A map has a scale of 1 : ${spaced(n)}. ${thing[0].toUpperCase() + thing.slice(1)} ${word === "apart" ? "are" : "is"} ${num(km)} km ${word} in real life. How ${word === "apart" ? "far apart" : "long"} will ${word === "apart" ? "they" : "it"} be on the map, in cm?`,
           answer: numAns(ans, `${num(ans)} cm`),
@@ -1090,7 +1123,7 @@ export const drills: Drill[] = [
         const k = inKm ? n / 100000 : n / 100;
         const u = inKm ? "km" : "m";
         return {
-          prompt: `The scale of a map is "1 cm represents ${num(k)} ${u}". Write this scale as a ratio in the form 1 : n.`,
+          prompt: `The scale of a map is "1 cm represents ${num(k)} ${u}". Write this scale as a ratio in the form 1 : n. (Type n without spaces, like 1:75000.)`,
           answer: { type: "ratio", parts: [1, n], simplest: true, display: `1 : ${spaced(n)}` },
           solution: [
             "A ratio scale has no units, so both parts must be in the same unit.",
@@ -1108,7 +1141,7 @@ export const drills: Drill[] = [
       const cm = d * n;
       const km = clean(cm / 100000);
       return {
-        prompt: `On a map, ${who} measures ${d} cm between two towns. The real distance is ${num(km)} km. Write the scale of the map as a ratio in the form 1 : n.`,
+        prompt: `On a map, ${who} measures ${d} cm between ${pairFor(rng, km)}. The real distance is ${num(km)} km. Write the scale of the map as a ratio in the form 1 : n. (Type n without spaces, like 1:75000.)`,
         answer: { type: "ratio", parts: [1, n], simplest: true, display: `1 : ${spaced(n)}` },
         solution: [
           `Use the same unit for both: ${num(km)} km = ${num(km)} × 100 000 = ${spaced(cm)} cm.`,
@@ -1163,7 +1196,7 @@ export const drills: Drill[] = [
       }
 
       if (mode === "return") {
-        const how = rng.pick(["walks", "cycles", "kayaks", "sails"]);
+        const how = rng.pick(WATER_PLACES.has(A) ? ["sails", "kayaks", "rows"] : ["walks", "cycles", "jogs"]);
         return {
           prompt: `${who} ${how} in a straight line from ${A} to ${B} on a bearing of ${brg(b)}. On what bearing must ${who} travel to go straight back to ${A}?`,
           answer: numAns(back, brg(back)),
@@ -1228,8 +1261,8 @@ export const drills: Drill[] = [
           answer: numAns(q, brg(q)),
           solution: [
             `At ${Q}, draw a North line. Carrying straight on (bearing ${brg(p)}) would make an angle of 180° with the line back to ${P} (bearing ${brg(back)}).`,
-            `Angle ${P}${Q}${R} is only ${th}°, so the ${tr} turns through 180° − ${th}° = ${180 - th}°.`,
-            `Turning ${right ? "clockwise adds" : "anticlockwise subtracts"}: ${p} ${right ? "+" : "−"} ${180 - th} = ${raw}${raw >= 360 ? `, and ${raw} − 360 = ${q}` : raw < 0 ? `, and ${raw} + 360 = ${q}` : ""}. The bearing of ${R} from ${Q} is ${brg(q)}.`,
+            `Angle ${P}${Q}${R} is ${th}°, so the ${tr} turns through 180° − ${th}° = ${180 - th}°.`,
+            `Turning ${right ? "clockwise adds" : "anticlockwise subtracts"}: ${p} ${right ? "+" : "−"} ${180 - th} = ${num(raw)}${raw >= 360 ? `, and ${raw} − 360 = ${q}` : raw < 0 ? `, and ${num(raw)} + 360 = ${q}` : ""}. The bearing of ${R} from ${Q} is ${brg(q)}.`,
           ],
           hint: `Draw a North line at ${Q}. The angle at ${Q} is measured from the line back to ${P}, not from the old direction of travel.`,
           traps: numTraps(q, [[naive, `${th}° is the angle inside the path at ${Q}, not the angle turned. The turn is 180° − ${th}°.`]]),

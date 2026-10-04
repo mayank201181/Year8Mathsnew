@@ -1,7 +1,7 @@
 // Procedural skill drills for the "probability" topic.
 import type { Drill, DrillItem, Rng } from "./types.ts";
 import type { AnswerSpec, Trap } from "../types.ts";
-import { frac, gcd, num, clean, simplify } from "./helpers.ts";
+import { frac, gcd, num, clean, roundTo, simplify } from "./helpers.ts";
 
 // ---------------------------------------------------------------------------
 // Local helpers
@@ -27,7 +27,7 @@ function sameFrac(a: number, b: number, c: number, d: number): boolean {
 /** A fraction trap, dropped if it equals the real answer or is meaningless. */
 function fTrap(n: number, d: number, ansN: number, ansD: number, feedback: string): Trap[] {
   if (!Number.isInteger(n) || !Number.isInteger(d) || d <= 0 || n <= 0 || sameFrac(n, d, ansN, ansD)) return [];
-  return [{ spec: { type: "fraction", n, d }, feedback }];
+  return [{ spec: { type: "fraction", n, d, allowDecimal: true }, feedback }];
 }
 
 /** A number trap, dropped if it equals the real answer. */
@@ -149,6 +149,15 @@ interface CardProp {
   m?: number;
   a?: number;
   b?: number;
+  /** How to count without listing (used when there are too many to list). */
+  explain?: (N: number, c: number) => string;
+}
+
+/** "k, 2k, …, last — that's q numbers" for an arithmetic run starting at `first`. */
+function runText(first: number, step: number, N: number): string {
+  const q = Math.floor((N - first) / step) + 1;
+  const last = first + (q - 1) * step;
+  return `${first}, ${first + step}, ${first + 2 * step}, …, ${last} — that's ${q} numbers`;
 }
 
 function cardEvent(rng: Rng, tier: Tier): DrillItem {
@@ -163,9 +172,9 @@ function cardEvent(rng: Rng, tier: Tier): DrillItem {
     const pairs: Array<[number, number]> = [[2, 3], [2, 5], [3, 4], [3, 5], [4, 5], [4, 6], [5, 6]];
     const [pa, pb] = rng.pick(pairs);
     const props: CardProp[] = [
-      { label: "even", test: (x) => x % 2 === 0, kind: "plain" },
-      { label: "odd", test: (x) => x % 2 === 1, kind: "plain" },
-      { label: `a multiple of ${k}`, test: (x) => x % k === 0, kind: "plain" },
+      { label: "even", test: (x) => x % 2 === 0, kind: "plain", explain: (n) => `${runText(2, 2, n)}.` },
+      { label: "odd", test: (x) => x % 2 === 1, kind: "plain", explain: (n) => `${runText(1, 2, n)}.` },
+      { label: `a multiple of ${k}`, test: (x) => x % k === 0, kind: "plain", explain: (n) => `${runText(k, k, n)}.` },
       { label: `greater than ${m}`, test: (x) => x > m, kind: "gt", m },
       { label: `less than ${m}`, test: (x) => x < m, kind: "lt", m },
     ];
@@ -178,9 +187,16 @@ function cardEvent(rng: Rng, tier: Tier): DrillItem {
     }
     if (tier === 3) {
       props.push(
-        { label: `a multiple of ${pa} or a multiple of ${pb}`, test: (x) => x % pa === 0 || x % pb === 0, kind: "or", a: pa, b: pb },
-        { label: `even and greater than ${m}`, test: (x) => x % 2 === 0 && x > m, kind: "plain" },
-        { label: `**not** a multiple of ${k}`, test: (x) => x % k !== 0, kind: "plain" },
+        {
+          label: `a multiple of ${pa} or a multiple of ${pb}`, test: (x) => x % pa === 0 || x % pb === 0, kind: "or", a: pa, b: pb,
+          explain: (n, c) => {
+            const l = (pa * pb) / gcd(pa, pb);
+            const qa = Math.floor(n / pa), qb = Math.floor(n / pb), qab = Math.floor(n / l);
+            return `${qa} multiples of ${pa} and ${qb} multiples of ${pb}, but the ${qab} multiples of ${l} are in both lists, so ${qa} + ${qb} − ${qab} = ${c} numbers.`;
+          },
+        },
+        { label: `even and greater than ${m}`, test: (x) => x % 2 === 0 && x > m, kind: "plain", explain: (n) => `${runText(m % 2 === 0 ? m + 2 : m + 1, 2, n)}.` },
+        { label: `**not** a multiple of ${k}`, test: (x) => x % k !== 0, kind: "plain", explain: (n, c) => `there are ${Math.floor(n / k)} multiples of ${k} (${k}, ${2 * k}, …, ${k * Math.floor(n / k)}), so ${n} − ${Math.floor(n / k)} = ${c} numbers are not.` },
       );
     }
     prop = tier === 3 ? rng.pick(props.slice(5).concat(props.slice(0, 5).filter(() => rng.bool(0.3)))) : rng.pick(props);
@@ -195,7 +211,7 @@ function cardEvent(rng: Rng, tier: Tier): DrillItem {
     `Raffle tickets numbered 1 to ${N} are put in a box, and Priya draws one at random.`,
   ]);
   const plainLabel = prop.label.replace(/\*\*/g, "");
-  const listed = c <= 15 ? `${listAnd(favList)} — that's ${c} numbers.` : `there are ${c} of them.`;
+  const listed = c <= 15 ? `${listAnd(favList)} — that's ${c} numbers.` : prop.explain ? prop.explain(N, c) : `there are ${c} of them.`;
   const solution = [
     `There are ${N} equally likely numbers.`,
     prop.kind === "gt"
@@ -284,16 +300,17 @@ function letterEvent(rng: Rng, tier: Tier): DrillItem {
 // 2. Complement
 // ---------------------------------------------------------------------------
 
+// ev / notFull introduce the situation; evShort / not refer back to it.
 const COMPLEMENTS = [
-  { ev: "it rains on a given afternoon in Singapore", not: "it does **not** rain that afternoon" },
-  { ev: "Marcus's MRT train is late", not: "his train is **not** late" },
-  { ev: "Hana scores from a penalty", not: "she does **not** score" },
-  { ev: "a seed from this packet germinates", not: "a seed does **not** germinate" },
-  { ev: "a durian from this stall is ripe", not: "a durian from the stall is **not** ripe" },
-  { ev: "Ravi's team wins their next match", not: "the team does **not** win" },
-  { ev: "a student picked at random from the school cycles to school", not: "the student does **not** cycle to school" },
-  { ev: "Mei is picked for the debate team", not: "she is **not** picked" },
-  { ev: "the school bus arrives on time", not: "it does **not** arrive on time" },
+  { ev: "it rains on a given afternoon in Singapore", not: "it does **not** rain that afternoon", notFull: "it does **not** rain on a given afternoon in Singapore", evShort: "it rains that afternoon" },
+  { ev: "Marcus's MRT train is late", not: "his train is **not** late", notFull: "Marcus's MRT train is **not** late", evShort: "his train is late" },
+  { ev: "Hana scores from a penalty", not: "she does **not** score", notFull: "Hana does **not** score from a penalty", evShort: "she scores" },
+  { ev: "a seed from this packet germinates", not: "the seed does **not** germinate", notFull: "a seed from this packet does **not** germinate", evShort: "the seed germinates" },
+  { ev: "a durian from this stall is ripe", not: "the durian is **not** ripe", notFull: "a durian from this stall is **not** ripe", evShort: "the durian is ripe" },
+  { ev: "Ravi's team wins their next match", not: "the team does **not** win", notFull: "Ravi's team does **not** win their next match", evShort: "the team wins" },
+  { ev: "a student picked at random from the school cycles to school", not: "the student does **not** cycle to school", notFull: "a student picked at random from the school does **not** cycle to school", evShort: "the student cycles to school" },
+  { ev: "Mei is picked for the debate team", not: "she is **not** picked", notFull: "Mei is **not** picked for the debate team", evShort: "she is picked" },
+  { ev: "the school bus arrives on time", not: "it does **not** arrive on time", notFull: "the school bus does **not** arrive on time", evShort: "it arrives on time" },
 ];
 
 /** The "no exchange" slip: 1 − 0.35 → 0.75 (each column 10 − digit). Only for 2 d.p. values. */
@@ -320,7 +337,7 @@ function complementDrill(rng: Rng, tier: Tier): DrillItem {
       if (gcd(a, b) === 1 && 2 * a !== b) break;
     }
     const reverse = tier === 3 && rng.bool();
-    const [given, want] = reverse ? [ctx.not, ctx.ev] : [ctx.ev, ctx.not];
+    const [given, want] = reverse ? [ctx.notFull, ctx.evShort] : [ctx.ev, ctx.not];
     return {
       prompt: `The probability that ${given} is ${frac(a, b)}. Find the probability that ${want}.${SIMPLEST}`,
       answer: fs(b - a, b),
@@ -358,7 +375,7 @@ function complementDrill(rng: Rng, tier: Tier): DrillItem {
     const d = clean((2 * j) / 100);
     const ans = clean((50 + j) / 100);
     return {
-      prompt: `The probability that ${ctx.ev} is ${num(d)} **more** than the probability that ${ctx.not}. Find the probability that ${ctx.ev}. Give your answer as a decimal.`,
+      prompt: `The probability that ${ctx.ev} is ${num(d)} **more** than the probability that ${ctx.not}. Find the probability that ${ctx.evShort}. Give your answer as a decimal.`,
       answer: decSpec(ans),
       solution: [
         "Call the two probabilities P(yes) and P(no). They add up to 1, and P(yes) − P(no) = " + num(d) + ".",
@@ -388,7 +405,7 @@ function complementDrill(rng: Rng, tier: Tier): DrillItem {
   }
   const p = clean(given / scale), ans = clean((scale - given) / scale);
   const reverse = mode === "reverse";
-  const [gv, want] = reverse ? [ctx.not, ctx.ev] : [ctx.ev, ctx.not];
+  const [gv, want] = reverse ? [ctx.notFull, ctx.evShort] : [ctx.ev, ctx.not];
   const traps: Trap[] = [...nTrap(p, ans, "That's the probability you were given. Subtract it from 1.")];
   if (scale === 100) {
     const slip = noBorrowSlip(given);
@@ -453,7 +470,7 @@ function productRule(rng: Rng, tier: Tier): DrillItem {
     const name = rng.pick(["Jun", "Arjun", "Wei Ling", "Siti", "Ethan", "Zara"]);
     const ans = a * b * c;
     return {
-      prompt: `${name} packs ${a} T-shirts, ${b} pairs of shorts${three ? ` and ${c} caps` : ""} for a CCA camp. An outfit is one T-shirt, one pair of shorts${three ? " and one cap" : ""}. How many different outfits are possible?`,
+      prompt: `${name} packs ${a} T-shirts${three ? "," : " and"} ${b} pairs of shorts${three ? ` and ${c} caps` : ""} for a CCA camp. An outfit is one T-shirt${three ? "," : " and"} one pair of shorts${three ? " and one cap" : ""}. How many different outfits are possible?`,
       answer: { type: "number", value: ans },
       solution: three
         ? [`Each T-shirt goes with ${b} pairs of shorts: ${a} × ${b} = ${a * b} pairs.`, `Each of those goes with ${c} caps: ${a * b} × ${c} = ${ans}.`]
@@ -686,7 +703,7 @@ function missingProb(rng: Rng, tier: Tier): DrillItem {
         ? `P(${labs[asked]}) = ${kx} = ${show(askedVal)}, so P(not ${labs[asked]}) = 1 − ${show(askedVal)} = ${num(ans)}.`
         : `P(${labs[asked]}) = ${asked === mi ? "x" : kx} = ${num(ans)}.`,
     ];
-    if (notQ) traps = nTrap(askedVal / 100, ans, `That's P(${labs[asked]}). The question asks for the probability that it is NOT ${labs[asked]}.`);
+    if (notQ) traps = nTrap(askedVal / 100, ans, `That's P(${labs[asked]}). The question asks for P(not ${labs[asked]}), so subtract it from 1.`);
     else if (k > 1) traps = nTrap((asked === mi ? k * x : x) / 100, ans, `That's the value of ${asked === mi ? kx : "x"} — check which outcome the question asks about.`);
     else traps = nTrap(R / 100, ans, "That's x + x together. Share it equally between the two outcomes.");
   }
@@ -906,7 +923,7 @@ function coinDice(rng: Rng): DrillItem {
       `P = ${fShow(c, 12)}`,
     ],
     hint: "List the sample space: each coin result goes with each dice score.",
-    traps: addN < addD ? fTrap(addN, addD, an, ad, "You added the two probabilities. For a head AND a score, count the outcomes in the sample space where both happen.") : [],
+    traps: addN < addD ? fTrap(addN, addD, an, ad, `You added the two probabilities. For a ${side} AND ${ev.label}, count the outcomes in the sample space where both happen.`) : [],
   };
 }
 
@@ -920,7 +937,7 @@ function combinedEvents(rng: Rng, tier: Tier): DrillItem {
     const k = rng.pick(sums);
     const kp = rng.int(4, 15);
     const maxA = Math.max(...A.vals), maxB = Math.max(...B.vals);
-    type Ev = { label: string; ok: (a: number, b: number) => boolean; trap?: "eq" | "gt" | "atleast"; how: string };
+    type Ev = { label: string; ok: (a: number, b: number) => boolean; trap?: "eq" | "gt" | "lt" | "atleast"; how: string };
     const evs: Ev[] = [
       { label: `the total is ${k}`, ok: (a, b) => a + b === k, trap: "eq", how: "The two scores are added." },
       { label: `the total is greater than ${k}`, ok: (a, b) => a + b > k, trap: "gt", how: "The two scores are added." },
@@ -929,7 +946,7 @@ function combinedEvents(rng: Rng, tier: Tier): DrillItem {
     if (tier >= 2) {
       evs.push(
         { label: `the product is greater than ${kp}`, ok: (a, b) => a * b > kp, how: "The two scores are multiplied." },
-        { label: `the total is less than ${k}`, ok: (a, b) => a + b < k, how: "The two scores are added." },
+        { label: `the total is less than ${k}`, ok: (a, b) => a + b < k, trap: "lt", how: "The two scores are added." },
         { label: `the score on ${theP(A.short)} is higher than the score on ${theP(B.short)}`, ok: (a, b) => a > b, how: "" },
       );
       if (same) evs.push({ label: "both scores are the same", ok: (a, b) => a === b, how: "" });
@@ -952,7 +969,11 @@ function combinedEvents(rng: Rng, tier: Tier): DrillItem {
     if (ev.trap === "eq") traps = fTrap(1, sums.length, an, ad, `There are ${sums.length} possible totals, but they are **not** equally likely. Count outcomes in the sample space instead.`);
     if (ev.trap === "gt") {
       const withK = A.vals.flatMap((a) => B.vals.map((b) => a + b)).filter((s) => s >= k).length;
-      traps = fTrap(withK, T, an, ad, `"Greater than ${k}" does not include a total of exactly ${k}.`);
+      if (withK < T) traps = fTrap(withK, T, an, ad, `"Greater than ${k}" does not include a total of exactly ${k}.`);
+    }
+    if (ev.trap === "lt") {
+      const withK = A.vals.flatMap((a) => B.vals.map((b) => a + b)).filter((s) => s <= k).length;
+      if (withK < T) traps = fTrap(withK, T, an, ad, `"Less than ${k}" does not include a total of exactly ${k}.`);
     }
     if (ev.trap === "atleast") traps = fTrap(A.vals.length + B.vals.length, T, an, ad, "The outcome (6, 6) has been counted twice. Count each cell of the grid only once.");
     return {
@@ -1009,13 +1030,16 @@ function twoWayTable(rng: Rng, tier: Tier): DrillItem {
   const kind = tier === 1 ? rng.pick(["and", "and", "row", "col"]) : tier === 2 ? rng.pick(["and", "col", "cond"]) : rng.pick(["cond", "or", "and"]);
   const r = rng.int(0, 1), j = rng.int(0, nc - 1);
   const hide = tier === 3 || (tier === 2 && rng.bool(0.3));
-  const hr = hide ? (rng.bool(0.6) ? r : 1 - r) : -1;
-  const hj = hide ? (rng.bool(0.6) ? j : rng.int(0, nc - 1)) : -1;
+  // The hidden number is always one the question needs: the cell itself for
+  // and / cond / or, otherwise the row or column total being asked about.
+  const hideCell = hide && (kind === "and" || kind === "cond" || kind === "or");
+  const hideRowTot = hide && kind === "row";
+  const hideColTot = hide && kind === "col";
   const colNames = colIdx.map((i) => ctx.cols[i]);
   const colPreds = colIdx.map((i) => ctx.colPred[i]);
   const colPredsPl = colIdx.map((i) => ctx.colPredPl[i]);
-  const rowsTxt = [0, 1].map((i) => `| ${ctx.rows[i]} | ${cells[i].map((v, jj) => (i === hr && jj === hj ? "?" : String(v))).join(" | ")} | ${R[i]} |`);
-  const table = `| | ${colNames.join(" | ")} | Total |\n|${"---|".repeat(nc + 2)}\n${rowsTxt.join("\n")}\n| Total | ${C.join(" | ")} | ${G} |`;
+  const rowsTxt = [0, 1].map((i) => `| ${ctx.rows[i]} | ${cells[i].map((v, jj) => (hideCell && i === r && jj === j ? "?" : String(v))).join(" | ")} | ${hideRowTot && i === r ? "?" : R[i]} |`);
+  const table = `| | ${colNames.join(" | ")} | Total |\n|${"---|".repeat(nc + 2)}\n${rowsTxt.join("\n")}\n| Total | ${C.map((v, jj) => (hideColTot && jj === j ? "?" : String(v))).join(" | ")} | ${G} |`;
   const cell = cells[r][j];
   const pick = `One ${ctx.who} is chosen at random. Find the probability that this ${ctx.who}`;
   let q: string, n: number, d: number, steps: string[];
@@ -1045,7 +1069,13 @@ function twoWayTable(rng: Rng, tier: Tier): DrillItem {
   if (kind === "and") traps = fTrap(cell, R[r], an, ad, `You divided by the number of ${ctx.rowGroup[r]}. The ${ctx.who} is chosen from everyone, so divide by the grand total, ${G}.`);
   if (kind === "cond") traps = fTrap(cell, G, an, ad, `The ${ctx.who} is chosen only from the ${ctx.rowGroup[r]}, so divide by ${R[r]}, not the grand total.`);
   if (kind === "or") traps = fTrap(R[r] + C[j], G, an, ad, `The ${cell} ${ctx.who}s in both groups have been counted twice — subtract them once.`);
-  const missingStep = hide ? [`Missing value: ${R[hr]} − ${cells[hr].filter((_, jj) => jj !== hj).join(" − ")} = ${cells[hr][hj]}.`] : [];
+  const missingStep = hideCell
+    ? [`Missing value: ${ctx.rows[r]} row total ${R[r]} − ${cells[r].filter((_, jj) => jj !== j).join(" − ")} = ${cell}.`]
+    : hideRowTot
+      ? [`Missing total: ${cells[r].join(" + ")} = ${R[r]}.`]
+      : hideColTot
+        ? [`Missing total: ${cells[0][j]} + ${cells[1][j]} = ${C[j]}.`]
+        : [];
   const solution = [...missingStep, ...steps, `P = ${fShow(n, d)}`];
   return {
     prompt: `${ctx.intro}${hide ? " One number is missing." : ""}\n\n${table}\n\n${q}${SIMPLEST}`,
@@ -1108,7 +1138,7 @@ function vennDrill(rng: Rng, tier: Tier): DrillItem {
     default: fav = oB + nei; phrase = ctx.negA; step = `Outside the ${ctx.la} circle: ${oB} + ${nei} = ${fav}.`;
   }
   const [an, ad] = simplify(fav, T);
-  if (kind === "A") traps = fTrap(oA, T, an, ad, `The ${both} in the overlap ${ctx.predA} too — include them.`);
+  if (kind === "A") traps = fTrap(oA, T, an, ad, both === 1 ? `The 1 ${ctx.who} in the overlap also ${ctx.predA} — include it.` : `The ${both} in the overlap also ${verbPlural(ctx.predA)} — include them.`);
   if (kind === "or") traps = fTrap(nA + nB, T, an, ad, `Adding the two circle totals counts the ${both} in the overlap twice.`);
   if (kind === "onlyA") traps = fTrap(nA, T, an, ad, `"But not" means leave out the ${both} in the overlap.`);
   if (kind === "exactly") traps = fTrap(oA + both + oB, T, an, ad, "\"Exactly one\" leaves out the overlap — those do both.");
@@ -1217,7 +1247,7 @@ function relFreq(rng: Rng, tier: Tier): DrillItem {
     const what = dice ? (or ? `rolling a ${labels[i1]} or a ${labels[i2]}` : `rolling a ${labels[i1]}`) : or ? `landing on ${labels[i1].toLowerCase()} or ${labels[i2].toLowerCase()}` : `landing on ${labels[i1].toLowerCase()}`;
     const intro = dice
       ? `Marcus rolls a dice ${N} times. His results are shown in the table.`
-      : `Aisha spins a spinner with four equal sections ${N} times. Her results are shown in the table.`;
+      : `Aisha has a spinner with four equal sections coloured red, blue, green and yellow. She spins it ${N} times. Her results are shown in the table.`;
     const table = `| ${dice ? "Score" : "Colour"} | ${labels.join(" | ")} |\n|${"---|".repeat(n + 1)}\n| Frequency | ${freqs.join(" | ")} |`;
     const theoryN = or ? 2 : 1;
     const [an, ad] = simplify(fav, N);
@@ -1246,30 +1276,42 @@ function relFreq(rng: Rng, tier: Tier): DrillItem {
   }
 
   if (kind === "pool") {
-    const N = rng.pick([50, 80, 100, 200, 250]);
-    let N1 = 20, f1 = 5, f2 = 5;
-    for (let i = 0; i < 100; i++) {
-      N1 = rng.int(2, Math.floor(N / 10) - 2) * 10;
-      if (2 * N1 === N || N1 < 20 || N - N1 < 20) continue;
-      break;
+    // A short experiment and a long one whose relative frequencies differ
+    // noticeably, so that averaging the two (the classic slip) gives a clearly
+    // different answer from pooling. N is 2^a·5^b, so f ÷ N is a terminating decimal.
+    let N = 100, N1 = 20, N2 = 80, f1 = 4, f2 = 40, f = 44, ans = 0.44, avg = 0.35;
+    let found = false;
+    for (let i = 0; i < 200 && !found; i++) {
+      N = rng.pick([50, 80, 100, 125, 200, 250]);
+      N1 = rng.pick([10, 20, 25, 30, 40, 50].filter((x) => x <= 0.4 * N));
+      N2 = N - N1;
+      const p = 0.25 + 0.45 * rng.next();
+      f2 = Math.round(N2 * p);
+      const shift = (rng.bool() ? 1 : -1) * (0.15 + 0.15 * rng.next());
+      f1 = Math.round(N1 * (p + shift));
+      if (f1 < 1 || f1 >= N1 || f2 < 1 || f2 >= N2) continue;
+      const fx = f1 + f2, ax = clean(fx / N), vx = (f1 / N1 + f2 / N2) / 2;
+      // Averaging must miss by more than the checker's 1% "very close" band, also when rounded to 2 d.p.
+      if (Math.abs(vx - ax) >= 0.012 && Math.abs(roundTo(vx, 2) - ax) >= 0.008) {
+        f = fx; ans = ax; avg = vx; found = true;
+      }
     }
-    const N2 = N - N1;
-    const p = 0.2 + 0.5 * rng.next();
-    f1 = Math.max(1, Math.round(N1 * (p + 0.15 * (rng.next() - 0.5))));
-    f2 = Math.max(1, Math.round(N2 * (p + 0.15 * (rng.next() - 0.5))));
-    const f = f1 + f2;
-    const ans = clean(f / N);
+    if (!found) { N = 100; N1 = 20; N2 = 80; f1 = 4; f2 = 40; f = 44; ans = 0.44; avg = 0.35; }
     const traps: Trap[] = [];
-    const avgNum = f1 * N2 + f2 * N1, avgDen = 2 * N1 * N2;
-    if ((avgNum * 10000) % avgDen === 0) traps.push(...nTrap(avgNum / avgDen, ans, "Don't average the two relative frequencies — the experiments have different numbers of trials. Add all the successes and all the trials."));
+    const avgFb = "Don't average the two relative frequencies — the experiments have different numbers of trials. Add all the successes and all the trials.";
+    traps.push({ spec: { type: "number", value: roundTo(avg, 4), tolerance: 0.0006 }, feedback: avgFb });
+    const avg2 = roundTo(avg, 2);
+    if (Math.abs(avg2 - avg) > 0.0006) traps.push({ spec: { type: "number", value: avg2 }, feedback: avgFb });
     const [n1, n2] = rng.shuffle(["Aisha", "Jun", "Priya", "Ethan", "Siti", "Ravi"]).slice(0, 2);
+    const shortFirst = rng.bool();
+    const [a1, a2, g1, g2] = shortFirst ? [N1, N2, f1, f2] : [N2, N1, f2, f1];
     return {
-      prompt: `${n1} spins a spinner ${N1} times and gets red ${f1} times. ${n2} spins the same spinner ${N2} times and gets red ${f2} times. Using **all** of their results, estimate the probability that the spinner lands on red. Give your answer as a decimal.`,
+      prompt: `${n1} spins a spinner ${a1} times and gets red ${g1} times. ${n2} spins the same spinner ${a2} times and gets red ${g2} times. Using **all** of their results, estimate the probability that the spinner lands on red. Give your answer as a decimal.`,
       answer: decSpec(ans),
       solution: [
-        `Combine the experiments: red ${f1} + ${f2} = ${f} times in ${N1} + ${N2} = ${N} spins.`,
+        `Combine the experiments: red ${g1} + ${g2} = ${f} times in ${a1} + ${a2} = ${N} spins.`,
         `Estimate = ${frac(f, N, { simplify: false })} = ${num(ans)}`,
-        "More trials give a more reliable estimate, so pooling the results is better than using either one alone.",
+        "Don't average the two relative frequencies: the longer experiment should count for more. More trials give a more reliable estimate, so pooling all the results is best.",
       ],
       hint: "Pool the results: total reds ÷ total spins.",
       traps,
@@ -1277,18 +1319,19 @@ function relFreq(rng: Rng, tier: Tier): DrillItem {
   }
 
   // reverse: from relative frequency back to a frequency
+  const which = rng.int(0, 2); // 0 spinner, 1 dice, 2 cars
   let N = 200, f = 50;
   for (let i = 0; i < 100; i++) {
     N = rng.pick([40, 50, 80, 125, 200, 250, 400, 500]);
-    f = rng.int(Math.ceil(N * 0.1), Math.floor(N * 0.8));
+    f = rng.int(Math.ceil(N * 0.1), Math.floor(N * (which === 1 ? 0.3 : 0.8)));
     if ((f * 1000) % N === 0 && 2 * f !== N) break;
   }
   const rf = clean(f / N);
-  const ctx = rng.pick([
+  const ctx = ([
     { s: `After ${N} spins of a spinner, the relative frequency of landing on blue was ${num(rf)}. How many times did it land on blue?`, other: "did not land on blue" },
     { s: `Ravi rolled a dice ${N} times. The relative frequency of rolling a 6 was ${num(rf)}. How many 6s did he roll?`, other: "were not 6s" },
     { s: `In a survey of ${N} cars passing an HDB block, the relative frequency of white cars was ${num(rf)}. How many white cars were there?`, other: "were not white" },
-  ]);
+  ])[which];
   return {
     prompt: ctx.s,
     answer: { type: "number", value: f },
@@ -1304,10 +1347,10 @@ function relFreq(rng: Rng, tier: Tier): DrillItem {
 
 const EXPECT_CTX = [
   { p: (s: string) => `The probability that a biased spinner lands on red is ${s}.`, n: (n: number) => `It is spun ${n} times. How many times would you expect it to land on red?` },
-  { p: (s: string) => `The probability that Marcus's MRT train is late is ${s}.`, n: (n: number) => `He makes ${n} train journeys this term. On how many journeys would you expect the train to be late?` },
+  { p: (s: string) => `A biased coin lands on heads with probability ${s}.`, n: (n: number) => `Marcus flips it ${n} times. How many heads would you expect?` },
   { p: (s: string) => `The probability that a seed germinates is ${s}.`, n: (n: number) => `Mei plants ${n} seeds. How many would you expect to germinate?` },
-  { p: (s: string) => `The probability that a customer at a hawker stall orders teh tarik is ${s}.`, n: (n: number) => `The stall serves ${n} customers one morning. How many would you expect to order teh tarik?` },
-  { p: (s: string) => `The probability that a Year 8 student at a school walks to school is ${s}.`, n: (n: number) => `There are ${n} students in Year 8. How many would you expect to walk to school?` },
+  { p: (s: string) => `The probability that a customer at a hawker stall orders teh tarik is ${s}.`, n: (n: number) => `Over one week, the stall serves ${n} customers. How many would you expect to order teh tarik?` },
+  { p: (s: string) => `The probability that a student picked at random from a school walks to school is ${s}.`, n: (n: number) => `${n} students from the school are surveyed. How many would you expect to walk to school?` },
 ];
 
 const DICE_EVENTS = [
@@ -1385,8 +1428,8 @@ function expected(rng: Rng, tier: Tier): DrillItem {
   if (kind === "complement") {
     let k = 85, n = 60;
     for (let i = 0; i < 100; i++) {
-      k = rng.int(11, 95);
-      if (k % 10 === 0 || k === 50) continue;
+      k = rng.int(55, 95);
+      if (k % 10 === 0) continue;
       const unit = 100 / gcd(k, 100);
       n = unit * rng.int(1, Math.max(1, Math.floor(400 / unit)));
       if (n >= 20 && n <= 400) break;
@@ -1527,8 +1570,8 @@ function treeIndependent(rng: Rng, tier: Tier): DrillItem {
     traps = nTrap(clean((P + Q) / 100), ans, "For 'and' along a tree, multiply the probabilities — don't add them.");
   } else if (kind === "neither") {
     ans = nei; phrase = ctx.neither;
-    steps = [`P(${ctx.no.toLowerCase()} first) = 1 − ${p} = ${pn}; P(${ctx.no.toLowerCase()} second) = 1 − ${q} = ${qn}.`, `Multiply along the ${ctx.no}–${ctx.no} branches: ${pn} × ${qn} = ${num(nei)}.`];
-    traps = nTrap(clean(1 - both), ans, `That's P(not both). "Neither" means ${ctx.no}–${ctx.no}: multiply ${pn} × ${qn}.`);
+    steps = [`The "${ctx.no}" branches have probabilities 1 − ${p} = ${pn} (${ctx.h1}) and 1 − ${q} = ${qn} (${ctx.h2}).`, `Multiply along the ${ctx.no}–${ctx.no} route: ${pn} × ${qn} = ${num(nei)}.`];
+    traps = nTrap(clean(1 - both), ans, `That's 1 − P(${ctx.yes}–${ctx.yes}), which still includes the mixed routes. You want only the ${ctx.no}–${ctx.no} route: multiply ${pn} × ${qn}.`);
   } else if (kind === "exactly") {
     ans = exactly; phrase = ctx.exactly;
     steps = [

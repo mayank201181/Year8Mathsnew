@@ -197,7 +197,11 @@ export const drills: Drill[] = [
           if (L > W && clean(L * W) !== clean(2 * (L + W))) break;
         }
         const u = useM ? "m" : "cm";
-        const thing = useM ? rng.pick(["classroom floor", "garden plot", "bedroom floor in an HDB flat"]) : rng.pick(["photo", "greetings card", "floor tile", "placemat", "chopping board", "notebook cover"]);
+        const thing = useM
+          ? rng.pick(["classroom floor", "garden plot", "patio"])
+          : L < 15
+            ? rng.pick(["photo", "greetings card", "sticky label", "notebook cover"])
+            : rng.pick(["poster", "floor tile", "placemat", "chopping board"]);
         const A = clean(L * W);
         return {
           prompt: `A rectangular ${thing} is ${num(L)} ${u} long and ${num(W)} ${u} wide. Find its area in ${sq(u)}.`,
@@ -269,7 +273,7 @@ export const drills: Drill[] = [
             ? `Find the perimeter of a rectangle ${num(L)} cm long and ${num(W)} cm wide. Give your answer in cm.`
             : tpl === 1
               ? `Siti glues ribbon all the way round the edge of a rectangular card ${num(L)} cm by ${num(W)} cm. How many centimetres of ribbon does she need?`
-              : `Marcus walks once round the edge of a rectangular field ${num(L)} m long and ${num(W)} m wide. How far does he walk, in metres?`;
+              : `Marcus walks once round the edge of a rectangular lawn ${num(L)} m long and ${num(W)} m wide. How far does he walk, in metres?`;
         return {
           prompt,
           answer: { type: "number", value: P },
@@ -426,8 +430,8 @@ export const drills: Drill[] = [
           if (L !== W) break;
         }
         const P = clean(2 * (L + W));
-        const thing = rng.pick(["photo frame", "flower bed", "table top", "computer screen", "playground"]);
-        const unit = thing === "flower bed" || thing === "playground" ? "m" : "cm";
+        const thing = rng.pick(["photo frame", "flower bed", "greetings card", "notebook cover", "vegetable patch"]);
+        const unit = thing === "flower bed" || thing === "vegetable patch" ? "m" : "cm";
         return {
           prompt: `A rectangular ${thing} has a perimeter of ${num(P)} ${unit}. One side is ${num(L)} ${unit}. How long is the other side, in ${unit}?`,
           answer: { type: "number", value: W, display: `${num(W)} ${unit}` },
@@ -445,22 +449,26 @@ export const drills: Drill[] = [
       }
 
       if (kind === "square") {
-        const a = rng.int(tier === 2 ? 4 : 6, tier === 2 ? 12 : 20);
-        const A = a * a;
         const askP = rng.bool();
+        let a = 6;
+        for (let i = 0; i < 100; i++) {
+          a = rng.int(tier === 2 ? 4 : 6, tier === 2 ? 12 : 20);
+          if (!(askP && a === 4)) break; // side 4: area 16 = perimeter 16, so the area could just be copied
+        }
+        const A = a * a;
         const ans = askP ? 4 * a : a;
         const useM = rng.bool();
         const u = useM ? "m" : "cm";
-        const thing = useM ? rng.pick(["garden", "courtyard", "playground"]) : rng.pick(["tile", "table top", "cushion cover"]);
+        const thing = useM ? rng.pick(["garden", "courtyard", "playground"]) : rng.pick(["tile", "piece of origami paper", "cushion cover"]);
         const prompt = askP
           ? `A square ${thing} has an area of ${A} ${sq(u)}. Find its perimeter in ${u}.`
           : `A square ${thing} has an area of ${A} ${sq(u)}. How long is each side, in ${u}?`;
         return {
           prompt,
-          answer: { type: "number", value: ans },
+          answer: { type: "number", value: ans, display: `${ans} ${u}` },
           solution: askP
-            ? [`Side × side = ${A}, so the side is {{sqrt(${A})}} = ${a}.`, `Perimeter = 4 × ${a} = ${4 * a}`]
-            : [`Side × side = ${A}.`, `Side = {{sqrt(${A})}} = ${a} cm`],
+            ? [`Side × side = ${A}, so the side is {{sqrt(${A})}} = ${a} ${u}.`, `Perimeter = 4 × ${a} = ${4 * a} ${u}`]
+            : [`Side × side = ${A}.`, `Side = {{sqrt(${A})}} = ${a} ${u}`],
           hint: "Which number multiplied by itself gives the area?",
           traps: numTraps(ans, [
             [A / 4, "Dividing the area by 4 doesn't give a side. The side is the square root of the area."],
@@ -990,7 +998,11 @@ export const drills: Drill[] = [
             hint: "First work out how many sides the end polygon has.",
             traps: numTraps(ans, [
               [n2, "That's the number of sides on each end. Now use it to count what was asked."],
-              [ask === "F" ? n2 : ask === "V" ? n2 : 2 * n2, ask === "E" ? "Remember the edges joining the two ends as well as the edges round each end." : "Remember the prism has two ends."],
+              ask === "E"
+                ? [2 * n2, "Remember the edges joining the two ends as well as the edges round each end."]
+                : ask === "F"
+                  ? [n2 + 1, "Remember the prism has two ends."]
+                  : [n2 + 2, "Vertices are the corners: each of the two ends has " + `${n2} of them.`],
             ]),
           };
         }
@@ -1024,7 +1036,9 @@ export const drills: Drill[] = [
       const why =
         solid === "prism"
           ? askWhat === "F"
-            ? `Two ${n === 4 ? "end" : NAMES[n]} ends + ${n} rectangular sides = ${ff} faces.`
+            ? n === 4
+              ? `Top and bottom + 4 faces round the sides = ${ff} faces (3 pairs of opposite rectangles).`
+              : `Two ${NAMES[n]} ends + ${n} rectangular sides = ${ff} faces.`
             : askWhat === "E"
               ? `${n} edges round each end (× 2 = ${2 * n}) + ${n} edges joining the ends = ${ee} edges.`
               : `${n} corners on each of the two ends = ${vv} vertices.`
@@ -1036,7 +1050,7 @@ export const drills: Drill[] = [
       const trapList: Array<[number, string]> =
         solid === "prism"
           ? [
-              [n, askWhat === "F" ? "Don't forget the two end faces." : askWhat === "V" ? "Each end has corners — and there are two ends." : "Count the edges round both ends AND the ones joining them."],
+              [n, askWhat === "F" ? (n === 4 ? "Don't forget the top and bottom faces." : "Don't forget the two end faces.") :askWhat === "V" ? "Each end has corners — and there are two ends." : "Count the edges round both ends AND the ones joining them."],
               ...(askWhat === "E" ? ([[2 * n, "You've counted the edges round both ends — now add the edges joining them."]] as Array<[number, string]>) : []),
             ]
           : [[n, askWhat === "F" ? "Don't forget the base." : askWhat === "V" ? "Don't forget the apex at the top." : "Count the base edges AND the sloping edges up to the apex."]];
@@ -1170,7 +1184,7 @@ export const drills: Drill[] = [
           if (a !== 6) break; // 6 × 6² = 6³ would make the volume trap equal the answer
         }
         const S = clean(6 * a * a);
-        const thing = rng.pick(["cube", "wooden cube", "dice", "cube-shaped gift box"]);
+        const thing = rng.pick(a <= 3 ? ["cube", "wooden cube", "dice"] : ["cube", "wooden cube", "cube-shaped gift box"]);
         return {
           prompt: `A ${thing} has edges of ${num(a)} cm. Find its total surface area in cm².`,
           answer: { type: "number", value: S, display: `${num(S)} cm²` },
@@ -1212,7 +1226,7 @@ export const drills: Drill[] = [
 
       if (kind === "open") {
         const So = clean(lw + 2 * lh + 2 * wh);
-        const thing = rng.pick(["open box (it has no lid)", "fish tank with no lid", "planter box with an open top"]);
+        const thing = rng.pick(["open box (it has no lid)", "storage box with no lid", "planter box with an open top"]);
         return {
           prompt: `A cuboid-shaped ${thing} is ${num(l)} cm long, ${num(w)} cm wide and ${num(h)} cm high. Find the area of its outside surface in cm². (There is no top face.)`,
           answer: { type: "number", value: So, display: `${num(So)} cm²` },
@@ -1249,7 +1263,7 @@ export const drills: Drill[] = [
         };
       }
 
-      const thing = rng.pick(["closed cuboid box", "cereal box", "shoebox", "block of wood"]);
+      const thing = rng.pick(Math.max(l, w, h) >= 15 ? ["closed cuboid box", "cereal box", "shoebox", "block of wood"] : ["closed cuboid box", "gift box", "block of wood"]);
       return {
         prompt: `A ${thing} measures ${num(l)} cm by ${num(w)} cm by ${num(h)} cm. Find its total surface area in cm².`,
         answer: { type: "number", value: S, display: `${num(S)} cm²` },
@@ -1403,7 +1417,7 @@ export const drills: Drill[] = [
           if (l !== w && w !== h && l !== h) break;
         }
         const V = clean(l * w * h);
-        const thing = rng.pick(["cuboid", "brick", "box of tissues", "storage box", "block of tofu"]);
+        const thing = rng.pick(Math.max(l, w, h) >= 15 ? ["cuboid", "box of tissues", "storage box", "cardboard box"] : ["cuboid", "wooden block", "block of tofu"]);
         return {
           prompt: `A ${thing} measures ${num(l)} cm by ${num(w)} cm by ${num(h)} cm. Find its volume in cm³.`,
           answer: { type: "number", value: V, display: `${num(V)} cm³` },
@@ -1519,7 +1533,7 @@ export const drills: Drill[] = [
           if (l * w * h >= 100 && l !== w) break;
         }
         const V = l * w * h;
-        const thing = rng.pick(["juice carton", "soy milk carton", "lunch box", "pencil tin"]);
+        const thing = rng.pick(["juice carton", "soy milk carton", "lunch box", "food container"]);
         return {
           prompt: `A cuboid ${thing} measures ${l} cm by ${w} cm by ${h} cm on the inside. How many millilitres (ml) does it hold when full?`,
           answer: { type: "number", value: V, display: `${V} ml` },
@@ -1697,7 +1711,7 @@ export const drills: Drill[] = [
       if (kind === "surface") {
         const S = roundTo(2 * Math.PI * r * r + 2 * Math.PI * r * h, 1);
         return {
-          prompt: `A closed ${thing} has ${dimText} and height ${h} cm. Find its total surface area in cm², to 1 decimal place. (Use the π key on your calculator.)`,
+          prompt: `A closed ${thing === "cylindrical vase" ? "cylindrical tin" : thing} has ${dimText} and height ${h} cm. Find its total surface area in cm², to 1 decimal place. (Use the π key on your calculator.)`,
           answer: { type: "number", value: S, display: `${dp1(S)} cm²` },
           solution: [
             ...(giveD ? [`Radius = ${2 * r} ÷ 2 = ${r} cm.`] : []),

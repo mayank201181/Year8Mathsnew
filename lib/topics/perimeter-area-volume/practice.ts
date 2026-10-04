@@ -202,7 +202,7 @@ export const practice: TopicPractice = {
         { point: "Works out both surface areas correctly and shows they differ (e.g. 50 cm² and 32 cm²)", keywords: ["50", "32", "40", "38", "surface area"] },
       ],
       commonError: "Showing two cuboids with the same volume but never actually working out their surface areas.",
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "surface-area",
       hints: [
         "List some cuboids you can build from exactly 12 cubes.",
@@ -272,7 +272,7 @@ export const practice: TopicPractice = {
           answer: { type: "number", value: 9 },
           traps: [
             { spec: { type: "number", value: 23 }, feedback: "Check the signs. {{V + F - E = 2}} gives V + 9 − 16 = 2." },
-            { spec: { type: "number", value: 5 }, feedback: "From V − 7 = 2 you need to add 7 to both sides, not subtract." },
+            { spec: { type: "number", value: 5 }, feedback: "V − 7 = 2 means V is 7 *more* than 2, so add: V = 2 + 7. Working out 7 − 2 undoes the subtraction the wrong way round." },
           ],
           solution: [
             "{{V + F - E = 2}}",
@@ -622,7 +622,7 @@ export const practice: TopicPractice = {
             },
           ],
           commonError: "Squaring the diameter instead of the radius, or rounding too early.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "cylinders",
           hints: [
             "The volume of water doesn't change when it is poured.",
@@ -878,7 +878,7 @@ export const practice: TopicPractice = {
           diagram: `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="L-shaped room with right-angled corners. The bottom is 9 m, the left side 7 m, the top 4 m and the right side 3 m."><rect x="0" y="0" width="300" height="220" fill="#ffffff"/><polygon points="50,195 266,195 266,123 146,123 146,27 50,27" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><g font-family="sans-serif" font-size="13" fill="#1f2937"><text x="158" y="213" text-anchor="middle">9 m</text><text x="42" y="115" text-anchor="end">7 m</text><text x="98" y="19" text-anchor="middle">4 m</text><text x="274" y="163">3 m</text></g></svg>`,
           marks: 3,
           modelAnswer:
-            "Jun's two rectangles overlap. The 4 m by 3 m square-cornered region at the bottom left is inside both the tall part and the wide part, so he has counted it twice. That overlap has area 4 × 3 = 12 m². The correct area is 55 − 12 = 43 m². Check by splitting without overlap: the tall part 4 × 7 = 28 m² plus the rest of the bottom strip, (9 − 4) × 3 = 15 m², gives 43 m².",
+            "Jun's two rectangles overlap. The 4 m by 3 m rectangle in the bottom-left corner is inside both the tall part and the wide part, so he has counted it twice. That overlap has area 4 × 3 = 12 m². The correct area is 55 − 12 = 43 m². Check by splitting without overlap: the tall part 4 × 7 = 28 m² plus the rest of the bottom strip, (9 − 4) × 3 = 15 m², gives 43 m².",
           markScheme: [
             { point: "Identifies that the two rectangles overlap, so part of the room is counted twice", keywords: ["overlap", "twice", "double", "counted"] },
             { point: "The overlap is 4 × 3 = 12 m²", keywords: ["12", "4 × 3", "4 x 3", "corner"] },
@@ -1275,6 +1275,7 @@ export const practice: TopicPractice = {
           steps: [
             "ab − 2b = 2a, so b(a − 2) = 2a and {{b = (2a)/(a - 2)}}.",
             "Rewrite: {{(2a)/(a - 2) = (2(a - 2) + 4)/(a - 2) = 2 + 4/(a - 2)}}.",
+            "a must be more than 2 (a = 2 makes b(a − 2) = 0, not 4, and a = 1 makes b negative), so a − 2 is positive.",
             "For b to be a whole number, a − 2 must divide 4, so a − 2 = 1, 2 or 4 and a = 3, 4 or 6, giving b = 6, 4 or 3.",
           ],
         },

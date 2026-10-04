@@ -42,7 +42,7 @@ export const extras: TopicExtras = {
       materials: ["A bag of uncooked rice (1 kg is ideal)", "Kitchen scales", "A small plate", "A calculator"],
       steps: [
         "Count out exactly 100 grains of rice onto the plate. Grouping them in tens makes it easier.",
-        "Weigh the 100 grains. If your scales can't show such a small mass, count 500 grains instead.",
+        "Put the empty plate on the scales and press zero (tare), then weigh the 100 grains on it. If your scales can't show such a small mass, count 500 grains instead.",
         "Work out the mass of one grain and write it in standard form. For example, if 100 grains weigh 2 g, one grain weighs 0.02 g = {{2 * 10^(-2)}} g.",
         "Estimate the number of grains in the whole bag: divide the mass of the bag by the mass of one grain.",
         "Write your estimate in standard form and compare it with someone who weighed a different sample. How close are you?",
@@ -70,6 +70,6 @@ export const extras: TopicExtras = {
   history: {
     title: "Archimedes counts the sand",
     story:
-      "About 2200 years ago, Archimedes of Syracuse set himself a challenge: how many grains of sand would it take to fill the whole universe? Greek numerals had no easy way to write huge numbers — the largest number with its own name was the *myriad*, 10 000. So in a short book called *The Sand Reckoner*, written for King Gelon of Syracuse, Archimedes invented a system of \"orders\" of numbers built on a myriad myriads, {{10^8}}. Along the way he proved a rule we now write as {{10^a * 10^b = 10^(a+b)}}. His answer: the universe, as the Greeks pictured it, would hold fewer than about {{10^63}} grains of sand. The real point was bigger than the answer — any number, however huge, can be named and written down. Standard form is the modern version of his idea.",
+      "About 2200 years ago, Archimedes of Syracuse set himself a challenge: how many grains of sand would it take to fill the whole universe? Greek numerals had no easy way to write huge numbers — the largest number with its own name was the *myriad*, 10 000. So in a short book called *The Sand Reckoner*, written for King Gelon of Syracuse, Archimedes invented a system of \"orders\" of numbers built on a myriad myriads, {{10^8}}. Along the way he proved a rule we now write as {{10^a * 10^b = 10^(a+b)}}. His answer: the universe, as the Greeks pictured it, would hold no more than {{10^63}} grains of sand. The real point was bigger than the answer — any number, however huge, can be named and written down. Standard form is the modern version of his idea.",
   },
 };

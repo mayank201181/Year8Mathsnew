@@ -110,7 +110,7 @@ export const practice: TopicPractice = {
       id: "transformations-pythagoras-quiz-q06",
       question:
         "A reflection maps the point (4, 1) onto (−1, −4), and maps the point (2, 0) onto (0, −2). Give the equation of the mirror line.",
-      answer: { type: "text", accept: ["y = −x", "y=-x", "x+y=0", "y+x=0", "x=-y", "-x=y", "-y=x"], display: "y = −x" },
+      answer: { type: "text", accept: ["y = −x", "y=-x", "x+y=0", "y+x=0", "x=-y", "-x=y", "-y=x", "y=-1x"], display: "y = −x" },
       solution: [
         "The mirror line passes through the midpoint of each point and its image.",
         "Midpoint of (4, 1) and (−1, −4): ({{(4 + (-1))/2}}, {{(1 + (-4))/2}}) = (1.5, −1.5).",
@@ -259,7 +259,7 @@ export const practice: TopicPractice = {
   ],
 
   // ======================================================================
-  // PRACTICE PAPERS — 16 short + 4 written each · 5 warmup, 11 core, 4 challenge
+  // PRACTICE PAPERS — 16 short + 4 written each · 5 warmup, 11–12 core, 3–4 challenge
   // ======================================================================
   papers: [
     {
@@ -418,7 +418,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "transformations-pythagoras-p1-q08",
           question: "A reflection maps the point (2, 7) onto (2, −2). Give the equation of the mirror line.",
-          answer: { type: "text", accept: ["y = 2.5", "y=2.5", "y = 5/2", "y=5/2", "2.5 = y"], display: "y = 2.5" },
+          answer: { type: "text", accept: ["y = 2.5", "y=2.5", "y = 5/2", "y=5/2", "2.5 = y", "5/2 = y", "y = 2 1/2"], display: "y = 2.5" },
           solution: [
             "The segment from (2, 7) to (2, −2) is vertical, so the mirror line, which crosses it at right angles, is horizontal: y = something.",
             "The mirror passes through the midpoint: y = {{(7 + (-2))/2}} = {{5/2}} = 2.5.",
@@ -551,7 +551,7 @@ export const practice: TopicPractice = {
           markScheme: [
             { point: "States that it is an enlargement", keywords: ["enlargement", "enlarge", "enlarged"] },
             { point: "Scale factor 2, from matching lengths (4 ÷ 2)", keywords: ["scale factor 2", "sf 2", "4 ÷ 2", "4/2", "twice"] },
-            { point: "Centre (−2, 0), found with ray lines or steps from the centre", keywords: ["(-2, 0)", "-2, 0", "(-2,0)", "ray"] },
+            { point: "Centre (−2, 0), found with ray lines or steps from the centre", keywords: ["(-2, 0)", "-2, 0", "-2,0", "(−2, 0)", "−2, 0", "ray"] },
           ],
           commonError: "Giving the scale factor but no centre (or a centre but no scale factor). Both are needed to describe an enlargement fully.",
           difficulty: "core",
@@ -671,7 +671,7 @@ export const practice: TopicPractice = {
           ],
           commonError: "Doing the two transformations in the wrong order, or turning anticlockwise.",
           traps: [{ spec: { type: "list", values: [-2, 5], ordered: true }, feedback: "You either turned anticlockwise or did the steps in the wrong order. Reflect first, then use the clockwise rule (x, y) → (y, −x)." }],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "describing-transformations",
           hints: [
             "Do the transformations one at a time, in the order given.",
@@ -764,7 +764,7 @@ export const practice: TopicPractice = {
           markScheme: [
             { point: "Uses Pythagoras with two equal shorter sides: s² + s² = 10²", keywords: ["s^2 + s^2", "s² + s²", "2s^2", "2s²", "pythagoras", "100"] },
             { point: "Deduces s² = 50", keywords: ["s^2 = 50", "s² = 50", "= 50"] },
-            { point: "Links the area of the square to s², so the area is 50 cm²", keywords: ["area = s", "area is s", "s squared", "area", "50 cm"] },
+            { point: "Links the area of the square to s², so the area is 50 cm²", keywords: ["area = s", "area is s", "s squared", "area = 50", "area is 50", "50 cm"] },
           ],
           solutions: [
             {
@@ -1059,7 +1059,7 @@ export const practice: TopicPractice = {
           markScheme: [
             { point: "Explains that doubling the coordinates uses the origin as the centre, not (1, 0)", keywords: ["origin", "(0, 0)", "ignored the centre", "doubled the coordinates", "centre"] },
             { point: "Uses steps from the centre (1, 0), multiplied by 2", keywords: ["step", "from the centre", "(2, 1)", "(4, 1)", "(2, 4)"] },
-            { point: "Correct image vertices (5, 2), (9, 2) and (5, 8)", keywords: ["(5, 2)", "(9, 2)", "(5, 8)", "5, 2", "9, 2", "5, 8"] },
+            { point: "Correct image vertices (5, 2), (9, 2) and (5, 8)", keywords: ["(5, 2)", "(9, 2)", "(5, 8)", "5, 2", "9, 2", "5, 8", "5,2", "9,2", "5,8"] },
           ],
           commonError: "Saying 'she used the wrong scale factor'. Her image is the right size — it's the position that is wrong.",
           difficulty: "core",
@@ -1108,7 +1108,7 @@ export const practice: TopicPractice = {
           markScheme: [
             { point: "States that it is a rotation", keywords: ["rotation", "rotate", "rotated"] },
             { point: "Angle and direction: 90° clockwise (or 270° anticlockwise)", keywords: ["90", "clockwise", "270", "quarter"] },
-            { point: "Centre (1, −1)", keywords: ["(1, -1)", "1, -1", "(1,-1)"] },
+            { point: "Centre (1, −1)", keywords: ["(1, -1)", "1, -1", "1,-1", "(1, −1)", "1, −1"] },
           ],
           commonError: "Leaving out the centre or the direction — a rotation needs a centre, an angle and a direction.",
           difficulty: "core",

@@ -51,6 +51,16 @@ function divTrunc(n: number, d: number, dp: number): number {
   return clean((n < 0 ? -q : q) / f);
 }
 
+/**
+ * Worked-solution tail for n ÷ d to 1 d.p.: "3.944… = 3.9 (1 d.p.)", or the exact value when the
+ * division terminates within 3 d.p. ("2.125 = 2.1 (1 d.p.)"; "2.3" when already exact to 1 d.p.).
+ */
+function approx1(n: number, d: number): string {
+  if (exactTo(n, d, 1)) return num(clean(n / d));
+  const r = d1(divRound(n, d, 1));
+  return exactTo(n, d, 3) ? `${num(clean(n / d))} = ${r} (1 d.p.)` : `${num(divTrunc(n, d, 3))}… = ${r} (1 d.p.)`;
+}
+
 /** Rounding n ÷ d to dp places would land exactly on a …5 tie. */
 const isTie = (n: number, d: number, dp: number) => {
   const f = 10 ** dp;
@@ -208,7 +218,7 @@ export const drills: Drill[] = [
           `Add them all up: ${sumExpr(v.us, v.scale)} = ${total}.`,
           v.dp < 0
             ? `There are ${n} values, so mean = ${total} ÷ ${n} = ${num(ans)}.`
-            : `There are ${n} values, so mean = ${total} ÷ ${n} = ${num(divTrunc(S, d, 3))}… = ${d1(ans)} (1 d.p.).`,
+            : `There are ${n} values, so mean = ${total} ÷ ${n} = ${approx1(S, d)}.`,
         ],
         hint: "Mean = total of all the values ÷ how many values there are.",
         traps: numTraps(ans, [
@@ -331,7 +341,7 @@ export const drills: Drill[] = [
           return { us: rng.shuffle([...base, ...Array.from({ length: reps - 1 }, () => mode)]), mode };
         }, { us: [4, 9, 2, 9, 7, 5, 11], mode: 9 });
         const lead = tier === 1
-          ? rng.pick([`Find the mode of these numbers:\n\n${listOf(v.us)}`, `The numbers of goals scored by a netball team in ${v.us.length} matches were:\n\n${listOf(v.us)}\n\nFind the mode.`])
+          ? rng.pick([`Find the mode of these numbers:\n\n${listOf(v.us)}`, `The points scored by a basketball player in ${v.us.length} games were:\n\n${listOf(v.us)}\n\nFind the mode.`])
           : `The temperatures (°C) at dawn on ${v.us.length} days were:\n\n${listOf(v.us)}\n\nFind the mode.`;
         return {
           prompt: lead,
@@ -387,7 +397,7 @@ export const drills: Drill[] = [
         prompt: lead,
         answer: { type: "number", value: r },
         solution: [`Largest = ${show(mx, scale)}, smallest = ${show(mn, scale)}.`, `Range = ${show(mx, scale)} − ${br(clean(mn / scale))} = ${num(r)}.`],
-        hint: "Range = largest value − smallest value. Watch out for negatives.",
+        hint: tier === 1 ? "Range = largest value − smallest value." : "Range = largest value − smallest value. Watch out for negatives.",
         traps: numTraps(r, [
           [tier > 1 ? (mx + mn) / scale : null, `Subtracting a negative adds: ${show(mx, scale)} − ${br(clean(mn / scale))} = ${show(mx, scale)} + ${show(-mn, scale)}.`],
           [tier === 1 ? Math.abs(us[us.length - 1] - us[0]) : null, "Range = largest − smallest, not last − first. Find the biggest and smallest values first."],
@@ -445,7 +455,10 @@ export const drills: Drill[] = [
           solution: [
             `Total frequency = ${F} + k. Total of the fx column = ${lhs}.`,
             `Mean = total fx ÷ total frequency, so ${lhs} = ${num(m)} × (${F} + k) = ${num(mF)} + ${ck(m)}.`,
-            `Collect the k terms: ${ck(coef)} = ${num(rhs)}, so k = ${num(rhs)} ÷ ${num(coef)} = ${fs[h]}.`,
+            xh > m
+              ? `Collect the k terms on one side: ${ck(xh)} − ${ck(m)} = ${num(mF)} − ${S1}, so ${ck(coef)} = ${num(rhs)}.`
+              : `Collect the k terms on one side: ${S1} − ${num(mF)} = ${ck(m)}${xh === 0 ? "" : ` − ${ck(xh)}`}, so ${ck(coef)} = ${num(rhs)}.`,
+            coef === 1 ? `So k = ${fs[h]}.` : `So k = ${num(rhs)} ÷ ${num(coef)} = ${fs[h]}.`,
           ],
           hint: "Call the missing frequency k. Write the total of fx and the total frequency in terms of k, then use mean = total ÷ frequency.",
         };
@@ -453,14 +466,13 @@ export const drills: Drill[] = [
 
       const ans = tier === 1 ? clean(S / N) : divRound(S, N, 1);
       const trapVal = (n: number, d: number) => (tier === 1 ? (exactTo(n, d, 2) ? n / d : null) : divRound(n, d, 1));
-      const exact = exactTo(S, N, 1);
       return {
         prompt: `The table shows ${c.what}.\n\n${table}\n\nWork out the mean ${c.noun}.${tier > 1 ? " Give your answer to 1 decimal place." : ""}`,
         answer: tier === 1 ? { type: "number", value: ans } : { type: "number", value: ans, allowFraction: false, display: d1(ans) },
         solution: [
           `Multiply each value by its frequency (the fx column): ${xs.map((x, i) => `${x} × ${fs[i]} = ${x * fs[i]}`).join(", ")}.`,
           `Total of fx = ${S}. Total frequency = ${fs.join(" + ")} = ${N}.`,
-          `Mean = ${S} ÷ ${N} = ${exact ? num(clean(S / N)) : `${num(divTrunc(S, N, 3))}… = ${d1(ans)} (1 d.p.)`}.`,
+          `Mean = ${S} ÷ ${N} = ${approx1(S, N)}.`,
         ],
         hint: "Total of all the values = sum of (value × frequency). Divide by the total frequency.",
         traps: numTraps(ans, [
@@ -746,6 +758,9 @@ export const drills: Drill[] = [
         const S = sum(us);
         const wrongSide = cx.high ? us.filter((u) => u < S / 7).length : us.filter((u) => u > S / 7).length;
         if (kind === "outlier" && wrongSide < 5) return null;
+        // "Changed the most" must really be the mean: with a low outlier among closely-packed
+        // scores the median can jump further than the mean, so insist the mean moves clearly more.
+        if (kind === "affected" && Math.abs(S / 7 - (S - o) / 6) < 2 * Math.abs(medianU(us) - medianU(normal))) return null;
         return { us, o, normal, S };
       }, { us: [25, 18, 22, 240, 30, 27, 20], o: 240, normal: [25, 18, 22, 30, 27, 20], S: 382 });
       const f = (u: number) => (cx.pre === "$" && !Number.isInteger(u) ? `$${u.toFixed(2)}` : `${cx.pre}${num(u)}${cx.post}`);
@@ -824,7 +839,11 @@ export const drills: Drill[] = [
         if (!oC.length) return null;
         const o = rng.pick(oC);
         const all = [...normal, o];
-        if (q === "median" && medianU(all) === medianU(normal)) return null;
+        if (q === "median") {
+          // The solution says "the median resists outliers", so the median must move clearly less than the mean.
+          const dMed = Math.abs(medianU(all) - medianU(normal)), dMean = Math.abs((S1 + o) / n - S1 / m);
+          if (dMed === 0 || dMean < 2 * dMed) return null;
+        }
         return { normal, o, all: rng.shuffle(all) };
       }, null);
       const fb = { normal: [40, 35, 45, 50, 30], o: 184, all: [40, 35, 184, 45, 50, 30] };
@@ -1112,7 +1131,7 @@ export const drills: Drill[] = [
           solution: [
             `Total for 8A = ${m1} × ${n1} = ${m1 * n1}. Total for 8B = ${m2} × ${n2} = ${m2 * n2}.`,
             `Combined total = ${S}, shared by ${N} pupils.`,
-            `Mean = ${S} ÷ ${N} = ${exactTo(S, N, 1) ? num(ans) : `${num(divTrunc(S, N, 3))}… = ${d1(ans)} (1 d.p.)`}.`,
+            `Mean = ${S} ÷ ${N} = ${approx1(S, N)}.`,
           ],
           hint: "You can't just average the two means — the classes are different sizes. Find each class's total first.",
           traps: numTraps(ans, [[(m1 + m2) / 2, `The classes are different sizes, so the bigger class counts for more. Use totals: (${m1} × ${n1} + ${m2} × ${n2}) ÷ ${N}.`]]),
@@ -1174,7 +1193,6 @@ export const drills: Drill[] = [
       const mid2 = bounds.map(([lo, hi]) => lo + hi);
       const S2 = sum(mid2.map((m2, i) => m2 * fs[i]));
       const ans = divRound(S2, 2 * N, 1);
-      const exact = exactTo(S2, 2 * N, 1);
       const rows = bounds.map(([lo, hi], i) => `| {{${lo} < ${cx.v} <= ${hi}}} | ${fs[i]} |`).join("\n");
       const S = clean(S2 / 2);
       const upperS = sum(bounds.map(([, hi], i) => hi * fs[i]));
@@ -1184,7 +1202,7 @@ export const drills: Drill[] = [
         solution: [
           `Use the midpoint of each class: ${mid2.map((m2) => show(m2, 2)).join(", ")}.`,
           `Midpoint × frequency: ${mid2.map((m2, i) => `${show(m2, 2)} × ${fs[i]} = ${show(m2 * fs[i], 2)}`).join(", ")}. Total = ${num(S)}.`,
-          `Estimated mean = ${num(S)} ÷ ${N} = ${exact ? num(ans) : `${num(divTrunc(S2, 2 * N, 3))}… = ${d1(ans)} (1 d.p.)`}.`,
+          `Estimated mean = ${num(S)} ÷ ${N} = ${approx1(S2, 2 * N)}.`,
           "It's only an estimate: we don't know the exact values, so we assume each one sits at the middle of its class.",
         ],
         hint: "You don't know the exact values — use the midpoint of each class to stand for every value in it.",

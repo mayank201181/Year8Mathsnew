@@ -45,7 +45,7 @@ export const mcqPapers: Paper[] = [
         options: ["(4, −3)", "(−4, 3)", "(−4, −3)", "(3, 4)"],
         answerIndex: 1,
         explanation:
-          "The y-axis is the vertical line x = 0. Reflecting in it sends the point the same distance to the other side, so the x-coordinate changes sign and y stays the same: (−4, 3). (4, −3) is the reflection in the x-axis, because the axis names are easy to swap. (−4, −3) changes both signs, which is a 180° rotation about the origin.",
+          "The y-axis is the vertical line x = 0. Reflecting in it sends the point the same distance to the other side, so the x-coordinate changes sign and y stays the same: (−4, 3). (4, −3) is the reflection in the x-axis: an easy slip if you mix up the names of the two axes. (−4, −3) changes both signs, which is a 180° rotation about the origin.",
         difficulty: "warmup",
         guideRef: "reflection",
         hints: ["Is the y-axis horizontal or vertical? Which coordinate does a flip across it change?"],
@@ -675,12 +675,12 @@ export const mcqPapers: Paper[] = [
         kind: "mcq",
         id: "transformations-pythagoras-m2-q17",
         question:
-          "Two squares of this 4 × 4 grid are shaded. What is the smallest number of EXTRA squares you must shade so that the pattern has rotational symmetry of order 4?",
+          "Two squares of this 4 × 4 grid are shaded. What is the smallest number of EXTRA squares you must shade so that the pattern has rotational symmetry of order 4 about the centre of the grid?",
         diagram: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A 4 by 4 grid of squares. The top-left corner square and the square immediately to its right are shaded."><rect x="0" y="0" width="200" height="200" fill="#ffffff"/><rect x="20" y="20" width="40" height="40" fill="#93c5fd"/><rect x="60" y="20" width="40" height="40" fill="#93c5fd"/><path d="M20 20V180M20 20H180M60 20V180M20 60H180M100 20V180M20 100H180M140 20V180M20 140H180M180 20V180M20 180H180" stroke="#1f2937" stroke-width="2" fill="none"/></svg>`,
         options: ["6", "2", "8", "4"],
         answerIndex: 0,
         explanation:
-          "A quarter turn about the centre of the grid moves every square to a different square, so the shaded squares must come in sets of 4 that swap round. The shaded corner needs the other 3 corners. The square next to it needs 3 partners too: one in the matching position along each of the other three edges. That's 3 + 3 = 6 extra. 2 extra squares would only give order 2 (a half turn). 8 is the total number of shaded squares, not the number of extra ones.",
+          "A quarter turn about the centre of the grid moves every square to a different square, so the shaded squares must come in sets of 4 that swap round. The shaded corner needs the other 3 corners. The square next to it needs 3 partners too: one in the matching position along each of the other three edges. That's 3 + 3 = 6 extra. 2 extra squares in the half-turn positions only give order 2 about the centre. (Shading the 2 squares underneath makes a 2 × 2 block, which has order 4 about its own centre, but not about the centre of the grid.) 8 is the total number of shaded squares, not the number of extra ones.",
         difficulty: "challenge",
         guideRef: "symmetry",
         hints: [
@@ -739,7 +739,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "The image is 6 cm by 15 cm, so its area is 6 × 15 = 90 cm². The original area is 10 cm², so the area was multiplied by 9 = 3 × 3, because the length AND the width are both tripled. 30 cm² is Wei Ling's claim (only × 3). 40 cm² comes from adding 3 cm to each side (5 cm by 8 cm).",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "enlargement",
         hints: [
           "Don't trust the claim: work out the new length and width first.",
@@ -842,7 +842,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 1,
         explanation:
-          "Turning by 120° moves each blade onto the next one, so the logo fits onto itself 3 times in a full turn: order 3. But each blade is lopsided, so any fold would need to turn a blade into its mirror image, which doesn't match: 0 lines. Order 3 with 3 lines would need symmetrical blades, because the order and the number of lines don't have to be equal. Order 6 counts the gaps as well as the blades.",
+          "Turning by 120° moves each blade onto the next one, so the logo fits onto itself 3 times in a full turn: order 3. But each blade is lopsided, so any fold would need to turn a blade into its mirror image, which doesn't match: 0 lines. Order 3 with 3 lines would need symmetrical blades: the order and the number of lines don't have to be equal. Order 6 counts the gaps as well as the blades.",
         difficulty: "core",
         guideRef: "symmetry",
         hints: [
@@ -1142,7 +1142,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 0,
         explanation:
-          "A kite has one line of symmetry, through the two corners where its equal sides meet. A rectangle has 2 lines and an equilateral triangle has 3. A parallelogram like this one has none: its diagonals look like mirror lines, but folding along them doesn't make the halves match.",
+          "A kite has one line of symmetry, through the corner where its two short sides meet and the corner where its two long sides meet. A rectangle has 2 lines and an equilateral triangle has 3. A parallelogram like this one has none: its diagonals look like mirror lines, but folding along them doesn't make the halves match.",
         difficulty: "warmup",
         guideRef: "symmetry",
         hints: ["Imagine folding each shape. How many different folds make the two halves match exactly?"],

@@ -219,7 +219,7 @@ export const practice: TopicPractice = {
           ],
         },
       ],
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "angle-proofs",
       hints: [
         "Write down two different facts that both equal 180°.",
@@ -346,7 +346,7 @@ export const practice: TopicPractice = {
           traps: [
             {
               spec: { type: "number", value: 118 },
-              feedback: "x is not in a matching position to 118°. Look again: x is on the other side of the transversal. Which shape (F, Z or C) links them?",
+              feedback: "x is not in a matching position to 118°: x is on the other side of the transversal. First find the angle next to 118° on the top line, then look for the F shape that links it to x.",
             },
           ],
           difficulty: "core",
@@ -655,7 +655,7 @@ export const practice: TopicPractice = {
           traps: [
             { spec: { type: "number", value: 20 }, feedback: "20° is the exterior angle. The number of sides is 360 ÷ 20." },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "polygon-angles",
           hints: [
             "What do an interior angle and its exterior angle add up to?",
@@ -687,7 +687,7 @@ export const practice: TopicPractice = {
               ],
             },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "polygon-angles",
           hints: [
             "Interior angles are awkward. Switch to the exterior angle.",
@@ -748,7 +748,7 @@ export const practice: TopicPractice = {
             { point: "Substitutes to conclude a + b + c = 180° for any triangle", keywords: ["a + b + c", "a+b+c", "b + a + c", "substitute", "any triangle"] },
           ],
           commonError: "Measuring the angles or tearing off the corners. That shows it for one triangle; a proof must work for all of them.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "angle-proofs",
           hints: [
             "Look at angle p and angle b. What shape do they make with the parallel lines?",
@@ -1084,7 +1084,7 @@ export const practice: TopicPractice = {
           traps: [
             {
               spec: { type: "list", values: [116, 72], ordered: true },
-              feedback: "You paired the angles along AB, but AB is one of the parallel sides. Co-interior pairs run along a slanted side: ∠A pairs with ∠D, and ∠B pairs with ∠C.",
+              feedback: "Check the order first: ∠ABC comes first. If you really meant ∠ABC = 116°, you paired the angles along AB, but AB is one of the parallel sides. Co-interior pairs run along a slanted side: ∠A pairs with ∠D, and ∠B pairs with ∠C.",
             },
           ],
           difficulty: "core",
@@ -1148,7 +1148,7 @@ export const practice: TopicPractice = {
           traps: [
             { spec: { type: "number", value: 14 }, feedback: "14 is n − 2, the number of triangles. Add 2." },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "polygon-angles",
           hints: [
             "What is the sum of the exterior angles of any polygon?",
@@ -1172,7 +1172,7 @@ export const practice: TopicPractice = {
             { point: "360 is not a multiple of 108: 3 × 108 = 324 leaves a gap, 4 × 108 = 432 overlaps", keywords: ["324", "432", "gap", "overlap", "not a multiple", "does not divide", "doesn't divide"] },
           ],
           commonError: "Saying \"pentagons have an odd number of sides\". The real test is whether the interior angle divides exactly into 360°.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "regular-polygon-symmetry",
           hints: [
             "What must the angles meeting at a point add up to?",
@@ -1235,7 +1235,7 @@ export const practice: TopicPractice = {
               ],
             },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "angle-proofs",
           hints: [
             "What do an interior angle and its exterior angle add up to?",

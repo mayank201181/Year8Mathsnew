@@ -875,7 +875,7 @@ export const practice: TopicPractice = {
             },
             { spec: { type: "number", value: 2400000 }, feedback: "That's the volume in cm³. Divide by 1000 to get litres." },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "area-volume-units",
           hints: [
             "The rain on the roof forms a very flat cuboid. What are its three dimensions?",
@@ -1002,7 +1002,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "rates-units-p2-q05",
           question: "A large bottle of milk in the UK holds 4 pints. Using 1 pint ≈ 0.57 litres, about how many litres is that?",
-          answer: { type: "number", value: 2.28, display: "2.28 litres" },
+          answer: { type: "number", value: 2.28, tolerance: 0.025, display: "2.28 litres" },
           solution: ["Each pint is about 0.57 litres, so multiply.", "4 × 0.57 = 2.28 litres."],
           traps: [
             {
@@ -1102,7 +1102,7 @@ export const practice: TopicPractice = {
         {
           kind: "short",
           id: "rates-units-p2-q09",
-          question: "A high-speed train travels at 126 km/h. What is this speed in m/s?",
+          question: "A train travels at 126 km/h. What is this speed in m/s?",
           answer: { type: "number", value: 35, display: "35 m/s" },
           solution: [
             "126 km/h means 126 000 m in 3600 seconds.",
@@ -1359,7 +1359,7 @@ export const practice: TopicPractice = {
               feedback: "15 km/h is the average she needs for the whole ride. Her slow start means she must go faster for the rest.",
             },
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "speed",
           hints: [
             "Work backwards from the deadline. How much of the 2 hours has she used so far?",
@@ -1541,7 +1541,7 @@ export const practice: TopicPractice = {
         {
           label: "The hard way: add up the legs",
           steps: [
-            "Leg 1: the fly and the oncoming train close at 90 + 60 = 150 km/h, so the leg takes {{100/150 = 2/3}} h and the fly covers 60 km.",
+            "Leg 1 (say the fly starts on the 40 km/h train): the fly and the oncoming 60 km/h train close at 90 + 60 = 150 km/h, so the leg takes {{100/150 = 2/3}} h and the fly covers 60 km.",
             "Meanwhile the trains have closed 100 × {{2/3}} ≈ 66.7 km of the gap, leaving about 33.3 km.",
             "Leg 2: closing at 90 + 40 = 130 km/h, the fly covers about 23.1 km … and so on, with infinitely many ever-shorter legs.",
             "The legs do add up to 90 km, but summing them is hard work. Following the clock is far slicker. (Legend says the mathematician John von Neumann summed the series in his head anyway.)",
@@ -1574,7 +1574,7 @@ export const practice: TopicPractice = {
         "Block volume = 50 × 40 × 30 = 60 000 cm³.",
         "Tank base = 200 cm × 150 cm = 30 000 cm².",
         "Rise = 60 000 ÷ 30 000 = 2 cm = 20 mm.",
-        "The 80 cm depth is a red herring: it only matters that the block ends up fully under water (30 cm is less than 82 cm).",
+        "The 80 cm depth is a red herring: it only matters that the block ends up fully under water (even standing on end, the block is only 50 cm tall, well below the new 82 cm water level).",
       ],
       solutions: [
         {

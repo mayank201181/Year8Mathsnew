@@ -38,13 +38,17 @@ function divText(m: number, d: number): string {
   return m % d === 0 ? `${m} ÷ ${d} = ${m / d}` : `${m} ÷ ${d} = ${Math.floor(m / d)} remainder ${m % d}`;
 }
 
-/** Number traps, skipping anything equal to the answer (or to an earlier trap). */
+/**
+ * Number traps, skipping anything equal to the answer (or to an earlier trap) and any
+ * value a learner could never type exactly (recurring decimals like 15.444…).
+ */
 function numTraps(answer: number, list: Array<[number, string]>): Trap[] {
   const out: Trap[] = [];
   const seen: number[] = [answer];
   for (const [v, feedback] of list) {
     if (!Number.isFinite(v)) continue;
     const c = clean(v);
+    if (Math.abs(c * 10000 - Math.round(c * 10000)) > 1e-6) continue;
     if (seen.some((s) => Math.abs(s - c) < 1e-9)) continue;
     seen.push(c);
     out.push({ spec: { type: "number", value: c }, feedback });
@@ -66,8 +70,8 @@ function linTraps(a: number, b: number, list: Array<[number, number, string]>, v
   return out;
 }
 
-const YES = ["yes", "y", "yes it is", "yes, it is", "it is", "true"];
-const NO = ["no", "no it is not", "no, it is not", "no it isn't", "no, it isn't", "it is not", "not a term", "false"];
+const YES = ["yes", "y", "yes it is", "yes, it is", "it is", "true", "yes it's a term", "yes, it's a term", "it is a term"];
+const NO = ["no", "n", "no it is not", "no, it is not", "no it isn't", "no, it isn't", "no it's not", "no, it's not", "it is not", "not a term", "it is not a term", "false"];
 
 // Exact rationals --------------------------------------------------------------
 interface Q {
@@ -528,7 +532,7 @@ const matchstickPatterns: Drill = {
         [k * t[0], ctx.tables
           ? `${k} × 4 counts seats on the sides where tables are pushed together — nobody can sit there. Use the rule {{${R}}}.`
           : `Pattern ${k} is not ${k} copies of Pattern 1 — use the rule {{${R}}}.`],
-        [d * k, `You need the ${d}n part AND the extra ${num(c)}: {{${R}}}.`],
+        [d * k, `That's just the {{${d}n}} part — don't forget the constant: the rule is {{${R}}}.`],
       ]);
     } else if (mode === "expr") {
       question = ctx.tables
@@ -995,6 +999,7 @@ const isItATerm: Drill = {
     const R = lin(d, c);
     const t = [1, 2, 3, 4].map((k) => d * k + c);
     const desc = byTerms ? `the sequence ${seq(t)}` : `the sequence with nth term {{${R}}}`;
+    const stop = byTerms ? "" : "."; // "…" already ends the sentence — avoid "…."
     const ad = Math.abs(d);
     const k = tier === 1 ? rng.int(10, 40) : tier === 2 ? rng.int(8, 60) : rng.int(20, 150);
     const name = rng.pick(NAMES);
@@ -1005,8 +1010,8 @@ const isItATerm: Drill = {
       return {
         prompt: rng.pick([
           `Which term of ${desc} is ${num(N)}?\n\nGive its position (for example, 7 for the 7th term).`,
-          `${num(N)} is a term in ${desc}.\n\nWhat is its position in the sequence?`,
-          `${name} says that ${num(N)} appears in ${desc}. Which term is it? Give the position n.`,
+          `${num(N)} is a term in ${desc}${stop}\n\nWhat is its position in the sequence?`,
+          `${name} says that ${num(N)} appears in ${desc}${stop} Which term is it? Give the position n.`,
         ]),
         answer: { type: "number", value: k },
         solution: [
@@ -1031,7 +1036,7 @@ const isItATerm: Drill = {
     return {
       prompt: rng.pick([
         `Is ${num(N)} a term of ${desc}?\n\nAnswer yes or no.`,
-        `${name} thinks ${num(N)} is in ${desc}. Is ${name} right? Answer yes or no.`,
+        `${name} thinks ${num(N)} is in ${desc}${stop} Is ${name} right? Answer yes or no.`,
       ]),
       answer: yes ? { type: "text", accept: YES, display: "Yes" } : { type: "text", accept: NO, display: "No" },
       solution: [
@@ -1087,7 +1092,7 @@ function classify(v: number[]): SeqType[] {
 const TYPE_ACCEPT: Record<SeqType, string[]> = {
   arithmetic: ["arithmetic", "arithmetic sequence", "arithmetic progression", "an arithmetic sequence", "linear", "linear sequence", "a linear sequence"],
   geometric: ["geometric", "geometric sequence", "geometric progression", "a geometric sequence", "geometrical"],
-  fibonacci: ["Fibonacci-type", "fibonacci type", "fibonacci", "fibonacci sequence", "fibonacci-type sequence", "a fibonacci-type sequence", "fibonacci-like", "fibonacci style"],
+  fibonacci: ["Fibonacci-type", "fibonacci type", "fibonacci", "fibonacci sequence", "fibonacci-type sequence", "fibonacci type sequence", "a fibonacci-type sequence", "a fibonacci sequence", "fibonacci-like", "fibonacci like", "fibonacci-like sequence", "fibonacci style"],
   square: ["square numbers", "square", "squares", "square number", "the square numbers", "square sequence"],
   triangular: ["triangular numbers", "triangular", "triangle numbers", "triangular number", "the triangular numbers", "triangle"],
   cube: ["cube numbers", "cube", "cubes", "cube number", "the cube numbers", "cubic numbers"],
@@ -1561,7 +1566,7 @@ const functionNotation: Drill = {
     if (mode === "eval") {
       const a = tier === 1 ? rng.int(2, 9) : rng.int(2, 9) * (rng.bool(0.6) ? 1 : -1);
       const b = a < 0 ? rng.int(5, 20) : rng.nonZero(-12, 12);
-      const k = tier === 1 ? rng.int(1, 10) : rng.bool(0.6) ? -rng.int(1, 12) : rng.int(2, 12);
+      const k = tier === 1 ? rng.int(2, 10) : rng.bool(0.6) ? -rng.int(2, 12) : rng.int(2, 12);
       const R = lin(a, b, "x");
       const v = a * k + b;
       const traps: Array<[number, string]> = [[a + k + b, `{{${term(a, "x")}}} means ${num(a)} × x, not ${num(a)} + x.`]];
@@ -1618,10 +1623,15 @@ const functionNotation: Drill = {
     if (mode === "square") {
       const flip = tier === 3 && rng.bool(0.4);
       const b = flip ? rng.int(20, 60) : rng.nonZero(-15, 15);
-      const k = tier === 2 ? -rng.int(2, 9) : rng.nonZero(-9, 9);
+      const k = tier === 2 ? -rng.int(2, 9) : rng.int(2, 9) * (rng.bool(0.7) ? -1 : 1);
       const show = flip ? `${b} - x^2` : poly([[1, "x^2"], [b, ""]]);
       const v = flip ? b - k * k : k * k + b;
-      const sq = `(${k})^2`;
+      const sq = k < 0 ? `(${k})^2` : `${k}^2`;
+      const sqTrap: Array<[number, string]> = flip
+        ? [[b + k * k, `{{-x^2}} means −(x × x): subtract ${k * k}.`]]
+        : k < 0
+          ? [[-k * k + b, `{{${sq} = ${k * k}}}: a negative times a negative is positive.`]]
+          : [];
       return {
         prompt: rng.pick([`A function is defined by {{f(x) = ${show}}}.\n\nFind {{f(${k})}}.`, `{{f(x) = ${show}}}\n\nWork out {{f(${k})}}.`]),
         answer: { type: "number", value: v },
@@ -1629,11 +1639,8 @@ const functionNotation: Drill = {
           `Replace x with ${num(k)}: {{f(${k}) = ${flip ? `${b} - ${sq}` : `${sq} ${b < 0 ? "-" : "+"} ${Math.abs(b)}`}}}.`,
           `{{${sq} = ${k * k}}}, so {{f(${k})}} = ${flip ? `${b} − ${k * k}` : `${k * k} ${signed(b)}`} = ${num(v)}.`,
         ],
-        hint: "Square the input first (a negative number squared is positive), then do the rest.",
-        traps: numTraps(v, [
-          [flip ? b + k * k : -k * k + b, flip ? `{{-x^2}} means −(x × x): subtract ${k * k}.` : `{{${sq} = ${k * k}}}: a negative times a negative is positive.`],
-          [flip ? b - 2 * k : 2 * k + b, "{{x^2}} means x × x, not 2 × x."],
-        ]),
+        hint: k < 0 ? "Square the input first (a negative number squared is positive), then do the rest." : "Square the input first, then do the rest.",
+        traps: numTraps(v, [...sqTrap, [flip ? b - 2 * k : 2 * k + b, "{{x^2}} means x × x, not 2 × x."]]),
       };
     }
     // inverse

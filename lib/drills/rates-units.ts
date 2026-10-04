@@ -1319,9 +1319,9 @@ function averageSpeedItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       prompt: `On a ${trip.name}, ${nm} travels ${num(d1)} km at an average speed of ${o.s1} km/h, then travels for another ${hmWords(o.t2)}. The average speed for the whole ${trip.name} is ${num(avg)} km/h. What was the average speed for the second part, in km/h?`,
       answer: numAns(o.s2, "km/h"),
       solution: [
-        `First part: time = ${num(d1)} ÷ ${o.s1} = ${hoursStr(o.t1)} hours (${hmWords(o.t1)}).`,
+        `First part: time = ${num(d1)} ÷ ${o.s1} = ${o.t1 % 60 === 0 ? hmWords(o.t1) : `${hoursStr(o.t1)} hours (${hmWords(o.t1)})`}.`,
         `Whole ${trip.name}: time = ${totalTime(Tm)}, so distance = ${num(avg)} × ${hoursStr(Tm)} = ${num(D)} km.`,
-        `Second part: ${num(D)} − ${num(d1)} = ${num(d2)} km in ${hoursStr(o.t2)} hours, so speed = ${num(d2)} ÷ ${hoursStr(o.t2)} = ${o.s2} km/h.`,
+        `Second part: ${num(D)} − ${num(d1)} = ${num(d2)} km in ${o.t2 === 60 ? "1 hour" : `${hoursStr(o.t2)} hours`}, so speed = ${num(d2)} ÷ ${hoursStr(o.t2)} = ${o.s2} km/h.`,
       ],
       hint: "Use the average speed to find the TOTAL distance first.",
       traps: numTraps(o.s2, [[2 * avg - o.s1, "The average speed is not halfway between the two speeds, because the two parts take different times. Work with total distance and total time."]]),
@@ -1980,7 +1980,7 @@ function pressureItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   const kind = rng.pick(["P", "F", "A"] as const);
   const obj = rng.pick(
     F <= 400
-      ? ["A box of books", "A suitcase", "A stool"]
+      ? ["A box of books", "A suitcase", "A bag of cement"]
       : F <= 1500
         ? ["A large plant pot", "A fridge", "A washing machine"]
         : F <= 4000

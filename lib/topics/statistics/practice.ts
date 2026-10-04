@@ -281,7 +281,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "statistics-p1-q02",
           question:
-            "The masses, in kg, of 12 school bags are:\n\n    3.2, 4.5, 5.0, 2.8, 6.1, 4.9, 3.7, 5.5, 4.0, 7.2, 3.9, 5.0\n\nThey are put into a grouped frequency table. How many bags belong in the class {{4 <= m < 5}}?",
+            "The masses, in kg, of 12 school bags are:\n\n    3.2, 4.5, 5.0, 2.8, 6.1, 4.9, 3.7, 5.5, 4.0, 7.2, 3.9, 5.0\n\nThey are put into a grouped frequency table, where {{m}} is the mass in kg. How many bags belong in the class {{4 <= m < 5}}?",
           answer: { type: "number", value: 3 },
           traps: [
             {
@@ -689,7 +689,7 @@ export const practice: TopicPractice = {
           traps: [
             { spec: { type: "number", value: 30 }, feedback: "30 is just the children who chose the planetarium. Add the adults who chose it as well." },
             {
-              spec: { type: "number", value: 36 },
+              spec: { type: "number", value: 90 },
               feedback: "There were twice as many *children* as adults, so there were 25 adults, not 100. Then {{3/5}} of 25 adults chose the planetarium.",
             },
           ],
@@ -701,7 +701,7 @@ export const practice: TopicPractice = {
             "Planetarium altogether: 30 + 15 = **45**.",
             "Check with a two-way table: children 30 planetarium + 20 workshop = 50; adults 15 + 10 = 25; total 75 ✓.",
           ],
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "tables",
           hints: [
             "Start with the fact that pins down a whole row: 20 children is {{2/5}} of the children.",
@@ -760,7 +760,7 @@ export const practice: TopicPractice = {
             { point: "8D has the smaller range, so its marks were more consistent", keywords: ["consistent", "smaller range", "less spread", "spread"] },
           ],
           commonError: "Reading 8C's leaves the wrong way round (they read outwards from the stem, right to left), or judging a whole class by one extreme mark.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "stem-and-leaf",
           hints: [
             "Read 8C's leaves outwards from the stem: the row 9 7 4 | 1 means 14, 17 and 19.",
@@ -1075,7 +1075,7 @@ export const practice: TopicPractice = {
           question:
             "The dashed line on the scatter graph is a line of best fit for the typing data (ignoring the outlier). It passes through (1, 23) and (9, 55). Use it to estimate the typing speed of a pupil who practises for 6.5 hours a week. Give your answer in words per minute.",
           diagram: typingScatterSvg,
-          answer: { type: "number", value: 45, display: "45 wpm" },
+          answer: { type: "number", value: 45, tolerance: 1, display: "45 wpm" },
           traps: [
             {
               spec: { type: "number", value: 49 },
@@ -1290,9 +1290,9 @@ export const practice: TopicPractice = {
           ],
           solution: [
             "Count the leaves: 3 + 4 + 3 = 10 values, so the median is halfway between the 5th and 6th values.",
-            "In order: 23, 25, 28, 31, 3a, 36, … so the 5th value is 3a and the 6th is 36.",
-            "Halfway between them is 34.5, so 3a + 36 = 69, giving 3a = 33 and a = **3**. (It fits the order: 1 ≤ 3 ≤ 6.)",
-            "The largest value is 4b and the smallest is 23, so 4b = 23 + 24 = 47 and b = **7**.",
+            "In order: 23, 25, 28, 31, then the value with stem 3 and leaf a (that is, 30 + a), then 36, … So the 5th value is 30 + a and the 6th is 36.",
+            "Halfway between them is 34.5, so (30 + a) + 36 = 2 × 34.5 = 69, giving 30 + a = 33 and a = **3**. (It fits the order: 1 ≤ 3 ≤ 6.)",
+            "The largest value has stem 4 and leaf b (that is, 40 + b), and the smallest is 23, so 40 + b = 23 + 24 = 47 and b = **7**.",
             "Answer: a = 3, b = 7.",
           ],
           commonError: "Taking the 5th value alone as the median. With 10 values, the median is halfway between the 5th and 6th.",
@@ -1646,7 +1646,7 @@ export const practice: TopicPractice = {
           label: "Try the cases stem by stem (slower)",
           steps: [
             "To push the median up, put lots of values on stem 4. Stem 4 can hold at most 10 values: 40 to 49.",
-            "If stem 4 has 7 or more values, the 7th value overall is on stem 4. With 7 values on stem 4, the best is 43 to 49, so the 7th value is at most 43. Using more stem-4 values only pushes smaller numbers like 40, 41, 42 into the middle.",
+            "If stem 4 has 7 or more values, the 7th value overall is on stem 4. With 7 values on stem 4, the best is 43 to 49, so the 7th value is at most 43. Using more stem-4 values doesn't help: with 8 the best is 42 to 49 and the 7th value overall is their 2nd, 43 again, and so on.",
             "If stem 4 has 6 or fewer values, the 7th value is on stem 3 or lower: at most 39.",
             "So 43 is the best. The 'six values above' argument gets there in one line.",
           ],

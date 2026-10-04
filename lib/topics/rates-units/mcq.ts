@@ -102,7 +102,7 @@ export const mcqPapers: Paper[] = [
         options: ["25 ml", "250 ml", "2.5 litres", "250 litres"],
         answerIndex: 1,
         explanation:
-          "A mug holds roughly a quarter of a litre: {{1/4}} of 1000 ml = 250 ml. 250 litres has the right number but the wrong unit — that is more than a bathtub holds. 25 ml is under two tablespoons, and 2.5 litres is more than a big bottle of water.",
+          "A mug holds roughly a quarter of a litre: {{1/4}} of 1000 ml = 250 ml. 250 litres has the right number but the wrong unit — that is about a whole bathtub full. 25 ml is under two tablespoons, and 2.5 litres is more than a big bottle of water.",
         difficulty: "core",
         guideRef: "metric-units",
         hints: [
@@ -306,7 +306,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 1,
         explanation:
           "Average speed = total distance ÷ total time. Out: 12 ÷ 24 = 0.5 h. Back: 12 ÷ 12 = 1 h. He rides 24 km in 1.5 h, so 24 ÷ 1.5 = 16 km/h. 18 km/h is the mean of the two speeds — but he spends twice as long at the slow speed, so the average is pulled towards 12. 8 km/h divides the one-way distance (12 km) by the total time.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "speed",
         hints: [
           "Is the answer simply halfway between 24 and 12? Which speed does he ride at for longer?",
@@ -347,7 +347,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 0,
         explanation:
           "Density = mass ÷ volume = 1930 ÷ 150 ≈ 12.9 g/cm³, well below 19.3 g/cm³, so a lighter metal has been mixed in. Another route: 1930 g of pure gold would fill only 1930 ÷ 19.3 = 100 cm³, not 150 cm³. 'Mass is 100 × 19.3' says nothing about the material — anything can have a mass of 1930 g. The 2895 g calculation is right, but it shows the crown is *lighter* than the same volume of gold, so it is less dense, not more. Shape doesn't matter: density depends only on the material. (Archimedes is said to have solved exactly this puzzle.)",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "density-and-rates",
         hints: [
           "Density tells you what something is made of. What is the crown's density?",
@@ -746,7 +746,7 @@ export const mcqPapers: Paper[] = [
         options: ["Milligrams", "Kilograms", "Litres", "Tonnes"],
         answerIndex: 1,
         explanation:
-          "A durian has a mass of roughly 1 to 3 kg — about the same as one or two bags of sugar — so kilograms fit best. Litres measure capacity (how much a container holds), not mass. Milligrams are for tiny amounts like medicine, and tonnes are for cars and lorries.",
+          "A durian has a mass of roughly 1 to 3 kg — about the same as one to three 1 kg bags of sugar — so kilograms fit best. Litres measure capacity (how much a container holds), not mass. Milligrams are for tiny amounts like medicine, and tonnes are for cars and lorries.",
         difficulty: "warmup",
         guideRef: "metric-units",
         hints: ["Is a durian closer in mass to a grain of rice, a bag of sugar or a car? And do litres measure mass at all?"],
@@ -828,7 +828,7 @@ export const mcqPapers: Paper[] = [
         options: ["100 litres", "1000 litres", "10 litres", "1 litre"],
         answerIndex: 1,
         explanation:
-          "1 m³ is a cube 100 cm on each side: 100 × 100 × 100 = 1,000,000 cm³. Since 1000 cm³ = 1 litre, that is 1,000,000 ÷ 1000 = 1000 litres. 100 litres uses 1 m = 100 cm only once, forgetting that volume has three dimensions. 10 litres uses the *area* factor (10,000 cm³), which only counts two dimensions.",
+          "1 m³ is a cube 100 cm on each side: 100 × 100 × 100 = 1,000,000 cm³. Since 1000 cm³ = 1 litre, that is 1,000,000 ÷ 1000 = 1000 litres. Another way to see it: a litre fills a 10 cm cube, and 10 of those fit along each 1 m edge, so 10 × 10 × 10 = 1000 fit inside. 100 litres stops at 10 × 10 — just one layer of litre cubes on the bottom, forgetting there are 10 layers. 10 litres uses the *area* factor (100 × 100 = 10,000 cm³), which only counts two dimensions.",
         difficulty: "core",
         guideRef: "area-volume-units",
         hints: [
@@ -1028,7 +1028,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 3,
         explanation:
           "Volume = length × width × height. Doubling each edge gives 2l × 2w × 2h = 8 × lwh, so the volume is always 8 times as big — never just double. Picture a 1 cm cube: doubling its edges makes a 2 cm cube, which holds 2 × 2 × 2 = 8 of the small cubes. 4 times is what happens to an *area* (two dimensions). It's the same reason 1 m³ is 100 × 100 × 100 cm³, not 100 cm³.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "area-volume-units",
         hints: [
           "Try a small case: a 1 × 1 × 1 cube. Double its edges. How many 1 cm cubes fit inside now?",
@@ -1144,7 +1144,7 @@ export const mcqPapers: Paper[] = [
         options: ["16:90", "17:10", "17:50", "17:30"],
         answerIndex: 3,
         explanation:
-          "16:40 + 20 min = 17:00, then the other 30 minutes take it to 17:30. 16:90 adds 40 + 50 = 90 but forgets that 60 minutes make an hour. 17:10 comes from 50 − 40 = 10, subtracting instead of adding.",
+          "16:40 + 20 min = 17:00, then the other 30 minutes take it to 17:30. 16:90 adds 40 + 50 = 90 but forgets that 60 minutes make an hour. 17:10 takes 40 minutes off the 50 to reach 17:00 (because of the :40) — but 16:40 → 17:00 is only 20 minutes, so 30 minutes are left, not 10.",
         difficulty: "warmup",
         guideRef: "time",
         hints: ["How many minutes from 16:40 to 17:00? How many of the 50 minutes are left after that?"],
@@ -1379,17 +1379,17 @@ export const mcqPapers: Paper[] = [
       {
         kind: "mcq",
         id: "rates-units-m4-q17",
-        question: "A 1 kg bag of rice contains about 50,000 grains. Roughly what is the mass of one grain, in milligrams?",
-        options: ["0.02 mg", "0.00002 mg", "20 mg", "2 mg"],
+        question: "A 2 kg bag of mung beans contains about 40,000 beans. Roughly what is the mass of one bean, in milligrams?",
+        options: ["0.05 mg", "0.00005 mg", "50 mg", "5 mg"],
         answerIndex: 2,
         explanation:
-          "1 kg = 1000 g = 1,000,000 mg. One grain ≈ 1,000,000 ÷ 50,000 = 20 mg. 0.02 is the right answer in *grams* (1000 ÷ 50,000) but labelled as milligrams. 0.00002 is the answer in *kilograms* (1 ÷ 50,000) — still not converted. 2 mg uses 1 kg = 100,000 mg.",
-        difficulty: "challenge",
+          "2 kg = 2000 g = 2,000,000 mg. One bean ≈ 2,000,000 ÷ 40,000 = 50 mg. 0.05 is the right answer in *grams* (2000 ÷ 40,000) but labelled as milligrams. 0.00005 is the answer in *kilograms* (2 ÷ 40,000) — not converted at all. 5 mg uses 1 kg = 100,000 mg, one zero short: 1 kg = 1000 × 1000 = 1,000,000 mg.",
+        difficulty: "core",
         guideRef: "metric-units",
         hints: [
-          "Change 1 kg into milligrams first — it takes two steps: kg → g → mg.",
+          "Change 2 kg into milligrams first — it takes two steps: kg → g → mg.",
           "1 kg = 1000 g, and 1 g = 1000 mg.",
-          "Share 1,000,000 mg between 50,000 grains.",
+          "Share 2,000,000 mg between 40,000 beans.",
         ],
         strategy: "Convert first, then calculate",
       },

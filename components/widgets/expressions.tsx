@@ -759,6 +759,22 @@ function pr(e: Ex): { s: string; p: number } {
   }
 }
 
+/** Does a sum end up inside a product or quotient (so it needs a bracket or fraction bar)? */
+function sumInsideProduct(e: Ex, under = false): boolean {
+  switch (e.t) {
+    case "v":
+      return false;
+    case "add":
+      return under || sumInsideProduct(e.e, under);
+    case "mul":
+    case "div":
+      return sumInsideProduct(e.e, true);
+    case "pow":
+    case "sqrt":
+      return sumInsideProduct(e.e, under);
+  }
+}
+
 /* ---- machine rows ---- */
 
 function MachineRow({ startName, endName, ops, vals, label }: { startName: string; endName: string; ops: { op: AnyOp; n: number }[]; vals: Val[]; label: string }) {
@@ -861,7 +877,8 @@ function FormulaMachine() {
 
   const last = active[active.length - 1];
   const hasSq = active.some((s) => s.op === "sq");
-  const addThenMul = active.some((s, i) => (s.op === "add" || s.op === "sub") && active.slice(i + 1).some((t) => t.op === "mul" || t.op === "div"));
+  // Checked on the simplified formula, so e.g. "+ 5, × 1" or "+ 5, − 5, × 3" (no bracket left) don't trigger it.
+  const addThenMul = sumInsideProduct(fwdEx);
   const fixed = sameVal(fwdVals[0], output);
   const backOk = sameVal(recovered, fwdVals[0]);
   const words = `Start with ${inName}, ${active.map((s) => opWords(s.op, s.n)).join(", then ")}.`;
@@ -888,8 +905,8 @@ function FormulaMachine() {
       ) : null}
       {hasSq ? (
         <p>
-          Squaring hides the sign: <M>{"2^2"}</M> and <M>{"(-2)^2"}</M> are both 4. The √ step only gives the positive root, so the full answer
-          can also be negative (written ±).
+          Squaring hides the sign: <M>{"2^2"}</M> and <M>{"(-2)^2"}</M> are both 4. The √ step only gives the positive root, so there can be a
+          second answer that comes from the negative root — that&apos;s why full solutions use ±.
         </p>
       ) : null}
     </div>
@@ -963,8 +980,8 @@ function FormulaMachine() {
               </>
             ) : (
               <>
-                The reverse machine gives <ValView v={recovered} />, not <ValView v={fwdVals[0]} /> — both inputs give the same output, because
-                squaring hid the sign.
+                The reverse machine gives <ValView v={recovered} />, not <ValView v={fwdVals[0]} />: the inputs <ValView v={fwdVals[0]} /> and{" "}
+                <ValView v={recovered} /> both give {outName} = <ValView v={output} />, because squaring hid the sign.
               </>
             )}
           </p>
