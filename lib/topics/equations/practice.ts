@@ -834,7 +834,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "equations-p2-q03",
           question: "A lift can safely carry a load of at most 900 kg. Write an inequality for the load, L kg, that the lift can carry. (Type ≤ as <=.)",
-          answer: { type: "text", accept: ["L<=900", "900>=L", "0<=L<=900", "0<L<=900"], display: "{{L <= 900}}" },
+          answer: { type: "text", accept: ["L<=900", "900>=L", "L<=900kg", "900kg>=L", "0<=L<=900", "0<L<=900"], display: "{{L <= 900}}" },
           solution: ["'At most 900' means 900 or less — exactly 900 kg is allowed.", "So use 'less than or equal to': {{L <= 900}}."],
           traps: [
             { spec: { type: "text", accept: ["L<900", "900>L"] }, feedback: "'At most 900' means 900 kg itself is allowed, so use ≤ (type <=)." },
