@@ -70,6 +70,7 @@ function isSquare(n: number): boolean {
 }
 
 const SIMPLEST = " Give your answer as a fraction in its simplest form.";
+const NAMES = ["Aisha", "Wei Ling", "Arjun", "Priya", "Marcus", "Siti", "Ethan", "Mei", "Ravi", "Hana", "Jun", "Zara"];
 
 // ---------------------------------------------------------------------------
 // 1. Single events
@@ -718,6 +719,9 @@ function sampleSpaceCount(rng: Rng, tier: Tier): DrillItem {
     const intro = `${setup} ${O.how}`;
     if (kind === "eq" || kind === "gt" || kind === "lt") {
       const k = rng.pick(distinct);
+      // "greater than"/"less than" must leave at least two different values on the counted side.
+      if (kind === "gt" && distinct.filter((v) => v > k).length < 2) continue;
+      if (kind === "lt" && distinct.filter((v) => v < k).length < 2) continue;
       const ok = kind === "eq" ? (a: number, b: number) => O.f(a, b) === k : kind === "gt" ? (a: number, b: number) => O.f(a, b) > k : (a: number, b: number) => O.f(a, b) < k;
       const c = results.filter((r) => (kind === "eq" ? r === k : kind === "gt" ? r > k : r < k)).length;
       if (c < (tier === 1 ? 2 : 1) || c === T) continue;
@@ -1079,7 +1083,7 @@ function vennDrill(rng: Rng, tier: Tier): DrillItem {
     };
   }
   return {
-    prompt: `${ctx.intro} The Venn diagram shows the results. One ${ctx.who} is chosen at random. Find the probability that this ${ctx.who} ${phrase}.${SIMPLEST}`,
+    prompt: `${ctx.intro} The Venn diagram shows the results. ${rng.pick(NAMES)} picks one ${ctx.who} at random. Find the probability that this ${ctx.who} ${phrase}.${SIMPLEST}`,
     answer: fs(fav, T),
     solution: [`Total: ${oA} + ${both} + ${oB} + ${nei} = ${T}.`, step, `P = ${fShow(fav, T)}`],
     hint: "Add every number in the diagram (including the one outside the circles) for the total. Then decide which regions match the event.",

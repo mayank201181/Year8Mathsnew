@@ -18,6 +18,16 @@ function pc(tenths: number): string {
   return `${num(tenths / 10)}%`;
 }
 
+/** "a" or "an" for the word or number that follows: an("8%") = "an", an("English") = "an", an("12%") = "a". */
+function an(next: string): string {
+  return /^(?:8|11(?![0-9])|18(?![0-9])|[aeiou])/i.test(next) ? "an" : "a";
+}
+
+/** "a 12% …" / "an 8% …" */
+function aPc(tenths: number): string {
+  return `${an(pc(tenths))} ${pc(tenths)}`;
+}
+
 /** Money from whole cents: 8000 → "$80", 1250 → "$12.50", 123456 → "$1,234.56". */
 function cash(cents: number): string {
   const c = Math.round(Math.abs(cents));
@@ -445,7 +455,7 @@ export const drills: Drill[] = [
       let prompt: string;
       if (ctx === "test") {
         const subj = rng.pick(["maths", "science", "spelling", "history", "geography"]);
-        prompt = `${name} scored ${a} out of ${b} in a ${subj} test. What percentage did ${name} score?${round}`;
+        prompt = `${name} scored ${a} out of ${b} in ${an(subj)} ${subj} test. What percentage did ${name} score?${round}`;
       } else if (ctx === "club") {
         const cca = rng.pick(["robotics", "badminton", "choir", "chess", "drama", "netball"]);
         prompt = `${a} of the ${b} members of the school ${cca} club are in Year 8. What percentage of the members are in Year 8?${round}`;
@@ -593,7 +603,7 @@ export const drills: Drill[] = [
       const fix = (n: number) => (money ? clean(roundQ(n, 1000, 0) / 100) : roundQ(n, 1000, 2));
       const trapList: Array<[number, string]> = [[fix(N * 10), `Check the multiplier: ${pc(t)} = ${mult}, not ${num(clean(t / 100))}.`]];
       if (t < 1000) {
-        trapList.push([fix((1000 + t) * base), `That's the amount after a ${pc(t)} increase (× ${num(clean((1000 + t) / 1000))}). To find ${pc(t)} of it, multiply by ${mult}.`]);
+        trapList.push([fix((1000 + t) * base), `That's the amount after ${aPc(t)} increase (× ${num(clean((1000 + t) / 1000))}). To find ${pc(t)} of it, multiply by ${mult}.`]);
       }
       return {
         prompt,
@@ -652,7 +662,7 @@ export const drills: Drill[] = [
       let L1: string, L2: string, prompt: string, verdict: string, raw1: string, raw2: string;
       if (ctx === "tests") {
         [L1, L2] = rng.shuffle(["maths", "science", "English", "geography", "history"]).slice(0, 2);
-        prompt = `${name} scored ${a1} out of ${b1} in a ${L1} test and ${a2} out of ${b2} in a ${L2} test. Which was the better result?\n\nWrite each score as a percentage — ${L1} first, then ${L2}.${roundNote}`;
+        prompt = `${name} scored ${a1} out of ${b1} in ${an(L1)} ${L1} test and ${a2} out of ${b2} in ${an(L2)} ${L2} test. Which was the better result?\n\nWrite each score as a percentage — ${L1} first, then ${L2}.${roundNote}`;
         verdict = `${p1 > p2 ? L1 : L2} was the better result`;
         raw1 = `${a1}`;
         raw2 = `${a2}`;
@@ -831,11 +841,11 @@ export const drills: Drill[] = [
           solution: [
             `(a) Percentage points are a plain difference: ${up ? `${r2}% − ${r1}%` : `${r1}% − ${r2}%`} = ${d} percentage points.`,
             `(b) Compare the change with the original ${r1}%: ${frac(d, r1, { simplify: false })} × 100 = ${num(rel)}%.`,
-            `So it ${up ? "rose" : "fell"} by ${d} percentage points, which is a ${num(rel)}% ${up ? "increase" : "decrease"}.`,
+            `So it ${up ? "rose" : "fell"} by ${d} percentage points, which is ${an(num(rel))} ${num(rel)}% ${up ? "increase" : "decrease"}.`,
           ],
           hint: "Percentage points = the plain difference between the two percentages. Percentage change = that difference compared with the original.",
           traps: [
-            { spec: { type: "list", values: [d, d], ordered: true }, feedback: `A change of ${d} percentage points is not a ${d}% change — divide the change by the original ${r1}% and multiply by 100.` },
+            { spec: { type: "list", values: [d, d], ordered: true }, feedback: `A change of ${d} percentage points is not ${an(String(d))} ${d}% change — divide the change by the original ${r1}% and multiply by 100.` },
             { spec: { type: "list", values: [rel, d], ordered: true }, feedback: "Right numbers, wrong order — give the percentage points first." },
           ],
         };
@@ -900,7 +910,7 @@ export const drills: Drill[] = [
           prompt: `${what}\n\nGive the actual ${word} ${unit} first, then the percentage ${word}.`,
           answer: { type: "list", values: [absVal, pct], ordered: true, display: `${sh(c)}, ${num(pct)}%` },
           solution: [changeLine, pctLine, `The actual ${word} has units; the percentage ${word} compares it with the original amount.`],
-          hint: "The actual change is new − original (or original − new). For the percentage, divide that by the ORIGINAL and multiply by 100.",
+          hint: "The actual change is new − original (or original − new). For the percentage, divide that by the **original** and multiply by 100.",
           traps: [{ spec: { type: "list", values: [pct, absVal], ordered: true }, feedback: `Right numbers, wrong order — give the actual ${word} first.` }],
         };
       }
@@ -910,7 +920,7 @@ export const drills: Drill[] = [
         prompt: `${what} Find the percentage ${word}.${exact ? "" : " Give your answer to 1 decimal place."}`,
         answer: pctAnswer(pct),
         solution: [changeLine, pctLine],
-        hint: "Find the actual change first. Then divide it by the ORIGINAL amount and multiply by 100.",
+        hint: "Find the actual change first. Then divide it by the **original** amount and multiply by 100.",
         traps: numTraps(pct, [
           [divNew, `You divided by the new value (${sh(N)}). Percentage change always compares with the original (${sh(O)}).`],
           [absVal, `${sh(c)} is the actual ${word}. Turn it into a percentage: divide by the original (${sh(O)}) and multiply by 100.`],
@@ -1093,13 +1103,13 @@ export const drills: Drill[] = [
       const Sc = (C * after) / 10;
       const m = clean(after / 1000);
       const prompt = isProfit
-        ? `A fruit seller buys a crate of durians for ${cash(100 * C)} and wants to make a ${pc(t)} profit. For how much should the seller sell the whole crate?`
-        : `${name} bought a used keyboard for ${cash(100 * C)} and sold it at a ${pc(t)} loss. How much did ${name} sell it for?`;
+        ? `A fruit seller buys a crate of durians for ${cash(100 * C)} and wants to make ${aPc(t)} profit. For how much should the seller sell the whole crate?`
+        : `${name} bought a used keyboard for ${cash(100 * C)} and sold it at ${aPc(t)} loss. How much did ${name} sell it for?`;
       return {
         prompt,
         answer: cashAnswer(Sc),
         solution: [`Selling price = 100% ${isProfit ? "+" : "−"} ${pc(t)} = ${pc(after)} of the cost price, so multiply by ${num(m)}.`, `${C} × ${num(m)} = ${dn(Sc)}.`],
-        hint: `A ${pc(t)} ${isProfit ? "profit" : "loss"} means the selling price is what percentage of the cost price?`,
+        hint: `${aPc(t).charAt(0).toUpperCase() + aPc(t).slice(1)} ${isProfit ? "profit" : "loss"} means the selling price is what percentage of the cost price?`,
         traps: numTraps(clean(Sc / 100), [[clean((C * t) / 1000), `That's only the ${isProfit ? "profit" : "loss"}. ${isProfit ? "Add it to" : "Take it away from"} the cost price.`]]),
       };
     },
@@ -1154,7 +1164,7 @@ export const drills: Drill[] = [
           prompt: `${name} invests ${cash(100 * P)} at ${R}% per year simple interest. How many years will it take to earn ${cash(Ic)} in interest?`,
           answer: { type: "number", value: T, display: `${T} years` },
           solution: [`Interest each year = ${R}% of ${P} = ${num(rt / 1000)} × ${P} = ${dn(perYearC)}.`, `Number of years = ${dn(Ic)} ÷ ${dn(perYearC)} = ${T}.`],
-          hint: "How much interest is earned in ONE year? How many of those make the total interest?",
+          hint: "How much interest is earned in **one** year? How many of those make the total interest?",
         };
       }
       return {
@@ -1222,7 +1232,7 @@ export const drills: Drill[] = [
             `Check: ${O} × 1.09 = ${dn(Nc)}.`,
           ],
           hint: "The price with GST is 109% of the original. Undo the multiplier by dividing.",
-          traps: numTraps(O, [[clean(roundQ(Nc * 91, 100, 0) / 100), `You took 9% off ${cash(Nc)}. But the 9% was added to the SMALLER, original price — divide by 1.09 instead.`]]),
+          traps: numTraps(O, [[clean(roundQ(Nc * 91, 100, 0) / 100), `You took 9% off ${cash(Nc)}. But the 9% was added to the **smaller**, original price — divide by 1.09 instead.`]]),
         };
       }
 
@@ -1255,7 +1265,7 @@ export const drills: Drill[] = [
         const item = rng.pick(["a pair of trainers", "a school bag", "a jacket", "a keyboard", "a bicycle helmet", "a pair of headphones"]);
         const prompt = rng.bool()
           ? `In a sale, everything is ${pc(t)} off. ${name} pays ${cash(Sc)} for ${item}. What was the price before the sale?`
-          : `${name} buys ${item} for ${cash(Sc)} after a ${pc(t)} discount. What was the original price?`;
+          : `${name} buys ${item} for ${cash(Sc)} after ${aPc(t)} discount. What was the original price?`;
         return {
           prompt,
           answer: cashAnswer(100 * O),
@@ -1272,7 +1282,7 @@ export const drills: Drill[] = [
         };
       }
       return {
-        prompt: `After a ${pc(t)} pay rise, ${name} earns ${cash(Sc)} a month. How much did ${name} earn each month before the pay rise?`,
+        prompt: `After ${aPc(t)} pay rise, ${name} earns ${cash(Sc)} a month. How much did ${name} earn each month before the pay rise?`,
         answer: cashAnswer(100 * O),
         solution: [
           `After the rise, the pay is 100% + ${pc(t)} = ${pc(after)} of the old pay, so old pay × ${num(m)} = ${dn(Sc)}.`,
@@ -1281,7 +1291,7 @@ export const drills: Drill[] = [
         ],
         hint: `The new pay is ${pc(after)} of the old pay. Undo the multiplier by dividing.`,
         traps: numTraps(O, [
-          [clean(roundQ(Sc * (1000 - t), 1000, 0) / 100), `You took ${pc(t)} off the new pay. The rise was ${pc(t)} of the OLD (smaller) pay — divide by ${num(m)} instead.`],
+          [clean(roundQ(Sc * (1000 - t), 1000, 0) / 100), `You took ${pc(t)} off the new pay. The rise was ${pc(t)} of the **old** (smaller) pay — divide by ${num(m)} instead.`],
         ]),
       };
     },
@@ -1339,7 +1349,7 @@ export const drills: Drill[] = [
         const m = clean((1000 - rt) / 1000);
         const trapList: Array<[number, string]> = [];
         if (n * rt < 1000) {
-          trapList.push([roundQ(V * (1000 - n * rt), 1000, 0), `You took ${n} × ${pc(rt)} off the original price. Each year's fall is ${pc(rt)} of the NEW, lower value, so multiply by ${num(m)} each year.`]);
+          trapList.push([roundQ(V * (1000 - n * rt), 1000, 0), `You took ${n} × ${pc(rt)} off the original price. Each year's fall is ${pc(rt)} of the **new**, lower value, so multiply by ${num(m)} each year.`]);
         }
         return {
           prompt: `${thing.what} is bought for ${cash(100 * V)}. Its value falls by ${pc(rt)} each year. What is it worth after ${n} years? Give your answer to the nearest dollar.`,
@@ -1375,7 +1385,7 @@ export const drills: Drill[] = [
       ]);
       const verdict =
         overall < 0
-          ? `${num(M)} is ${pc(M * 1000)} of the original, so the overall change is ${num(overall)}% (a ${num(-overall)}% decrease).`
+          ? `${num(M)} is ${pc(M * 1000)} of the original, so the overall change is ${num(overall)}% (${an(num(-overall))} ${num(-overall)}% decrease).`
           : overall > 0
             ? `${num(M)} is ${pc(M * 1000)} of the original, so the overall change is +${num(overall)}% (an increase).`
             : `The overall multiplier is exactly 1, so there is no overall change: 0%.`;
@@ -1384,11 +1394,11 @@ export const drills: Drill[] = [
         answer: {
           type: "number",
           value: overall,
-          display: overall < 0 ? `${num(overall)}% (a ${num(-overall)}% decrease)` : overall > 0 ? `${num(overall)}% (an increase)` : "0% (no change)",
+          display: overall < 0 ? `${num(overall)}% (${an(num(-overall))} ${num(-overall)}% decrease)` : overall > 0 ? `${num(overall)}% (an increase)` : "0% (no change)",
         },
         solution: [`The multipliers are ${m1} and ${m2}. The second change acts on the new amount, so multiply them.`, `Overall multiplier: ${m1} × ${m2} = ${num(M)}.`, verdict],
         hint: "Write each change as a multiplier, then multiply the multipliers together. Don't add the percentages.",
-        traps: numTraps(overall, [[s1 * a + s2 * b, `You added the percentages. The second change is a percentage of the NEW amount, so multiply the multipliers: ${m1} × ${m2} = ${num(M)}.`]]),
+        traps: numTraps(overall, [[s1 * a + s2 * b, `You added the percentages. The second change is a percentage of the **new** amount, so multiply the multipliers: ${m1} × ${m2} = ${num(M)}.`]]),
       };
     },
   },

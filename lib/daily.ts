@@ -14,8 +14,11 @@
 //   5 · Stretch           — an unsolved challenge problem from a practised or
 //                           focus topic, else a skill at the hardest tier.
 //
+// The set stays mixed: no skill twice, and (due reviews aside) no more than two
+// items from one topic while other topics have skills to offer.
 // Same (date, profileKey, data snapshot) → same five items. A brand-new
-// learner gets level-1 drills across the first ready topics. Never throws.
+// learner gets five level-1 drills across the first ready topics (no challenge
+// problem on day one). Never throws.
 // ---------------------------------------------------------------------------
 import type { ProgressDoc, SkillState } from "./profileTypes.ts";
 import type { DrillItem, Rng } from "./drills/types.ts";

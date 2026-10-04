@@ -100,6 +100,11 @@ function hcfPair(rng: Rng, hMin: number, hMax: number, mMin: number, mMax: numbe
   return { h, m: 2, n: 3, a: 2 * h, b: 3 * h };
 }
 
+/** A one-trap list, or none when the guard fails (a trap must never equal the answer). */
+function onlyIf(ok: boolean, trap: Trap): Trap[] {
+  return ok ? [trap] : [];
+}
+
 /** Power of p in a prime factorisation (0 if absent). */
 function powerIn(pairs: PF, p: number): number {
   const f = pairs.find(([q]) => q === p);
@@ -899,7 +904,7 @@ export const drills: Drill[] = [
               `Altogether ${m} + ${n} = ${m + n} pieces.`,
             ],
             hint: "First find the longest length that fits exactly into both ribbons.",
-            traps: [{ spec: { type: "number", value: h }, feedback: `${h} cm is the length of each piece — the question asks how many pieces.` }],
+            traps: onlyIf(h !== m + n, { spec: { type: "number", value: h }, feedback: `${h} cm is the length of each piece — the question asks how many pieces.` }),
           };
         }
         return {
@@ -929,7 +934,7 @@ export const drills: Drill[] = [
               `Each bag gets ${a} ÷ ${h} = ${m} ${itemA} (and ${b} ÷ ${h} = ${n} ${itemB}).`,
             ],
             hint: "First find the greatest number of bags, then share out the items.",
-            traps: [{ spec: { type: "number", value: h }, feedback: `${h} is the number of bags — the question asks how many ${itemA} are in each.` }],
+            traps: onlyIf(h !== m, { spec: { type: "number", value: h }, feedback: `${h} is the number of bags — the question asks how many ${itemA} are in each.` }),
           };
         }
         return {
@@ -967,7 +972,7 @@ export const drills: Drill[] = [
             `Number of tiles = ${mm} × ${nn} = ${mm * nn}.`,
           ],
           hint: "First find the largest square tile that fits exactly along both sides.",
-          traps: [{ spec: { type: "number", value: hh }, feedback: `${hh} cm is the tile size — the question asks how many tiles.` }],
+          traps: onlyIf(hh !== mm * nn, { spec: { type: "number", value: hh }, feedback: `${hh} cm is the tile size — the question asks how many tiles.` }),
         };
       }
       return {

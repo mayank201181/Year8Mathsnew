@@ -580,6 +580,16 @@ function factorMarkup(f: [number, number][]): string {
   return f.map(([p, e]) => (e > 1 ? `${p}^${e}` : `${p}`)).join(" * ");
 }
 
+/** "12 = 2² × 3", or just "7 (prime)" when there is nothing to factorise. */
+function FactorEq({ k, f }: { k: number; f: [number, number][] }) {
+  if (f.length === 1 && f[0][1] === 1) return <>{k} (prime)</>;
+  return (
+    <>
+      {k} = <M>{factorMarkup(f)}</M>
+    </>
+  );
+}
+
 function DotDecimal({ ld }: { ld: LongDivision }) {
   const { whole, digits, cycleStart, cycleLen, terminates } = ld;
   const spoken = terminates
@@ -758,7 +768,7 @@ function FractionDecimalMachine() {
         ) : null}
         {sd > 1 ? (
           <>
-            The denominator {sd} = <M>{factorMarkup(factors)}</M> has only 2s and 5s as prime factors, so it divides a power of 10:{" "}
+            The denominator <FactorEq k={sd} f={factors} /> has only 2s and 5s as prime factors, so it divides a power of 10:{" "}
             <M>{`${sn}/${sd} = (${sn} * ${mult})/(${sd} * ${mult}) = ${sn * mult}/${pow}`}</M> = {soFar}. The denominator becomes{" "}
             {pow} (a 1 followed by {tdp} zero{tdp === 1 ? "" : "s"}), so there {tdp === 1 ? "is 1 decimal place" : `are ${tdp} decimal places`}.
           </>
@@ -780,7 +790,7 @@ function FractionDecimalMachine() {
             In simplest form it is <M>{`${sn}/${sd}`}</M>.{" "}
           </>
         ) : null}
-        The denominator {sd} = <M>{factorMarkup(factors)}</M> has the prime factor{others.length > 1 ? "s" : ""} {others.join(" and ")},
+        The denominator <FactorEq k={sd} f={factors} /> has the prime factor{others.length > 1 ? "s" : ""} {others.join(" and ")},
         which no power of 10 contains — so it can never divide exactly into 10, 100, 1000, …
       </span>
     );
@@ -833,7 +843,7 @@ function FractionDecimalMachine() {
               <span className="font-mono text-ink">{soFar}…</span>
             )}
           </div>
-          <div className="mt-3 flex flex-wrap items-start justify-center gap-y-2 font-mono" aria-label="Long division digits with the remainder after each step">
+          <div className="mt-3 flex flex-wrap items-start justify-center gap-y-2 font-mono" role="group" aria-label="Long division digits with the remainder after each step">
             <div className="flex flex-col items-center">
               <span className="flex h-10 min-w-7 items-center justify-center rounded-md border-2 border-line bg-surface px-1 text-xl font-extrabold">
                 {wholeStr}
@@ -841,7 +851,7 @@ function FractionDecimalMachine() {
               <span className={`mt-0.5 text-[10px] font-bold ${repIdx.has(0) ? "text-warn" : "text-ink-2"}`}>r{ld.rems[0]}</span>
             </div>
             {total > 0 ? <span className="self-start px-0.5 pt-3 text-2xl font-extrabold leading-none">.</span> : null}
-            {ld.digits.map((dg, i) => {
+            {ld.digits.slice(0, Math.min(total, k + 1)).map((dg, i) => {
               const shown = i < k;
               const inCycle = showCycle && i >= ld.cycleStart;
               const next = i === k;
@@ -856,13 +866,13 @@ function FractionDecimalMachine() {
                   >
                     {shown ? dg : next ? "?" : "·"}
                   </span>
-                  <span className={`mt-0.5 text-[10px] font-bold ${rCls}`}>r{shown ? r : 0}</span>
+                  <span className={`mt-0.5 h-4 text-[10px] font-bold ${rCls}`}>{shown ? `r${r}` : ""}</span>
                 </div>
               );
             })}
           </div>
           <p className="mt-2 text-center text-[11px] font-semibold text-ink-2">
-            Under each digit: the remainder (r) carried to the next step.{showCycle ? " The orange remainders match — that starts the cycle." : ""}
+            Under each digit: the remainder (r) carried to the next step.{showCycle ? " The highlighted remainders match — that is where the cycle starts again." : ""}
           </p>
         </div>
 
@@ -896,7 +906,7 @@ function FractionDecimalMachine() {
                   "1"
                 ) : (
                   <span>
-                    {sd} = <M>{factorMarkup(factors)}</M>
+                    <FactorEq k={sd} f={factors} />
                   </span>
                 )
               }
