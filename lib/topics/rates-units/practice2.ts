@@ -518,64 +518,64 @@ export const morePapers: Paper[] = [
       },
       // ------------------------------------------------------------- q19
       {
-        kind: "written",
+        kind: "short",
         id: "rates-units-p3-q19",
         question:
-          "A school has a flat roof measuring 30 m by 20 m. All the rain that falls on it drains into an empty tank, a cuboid 4 m long, 3 m wide and 1.5 m high. During a monsoon storm, 25 mm of rain falls.\n\n(a) Does the tank overflow? Show your working.\n\n(b) What depth of rain, in mm, would exactly fill the empty tank?",
-        marks: 4,
-        modelAnswer:
-          "Roof area = 30 × 20 = 600 m². Rain depth = 25 mm = 0.025 m.\n\nVolume of rain = 600 × 0.025 = 15 m³ (15 000 litres).\n\nTank volume = 4 × 3 × 1.5 = 18 m³ (18 000 litres).\n\n(a) 15 m³ is less than 18 m³, so the tank does **not** overflow. There is 3 m³ (3000 litres) of space left.\n\n(b) Depth = volume ÷ area = 18 ÷ 600 = 0.03 m = 30 mm of rain.",
-        markScheme: [
-          { point: "Converts 25 mm to 0.025 m (or uses consistent units throughout)", keywords: ["0.025", "2.5 cm", "2000 cm", "3000 cm"] },
-          { point: "Volume of rain 15 m³ (15 000 litres)", keywords: ["15 m³", "15 000", "15000", "= 15"] },
-          { point: "Tank volume 18 m³ and conclusion: it does not overflow", keywords: ["18", "18 000", "does not overflow", "not overflow", "no"] },
-          { point: "Depth needed to fill the tank 30 mm", keywords: ["30 mm", "0.03", "30"] },
+          "A map has a scale of 1 : 50 000. On the map, a nature reserve covers an area of 6 cm². What is the real area of the nature reserve, in km²?",
+        answer: { type: "number", value: 1.5, display: "1.5 km²" },
+        traps: [
+          { spec: { type: "number", value: 3 }, feedback: "You scaled the area like a length. A 1 cm by 1 cm square on the map stands for a real square 0.5 km by 0.5 km, which is 0.25 km², not 0.5 km²." },
+          { spec: { type: "number", value: 300000 }, feedback: "6 × 50 000 scales a length, not an area — and the units need changing to km too. Find what 1 cm on the map stands for in km first." },
         ],
-        commonError: "Multiplying 600 by 25 (mixing m² with mm) to get 15 000 'm³' — almost a thousand times too big. Put the depth in metres first.",
+        solution: [
+          "Lengths first: 1 cm on the map stands for 50 000 cm = 500 m = 0.5 km in real life.",
+          "So a 1 cm by 1 cm square on the map stands for a real square 0.5 km by 0.5 km, with area 0.5 × 0.5 = 0.25 km².",
+          "Each cm² on the map is 0.25 km², so 6 cm² stands for 6 × 0.25 = 1.5 km².",
+        ],
+        solutions: [
+          {
+            label: "Picture a rectangle",
+            steps: [
+              "Imagine the reserve as a 3 cm by 2 cm rectangle on the map (area 6 cm²).",
+              "Real lengths: 3 × 0.5 = 1.5 km and 2 × 0.5 = 1 km.",
+              "Real area = 1.5 × 1 = 1.5 km². Any shape with area 6 cm² scales the same way.",
+            ],
+          },
+        ],
+        commonError: "Multiplying the map area by the length scale only once. Areas scale by the length factor **squared**.",
         difficulty: "challenge",
         guideRef: "area-volume-units",
         hints: [
-          "The rain on the roof forms a very thin cuboid of water. What are its length, width and depth?",
-          "Put everything in metres: 25 mm = 0.025 m.",
-          "For (b), work backwards: what depth spread over 600 m² gives the tank's volume?",
+          "What real length, in km, does 1 cm on the map stand for?",
+          "A 1 cm by 1 cm square on the map stands for a real square. How big is that square, and what is its area?",
+          "Each cm² on the map stands for 0.5 × 0.5 km². Now scale up to 6 cm².",
         ],
         strategy: "Draw a diagram",
       },
       // ------------------------------------------------------------- q20
       {
-        kind: "short",
+        kind: "written",
         id: "rates-units-p3-q20",
         question:
-          "Marcus runs up a hill path at 6 km/h and straight back down the same path at 12 km/h. The length of the path is not given. What is his average speed for the whole run, in km/h?",
-        answer: { type: "number", value: 8, display: "8 km/h" },
-        traps: [
-          { spec: { type: "number", value: 9 }, feedback: "9 is the mean of 6 and 12. But Marcus spends twice as long going up as coming down, so the slow speed counts for more." },
+          "Zara cycles a 30 km route. She says: \"Speeding up from 10 km/h to 20 km/h saves me the same amount of time as speeding up from 20 km/h to 30 km/h, because both are increases of 10 km/h.\"\n\n(a) Test Zara's claim for her 30 km route.\n\n(b) Show that, whatever the length of the route, the first saving is always 3 times the second.",
+        marks: 4,
+        modelAnswer:
+          "(a) Time = distance ÷ speed. At 10 km/h: 30 ÷ 10 = 3 h. At 20 km/h: 30 ÷ 20 = 1.5 h. At 30 km/h: 30 ÷ 30 = 1 h.\n\nGoing from 10 to 20 km/h saves 3 − 1.5 = 1.5 h (90 min). Going from 20 to 30 km/h saves only 1.5 − 1 = 0.5 h (30 min). The savings are not the same, so Zara is wrong.\n\n(b) For a route of d km, the times are {{d/10}}, {{d/20}} and {{d/30}} hours.\n\nFirst saving: {{d/10 - d/20 = 2d/20 - d/20 = d/20}}. Second saving: {{d/20 - d/30 = 3d/60 - 2d/60 = d/60}}.\n\n{{d/20 = 3d/60}}, which is 3 times {{d/60}}, whatever d is. Time is distance ÷ speed, so each extra 10 km/h saves less time than the one before.",
+        markScheme: [
+          { point: "Times for 30 km: 3 h, 1.5 h and 1 h", keywords: ["3 h", "3 hours", "1.5", "1 h", "1 hour"] },
+          { point: "Savings 1.5 h (90 min) and 0.5 h (30 min), so Zara is wrong", keywords: ["90", "0.5", "30 min", "wrong", "not the same", "no"] },
+          { point: "General times d/10, d/20 and d/30 for a route of d km", keywords: ["d/10", "d/20", "d/30", "d ÷ 10", "d ÷ 20"] },
+          { point: "Savings d/20 and d/60, and d/20 = 3 × d/60", keywords: ["d/60", "3d/60", "3 times", "three times"] },
         ],
-        solution: [
-          "The length isn't given, so choose a convenient one: 12 km (a multiple of both 6 and 12).",
-          "Up: 12 ÷ 6 = 2 h. Down: 12 ÷ 12 = 1 h.",
-          "Total: 24 km in 3 h, so average speed = 24 ÷ 3 = 8 km/h.",
-          "Any length gives the same answer. Try 6 km: 1 h up, 0.5 h down, so 12 km in 1.5 h = 8 km/h.",
-        ],
-        solutions: [
-          {
-            label: "Using a letter",
-            steps: [
-              "Let the path be d km. Time up = {{d/6}} h and time down = {{d/12}} h.",
-              "Total time = {{d/6 + d/12 = 3d/12 = d/4}} h.",
-              "Average speed = 2d ÷ {{d/4}} = 8 km/h. The d cancels, which is why the length didn't matter.",
-            ],
-          },
-        ],
-        commonError: "Taking the mean of the two speeds, 9 km/h.",
+        commonError: "Assuming time goes down by equal steps when speed goes up by equal steps. Time = distance ÷ speed, so dividing by bigger and bigger speeds changes the time by less and less.",
         difficulty: "challenge",
         guideRef: "speed",
         hints: [
-          "The answer can't depend on the length, so pick a length that makes the arithmetic easy.",
-          "Try a path 12 km long. How long does each half of the run take?",
-          "Average speed = total distance ÷ total time.",
+          "Work out how long the 30 km route takes at each of the three speeds.",
+          "Compare the two savings. Are they equal?",
+          "For (b), call the length d km and write each time as a fraction with d on top.",
         ],
-        strategy: "Try a convenient number",
+        strategy: "Introduce a variable",
       },
     ],
   },
@@ -617,17 +617,22 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "rates-units-p4-q02",
         question:
-          "Jun's fitness app records time as a decimal number of hours. His hike up Bukit Timah Hill and back took 1 h 48 min. What number should the app show? Give your answer as a decimal.",
-        answer: { type: "number", value: 1.8, allowFraction: false, display: "1.8 hours" },
+          "A car park charges 2 cents for every minute. Jun's dad parks there from 10:35 to 12:10. How much does he pay? Give your answer in dollars.",
+        answer: { type: "number", value: 1.9, display: "$1.90" },
         traps: [
-          { spec: { type: "number", value: 1.48 }, feedback: "An hour has 60 minutes, not 100. 48 minutes is {{48/60}} = 0.8 of an hour." },
+          { spec: { type: "number", value: 2.7 }, feedback: "12:10 − 10:35 is not 1.75 hours (or 1 h 75 min). Clock times aren't decimals: count on 10:35 → 11:00 → 12:00 → 12:10." },
+          { spec: { type: "number", value: 190 }, feedback: "190 is the cost in **cents**. Give your answer in dollars." },
         ],
-        solution: ["48 minutes = {{48/60}} of an hour = 0.8 h.", "So 1 h 48 min = 1.8 hours."],
-        commonError: "Writing 1 h 48 min as 1.48 h.",
+        solution: [
+          "Count on: 10:35 → 11:00 is 25 min, 11:00 → 12:00 is 60 min, 12:00 → 12:10 is 10 min.",
+          "Total time = 25 + 60 + 10 = 95 minutes.",
+          "Cost = 95 × 2 = 190 cents = $1.90.",
+        ],
+        commonError: "Subtracting 10.35 from 12.10 as if they were decimals.",
         difficulty: "warmup",
         guideRef: "time",
-        hints: ["What fraction of an hour is 48 minutes?", "Divide 48 by 60."],
-        strategy: "Use the inverse",
+        hints: ["How many minutes is it from 10:35 to 12:10? Count on through 11:00 and 12:00.", "Multiply the minutes by 2 cents, then change cents into dollars."],
+        strategy: "Count on in friendly jumps",
       },
       // ------------------------------------------------------------- q03
       {
@@ -652,16 +657,20 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "rates-units-p4-q04",
         question:
-          "Supermarket shelf labels show a **unit price** for each 100 ml. A 1.5-litre bottle of soya milk costs $3.30. What unit price should its label show?",
-        answer: { type: "number", value: 0.22, display: "$0.22 per 100 ml" },
+          "Supermarket shelf labels show a **unit price** for each 100 g. A 750 g tub of Greek yogurt costs $4.50. What unit price should its label show?",
+        answer: { type: "number", value: 0.6, display: "$0.60 per 100 g" },
         traps: [
-          { spec: { type: "number", value: 2.2 }, feedback: "$2.20 is the price per **litre**. The label needs the price per 100 ml." },
+          { spec: { type: "number", value: 6 }, feedback: "$6.00 is the price per **kilogram**. The label needs the price per 100 g." },
+          { spec: { type: "number", value: 0.06 }, feedback: "750 g is 7.5 lots of 100 g, not 75 lots." },
         ],
-        solution: ["1.5 litres = 1500 ml, which is 15 lots of 100 ml.", "Unit price = 3.30 ÷ 15 = $0.22 per 100 ml."],
-        commonError: "Dividing by 1.5 and giving the price per litre.",
+        solution: ["750 g is 750 ÷ 100 = 7.5 lots of 100 g.", "Unit price = 4.50 ÷ 7.5 = $0.60 per 100 g."],
+        solutions: [
+          { label: "Find 250 g first", steps: ["750 g costs $4.50, so 250 g costs $1.50 (divide by 3).", "100 g is {{2/5}} of 250 g: {{2/5}} × 1.50 = $0.60."] },
+        ],
+        commonError: "Dividing by 75 instead of 7.5.",
         difficulty: "warmup",
         guideRef: "density-and-rates",
-        hints: ["How many lots of 100 ml are in 1.5 litres?", "Share the price equally between them."],
+        hints: ["How many lots of 100 g are in 750 g?", "Share the price equally between them."],
         strategy: "Use the unitary method",
       },
       // ------------------------------------------------------------- q05
@@ -687,25 +696,25 @@ export const morePapers: Paper[] = [
         id: "rates-units-p4-q06",
         question:
           "The distance–time graph shows Hana's bike ride from home to East Coast Park and back.\n\n(a) Find her speed on the way **to** the park, in km/h.\n\n(b) Find her average speed for the whole trip, including the stop, in km/h.\n\nType your two answers in order as numbers, separated by a comma.",
-        diagram: `<svg viewBox="0 0 480 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Distance-time graph. Time in minutes from 0 to 120 across, grid every 10 minutes. Distance from home in km from 0 to 14 up, grid every 2 km. The line rises from 0 km at 0 minutes to 12 km at 40 minutes, stays flat at 12 km until 60 minutes, then falls back to 0 km at 120 minutes."><rect width="480" height="310" fill="#ffffff"/><path d="M90 40V250M120 40V250M150 40V250M180 40V250M210 40V250M240 40V250M270 40V250M300 40V250M330 40V250M360 40V250M390 40V250M420 40V250M60 220H420M60 190H420M60 160H420M60 130H420M60 100H420M60 70H420M60 40H420" stroke="#cbd5e1" stroke-width="1" fill="none"/><line x1="60" y1="250" x2="430" y2="250" stroke="#334155" stroke-width="1.5"/><line x1="60" y1="250" x2="60" y2="32" stroke="#334155" stroke-width="1.5"/><polyline points="60,250 180,70 240,70 420,250" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><g font-family="sans-serif" font-size="11" fill="#1f2937" text-anchor="middle"><text x="60" y="266">0</text><text x="120" y="266">20</text><text x="180" y="266">40</text><text x="240" y="266">60</text><text x="300" y="266">80</text><text x="360" y="266">100</text><text x="420" y="266">120</text></g><g font-family="sans-serif" font-size="11" fill="#1f2937" text-anchor="end"><text x="52" y="254">0</text><text x="52" y="224">2</text><text x="52" y="194">4</text><text x="52" y="164">6</text><text x="52" y="134">8</text><text x="52" y="104">10</text><text x="52" y="74">12</text><text x="52" y="44">14</text></g><text x="240" y="292" font-family="sans-serif" font-size="12" fill="#1f2937" text-anchor="middle">Time (minutes)</text><text x="18" y="145" font-family="sans-serif" font-size="12" fill="#1f2937" text-anchor="middle" transform="rotate(-90 18 145)">Distance from home (km)</text></svg>`,
-        answer: { type: "list", values: [18, 12], ordered: true, display: "(a) 18 km/h, (b) 12 km/h" },
+        diagram: `<svg viewBox="0 0 480 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Distance-time graph. Time in minutes from 0 to 120 across, grid every 10 minutes. Distance from home in km from 0 to 12 up, grid every 2 km. The line rises from 0 km at 0 minutes to 10 km at 40 minutes, stays flat at 10 km until 70 minutes, then falls back to 0 km at 120 minutes."><rect width="480" height="310" fill="#ffffff"/><path d="M90 70V250M120 70V250M150 70V250M180 70V250M210 70V250M240 70V250M270 70V250M300 70V250M330 70V250M360 70V250M390 70V250M420 70V250M60 220H420M60 190H420M60 160H420M60 130H420M60 100H420M60 70H420" stroke="#cbd5e1" stroke-width="1" fill="none"/><line x1="60" y1="250" x2="430" y2="250" stroke="#334155" stroke-width="1.5"/><line x1="60" y1="250" x2="60" y2="60" stroke="#334155" stroke-width="1.5"/><polyline points="60,250 180,100 270,100 420,250" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><g font-family="sans-serif" font-size="11" fill="#1f2937" text-anchor="middle"><text x="60" y="266">0</text><text x="120" y="266">20</text><text x="180" y="266">40</text><text x="240" y="266">60</text><text x="300" y="266">80</text><text x="360" y="266">100</text><text x="420" y="266">120</text></g><g font-family="sans-serif" font-size="11" fill="#1f2937" text-anchor="end"><text x="52" y="254">0</text><text x="52" y="224">2</text><text x="52" y="194">4</text><text x="52" y="164">6</text><text x="52" y="134">8</text><text x="52" y="104">10</text><text x="52" y="74">12</text></g><text x="240" y="292" font-family="sans-serif" font-size="12" fill="#1f2937" text-anchor="middle">Time (minutes)</text><text x="18" y="160" font-family="sans-serif" font-size="12" fill="#1f2937" text-anchor="middle" transform="rotate(-90 18 160)">Distance from home (km)</text></svg>`,
+        answer: { type: "list", values: [15, 10], ordered: true, display: "(a) 15 km/h, (b) 10 km/h" },
         traps: [
           {
-            spec: { type: "list", values: [18, 15], ordered: true },
-            feedback: "15 km/h is the mean of the two riding speeds, 18 and 12. Average speed = total distance ÷ total time.",
+            spec: { type: "list", values: [15, 13.5], ordered: true },
+            feedback: "13.5 km/h is the mean of the two riding speeds, 15 and 12. Average speed = total distance ÷ total time.",
           },
           {
-            spec: { type: "list", values: [18, 14.4], ordered: true },
-            feedback: "Include the 20-minute stop in the total time: the whole trip took 2 hours.",
+            spec: { type: "list", values: [15, 13.33], ordered: true, tolerance: 0.05 },
+            feedback: "Include the 30-minute stop in the total time: the whole trip took 2 hours.",
           },
         ],
         solution: [
-          "(a) She rides 12 km in the first 40 min. 40 min = {{2/3}} h, so speed = 12 ÷ {{2/3}} = 18 km/h. (Or: 12 km in 40 min is 3 km every 10 min, which is 18 km in 60 min.)",
-          "(b) Total distance = 12 km out + 12 km back = 24 km.",
-          "Total time = 120 min = 2 h (the flat part, her stop, counts).",
-          "Average speed = 24 ÷ 2 = 12 km/h.",
+          "(a) She rides 10 km in the first 40 min. 40 min = {{2/3}} h, so speed = 10 ÷ {{2/3}} = 15 km/h. (Or: 10 km in 40 min is 2.5 km every 10 min, which is 15 km in 60 min.)",
+          "(b) Total distance = 10 km out + 10 km back = 20 km.",
+          "Total time = 120 min = 2 h (the flat part, her 30-minute stop, counts).",
+          "Average speed = 20 ÷ 2 = 10 km/h.",
         ],
-        commonError: "Using only 12 km as the total distance for (b), forgetting the ride home.",
+        commonError: "Using only 10 km as the total distance for (b), forgetting the ride home.",
         difficulty: "core",
         guideRef: "speed",
         hints: [
@@ -752,51 +761,51 @@ export const morePapers: Paper[] = [
         kind: "written",
         id: "rates-units-p4-q08",
         question:
-          "Ravi works out how much water his family's tank holds. The tank's volume is 0.5 m³. Here is his working:\n\n    1 m = 100 cm, so 1 m³ = 100 × 100 × 100 = 1 000 000 cm³\n    0.5 m³ = 0.5 × 1 000 000 = 500 000 cm³\n    So the tank holds 500 000 litres.\n\nIs Ravi right? Explain his mistake and give the correct capacity in litres.",
+          "Ravi designs a juice carton. It is a cuboid with a square base 7 cm by 7 cm and a height of 20 cm. He says: \"My carton will hold 1 litre of juice.\"\n\n(a) Is Ravi right? Explain.\n\n(b) Keeping the same base, what is the least whole number of centimetres the height could be, so that the carton holds at least 1 litre?",
         marks: 3,
         modelAnswer:
-          "Ravi's first two lines are correct: cubing 100 gives 1 m³ = 1 000 000 cm³, so 0.5 m³ = 500 000 cm³.\n\nHis mistake is the last line: a cm³ is not a litre. 1 cm³ = 1 ml, and 1000 cm³ = 1 litre.\n\nSo the tank holds 500 000 ÷ 1000 = 500 litres. (500 000 litres would fill a small swimming pool — far too much for a home tank.)",
+          "(a) Volume = 7 × 7 × 20 = 980 cm³. 1 litre = 1000 cm³, so the carton holds only 980 ml, which is 20 ml short. Ravi is not right.\n\n(b) The base area is 7 × 7 = 49 cm², so the height must be at least 1000 ÷ 49 ≈ 20.4 cm. A height of 20 cm is too small, so the least whole number of centimetres is **21 cm** (21 × 49 = 1029 cm³).",
         markScheme: [
-          { point: "Agrees that 0.5 m³ = 500 000 cm³ (cubing 100 is correct)", keywords: ["500 000 cm", "500000 cm", "1 000 000", "1000000", "correct"] },
-          { point: "Identifies the error: cm³ are not litres, since 1000 cm³ = 1 litre (or 1 cm³ = 1 ml)", keywords: ["1000 cm³", "1 ml", "ml", "not litres", "divide by 1000", "÷ 1000"] },
-          { point: "Correct capacity: 500 litres", keywords: ["500 litres", "500 l", "500"] },
+          { point: "Volume 980 cm³", keywords: ["980"] },
+          { point: "Compares with 1 litre = 1000 cm³: not enough (20 ml short), so Ravi is wrong", keywords: ["1000", "20 ml", "short", "no", "not right", "wrong"] },
+          { point: "Least whole-number height 21 cm (from 1000 ÷ 49 ≈ 20.4)", keywords: ["21", "20.4", "1029"] },
         ],
-        commonError: "Thinking 1 cm³ = 1 litre. A litre is a 10 cm cube, which holds 1000 cm³.",
+        commonError: "Rounding 20.4 down to 20 cm. That brings you back to 980 cm³ — not enough — so round **up**.",
         difficulty: "core",
         guideRef: "area-volume-units",
         hints: [
-          "Check each line separately. Which is the first line that goes wrong?",
           "How many cm³ make 1 litre?",
-          "Divide the number of cm³ by 1000.",
+          "Find the volume of Ravi's carton and compare.",
+          "For (b), work backwards: height = volume ÷ base area. Then decide whether to round up or down.",
         ],
-        strategy: "Spot the error",
+        strategy: "Work backwards",
       },
       // ------------------------------------------------------------- q09
       {
         kind: "short",
         id: "rates-units-p4-q09",
         question:
-          "Wei Ling compares three bottles of laundry liquid.\n\n| Size | Volume | Price |\n|---|---|---|\n| Small | 800 ml | $5.60 |\n| Medium | 1.5 litres | $9.90 |\n| Large | 2.5 litres | $17.00 |\n\nFind the price per 100 ml of the **best-value** bottle. Give your answer in dollars.",
-        answer: { type: "number", value: 0.66, display: "$0.66 per 100 ml (the medium bottle)" },
+          "Wei Ling needs **at least 3 litres** of laundry liquid. The shop sells these bottles, and she can buy any mix of them.\n\n| Size | Volume | Price |\n|---|---|---|\n| Small | 800 ml | $5.60 |\n| Medium | 1.5 litres | $9.90 |\n| Large | 2.5 litres | $17.00 |\n\nWhat is the least she can pay? Give your answer in dollars.",
+        answer: { type: "number", value: 19.8, display: "$19.80 (two medium bottles)" },
         traps: [
-          { spec: { type: "number", value: 0.68 }, feedback: "That's the large bottle. Compare all three unit prices — bigger isn't always cheaper." },
-          { spec: { type: "number", value: 0.7 }, feedback: "That's the small bottle, the most expensive per 100 ml. Best value means the lowest unit price." },
+          { spec: { type: "number", value: 17 }, feedback: "One large bottle holds only 2.5 litres — that's not enough." },
+          { spec: { type: "number", value: 21.1 }, feedback: "One medium and two small bottles do give at least 3 litres, but there is a cheaper way." },
         ],
         solution: [
-          "Small: 800 ml = 8 lots of 100 ml → 5.60 ÷ 8 = $0.70 per 100 ml.",
-          "Medium: 1.5 litres = 1500 ml = 15 lots → 9.90 ÷ 15 = $0.66 per 100 ml.",
-          "Large: 2.5 litres = 2500 ml = 25 lots → 17.00 ÷ 25 = $0.68 per 100 ml.",
-          "The lowest price per 100 ml is the medium bottle, at $0.66.",
+          "Unit prices per 100 ml: small 5.60 ÷ 8 = $0.70, medium 9.90 ÷ 15 = $0.66, large 17.00 ÷ 25 = $0.68. Medium is the best value.",
+          "Two medium bottles make exactly 3 litres for 2 × $9.90 = $19.80.",
+          "Check the other ways of getting at least 3 litres: large + small (3.3 litres) = $22.60; one medium + two small (3.1 litres) = $21.10; four small (3.2 litres) = $22.40. Anything with a large and a medium, or two large, costs even more.",
+          "The least she can pay is $19.80.",
         ],
-        commonError: "Assuming the largest bottle must be the best value without checking.",
+        commonError: "Assuming the largest bottle must be the best value, or buying more liquid than needed without comparing costs.",
         difficulty: "core",
         guideRef: "density-and-rates",
         hints: [
-          "To compare fairly, find the price of the same amount from each bottle.",
-          "Change every volume into ml, then count the lots of 100 ml in each bottle.",
-          "The best value has the lowest price per 100 ml.",
+          "Which bottle is the best value per 100 ml?",
+          "Can you make at least 3 litres using only the best-value bottles?",
+          "List the other combinations that give at least 3 litres and compare their total costs.",
         ],
-        strategy: "Use the unitary method",
+        strategy: "Split into cases",
       },
       // ------------------------------------------------------------- q10
       {

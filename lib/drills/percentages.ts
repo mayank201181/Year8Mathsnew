@@ -119,6 +119,8 @@ function mentalSteps(t: number, A: number): string[] {
       return [`12.5% is {{1/8}}: ${a} ÷ 8 = ${ans}.`];
     case 1500:
       return [`100% is ${a}, and 50% is half of it: ${v(500)}.`, `150% = 100% + 50% = ${a} + ${v(500)} = ${ans}.`];
+    case 1750:
+      return [`100% is ${a}. 50% is half of it: ${v(500)}. 25% is half of that: ${v(250)}.`, `175% = 100% + 50% + 25% = ${a} + ${v(500)} + ${v(250)} = ${ans}.`];
   }
   const lines: string[] = [];
   if (t === 950 || t === 990) {
@@ -331,7 +333,7 @@ export const drills: Drill[] = [
         const N = t * A; // answer = N / 1000
         const needWhole = tier === 1 || ctx === "people";
         const fits = needWhole ? N % 1000 === 0 : tier === 2 ? N % 100 === 0 : N % 10 === 0;
-        if (fits && N > 0) {
+        if (fits && N > 0 && A !== 100) {
           ok = true;
           break;
         }
@@ -562,7 +564,12 @@ export const drills: Drill[] = [
       }
       if (t % 50 === 0) t = 170;
       const name = rng.pick(NAMES);
-      const ctx = t > 1000 ? rng.pick(["plain", "rent", "plant"] as const) : rng.pick(tier === 1 ? (["plain", "field", "save"] as const) : (["plain", "field", "save", "deposit"] as const));
+      // Keep contexts realistic: nobody saves 85% of their pay or pays a 90% deposit.
+      type Ctx = "plain" | "field" | "save" | "deposit" | "rent" | "plant";
+      const options: Ctx[] = t > 1000 ? ["plain", "rent", "plant"] : ["plain", "field"];
+      if (t <= 400) options.push("save");
+      if (tier > 1 && t <= 500) options.push("deposit");
+      const ctx = rng.pick(options);
       let base: number; // cents for money contexts, otherwise the plain number
       if (ctx === "plain") base = tier === 1 ? rng.int(12, 900) : rng.int(12, 2000);
       else if (ctx === "field") base = tier === 1 ? 10 * rng.int(5, 300) : rng.int(50, 5000);
@@ -598,7 +605,7 @@ export const drills: Drill[] = [
       else if (ctx === "field") prompt = `A farm has ${big(base)} m² of land. ${pc(t)} of it is used for growing vegetables. What area is that, in m²?${round}`;
       else if (ctx === "plant") prompt = `A sunflower was ${base} cm tall last month. Now it is ${pc(t)} of that height. How tall is it now, in cm?${round}`;
       else if (ctx === "save") prompt = `${name} earns ${cash(base)} a month and saves ${pc(t)} of it. How much does ${name} save each month?${round}`;
-      else if (ctx === "deposit") prompt = `A piano costs ${cash(base)}. ${name} pays a deposit of ${pc(t)} of the price. How much is the deposit?${round}`;
+      else if (ctx === "deposit") prompt = `${base < 50000 ? "A bicycle" : base < 150000 ? "A sofa" : "A piano"} costs ${cash(base)}. ${name} pays a deposit of ${pc(t)} of the price. How much is the deposit?${round}`;
       else prompt = `The monthly rent for an HDB flat was ${cash(base)}. The new rent is ${pc(t)} of the old rent. What is the new rent?${round}`;
       const fix = (n: number) => (money ? clean(roundQ(n, 1000, 0) / 100) : roundQ(n, 1000, 2));
       const trapList: Array<[number, string]> = [[fix(N * 10), `Check the multiplier: ${pc(t)} = ${mult}, not ${num(clean(t / 100))}.`]];
@@ -756,6 +763,7 @@ export const drills: Drill[] = [
         else A = tier === 1 ? 20 * rng.int(2, 40) : rng.int(12, 2000);
         const N = A * (inc ? 1000 + t : 1000 - t); // answer = N / 1000 (in A's units)
         if ((ctx === "people" || tier === 1) && N % 1000 !== 0) continue;
+        if (ctx === "people" && t > 200) continue; // school rolls don't jump by 40%
         if (ctx !== "money" && N % 10 !== 0) continue;
         ok = true;
         break;
@@ -872,6 +880,7 @@ export const drills: Drill[] = [
           if (exactQ(100 * c, O, 1)) continue; // tier 3 basic: a rounding question
         }
         if (!inc && c >= O) continue;
+        if (ctx === "money" && c > 0.6 * O) continue; // keep price changes believable
         ok = true;
         break;
       }
@@ -891,7 +900,9 @@ export const drills: Drill[] = [
       const pct = exact ? clean((100 * c) / O) : roundQ(100 * c, O, 1);
       const word = inc ? "increase" : "decrease";
       const item = rng.pick(["a cup of teh tarik", "a plate of roti prata", "a bowl of ice kacang", "a kaya toast set"]);
-      const bigItem = rng.pick(["a bicycle", "a pair of headphones", "a desk", "a tablet"]);
+      const bigItem = rng.pick(
+        O < 40 ? ["a T-shirt", "a paperback book", "a phone case"] : O < 150 ? ["a pair of headphones", "a desk lamp", "a backpack"] : ["a bicycle", "a tablet", "a desk"],
+      );
       let what: string;
       if (ctx === "money") {
         const thing = centsMode ? item : bigItem;
@@ -1024,14 +1035,14 @@ export const drills: Drill[] = [
         for (let i = 0; i < 400; i++) {
           if (tier === 1) {
             C = rng.pick([20, 25, 40, 50, 80, 200, 250, 400, 500]);
-            c = rng.int(1, isProfit ? C : Math.floor(C * 0.6));
+            c = rng.int(1, Math.floor(C * (isProfit ? 0.8 : 0.6)));
             if (!exactQ(100 * c, C, 0) || ((100 * c) / C) % 5 !== 0) continue;
           } else if (tier === 2) {
             C = rng.int(10, 500);
-            c = rng.int(1, isProfit ? C : Math.floor(C * 0.6));
+            c = rng.int(1, Math.floor(C * (isProfit ? 0.8 : 0.6)));
             if (!exactQ(100 * c, C, 1)) continue;
           } else {
-            C = 10 * rng.int(50, 2000);
+            C = 10 * rng.int(200, 2000);
             c = 10 * rng.int(1, Math.floor((C / 10) * (isProfit ? 0.8 : 0.6)));
           }
           if (c <= 0 || (!isProfit && c >= C)) continue;
@@ -1039,7 +1050,8 @@ export const drills: Drill[] = [
           break;
         }
         if (!ok) {
-          C = 40; c = 10;
+          C = tier === 3 ? 4000 : 40;
+          c = tier === 3 ? 1000 : 10;
         }
         const toC = (v: number) => (tier === 3 ? v : 100 * v);
         const S = isProfit ? C + c : C - c;
@@ -1243,10 +1255,12 @@ export const drills: Drill[] = [
           t = 10 * rng.pick([10, 20, 25, 30, 40, 50]);
           O = 10 * rng.int(2, 30);
         } else if (tier === 2) {
-          t = 10 * rng.int(5, isDiscount ? 60 : 40);
+          t = isDiscount ? 10 * rng.int(5, 60) : 10 * rng.int(2, 15);
           O = isDiscount ? rng.int(15, 500) : rng.int(1500, 6000);
         } else {
-          t = rng.bool() ? 10 * rng.int(5, isDiscount ? 60 : 40) : rng.pick([125, 175, 225, 275, 375, 75, 25]);
+          t = isDiscount
+            ? rng.bool() ? 10 * rng.int(5, 60) : rng.pick([125, 175, 225, 275, 375, 75, 25])
+            : rng.bool() ? 10 * rng.int(2, 15) : rng.pick([25, 35, 45, 55, 75, 125]);
           O = isDiscount ? rng.int(15, 800) : rng.int(1500, 6000);
         }
         const after = isDiscount ? 1000 - t : 1000 + t;
@@ -1377,11 +1391,12 @@ export const drills: Drill[] = [
       const M = clean((f1 * f2) / 10000);
       const m1 = num(clean(f1 / 100));
       const m2 = num(clean(f2 / 100));
-      const ch = (s: number, x: number) => (s > 0 ? `increased by ${x}%` : `decreased by ${x}%`);
+      const ch = (s: number, x: number) => (s > 0 ? `raised by ${x}%` : `cut by ${x}%`);
+      const rf = (s: number, x: number) => (s > 0 ? `rises by ${x}%` : `falls by ${x}%`);
       const what = rng.pick([
         `The price of a games console is ${ch(s1, a)}. A month later, the new price is ${ch(s2, b)}.`,
-        `The number of members in a school robotics CCA is ${ch(s1, a)} one year, and the new number is ${ch(s2, b)} the next year.`,
-        `${name}'s savings are ${ch(s1, a)} in January. In February, the new amount is ${ch(s2, b)}.`,
+        `The number of members in a school robotics CCA ${rf(s1, a)} one year. The next year, the new number ${rf(s2, b)}.`,
+        `The number of visitors to a museum ${rf(s1, a)} from February to March. From March to April, the number ${rf(s2, b)}.`,
       ]);
       const verdict =
         overall < 0

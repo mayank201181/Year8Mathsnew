@@ -48,7 +48,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "linear-graphs-p3-q02",
         question:
-          "On a plan of a community garden, a rectangular vegetable plot has corners at (−3, 5), (6, 5), (6, −2) and (−3, −2). Write down the equation of the straight line along the plot's right-hand edge.",
+          "On a plan of the school garden, a rectangular vegetable plot has corners at (−3, 5), (6, 5), (6, −2) and (−3, −2). Write down the equation of the straight line along the plot's right-hand edge.",
         answer: { type: "text", accept: ["x=6", "6=x", "x=6.0"], display: "x = 6" },
         traps: [
           {
@@ -835,12 +835,12 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "linear-graphs-p4-q07",
         question:
-          "Hana draws the graph of y = 2 − 3x for values of x from −2 to 3. What are the greatest and the least values of y on her graph? Give the greatest value first.",
+          "Jun draws the graph of y = 2 − 3x for values of x from −2 to 3. What are the greatest and the least values of y on his graph? Give the greatest value first.",
         answer: { type: "list", values: [8, -7], ordered: true, display: "greatest 8, least −7" },
         traps: [
           {
             spec: { type: "list", values: [-7, 8], ordered: true },
-            feedback: "The gradient is −3, so y gets *smaller* as x gets bigger. The greatest y is at the left end, x = −2.",
+            feedback: "The gradient is −3, so y gets *smaller* as x gets bigger. The greatest value of y is at the left end, x = −2.",
           },
           {
             spec: { type: "list", values: [-4, -7], ordered: true },

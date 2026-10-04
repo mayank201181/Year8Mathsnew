@@ -249,7 +249,7 @@ function letterEvent(rng: Rng, tier: Tier): DrillItem {
     ];
     const [an, ad] = simplify(fav, L);
     if (fav > 1) traps = fTrap(1, L, an, ad, `There are ${fav} cards with ${X} on them — count every one.`);
-    traps = traps.concat(fTrap(fav, distinct.length, an, ad, `Count cards, not different letters: there are ${L} cards in total.`));
+    if (fav < distinct.length) traps = traps.concat(fTrap(fav, distinct.length, an, ad, `Count cards, not different letters: there are ${L} cards in total.`));
   } else if (kind === "vowel") {
     fav = v;
     ev = "a vowel (A, E, I, O or U)";
@@ -291,7 +291,7 @@ const COMPLEMENTS = [
   { ev: "a seed from this packet germinates", not: "a seed does **not** germinate" },
   { ev: "a durian from this stall is ripe", not: "a durian from the stall is **not** ripe" },
   { ev: "Ravi's team wins their next match", not: "the team does **not** win" },
-  { ev: "a light bulb from this factory is faulty", not: "a bulb is **not** faulty" },
+  { ev: "a student picked at random from the school cycles to school", not: "the student does **not** cycle to school" },
   { ev: "Mei is picked for the debate team", not: "she is **not** picked" },
   { ev: "the school bus arrives on time", not: "it does **not** arrive on time" },
 ];
@@ -392,7 +392,7 @@ function complementDrill(rng: Rng, tier: Tier): DrillItem {
   const traps: Trap[] = [...nTrap(p, ans, "That's the probability you were given. Subtract it from 1.")];
   if (scale === 100) {
     const slip = noBorrowSlip(given);
-    if (slip !== null) traps.push(...nTrap(slip, ans, `Check the subtraction: line up the decimal points and exchange — 1.00 − ${num(p)} = ${num(ans)}. Adding your answer to ${num(p)} should give exactly 1.`));
+    if (slip !== null && Math.abs(slip - p) > 1e-9) traps.push(...nTrap(slip, ans, `Check the subtraction: line up the decimal points and exchange — 1.00 − ${num(p)} = ${num(ans)}. Adding your answer to ${num(p)} should give exactly 1.`));
   }
   return {
     prompt: `The probability that ${gv} is ${num(p)}. Find the probability that ${want}. Give your answer as a decimal.`,
@@ -493,6 +493,7 @@ function productRule(rng: Rng, tier: Tier): DrillItem {
     if (tier === 1) { k = rng.int(3, 6); n = 2; }
     else if (tier === 2) { k = rng.int(4, 10); n = 3; }
     else { k = rng.int(3, 6); n = 4; }
+    if (k === n) k++; // keep the "k × n" trap and its feedback unambiguous
     const ans = Math.pow(k, n);
     const digits = k === 10 ? "the digits 0 to 9" : `the digits 1 to ${k}`;
     return {
@@ -552,15 +553,58 @@ function productRule(rng: Rng, tier: Tier): DrillItem {
 // 4. Missing probabilities (mutually exclusive outcomes add to 1)
 // ---------------------------------------------------------------------------
 
-const TABLE_CTXS = [
-  { intro: "A biased spinner can land on red, blue, green or yellow. The table shows the probability of each colour.", head: "Colour", labels: ["Red", "Blue", "Green", "Yellow"], ev: (l: string) => `the spinner lands on ${l.toLowerCase()}` },
-  { intro: "Wei Ling gets to school by MRT, bus, car or on foot. The table shows the probability of each way.", head: "Way", labels: ["MRT", "Bus", "Car", "Walk"], ev: (l: string) => (l === "Walk" ? "she walks" : `she goes by ${l === "MRT" ? "MRT" : l.toLowerCase()}`) },
-  { intro: "A jar holds sweets in four flavours. One sweet is taken at random. The table shows the probability of each flavour.", head: "Flavour", labels: ["Lemon", "Orange", "Mango", "Lime"], ev: (l: string) => `the sweet is ${l.toLowerCase()}` },
-  { intro: "A biased dice is rolled. The table shows some of the probabilities.", head: "Score", labels: ["1", "2", "3", "4", "5", "6"], ev: (l: string) => `the dice shows ${l}` },
+function listOr(xs: Array<string | number>): string {
+  const s = xs.map(String);
+  if (s.length <= 1) return s.join("");
+  return s.slice(0, -1).join(", ") + " or " + s[s.length - 1];
+}
+
+const lc = (s: string) => s.toLowerCase();
+const WAY: Record<string, string> = { MRT: "by MRT", Bus: "by bus", Car: "by car", Walk: "on foot" };
+
+interface TableCtx {
+  head: string;
+  labels: string[];
+  intro: (l: string[]) => string;
+  ev: (l: string[]) => string;
+  notEv: (x: string) => string;
+  noun: (x: string) => string;
+}
+
+const TABLE_CTXS: TableCtx[] = [
+  {
+    head: "Colour", labels: ["Red", "Blue", "Green", "Yellow"],
+    intro: (l) => `A biased spinner can land on ${listOr(l.map(lc))}. The table shows the probability of each colour.`,
+    ev: (l) => `the spinner lands on ${listOr(l.map(lc))}`,
+    notEv: (x) => `the spinner does **not** land on ${lc(x)}`,
+    noun: (x) => `landing on ${lc(x)}`,
+  },
+  {
+    head: "Way", labels: ["MRT", "Bus", "Car", "Walk"],
+    intro: (l) => `Wei Ling gets to school ${listOr(l.map((x) => WAY[x]))}. The table shows the probability of each way.`,
+    ev: (l) => `she goes ${listOr(l.map((x) => WAY[x]))}`,
+    notEv: (x) => `she does **not** go ${WAY[x]}`,
+    noun: (x) => `going ${WAY[x]}`,
+  },
+  {
+    head: "Flavour", labels: ["Lemon", "Orange", "Mango", "Lime"],
+    intro: (l) => `A jar holds sweets in ${l.length === 3 ? "three" : "four"} flavours: ${listAnd(l.map(lc))}. One sweet is taken at random. The table shows the probability of each flavour.`,
+    ev: (l) => `the sweet is ${listOr(l.map(lc))}`,
+    notEv: (x) => `the sweet is **not** ${lc(x)}`,
+    noun: (x) => `getting ${lc(x)}`,
+  },
+  {
+    head: "Score", labels: ["1", "2", "3", "4", "5", "6"],
+    intro: () => "A biased dice is rolled. The table shows the probability of each score.",
+    ev: (l) => `the dice shows ${listOr(l)}`,
+    notEv: (x) => `the dice does **not** show ${x}`,
+    noun: (x) => `a score of ${x}`,
+  },
 ];
 
 function missingProb(rng: Rng, tier: Tier): DrillItem {
   let ctx = TABLE_CTXS[0];
+  let labs: string[] = ctx.labels;
   let n = 3;
   let vals: number[] = [];
   let mi = 0, mj = 1, k = 1;
@@ -568,8 +612,10 @@ function missingProb(rng: Rng, tier: Tier): DrillItem {
   for (let it = 0; it < 200; it++) {
     ctx = rng.pick(tier === 1 ? TABLE_CTXS.slice(0, 3) : TABLE_CTXS);
     n = ctx.labels.length === 6 ? 6 : tier === 1 ? 3 : 4;
+    const drop = n < ctx.labels.length ? rng.int(0, ctx.labels.length - 1) : -1;
+    labs = ctx.labels.filter((_, i) => i !== drop);
     const step = tier === 1 ? 10 : rng.pick([5, 1]);
-    const lo = n === 6 ? (step === 10 ? 10 : 5) : step === 10 ? 10 : 5;
+    const lo = step === 10 ? 10 : 5;
     vals = [];
     for (let i = 0; i < n; i++) vals.push(Math.round(rng.int(lo, n === 6 ? 25 : 45) / step) * step);
     mi = rng.int(0, n - 1);
@@ -584,7 +630,7 @@ function missingProb(rng: Rng, tier: Tier): DrillItem {
       if (x < 5) continue;
       vals[mi] = x;
       vals[mj] = k * x;
-      if (vals.every((v) => v > 0)) break;
+      break;
     } else {
       const rest = vals.reduce((s, v, i) => (i === mi ? s : s + v), 0);
       const x = 100 - rest;
@@ -596,26 +642,26 @@ function missingProb(rng: Rng, tier: Tier): DrillItem {
       break;
     }
   }
-  const labs = ctx.labels.slice(0, n);
   const show = (v: number) => num(clean(v / 100));
-  const cells = vals.map((v, i) => {
-    if (kind === "ratio" || kind === "ratioNot") return i === mi ? "x" : i === mj ? (k === 1 ? "x" : `${k}x`) : show(v);
-    return i === mi ? "x" : show(v);
-  });
+  const ratio = kind === "ratio" || kind === "ratioNot";
+  const kx = k === 1 ? "x" : `${k}x`;
+  const cells = vals.map((v, i) => (i === mi ? "x" : ratio && i === mj ? kx : show(v)));
   const table = `| ${ctx.head} | ${labs.join(" | ")} |\n|${"---|".repeat(n + 1)}\n| Probability | ${cells.join(" | ")} |`;
-  const others = vals.map((v, i) => i).filter((i) => (kind === "ratio" || kind === "ratioNot" ? i !== mi && i !== mj : i !== mi));
+  const others = vals.map((_, i) => i).filter((i) => (ratio ? i !== mi && i !== mj : i !== mi));
   const knownSum = others.reduce((s, i) => s + vals[i], 0);
   const knownList = others.map((i) => show(vals[i])).join(" + ");
-  const base = `The outcomes can't happen together and one of them must happen, so the probabilities add up to 1.`;
+  const base = "The outcomes can't happen together and one of them must happen, so the probabilities add up to 1.";
+  const intro = ctx.intro(labs);
   let prompt: string, ans: number, solution: string[], traps: Trap[] = [];
   if (kind === "find") {
     ans = clean(vals[mi] / 100);
-    prompt = `${ctx.intro}\n\n${table}\n\nFind the probability that ${ctx.ev(labs[mi])}.`;
+    prompt = `${intro}\n\n${table}\n\nFind the probability that ${ctx.ev([labs[mi]])}.`;
     solution = [base, `Known probabilities: ${knownList} = ${show(knownSum)}.`, `x = 1 − ${show(knownSum)} = ${num(ans)}`];
     traps = nTrap(knownSum / 100, ans, "That's the total of the known probabilities — now subtract it from 1.");
   } else if (kind === "or") {
     ans = clean((vals[mi] + vals[mj]) / 100);
-    prompt = `${ctx.intro}\n\n${table}\n\nFind the probability that ${ctx.ev(labs[mi])} or ${ctx.ev(labs[mj])}.`;
+    const pair = mi < mj ? [labs[mi], labs[mj]] : [labs[mj], labs[mi]];
+    prompt = `${intro}\n\n${table}\n\nFind the probability that ${ctx.ev(pair)}.`;
     solution = [
       base,
       `x = 1 − (${knownList}) = 1 − ${show(knownSum)} = ${show(vals[mi])}.`,
@@ -624,14 +670,15 @@ function missingProb(rng: Rng, tier: Tier): DrillItem {
     traps = nTrap(vals[mi] / 100, ans, `That's just x. Now add the probability for ${labs[mj]}.`);
   } else {
     const x = vals[mi];
-    const kx = k === 1 ? "x" : `${k}x`;
     const R = 100 - knownSum;
-    const asked = kind === "ratioNot" ? mj : rng.pick([mi, mj]);
-    const askedVal = vals[asked];
     const notQ = kind === "ratioNot";
+    const asked = notQ ? mj : rng.pick([mi, mj]);
+    const askedVal = vals[asked];
     ans = clean((notQ ? 100 - askedVal : askedVal) / 100);
-    const relation = k === 1 ? `${labs[mi]} and ${labs[mj]} are equally likely.` : `${labs[mj]} is ${k === 2 ? "twice" : "three times"} as likely as ${labs[mi]}.`;
-    prompt = `${ctx.intro} ${relation}\n\n${table}\n\nFind the probability that ${notQ ? `it is **not** ${labs[asked]}` : ctx.ev(labs[asked])}.`;
+    const relation = k === 1
+      ? `${cap(ctx.noun(labs[mi]))} and ${ctx.noun(labs[mj])} are equally likely.`
+      : `${cap(ctx.noun(labs[mj]))} is ${k === 2 ? "twice" : "three times"} as likely as ${ctx.noun(labs[mi])}.`;
+    prompt = `${intro} ${relation}\n\n${table}\n\nFind the probability that ${notQ ? ctx.notEv(labs[asked]) : ctx.ev([labs[asked]])}.`;
     solution = [
       `The probabilities add up to 1: ${knownList} + x + ${kx} = 1.`,
       `${k + 1}x = 1 − ${show(knownSum)} = ${show(R)}, so x = ${show(R)} ÷ ${k + 1} = ${show(x)}.`,
@@ -641,7 +688,7 @@ function missingProb(rng: Rng, tier: Tier): DrillItem {
     ];
     if (notQ) traps = nTrap(askedVal / 100, ans, `That's P(${labs[asked]}). The question asks for the probability that it is NOT ${labs[asked]}.`);
     else if (k > 1) traps = nTrap((asked === mi ? k * x : x) / 100, ans, `That's the value of ${asked === mi ? kx : "x"} — check which outcome the question asks about.`);
-    else traps = nTrap(R / 100, ans, `That's x + x together. Share it equally between the two outcomes.`);
+    else traps = nTrap(R / 100, ans, "That's x + x together. Share it equally between the two outcomes.");
   }
   return {
     prompt,
@@ -679,8 +726,9 @@ function pickPair(rng: Rng, tier: Tier): [Part, Part, string] {
     return [DICE("dice"), B, `A fair six-sided dice is rolled and ${B.desc} is spun.`];
   }
   if (opt === "custom") {
-    const A = spinner(rng.pick([[2, 4, 6], [1, 3, 5, 7], [0, 1, 2, 3], [1, 2, 4, 8], [2, 3, 5]]), "spinner A");
-    const B = spinner(rng.pick([[1, 2, 3], [1, 2, 3, 4], [0, 2, 4], [1, 3, 5]]), "spinner B");
+    // No zeros: "is 0 even / square / a multiple of 3?" would be a distraction here.
+    const A = spinner(rng.pick([[2, 4, 6], [1, 3, 5, 7], [1, 2, 4, 8], [2, 3, 5], [3, 4, 5, 6]]), "spinner A");
+    const B = spinner(rng.pick([[1, 2, 3], [1, 2, 3, 4], [2, 3, 4], [1, 3, 5]]), "spinner B");
     return [A, B, `Spinner A is ${A.desc}. Spinner B is ${B.desc}. Both are spun.`];
   }
   const A = spinner(range(1, rng.int(3, 5)), "spinner A");
@@ -751,6 +799,7 @@ function sampleSpaceCount(rng: Rng, tier: Tier): DrillItem {
         traps,
       };
     }
+    if ((kind === "parity" || kind === "mult") && results.some((r) => r === 0)) continue;
     if (kind === "parity") {
       const even = rng.bool();
       const ok = (a: number, b: number) => (O.f(a, b) % 2 === 0) === even;
@@ -770,8 +819,8 @@ function sampleSpaceCount(rng: Rng, tier: Tier): DrillItem {
     }
     if (kind === "mult") {
       const m = rng.pick([3, 4, 5]);
-      const ok = (a: number, b: number) => O.f(a, b) % m === 0 && O.f(a, b) > 0;
-      const c = results.filter((r) => r % m === 0 && r > 0).length;
+      const ok = (a: number, b: number) => O.f(a, b) % m === 0;
+      const c = results.filter((r) => r % m === 0).length;
       if (c < 2 || c === T) continue;
       return {
         prompt: `${intro} How many of the ${T} outcomes in the sample space give a ${O.res} that is a multiple of ${m}?`,
@@ -1254,7 +1303,7 @@ const EXPECT_CTX = [
   { p: (s: string) => `The probability that Marcus's MRT train is late is ${s}.`, n: (n: number) => `He makes ${n} train journeys this term. On how many journeys would you expect the train to be late?` },
   { p: (s: string) => `The probability that a seed germinates is ${s}.`, n: (n: number) => `Mei plants ${n} seeds. How many would you expect to germinate?` },
   { p: (s: string) => `The probability that a customer at a hawker stall orders teh tarik is ${s}.`, n: (n: number) => `The stall serves ${n} customers one morning. How many would you expect to order teh tarik?` },
-  { p: (s: string) => `The probability that a light bulb from a factory is faulty is ${s}.`, n: (n: number) => `A shop orders ${n} bulbs. How many would you expect to be faulty?` },
+  { p: (s: string) => `The probability that a Year 8 student at a school walks to school is ${s}.`, n: (n: number) => `There are ${n} students in Year 8. How many would you expect to walk to school?` },
 ];
 
 const DICE_EVENTS = [

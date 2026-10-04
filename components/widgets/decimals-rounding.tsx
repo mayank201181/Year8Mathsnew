@@ -395,6 +395,14 @@ function RoundingMicroscope() {
         </Fragment>,
       );
     }
+    if (res.overflow) {
+      notes.push(
+        <Fragment key="lopsided">
+          (Stretch: the error interval is lopsided here — just below {res.answer} you round to the nearest {step}, but just above it the
+          step is ten times bigger.){" "}
+        </Fragment>,
+      );
+    }
     if (mode === "sf" && res.p > 0 && !res.overflow) {
       notes.push(
         <Fragment key="size">

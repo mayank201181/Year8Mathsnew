@@ -105,12 +105,6 @@ function onlyIf(ok: boolean, trap: Trap): Trap[] {
   return ok ? [trap] : [];
 }
 
-/** Power of p in a prime factorisation (0 if absent). */
-function powerIn(pairs: PF, p: number): number {
-  const f = pairs.find(([q]) => q === p);
-  return f ? f[1] : 0;
-}
-
 export const drills: Drill[] = [
   // ---------------------------------------------------------------------------
   // 1. Factors of a number
@@ -388,7 +382,7 @@ export const drills: Drill[] = [
       const form = idx(pairs);
       const who = rng.pick(NAMES);
       const check = `Check: ${pairs.map(([p, e]) => String(Math.pow(p, e))).join(" × ")} = ${n}.`;
-      if (rng.bool()) {
+      if (rng.bool() && pairs.some(([, e]) => e >= 2)) {
         // Ordered powers.
         const letters = ["a", "b", "c", "d", "e", "g"].slice(0, pairs.length);
         const shape = pairs.map(([p], i) => `${p}^${letters[i]}`).join(" * ");
@@ -489,7 +483,7 @@ export const drills: Drill[] = [
       if (wrong !== v && bad) {
         traps.push({
           spec: { type: "number", value: wrong },
-          feedback: `{{${bad[0]}^${bad[1]}}} means ${repeated(bad[0], bad[1])} = ${Math.pow(bad[0], bad[1])}, not ${bad[0]} × ${bad[1]}.`,
+          feedback: `{{${bad[0]}^${bad[1]}}} means ${repeated(bad[0], bad[1])} = ${Math.pow(bad[0], bad[1])}. It does not mean ${bad[0]} × ${bad[1]} = ${bad[0] * bad[1]}.`,
         });
       }
       return {
@@ -698,7 +692,7 @@ export const drills: Drill[] = [
       const solution: string[] = [];
       if (!showA) solution.push(`${A} = {{${idx(pa)}}} and ${B} = {{${idx(pb)}}}.`);
       solution.push(
-        `Venn diagram: the shared primes ${middle.join(", ")} go in the middle; only in ${nA}: ${onlyA.join(", ") || "nothing"}; only in ${nB}: ${onlyB.join(", ") || "nothing"}.`,
+        `Venn diagram: the shared prime${middle.length > 1 ? "s" : ""} ${middle.join(", ")} go${middle.length > 1 ? "" : "es"} in the middle; only in ${nA}: ${onlyA.join(", ") || "nothing"}; only in ${nB}: ${onlyB.join(", ") || "nothing"}.`,
       );
       solution.push(
         askH
@@ -896,7 +890,7 @@ export const drills: Drill[] = [
         const L = lcm(a, b);
         if (deep) {
           return {
-            prompt: `${who} has two ribbons, ${a} cm and ${b} cm long. She cuts both into pieces that are all the same length, as long as possible, with nothing left over. How many pieces does she get altogether?`,
+            prompt: `${who} has two ribbons, ${a} cm and ${b} cm long. ${who} cuts both into pieces that are all the same length, as long as possible, with nothing left over. How many pieces are there altogether?`,
             answer: { type: "number", value: m + n },
             solution: [
               `The piece length must divide both ${a} and ${b}, and be as long as possible: HCF(${a}, ${b}) = ${h} cm.`,
@@ -908,7 +902,7 @@ export const drills: Drill[] = [
           };
         }
         return {
-          prompt: `${who} has two ribbons, ${a} cm and ${b} cm long. She cuts both into pieces that are all the same length, as long as possible, with nothing left over. How long is each piece, in cm?`,
+          prompt: `${who} has two ribbons, ${a} cm and ${b} cm long. ${who} cuts both into pieces that are all the same length, as long as possible, with nothing left over. How long is each piece, in cm?`,
           answer: { type: "number", value: h },
           solution: [
             `The piece length must divide exactly into ${a} and ${b}, so it is a common factor.`,
@@ -1077,10 +1071,18 @@ export const drills: Drill[] = [
       const showForm = tier === 1 || rng.bool();
       const target = mode === "cube" ? "cube" : "square";
       const intro = showForm ? `${N} = ${indexForm(N)}. ` : "";
+      const who = rng.pick(NAMES);
+      const t = rng.int(0, 2);
       const prompt =
         mode === "div"
-          ? `${intro}What is the smallest whole number you can divide ${N} by to get a square number?`
-          : `${intro}What is the smallest whole number you can multiply ${N} by to get a ${target} number?`;
+          ? t === 0
+            ? `${intro}What is the smallest whole number you can divide ${N} by to get a square number?`
+            : `${intro}${who} divides ${N} by a whole number and gets a square number. What is the smallest number ${who} could have divided by?`
+          : t === 0
+            ? `${intro}What is the smallest whole number you can multiply ${N} by to get a ${target} number?`
+            : t === 1
+              ? `${intro}${who} multiplies ${N} by a whole number n and the answer is a ${target} number. What is the smallest possible value of n?`
+              : `${intro}${N} is not a ${target} number. What is the smallest whole number you could multiply it by to make a ${target} number?`;
       const fixList = pairs.filter(([, e]) => (mode === "cube" ? e % 3 !== 0 : e % 2 === 1));
       const result = mode === "div" ? N / k : N * k;
       const resPairs: PF = pf(result);
@@ -1107,7 +1109,7 @@ export const drills: Drill[] = [
         solution: [
           `${showForm ? "" : `${N} = {{${idx(pairs)}}}. `}${rule}`,
           fixText,
-          `${N} ${mode === "div" ? "÷" : "×"} ${k} = ${result} = {{${idx(resPairs)}}} = {{${root}^${mode === "cube" ? 3 : 2}}} ✓`,
+          `${N} ${mode === "div" ? "÷" : "×"} ${k} = ${result} = {{${idx(resPairs)}}}${idx(resPairs) === `${root}^${mode === "cube" ? 3 : 2}` ? "" : ` = {{${root}^${mode === "cube" ? 3 : 2}}}`} ✓`,
         ],
         hint: mode === "cube" ? "Write it in index form. Which powers are not multiples of 3?" : "Write it in index form. Which powers are odd?",
         traps,
@@ -1149,16 +1151,17 @@ export const drills: Drill[] = [
           : t === 1
             ? `How many factors does {{${form}}} have? (Count 1 and the number itself.)`
             : `How many factors does ${N} have? (Count 1 and ${N} too.) Hint: write ${N} in index form first.`;
-      const traps: Trap[] = [{ spec: { type: "number", value: pairs.reduce((c, [, e]) => c * e, 1) }, feedback: "Each power can also be 0 (the prime isn't used), so add 1 to each power before multiplying." }];
+      const prodE = pairs.reduce((c, [, e]) => c * e, 1);
+      const traps: Trap[] = [{ spec: { type: "number", value: prodE }, feedback: "Each power can also be 0 (the prime isn't used), so add 1 to each power before multiplying." }];
       const sum = pairs.reduce((c, [, e]) => c + e + 1, 0);
-      if (sum !== count) traps.push({ spec: { type: "number", value: sum }, feedback: "Multiply the numbers of choices — don't add them." });
+      if (sum !== count && sum !== prodE) traps.push({ spec: { type: "number", value: sum }, feedback: "Multiply the numbers of choices — don't add them." });
       return {
         prompt,
         answer: { type: "number", value: count },
         solution: [
           `${t === 1 ? `{{${form}}} = ${N}.` : `${N} = {{${form}}}.`} Every factor looks like {{${pairs.map(([p], i) => `${p}^${letters[i]}`).join(" * ")}}}.`,
           `${pairs.map(([p, e], i) => `${letters[i]} can be 0 to ${e} (${e + 1} choices for the power of ${p})`).join("; ")}.`,
-          `Number of factors = ${pairs.map(([, e]) => String(e + 1)).join(" × ")} = ${count}.`,
+          `Number of factors = ${pairs.map(([, e]) => String(e + 1)).join(" × ")} = ${count}.${pairs.every(([, e]) => e % 2 === 0) ? ` (${N} is a square number: every power is even, so every number of choices is odd — that is why squares have an odd number of factors.)` : ""}`,
         ],
         hint: "A factor can use each prime from power 0 up to the power in the number. Count the choices.",
         traps,
