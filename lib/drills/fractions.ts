@@ -861,9 +861,11 @@ const multiplyDrill: Drill = {
         res = r;
         break;
       }
+      // The length is the longer side.
+      const [longer, shorter] = cmp(A.m, B.m) >= 0 ? [A.m, B.m] : [B.m, A.m];
       prompt = rng.pick([
         `Work out ${M(A.m)} × ${M(B.m)}. ${MIXP}`,
-        `A rectangular vegetable garden is ${M(A.m)} m long and ${M(B.m)} m wide. What is its area, in m²? ${MIXP}`,
+        `A rectangular vegetable garden is ${M(longer)} m long and ${M(shorter)} m wide. What is its area, in m²? ${MIXP}`,
       ]);
       steps.push(`Change to improper fractions: ${M(A.m)} = ${F(A.m)} and ${M(B.m)} = ${F(B.m)}.`);
       steps.push(...mulWork(A.m, B.m));
@@ -1146,13 +1148,14 @@ const mixedMulDivDrill: Drill = {
     const prompt = `${rng.pick(["Work out", "Calculate"])} ${showX} ${op} ${showY}. ${TOPP}`;
     const steps: string[] = [];
     const conv = [xMixed ? x : null, yMixed ? y : null].filter((a): a is Q => a !== null).map((a) => `${M(a)} = ${F(a)}`);
-    let line = `Change to improper fractions: ${andList(conv)}.`;
+    let line = `${conv.length > 1 ? "Change to improper fractions" : "Change to an improper fraction"}: ${andList(conv)}.`;
     if (op === "÷") line += ` Then multiply by the reciprocal: ${F(absQ(x))} × ${F(recip(absQ(y)))}.`;
     steps.push(line);
     steps.push(mulCompact(absQ(x), op === "÷" ? recip(absQ(y)) : absQ(y)));
     steps.push(`${negs ? `${signNote(negs)}: ` : "So the answer is "}${F(res)}${topHeavy(res) ? ` = ${M(res)}` : ""}.`);
 
-    if (negs === 0) {
+    // Kind-specific traps only make sense when the question really is of that kind (not the fallback).
+    if (negs === 0 && found) {
       if (kind === "m-div-m") trapF(traps, res, add(q(A.w, B.w), div(A.f, B.f)), "You divided the whole numbers and the fractions separately — that doesn't work. Change both to improper fractions first.");
       if (kind === "m-times-m") trapF(traps, res, add(q(A.w * B.w), mul(A.f, B.f)), "You multiplied the whole numbers and the fractions separately — that misses part of the product. Change both to improper fractions first.");
       if (kind === "m-div-int") trapF(traps, res, add(q(A.w, k), A.f), "You only divided the whole-number part. Change the mixed number to an improper fraction, then divide all of it.");

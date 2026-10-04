@@ -597,10 +597,11 @@ function DotPicture({ kind, d, c }: { kind: "arith" | "quad"; d: number; c: numb
     cursor += w + GAP;
   }
   const count = (p: number) => c + (kind === "arith" ? p * d : p * p);
+  const greyText = c === 0 ? "no grey dots" : c === 1 ? "1 grey dot" : `${c} grey dots`;
   const aria =
     kind === "arith"
-      ? `Dot patterns 1 to 4. Each has ${c} grey dots plus n columns of ${d} coloured dots: ${[1, 2, 3, 4].map(count).join(", ")} dots.`
-      : `Dot patterns 1 to 4. Each is an n by n square of dots plus ${c} grey dots: ${[1, 2, 3, 4].map(count).join(", ")} dots. The newest L-shaped layer is highlighted.`;
+      ? `Dot patterns 1 to 4. Each has ${greyText} plus n columns of ${d} coloured dots: ${[1, 2, 3, 4].map(count).join(", ")} dots.`
+      : `Dot patterns 1 to 4. Each is an n by n square of dots${c > 0 ? ` plus ${greyText}` : ""}: ${[1, 2, 3, 4].map(count).join(", ")} dots. The newest L-shaped layer is highlighted.`;
 
   return (
     <svg viewBox={`0 0 ${W} 118`} className="h-auto w-full" role="img" aria-label={aria}>
@@ -767,7 +768,7 @@ function SequenceExplorer() {
   const stepA = quarters ? 0.25 : 1;
   const arrowLabel = (i: number): ReactNode => {
     if (kind === "arith") return <Signed v={seq.d} />;
-    if (kind === "geo") return <>×{seq.r.d === 1 ? minus(String(seq.r.n)) : <M>{qMark(seq.r)}</M>}</>;
+    if (kind === "geo") return <>×{seq.r.d !== 1 ? <M>{qMark(seq.r)}</M> : seq.r.n < 0 ? `(${minus(String(seq.r.n))})` : String(seq.r.n)}</>;
     if (kind === "quad") return <Signed v={diffs[i - 1]} />;
     return null;
   };
@@ -861,14 +862,14 @@ function SequenceExplorer() {
     if (seq.d.n === 0) {
       caption = (
         <>
-          A difference of 0 makes every term <QV v={seq.a} />: the dots sit on a flat line. It is still linear — its nth term is just <QV v={seq.a} />.
+          A difference of 0 makes every term <QV v={seq.a} />: the points on the graph sit on a flat line. It is still linear — its nth term is just <QV v={seq.a} />.
         </>
       );
     } else {
       const up = seq.d.n > 0;
       caption = (
         <>
-          Each term is <QV v={qAbs(seq.d)} /> {up ? "more" : "less"} than the one before, so the dots go {up ? "up" : "down"} in equal steps and sit on a{" "}
+          Each term is <QV v={qAbs(seq.d)} /> {up ? "more" : "less"} than the one before, so the points on the graph go {up ? "up" : "down"} in equal steps and sit on a{" "}
           <strong>straight line</strong> — a <strong>linear</strong> (arithmetic) sequence. Step back once from the first term and you reach the{" "}
           <strong>zero term</strong>, <QV v={zero} />, where the line meets the vertical axis. Term n is the zero term plus n lots of <Signed v={seq.d} />, so the
           nth term is <M>{linMark(seq.d, zero, "n", true)}</M>.
@@ -880,7 +881,7 @@ function SequenceExplorer() {
   } else if (kind === "geo") {
     const shape =
       rKey === "-2"
-        ? "flip between positive and negative, so the dots zig-zag further and further from 0"
+        ? "flip between positive and negative, so the points zig-zag further and further from 0"
         : rKey === "1/2"
           ? "halve each time, curving down towards 0 but never reaching it"
           : "curve upwards faster and faster";
@@ -1104,12 +1105,14 @@ function SequenceExplorer() {
             <p className="text-xs text-ink-2">
               {kind === "arith" ? (
                 <>
-                  Grey dots: the zero term ({zero ? intText(zero.n) : 0}) — the part that never changes. Each coloured column adds {intText(seq.d.n)} more, so pattern n
-                  has <M>{linMark(seq.d, zero ?? q(0), "n", true)}</M> dots.
+                  {zero && zero.n !== 0
+                    ? `Grey dots: the zero term (${intText(zero.n)}) — the part that never changes.`
+                    : "The zero term is 0, so there are no grey dots."}{" "}
+                  Each coloured column adds {intText(seq.d.n)} more, so pattern n has <M>{linMark(seq.d, zero ?? q(0), "n", true)}</M> dots.
                 </>
               ) : (
                 <>
-                  Pattern n is an n × n square{c > 0 ? ` plus ${c} grey dots` : ""}. The orange L is what was added: 1, 3, 5, 7, … — the odd numbers.
+                  Pattern n is an n × n square{c > 0 ? ` plus ${c} grey ${c === 1 ? "dot" : "dots"}` : ""}. The orange L is what was added: 1, 3, 5, 7, … — the odd numbers.
                 </>
               )}
             </p>
@@ -1120,7 +1123,7 @@ function SequenceExplorer() {
               <p className="rounded-xl bg-surface-2 p-2 text-xs text-ink-2">
                 {kind === "arith"
                   ? "The dot picture needs a whole-number difference from 1 to 6 and a zero term from 0 to 12. Showing the graph instead."
-                  : "The dot picture needs c from 0 to 12. Showing the graph instead."}
+                  : "The dot picture needs c to be 0 or more. Showing the graph instead."}
               </p>
             ) : null}
             <SeqGraph seq={seq} terms={terms} zero={zero} kv={kOk && kq ? qVal(kq) : null} hits={hits} />

@@ -1597,7 +1597,7 @@ export const drills: Drill[] = [
         return {
           prompt: `The interior angles of a polygon add up to ${big(S)}°. How many sides does the polygon have?`,
           answer: countAns(n),
-          solution: [`(n − 2) × 180 = ${S}.`, `n − 2 = ${S} ÷ 180 = ${n - 2}.`, `n = ${n - 2} + 2 = ${n}.`],
+          solution: [`(n − 2) × 180 = ${big(S)}.`, `n − 2 = ${big(S)} ÷ 180 = ${n - 2}.`, `n = ${n - 2} + 2 = ${n}.`],
           hint: "Use (n − 2) × 180° and work backwards.",
           traps,
         };
@@ -1719,7 +1719,7 @@ export const drills: Drill[] = [
             `Find the size of each interior angle of ${regName(n)}.`,
             `What is the size of one interior angle of ${regName(n)}?`,
             `A floor tile is shaped like ${regName(n)}. What is the size of each angle inside the tile?`,
-          ][rng.int(0, 2)],
+          ][rng.int(0, REG_NAMES[n] ? 2 : 1)],
           answer: angleAns(ia),
           solution: [`Each exterior angle = 360° ÷ ${n} = ${deg(e)}.`, `Interior and exterior angles lie on a straight line: interior = 180° − ${deg(e)} = ${deg(ia)}.`, `(Or: sum = (${n} − 2) × 180° = ${big((n - 2) * 180)}°, and ${big((n - 2) * 180)}° ÷ ${n} = ${deg(ia)}.)`],
           hint: "Find the exterior angle first — it's quicker.",
@@ -1773,7 +1773,7 @@ export const drills: Drill[] = [
       return {
         prompt: `The interior angles of a regular polygon add up to ${big(S)}°. Find the size of each interior angle.`,
         answer: angleAns(each),
-        solution: [`(n − 2) × 180 = ${S}, so n − 2 = ${m - 2} and the polygon has n = ${m} sides.`, `It's regular, so the angles are equal: each = ${big(S)}° ÷ ${m} = ${deg(each)}.`],
+        solution: [`(n − 2) × 180 = ${big(S)}, so n − 2 = ${big(S)} ÷ 180 = ${m - 2} and the polygon has n = ${m} sides.`, `It's regular, so the angles are equal: each = ${big(S)}° ÷ ${m} = ${deg(each)}.`],
         hint: "First work out how many sides it has.",
         traps,
       };

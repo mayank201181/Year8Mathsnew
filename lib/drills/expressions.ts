@@ -1049,7 +1049,7 @@ export const drills: Drill[] = [
           const w2 = clean(u * t + (a * t) * (a * t) / 2);
           if (w2 !== s && w2 !== u * t + a * t * t) traps.push(ntrap(w2, "Only t is squared, not a × t."));
           return {
-            prompt: `The distance s metres travelled by a car is ${M("s = ut + 1/2 at^2")}, where u is its starting speed in m/s, a is its acceleration in {{m/s^2}} and t is the time in seconds. Find s when u = ${u}, a = ${a} and t = ${t}.`,
+            prompt: `The distance s metres travelled by a car is ${M("s = ut + 1/2 at^2")}, where u is its starting speed in m/s, a is its acceleration in m/s² and t is the time in seconds. Find s when u = ${u}, a = ${a} and t = ${t}.`,
             answer: { type: "number", value: s },
             solution: [`${M(`ut = ${u} × ${t} = ${u * t}`)}`, `${M(`1/2 at^2 = 1/2 × ${a} × ${t}^2 = 1/2 × ${a} × ${t * t} = ${clean((a * t * t) / 2)}`)}`, `${M(`s = ${u * t} + ${clean((a * t * t) / 2)} = ${s}`)} m`],
             hint: "Work out each term separately. In the second term, square t first.",
