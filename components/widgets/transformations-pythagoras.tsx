@@ -59,7 +59,7 @@ function Step({
         >
           −
         </button>
-        <span className="min-w-[4.5ch] text-center text-lg font-extrabold tabular-nums text-ink" aria-live="polite">
+        <span className="min-w-[4.5ch] whitespace-nowrap text-center text-lg font-extrabold tabular-nums text-ink" aria-live="polite">
           {format ? format(value) : num(value)}
         </span>
         <button
@@ -340,6 +340,22 @@ function randomMystery(prev: Params, current: Params): Params {
   return { ...START, kind: "rotate", turn: "half", rx: 0, ry: 0 };
 }
 
+/**
+ * Two vertices (indices) that are not collinear with the centre c, so the
+ * construction lines through them pin the centre down to a single point.
+ * (If c is a vertex, or lies on the line AB, the obvious pair A, B fails.)
+ */
+function pairAround(c: Pt): [number, number] {
+  const pairs: [number, number][] = [
+    [0, 1],
+    [0, 2],
+    [1, 2],
+  ];
+  const cross = ([i, j]: [number, number]) =>
+    (OBJ[i][0] - c[0]) * (OBJ[j][1] - c[1]) - (OBJ[i][1] - c[1]) * (OBJ[j][0] - c[0]);
+  return pairs.find((pr) => Math.abs(cross(pr)) > 1e-9) ?? [0, 1];
+}
+
 /** Hint ladder for a hidden transformation: classify it, then pin down the details. */
 function mysteryHints(h: Params): string[] {
   const img = imageOf(h);
@@ -371,15 +387,18 @@ function mysteryHints(h: Params): string[] {
     case "rotate": {
       const ab: Pt = [img[1][0] - img[0][0], img[1][1] - img[0][1]];
       const dir = ab[0] > 0 ? "right" : ab[0] < 0 ? "left" : ab[1] > 0 ? "up" : "down";
+      const [u, v] = pairAround([h.rx, h.ry]).map((i) => LETTERS[i]);
       second =
         h.turn === "half"
           ? `AB points right and A′B′ points ${dir}: a half-turn (180°). For a half-turn the centre is the midpoint of A and A′ — that is ${coord(mid(OBJ[0], img[0]))}.`
-          : `AB points right and A′B′ points ${dir}, so it turned ${turnName(h.turn)}. The centre is the one point that is the same distance from A as from A′ (and from B as from B′). Try a centre, see where the image lands, and adjust.`;
+          : `AB points right and A′B′ points ${dir}, so it turned ${turnName(h.turn)}. The centre is the one point that is the same distance from ${u} as from ${u}′ and also the same distance from ${v} as from ${v}′. Try a centre, see where the image lands, and adjust.`;
       break;
     }
-    case "enlarge":
-      second = `A′B′ ÷ AB = ${num(3 * k)} ÷ 3 = ${kText(h.scale)}, the scale factor. For the centre, draw the straight line through A and A′ and the line through B and B′: they cross at the centre.`;
+    case "enlarge": {
+      const [u, v] = pairAround([h.ex, h.ey]).map((i) => LETTERS[i]);
+      second = `A′B′ ÷ AB = ${num(3 * k)} ÷ 3 = ${kText(h.scale)}, the scale factor. For the centre, draw the straight line through ${u} and ${u}′ and the straight line through ${v} and ${v}′: they cross at the centre.`;
       break;
+    }
   }
   return [first, second];
 }
@@ -560,8 +579,8 @@ function TransformationLab() {
   } else if (p.kind === "reflect") {
     explain = (
       <>
-        Each point and its image are the same distance from the mirror line, on opposite sides, and the dashed line joining them crosses the
-        mirror at 90° (the dots are the midpoints, on the mirror). The image is congruent but <strong>reversed</strong>: A → B → C runs
+        Each point and its image are the same distance from the mirror line, on opposite sides, and the line joining them crosses the mirror
+        at 90°{showCon ? " (dashed; the dots are the midpoints, on the mirror)" : ""}. The image is congruent but <strong>reversed</strong>: A → B → C runs
         anticlockwise on the object and clockwise on the image. Points on the mirror line don’t move — they are invariant
         {invList.length ? ` (here: ${invList.join(" and ")})` : ""}.
       </>
@@ -864,7 +883,7 @@ function TransformationLab() {
                   value={p.scale}
                   onChange={(scale) => update({ scale })}
                   options={[
-                    { value: "half", label: "½ (stretch)" },
+                    { value: "half", label: "½ (shrink)" },
                     { value: "2", label: "2" },
                     { value: "3", label: "3" },
                   ]}
@@ -914,7 +933,7 @@ function TransformationLab() {
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               <Readout label="Lengths" value={p.kind === "enlarge" ? `× ${kText(p.scale)}` : "× 1"} tone="ink" />
               <Readout label="Area (squares)" value={`${OBJ_AREA} → ${num(OBJ_AREA * k * k)}`} tone="ink" />
-              <Readout label="Way round" value={sameWay ? "same" : "reversed"} tone={sameWay ? "good" : "bad"} />
+              <Readout label="Way round" value={sameWay ? "same" : "reversed"} tone="ink" />
               <Readout label="Image is" value={k === 1 ? "congruent" : "similar"} tone="brand" />
             </div>
           </>

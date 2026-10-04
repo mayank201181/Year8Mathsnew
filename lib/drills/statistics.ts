@@ -284,8 +284,8 @@ const DT_WHY: Record<DType, string> = {
 
 const DT_ACCEPT: Record<DType, string[]> = {
   categorical: ["categorical", "categorical data", "qualitative", "qualitative data"],
-  discrete: ["discrete", "discrete data", "discrete numerical", "numerical discrete"],
-  continuous: ["continuous", "continuous data", "continuous numerical", "numerical continuous"],
+  discrete: ["discrete", "discrete data", "discrete numerical", "numerical discrete", "discrete numerical data", "quantitative discrete", "discrete quantitative"],
+  continuous: ["continuous", "continuous data", "continuous numerical", "numerical continuous", "continuous numerical data", "quantitative continuous", "continuous quantitative"],
 };
 
 const DT_TRAP: Record<DType, { t: DType; fb: string }> = {
@@ -701,7 +701,7 @@ const FP_T1: FPCtx[] = [
   { intro: "The table shows the masses, *m* grams, of some apples.", head: "Mass, *m* (g)", v: "m", who: "apples", noun: "mass", unit: "g", sc: 1, lo: 100, w: 20, k: 5 },
 ];
 const FP_T2: FPCtx[] = [
-  { intro: "The table shows the times, *t* seconds, of some runners in a 200 m race.", head: "Time, *t* (seconds)", v: "t", who: "runners", noun: "time", unit: "seconds", sc: 1, lo: 20, w: 5, k: 5 },
+  { intro: "The table shows the times, *t* seconds, of some pupils in a 200 m race.", head: "Time, *t* (seconds)", v: "t", who: "pupils", noun: "time", unit: "seconds", sc: 1, lo: 25, w: 5, k: 5 },
   { intro: "The table shows the lengths, *l* cm, of some leaves.", head: "Length, *l* (cm)", v: "l", who: "leaves", noun: "length", unit: "cm", sc: 1, lo: 10, w: 5, k: 5 },
   { intro: "The table shows the masses, *m* grams, of some mangoes.", head: "Mass, *m* (g)", v: "m", who: "mangoes", noun: "mass", unit: "g", sc: 1, lo: 150, w: 25, k: 5 },
 ];

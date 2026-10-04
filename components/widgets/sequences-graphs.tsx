@@ -506,6 +506,44 @@ function SeqGraph({ seq, terms, zero, kv, hits }: { seq: Seq; terms: Q[]; zero: 
         : "The points do not lie on a straight line."
   }`;
 
+  // Keep the two small labels clear of the points, the dashed lines and the axes.
+  type Box = { x0: number; y0: number; x1: number; y1: number };
+  const boxAt = (x: number, y: number, chars: number, end = false): Box => {
+    const w = chars * 6.2;
+    return { x0: end ? x - w : x, x1: end ? x : x + w, y0: y - 9, y1: y + 2 };
+  };
+  const overlaps = (a: Box, b: Box) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
+  const clashes = (b: Box, marks: [number, number][], avoid: Box[] = []) =>
+    b.x0 < L + 2 ||
+    b.x1 > W - 2 ||
+    b.y0 < T - 6 ||
+    b.y1 > H - B - 2 ||
+    marks.some(([x, y]) => x > b.x0 - 6 && x < b.x1 + 6 && y > b.y0 - 6 && y < b.y1 + 6) ||
+    avoid.some((o) => overlaps(b, o));
+  const dots: [number, number][] = vals.map((v, i) => [px(i + 1), py(v)]);
+  const kLabelY = showK && kv !== null && clashes(boxAt(W - R - 2, py(kv) - 4, 11, true), dots) ? py(kv) + 13 : py(kv ?? 0) - 4;
+  const kBox = showK ? [boxAt(W - R - 2, kLabelY, 11, true)] : [];
+  let zeroLabel = { x: 0, y: 0 };
+  if (linear && zero) {
+    const z = qVal(zero);
+    const zx = px(0);
+    const zy = py(z);
+    const marks: [number, number][] = [...dots, [zx, zy]];
+    for (let j = 0; j <= 64; j++) marks.push([zx + ((px(SHOW) - zx) * j) / 64, zy + ((py(vals[SHOW - 1]) - zy) * j) / 64]);
+    if (showK && kv !== null) for (let j = 0; j <= 64; j++) marks.push([L + ((W - R - L) * j) / 64, py(kv)]);
+    const chars = `zero term ${qPlain(zero)}`.length;
+    const above = { x: zx + 9, y: zy - 8 };
+    const below = { x: zx + 9, y: zy + 16 };
+    const cands = [
+      ...(seq.d.n < 0 ? [above, below] : [below, above]),
+      { x: L + 6, y: T + 10 },
+      { x: L + 6, y: H - B - 6 },
+      { x: W - R - 4 - chars * 6.2, y: T + 10 },
+      { x: W - R - 4 - chars * 6.2, y: H - B - 6 },
+    ];
+    zeroLabel = cands.find((c) => !clashes(boxAt(c.x, c.y, chars), marks, kBox)) ?? cands[0];
+  }
+
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label={aria}>
       {/* grid */}
@@ -536,7 +574,7 @@ function SeqGraph({ seq, terms, zero, kv, hits }: { seq: Seq; terms: Q[]; zero: 
       {showK && kv !== null ? (
         <g>
           <line x1={L} x2={W - R} y1={py(kv)} y2={py(kv)} className="stroke-accent" strokeWidth={1.5} strokeDasharray="6 4" />
-          <text x={W - R - 2} y={py(kv) - 4} fontSize={10} textAnchor="end" fontWeight={700} className="fill-accent stroke-surface" strokeWidth={3} paintOrder="stroke">
+          <text x={W - R - 2} y={kLabelY} fontSize={10} textAnchor="end" fontWeight={700} className="fill-accent stroke-surface" strokeWidth={3} paintOrder="stroke">
             your number
           </text>
         </g>
@@ -548,8 +586,8 @@ function SeqGraph({ seq, terms, zero, kv, hits }: { seq: Seq; terms: Q[]; zero: 
           <line x1={px(0)} y1={py(qVal(zero))} x2={px(SHOW)} y2={py(vals[SHOW - 1])} className="stroke-brand" strokeWidth={1.5} strokeDasharray="5 4" opacity={0.75} />
           <circle cx={px(0)} cy={py(qVal(zero))} r={5} className="fill-surface stroke-accent" strokeWidth={2.5} />
           <text
-            x={px(0) + 9}
-            y={py(qVal(zero)) + (seq.d.n >= 0 ? -8 : 14)}
+            x={zeroLabel.x}
+            y={zeroLabel.y}
             fontSize={10}
             fontWeight={700}
             className="fill-accent stroke-surface"

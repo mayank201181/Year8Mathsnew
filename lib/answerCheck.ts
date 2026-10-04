@@ -16,6 +16,7 @@ import {
   exprVars,
   extractNumbers,
   gcd,
+  hasCommonFactorInBracket,
   hasGroup,
   isFactorised,
   normalizeInput,
@@ -288,6 +289,9 @@ function checkExpression(spec: Extract<AnswerSpec, { type: "expression" }>, inpu
   const form = spec.form ?? "any";
   if (form === "factorised" && !isFactorised(got)) {
     return { status: "close", feedback: "That's equivalent — but it isn't factorised. Take out the common factor into a bracket." };
+  }
+  if (form === "factorised" && hasCommonFactorInBracket(got) && !hasCommonFactorInBracket(expected)) {
+    return { status: "close", feedback: "Equivalent and factorised — but not fully. There's still a common factor inside the bracket." };
   }
   if (form === "expanded" && hasGroup(got)) {
     return { status: "close", feedback: "That's equivalent — now multiply out the brackets." };

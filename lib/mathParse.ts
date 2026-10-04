@@ -366,6 +366,70 @@ export function isFactorised(e: Expr): boolean {
   return factors.some((f) => (f.t === "group" && isSumLike(f.a)) || (f.t === "pow" && isSumLike(f.a)));
 }
 
+type Mono = { c: number; vars: Record<string, number> };
+
+/** A single term like −6x²y as {c: −6, vars: {x: 2, y: 1}}; null if it isn't a simple monomial. */
+function monomial(e: Expr): Mono | null {
+  switch (e.t) {
+    case "num": return { c: e.v, vars: {} };
+    case "var": return { c: 1, vars: { [e.name]: 1 } };
+    case "group": return monomial(e.a);
+    case "neg": {
+      const m = monomial(e.a);
+      return m && { c: -m.c, vars: m.vars };
+    }
+    case "mul": {
+      const a = monomial(e.a);
+      const b = monomial(e.b);
+      if (!a || !b) return null;
+      const vars = { ...a.vars };
+      for (const [k, p] of Object.entries(b.vars)) vars[k] = (vars[k] ?? 0) + p;
+      return { c: a.c * b.c, vars };
+    }
+    case "pow":
+      if (e.a.t === "var" && e.b.t === "num" && Number.isInteger(e.b.v) && e.b.v > 0) return { c: 1, vars: { [e.a.name]: e.b.v } };
+      return null;
+    default:
+      return null;
+  }
+}
+
+function sumTerms(e: Expr, sign = 1, out: Mono[] = []): Mono[] | null {
+  if (e.t === "group") return sumTerms(e.a, sign, out);
+  if (e.t === "add" || e.t === "sub") {
+    if (!sumTerms(e.a, sign, out)) return null;
+    return sumTerms(e.b, e.t === "sub" ? -sign : sign, out);
+  }
+  const m = monomial(e);
+  if (!m) return null;
+  out.push({ c: sign * m.c, vars: m.vars });
+  return out;
+}
+
+/**
+ * True if some bracketed sum in a product still has a common factor — a whole number
+ * greater than 1 or a shared letter — so the expression isn't *fully* factorised
+ * (e.g. 3(2x² + 5x) or x(6x + 15)). Brackets it can't analyse count as fine.
+ */
+export function hasCommonFactorInBracket(e: Expr): boolean {
+  const factors: Expr[] = [];
+  const collect = (f: Expr) => {
+    if (f.t === "mul") { collect(f.a); collect(f.b); }
+    else if (f.t === "neg" || (f.t === "group" && !isSumLike(f.a))) collect(f.a);
+    else factors.push(f);
+  };
+  collect(e);
+  for (const f of factors) {
+    const base = f.t === "pow" ? f.a : f;
+    if (!isSumLike(base)) continue;
+    const terms = sumTerms(base);
+    if (!terms || terms.length < 2 || terms.some((t) => !Number.isInteger(t.c) || t.c === 0)) continue;
+    if (terms.map((t) => Math.abs(t.c)).reduce(gcd) > 1) return true;
+    if (Object.keys(terms[0].vars).some((v) => terms.every((t) => (t.vars[v] ?? 0) > 0))) return true;
+  }
+  return false;
+}
+
 const SAMPLE_POINTS = [1.37, -0.73, 2.21, 0.46, -1.93, 3.17, 0.89, -2.41];
 
 /** Numeric equivalence by evaluation at several pseudo-random points. */

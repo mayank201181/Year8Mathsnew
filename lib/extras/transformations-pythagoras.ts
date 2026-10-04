@@ -2,7 +2,7 @@ import type { TopicExtras } from "../types.ts";
 
 export const extras: TopicExtras = {
   hook:
-    "Why do many ambulances have AMBULANCE painted back to front on the bonnet, with every letter flipped? So that a driver in front sees it the right way round in the rear-view mirror — the mirror's reflection flips it back. Every transformation in this topic is a rule like that: it tells you exactly where each point goes.",
+    "Why do many ambulances have AMBULANCE painted back to front on the bonnet, with every letter flipped? So that a driver in front sees it the right way round in the rear-view mirror, because a reflection is a precise rule that flips it back — and every transformation in this topic is a rule like that, telling you exactly where each point goes.",
 
   didYouKnow: [
     "A Babylonian clay tablet called **Plimpton 322**, written around 1800 BCE — more than 1000 years before Pythagoras was born — lists pairs of numbers that are sides of right-angled triangles. One row gives 119 and 169, which fit a right-angled triangle with third side 120: {{119^2 + 120^2 = 14161 + 14400 = 28561 = 169^2}}.",
@@ -45,7 +45,7 @@ export const extras: TopicExtras = {
         "A dark room",
       ],
       steps: [
-        "Put the torch on a table, about 1 m from the wall and pointing straight at it. The bulb is your **centre of enlargement**.",
+        "Put the torch on a table, about 1 m from the wall and pointing straight at it (never shine it into anyone's eyes). The bulb is your **centre of enlargement**.",
         "Hold the triangle upright, parallel to the wall, halfway between the torch and the wall (about 50 cm from each).",
         "Predict the width of the shadow's base, then measure it on the wall.",
         "Move the triangle so it is about 25 cm from the torch. Predict the new width of the shadow's base, then measure it.",
@@ -74,6 +74,6 @@ export const extras: TopicExtras = {
   history: {
     title: "The President's proof",
     story:
-      "In 1876 James A. Garfield was a member of the United States Congress from Ohio — and a keen amateur mathematician. While trading maths puzzles with fellow politicians, he found a new proof of Pythagoras' theorem. Instead of drawing squares on the sides, he built a trapezium from three right-angled triangles: two copies of a triangle with sides a, b and c, and one half-square with two sides of length c. Working out the trapezium's area in two different ways forces {{a^2 + b^2 = c^2}} (see the bonus diagram).\n\nThe proof was printed in the *New England Journal of Education* that year, with the editors joking that it was something politicians of every party could agree on. Five years later, in 1881, Garfield became the 20th President of the United States.",
+      "In 1876 James A. Garfield, a former teacher, was a member of the United States Congress from Ohio. During some mathematical discussions with fellow members of Congress, he found a new proof of Pythagoras' theorem. Instead of drawing squares on the sides, he built a trapezium from three right-angled triangles: two copies of a triangle with sides a, b and c, and one half-square with two sides of length c. Working out the trapezium's area in two different ways forces {{a^2 + b^2 = c^2}} (see the bonus diagram).\n\nThe proof was printed in the *New England Journal of Education* that year, with the editors joking that it was something politicians of every party could agree on. Five years later, in 1881, Garfield became the 20th President of the United States.",
   },
 };

@@ -144,6 +144,15 @@ test("expressions: forms", () => {
   assert.equal(st(s, "4x+3y"), "correct");
   assert.equal(st(s, "3y+4x"), "correct");
   assert.equal(st(s, "3x+x+3y"), "close");
+  // "Factorise fully": a common factor left inside a bracket is close, not correct.
+  const full: AnswerSpec = { type: "expression", expr: "3x(2x+5)", form: "factorised" };
+  assert.equal(st(full, "3x(2x+5)"), "correct");
+  assert.equal(st(full, "x(6x+15)"), "close");
+  assert.equal(st(full, "3(2x^2+5x)"), "close");
+  assert.equal(st(full, "-3x(-2x-5)"), "correct");
+  assert.equal(st({ type: "expression", expr: "(x+2)(x+3)", form: "factorised" }, "(x+3)(x+2)"), "correct");
+  assert.equal(st({ type: "expression", expr: "2(x+2)(x+1)", form: "factorised" }, "(2x+4)(x+1)"), "close");
+  assert.equal(st({ type: "expression", expr: "4(a+2b)", form: "factorised" }, "2(2a+4b)"), "close");
 });
 
 test("text", () => {

@@ -642,9 +642,10 @@ export const drills: Drill[] = [
       return {
         prompt,
         answer: coordSpec(ans),
-        solution: [...reflectSteps(m1, P), `Check: P and its image are the same distance from the mirror, on opposite sides ✓.`],
+        solution: [...reflectSteps(m1, P), `Check: the point and its image are the same distance from the mirror, on opposite sides ✓.`],
         hint: "Is the mirror line vertical, horizontal or diagonal? Count how far the point is from the line, then go the same distance on the other side.",
-        traps: pairTraps(ans, reflectTrapCands(m1, P)),
+        // A candidate equal to P itself would mean "the point didn't move", which the feedback doesn't describe.
+        traps: pairTraps(ans, reflectTrapCands(m1, P).filter(([c]) => !same(c, P))),
       };
     },
   },
@@ -712,7 +713,7 @@ export const drills: Drill[] = [
         return {
           prompt: `Shape B is an enlargement of shape A with scale factor ${k}. A side of B is ${num(M)} cm long. How long is the matching side of A, in cm?`,
           answer: { type: "number", value: L },
-          solution: [`B is ${k} times as big as A, so go backwards: divide by ${k}.`, `${num(M)} ÷ ${k} = ${num(L)} cm.`],
+          solution: [`Every length of B is ${k} times the matching length of A, so go backwards: divide by ${k}.`, `${num(M)} ÷ ${k} = ${num(L)} cm.`],
           hint: "Which shape is bigger? Work backwards from B to A.",
           traps: numTraps(L, [[clean(M * k), "B is the bigger shape, so A's side must be shorter. Divide by the scale factor to go back to A."]]),
         };
@@ -788,7 +789,8 @@ export const drills: Drill[] = [
       const M = n * m;
       return {
         prompt: `Shape Q is an enlargement of shape P. A side of P is ${L} cm long and the matching side of Q is ${M} cm long. Find the scale factor. Give your answer as a fraction in its simplest form.`,
-        answer: { type: "fraction", n, d, simplest: true, allowDecimal: true },
+        // The prompt asks for a fraction, so a decimal gets "right value — write it as a fraction".
+        answer: { type: "fraction", n, d, simplest: true },
         solution: [
           `Scale factor = Q's length ÷ P's length = ${frac(M, L, { simplify: false })}.`,
           `Simplify: ${frac(M, L, { simplify: false })} = ${frac(n, d)}.`,
@@ -1029,7 +1031,10 @@ export const drills: Drill[] = [
         ];
       }
       if (tri) steps.splice(steps.length - 1, 0, `Check with another pair: ${pt(A[1])} → ${pt(B[1])} works with the same mirror ✓.`);
-      const ask = "Find the equation of the mirror line. Type its equation (for example y = 4, x = −1 or y = x).";
+      // Format examples — never one that is the actual answer.
+      const squash = (t: string): string => t.replace(/\s+/g, "").replace(/−/g, "-");
+      const examples = ["y = 4", "x = −1", "y = x", "x = 3", "y = −2", "y = −x"].filter((e) => !accept.some((t) => squash(t) === squash(e))).slice(0, 3);
+      const ask = `Find the equation of the mirror line. Type its equation (for example ${examples[0]}, ${examples[1]} or ${examples[2]}).`;
       const prompt = tri
         ? `Triangle A has vertices ${listPts(A)}. It is reflected to give triangle B with vertices ${listPts(B)} (in matching order). ${ask}`
         : rng.pick([`Under a reflection, the point A${pt(P)} maps to A′${pt(Q)}. ${ask}`, `${rng.pick(NAMES)} reflects the point ${pt(P)} and it lands on ${pt(Q)}. ${ask}`]);
@@ -1065,7 +1070,9 @@ export const drills: Drill[] = [
         const img = rotQ(q, from);
         return [`A rotation of ${TURN_TEXT[q]} about the origin follows the rule ${TURN_RULE[q]}.`, `So ${pt(from)} → ${pt(img)}.`];
       };
+      // When x = y, swapping gives P itself, which this feedback doesn't describe — notP drops it.
       const swapTrap: [P2, string] = [[P[1], P[0]], "Swapping the coordinates on their own is a reflection in y = x — for a quarter-turn, one coordinate must also change sign."];
+      const notP = (cs: Array<[P2, string]>): Array<[P2, string]> => cs.filter(([c]) => !same(c, P));
 
       if (mode === "270") {
         const q = rng.pick([1, 3]);
@@ -1076,7 +1083,7 @@ export const drills: Drill[] = [
           answer: coordSpec(ans),
           solution: [`A turn of ${phrase} ends in the same place as ${TURN_TEXT[q]} (because 270° + 90° = 360°).`, ...ruleSteps(q, P)],
           hint: "Three quarter-turns one way end up in the same place as one quarter-turn the other way.",
-          traps: pairTraps(ans, [[rotQ(4 - q, P), "That's a 90° turn in the direction given. 270° one way is the same as 90° the OTHER way."], swapTrap]),
+          traps: pairTraps(ans, notP([[rotQ(4 - q, P), "That's a 90° turn in the direction given. 270° one way is the same as 90° the OTHER way."], swapTrap])),
         };
       }
       if (mode === "twice") {
@@ -1097,7 +1104,7 @@ export const drills: Drill[] = [
           prompt: `The point P${pt(P)} is rotated ${TURN_TEXT[q1]} about the origin. Its image is then rotated ${TURN_TEXT[q2]} about the origin. Give the coordinates of the final image as (x, y).`,
           answer: coordSpec(ans),
           solution: [
-            `Count quarter-turns: anticlockwise = +1, clockwise = −1, a half-turn = 2. Total: ${num(signed(q1))} + ${br(signed(q2))} = ${num(sum)}, which is the same as one rotation of ${TURN_TEXT[t]}.`,
+            `Count quarter-turns: anticlockwise = +1, clockwise = −1, a half-turn = 2. Total: ${num(signed(q1))} + ${br(signed(q2))} = ${num(sum)}, so ${Math.abs(sum)} quarter-turn${Math.abs(sum) === 1 ? "" : "s"} ${sum > 0 ? "anticlockwise" : "clockwise"}${sum === 3 ? " (270°)" : ""}, which is the same as one rotation of ${TURN_TEXT[t]}.`,
             ...ruleSteps(t, P),
             `(Or do it in two steps: ${pt(P)} → ${pt(rotQ(q1, P))} → ${pt(ans)}.)`,
           ],
@@ -1118,7 +1125,7 @@ export const drills: Drill[] = [
               [[z(-P[0]), P[1]], "Only one sign changed — that's a reflection in the y-axis. A half-turn changes both signs."],
               [[P[0], z(-P[1])], "Only one sign changed — that's a reflection in the x-axis. A half-turn changes both signs."],
             ] as Array<[P2, string]>).filter(([c]) => !same(c, P))
-          : [[rotQ(4 - q, P), q === 1 ? "That's 90° clockwise. Anticlockwise turns the opposite way to clock hands." : "That's 90° anticlockwise. Clockwise turns the same way as clock hands."], swapTrap];
+          : notP([[rotQ(4 - q, P), q === 1 ? "That's 90° clockwise. Anticlockwise turns the opposite way to clock hands." : "That's 90° anticlockwise. Clockwise turns the same way as clock hands."], swapTrap]);
       return {
         prompt,
         answer: coordSpec(ans),
@@ -1242,8 +1249,9 @@ export const drills: Drill[] = [
         const sa = [...A].sort((x, y) => x - y);
         const sb = [...Bshow].sort((x, y) => x - y);
         const ratios = sb.map((b, j) => frac(Math.round(2 * b), 2 * sa[j]));
-        const [thing, things] = rng.pick([["triangle", "triangles"], ["triangular sail", "sails"], ["triangular flag", "flags"], ["triangular garden bed", "garden beds"]] as const);
-        const prompt = `${cap(thing)} P has sides ${sa[0]} cm, ${sa[1]} cm and ${sa[2]} cm. ${cap(thing)} Q has sides ${num(Bshow[0])} cm, ${num(Bshow[1])} cm and ${num(Bshow[2])} cm. Which best describes the two ${things}: congruent, similar (but not congruent), or neither? Type congruent, similar or neither.`;
+        // Sails and garden beds are metres long, not centimetres.
+        const [thing, things, u] = rng.pick([["triangle", "triangles", "cm"], ["triangular sail", "sails", "m"], ["triangular flag", "flags", "cm"], ["triangular garden bed", "garden beds", "m"]] as const);
+        const prompt = `${cap(thing)} P has sides ${sa[0]} ${u}, ${sa[1]} ${u} and ${sa[2]} ${u}. ${cap(thing)} Q has sides ${num(Bshow[0])} ${u}, ${num(Bshow[1])} ${u} and ${num(Bshow[2])} ${u}. Which best describes the two ${things}: congruent, similar (but not congruent), or neither? Type congruent, similar or neither.`;
         const order = `Put both sets of sides in order. P: ${sa.join(", ")}. Q: ${sb.map(num).join(", ")}.`;
         const ratioLine = `Divide each side of Q by the matching side of P: ${ratios.join(", ")}.`;
         if (kind === "congruent") {
@@ -1259,7 +1267,7 @@ export const drills: Drill[] = [
           return {
             prompt,
             answer: textSpec(["similar", "similar but not congruent", "similar (but not congruent)", "similar not congruent", "they are similar"], "similar"),
-            solution: [order, ratioLine, `Every ratio is the same, so Q is an enlargement of P with scale factor ${ratios[0]}: similar, but not congruent because the sizes differ.`],
+            solution: [order, ratioLine, `Every ratio is the same, so Q is the same shape as P with every side multiplied by ${ratios[0]}: similar, but not congruent because the sizes differ.`],
             hint: "Sort the sides, then divide each side of Q by the matching side of P. Are all the answers the same?",
             traps: [{ spec: textSpec(["congruent"]), feedback: "Congruent shapes must be the same size. These sides are all in the same ratio, but not equal." }],
           };
@@ -1267,7 +1275,7 @@ export const drills: Drill[] = [
         return {
           prompt,
           answer: textSpec(["neither", "neither congruent nor similar", "not similar", "none"], "neither"),
-          solution: [order, ratioLine, `The ratios are not all equal, so Q is not an enlargement of P. The ${things} are neither congruent nor similar.`],
+          solution: [order, ratioLine, `The ratios are not all equal, so the sides are not in proportion. The ${things} are neither congruent nor similar.`],
           hint: "Sort the sides, then divide each side of Q by the matching side of P. Similar shapes need ALL the ratios to be equal.",
           traps: [{ spec: textSpec(["similar"]), feedback: "Check every pair of matching sides: for similar shapes ALL the ratios must be equal, not just some of them." }],
         };
@@ -1399,7 +1407,7 @@ export const drills: Drill[] = [
         prompt,
         diagram,
         answer: textSpec(["enlargement", "an enlargement", "enlarge"], "enlargement"),
-        solution: [sizeLine, `B is ${k} times as big as A (the angles stay the same). Only an enlargement changes the size, so B is similar to A but not congruent.`, `It is an enlargement. Fully described: ${detail}.`],
+        solution: [sizeLine, `Every side of B is ${k} times as long as the matching side of A, and the angles stay the same. Only an enlargement changes the size, so B is similar to A but not congruent.`, `It is an enlargement. Fully described: ${detail}.`],
         hint,
         traps: [{ spec: textSpec(["translation"]), feedback: "B is bigger than A. A translation never changes size — only an enlargement does." }],
       };
@@ -1456,7 +1464,7 @@ export const drills: Drill[] = [
           solution: steps,
           hint: "After a half-turn, the centre sits exactly halfway between a point and its image.",
           traps: pairTraps(C, [
-            [[clean((Q[0] - P[0]) / 2), clean((Q[1] - P[1]) / 2)], "That's half the step from P to P′. The centre is the midpoint: add the coordinates, then halve."],
+            [[clean((Q[0] - P[0]) / 2), clean((Q[1] - P[1]) / 2)], "That's half the step from a point to its image. The centre is the midpoint: add the coordinates, then halve."],
             [[z(P[0] + Q[0]), z(P[1] + Q[1])], "You added the coordinates but forgot to halve them."],
           ]),
         };
@@ -1748,7 +1756,7 @@ export const drills: Drill[] = [
         if (ctx === "diagonal") {
           const ans = roundTo(diag, 1);
           return {
-            prompt: `A ${thing} is a rectangle ${a} ${unit} long and ${b} ${unit} wide. ${name} walks in a straight line from one corner to the opposite corner. How far does ${name} walk? Give your answer in ${unit === "m" ? "metres" : unit}, correct to 1 decimal place.`,
+            prompt: `A ${thing} is a rectangle ${Math.max(a, b)} ${unit} long and ${Math.min(a, b)} ${unit} wide. ${name} walks in a straight line from one corner to the opposite corner. How far does ${name} walk? Give your answer in ${unit === "m" ? "metres" : unit}, correct to 1 decimal place.`,
             answer: { type: "number", value: ans, allowFraction: false, display: dp1(ans) },
             solution: [
               `The diagonal splits the rectangle into two right-angled triangles; the diagonal is the hypotenuse.`,
@@ -1794,7 +1802,7 @@ export const drills: Drill[] = [
         prompt: `On a centimetre grid, A is the point ${pt(P)} and B is the point ${pt(Q)}. Work out the length of the straight line AB. Give your answer in cm, correct to 1 decimal place.`,
         answer: { type: "number", value: ans, allowFraction: false, display: dp1(ans) },
         solution: [
-          `Make a right-angled triangle with AB as the hypotenuse. Across: ${num(Q[0])} − ${br(P[0])} = ${num(Q[0] - P[0])}, so ${dx} units. Up or down: ${num(Q[1])} − ${br(P[1])} = ${num(Q[1] - P[1])}, so ${dy} units.`,
+          `Make a right-angled triangle with AB as the hypotenuse. Across: ${num(Q[0])} − ${br(P[0])} = ${num(Q[0] - P[0])}, so ${units(dx)}. Up or down: ${num(Q[1])} − ${br(P[1])} = ${num(Q[1] - P[1])}, so ${units(dy)}.`,
           `{{AB^2 = ${dx}^2 + ${dy}^2 = ${dx * dx} + ${dy * dy} = ${s}}}.`,
           `{{AB = sqrt(${s})}} = ${trunc3(Math.sqrt(s))}… = ${dp1(ans)} cm (1 d.p.).`,
         ],
