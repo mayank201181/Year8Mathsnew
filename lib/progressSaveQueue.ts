@@ -10,21 +10,31 @@ interface TimerApi {
   set: (callback: () => void, delay: number) => ReturnType<typeof setTimeout>;
   clear: (timer: ReturnType<typeof setTimeout>) => void;
 }
+/** Wrapped, not `{ set: setTimeout }`: browsers throw "Illegal invocation" when
+ * window timers are called as methods of another object. */
+const browserTimers: TimerApi = {
+  set: (callback, delay) => setTimeout(callback, delay),
+  clear: (timer) => clearTimeout(timer),
+};
 export function createProgressSaveQueue(
   send: (snapshot: ProgressSaveSnapshot) => Promise<void>,
   delay: number,
-  timers: TimerApi = { set: setTimeout, clear: clearTimeout },
+  timers: TimerApi = browserTimers,
 ) {
   let pending: ProgressSaveSnapshot | null = null;
   let timer: ReturnType<typeof setTimeout> | null = null;
   let tail: Promise<void> = Promise.resolve();
+  let generation = 0;
   function flush(): Promise<void> {
     if (timer !== null) timers.clear(timer);
     timer = null;
     const snapshot = pending;
     pending = null;
     if (!snapshot) return tail;
-    const request = tail.then(() => send(snapshot));
+    const currentGeneration = generation;
+    const request = tail.then(() => {
+      if (currentGeneration === generation) return send(snapshot);
+    });
     tail = request.catch(() => {}); // Keep the queue usable after a failed save.
     return request;
   }
@@ -37,7 +47,13 @@ export function createProgressSaveQueue(
     if (timer !== null) timers.clear(timer);
     timer = timers.set(() => { void flush().catch(() => {}); }, delay);
   }
-  return { schedule, flush };
+  function cancel() {
+    generation++;
+    if (timer !== null) timers.clear(timer);
+    timer = null;
+    pending = null;
+  }
+  return { schedule, flush, cancel };
 }
 
 /** Keep a stalled request from blocking profile switching or sign-out indefinitely. */

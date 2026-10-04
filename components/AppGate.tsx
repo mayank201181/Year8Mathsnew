@@ -1,54 +1,73 @@
 "use client";
-
+// Status machine: loading → (welcome | who's studying? | load error) → app.
+import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
 import { useStore } from "@/lib/store";
-import Header from "./Header";
-import Mascot from "./Mascot";
-import ProfilePicker from "./ProfilePicker";
+import { AuthGate } from "./AuthGate";
+import { ProfilePicker } from "./ProfilePicker";
+import { SiteHeader, MobileNav } from "./SiteHeader";
+import { ErrorBoundary } from "./ErrorBoundary";
 
-export default function AppGate({ children }: { children: React.ReactNode }) {
-  const { status, activeProfile, selectProfile, logout } = useStore();
-
-  if (status === "load-error") {
-    return (
-      <div className="grid min-h-screen place-items-center p-6">
-        <div className="max-w-md text-center space-y-4">
-          <h1 className="text-xl font-bold">We couldn&apos;t safely load your progress</h1>
-          <p>Your cloud progress has not been replaced. Try again before continuing.</p>
-          <div className="flex justify-center gap-3">
-            {activeProfile && <button onClick={() => selectProfile(activeProfile.id)}
-              className="rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white">Try again</button>}
-            <button onClick={() => { void logout(); }}
-              className="rounded-xl border px-5 py-3 font-semibold">Sign out</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen grid place-items-center">
-        <div className="text-center">
-          <div className="text-5xl animate-floaty">🧮</div>
-          <p className="mt-3 text-slate-400">Loading your Maths Lab…</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (status === "no-profile") {
-    return <ProfilePicker />;
-  }
-
+function Loading() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6">{children}</main>
-      <Mascot />
-      <footer className="text-center text-xs text-slate-500 py-6 border-t border-slate-800/60">
-        Year 8 Maths Lab · Cambridge Lower Secondary Stage 8 · Built for curious problem-solvers.
-      </footer>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-ink-2" role="status">
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-soft border-t-brand" aria-hidden />
+      <span>Opening your Maths Lab…</span>
     </div>
   );
 }
 
+function LoadError() {
+  const { retryLoad, logout, switchProfile, account } = useStore();
+  return (
+    <div className="mx-auto max-w-md py-16 text-center">
+      <div className="text-5xl" aria-hidden>
+        📡
+      </div>
+      <h1 className="mt-2 text-xl font-extrabold">Couldn&apos;t load your progress</h1>
+      <p className="mt-2 text-ink-2">We couldn&apos;t reach the server, so nothing has been changed. Check the internet connection and try again.</p>
+      <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <button type="button" className="btn btn-primary" onClick={() => void retryLoad()}>
+          Try again
+        </button>
+        {account && account.profiles.length > 1 ? (
+          <button type="button" className="btn btn-secondary" onClick={switchProfile}>
+            Switch learner
+          </button>
+        ) : null}
+        <button type="button" className="btn btn-ghost" onClick={() => void logout()}>
+          Sign out
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function AppGate({ children }: { children: ReactNode }) {
+  const { status } = useStore();
+  const path = usePathname();
+  // The parent dashboard works without choosing a learner (it has its own PIN gate).
+  const parentRoute = path?.startsWith("/parent");
+  let body: ReactNode;
+  if (status === "loading") body = <Loading />;
+  else if (status === "anon") body = <AuthGate />;
+  else if (status === "load-error") body = <LoadError />;
+  else if (status === "no-profile" && !parentRoute) body = <ProfilePicker />;
+  else body = children;
+  const showChrome = status === "ready" || (status === "no-profile" && parentRoute);
+  return (
+    <>
+      {showChrome ? (
+        <ErrorBoundary silent>
+          <SiteHeader />
+        </ErrorBoundary>
+      ) : null}
+      <main className={`mx-auto w-full max-w-5xl px-4 pt-4 ${showChrome ? "pb-28 md:pb-12" : "pb-12"}`}>{body}</main>
+      {showChrome ? (
+        <ErrorBoundary silent>
+          <MobileNav />
+        </ErrorBoundary>
+      ) : null}
+    </>
+  );
+}
