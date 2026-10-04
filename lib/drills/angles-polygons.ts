@@ -473,7 +473,7 @@ export const drills: Drill[] = [
           if (opp) pushTrap(traps, x, 180 - a, "Vertically opposite angles are equal — they don't add up to 180°.");
           else pushTrap(traps, x, a, "These two angles sit next to each other on a straight line, so they add up to 180°. It's the opposite angles that are equal.");
           const prompt = rng.bool()
-            ? `Two straight lines cross. One of the angles is ${deg(a)}. Find the size of angle ${V}.`
+            ? `Two straight lines cross, as shown. One of the angles is ${deg(a)}. Find the size of angle ${V}.`
             : `The diagram shows two straight lines crossing, making an angle of ${deg(a)}. Work out ${V}.`;
           return {
             prompt,
@@ -491,7 +491,7 @@ export const drills: Drill[] = [
         const vals = [180 - a, a, 180 - a];
         const [P, Q, R] = trio.map(mv);
         return {
-          prompt: `Two straight lines cross. One angle is ${deg(a)}. Find ${P}, ${Q} and ${R}. Give your answers in that order, separated by commas.`,
+          prompt: `Two straight lines cross, as shown. One angle is ${deg(a)}. Find ${P}, ${Q} and ${R}. Give your answers in that order, separated by commas.`,
           answer: { type: "list", values: vals, ordered: true, display: `${trio[0]} = ${deg(vals[0])}, ${trio[1]} = ${deg(vals[1])}, ${trio[2]} = ${deg(vals[2])}` },
           solution: [
             `${Q} is vertically opposite the ${deg(a)} angle, so ${Q} = ${deg(a)}.`,
@@ -612,7 +612,7 @@ export const drills: Drill[] = [
         solution,
         hint: isLine ? "What do angles on a straight line add up to?" : "What do the angles all the way round a point add up to?",
         traps,
-        diagram: render(sc, isLine ? `Angles on a straight line: ${listed.join(", ")}` : `Angles around a point: ${listed.join(", ")}`.replace(/\{\{|\}\}/g, "")),
+        diagram: render(sc, (isLine ? `Angles on a straight line: ${listed.join(", ")}` : `Angles around a point: ${listed.join(", ")}`).replace(/\{\{|\}\}/g, "")),
       };
     },
   },
@@ -871,9 +871,12 @@ export const drills: Drill[] = [
         };
       }
       if (kind === "reverseLines") {
-        pushTrap(traps, n, 2 * n, "A regular polygon has exactly as many lines of symmetry as sides — no doubling needed.");
+        const byLines = rng.bool();
+        pushTrap(traps, n, 2 * n, byLines
+          ? "A regular polygon has exactly as many lines of symmetry as sides — no doubling needed."
+          : "A regular polygon's order of rotational symmetry is exactly its number of sides — no doubling needed.");
         return {
-          prompt: rng.bool() ? `A regular polygon has ${n} lines of symmetry. How many sides does it have?` : `A regular polygon has rotational symmetry of order ${n}. How many sides does it have?`,
+          prompt: byLines ? `A regular polygon has ${n} lines of symmetry. How many sides does it have?` : `A regular polygon has rotational symmetry of order ${n}. How many sides does it have?`,
           answer: countAns(n),
           solution: ["For a regular polygon: number of sides = number of lines of symmetry = order of rotational symmetry.", `So it has ${n} sides.`],
           hint: "For regular polygons these three numbers are always the same.",
@@ -970,12 +973,14 @@ export const drills: Drill[] = [
     level: 2,
     guideRef: "parallel-lines",
     generate(rng, tier) {
-      const v = rng.pick(["x", "y", "a", "b", "p"]);
+      const triangle = tier === 3 && rng.bool();
+      // Avoid "angle p" next to the point P in the triangle diagram.
+      const v = rng.pick(triangle ? ["x", "y", "a", "b"] : ["x", "y", "a", "b", "p"]);
       const V = mv(v);
       const traps: Trap[] = [];
 
       // ----- tier 3: a triangle between the parallel lines -----
-      if (tier === 3 && rng.bool()) {
+      if (triangle) {
         let a = 60, b = 55;
         for (let i = 0; i < 200; i++) {
           const a2 = rng.int(45, 75), b2 = rng.int(45, 75);

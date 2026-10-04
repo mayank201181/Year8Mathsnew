@@ -782,7 +782,7 @@ const multiplyDrill: Drill = {
           `Find ${F(x)} of ${F(y)}. ${SIMP}`,
           `What is ${F(x)} of ${F(y)}? ${SIMP}`,
           `${F(y)} of a vegetable pizza is left over. ${who.name} eats ${F(x)} of the leftover pizza. What fraction of the whole pizza does ${who.he} eat? ${SIMP}`,
-          `In a school, ${F(y)} of the students travel by MRT, and ${F(x)} of those MRT travellers are in Year 8. What fraction of all the students are Year 8 MRT travellers? ${SIMP}`,
+          `In a school, ${F(y)} of the students travel by MRT, and ${F(x)} of those MRT travellers change trains on the way. What fraction of all the students change trains on the way to school? ${SIMP}`,
         ]);
         steps.push(`"Of" means multiply: ${F(x)} of ${F(y)} = ${F(x)} × ${F(y)}.`);
       } else {
@@ -830,11 +830,17 @@ const multiplyDrill: Drill = {
         k = 4;
       }
       const res = q(k * A.m[0], A.m[1]);
+      // Real-life measures only use friendly fractions (no 7ths or 14ths of a cup).
+      const friendly = [2, 3, 4, 5, 8, 10].includes(A.f[1]);
       prompt = rng.pick([
         `Work out ${k} × ${M(A.m)}. ${MIXP}`,
         `Work out ${M(A.m)} × ${k}. ${MIXP}`,
-        `A recipe needs ${M(A.m)} cups of flour. ${who.name} makes ${k} batches. How many cups of flour does ${who.he} need? ${MIXP}`,
-        `A bottle holds ${M(A.m)} litres of water. How many litres are there in ${k} bottles? ${MIXP}`,
+        ...(friendly
+          ? [
+              `A recipe needs ${M(A.m)} cups of flour. ${who.name} makes ${k} batches. How many cups of flour does ${who.he} need? ${MIXP}`,
+              `A large water container holds ${M(A.m)} litres. How many litres are there in ${k} containers? ${MIXP}`,
+            ]
+          : []),
       ]);
       const raw1 = fx(k * A.m[0], A.m[1]);
       steps.push(`Change to an improper fraction: ${M(A.m)} = ${F(A.m)}.`);

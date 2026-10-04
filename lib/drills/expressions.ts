@@ -836,7 +836,7 @@ export const drills: Drill[] = [
               `Powers first, then multiply: ${M(`= ${valsLine}`)}`,
               `${M(`= ${ansText}`)}`,
             ],
-            hint: `Put ${xText} in brackets wherever you see ${v}. Work out powers first.`,
+            hint: x[0] < 0 || x[1] !== 1 ? `Put ${xText} in brackets wherever you see ${v}. Work out powers first.` : `Replace ${v} with ${xText}. Work out powers first, then multiply, then add or subtract.`,
             traps,
           };
         }
@@ -987,7 +987,7 @@ export const drills: Drill[] = [
           };
         }
         if (kind === "F") {
-          const C = tier === 1 ? 5 * rng.int(0, 8) : rng.int(-20, 40);
+          const C = tier === 1 ? 5 * rng.int(1, 8) : rng.nonZero(-20, 40);
           const F = clean((18 * C + 320) / 10);
           const wrong = clean((18 * (C + 32)) / 10);
           return {
@@ -1047,9 +1047,9 @@ export const drills: Drill[] = [
           const traps: Trap[] = [];
           if (u * t + a * t * t !== s) traps.push(ntrap(u * t + a * t * t, `Don't forget the half in ${M("1/2 at^2")}.`));
           const w2 = clean(u * t + (a * t) * (a * t) / 2);
-          if (w2 !== s) traps.push(ntrap(w2, "Only t is squared, not a × t."));
+          if (w2 !== s && w2 !== u * t + a * t * t) traps.push(ntrap(w2, "Only t is squared, not a × t."));
           return {
-            prompt: `The distance s metres travelled by a car is ${M("s = ut + 1/2 at^2")}. Find s when u = ${u}, a = ${a} and t = ${t}.`,
+            prompt: `The distance s metres travelled by a car is ${M("s = ut + 1/2 at^2")}, where u is its starting speed in m/s, a is its acceleration in {{m/s^2}} and t is the time in seconds. Find s when u = ${u}, a = ${a} and t = ${t}.`,
             answer: { type: "number", value: s },
             solution: [`${M(`ut = ${u} × ${t} = ${u * t}`)}`, `${M(`1/2 at^2 = 1/2 × ${a} × ${t}^2 = 1/2 × ${a} × ${t * t} = ${clean((a * t * t) / 2)}`)}`, `${M(`s = ${u * t} + ${clean((a * t * t) / 2)} = ${s}`)} m`],
             hint: "Work out each term separately. In the second term, square t first.",
@@ -1100,8 +1100,9 @@ export const drills: Drill[] = [
         if (big !== A) traps.push(ntrap(big, `Only r is squared, not ${M("pi r")}.`));
         return {
           prompt: `The area of a circle is ${M("A = pi r^2")}. Find A when r = ${r} cm. Use the {{pi}} button on your calculator and give your answer to 1 decimal place.`,
-          answer: { type: "number", value: A, allowFraction: false },
-          solution: [`Square first: ${M(`r^2 = ${r}^2 = ${clean(r * r)}`)}`, `${M(`A = pi × ${clean(r * r)} = ${roundTo(Math.PI * r * r, 4)}…`)}`, `To 1 decimal place, A = ${A} {{cm^2}}.`],
+          // Show the 1 d.p. answer with its decimal digit, e.g. 95.0 (not 95).
+          answer: { type: "number", value: A, allowFraction: false, display: `${A.toFixed(1)} {{cm^2}}` },
+          solution: [`Square first: ${M(`r^2 = ${r}^2 = ${clean(r * r)}`)}`, `${M(`A = pi × ${clean(r * r)} = ${roundTo(Math.PI * r * r, 4)}…`)}`, `To 1 decimal place, A = ${A.toFixed(1)} {{cm^2}}.`],
           hint: "Square the radius first, then multiply by π.",
           traps,
         };
