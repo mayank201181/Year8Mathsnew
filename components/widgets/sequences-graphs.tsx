@@ -508,40 +508,69 @@ function SeqGraph({ seq, terms, zero, kv, hits }: { seq: Seq; terms: Q[]; zero: 
 
   // Keep the two small labels clear of the points, the dashed lines and the axes.
   type Box = { x0: number; y0: number; x1: number; y1: number };
-  const boxAt = (x: number, y: number, chars: number, end = false): Box => {
+  type Spot = { x: number; y: number; end?: boolean };
+  const boxOf = (c: Spot, chars: number): Box => {
     const w = chars * 6.2;
-    return { x0: end ? x - w : x, x1: end ? x : x + w, y0: y - 9, y1: y + 2 };
+    return { x0: c.end ? c.x - w : c.x, x1: c.end ? c.x : c.x + w, y0: c.y - 9, y1: c.y + 2 };
   };
   const overlaps = (a: Box, b: Box) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
   const clashes = (b: Box, marks: [number, number][], avoid: Box[] = []) =>
     b.x0 < L + 2 ||
     b.x1 > W - 2 ||
-    b.y0 < T - 6 ||
-    b.y1 > H - B - 2 ||
+    b.y0 < T - 8 ||
+    b.y1 > H - B - 1 ||
     marks.some(([x, y]) => x > b.x0 - 6 && x < b.x1 + 6 && y > b.y0 - 6 && y < b.y1 + 6) ||
     avoid.some((o) => overlaps(b, o));
+  const pick = (cands: Spot[], chars: number, marks: [number, number][], avoid: Box[] = []) =>
+    cands.find((c) => Number.isFinite(c.x) && !clashes(boxOf(c, chars), marks, avoid)) ?? cands[0];
+
   const dots: [number, number][] = vals.map((v, i) => [px(i + 1), py(v)]);
-  const kLabelY = showK && kv !== null && clashes(boxAt(W - R - 2, py(kv) - 4, 11, true), dots) ? py(kv) + 13 : py(kv ?? 0) - 4;
-  const kBox = showK ? [boxAt(W - R - 2, kLabelY, 11, true)] : [];
-  let zeroLabel = { x: 0, y: 0 };
+  const zx = px(0);
+  const zy = zero ? py(qVal(zero)) : 0;
+  const lineMarks: [number, number][] = [];
+  if (linear && zero) for (let j = 0; j <= 64; j++) lineMarks.push([zx + ((px(SHOW) - zx) * j) / 64, zy + ((py(vals[SHOW - 1]) - zy) * j) / 64]);
+
+  // "your number": try the right-hand end of its line first, above then below, then the left-hand end
+  const ky = kv === null ? 0 : py(kv);
+  const kLabel = pick(
+    [
+      { x: W - R - 2, y: ky - 4, end: true },
+      { x: W - R - 2, y: ky + 13, end: true },
+      { x: L + 22, y: ky - 4 },
+      { x: L + 22, y: ky + 13 },
+      { x: (L + W - R) / 2, y: ky - 4 },
+      { x: (L + W - R) / 2, y: ky + 13 },
+    ],
+    11,
+    [...dots, ...lineMarks, [zx, zy]],
+  );
+  const kBox = showK ? [boxOf(kLabel, 11)] : [];
+
+  // "zero term": next to the hollow point, on the empty side of the line (below it if
+  // the sequence goes up, above it if it goes down), sliding along the line if needed.
+  let zeroLabel: Spot = { x: 0, y: 0 };
   if (linear && zero) {
-    const z = qVal(zero);
-    const zx = px(0);
-    const zy = py(z);
-    const marks: [number, number][] = [...dots, [zx, zy]];
-    for (let j = 0; j <= 64; j++) marks.push([zx + ((px(SHOW) - zx) * j) / 64, zy + ((py(vals[SHOW - 1]) - zy) * j) / 64]);
-    if (showK && kv !== null) for (let j = 0; j <= 64; j++) marks.push([L + ((W - R - L) * j) / 64, py(kv)]);
     const chars = `zero term ${qPlain(zero)}`.length;
-    const above = { x: zx + 9, y: zy - 8 };
-    const below = { x: zx + 9, y: zy + 16 };
-    const cands = [
-      ...(seq.d.n < 0 ? [above, below] : [below, above]),
-      { x: L + 6, y: T + 10 },
-      { x: L + 6, y: H - B - 6 },
-      { x: W - R - 4 - chars * 6.2, y: T + 10 },
-      { x: W - R - 4 - chars * 6.2, y: H - B - 6 },
-    ];
-    zeroLabel = cands.find((c) => !clashes(boxAt(c.x, c.y, chars), marks, kBox)) ?? cands[0];
+    const kMarks: [number, number][] = [];
+    if (showK) for (let j = 0; j <= 64; j++) kMarks.push([L + ((W - R - L) * j) / 64, ky]);
+    const marks: [number, number][] = [...dots, ...lineMarks, ...kMarks, [zx, zy]];
+    const up = seq.d.n > 0;
+    const down = seq.d.n < 0;
+    /** How far the line climbs (or falls), in pixels per pixel across. */
+    const slope = Math.abs(py(vals[SHOW - 1]) - zy) / (px(SHOW) - zx);
+    const near: Spot = down ? { x: zx + 9, y: zy - 8 } : { x: zx + 9, y: zy + 16 };
+    const far: Spot = down ? { x: zx + 9, y: zy + 16 } : { x: zx + 9, y: zy - 8 };
+    const slideY = down ? Math.max(zy - 8, T + 2) : Math.min(zy + 16, H - B - 3);
+    const slide: Spot = {
+      x: up ? zx + 9 + Math.max(0, (zy - slideY + 15) / slope) : down ? zx + 9 + Math.max(0, (slideY + 8 - zy) / slope) : Infinity,
+      y: slideY,
+    };
+    zeroLabel = pick(
+      [near, slide, far, { x: L + 6, y: T + 10 }, { x: L + 6, y: H - B - 6 }, { x: W - R - 4 - chars * 6.2, y: T + 10 }, { x: W - R - 4 - chars * 6.2, y: H - B - 6 }],
+      chars,
+      marks,
+      kBox,
+    );
   }
 
   return (
@@ -574,7 +603,16 @@ function SeqGraph({ seq, terms, zero, kv, hits }: { seq: Seq; terms: Q[]; zero: 
       {showK && kv !== null ? (
         <g>
           <line x1={L} x2={W - R} y1={py(kv)} y2={py(kv)} className="stroke-accent" strokeWidth={1.5} strokeDasharray="6 4" />
-          <text x={W - R - 2} y={kLabelY} fontSize={10} textAnchor="end" fontWeight={700} className="fill-accent stroke-surface" strokeWidth={3} paintOrder="stroke">
+          <text
+            x={kLabel.x}
+            y={kLabel.y}
+            fontSize={10}
+            textAnchor={kLabel.end ? "end" : "start"}
+            fontWeight={700}
+            className="fill-accent stroke-surface"
+            strokeWidth={3}
+            paintOrder="stroke"
+          >
             your number
           </text>
         </g>
