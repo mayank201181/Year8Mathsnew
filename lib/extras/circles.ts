@@ -13,7 +13,7 @@ export const extras: TopicExtras = {
     "NASA's Jet Propulsion Laboratory uses π to just 15 decimal places (3.141 592 653 589 793) for its most accurate spacecraft navigation. Fewer than 40 decimal places would be enough to work out the circumference of the whole observable universe to within the width of a single hydrogen atom.",
     "The symbol π was first used for this number by the Welsh mathematician William Jones in 1706. It became standard after Leonhard Euler took it up in the 1730s. π is the first letter of the Greek words for *periphery* and *perimeter*.",
     "14 March is **Pi Day**, because in month–day order it reads 3.14. It is also Albert Einstein's birthday, and in 2019 UNESCO declared 14 March the *International Day of Mathematics*.",
-    "The Singapore Flyer's wheel is 150 m across, so each capsule travels about π × 150 ≈ 471 m in one rotation, which takes roughly 30 minutes.",
+    "The Singapore Flyer's wheel is 150 m across, so a point on its rim travels about π × 150 ≈ 471 m in one rotation, which takes roughly 30 minutes. (The capsules are mounted just outside the rim, so they travel a little further.)",
     "Of all shapes with the same perimeter, a circle encloses the most area. A 40 cm loop of string makes a square of area 100 cm², but shaped into a circle it encloses about 127 cm².",
   ],
 

@@ -587,10 +587,16 @@ function imperialOther(rng: Rng): DrillItem {
   const kind = rng.pick(["in-cm", "cm-in", "kg-lb", "lb-kg", "gal-l", "l-gal", "compare"] as const);
   const nm = rng.pick(NAMES);
   if (kind === "in-cm") {
-    const i = rng.int(3, 60);
+    const thing = rng.pick([
+      { what: "A tablet screen", lo: 7, hi: 13 },
+      { what: "A margherita pizza", lo: 8, hi: 18 },
+      { what: "A desk fan", lo: 8, hi: 16 },
+      { what: "A TV screen", lo: 32, hi: 65 },
+    ]);
+    const i = rng.int(thing.lo, thing.hi);
     const ans = clean((i * 5) / 2);
     return {
-      prompt: `${rng.pick(["A tablet screen", "A margherita pizza", "A desk fan"])} measures ${i} inches across. Use 1 inch ≈ 2.5 cm to estimate this in centimetres.`,
+      prompt: `${thing.what} measures ${i} inches across. Use 1 inch ≈ 2.5 cm to estimate this in centimetres.`,
       answer: numAns(ans, "cm"),
       solution: ["1 inch ≈ 2.5 cm, so multiply by 2.5.", `${i} × 2.5 = ${num(ans)} cm`],
       hint: "Centimetres are smaller than inches, so expect a bigger number.",
@@ -598,7 +604,7 @@ function imperialOther(rng: Rng): DrillItem {
     };
   }
   if (kind === "cm-in") {
-    const c = rng.int(10, 180);
+    const c = rng.int(40, 180);
     const ans = clean((c * 2) / 5);
     return {
       prompt: `${nm} is selling a shelf on a UK website. The shelf is ${c} cm long. Use 1 inch ≈ 2.5 cm to estimate its length in inches.`,
@@ -609,7 +615,7 @@ function imperialOther(rng: Rng): DrillItem {
     };
   }
   if (kind === "kg-lb") {
-    const k = rng.int(2, 80);
+    const k = rng.int(8, 32);
     const ans = clean((k * 11) / 5);
     return {
       prompt: `${nm}'s suitcase has a mass of ${k} kg. Use 1 kg ≈ 2.2 pounds (lb) to estimate its mass in pounds.`,
@@ -620,10 +626,10 @@ function imperialOther(rng: Rng): DrillItem {
     };
   }
   if (kind === "lb-kg") {
-    const lb = rng.int(1, 20) * 11;
+    const lb = rng.int(1, 10) * 11;
     const ans = (lb * 5) / 11;
     return {
-      prompt: `A bakery in the USA buys a ${lb} lb sack of flour. Use 1 kg ≈ 2.2 lb to estimate its mass in kilograms.`,
+      prompt: `A bakery in the USA buys ${an(String(lb))} ${lb} lb sack of flour. Use 1 kg ≈ 2.2 lb to estimate its mass in kilograms.`,
       answer: numAns(ans, "kg"),
       solution: ["1 kg ≈ 2.2 lb, so divide by 2.2.", `${lb} ÷ 2.2 = ${num(ans)} kg`],
       hint: "There are more pounds than kilograms in the same mass.",
@@ -631,7 +637,7 @@ function imperialOther(rng: Rng): DrillItem {
     };
   }
   if (kind === "gal-l") {
-    const g = rng.int(2, 40);
+    const g = rng.int(10, 50);
     const ans = clean((g * 9) / 2);
     return {
       prompt: `A water butt in an English garden holds ${g} gallons. Use 1 gallon ≈ 4.5 litres to estimate this in litres.`,
@@ -642,10 +648,15 @@ function imperialOther(rng: Rng): DrillItem {
     };
   }
   if (kind === "l-gal") {
-    const L = rng.int(2, 20) * 9;
+    const holder = rng.pick([
+      { what: "A car's fuel tank", lo: 5, hi: 9 },
+      { what: "A fish tank", lo: 4, hi: 24 },
+      { what: "A paddling pool", lo: 40, hi: 120 },
+    ]);
+    const L = rng.int(holder.lo, holder.hi) * 9;
     const ans = (L * 2) / 9;
     return {
-      prompt: `A car's fuel tank holds ${L} litres. Use 1 gallon ≈ 4.5 litres to estimate this in gallons.`,
+      prompt: `${holder.what} holds ${L} litres. Use 1 gallon ≈ 4.5 litres to estimate this in gallons.`,
       answer: numAns(ans, "gallons"),
       solution: ["1 gallon ≈ 4.5 litres, so divide by 4.5.", `${L} ÷ 4.5 = ${num(ans)} gallons`],
       hint: "How many lots of 4.5 litres are there?",
@@ -662,7 +673,7 @@ function imperialOther(rng: Rng): DrillItem {
   const ans = Math.abs(kmOfM - o.K);
   const milesFurther = kmOfM > o.K;
   return {
-    prompt: `Route A is ${o.M} miles long. Route B is ${o.K} km long. Use 5 miles ≈ 8 km. Which route is longer, and by how many kilometres? Give the difference in km.`,
+    prompt: `Route A is ${o.M} miles long. Route B is ${o.K} km long. Use 5 miles ≈ 8 km. Work out which route is longer. How many kilometres longer is it? Type just the difference in km.`,
     answer: { type: "number", value: ans, display: `${num(ans)} km (route ${milesFurther ? "A" : "B"} is longer)` },
     solution: [
       `${o.M} miles = ${o.M / 5} × 5 miles ≈ ${o.M / 5} × 8 = ${kmOfM} km.`,
@@ -744,7 +755,7 @@ function durationItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   if (mode === "finish") {
     const night = tier === 3;
     const o = find(
-      () => (night ? { s: rng.int(1260, 1435), d: rng.int(40, 360) } : { s: rng.int(360, 1150), d: rng.int(25, 240) }),
+      () => (night ? { s: rng.int(1260, 1435), d: rng.int(90, 360) } : { s: rng.int(360, 1150), d: rng.int(25, 240) }),
       (z) => (night ? z.s + z.d >= 1445 && z.s + z.d <= 1440 + 600 : z.s + z.d <= 1435) && (z.s % 60) + (z.d % 60) !== 60,
       night ? { s: 1370, d: 135 } : { s: 948, d: 97 },
     );
@@ -888,8 +899,13 @@ function decimalHoursItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   }
 
   if (kind === "toDec" || kind === "minToDec") {
-    const H = rng.int(1, tier === 1 ? 4 : 5);
-    const m = tier === 1 ? rng.pick([15, 30, 45]) : rng.int(1, 19) * 3;
+    // Keep the "minutes over 100" slip clearly different from the answer, so it is
+    // marked wrong (with its trap feedback) rather than "close, check your rounding".
+    const { H, m } = find(
+      () => ({ H: rng.int(1, tier === 1 ? 4 : 5), m: tier === 1 ? rng.pick([15, 30, 45]) : rng.int(1, 19) * 3 }),
+      (z) => farFrom(z.H + z.m / 60, z.H + z.m / 100),
+      { H: 2, m: 24 },
+    );
     const val = clean(H + m / 60);
     const wrong = clean(H + m / 100);
     if (kind === "toDec") {
@@ -921,7 +937,10 @@ function decimalHoursItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     return {
       prompt: rng.pick([`How many minutes are there in ${num(x)} hours?`, `${rng.pick(NAMES)} spends ${num(x)} hours on homework. How many minutes is that?`]),
       answer: numAns(mins, "minutes"),
-      solution: [`Multiply by 60: ${num(x)} × 60 = ${mins} minutes.`, `(Check: ${o.H} h = ${o.H * 60} min, and ${num(o.k / 100)} × 60 = ${(o.k * 60) / 100} min.)`],
+      solution: [
+        `Multiply by 60: ${num(x)} × 60 = ${mins} minutes.`,
+        o.H > 0 ? `(Check: ${o.H} h = ${o.H * 60} min, and ${num(o.k / 100)} × 60 = ${(o.k * 60) / 100} min, so ${o.H * 60} + ${(o.k * 60) / 100} = ${mins} min.)` : `(Check: ${num(x)} hours is less than 1 hour, so the answer must be less than 60 minutes.)`,
+      ],
       hint: "Each whole hour is 60 minutes, and the decimal part is a fraction of 60 minutes.",
       traps: numTraps(mins, [
         [o.H * 60 + o.k, `The decimal part is a fraction of an hour: ${num(o.k / 100)} h = ${(o.k * 60) / 100} min, not ${o.k} min.`],
@@ -931,8 +950,11 @@ function decimalHoursItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   }
 
   if (kind === "round") {
-    const H = rng.int(1, 5);
-    const m = find(() => rng.int(5, 55), (x) => x % 3 !== 0, 20);
+    const { H, m } = find(
+      () => ({ H: rng.int(1, 5), m: rng.int(5, 55) }),
+      (z) => z.m % 3 !== 0 && farFrom(roundTo(z.H + z.m / 60, 2), z.H + z.m / 100),
+      { H: 2, m: 20 },
+    );
     const exact = H + m / 60;
     const val = roundTo(exact, 2);
     return {
@@ -1227,7 +1249,7 @@ function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       const diff = Math.abs(a - o.ms);
       const faster = a > o.ms ? pair.a : pair.b;
       return {
-        prompt: `${pair.aText} ${o.kmh} km/h. ${pair.bText} ${o.ms} m/s. Which is faster, and by how many metres per second? Give the difference in m/s.`,
+        prompt: `${pair.aText} ${o.kmh} km/h. ${pair.bText} ${o.ms} m/s. Work out which is faster. How many metres per second faster is it? Type just the difference in m/s.`,
         answer: { type: "number", value: diff, display: `${num(diff)} m/s (the ${faster} is faster)` },
         solution: [
           `Change the ${pair.a}'s speed to m/s: ${o.kmh} ÷ 3.6 = ${num(a)} m/s.`,
@@ -1250,7 +1272,7 @@ function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       prompt: `${ctx.text} ${num(v)} m/s. Write this speed in km/h.`,
       answer: numAns(kmh, "km/h"),
       solution: toKmhSteps(v, kmh),
-      hint: "How many metres would the sprinter cover in a whole hour at this speed?",
+      hint: "How many metres would it cover in a whole hour (3600 seconds) at this speed?",
       traps: numTraps(kmh, [[v / 3.6, "You divided by 3.6. Going from m/s to km/h the number gets bigger, so multiply."]]),
     };
   }
@@ -1320,6 +1342,11 @@ function averageSpeedItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       const d1 = (z.s1 * z.t1) / 60, d2 = (z.s2 * z.t2) / 60;
       if (!hasDp(d1, 1) || !hasDp(d2, 1)) return false;
       const avg = ((d1 + d2) * 60) / (z.t1 + z.t2 + stop);
+      // The "mean of the two speeds" slip must be clearly wrong (not marked "close"),
+      // otherwise its trap feedback never shows and the item barely tests the idea.
+      if (!farFrom(avg, (z.s1 + z.s2) / 2) || Math.abs(avg - (z.s1 + z.s2) / 2) < 1.5) return false;
+      if (kind === "reverse" && !farFrom(z.s2, 2 * avg - z.s1)) return false;
+      if (stop && !farFrom(avg, ((d1 + d2) * 60) / (z.t1 + z.t2))) return false;
       return hasDp(avg, tier === 1 ? 0 : 1) && (tier === 1 || hasDp(avg, 0) || rng.bool(0.4));
     },
     tier === 1 ? { s1: 60, s2: 90, t1: 120, t2: 60 } : { s1: 60, s2: 40, t1: 90, t2: 30 },
@@ -1478,7 +1505,7 @@ function densityItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     return {
       prompt: rng.pick([
         `${Name} has a density of ${num(d)} g/cm³. Work out the mass of ${V} cm³ of ${mat.name}, in grams.`,
-        `A ${mat.obj} made of ${mat.name} has a volume of ${V} cm³. The density of ${mat.name} is ${num(d)} g/cm³. What is its mass in grams?`,
+        `A block of ${mat.name} has a volume of ${V} cm³. The density of ${mat.name} is ${num(d)} g/cm³. What is its mass in grams?`,
       ]),
       answer: numAns(M, "g"),
       solution: ["Mass = density × volume", `= ${num(d)} × ${V} = ${num(M)} g`],
@@ -1512,6 +1539,11 @@ function sizeMl(ml: number): string {
   return ml > 1000 ? `${num(ml / 1000)} litres` : `${ml} ml`;
 }
 
+/** Carton size used before a noun: "2-litre carton", "500 ml carton". */
+function sizeMlAdj(ml: number): string {
+  return ml >= 1000 ? `${num(ml / 1000)}-litre` : `${ml} ml`;
+}
+
 function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   const nm = rng.pick(NAMES);
   const kinds =
@@ -1538,7 +1570,7 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   if (kind === "flow") {
     const r = rng.int(4, 25), t = rng.int(3, 15);
     return {
-      prompt: `A tap fills a ${r * t}-litre tank in ${t} minutes. At what rate does the water flow, in litres per minute?`,
+      prompt: `A tap fills ${an(String(r * t))} ${r * t}-litre tank in ${t} minutes. At what rate does the water flow, in litres per minute?`,
       answer: numAns(r, "litres per minute"),
       solution: ["Rate = amount ÷ time", `${r * t} ÷ ${t} = ${r} litres per minute`],
       hint: "How many litres flow in each single minute?",
@@ -1580,7 +1612,7 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     const best = Math.min(o.uA, o.uB), worst = Math.max(o.uA, o.uB);
     const bestSize = o.uA < o.uB ? o.sA : o.sB;
     return {
-      prompt: `A ${o.sA} g ${pack} of ${item} costs ${money(pA)}. A ${o.sB} g ${pack} of the same ${item} costs ${money(pB)}. Work out the price per 100 g of each ${pack}. What is the price per 100 g of the better-value ${pack}? Give your answer in dollars, e.g. $0.85.`,
+      prompt: `${an(String(o.sA), true)} ${o.sA} g ${pack} of ${item} costs ${money(pA)}. ${an(String(o.sB), true)} ${o.sB} g ${pack} of the same ${item} costs ${money(pB)}. Work out the price per 100 g of each ${pack}. What is the price per 100 g of the better-value ${pack}? Give your answer in dollars, e.g. $0.85.`,
       answer: moneyAns(best / 100),
       solution: [
         `${o.sA} g ${pack}: ${o.sA} g is ${num(o.sA / 100)} lots of 100 g, so ${money(pA)} ÷ ${num(o.sA / 100)} = ${money(o.uA / 100)} per 100 g.`,
@@ -1647,7 +1679,7 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       const pA = clean((o.uA * o.g) / 100000), pB = clean((o.uB * o.kg10) / 1000);
       const best = Math.min(o.uA, o.uB), worst = Math.max(o.uA, o.uB);
       return {
-        prompt: `A ${o.g} g bag of ${item} costs ${money(pA)}. A ${sizeG(o.kg10 * 100)} bag costs ${money(pB)}. Work out the price per kg of each bag. What is the price per kg of the better-value bag?`,
+        prompt: `${an(String(o.g), true)} ${o.g} g bag of ${item} costs ${money(pA)}. ${an(sizeG(o.kg10 * 100), true)} ${sizeG(o.kg10 * 100)} bag costs ${money(pB)}. Work out the price per kg of each bag. What is the price per kg of the better-value bag?`,
         answer: moneyAns(best / 100),
         solution: [
           `${o.g} g = ${num(o.g / 1000)} kg, so ${money(pA)} ÷ ${num(o.g / 1000)} = ${money(o.uA / 100)} per kg.`,
@@ -1671,12 +1703,12 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     const pA = clean((o.uA * o.a) / 100000), pB = clean((o.uB * o.b) / 100000);
     const best = Math.min(o.uA, o.uB), worst = Math.max(o.uA, o.uB);
     return {
-      prompt: `A ${o.a} ml carton of ${drink} costs ${money(pA)}. A ${sizeMl(o.b)} carton costs ${money(pB)}. Work out the price per litre of each carton. What is the price per litre of the better-value carton?`,
+      prompt: `${an(String(o.a), true)} ${o.a} ml carton of ${drink} costs ${money(pA)}. ${an(sizeMlAdj(o.b), true)} ${sizeMlAdj(o.b)} carton costs ${money(pB)}. Work out the price per litre of each carton. What is the price per litre of the better-value carton?`,
       answer: moneyAns(best / 100),
       solution: [
         `${o.a} ml = ${num(o.a / 1000)} litres, so ${money(pA)} ÷ ${num(o.a / 1000)} = ${money(o.uA / 100)} per litre.`,
         `${sizeMl(o.b)}: ${money(pB)} ÷ ${num(o.b / 1000)} = ${money(o.uB / 100)} per litre.`,
-        `The lower price per litre is better value: ${money(best / 100)} per litre (the ${o.uA < o.uB ? `${o.a} ml` : sizeMl(o.b)} carton).`,
+        `The lower price per litre is better value: ${money(best / 100)} per litre (the ${o.uA < o.uB ? `${o.a} ml` : sizeMlAdj(o.b)} carton).`,
       ],
       hint: "Change the millilitres to litres first, then find the cost of 1 litre for each.",
       traps: numTraps(best / 100, [[worst / 100, "That is the worse buy. Better value means a LOWER price per litre."]]),
@@ -1748,6 +1780,11 @@ interface GraphCtx {
   yMajor: number;
 }
 
+/** Money amount on a graph: whole dollars stay whole (S$40), parts get 2 d.p. (£0.60). */
+function cur(n: number): string {
+  return Number.isInteger(n) ? show(n) : clean(n).toFixed(2);
+}
+
 const GRAPHS: GraphCtx[] = [
   {
     xTitle: "Distance (miles)", yTitle: "Distance (km)", xWord: "miles", yWord: "kilometres",
@@ -1769,13 +1806,13 @@ const GRAPHS: GraphCtx[] = [
   },
   {
     xTitle: "Singapore dollars (S$)", yTitle: "US dollars (US$)", xWord: "Singapore dollars", yWord: "US dollars",
-    xu: (n) => `S$${show(n)}`, yu: (n) => `US$${show(n)}`, oneX: "S$1",
+    xu: (n) => `S$${cur(n)}`, yu: (n) => `US$${cur(n)}`, oneX: "S$1",
     rateQ: "Use a point on the line to work out how many US dollars you get for S$1.",
     p: 3, q: 4, xMax: 80, xMinor: 4, xMajor: 20, yMax: 60, yMinor: 3, yMajor: 15,
   },
   {
     xTitle: "Singapore dollars (S$)", yTitle: "British pounds (£)", xWord: "Singapore dollars", yWord: "British pounds",
-    xu: (n) => `S$${show(n)}`, yu: (n) => `£${show(n)}`, oneX: "S$1",
+    xu: (n) => `S$${cur(n)}`, yu: (n) => `£${cur(n)}`, oneX: "S$1",
     rateQ: "Use a point on the line to work out how many British pounds you get for S$1.",
     p: 3, q: 5, xMax: 100, xMinor: 5, xMajor: 20, yMax: 60, yMinor: 3, yMajor: 15,
   },
@@ -1986,23 +2023,35 @@ function pressureItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   const o = find(
     () =>
       tier === 1
-        ? { A: rng.int(2, 6), P: rng.int(1, 20) * 50 }
+        ? { A: rng.int(2, 6), P: rng.int(4, 20) * 50 }
         : cm
           ? { A: rng.int(2, 40) * 5, P: rng.int(2, 30) }
           : { A: rng.pick([0.2, 0.25, 0.4, 0.5, 0.8, 1.2, 1.5, 2.5]), P: rng.int(2, 60) * 50 },
-    (z) => hasDp(z.P * z.A, 0) && z.P * z.A >= 20,
+    (z) => hasDp(z.P * z.A, 0) && z.P * z.A >= 50 && (cm || z.A < 0.8 || z.P * z.A >= 300),
     { A: 2, P: 300 },
   );
   const F = clean(o.P * o.A);
   const kind = rng.pick(["P", "F", "A"] as const);
+  // Pick an object whose size and weight fit the numbers: a suitcase does not sit on 4 m².
   const obj = rng.pick(
-    F <= 400
-      ? ["A box of books", "A suitcase", "A bag of cement"]
-      : F <= 1500
-        ? ["A large plant pot", "A fridge", "A washing machine"]
-        : F <= 4000
-          ? ["A piano", "A large crate", "A stone statue"]
-          : ["A garden shed", "A loaded crate", "A stone statue"],
+    cm
+      ? // small contact areas: the object stands on feet, legs or wheels
+        F <= 400
+        ? ["A chair", "A small table", "A bookshelf"]
+        : F <= 1500
+          ? ["A fridge", "A washing machine", "A sofa"]
+          : ["A piano", "A loaded trolley", "A stone statue"]
+      : o.A <= 0.5
+        ? F <= 400
+          ? ["A box of books", "A suitcase", "A bag of cement"]
+          : ["A large plant pot", "A fridge", "A washing machine"]
+        : o.A <= 1.5
+          ? F <= 1500
+            ? ["A large plant pot", "A wooden chest", "A large crate"]
+            : ["A piano", "A large crate", "A stone statue"]
+          : F <= 1500
+            ? ["A large wooden crate", "A tent full of camping gear"]
+            : ["A garden shed", "A loaded wooden crate", "An empty hot tub"],
   );
   if (kind === "P") {
     return {

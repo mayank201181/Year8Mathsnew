@@ -44,7 +44,7 @@ function Label({
   y,
   children,
   anchor = "middle",
-  size = 12,
+  size = 13,
   tone = "fill-ink",
 }: {
   x: number;
@@ -137,6 +137,11 @@ function RollingWheel() {
   const changeMode = (m: RollMode) => {
     setMode(m);
     reset();
+    // Never start a challenge with the wheel already the right size.
+    if (m === "challenge" && targetR === r) {
+      const options = TARGET_RADII.filter((t) => t !== r);
+      setTargetR(options[Math.floor(Math.random() * options.length)]);
+    }
   };
   const newTarget = () => {
     reset();
@@ -223,7 +228,7 @@ function RollingWheel() {
   } else {
     caption = (
       <>
-        The wheel has turned {theta}°, which is <M>{turnFrac}</M> of a full turn, so it has rolled <M>{turnFrac}</M> of the circumference: <M>{`${turnFrac} * pi * ${d} = ${arcExact}`}</M> ≈ {sf3(arc)} cm. The orange arc on the wheel is exactly as long as the orange line on the ground. {special}
+        The wheel has turned {theta}°, which is <M>{turnFrac}</M> of a full turn, so it has rolled <M>{turnFrac}</M> of the circumference: <M>{`${turnFrac} * pi * ${d} = ${arcExact}`}</M> ≈ {sf3(arc)} cm. The thick highlighted arc on the wheel is exactly as long as the thick highlighted line on the ground. {special}
       </>
     );
   }
@@ -335,7 +340,7 @@ function RollingWheel() {
           <button type="button" className="btn btn-secondary" onClick={reset} disabled={theta === 0}>
             ↩ Reset
           </button>
-          <button type="button" className="btn btn-secondary" onClick={() => setRods((v) => !v)} aria-pressed={rods}>
+          <button type="button" className="btn btn-secondary" onClick={() => setRods((v) => !v)}>
             {rods ? "Hide diameters" : "Lay diameters"}
           </button>
           {mode === "challenge" ? (
@@ -445,8 +450,8 @@ function SliceRearrange() {
   const area = Math.PI * r * r;
   const widthCm = n * Math.sin(alpha) * r; // straight-across width of the strip
   const pct = ((n * Math.sin(alpha)) / Math.PI) * 100;
+  // Straight up from the line through the bottom corners to the line through the top corners.
   const cornerH = r * Math.cos(alpha);
-  const heightText = cornerH.toFixed(2) === r.toFixed(2) ? `≈ ${r.toFixed(2)} cm` : `${cornerH.toFixed(2)} to ${r.toFixed(2)} cm`;
   const rectRight = CX2 + (Math.PI * R) / 2;
   const bracketX = Math.max(rectRight, CX2 + stripW / 2) + 8;
   const topY = yb - R; // highest point of the strip
@@ -460,7 +465,7 @@ function SliceRearrange() {
     <>
       The yellow crust now runs along the top and the blue crust along the bottom, so each wavy long edge is <strong>half the circumference</strong>: <M>{"1/2 * 2 pi r = pi r"}</M> = <M>{`${r} pi`}</M> ≈ {sf3(piR)} cm. The sloping ends are radii, so the height is about <M>{"r"}</M> = {r} cm.{" "}
       {n <= 6 ? (
-        <>With only {n} slices it is lumpy: the straight-across width is just {pct.toFixed(2)}% of πr.</>
+        <>With only {n} slices it is lumpy: measured straight across from corner to corner (ignoring the bumps), the width is just {pct.toFixed(2)}% of πr.</>
       ) : n >= 36 ? (
         <>With {n} slices you can hardly tell it from a rectangle: the width is {pct.toFixed(2)}% of πr.</>
       ) : (
@@ -524,7 +529,7 @@ function SliceRearrange() {
         </svg>
 
         <div className="flex flex-wrap items-center gap-3">
-          <button type="button" className="btn btn-primary" onClick={() => setArranged((a) => !a)} aria-pressed={arranged}>
+          <button type="button" className="btn btn-primary" onClick={() => setArranged((a) => !a)}>
             {arranged ? "↩ Back to a circle" : "🔀 Rearrange the slices"}
           </button>
           <span className="text-sm text-ink-2">
@@ -536,8 +541,8 @@ function SliceRearrange() {
           <div className="col-span-2">
             <Readout label="Area of the slices (the same before and after)" value={<><M>{`${r * r} pi`}</M> ≈ {sf3(area)} cm²</>} />
           </div>
-          <Readout label="Strip width" value={<Two main={`${widthCm.toFixed(2)} cm`} sub={`${pct.toFixed(2)}% of πr`} />} tone="ink" />
-          <Readout label="Strip height" value={<Two main={heightText} sub={`heading for r = ${r} cm`} />} tone="ink" />
+          <Readout label="Strip width, straight across" value={<Two main={`${widthCm.toFixed(2)} cm`} sub={`${pct.toFixed(2)}% of πr`} />} tone="ink" />
+          <Readout label="Strip height, straight up" value={<Two main={`${cornerH.toFixed(2)} cm`} sub={`heading for r = ${r} cm`} />} tone="ink" />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
