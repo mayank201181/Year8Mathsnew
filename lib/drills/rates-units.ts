@@ -61,6 +61,21 @@ function numTraps(answer: number, cands: Array<[number, string]>): Trap[] {
   return out;
 }
 
+/** "a" or "an" before a number word: an 8 kg bag, an 11 lb sack, an 800 g box, a 75 g pot. */
+function an(numText: string, capital = false): string {
+  const int = numText.replace(/[^0-9.]/g, "").split(".")[0];
+  const n = int.length;
+  const vowel = int.startsWith("8") || ((int.startsWith("11") || int.startsWith("18")) && (n === 2 || n === 5 || n === 8));
+  const w = vowel ? "an" : "a";
+  return capital ? w[0].toUpperCase() + w.slice(1) : w;
+}
+
+/** Is `wrong` far enough from `answer` that the checker calls it wrong (not a "close, check your rounding")? */
+function farFrom(answer: number, wrong: number): boolean {
+  if (Number.isInteger(answer) && Number.isInteger(wrong)) return answer !== wrong;
+  return Math.abs(answer - wrong) > 0.015 * Math.abs(answer);
+}
+
 /** A recurring decimal cut (not rounded) to 4 d.p., for "0.1666…" style working. */
 function trunc4(x: number): string {
   return num(Math.floor(x * 10000 + 1e-9) / 10000);
@@ -375,7 +390,8 @@ function areaRectCm(rng: Rng): DrillItem {
 }
 
 function areaRectM(rng: Rng): DrillItem {
-  const o = find(() => ({ a: rng.int(5, 30), b: rng.int(4, 25) }), (z) => z.a !== z.b && (z.a % 10 !== 0 || z.b % 10 !== 0), { a: 12, b: 8 });
+  // Length a is longer than width b, so "long" and "wide" read sensibly.
+  const o = find(() => ({ a: rng.int(5, 30), b: rng.int(4, 25) }), (z) => z.a > z.b && (z.a % 10 !== 0 || z.b % 10 !== 0), { a: 12, b: 8 });
   const wCm = o.a * 10, hCm = o.b * 10;
   const cm2 = wCm * hCm;
   const m2 = clean((o.a * o.b) / 100);
@@ -481,6 +497,7 @@ function volCuboid(rng: Rng, tier: 1 | 2 | 3): DrillItem {
         : { a: rng.int(2, 12) * 5, b: rng.int(2, 10) * 5, c: rng.int(2, 10) * 5 },
     (z) => {
       const V = z.a * z.b * z.c;
+      if (z.a < z.b) return false; // length is at least the width
       return tier === 1 ? V % 1000 === 0 && V >= 2000 : V % 10 === 0 && V % 1000 !== 0 && V >= 1500;
     },
     { a: 30, b: 20, c: 15 },
