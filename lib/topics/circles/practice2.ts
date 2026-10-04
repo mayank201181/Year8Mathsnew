@@ -123,7 +123,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "circles-p3-q05",
         question:
-          "A half-moon doormat outside an HDB flat is a semicircle with a diameter of 80 cm. Find its area in cm², correct to the nearest whole number.",
+          "A half-moon doormat outside an HDB flat is a semicircle with a diameter of 80 cm. Using the π button, find its area in cm², correct to the nearest whole number.",
         answer: { type: "number", value: 2513, allowFraction: false, display: "2513 cm²" },
         traps: [
           {
@@ -268,8 +268,8 @@ export const morePapers: Paper[] = [
           {
             label: "Count the turns",
             steps: [
-              "Turns = 21 000 m ÷ ({{pi * 0.70}} m) = 9549.2…",
-              "True distance = 9549.2… × ({{pi * 0.66}} m) = 19 800 m = 19.8 km.",
+              "Turns = 21 000 m ÷ ({{pi * 0.70}} m) = 9549.29…",
+              "True distance = 9549.29… × ({{pi * 0.66}} m) = 19 800 m = 19.8 km.",
               "Same answer, but the ratio method avoids the big numbers.",
             ],
           },
@@ -555,7 +555,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "circles-p3-q18",
         question:
-          "A round table of diameter 1.2 m is pushed into the corner of a room so that it touches both walls, as shown in the view from above. Find the area of the shaded part of the floor, between the table and the corner. Give your answer in cm², to the nearest cm².",
+          "A round table of diameter 1.2 m is pushed into the corner of a room so that it touches both walls, as shown in the view from above. Find the area of the shaded part of the floor, between the table and the corner. Use the π button and give your answer in cm², to the nearest cm².",
         diagram: `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="View from above of the corner of a room. A round table of diameter 1.2 m touches both walls. The small region of floor between the table and the corner is shaded."><rect width="300" height="220" fill="#ffffff"/><path d="M30,30 L102,30 A72,72 0 0,0 30,102 Z" fill="#fecaca" stroke="#1f2937" stroke-width="1.5"/><circle cx="102" cy="102" r="72" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><line x1="30" y1="30" x2="280" y2="30" stroke="#334155" stroke-width="5"/><line x1="30" y1="30" x2="30" y2="210" stroke="#334155" stroke-width="5"/><text x="102" y="100" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">table</text><text x="102" y="116" font-size="11" font-family="sans-serif" text-anchor="middle" fill="#1f2937">diameter 1.2 m</text><text x="220" y="22" font-size="12" font-family="sans-serif" text-anchor="middle" fill="#1f2937">wall</text><text x="38" y="204" font-size="12" font-family="sans-serif" fill="#1f2937">wall</text></svg>`,
         answer: { type: "number", value: 773, display: "773 cm²" },
         traps: [
@@ -755,7 +755,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "circles-p4-q05",
         question:
-          "A semicircle has a diameter of 20 cm. Find (a) its area in cm² and (b) its perimeter in cm. Give both answers to 1 decimal place. Type (a) first, then (b), separated by a comma.",
+          "A semicircle has a diameter of 20 cm. Using the π button, find (a) its area in cm² and (b) its perimeter in cm. Give both answers to 1 decimal place. Type (a) first, then (b), separated by a comma, without units.",
         answer: { type: "list", values: [157.1, 51.4], ordered: true, tolerance: 0.05, display: "157.1 cm², 51.4 cm" },
         traps: [
           {
@@ -857,7 +857,7 @@ export const morePapers: Paper[] = [
             point: "Two worked examples showing different increases (e.g. 3π and 21π)",
             keywords: ["3π", "21π", "3pi", "21pi", "increase", "different"],
           },
-          { point: "States that Ravi is wrong", keywords: ["wrong", "no", "not right", "incorrect"] },
+          { point: "States that Ravi is wrong", keywords: ["wrong", "not right", "incorrect", "isn't right"] },
           {
             point: "General reason: the increase is π(2r + 1), which depends on r",
             keywords: ["2r + 1", "2r+1", "depends", "bigger", "larger", "r²"],
@@ -915,7 +915,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "circles-p4-q10",
         question:
-          "Copy and complete the table. Give A and B to the nearest whole number.\n\n| Wheel | Diameter (cm) | Circumference (cm) |\n|---|---|---|\n| Scooter wheel | 15 | A |\n| Wheelchair wheel | B | 190 |\n\nType A first, then B, separated by a comma.",
+          "Copy and complete the table. Use the π button and give A and B to the nearest whole number.\n\n| Wheel | Diameter (cm) | Circumference (cm) |\n|---|---|---|\n| Scooter wheel | 15 | A |\n| Wheelchair wheel | B | 190 |\n\nType A first, then B, separated by a comma.",
         answer: { type: "list", values: [47, 60], ordered: true, tolerance: 0.5, display: "A = 47, B = 60" },
         traps: [
           {
@@ -1207,7 +1207,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "circles-p4-q19",
         question:
-          "In a 200 m race, each runner runs round one semicircular bend and then along a straight. The straight is the same length in every lane, but the bends are not.\n\n| Lane | 1 | 2 | 3 | … | 6 |\n|---|---|---|---|---|---|\n| Radius of bend (m) | 36.5 | 37.7 | 38.9 | … | ? |\n\nTo make the race fair, how many metres further forward than the lane 1 runner must the lane 6 runner start? Give your answer to 2 decimal places.",
+          "In a 200 m race, each runner runs round one semicircular bend and then along a straight. The straight is the same length in every lane, but the bends are not.\n\n| Lane | 1 | 2 | 3 | … | 6 |\n|---|---|---|---|---|---|\n| Radius of bend (m) | 36.5 | 37.7 | 38.9 | … | ? |\n\nTo make the race fair, how many metres further forward than the lane 1 runner must the lane 6 runner start? Use the π button and give your answer to 2 decimal places.",
         answer: { type: "number", value: 18.85, allowFraction: false, display: "18.85 m" },
         traps: [
           {
@@ -1255,7 +1255,7 @@ export const morePapers: Paper[] = [
             point: "Explains why the result is the same for every perimeter (enlarging multiplies both areas by the same factor)",
             keywords: ["scale", "k²", "k^2", "enlarge", "every perimeter", "any perimeter", "same factor"],
           },
-          { point: "Concludes the statement is never true: the quarter circle always wins", keywords: ["never", "quarter circle is bigger", "quarter"] },
+          { point: "Concludes the statement is never true: the quarter circle always wins", keywords: ["never", "quarter circle is bigger", "quarter circle always", "quarter circle wins", "always bigger"] },
         ],
         commonError: "Assuming the semicircle must be bigger because it is 'half a circle'. With the same perimeter, the quarter circle has a bigger radius.",
         difficulty: "challenge",

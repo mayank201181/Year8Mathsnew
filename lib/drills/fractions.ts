@@ -1187,7 +1187,12 @@ const ofAmountDrill: Drill = {
     if (kind === "fwd" || kind === "fwd-ctx") {
       const f = proper(rng, dens);
       const [a, b] = f;
-      const m = rng.int(2, mMax);
+      const c = kind === "fwd-ctx" ? rng.int(0, 4) : -1;
+      // Keep story amounts realistic: [smallest, largest] total for each context below.
+      const ranges: [number, number][] = [[60, 240], [20, 300], [10, 120], [10, 120], [10, 90]];
+      const [lo, hi] = c >= 0 ? ranges[c] : [2 * b, mMax * b];
+      const mLo = Math.max(2, Math.ceil(lo / b));
+      const m = rng.int(mLo, Math.max(mLo, Math.floor(hi / b)));
       const A = b * m, ans = a * m;
       let prompt: string;
       let display = String(ans);
@@ -1196,7 +1201,6 @@ const ofAmountDrill: Drill = {
         prompt = unit ? rng.pick([`Find ${F(f)} of ${A} ${unit}.`, `What is ${F(f)} of ${A} ${unit}?`]) : `Work out ${F(f)} of ${A}.`;
         if (unit) display = `${ans} ${unit}`;
       } else {
-        const c = rng.int(0, 4);
         prompt = [
           `There are ${A} students in Year 8. ${F(f)} of them take the MRT to school. How many students take the MRT?`,
           `A water tank holds ${A} litres when it is full. It is ${F(f)} full. How many litres of water are in the tank?`,
@@ -1261,7 +1265,7 @@ const ofAmountDrill: Drill = {
       const c = rng.int(0, 2);
       const prompt = [
         `Find ${F(f)} of ${A} kg.`,
-        `A school library has ${F(f)} times as many books as it had last year. Last year it had ${A} books. How many books does it have now?`,
+        `Last week a Year 8 class collected ${A} plastic bottles for recycling. This week they collected ${F(f)} times as many. How many bottles did they collect this week?`,
         `A sunflower was ${A} cm tall. A month later its height is ${F(f)} of what it was. How tall is it now, in cm?`,
       ][c];
       trapN(traps, ans, (A * b) / a, `You divided by ${a} and multiplied by ${b} — it's the other way round.`);
@@ -1280,13 +1284,15 @@ const ofAmountDrill: Drill = {
 
     if (kind === "fwd-of-of") {
       const f1 = proper(rng, [2, 3, 4, 5, 6]), f2 = proper(rng, [2, 3, 4, 5, 6]);
-      const m = rng.int(2, 10);
+      // At least 30 tickets / students so the story is realistic.
+      const mLo = Math.max(2, Math.ceil(30 / (f1[1] * f2[1])));
+      const m = rng.int(mLo, Math.max(mLo, 10));
       const A = f1[1] * f2[1] * m;
       const first = (A / f1[1]) * f1[0];
       const ans = (first / f2[1]) * f2[0];
       const prompt = rng.pick([
         `${F(f1)} of the ${A} tickets for a school concert were sold on Monday, and ${F(f2)} of those were bought by students. How many student tickets were sold on Monday?`,
-        `A school has ${A} students. ${F(f1)} of them signed up for a sports CCA, and ${F(f2)} of those chose badminton. How many students chose badminton?`,
+        `There are ${A} students in Year 8. ${F(f1)} of them signed up for a sports CCA, and ${F(f2)} of those chose badminton. How many students chose badminton?`,
       ]);
       trapN(traps, ans, first, `That's only the first step — now take ${F(f2)} of that.`);
       return {
@@ -1334,14 +1340,18 @@ const ofAmountDrill: Drill = {
     // rev / rev-ctx: the part is given, find the whole.
     const f = proper(rng, dens);
     const [a, b] = f;
-    const m = rng.int(2, tier === 1 ? 12 : 25);
+    const c = kind === "rev-ctx" ? rng.int(0, 3) : -1;
+    // Keep the whole realistic for each story: [smallest, largest] (pages, $, members, litres).
+    const ranges: [number, number][] = [[40, 480], [60, 900], [12, 60], [20, 600]];
+    const [lo, hi] = c >= 0 ? ranges[c] : [2 * b, (tier === 1 ? 12 : 25) * b];
+    const mLo = Math.max(2, Math.ceil(lo / b));
+    const m = rng.int(mLo, Math.max(mLo, Math.floor(hi / b)));
     const P = a * m, W = b * m;
     let prompt: string;
     let display = String(W);
     if (kind === "rev") {
       prompt = rng.pick([`${F(f)} of a number is ${P}. What is the number?`, `${P} is ${F(f)} of a number. Find the number.`]);
     } else {
-      const c = rng.int(0, 3);
       prompt = [
         `${who.name} has read ${F(f)} of a book. That is ${P} pages. How many pages does the whole book have?`,
         `${who.name} has saved $${P}. This is ${F(f)} of the price of a new bicycle. How much does the bicycle cost?`,
@@ -1603,7 +1613,7 @@ const estimateDrill: Drill = {
     const who = rng.pick(NAMES);
     const prompt = rng.pick([
       `Estimate ${expr} by rounding each number to the nearest whole number.`,
-      `${who.name} works out ${expr} on a calculator. Round each number to the nearest whole number to estimate the answer, so ${who.he} can check it.`,
+      `${who.name} works out ${expr} on a calculator. Round each number to the nearest whole number to estimate the answer, so ${who.he} can check it. What is the estimate?`,
       `Round each number to the nearest whole number, then work out an estimate for ${expr}.`,
     ]);
     const rounded = nums.map(nearestWhole);
@@ -1819,7 +1829,7 @@ const multiStepDrill: Drill = {
         answer: { type: "number", value: ans },
         solution: [
           `Both parts are ${F(f)} × something, so use the distributive law: ${F(f)} × (${p} ${plus ? "+" : "−"} ${r}) = ${F(f)} × ${S2}.`,
-          `${F(f)} of ${S2} = ${S2} ÷ ${f[1]} × ${f[0]} = ${ans}.`,
+          f[0] > 1 ? `${F(f)} of ${S2} = ${S2} ÷ ${f[1]} × ${f[0]} = ${ans}.` : `${F(f)} of ${S2} = ${S2} ÷ ${f[1]} = ${ans}.`,
         ],
         hint: "Both parts are multiplied by the same fraction. Can you factor it out?",
         traps,
@@ -1838,16 +1848,19 @@ const multiStepDrill: Drill = {
     const u2 = mul(f2, l1);
     const ans = sub(l1, u2);
     if (kind === "rest-money") {
-      const k = rng.int(1, Math.max(1, Math.floor(240 / (f1[1] * f2[1]))));
-      const S = f1[1] * f2[1] * k;
+      // Between $24 and $240 of birthday money, so every amount is a realistic whole number of dollars.
+      const unit = f1[1] * f2[1];
+      const kLo = Math.max(1, Math.ceil(24 / unit));
+      const k = rng.int(kLo, Math.max(kLo, Math.floor(240 / unit)));
+      const S = unit * k;
       const spent1 = (S / f1[1]) * f1[0], left1 = S - spent1;
       const spent2 = (left1 / f2[1]) * f2[0], left2 = left1 - spent2;
       if (S - spent1 - (S / f2[1]) * f2[0] > 0) trapN(traps, left2, S - spent1 - (S / f2[1]) * f2[0], `The second fraction is ${F(f2)} of what is LEFT after the first step, not of the original $${S}.`);
       return {
-        prompt: `${who.name} has $${S}. ${cap(who.he)} spends ${F(f1)} of it on a book and then ${F(f2)} of what is left on lunch at a hawker centre. How much money does ${who.he} have left?`,
+        prompt: `${who.name} has $${S} of birthday money. ${cap(who.he)} spends ${F(f1)} of it on clothes and then ${F(f2)} of what is left on books. How much money does ${who.he} have left?`,
         answer: { type: "number", value: left2, display: `$${left2}` },
-        solution: [`Book: ${F(f1)} of $${S} = $${spent1}, leaving $${S} − $${spent1} = $${left1}.`, `Lunch: ${F(f2)} of $${left1} = $${spent2}.`, `Money left: $${left1} − $${spent2} = $${left2}.`],
-        hint: "Work step by step: find what is left after the book first, then take the second fraction of THAT amount.",
+        solution: [`Clothes: ${F(f1)} of $${S} = $${spent1}, leaving $${S} − $${spent1} = $${left1}.`, `Books: ${F(f2)} of $${left1} = $${spent2}.`, `Money left: $${left1} − $${spent2} = $${left2}.`],
+        hint: "Work step by step: find what is left after the clothes first, then take the second fraction of THAT amount.",
         traps,
       };
     }
@@ -1895,7 +1908,7 @@ const algebraicDrill: Drill = {
     const kind: K = rng.pick<K>(tier === 1 ? ["A", "D", "C"] : tier === 2 ? ["B", "C", "E", "F", "G"] : ["B", "E", "G", "H", "J", "K"]);
     const traps: Trap[] = [];
     const hint = "Treat the letters like numbers: multiply tops and bottoms (flip the second fraction first if you are dividing), then cancel common factors — including letters.";
-    const tail = " Type your answer as a single fraction, using ^ for powers if you need them.";
+    const tail = " Type your answer using / for a fraction and ^ for a power if you need them.";
     const coprime = (a: number, b: number) => gcd(a, b) === 1;
     // Small coefficients: p in [2, 9], denominators in [2, 12], each given fraction in lowest terms.
     let p = 2, a = 3, b = 9, c = 4, r = 3, s = 2;

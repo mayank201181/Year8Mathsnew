@@ -1032,7 +1032,7 @@ export const drills: Drill[] = [
           const E = clean((m * v * v) / 2);
           const traps: Trap[] = [ntrap(m * v * v, "Don't forget to halve.")];
           const w2 = clean((m * v) * (m * v) / 2);
-          if (w2 !== E) traps.push(ntrap(w2, `Only v is squared: ${M(`v^2 = ${v * v}`)}. Then multiply by m and halve.`));
+          if (w2 !== E && w2 !== m * v * v) traps.push(ntrap(w2, `Only v is squared: ${M(`v^2 = ${v * v}`)}. Then multiply by m and halve.`));
           return {
             prompt: `The kinetic energy (in joules) of a moving object is ${M("E = 1/2 m v^2")}, where m is its mass in kg and v its speed in m/s. Find E when m = ${m} and v = ${v}.`,
             answer: { type: "number", value: E },
@@ -1314,21 +1314,36 @@ export const drills: Drill[] = [
       const lettersText = H.f.length ? `, and every term contains ${M(mono(1, H.f))}` : "";
       // HCF-only question (two-term expressions)
       if (orig.length === 2 && rng.bool(0.25)) {
+        // A number-only HCF is marked as text: the expression checker strips a trailing "m" as a unit,
+        // so it would accept the classic wrong answer "4m" for the HCF of 4m and 12.
+        const numberOnly = H.f.length === 0;
         const traps: Trap[] = [];
-        if (H.f.length) traps.push(etrap(String(H.c), `Both terms also contain ${M(mono(1, H.f))} — include the letters in the HCF.`));
+        // Most specific traps first: the checker uses the first trap that matches.
+        const lowest = mono(H.c, H.f.map(([x]) => [x, 1] as [string, number]));
+        if (H.f.length && lowest !== Hs) traps.push(etrap(lowest, "Check the powers: use the lowest power of each letter that appears in both terms."));
+        const inH = new Set(H.f.map(([x]) => x));
+        for (const x of [v, w]) {
+          if (inH.has(x) || !orig.some(([, f]) => f.some(([y]) => y === x))) continue;
+          traps.push(etrap(mono(H.c, [...H.f, [x, 1]]), `${M(x)} is not in both terms, so it is not part of the HCF.`));
+        }
         const pf = [2, 3, 5, 7].find((p) => H.c % p === 0 && H.c > p);
-        if (pf) traps.push(etrap(mono(H.c / pf, H.f), `That is a common factor, but not the highest — ${H.c} also divides both numbers.`));
-        if (H.f.length) traps.push(etrap(mono(H.c, H.f.map(([x]) => [x, 1] as [string, number])), "Check the powers: use the lowest power of each letter that appears in both terms."));
-        const okTraps = traps.filter((t) => t.spec.type === "expression" && t.spec.expr !== Hs);
+        if (pf) {
+          const smaller = mono(H.c / pf, H.f);
+          traps.push({
+            spec: numberOnly ? { type: "text", accept: [smaller] } : { type: "expression", expr: smaller },
+            feedback: `That is a common factor, but not the highest — ${H.c} also divides both numbers.`,
+          });
+        }
+        if (H.f.length) traps.push(etrap(String(H.c), `Both terms also contain ${M(mono(1, H.f))} — include the letters in the HCF.`));
         return {
           prompt: `What is the highest common factor (HCF) of ${M(mono(orig[0][0], orig[0][1]))} and ${M(mono(Math.abs(orig[1][0]), orig[1][1]))}?`,
-          answer: { type: "expression", expr: Hs },
+          answer: numberOnly ? { type: "text", accept: [String(H.c)], display: M(Hs) } : { type: "expression", expr: Hs },
           solution: [
-            `Numbers: the HCF of ${Math.abs(orig[0][0])} and ${Math.abs(orig[1][0])} is ${H.c}${lettersText}.`,
+            `Numbers: the HCF of ${Math.abs(orig[0][0])} and ${Math.abs(orig[1][0])} is ${H.c}${numberOnly ? ". No letter is in both terms" : lettersText}.`,
             `So the HCF is ${M(Hs)}.`,
           ],
           hint: "Find the HCF of the numbers, then see which letters (and what power of each) are in BOTH terms.",
-          traps: okTraps,
+          traps,
         };
       }
       const firstOnly = `${Hs}(${sumMono([inner[0], ...orig.slice(1)])})`;
@@ -1461,7 +1476,7 @@ export const drills: Drill[] = [
     level: 2,
     guideRef: "writing-expressions",
     generate(rng, tier) {
-      type F = { text: string; lhs: string; rhs: string; traps: Trap[]; steps: string[] };
+      type F = { text: string; lhs: string; rhs: string; traps: Trap[]; steps: string[]; hint?: string };
       const f1: Array<() => F> = [
         () => {
           const f = rng.int(2, 8), r = f + rng.int(1, 6);
@@ -1534,6 +1549,7 @@ export const drills: Drill[] = [
             text: `A rectangle is w cm wide. Its length is ${k} cm more than its width. Write a formula for P, its perimeter in cm.`,
             lhs: "P", rhs: `4w + ${2 * k}`,
             traps: [etrap(`2w + ${k}`, "That's half the perimeter: there are two lengths and two widths.")],
+            hint: "Write the length in terms of w first. The perimeter is the total distance round all four sides.",
             steps: [`Length: ${M(`w + ${k}`)}.`, `${M(`P = 2(w + ${k}) + 2w = 4w + ${2 * k}`)}`],
           };
         },
@@ -1561,6 +1577,7 @@ export const drills: Drill[] = [
           text: "Write a formula for M, the mean of three numbers a, b and c.",
           lhs: "M", rhs: "(a + b + c)/3",
           traps: [etrap("a + b + c/3", "The whole total is divided by 3 — use a bracket or put the fraction line under all of it.")],
+          hint: "Mean = total ÷ how many numbers there are.",
           steps: ["Mean = total ÷ how many.", `${M("M = (a + b + c)/3")}`],
         }),
         () => {
@@ -1569,6 +1586,7 @@ export const drills: Drill[] = [
             text: `A rectangle is w cm wide and its length is ${k} cm more than its width. Write a formula for A, its area in {{cm^2}}.`,
             lhs: "A", rhs: `w(w + ${k})`,
             traps: [etrap(`w + ${k}`, "That's the length. Area = length × width."), etrap(`4w + ${2 * k}`, "That's the perimeter. Area = length × width.")],
+            hint: "Write the length in terms of w first, then use area = length × width.",
             steps: [`Length: ${M(`w + ${k}`)}.`, `Area = length × width: ${M(`A = w(w + ${k})`)}, which is ${M(`w^2 + ${k}w`)}.`],
           };
         },
@@ -1594,6 +1612,7 @@ export const drills: Drill[] = [
           text: "Menu prices at a café are shown before 9% GST is added. Write a formula for T, the price in dollars including GST of an item whose menu price is $p.",
           lhs: "T", rhs: "1.09p",
           traps: [etrap("p + 9", "9% GST means 9% of p, not $9."), etrap("0.09p", "That's just the GST. Add it on to the price: p + 0.09p.")],
+          hint: "9% of p is 0.09p. The price with GST is the menu price plus the GST.",
           steps: ["GST is 9% of p, which is 0.09p.", `${M("T = p + 0.09p = 1.09p")}`],
         }),
       ];
@@ -1603,7 +1622,7 @@ export const drills: Drill[] = [
         prompt: f.text,
         answer: { type: "expression", expr: f.rhs, display: M(`${f.lhs} = ${f.rhs}`) },
         solution: f.steps,
-        hint: "Which amount is paid (or counted) once, and which amount is repeated for each unit? The repeated one multiplies the letter.",
+        hint: f.hint ?? "Which amount is paid (or counted) once, and which amount is repeated for each unit? The repeated one multiplies the letter.",
         traps: f.traps,
       };
     },

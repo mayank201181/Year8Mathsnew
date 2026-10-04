@@ -339,6 +339,8 @@ interface Clue {
   why: string;
   hard: boolean;
   trap: [string, string];
+  /** Extra correct names for this particular clue (e.g. "right trapezium"). */
+  extra?: string[];
 }
 
 const CLUES: Clue[] = [
@@ -377,6 +379,7 @@ const CLUES: Clue[] = [
     why: "Exactly one pair of parallel sides makes it a trapezium. If the other two sides were equal it would be an isosceles trapezium — they aren't.",
     trap: ["isosceles trapezium", "An isosceles trapezium needs its two non-parallel sides to be equal."] },
   { shape: "trapezium", hard: false, text: "exactly one pair of parallel sides and two right angles",
+    extra: ["right trapezium", "a right trapezium", "right-angled trapezium", "a right-angled trapezium", "right angled trapezium", "right trapezoid"],
     why: "Exactly one pair of parallel sides makes it a trapezium (a right-angled one). It can't be a rectangle, which has two pairs of parallel sides.",
     trap: ["rectangle", "A rectangle has two pairs of parallel sides; this shape has exactly one pair."] },
   { shape: "isosceles trapezium", hard: false, text: "exactly one pair of parallel sides, with the other two sides equal in length",
@@ -1324,8 +1327,9 @@ export const drills: Drill[] = [
       const sc = newScene();
 
       if (kind === "general" || kind === "generalEq") {
-        let ang = [80, 100, 95, 85];
-        let unk = [2];
+        // Fallback (only if the search fails) must match the question type.
+        let ang = kind === "general" ? [80, 100, 95, 85] : [100, 110, 75, 75];
+        let unk = kind === "general" ? [2] : [2, 3];
         let pts: Pt[] = findPolygon(ang) as Pt[];
         for (let i = 0; i < 300; i++) {
           let a4: number[];
@@ -1557,7 +1561,7 @@ export const drills: Drill[] = [
       ][rng.int(0, 3)];
       return {
         prompt,
-        answer: { type: "text", accept: QUAD_ACCEPT[clue.shape], display: clue.shape },
+        answer: { type: "text", accept: [...QUAD_ACCEPT[clue.shape], ...(clue.extra ?? [])], display: clue.shape },
         solution: [clue.why, `Most specific name: **${clue.shape}**.`],
         hint: "Start with the family the first clue allows, then use each other clue to rule shapes out.",
         traps: [{ spec: { type: "text", accept: QUAD_ACCEPT[clue.trap[0]] }, feedback: clue.trap[1] }],
@@ -1796,9 +1800,13 @@ export const drills: Drill[] = [
       const isEqual = ctx === "vo" || ctx === "alt";
 
       // Each angle is coef*x + const. For "ext" the last expression is the exterior angle.
+      // Fallbacks (x = 20) that satisfy each context's angle fact, used only if the search fails.
+      const FALLBACK: Record<Ctx, [number[], number[]]> = {
+        line: [[1, 2], [40, 80]], coint: [[1, 2], [40, 80]], vo: [[2, 3], [30, 10]], alt: [[2, 3], [30, 10]],
+        tri: [[1, 2, 3], [20, 25, 15]], ext: [[1, 2, 4], [30, 10, 20]], point: [[3, 4, 5], [40, 30, 50]], quad: [[2, 3, 4, 5], [30, 20, 10, 20]],
+      };
       let x = 20;
-      let co: number[] = [1, 2];
-      let cs: number[] = [40, 80];
+      let [co, cs] = FALLBACK[ctx];
       for (let i = 0; i < 400; i++) {
         const x2 = rng.int(tier === 1 ? 6 : 5, tier === 1 ? 30 : 40);
         if (isEqual) {
@@ -1889,8 +1897,11 @@ export const drills: Drill[] = [
         const [ra, rb] = isEqual ? [co[1], cs[1]] : [co[0] + co[1], cs[0] + cs[1]];
         solution.push(`So {{${ex(la, lb)} = ${isEqual ? ex(ra, rb) : `${ex(co[0], cs[0])} + ${ex(co[1], cs[1])}`}}}.`);
         if (!isEqual) solution.push(`Collect like terms on the right: {{${ex(la, lb)} = ${ex(ra, rb)}}}.`);
-        if (la > ra) { A = la - ra; R = rb - lb; } else { A = ra - la; R = lb - rb; }
-        if (A !== 1) solution.push(`Get the ${V} terms on one side: {{${ex(A, 0)} = ${R}}}.`);
+        // (la − ra)x = rb − lb, or (ra − la)x = lb − rb — keep the x coefficient positive.
+        const [m1, m2] = la > ra ? [rb, lb] : [lb, rb];
+        A = Math.abs(la - ra); R = m1 - m2;
+        const diff = m2 === 0 ? `${R}` : `${m1} ${m2 < 0 ? "+" : "-"} ${Math.abs(m2)} = ${R}`;
+        solution.push(`Get the ${V} terms on one side: {{${ex(A, 0)} = ${diff}}}.`);
       } else {
         const T = ctx === "point" || ctx === "quad" ? 360 : 180;
         const SA = co.reduce((p, q) => p + q, 0), SB = cs.reduce((p, q) => p + q, 0);
@@ -1904,7 +1915,7 @@ export const drills: Drill[] = [
           if (Number.isInteger(xw)) pushTrap(traps, x, xw, T === 180 ? "These angles add up to 180°, not 360°." : "These angles add up to 360°, not 180°.");
         }
       }
-      solution.push(A === 1 ? `Get the ${V} terms on one side: {{${V} = ${x}}}` : `Divide by ${A}: {{${V} = ${R} ÷ ${A} = ${x}}}`);
+      if (A !== 1) solution.push(`Divide by ${A}: {{${V} = ${R} ÷ ${A} = ${x}}}.`);
       if (ask3) {
         solution.push(`Substitute ${mv(`${V} = ${x}`)}: the angles are ${andList(angles.map(deg))}.`);
         solution.push(isEqual ? `Each angle is ${deg(answerVal)}.` : ctx === "ext" ? `Angle ACD = ${deg(answerVal)} (check: ${deg(angles[0])} + ${deg(angles[1])} = ${deg(angles[2])} ✓).` : `The largest angle is ${deg(answerVal)}.`);

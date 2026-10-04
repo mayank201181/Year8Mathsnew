@@ -1488,6 +1488,8 @@ function FunctionMachine() {
   const swapped = [...active].reverse();
   const swappedLin = linOf(swapped);
   const sameWhenSwapped = qEq(swappedLin.m, lin.m) && qEq(swappedLin.c, lin.c);
+  /** Has both a + / − step and a × / ÷ step that actually changes the number. */
+  const mixesOps = active.some((s) => s.op === "+" || s.op === "-") && active.some((s) => (s.op === "*" || s.op === "/") && !isOne(VALS[s.v]));
 
   // backwards
   const inv = [...active].reverse().map(invStep);
@@ -1549,7 +1551,14 @@ function FunctionMachine() {
         . Every input gives exactly <strong>one</strong> output — that is what makes it a <strong>function</strong>.{" "}
         {count >= 2 ? (
           sameWhenSwapped ? (
-            <>Here the order happens not to matter: the steps in reverse order give the same function. Mix a × with a + and that breaks.</>
+            mixesOps ? (
+              <>
+                Here the steps in reverse order happen to give the same function — a coincidence of these particular numbers. Change one of them and the order
+                will usually matter.
+              </>
+            ) : (
+              <>Here the order doesn’t matter: the steps in reverse order give the same function. Mix a × (by anything except 1) with a + and the order usually matters.</>
+            )
           ) : (
             <>
               <strong>Order matters:</strong> the same steps in reverse order give <M>{builtMark(builtOf(swapped))}</M>, so input {minus(String(x))} would give{" "}
@@ -1701,7 +1710,7 @@ function FunctionMachine() {
       <>
         Crack the machine like a detective. Feed in 0, 1, 2, 3 in order: the output for 0 gives the <strong>constant</strong>, and the jump from one output to the
         next is the overall <strong>multiplier</strong> — exactly like the zero term and the common difference of a sequence. Then set the steps of your machine
-        so it matches, and check it. Two different tests are enough to pin down a two-step machine like this one; a single test is not.
+        so it matches, and check it. Two different tests are enough to pin down what a machine like this does; a single test is not.
       </>
     );
   }

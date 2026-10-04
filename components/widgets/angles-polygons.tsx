@@ -313,7 +313,8 @@ function ParallelLines() {
     setSel((prev) => (prev.includes(i) ? prev.filter((k) => k !== i) : prev.length >= 2 ? [i] : [...prev, i]));
   };
   const nextChallenge = () => {
-    setCh((prev) => makeChallenge(prev));
+    // Randomness stays in the event handler (state updaters must be pure).
+    setCh(makeChallenge(ch));
     setSolved(false);
     setFeedback(null);
     setWrong(null);
@@ -763,6 +764,8 @@ function plural(n: number, regular: boolean): string {
   const s = polyName(n, regular);
   return s.endsWith("x") ? `${s}es` : `${s}s`;
 }
+/** "a" or "an" before a polygon name ("an equilateral triangle", "a regular 13-gon"; "n-gon" only ever follows "regular"). */
+const an = (s: string) => (/^[aeiou]/i.test(s) ? `an ${s}` : `a ${s}`);
 
 /** Deterministic pseudo-random numbers (so render never calls Math.random). */
 function mulberry32(seed: number) {
@@ -869,6 +872,8 @@ function PolygonLab() {
   let controls: ReactNode = null;
 
   if (view === "interior") {
+    const labelsShown = N <= 12;
+    const labelsRounded = labelsShown && intA.some((a) => Math.abs(a - Math.round(a)) > 1e-6);
     const rA = Math.max(8, Math.min(18, minSide * 0.28));
     const rL = rA + 13;
     picture = (
@@ -884,7 +889,7 @@ function PolygonLab() {
         ))}
         <polygon points={ptsAttr(pts)} fill="none" className="stroke-ink" strokeWidth={2} strokeLinejoin="round" />
         <circle cx={r2(pts[0].x)} cy={r2(pts[0].y)} r={4.5} className="fill-brand" />
-        {N <= 12
+        {labelsShown
           ? pts.map((p, i) => (
               <Label key={`il${i}`} p={polar(p, rL, dirs[i] + intA[i] / 2)} size={N > 8 ? 9 : 11}>
                 {`${Math.round(intA[i])}°`}
@@ -902,23 +907,34 @@ function PolygonLab() {
     );
     caption = (
       <>
-        From one corner (the dot) you can draw a diagonal to every corner except itself and its two neighbours: {N - 3} diagonal
-        {N - 3 === 1 ? "" : "s"}, cutting the {name} into <strong>{N - 2} triangles</strong>. The triangles&apos; angles exactly fill the{" "}
-        {N} corners, so the interior angles add to ({N} − 2) × 180° = <strong>{sum}°</strong>.{" "}
+        {N === 3 ? (
+          <>
+            A triangle is already one triangle, with no diagonals to draw, so its interior angles add to (3 − 2) × 180° ={" "}
+            <strong>180°</strong>. Add a side and watch a new triangle appear.
+          </>
+        ) : (
+          <>
+            From one corner (the dot) you can draw a diagonal to every corner except itself and its two neighbours: {N - 3} diagonal
+            {N - 3 === 1 ? "" : "s"}, cutting the {name} into <strong>{N - 2} triangles</strong>. The triangles&apos; angles exactly fill the{" "}
+            {N} corners, so the interior angles add to ({N} − 2) × 180° = <strong>{sum}°</strong>.
+          </>
+        )}{" "}
         {regular ? (
           <>
             All {N} angles are equal, so each one is {sum}° ÷ {N} = <strong>{intEach.node}</strong>
             {intEach.plain.startsWith("≈") ? <> ({intEach.plain})</> : null}.
+            {labelsRounded ? <> (The labels on the picture are rounded to the nearest degree.)</> : null}
           </>
         ) : (
           <>
-            Press <em>New shape</em>: every angle changes, but the total stays {sum}° because there are still {N - 2} triangles. (Labels are
-            rounded to the nearest degree; the measured total is {fmt(measuredInt, 1)}°.)
+            Press <em>New shape</em>: every angle changes, but the total stays {sum}° because there are still {N - 2} triangle
+            {N - 2 === 1 ? "" : "s"}. (Labels are rounded to the nearest degree, so they may not add up exactly; the measured total is{" "}
+            {fmt(measuredInt, 1)}°.)
           </>
         )}
       </>
     );
-    aria = `A ${name} split into ${N - 2} triangles from one corner. Interior angles: ${intA.map((a) => `${Math.round(a)}`).join(", ")} degrees, adding to ${sum} degrees.`;
+    aria = `${an(name)} split into ${N - 2} triangles from one corner. Interior angles: ${intA.map((a) => `${Math.round(a)}`).join(", ")} degrees, adding to ${sum} degrees.`;
   } else if (view === "exterior") {
     const s = sizePct / 100;
     const G = poly.centre;
