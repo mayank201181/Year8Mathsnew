@@ -115,6 +115,7 @@ class P {
 
   seq(stopAtRp: boolean): string {
     const parts: string[] = [];
+    let spaced = false;
     for (;;) {
       const t = this.peek();
       if (!t) break;
@@ -122,10 +123,15 @@ class P {
         if (stopAtRp) break;
         this.i++;
         parts.push(`<mo>${esc(t.v)}</mo>`);
+        spaced = false;
         continue;
       }
-      if (t.k === "sp") { this.i++; continue; }
-      parts.push(this.frac().ml);
+      if (t.k === "sp") { this.i++; spaced = true; continue; }
+      const ml = this.frac().ml;
+      // Keep the gap between two words ("average speed"), which MathML would otherwise close up.
+      if (spaced && /<\/mtext>(?:<\/mrow>)*$/.test(parts[parts.length - 1] ?? "") && /^(?:<mrow>)*<mtext>/.test(ml)) parts.push('<mspace width="0.3em"/>');
+      parts.push(ml);
+      spaced = false;
     }
     return parts.join("");
   }
