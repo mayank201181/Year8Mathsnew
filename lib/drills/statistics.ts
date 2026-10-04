@@ -1781,7 +1781,7 @@ export const drills: Drill[] = [
         const { tick, top } = axisTop(V2 - S0);
         const S = S0 * m, a = V1 * m, b = V2 * m;
         const trueR = b / a;
-        const trueStr = Number.isInteger(trueR * 100) ? `= ${num(trueR)}` : `≈ ${num(roundTo(trueR, 2))}`;
+        const trueStr = Number.isInteger(roundTo(trueR * 100, 6)) ? `= ${num(trueR)}` : `≈ ${roundTo(trueR, 2).toFixed(2)}`;
         return {
           prompt: `The bar chart shows ${ctx.what}. Notice that the vertical axis starts at ${S}, not 0.\n\nHow many times as tall as the **${cA}** bar does the **${cB}** bar look?`,
           answer: { type: "number", value: look },
@@ -1792,7 +1792,7 @@ export const drills: Drill[] = [
             `In fact ${b} ÷ ${a} ${trueStr}. The real difference is much smaller, which is why a bar chart's axis should start at 0.`,
           ],
           hint: `Measure each bar from the bottom of the axis, ${S}, not from 0.`,
-          traps: [numTrap(roundTo(trueR, 2), `That's how many times bigger the real value is. The question asks how the bars *look*: measure them from ${S}.`, 0.006)],
+          traps: [numTrap(roundTo(trueR, 2), `That's how many times bigger the real value is. The question asks how the bars *look*: measure them from ${S}.`, 0.051)],
           diagram: barSvg(S, S + top * m, tick * m, ctx.cats, [a, b], ctx.yl, `Bar chart with the vertical axis starting at ${S}: ${cA} ${a}, ${cB} ${b}`),
         };
       }
@@ -1819,7 +1819,7 @@ export const drills: Drill[] = [
         const q = clean(qn / qd);
         const lookStr = Number.isInteger(look) ? num(look) : `about ${num(roundTo(look, 1))}`;
         return {
-          prompt: `The bar chart shows ${ctx.what}. The vertical axis starts at ${S}.\n\nHow many times as large as the ${cA} value is the ${cB} value? Give your answer as a decimal.`,
+          prompt: `The bar chart shows ${ctx.what}. The vertical axis starts at ${S}.\n\nHow many times as large as the ${cA} value is the ${cB} value?${Number.isInteger(q) ? "" : " Give your answer as a decimal."}`,
           answer: { type: "number", value: q, allowFraction: false },
           solution: [
             `Read the real values from the labels: ${cA} = ${a}, ${cB} = ${b}.`,
@@ -1827,7 +1827,7 @@ export const drills: Drill[] = [
             `The ${cB} bar looks ${lookStr} times as tall, only because the axis starts at ${S}.`,
           ],
           hint: "Use the values themselves, not the heights of the bars.",
-          traps: [numTrap(roundTo(look, 2), `That's how the bars *look*. Compare the actual values, ${b} and ${a}, instead.`, 0.006)],
+          traps: [numTrap(roundTo(look, 2), `That's how the bars *look*. Compare the actual values, ${b} and ${a}, instead.`, 0.051)],
           diagram: barSvg(S, S + top * m, tick * m, ctx.cats, [a, b], ctx.yl, `Bar chart with the vertical axis starting at ${S}: ${cA} ${a}, ${cB} ${b}`),
         };
       }
@@ -1858,7 +1858,7 @@ export const drills: Drill[] = [
           `The bars, measured from ${S}, suggest a rise of about ${num(Math.round(lookPct))}%. That's the truncated axis exaggerating the difference.`,
         ],
         hint: "Percentage increase = increase ÷ original value × 100. Use the real values, not the bar heights.",
-        traps: [numTrap(lookPct, `That uses the bar heights measured from ${S}. Use the real values instead.`, 0.06)],
+        traps: [numTrap(lookPct, `That uses the bar heights measured from ${S}. Use the real values instead.`, 0.51)],
         diagram: barSvg(S, S + top * m, tick * m, ctx.cats, [a, b], ctx.yl, `Bar chart with the vertical axis starting at ${S}: ${cA} ${a}, ${cB} ${b}`),
       };
     },
