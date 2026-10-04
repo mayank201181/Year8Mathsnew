@@ -106,6 +106,8 @@ interface PiForm {
   /** For {{ }} display, e.g. "12 pi", "10/3 pi", "64 - 16 pi". */
   tex: string;
   value: number;
+  /** Size of the π part alone (for k ± cπ this is |cπ|). */
+  piPart: number;
   /** Coefficient is a whole number or has at most 2 decimal places. */
   nice: boolean;
 }
@@ -114,12 +116,13 @@ interface PiForm {
 function piTerm(n: number, d = 1): PiForm {
   const [a, b] = simplify(Math.round(n), Math.round(d));
   const value = (a / b) * PI;
-  if (b === 1) return a === 1 ? { expr: "pi", tex: "pi", value, nice: true } : { expr: `${a}pi`, tex: `${a} pi`, value, nice: true };
+  const piPart = Math.abs(value);
+  if (b === 1) return a === 1 ? { expr: "pi", tex: "pi", value, piPart, nice: true } : { expr: `${a}pi`, tex: `${a} pi`, value, piPart, nice: true };
   if (1000 % b === 0) {
     const c = String(clean(a / b));
-    return { expr: `${c}pi`, tex: `${c} pi`, value, nice: 100 % b === 0 };
+    return { expr: `${c}pi`, tex: `${c} pi`, value, piPart, nice: 100 % b === 0 };
   }
-  return { expr: `${a}pi/${b}`, tex: `${a}/${b} pi`, value, nice: false };
+  return { expr: `${a}pi/${b}`, tex: `${a}/${b} pi`, value, piPart, nice: false };
 }
 
 /** k ± (π term). */
@@ -129,6 +132,7 @@ function combo(k: number, sign: 1 | -1, t: PiForm): PiForm {
     expr: `${ks}${sign > 0 ? "+" : "-"}${t.expr}`,
     tex: `${ks} ${sign > 0 ? "+" : "-"} ${t.tex}`,
     value: k + sign * t.value,
+    piPart: t.piPart,
     nice: t.nice,
   };
 }
@@ -141,8 +145,8 @@ function exactSpec(p: PiForm, unit: string): AnswerSpec {
  * Catches a learner who typed a decimal instead of the exact π form, whether they
  * used the π button or π = 3.14 / {{22/7}} (those differ from π by under 0.06%).
  */
-function decimalTrap(v: number): Trap {
-  return { spec: { type: "number", value: roundTo(v, 1), tolerance: 0.051 + 0.0006 * Math.abs(v) }, feedback: LEAVE_PI };
+function decimalTrap(p: PiForm): Trap {
+  return { spec: { type: "number", value: roundTo(p.value, 3), tolerance: roundTo(0.051 + 0.0006 * p.piPart, 4) }, feedback: LEAVE_PI };
 }
 
 /**
@@ -693,7 +697,7 @@ function piEstimateItem(rng: Rng, tier: Tier): DrillItem {
     const x = giveR ? d / 2 : d;
     const ans = 3 * d;
     return {
-      prompt: `π is a little more than 3. Using π ≈ 3, estimate the circumference of a circle with ${giveR ? "radius" : "diameter"} ${x} cm.`,
+      prompt: `π is a little more than 3. Using π ≈ 3, estimate the circumference of a circle with ${giveR ? "radius" : "diameter"} ${x} cm. Give your answer in cm.`,
       answer: numSpec(ans, "cm"),
       solution: [
         ...(giveR ? [`Diameter = 2 × ${x} = ${d} cm.`] : []),
@@ -708,7 +712,7 @@ function piEstimateItem(rng: Rng, tier: Tier): DrillItem {
   const d = rng.int(8, 40);
   const C = 3 * d;
   return {
-    prompt: `${name} measures the distance around a circular ${thing} as about ${C} cm. Using π ≈ 3, estimate its diameter.`,
+    prompt: `${name} measures the distance around a circular ${thing} as about ${C} cm. Using π ≈ 3, estimate its diameter. Give your answer in cm.`,
     answer: numSpec(d, "cm"),
     solution: ["Circumference ≈ 3 × diameter, so diameter ≈ circumference ÷ 3.", `Diameter ≈ ${C} ÷ 3 = ${d} cm`],
     hint: "Circumference is about 3 diameters. Work backwards.",
@@ -961,7 +965,7 @@ function circExactTerms(rng: Rng, tier: Tier): DrillItem | null {
     answer: exactSpec(ans, "cm"),
     solution,
     hint: giveR ? "{{C = 2 pi r}}. Multiply the numbers and keep π as a letter." : "{{C = pi d}}. Keep π as a letter.",
-    traps: [...pickTraps(ans.value, cands), decimalTrap(ans.value)],
+    traps: [...pickTraps(ans.value, cands), decimalTrap(ans)],
   };
 }
 
@@ -985,7 +989,7 @@ function circExactCompare(rng: Rng): DrillItem | null {
     hint: "Find each circumference in terms of π first. Watch which one you were given the radius for.",
     traps: [
       ...pickTraps(ans.value, [pTrap(piTerm(longer ? b - a : b + a), "Circle A's circumference is {{2 pi r}}, so use its diameter, 2 × the radius.")]),
-      decimalTrap(ans.value),
+      decimalTrap(ans),
     ],
   };
 }
@@ -1295,7 +1299,7 @@ function areaTerms(rng: Rng, tier: Tier): DrillItem | null {
     answer: exactSpec(ans, "cm²"),
     solution: [...(giveR ? [] : [`Radius = ${num(d)} ÷ 2 = ${num(r)} cm.`]), `Square the radius: {{${num(r)}^2 = ${num(r2)}}}.`, `{{A = pi r^2 = ${ans.tex}}} cm²`],
     hint: "{{A = pi r^2}}. Square the radius and keep π as a letter.",
-    traps: [...pickTraps(ans.value, cands), decimalTrap(ans.value)],
+    traps: [...pickTraps(ans.value, cands), decimalTrap(ans)],
   };
 }
 
@@ -1352,7 +1356,7 @@ function areaContext(rng: Rng): DrillItem | null {
         answer: exactSpec(ans, "cm²"),
         solution: [...steps, `Difference: {{${big2} pi - ${small2} pi = ${ans.tex}}} cm²`],
         hint: "Find the area of the large pizza and the total area of two small ones.",
-        traps: [...pickTraps(ans.value, cands(null)), decimalTrap(ans.value)],
+        traps: [...pickTraps(ans.value, cands(null)), decimalTrap(ans)],
       };
     }
     const v = coef * PI;
@@ -1659,7 +1663,7 @@ const semicircleArea: Drill = {
               pTrap(full, `That's the whole circle. A ${P.name} is ${P.fword} of it.`),
               pTrap(piTerm(t2.n, t2.d), t2.fb),
             ]),
-            decimalTrap(ans.value),
+            decimalTrap(ans),
           ],
         };
       }
@@ -1730,7 +1734,7 @@ const semicirclePerimeter: Drill = {
           answer: exactSpec(ans, u),
           solution: [...rStep, `Whole circumference: {{2 pi * ${num(r)} = ${full.tex}}} ${u}`, `Curved part: {{${P.ftex} * ${full.tex} = ${curved.tex}}} ${u}`, straightWord, `Perimeter = {{${ans.tex}}} ${u}`],
           hint,
-          traps: [...pickTraps(ans.value, cands), decimalTrap(ans.value)],
+          traps: [...pickTraps(ans.value, cands), decimalTrap(ans)],
         };
       }
       if (mode === "314") {
@@ -2065,7 +2069,7 @@ const compoundShapes: Drill = {
           answer: exactSpec(ans, c.unit),
           solution: [...c.steps(true), `Answer: {{${ans.tex}}} ${c.unit}`],
           hint: c.hint,
-          traps: [...pickTraps(value, c.traps.map(([q, fb]) => pTrap(kpiForm(q), fb))), decimalTrap(value)],
+          traps: [...pickTraps(value, c.traps.map(([q, fb]) => pTrap(kpiForm(q), fb))), decimalTrap(ans)],
         };
       }
       const R = roundAcc(value, "1dp");
@@ -2187,7 +2191,7 @@ const arcsSectors: Drill = {
           answer: exactSpec(ans, unit),
           solution: [...steps, ...(kind === "perim" ? [`Perimeter = {{${ans.tex}}} cm`] : [])],
           hint,
-          traps: [...pickTraps(value, trapsQ.map(([t, fb]) => pTrap(kpiForm(t), fb))), decimalTrap(value)],
+          traps: [...pickTraps(value, trapsQ.map(([t, fb]) => pTrap(kpiForm(t), fb))), decimalTrap(ans)],
         };
       }
       const R = roundAcc(value, "1dp");
