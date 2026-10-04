@@ -325,9 +325,12 @@ function TopicList({ summaries, masteries }: { summaries: TopicSummary[]; master
   const readyCount = masteries.size;
   const avg = readyCount ? Math.round([...masteries.values()].reduce((t, m) => t + m.pct, 0) / readyCount) : 0;
   const certs = [...masteries.values()].filter((m) => m.pct >= 80).length;
-  const groups = STRANDS.map((strand) => ({ strand, topics: summaries.filter((s) => s.strand === strand) })).filter((g) => g.topics.length);
-  const other = summaries.filter((s) => !STRANDS.includes(s.strand as (typeof STRANDS)[number]));
-  if (other.length) groups.push({ strand: "Other" as (typeof STRANDS)[number], topics: other });
+  const known = new Set<string>(STRANDS);
+  const groups: { strand: string; topics: TopicSummary[] }[] = STRANDS.map((strand) => ({ strand, topics: summaries.filter((s) => s.strand === strand) })).filter(
+    (g) => g.topics.length,
+  );
+  const other = summaries.filter((s) => !known.has(s.strand));
+  if (other.length) groups.push({ strand: "Other", topics: other });
 
   return (
     <section aria-labelledby="topics-h" className="card p-4 sm:p-5">

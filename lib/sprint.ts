@@ -50,7 +50,7 @@ export const SPRINT_MODE_INFO: Record<SprintMode, SprintModeInfo> = {
   powers: {
     label: "Powers, roots & ×10",
     icon: "🚀",
-    description: "Squares to 15², cubes to 5³, their roots, and × or ÷ by 10, 100, 1000, 0.1 and 0.01.",
+    description: "Squares to 15², cubes to 5³ and 10³, their roots, and × or ÷ by 10, 100, 1000, 0.1 and 0.01.",
     example: "{{13^2}} · {{4.7 ÷ 100}}",
   },
   mixed: {
@@ -214,7 +214,7 @@ function decimalForPercent(rng: Rng): [number, number] {
   const kind = weighted(rng, [[7, "simple"], [2, "over"], [1, "thousandths"]] as const);
   if (kind === "simple") return [rng.int(1, 99), 2];
   if (kind === "over") return [rng.int(101, 250), 2];
-  return [rng.pick([125, 375, 625, 875, 25, 75, 5, 15, 45] as const), 3];
+  return [rng.pick([125, 375, 625, 875, 25, 75, 175] as const), 3];
 }
 
 function decimalToPercent(rng: Rng): SprintItem {
@@ -304,8 +304,8 @@ function powers(rng: Rng): SprintItem {
     const n = rng.int(2, 15);
     return { prompt: `{{sqrt(${n * n})}}`, answer: n, fact: `{{sqrt(${n * n}) = ${n}}}`, mode: "powers" };
   }
-  const n = rng.pick([1, 2, 3, 4, 5, 2, 3, 4, 5, 10] as const);
-  const neg = n !== 1 && rng.bool(0.2);
+  const n = rng.pick([2, 3, 4, 5, 2, 3, 4, 5, 10] as const);
+  const neg = rng.bool(0.2);
   const base = neg ? -n : n;
   const cube = base * base * base;
   if (kind === "cube") {
