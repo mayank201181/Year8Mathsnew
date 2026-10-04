@@ -622,13 +622,13 @@ const FIT_CTX: FitCtx[] = [
   {
     x: { lo: 0, hi: 10, step: 1, label: "Hours of revision" }, y: { lo: 0, hi: 100, step: 10, label: "Test score (%)" }, dir: 1, who: "pupils",
     fwd: (xv) => `Use the line of best fit to estimate the test score of a pupil who revised for ${xv} hours.`,
-    inv: (yv) => `Another pupil scored ${yv}%. Use the line of best fit to estimate how many hours they revised.`,
+    inv: (yv) => `A pupil scored ${yv}% in the test. Use the line of best fit to estimate how many hours they revised.`,
     xu: "hours", yu: "%",
   },
   {
     x: { lo: 20, hi: 40, step: 2, label: "Temperature (°C)" }, y: { lo: 0, hi: 200, step: 20, label: "Cold drinks sold" }, dir: 1, who: "days",
     fwd: (xv) => `Use the line of best fit to estimate the number of cold drinks sold on a day when the temperature is ${xv} °C.`,
-    inv: (yv) => `On another day, ${yv} cold drinks were sold. Use the line of best fit to estimate the temperature that day, in °C.`,
+    inv: (yv) => `On one day, ${yv} cold drinks were sold. Use the line of best fit to estimate the temperature that day, in °C.`,
     xu: "°C", yu: "drinks",
   },
   {
@@ -1722,6 +1722,7 @@ export const drills: Drill[] = [
       const l0 = Math.max(0, xs - 0.5), l1 = Math.min(10, xe + 0.5);
       const line = [ctx.x.lo + l0 * ctx.x.step, ctx.y.lo + (c + s * l0) * ctx.y.step, ctx.x.lo + l1 * ctx.x.step, ctx.y.lo + (c + s * l1) * ctx.y.step] as const;
       const xv = X(xq), yv = Y(yq);
+      const withUnit = (v: number, u: string) => (u === "%" ? `${num(v)}%` : `${num(v)} ${u}`);
       const ans = inverse ? xv : yv;
       const tol = (inverse ? ctx.x.step : ctx.y.step) / 2;
       const question = inverse ? ctx.inv(num(yv)) : ctx.fwd(num(xv));
@@ -1729,13 +1730,13 @@ export const drills: Drill[] = [
         ? [
             `Find ${num(yv)} on the vertical axis.`,
             "Go straight across to the line of best fit, then straight down to the horizontal axis.",
-            `The line is at ${num(xv)} there, so the estimate is about ${num(xv)} ${ctx.xu}.`,
+            `You reach the horizontal axis at ${num(xv)}, so the estimate is about ${withUnit(xv, ctx.xu)}.`,
             "This is inside the range of the data, so the estimate is fairly reliable.",
           ]
         : [
             `Find ${num(xv)} on the horizontal axis.`,
             "Go straight up to the line of best fit, then straight across to the vertical axis.",
-            `The line is at ${num(yv)} there, so the estimate is about ${num(yv)} ${ctx.yu}.`,
+            `You reach the vertical axis at ${num(yv)}, so the estimate is about ${withUnit(yv, ctx.yu)}.`,
             "This is inside the range of the data, so the estimate is fairly reliable.",
           ];
       return {

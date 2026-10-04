@@ -191,6 +191,7 @@ function vocabCoef(rng: Rng, tier: Tier): DrillItem {
   else if (Math.abs(p.c) === 1) sol.push(`${M(signedBody(p))} means ${num(p.c)} × ${M(key)}, so the coefficient is ${num(p.c)}.`);
   else sol.push(`The coefficient is the number multiplying ${M(key)}, with its sign: ${ansText}.`);
   if (p.fd === 1) traps.push(etrap(term(p.c, key), `${M(signedBody(p))} is the whole term. The coefficient is just the number multiplying ${M(key)}: ${ansText}.`));
+  if (p.fd === 1 && p.c < 0) traps.push(ntrap(-p.c, `The − sign in front of the term belongs to the coefficient, so it is ${ansText}.`));
   if (ask === "sq" && Math.abs(p.c) !== 2) traps.push(ntrap(2, `2 is the power (index) in ${M(key)}. The coefficient is the number multiplying ${M(key)}.`));
   if (p.fd === 1 && Math.abs(p.c) === 1) traps.push(ntrap(0, `No number is written, but ${M(signedBody(p))} means ${num(p.c)} × ${M(key)}.`));
   return {
