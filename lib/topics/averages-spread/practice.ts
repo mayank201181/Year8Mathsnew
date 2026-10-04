@@ -306,7 +306,7 @@ export const practice: TopicPractice = {
           ],
           commonError: "Subtracting leaves (9 − 0) without their stems.",
           traps: [
-            { spec: { type: "number", value: 9 }, feedback: "You subtracted the largest leaf from the smallest leaf. A leaf needs its stem: the values are 84 and 52." },
+            { spec: { type: "number", value: 9 }, feedback: "You subtracted the smallest leaf from the largest leaf (9 − 0). A leaf needs its stem: the values are 84 and 52." },
           ],
           difficulty: "warmup",
           guideRef: "stem-and-leaf-averages",
@@ -688,7 +688,7 @@ export const practice: TopicPractice = {
               steps: [
                 "Values above and below the mean must balance. Distances from 1.5: 0 is −1.5, 1 is −0.5, 2 is +0.5, 3 is +1.5.",
                 "Below: 5 × 1.5 + x × 0.5 = 7.5 + 0.5x. Above: 6 × 0.5 + 4 × 1.5 = 9.",
-                "7.5 + 0.5x = 9, so 0.5x = 1.5 and x = 3. Smaller numbers, and no fractions of pupils to worry about.",
+                "7.5 + 0.5x = 9, so 0.5x = 1.5 and x = 3. Smaller numbers, and no brackets to expand.",
               ],
             },
           ],
@@ -818,7 +818,7 @@ export const practice: TopicPractice = {
           question:
             "The ages of 13 members of a badminton club are shown. Key: 2 | 3 means 23 years.\n\n| Stem | Leaves |\n|---|---|\n| 1 | 4 6 8 |\n| 2 | 1 1 5 7 7 7 9 |\n| 3 | 0 2 6 |\n\nWhat is the modal age, in years?",
           answer: { type: "number", value: 27, display: "27 years" },
-          solution: ["On stem 2 the leaf 7 appears three times, more than any other leaf on the same stem.", "So the mode is 27 years."],
+          solution: ["Repeated values show up as repeated leaves on the same stem. On stem 2 the leaf 7 appears three times; no other value appears more than twice.", "So the mode is 27 years."],
           traps: [
             { spec: { type: "number", value: 7 }, feedback: "7 is the leaf. Join it to its stem: 2 | 7 means 27." },
             { spec: { type: "number", value: 21 }, feedback: "21 appears twice, but 27 appears three times." },
@@ -888,7 +888,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "averages-spread-p2-q08",
           question:
-            "The table shows the number of people living in each of 40 HDB flats on one floor of a block.\n\n| People in flat | Frequency |\n|---|---|\n| 1 | 4 |\n| 2 | 9 |\n| 3 | 11 |\n| 4 | 10 |\n| 5 | 6 |\n\nWork out the mean number of people per flat. Give your answer to 1 decimal place.",
+            "The table shows the number of people living in each of the 40 flats in an HDB block.\n\n| People in flat | Frequency |\n|---|---|\n| 1 | 4 |\n| 2 | 9 |\n| 3 | 11 |\n| 4 | 10 |\n| 5 | 6 |\n\nWork out the mean number of people per flat. Give your answer to 1 decimal place.",
           answer: { type: "number", value: 3.1, allowFraction: false },
           solution: [
             "fx column: 1 × 4 = 4, 2 × 9 = 18, 3 × 11 = 33, 4 × 10 = 40, 5 × 6 = 30.",
@@ -1119,7 +1119,8 @@ export const practice: TopicPractice = {
           solution: [
             "Write the numbers in order: a ≤ b ≤ c ≤ d. The total is 4 × 11 = 44.",
             "The median is the mean of the middle two, so b + c = 20.",
-            "The mode is 9, so 9 appears at least twice. If c were 9, then b = 11 > c, which is impossible. So the two 9s are a and b.",
+            "Since b ≤ c and b + c = 20, c is at least 10, so neither c nor d can be 9.",
+            "The mode is 9, so 9 appears at least twice. The only places left are a and b, so a = b = 9.",
             "Then c = 20 − 9 = 11, and d = 44 − 9 − 9 − 11 = 15.",
             "The numbers are 9, 9, 11, 15. Range = 15 − 9 = 6.",
           ],
@@ -1345,7 +1346,7 @@ export const practice: TopicPractice = {
       answer: { type: "number", value: 11 },
       solution: [
         "5 + 9 = 14 pupils have 0 or 1 sibling, so the median must be further along than the 14th pupil.",
-        "There are 18 + k pupils altogether.",
+        "Let n = 18 + k be the total number of pupils.",
         "If the number of pupils is odd, the median is the {{(n+1)/2}}th pupil. You need {{(n+1)/2 >= 15}}, so n ≥ 29 and k ≥ 11.",
         "If the number of pupils is even, both middle pupils must have 2 siblings, so n ÷ 2 ≥ 15, so n ≥ 30 and k ≥ 12.",
         "k = 10 fails: 28 pupils, and the median is halfway between the 14th (1 sibling) and 15th (2 siblings), which is 1.5.",
@@ -1395,7 +1396,7 @@ export const practice: TopicPractice = {
           steps: [
             "Distances from 25 must add up to 0. Known values: 13 (−12), 17 (−8), 17 (−8), 22 (−3), 25 (0), 26 (+1), 30 (+5), 39 (+14).",
             "These add to −31 + 20 = −11.",
-            "So the missing value must be 11 above 25: 36. Smaller numbers than adding everything to 225.",
+            "So the missing value must be 11 above 25: 36. This uses smaller numbers than adding everything up to compare with 225.",
           ],
         },
       ],
@@ -1489,7 +1490,7 @@ export const practice: TopicPractice = {
       id: "averages-spread-ch-q08",
       question:
         "The marks (whole numbers) of 25 pupils are grouped in this table.\n\n| Mark | Frequency |\n|---|---|\n| 1 to 10 | 6 |\n| 11 to 20 | 9 |\n| 21 to 30 | 10 |\n\nWei Ling estimates the mean mark using the midpoints 5.5, 15.5 and 25.5. What is the largest possible difference between her estimate and the true mean? Give your answer as a decimal.",
-      answer: { type: "number", value: 4.5 },
+      answer: { type: "number", value: 4.5, allowFraction: false },
       solution: [
         "Estimate = (6 × 5.5 + 9 × 15.5 + 10 × 25.5) ÷ 25 = (33 + 139.5 + 255) ÷ 25 = 427.5 ÷ 25 = 17.1.",
         "Every whole-number mark is at most 4.5 away from the midpoint standing in for it (for example, 10 and 1 are each 4.5 from 5.5).",

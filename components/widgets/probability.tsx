@@ -690,7 +690,8 @@ function ExperimentLab() {
       caption = (
         <p>
           {N === 1 ? "This spinner has only 1 section, so it always lands on it." : `This spinner has ${N} equal sections, so each section is equally likely.`}{" "}
-          {c} of {N === 1 ? "it" : "them"} {c === 1 ? "is" : "are"} {trackName}, so P({trackName}) = <FracText n={c} d={N} />
+          {N === 1 ? `That section is ${c === 1 ? "" : "not "}${trackName}` : `${c} of them ${c === 1 ? "is" : "are"} ${trackName}`}, so P({trackName}) ={" "}
+          <FracText n={c} d={N} />
           {c > 0 && c < N ? ` ${eqApprox(p)}` : ""}. In 100 spins you would <strong>expect</strong> P × 100 {eqCount((100 * c) / N)}{" "}
           {trackName}s. Spin and compare: <strong>relative frequency</strong> = number of times it happened ÷ number of spins.
         </p>

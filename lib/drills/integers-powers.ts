@@ -1690,7 +1690,8 @@ export const drills: Drill[] = [
       );
       const v = rng.pick(["x", "y", "a", "b", "m", "n", "p", "t", "k"]);
       const say = rng.pick(["Simplify", "Simplify fully"]);
-      const tail = " Write your answer as a single term, like {{5x^3}}.";
+      // Format example in a different letter, so it can never coincide with the answer.
+      const tail = ` Write your answer as a single term, like {{5${v === "x" ? "y" : "x"}^3}}.`;
 
       if (kind === "mulPlain") {
         const m = rng.int(2, 9), n = rng.int(2, 9);
@@ -1996,9 +1997,11 @@ export const drills: Drill[] = [
         const r = attempt(
           () => {
             const div = rng.bool();
-            const m = rng.int(1, 7), n = rng.int(2, 8);
+            const m = rng.int(2, 7), n = rng.int(2, 8);
             const e = m - n; // b^m × b^(−n) and b^m ÷ b^n both give index m − n
             if (e === 0 || Math.abs(e) > 3 || b ** Math.abs(e) > 1000) return null;
+            // b^m ÷ b^n with m > n never meets a negative index — only allow it when the result is negative.
+            if (div && e > 0) return null;
             return { div, m, n, e };
           },
           { div: false, m: 3, n: 5, e: -2 },
@@ -2041,10 +2044,12 @@ export const drills: Drill[] = [
           r.e === 1 ? `So the answer is ${frac(N, D)}.` : `Square the top and the bottom: {{(${r.q}/${r.p})^2 = ${N}/${D}}}.`,
         ],
         hint: "Flip the fraction to make the index positive, then apply the power.",
-        traps:
-          r.e === 2 && 2 * r.p !== r.q
-            ? [{ spec: { type: "fraction", n: (2 * r.q) / gcd(2 * r.q, r.p), d: r.p / gcd(2 * r.q, r.p) }, feedback: "The index 2 means square the fraction, not double it." }]
-            : [],
+        traps: [
+          { spec: { type: "fraction", n: D, d: N }, feedback: "A negative index means \"one over\", so flip the fraction before applying the power." },
+          ...(r.e === 2 && 2 * r.p !== r.q
+            ? [{ spec: { type: "fraction" as const, n: (2 * r.q) / gcd(2 * r.q, r.p), d: r.p / gcd(2 * r.q, r.p) }, feedback: "The index 2 means square the fraction, not double it." }]
+            : []),
+        ],
       };
     },
   },

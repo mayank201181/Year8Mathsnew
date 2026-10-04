@@ -1045,7 +1045,7 @@ function circExact227(rng: Rng, tier: Tier): DrillItem {
 const circumferenceExact: Drill = {
   id: "circles.circumference-exact",
   topicId: TOPIC,
-  title: "Circumference in terms of π, or with π = 3.14 or 22/7",
+  title: "Circumference without a calculator",
   level: 2,
   guideRef: "circumference",
   generate(rng, tier) {
@@ -2164,17 +2164,29 @@ const arcsSectors: Drill = {
   },
 };
 
+/** Calculator questions (worked with the π button) get a reminder not to use 3.14. */
+function withCalcHint(d: Drill): Drill {
+  return {
+    ...d,
+    generate(rng, tier) {
+      const it = d.generate(rng, tier);
+      const usesCalcPi = it.solution.some((s) => s.includes("…")) && !/3\.14|22\/7/.test(it.prompt);
+      return usesCalcPi ? { ...it, hint: `${it.hint ?? ""} Use the π button on your calculator, not 3.14.`.trim() } : it;
+    },
+  };
+}
+
 export const drills: Drill[] = [
   nameThePart,
   radiusDiameter,
   piFromMeasurements,
-  circumferenceCalc,
+  withCalcHint(circumferenceCalc),
   circumferenceExact,
-  radiusFromCircumference,
-  circleArea,
-  semicircleArea,
-  semicirclePerimeter,
-  radiusFromArea,
-  compoundShapes,
-  arcsSectors,
+  withCalcHint(radiusFromCircumference),
+  withCalcHint(circleArea),
+  withCalcHint(semicircleArea),
+  withCalcHint(semicirclePerimeter),
+  withCalcHint(radiusFromArea),
+  withCalcHint(compoundShapes),
+  withCalcHint(arcsSectors),
 ];

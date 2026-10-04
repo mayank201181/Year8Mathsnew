@@ -1023,7 +1023,7 @@ export const drills: Drill[] = [
         }
         return {
           prompt,
-          answer: { type: "number", value: ev },
+          answer: prompt.includes("$") ? { type: "number", value: ev, display: `$${estS}` } : { type: "number", value: ev },
           solution,
           hint: "Round every number to 1 significant figure first, then the calculation is easy to do in your head.",
           traps,

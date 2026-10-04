@@ -1080,7 +1080,7 @@ export const drills: Drill[] = [
             answer: { type: "number", value: k },
             solution: [
               "The interval is population size ÷ sample size.",
-              `k = ${N} ÷ ${n} = ${k}.`,
+              `k = ${big(N)} ÷ ${n} = ${k}.`,
               `So ${name} takes every ${ordinal(k)} ${ctx.item}.`,
             ],
             hint: `How many ${ctx.pop} are there on the list for each one in the sample?`,
