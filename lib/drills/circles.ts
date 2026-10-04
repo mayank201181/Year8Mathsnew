@@ -1877,7 +1877,8 @@ function compoundCase(rng: Rng, tier: Tier): CompoundCase {
   const kind = rng.pick(kinds);
   const u = "cm";
   if (kind === 0) {
-    const L = rng.int(tier === 1 ? 6 : 8, tier === 1 ? 16 : 24), W = 2 * rng.int(2, tier === 1 ? 6 : 8);
+    const W = 2 * rng.int(2, tier === 1 ? 6 : 8);
+    const L = rng.int(Math.max(tier === 1 ? 6 : 8, W + 2), tier === 1 ? 16 : 24); // longer than wide: a genuine rectangle
     const r = W / 2;
     const perim = tier > 1 && rng.bool(0.45);
     const diagram = diagRectSemi(L, W, u);
@@ -1935,7 +1936,7 @@ function compoundCase(rng: Rng, tier: Tier): CompoundCase {
       steps: () => [`Square: ${s} × ${s} = ${s * s} cm²`, `Quarter circle: {{1/4 * pi * ${s}^2 = ${piTerm(s * s, 4).tex}}} cm²`, "Shaded = square − quarter circle."],
       traps: [
         [{ k: 0, s: 1, n: s * s, d: 4 }, "That's the quarter circle. The shaded part is the square minus the quarter circle."],
-        [{ k: s * s, s: -1, n: s * s, d: 2 }, "The arc is a quarter circle, not a semicircle."],
+        [{ k: s * s, s: -1, n: s, d: 2 }, "You took away the length of the arc ({{1/4}} of {{2 pi r}}). Take away the quarter circle's area, {{1/4 pi r^2}}."],
       ],
       hint: "Shaded area = square − quarter circle.",
     };
@@ -2153,12 +2154,12 @@ const arcsSectors: Drill = {
       const trapsQ: Array<[KPi, string]> =
         kind === "arc"
           ? [
-              [{ k: 0, s: 1, n: 2 * r, d: 1 }, "That's the whole circumference. The arc is only " + theta + "/360 of it."],
+              [{ k: 0, s: 1, n: 2 * r, d: 1 }, `That's the whole circumference. The arc is only {{${fracTex}}} of it.`],
               [{ k: 0, s: 1, n: theta * r * r, d: 360 }, "That's the sector's area. Arc length uses {{2 pi r}}."],
             ]
           : kind === "area"
             ? [
-                [{ k: 0, s: 1, n: r * r, d: 1 }, "That's the whole circle. The sector is only " + theta + "/360 of it."],
+                [{ k: 0, s: 1, n: r * r, d: 1 }, `That's the whole circle. The sector is only {{${fracTex}}} of it.`],
                 [{ k: 0, s: 1, n: theta * 2 * r, d: 360 }, "That's the arc length. Sector area uses {{pi r^2}}."],
               ]
             : [
@@ -2175,7 +2176,8 @@ const arcsSectors: Drill = {
       const value = kpiValue(q);
       if (exact) {
         const ans = kpiForm(q);
-        if (!exactOk(ans.value)) return null;
+        // Keep exact answers friendly for Year 8: a π coefficient like 16/3 is fine, 133/36 is not.
+        if (!exactOk(ans.value) || (!part.nice && simplify(q.n, q.d)[1] > 12)) return null;
         return {
           prompt: `${prompt} Give your answer in terms of π. ${TYPE_PI}`,
           diagram,
