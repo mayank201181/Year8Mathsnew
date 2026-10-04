@@ -1605,7 +1605,8 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
         const [sA, sB] = rng.shuffle([200, 250, 300, 400, 450, 500, 600, 750, 800, 900]).slice(0, 2);
         return { sA, sB, uA: rng.int(35, 150), uB: rng.int(35, 150) };
       },
-      (z) => Math.abs(z.uA - z.uB) >= 4 && (z.uA * z.sA) % 100 === 0 && (z.uB * z.sB) % 100 === 0,
+      // Unit prices within 30% of each other, like real shelf prices (and so you must calculate).
+      (z) => Math.abs(z.uA - z.uB) >= 4 && Math.max(z.uA, z.uB) <= 1.3 * Math.min(z.uA, z.uB) && (z.uA * z.sA) % 100 === 0 && (z.uB * z.sB) % 100 === 0,
       { sA: 400, sB: 650, uA: 80, uB: 70 },
     );
     const pA = clean((o.uA * o.sA) / 10000), pB = clean((o.uB * o.sB) / 10000);
@@ -1673,7 +1674,7 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       const item = rng.pick(["rice", "flour", "potatoes", "lentils"]);
       const o = find(
         () => ({ g: rng.pick([400, 500, 600, 750, 800, 900]), kg10: rng.pick([12, 15, 20, 25, 30, 50]), uA: rng.int(15, 90) * 10, uB: rng.int(15, 90) * 10 }),
-        (z) => Math.abs(z.uA - z.uB) >= 20 && (z.uA * z.g) % 1000 === 0 && (z.uB * z.kg10) % 10 === 0,
+        (z) => Math.abs(z.uA - z.uB) >= 20 && Math.max(z.uA, z.uB) <= 1.3 * Math.min(z.uA, z.uB) && (z.uA * z.g) % 1000 === 0 && (z.uB * z.kg10) % 10 === 0,
         { g: 750, kg10: 20, uA: 360, uB: 340 },
       );
       const pA = clean((o.uA * o.g) / 100000), pB = clean((o.uB * o.kg10) / 1000);
@@ -1697,7 +1698,7 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     const drink = rng.pick(["orange juice", "soy milk", "oat milk", "coconut water"]);
     const o = find(
       () => ({ a: rng.pick([250, 330, 500, 750]), b: rng.pick([1000, 1500, 2000]), uA: rng.int(10, 60) * 10, uB: rng.int(10, 60) * 10 }),
-      (z) => Math.abs(z.uA - z.uB) >= 20 && (z.uA * z.a) % 1000 === 0 && (z.uB * z.b) % 1000 === 0,
+      (z) => Math.abs(z.uA - z.uB) >= 20 && Math.max(z.uA, z.uB) <= 1.3 * Math.min(z.uA, z.uB) && (z.uA * z.a) % 1000 === 0 && (z.uB * z.b) % 1000 === 0,
       { a: 500, b: 2000, uA: 340, uB: 290 },
     );
     const pA = clean((o.uA * o.a) / 100000), pB = clean((o.uB * o.b) / 100000);

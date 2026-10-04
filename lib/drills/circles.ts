@@ -446,6 +446,8 @@ const nameThePart: Drill = {
       ]);
       if (part === "arc") accept = [...accept, "major arc", "a major arc"];
     }
+    // "Perimeter" is also true for the whole way round, so ask for the circle word explicitly.
+    if (part === "circumference") prompt += " Give the special word used for circles.";
     return {
       prompt,
       diagram,
@@ -1286,7 +1288,7 @@ function areaTerms(rng: Rng, tier: Tier): DrillItem | null {
     `Work out the exact area of a circle with ${what} ${num(x)} cm. Give your answer in terms of π.`,
   ]);
   const cands = giveR
-    ? [pTrap(piTerm(2 * d10, 20), "That's {{2 pi r}}, the circumference (or you doubled r instead of squaring it). Area is {{pi r^2}}."), pTrap(piTerm(d10 * d10, 100), "You used the diameter. Area uses the radius.")]
+    ? [pTrap(piTerm(2 * d10, 20), "That's {{2 pi r}}, the circumference (or you doubled r instead of squaring it). Area is {{pi r^2}}."), pTrap(piTerm(d10 * d10, 100), "You doubled the radius before squaring (that squares the diameter). Area is {{pi r^2}}: square the radius itself.")]
     : [pTrap(piTerm(d10 * d10, 100), "You used the diameter in {{pi r^2}}. Halve it first to get the radius."), pTrap(piTerm(d10, 10), "That's {{pi d}}, the circumference. Area is {{pi r^2}}.")];
   return {
     prompt: `${prompt} ${TYPE_PI}`,
