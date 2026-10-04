@@ -89,14 +89,15 @@ function nextDue(data: ProgressDoc, today: string): string | null {
   return best;
 }
 
-export function ReviewView() {
+/** `readyTopicIds`: topics whose lessons exist (lesson links are only offered for these). */
+export function ReviewView({ readyTopicIds }: { readyTopicIds?: string[] }) {
   const { activeProfile } = useStore();
   const [today] = useState(todayISO);
   const profileKey = activeProfile?.id ?? "guest";
-  return <ReviewSession key={`${profileKey}:${today}`} profileKey={profileKey} today={today} />;
+  return <ReviewSession key={`${profileKey}:${today}`} profileKey={profileKey} today={today} readyTopicIds={readyTopicIds} />;
 }
 
-function ReviewSession({ profileKey, today }: { profileKey: string; today: string }) {
+function ReviewSession({ profileKey, today, readyTopicIds }: { profileKey: string; today: string; readyTopicIds?: string[] }) {
   const store = useStore();
   const { data } = store;
 
@@ -285,7 +286,15 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
             </h2>
             <ul className="mt-2 divide-y divide-line">
               {reviewed.map(({ it, i }) => (
-                <ResultRow key={`${keyOf(it)}:${i}`} item={it} result={results[i]} question={it.kind === "question" ? qmap[it.qid] ?? undefined : undefined} data={data} today={today} />
+                <ResultRow
+                  key={`${keyOf(it)}:${i}`}
+                  item={it}
+                  result={results[i]}
+                  question={it.kind === "question" ? qmap[it.qid] ?? undefined : undefined}
+                  lessonReady={!readyTopicIds || readyTopicIds.includes(it.topicId)}
+                  data={data}
+                  today={today}
+                />
               ))}
             </ul>
           </section>
@@ -470,10 +479,30 @@ function SkillSlot({
   );
 }
 
-function ResultRow({ item, result, question, data, today }: { item: ReviewItem; result: ItemResult; question?: IndexedQuestion; data: ProgressDoc; today: string }) {
+function ResultRow({
+  item,
+  result,
+  question,
+  lessonReady,
+  data,
+  today,
+}: {
+  item: ReviewItem;
+  result: ItemResult;
+  question?: IndexedQuestion;
+  lessonReady: boolean;
+  data: ProgressDoc;
+  today: string;
+}) {
   const drill = item.kind === "skill" ? drillById(item.skillId) : undefined;
   const label = drill ? drill.title : question ? SOURCE_LABEL[question.source] ?? "Question" : "Question";
-  const lesson = drill ? guideHref(drill.topicId, drill.guideRef) : question ? guideHref(question.topicId, question.question.guideRef) : null;
+  const lesson = !lessonReady
+    ? null
+    : drill
+      ? guideHref(drill.topicId, drill.guideRef) ?? `/topic/${drill.topicId}?tab=learn`
+      : question
+        ? guideHref(question.topicId, question.question.guideRef) ?? `/topic/${question.topicId}?tab=learn`
+        : null;
   let when: string;
   if (item.kind === "question") {
     const s = data.srs[item.qid];

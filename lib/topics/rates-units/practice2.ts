@@ -17,21 +17,22 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "rates-units-p3-q01",
         question:
-          "A drinks stall at a hawker centre makes bandung in a dispenser that holds 12 litres. Each cup holds 300 ml. How many cups can be filled from one full dispenser?",
-        answer: { type: "number", value: 40, display: "40 cups" },
+          "A 1.5 km charity walk along East Coast Park has a marker flag every 50 m, including one flag at the start and one at the finish. How many flags are there altogether?",
+        answer: { type: "number", value: 31, display: "31 flags" },
         traps: [
-          { spec: { type: "number", value: 4 }, feedback: "Check the conversion: 1 litre = 1000 ml, not 100 ml." },
-          { spec: { type: "number", value: 0.04 }, feedback: "You divided 12 by 300 without converting. Change 12 litres into millilitres first." },
+          { spec: { type: "number", value: 30 }, feedback: "30 is the number of 50 m **gaps**. There is a flag at both ends, so count again." },
+          { spec: { type: "number", value: 0.03 }, feedback: "You divided 1.5 by 50 without converting. Change 1.5 km into metres first." },
         ],
         solution: [
-          "The units don't match, so convert first: 12 litres = 12 × 1000 = 12 000 ml.",
-          "Number of cups = 12 000 ÷ 300 = 40.",
+          "Convert first: 1.5 km = 1.5 × 1000 = 1500 m.",
+          "Number of 50 m gaps = 1500 ÷ 50 = 30.",
+          "There is a flag at the start of every gap, plus one more at the finish: 30 + 1 = 31 flags.",
         ],
-        commonError: "Using 1 litre = 100 ml, which gives only 4 cups — far too few for a 12-litre dispenser.",
+        commonError: "Answering 30 — that counts the gaps, not the flags. Check with a small case: a 100 m route has 2 gaps but 3 flags.",
         difficulty: "warmup",
         guideRef: "metric-units",
-        hints: ["Make the units match first: how many millilitres are in 12 litres?"],
-        strategy: "Convert to the same unit",
+        hints: ["Change 1.5 km into metres.", "Try a small case: on a 100 m route with a flag every 50 m, how many flags are there?"],
+        strategy: "Try small cases",
       },
       // ------------------------------------------------------------- q02
       {
@@ -102,18 +103,18 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "rates-units-p3-q05",
         question:
-          "Zara walks to school at a steady 4 km/h. Her school is 1.2 km from home. How many minutes does her walk take?",
-        answer: { type: "number", value: 18, display: "18 minutes" },
+          "During a thunderstorm, Hana sees a flash of lightning and hears the thunder 6 seconds later. The light reaches her almost instantly, but sound travels at about 340 m/s. About how far away was the lightning? Give your answer in km.",
+        answer: { type: "number", value: 2.04, display: "2.04 km (about 2 km)" },
         traps: [
-          { spec: { type: "number", value: 0.3 }, feedback: "0.3 is the time in **hours**. The question asks for minutes, so multiply by 60." },
-          { spec: { type: "number", value: 30 }, feedback: "0.3 hours is not 30 minutes. An hour has 60 minutes: 0.3 × 60 = 18." },
+          { spec: { type: "number", value: 2040 }, feedback: "2040 is the distance in **metres**. The question asks for kilometres." },
+          { spec: { type: "number", value: 56.67, tolerance: 0.05 }, feedback: "Distance = speed × time, not speed ÷ time." },
         ],
-        solution: ["Time = distance ÷ speed = 1.2 ÷ 4 = 0.3 hours.", "0.3 h = 0.3 × 60 = 18 minutes."],
-        commonError: "Reading 0.3 h as 30 minutes.",
+        solution: ["Distance = speed × time = 340 × 6 = 2040 m.", "2040 m = 2040 ÷ 1000 = 2.04 km."],
+        commonError: "Leaving the answer in metres when km is asked for.",
         difficulty: "warmup",
         guideRef: "speed",
-        hints: ["Which version of the speed formula gives the time?", "Your first answer will be in hours. How do you change hours into minutes?"],
-        strategy: "Use the inverse",
+        hints: ["Which version of the speed formula gives the distance?", "Your first answer will be in metres. How do you change metres into km?"],
+        strategy: "Use the formula, then convert",
       },
       // ------------------------------------------------------------- q06
       {

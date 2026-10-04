@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ReviewView } from "@/components/ReviewView";
+import { topicSummaries } from "@/lib/server/content";
 
 // The due list comes from the learner's progress on the client.
 export const dynamic = "force-static";
@@ -10,5 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default function ReviewPage() {
-  return <ReviewView />;
+  // Only the ready topic ids go to the client (lesson links are offered for these).
+  return <ReviewView readyTopicIds={topicSummaries().filter((t) => t.ready).map((t) => t.id)} />;
 }
