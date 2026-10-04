@@ -8,8 +8,8 @@ export const extras: TopicExtras = {
     "A classic football is stitched from 32 panels — 12 pentagons and 20 hexagons — with 60 corners and 90 seams. Euler's formula checks out: {{60 + 32 - 90 = 2}}.",
     "Since 1964 the litre has been defined as exactly one cubic decimetre: a cube 10 cm along each edge. So 1 litre = 1000 cm³, and 1 ml is exactly 1 cm³.",
     "Double every length of a solid and its surface area becomes 4 times as big, but its volume 8 times as big. That is why a mouse loses heat much faster for its size than an elephant: it has far more skin for every cm³ of body.",
-    "In 1999 the mathematician Thomas Hales proved the *honeycomb conjecture*: to split a flat surface into cells of equal area using the least total wall length, regular hexagons are the best possible shape — exactly the shape bees build.",
-    "In 1635 Bonaventura Cavalieri published the idea that two solids with equal cross-sections at every height have equal volumes. Push a pile of coins into a leaning tower and its volume doesn't change — the same reason a parallelogram has the same area as a rectangle with the same base and height.",
+    "In 1999 the mathematician Thomas Hales proved the *honeycomb conjecture*: to split a flat surface into cells of equal area using the least total wall length, regular hexagons are the best possible shape — the same shape as the cells of a bees' honeycomb.",
+    "In 1635 Bonaventura Cavalieri published the idea that two solids whose cross-sections have equal areas at every height must have equal volumes. Push a pile of coins into a leaning tower and its volume doesn't change — the same reason a parallelogram has the same area as a rectangle with the same base and height.",
     "Archimedes was so proud of proving that a sphere fills exactly {{2/3}} of the cylinder that fits snugly around it that he asked for a sphere inside a cylinder to be carved on his tomb. Over 130 years later, the Roman writer Cicero found the overgrown tomb by spotting that carving.",
   ],
 
@@ -17,7 +17,7 @@ export const extras: TopicExtras = {
     {
       title: "The biggest box from one square",
       emoji: "📦",
-      materials: ["3–5 sheets of A4 paper or thin card", "Ruler and pencil", "Scissors", "Sticky tape", "Dry rice and a measuring jug (optional)"],
+      materials: ["6 sheets of A4 paper or thin card (one per box)", "Ruler and pencil", "Scissors", "Sticky tape", "Dry rice and a measuring jug (optional)"],
       steps: [
         "Cut a 20 cm × 20 cm square from a sheet of A4.",
         "Cut a 2 cm × 2 cm square from each corner. Fold up the four flaps and tape the corners to make an open box.",
@@ -64,6 +64,6 @@ export const extras: TopicExtras = {
   history: {
     title: "Liu Hui and the out-in principle",
     story:
-      "About 2000 years ago, a Chinese book called *The Nine Chapters on the Mathematical Art* collected rules for everyday problems. Its very first chapter is about measuring fields: rectangular fields, triangular 'pointed' fields and trapezium-shaped 'dustpan' fields. For a dustpan field the rule was: add the two parallel sides, halve the total and multiply by the height — our {{1/2 (a + b)h}}.\n\nThe book gave rules but no reasons. In AD 263 the mathematician Liu Hui wrote a commentary explaining *why* they work. His favourite tool was the **out-in complementary principle**: cut a shape into pieces, move the pieces somewhere else, and the total area stays the same. Cutting a triangle off a parallelogram and sliding it across to make a rectangle is exactly his idea.",
+      "About 2000 years ago, a Chinese book called *The Nine Chapters on the Mathematical Art* collected rules for everyday problems. Its very first chapter is about measuring fields: rectangular fields, triangular 'pointed' fields and trapezium-shaped 'dustpan' fields. For a dustpan field the rule was: add the two parallel sides, halve the total and multiply by the height — our {{1/2 (a + b)h}}.\n\nThe book gave rules but no reasons. In AD 263 the mathematician Liu Hui wrote a commentary explaining *why* they work. A key tool in his explanations was the **out-in complementary principle**: cut a shape into pieces, move the pieces somewhere else, and the total area stays the same. Cutting a triangle off a parallelogram and sliding it across to make a rectangle is exactly his idea.",
   },
 };

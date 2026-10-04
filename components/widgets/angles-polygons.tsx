@@ -764,8 +764,8 @@ function plural(n: number, regular: boolean): string {
   const s = polyName(n, regular);
   return s.endsWith("x") ? `${s}es` : `${s}s`;
 }
-/** "a" or "an" before a polygon name ("an equilateral triangle", "a regular 13-gon"; "n-gon" only ever follows "regular"). */
-const an = (s: string) => (/^[aeiou]/i.test(s) ? `an ${s}` : `a ${s}`);
+/** "A" or "An" before a polygon name ("An equilateral triangle", "A regular 13-gon"; "n-gon" only ever follows "regular"). */
+const An = (s: string) => (/^[aeiou]/i.test(s) ? `An ${s}` : `A ${s}`);
 
 /** Deterministic pseudo-random numbers (so render never calls Math.random). */
 function mulberry32(seed: number) {
@@ -934,7 +934,7 @@ function PolygonLab() {
         )}
       </>
     );
-    aria = `${an(name)} split into ${N - 2} triangles from one corner. Interior angles: ${intA.map((a) => `${Math.round(a)}`).join(", ")} degrees, adding to ${sum} degrees.`;
+    aria = `${An(name)} split into ${N - 2} triangle${N - 2 === 1 ? "" : "s"} from one corner. Interior angles: ${intA.map((a) => `${Math.round(a)}`).join(", ")} degrees, adding to ${sum} degrees.`;
   } else if (view === "exterior") {
     const s = sizePct / 100;
     const G = poly.centre;
@@ -978,7 +978,7 @@ function PolygonLab() {
     );
     readouts = (
       <>
-        <Readout label={regular ? "Each exterior angle" : "Exterior angles"} value={regular ? extEach.node : "all different"} tone="ink" />
+        <Readout label={regular ? "Each exterior angle" : "Exterior angles"} value={regular ? extEach.node : "not equal"} tone="ink" />
         <Readout label="Sum of exterior angles" value={regular ? "360°" : `${fmt(measuredExt, 1)}°`} />
         <Readout label="Interior + exterior" value="180°" tone="good" />
       </>
@@ -998,11 +998,11 @@ function PolygonLab() {
             Here each exterior angle is 360° ÷ {N} = {extEach.node}, so each interior angle is 180° − {extEach.node} = {intEach.node}.
           </>
         ) : (
-          <>Exterior angles of an irregular polygon are all different, but they still total 360°.</>
+          <>The exterior angles of an irregular polygon are not all equal, but they still total 360°.</>
         )}
       </>
     );
-    aria = `A ${name} at ${sizePct}% size with its ${N} exterior angles shaded: ${ext.map((a) => `${Math.round(a)}`).join(", ")} degrees, adding to 360 degrees.`;
+    aria = `${An(name)} at ${sizePct}% size with its ${N} exterior angles shaded: ${ext.map((a) => `${Math.round(a)}`).join(", ")} degrees, adding to 360 degrees.`;
     controls = <Slider label="Shape size" value={sizePct} min={0} max={100} onChange={setSizePct} format={(v) => `${v}%`} />;
   } else if (view === "symmetry") {
     const rp = regularPolygon(N, rot);
@@ -1010,7 +1010,10 @@ function PolygonLab() {
     const O = rp.centre;
     const step = 360 / N;
     const nearest = Math.round(rot / step);
-    const fits = Math.abs(rot - nearest * step) < 0.5;
+    // The slider moves in whole degrees, so a "fit" is the one slider value closest to an exact
+    // multiple of 360° ÷ N (e.g. 51° for 360° ÷ 7 = 51.43°, 23° for 22.5°).
+    const fitAt = (j: number) => Math.round(j * step);
+    const fits = fitAt(nearest) === rot;
     const pos = ((nearest % N) + N) % N;
     const axes: ReactNode[] = [];
     if (showLines) {
@@ -1032,9 +1035,14 @@ function PolygonLab() {
       </>
     );
     const nextFit = () => {
-      const k = Math.floor(rot / step + 1e-9) + 1;
-      const target = Math.round(k * step);
-      setRot(target > 360 || rot >= 360 ? Math.round(step) : target);
+      if (rot >= 360) {
+        setRot(fitAt(1));
+        return;
+      }
+      // the first fit strictly after the current turn (fitAt(N) = 360, so this always stops)
+      let j = Math.max(0, Math.floor(rot / step));
+      while (fitAt(j) <= rot) j++;
+      setRot(Math.min(360, fitAt(j)));
     };
     controls = (
       <div className="space-y-3">
@@ -1058,7 +1066,7 @@ function PolygonLab() {
     );
     caption = (
       <>
-        A {name} has <strong>{N} sides, {N} lines of symmetry and rotational symmetry of order {N}</strong>.{" "}
+        {An(name)} has <strong>{N} sides, {N} lines of symmetry and rotational symmetry of order {N}</strong>.{" "}
         {N % 2 === 1
           ? `With an odd number of sides, every line of symmetry runs from a corner to the middle of the opposite side.`
           : `With an even number of sides, half the lines join opposite corners and half join the middles of opposite sides.`}{" "}
@@ -1083,7 +1091,7 @@ function PolygonLab() {
         )}
       </>
     );
-    aria = `A ${name} turned ${rot} degrees about its centre, ${fits ? "fitting" : "not fitting"} its dashed outline, with ${showLines ? `${N} lines of symmetry drawn` : "lines of symmetry hidden"}.`;
+    aria = `${An(name)} turned ${rot} degrees about its centre, ${fits ? "fitting" : "not fitting"} its dashed outline, with ${showLines ? `${N} lines of symmetry drawn` : "lines of symmetry hidden"}.`;
   } else {
     // tiling: copies of the regular polygon around one shared corner
     const I = 180 - 360 / N;
@@ -1156,7 +1164,7 @@ function PolygonLab() {
         divide 360°. That leaves just three: triangles, squares and hexagons.
       </>
     );
-    aria = `${k} ${plural(N, true)} meeting at one corner. ${tiles ? "They fit exactly around the point." : `They leave a gap of ${gap.plain} degrees.`}`;
+    aria = `${k} ${plural(N, true)} meeting at one corner. ${tiles ? "They fit exactly around the point." : `They leave a gap of ${gap.plain.replace("≈", "about ").replace("°", " degrees")}.`}`;
   }
 
   return (

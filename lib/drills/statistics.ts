@@ -934,7 +934,7 @@ export const drills: Drill[] = [
         let question = "", ans = 0;
         let solution: string[] = [];
         const traps: Trap[] = [];
-        const readL = `${ctx.A}'s leaves are on the left. They read outwards from the stem, right to left, so the smallest leaf is next to the stem.`;
+        const readL = `The leaves for **${ctx.A}** are on the left. They read outwards from the stem, right to left, so the smallest leaf is next to the stem.`;
         if (q === "minL") {
           const row = left[0];
           ans = stems[0] * 10 + row[0];
@@ -953,14 +953,14 @@ export const drills: Drill[] = [
           const list = valsL.filter((v) => v > X);
           ans = list.length;
           question = `How many of the values for **${ctx.A}** are greater than ${X}?`;
-          solution = [readL, `${ctx.A}'s values greater than ${X}: ${list.join(", ")}.`, `That's ${ans} values (${X} itself is not greater than ${X}).`];
+          solution = [readL, `Values for ${ctx.A} greater than ${X}: ${list.join(", ")}.`, `That's ${ans} ${ans === 1 ? "value" : "values"} (${X} itself is not greater than ${X}).`];
           const wrong = valsL.filter((v) => v >= X).length;
           if (wrong !== ans) traps.push(numTrap(wrong, `"Greater than ${X}" does not include ${X} itself.`));
         } else {
           const list = valsR.filter((v) => v < X);
           ans = list.length;
           question = `How many of the values for **${ctx.B}** are less than ${X}?`;
-          solution = [`${ctx.B}'s leaves are on the right and read left to right as usual.`, `${ctx.B}'s values less than ${X}: ${list.join(", ")}.`, `That's ${ans} values (${X} itself is not less than ${X}).`];
+          solution = [`The leaves for **${ctx.B}** are on the right and read left to right as usual.`, `Values for ${ctx.B} less than ${X}: ${list.join(", ")}.`, `That's ${ans} ${ans === 1 ? "value" : "values"} (${X} itself is not less than ${X}).`];
           const wrong = valsR.filter((v) => v <= X).length;
           if (wrong !== ans) traps.push(numTrap(wrong, `"Less than ${X}" does not include ${X} itself.`));
         }
@@ -999,11 +999,14 @@ export const drills: Drill[] = [
         X = units[3];
       }
       const val = (u: number) => clean(u / ctx.sc);
+      // Show one-decimal data as 7.0, not 7, so every value reads like the key.
+      const show = (u: number) => (ctx.sc === 10 ? (u / 10).toFixed(1) : String(u));
       const n = units.length;
       const kS = stems[1], kL = leaves[1][0];
-      const key = `Key: ${kS} | ${kL} means ${num(val(kS * 10 + kL))} ${ctx.unit}`;
+      const key = `Key: ${kS} | ${kL} means ${show(kS * 10 + kL)} ${ctx.unit}`;
       const diagram = dataBlock(stems.map((s, j) => `${s} | ${leaves[j].join(" ")}`));
       let question = "", ans = 0;
+      let display: string | undefined;
       let solution: string[] = [];
       const traps: Trap[] = [];
       if (q === "count") {
@@ -1015,32 +1018,34 @@ export const drills: Drill[] = [
         const u = stems[nRows - 1] * 10 + last[last.length - 1];
         ans = val(u);
         question = "What is the largest value in the diagram?";
-        solution = [`The largest value is the last leaf on the bottom row: ${stems[nRows - 1]} | ${last[last.length - 1]}.`, `Using the key, that is ${num(ans)} ${ctx.unit}.`];
-        if (ctx.sc === 10) traps.push(numTrap(u, `Use the key: ${kS} | ${kL} means ${num(val(kS * 10 + kL))}, so the leaf is the tenths digit.`));
+        display = `${show(u)} ${ctx.unit}`;
+        solution = [`The largest value is the last leaf on the bottom row: ${stems[nRows - 1]} | ${last[last.length - 1]}.`, `Using the key, that is ${show(u)} ${ctx.unit}.`];
+        if (ctx.sc === 10) traps.push(numTrap(u, `Use the key: ${kS} | ${kL} means ${show(kS * 10 + kL)}, so the leaf is the tenths digit.`));
       } else if (q === "min") {
         const u = stems[0] * 10 + leaves[0][0];
         ans = val(u);
         question = "What is the smallest value in the diagram?";
-        solution = [`The smallest value is the first leaf on the top row: ${stems[0]} | ${leaves[0][0]}.`, `Using the key, that is ${num(ans)} ${ctx.unit}.`];
-        if (ctx.sc === 10) traps.push(numTrap(u, `Use the key: ${kS} | ${kL} means ${num(val(kS * 10 + kL))}, so the leaf is the tenths digit.`));
+        display = `${show(u)} ${ctx.unit}`;
+        solution = [`The smallest value is the first leaf on the top row: ${stems[0]} | ${leaves[0][0]}.`, `Using the key, that is ${show(u)} ${ctx.unit}.`];
+        if (ctx.sc === 10) traps.push(numTrap(u, `Use the key: ${kS} | ${kL} means ${show(kS * 10 + kL)}, so the leaf is the tenths digit.`));
       } else if (q === "gt") {
         const list = units.filter((u) => u > X);
         ans = list.length;
-        question = `How many of the values are greater than ${num(val(X))} ${ctx.unit}?`;
-        solution = [`Values greater than ${num(val(X))}: ${list.map((u) => num(val(u))).join(", ")}.`, `That's ${ans} values. ${num(val(X))} itself is not included, because "greater than" means strictly more.`];
+        question = `How many of the values are greater than ${show(X)} ${ctx.unit}?`;
+        solution = [`Values greater than ${show(X)}: ${list.map(show).join(", ")}.`, `That's ${ans} values. ${show(X)} itself is not included, because "greater than" means strictly more.`];
         const wrong = units.filter((u) => u >= X).length;
-        if (wrong !== ans) traps.push(numTrap(wrong, `"Greater than ${num(val(X))}" does not include ${num(val(X))} itself.`));
+        if (wrong !== ans) traps.push(numTrap(wrong, `"Greater than ${show(X)}" does not include ${show(X)} itself.`));
       } else {
         const list = units.filter((u) => u < X);
         ans = list.length;
-        question = `How many of the values are less than ${num(val(X))} ${ctx.unit}?`;
-        solution = [`Values less than ${num(val(X))}: ${list.map((u) => num(val(u))).join(", ")}.`, `That's ${ans} values. ${num(val(X))} itself is not included, because "less than" means strictly less.`];
+        question = `How many of the values are less than ${show(X)} ${ctx.unit}?`;
+        solution = [`Values less than ${show(X)}: ${list.map(show).join(", ")}.`, `That's ${ans} values. ${show(X)} itself is not included, because "less than" means strictly less.`];
         const wrong = units.filter((u) => u <= X).length;
-        if (wrong !== ans) traps.push(numTrap(wrong, `"Less than ${num(val(X))}" does not include ${num(val(X))} itself.`));
+        if (wrong !== ans) traps.push(numTrap(wrong, `"Less than ${show(X)}" does not include ${show(X)} itself.`));
       }
       return {
         prompt: `${ctx.intro(q === "count" ? "some" : String(n))}\n\n${diagram}\n\n${key}\n\n${question}`,
-        answer: { type: "number", value: ans },
+        answer: display ? { type: "number", value: ans, display } : { type: "number", value: ans },
         solution,
         hint: "Use the key to turn each stem and leaf into a value. The leaves are in order, smallest first.",
         traps,

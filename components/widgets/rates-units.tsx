@@ -49,11 +49,22 @@ function terminatesIn(q: Q, maxDp: number): number | null {
   return null;
 }
 
+/**
+ * A non-negative fraction written with exactly dp decimal places, using whole-number
+ * arithmetic only (no floating-point drift): "round" = round half up, "floor" = cut off.
+ */
+function fixedQ(q: Q, dp: number, mode: "round" | "floor"): string {
+  const scale = 10 ** dp;
+  const r = mode === "round" ? Math.floor((2 * q.n * scale + q.d) / (2 * q.d)) : Math.floor((q.n * scale) / q.d);
+  const whole = Math.floor(r / scale);
+  return dp ? `${whole}.${String(r % scale).padStart(dp, "0")}` : String(whole);
+}
+
 /** Exact decimal when it terminates within maxDp places, otherwise "≈" + rounded. */
 function decText(q: Q, maxDp = 2, approxDp = 2): string {
   const dp = terminatesIn(q, maxDp);
-  if (dp !== null) return (q.n / q.d).toFixed(dp);
-  return `≈ ${(q.n / q.d).toFixed(approxDp)}`;
+  if (dp !== null) return fixedQ(q, dp, "floor");
+  return `≈ ${fixedQ(q, approxDp, "round")}`;
 }
 
 /** "= 48" for an exact value, "≈ 13.33" for a rounded one. */
@@ -551,13 +562,15 @@ function durationText(minutes: Q): string {
 const wholeHours = (minutes: Q) => minutes.d === 1 && minutes.n % 60 === 0;
 
 /**
- * Hours as an exact decimal (≤ 3 d.p.), an exact fraction / mixed number when
- * the denominator is friendly, otherwise a decimal cut off at 4 d.p. with "…".
+ * Hours as an exact decimal (≤ 4 d.p.), an exact fraction / mixed number when
+ * the denominator is friendly, otherwise a decimal cut off at 4 d.p. with "…"
+ * (the "…" only appears when more digits really follow).
  */
 function Hours({ q }: { q: Q }) {
-  if (terminatesIn(q, 3) !== null) return <>{decText(q, 3)}</>;
+  const dp = terminatesIn(q, 4);
+  if (dp !== null) return <>{fixedQ(q, dp, "floor")}</>;
   if (q.d <= 60) return <M>{fracMarkup(q)}</M>;
-  return <>{(Math.floor(valQ(q) * 10000) / 10000).toFixed(4)}…</>;
+  return <>{fixedQ(q, 4, "floor")}…</>;
 }
 
 /** 24-hour clock time from minutes after midnight on the start day. */
@@ -834,7 +847,15 @@ function JourneyLab() {
               Average speed = total distance ÷ total time = {D} ÷ <Hours q={Th} /> {eq(avgText)} km/h
             </li>
             <li>
-              In m/s: {avgText.replace("≈ ", "")} ÷ 3.6 {eq(msText)} m/s (because 1 km/h = 1000 m ÷ 3600 s)
+              In m/s:{" "}
+              {avgText.startsWith("≈") ? (
+                <>
+                  the unrounded average{avg.d <= 60 ? <> (<M>{fracMarkup(avg)}</M>)</> : null}
+                </>
+              ) : (
+                avgText
+              )}{" "}
+              ÷ 3.6 {eq(msText)} m/s (because 1 km/h = 1000 m ÷ 3600 s)
             </li>
           </ol>
         </div>

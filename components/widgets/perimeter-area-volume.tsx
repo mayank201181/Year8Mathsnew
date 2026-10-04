@@ -197,7 +197,7 @@ function AreaRearrange() {
         </>
       ) : (
         <>
-          The dashed line is the <strong>perpendicular height</strong> — it meets the base at 90°. The slanted side is {isWhole(slantLen) ? "" : "about "}{num(slantLen)} cm, but that is <em>not</em> the height. Press <strong>Cut &amp; slide</strong>: the orange triangle moves {b} cm to the right. What shape appears?
+          The dashed line is the <strong>perpendicular height</strong> — it meets the base at 90°. The slanted side is {isWhole(slantLen) ? "" : "about "}{num(slantLen)} cm, but that is <em>not</em> the height. Press <strong>Cut &amp; slide</strong>: the triangle to the left of the dashed line moves {b} cm to the right. What shape appears?
         </>
       );
   } else if (shape === "triangle") {
@@ -257,6 +257,9 @@ function AreaRearrange() {
         />
 
         <svg viewBox={`0 0 ${W1} ${H1}`} className="h-auto w-full" role="img" aria-label={aria}>
+          <text x={6} y={16} fontSize={11} className="fill-ink-2">
+            Each grid square is 1 cm by 1 cm
+          </text>
           <g aria-hidden>
             {gridXs.map((i) => (
               <line key={`gx${i}`} x1={px(i)} x2={px(i)} y1={py(HMAX)} y2={py(0)} className="stroke-line" strokeWidth={1} />
@@ -293,7 +296,7 @@ function AreaRearrange() {
         </svg>
 
         <div className="flex flex-wrap items-center gap-3">
-          <button type="button" className="btn btn-primary" onClick={() => setDone((d) => !d)} aria-pressed={done}>
+          <button type="button" className="btn btn-primary" onClick={() => setDone((d) => !d)} disabled={shape === "parallelogram" && slant === 0 && !done}>
             {buttonText}
           </button>
           <div className="grid flex-1 grid-cols-2 gap-2">
@@ -521,7 +524,7 @@ function BoxBuilder() {
     faces.push(rectFace("bottom", 0, 0, l, w, "fill-brand-soft", un));
     // the sloping face is l by s (s is usually not a whole number, so its label is rounded)
     const slope = rectFace("slope", 0, w, l, s, "fill-info-soft", un, true);
-    if (slope.text.length === 2) slope.text = [`${l} × ${isWhole(s) ? num(s) : `${s.toFixed(1)}…`}`, slope.text[1]];
+    if (slope.text.length === 2) slope.text = [isWhole(s) ? `${l} × ${num(s)}` : `≈ ${l} × ${s.toFixed(1)}`, slope.text[1]];
     faces.push(slope);
     const triText = w * un >= 28 && h * un >= 28 ? [num((w * h) / 2)] : [];
     faces.push({ key: "triL", pts: [[0, 0], [0, w], [-h, 0]], cls: "fill-good-soft", text: triText, at: [-h / 3, w / 3] });
@@ -660,7 +663,7 @@ function BoxBuilder() {
               </button>
             </div>
             <p className={`mt-2 text-sm font-semibold ${V === target ? "text-good" : "text-ink-2"}`}>
-              {V === target ? `✓ Your ${l} × ${w} × ${h} box has volume ${target} cm³.` : `Your box: ${num(V)} cm³ (target ${target} cm³).`} Boxes found: {foundList.length} of {reachable} possible with these sliders.
+              {V === target ? `✓ Your ${l} × ${w} × ${h} box has volume ${target} cm³.` : `Your box: ${num(V)} cm³ (target ${target} cm³).`} Boxes found: {foundList.length} of {reachable} that these steppers can make.
             </p>
             {foundList.length ? (
               <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Boxes found so far">

@@ -1326,13 +1326,15 @@ export const drills: Drill[] = [
           if (inH.has(x) || !orig.some(([, f]) => f.some(([y]) => y === x))) continue;
           traps.push(etrap(mono(H.c, [...H.f, [x, 1]]), `${M(x)} is not in both terms, so it is not part of the HCF.`));
         }
-        const pf = [2, 3, 5, 7].find((p) => H.c % p === 0 && H.c > p);
-        if (pf) {
-          const smaller = mono(H.c / pf, H.f);
-          traps.push({
-            spec: numberOnly ? { type: "text", accept: [smaller] } : { type: "expression", expr: smaller },
-            feedback: `That is a common factor, but not the highest — ${H.c} also divides both numbers.`,
-          });
+        const notHighest = `That is a common factor, but not the highest — ${H.c} also divides both numbers.`;
+        if (numberOnly) {
+          // Any smaller factor of the HCF (including 1) is a common factor, just not the highest.
+          const smaller: string[] = [];
+          for (let k = H.c - 1; k >= 1; k--) if (H.c % k === 0) smaller.push(String(k));
+          traps.push({ spec: { type: "text", accept: smaller }, feedback: notHighest });
+        } else {
+          const pf = [2, 3, 5, 7].find((p) => H.c % p === 0 && H.c > p);
+          if (pf) traps.push(etrap(mono(H.c / pf, H.f), notHighest));
         }
         if (H.f.length) traps.push(etrap(String(H.c), `Both terms also contain ${M(mono(1, H.f))} — include the letters in the HCF.`));
         return {
