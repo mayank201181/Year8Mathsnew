@@ -313,7 +313,7 @@ function BracketGrid() {
 
   /* ---------------- render ---------------- */
   const tryThis = [
-    "Set up {{-2(3x - 5)}}. Predict both cells before you look — which sign do people usually get wrong?",
+    "Set up {{-4(2x - 3)}}. Predict both cells before you look — which sign do people usually get wrong?",
     "Put an x outside the bracket. Where does the {{x^2}} term come from?",
     "Factorise mode: find two different factors that work for {{12x - 18}}. Which one makes it *fully* factorised?",
     "Can you fully factorise all 12? For {{-4x - 10}}, try taking out a negative number.",
@@ -328,7 +328,16 @@ function BracketGrid() {
           <M>{`${termMk(outT)} * ${wrapNeg(termMk(inT[0]))} = ${termMk(prods[0])}`}</M> and{" "}
           <M>{`${termMk(outT)} * ${wrapNeg(termMk(inT[1]))} = ${termMk(prods[1])}`}</M>.
         </p>
-        {a < 0 ? <p>A negative outside flips the sign of every term inside. The last term is the classic slip: negative × negative is positive.</p> : null}
+        {a < 0 ? (
+          <p>
+            A negative outside flips the sign of every term inside.{" "}
+            {b < 0 && c < 0
+              ? "Both terms inside are negative, so both answers come out positive: negative × negative is positive. That's the classic slip."
+              : b < 0 || c < 0
+                ? "The negative term inside becomes positive: negative × negative is positive. That's the classic slip."
+                : "Both terms inside are positive, so both answers come out negative."}
+          </p>
+        ) : null}
         {outT.p === 1 ? (
           <p>
             <M>{"x * x = x^2"}</M>: when you multiply powers of x you add the indices, so the x outside raises every power by one.
@@ -423,7 +432,7 @@ function BracketGrid() {
               </div>
               <div className="space-y-2 rounded-xl border border-line p-3">
                 <p className="text-sm font-bold text-ink-2">Inside the bracket</p>
-                <Stepper label="Number of x's" value={b} min={-6} max={6} onChange={(v) => setB(skipZero(b, v))} format={signed} />
+                <Stepper label="Coefficient of x" value={b} min={-6} max={6} onChange={(v) => setB(skipZero(b, v))} format={signed} />
                 <Stepper label="Constant" value={c} min={-9} max={9} onChange={(v) => setC(skipZero(c, v))} format={signed} />
               </div>
             </div>
@@ -449,7 +458,13 @@ function BracketGrid() {
           <>
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-2 p-3">
               <div className="text-xl font-extrabold text-ink" aria-live="polite">
-                {chk.valid && !chk.trivial ? <M>{`${targetMk} = ${frontMk(factor)}(${polyMk(chk.inside)})`}</M> : <>Factorise <M>{targetMk}</M></>}
+                {chk.valid && !chk.trivial ? (
+                  <MathChain parts={[targetMk, `= ${frontMk(factor)}(${polyMk(chk.inside)})`]} />
+                ) : (
+                  <>
+                    Factorise <M>{targetMk}</M>
+                  </>
+                )}
               </div>
               <button type="button" className="btn btn-secondary" onClick={nextTarget}>
                 Next expression ›
@@ -475,7 +490,7 @@ function BracketGrid() {
                   ) : chk.problems[i] === "letter" ? (
                     <span className="text-bad">{t.p === 0 ? "no x here" : `only x${t.p > 1 ? SUP[t.p] : ""} here`}</span>
                   ) : (
-                    <M>{`${termMk(t)} ÷ ${wrapNeg(termMk(factor))} = ${termMk(chk.inside[i])}`}</M>
+                    <MathChain parts={[termMk(t), `÷ ${wrapNeg(termMk(factor))}`, `= ${termMk(chk.inside[i])}`]} />
                   ),
                 tone: (t.c < 0 ? "neg" : "pos") as Tone,
               }))}
