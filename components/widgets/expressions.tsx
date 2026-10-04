@@ -40,6 +40,25 @@ function sumMk(parts: string[]): string {
   return parts.map((s, i) => (i === 0 ? s : s.startsWith("-") ? ` - ${s.slice(1)}` : ` + ${s}`)).join("");
 }
 
+/**
+ * A long maths line split into pieces (e.g. at each "=") with spaces between,
+ * so it can wrap on a phone — a single maths span never line-breaks.
+ */
+function MathChain({ parts }: { parts: string[] }) {
+  return (
+    <>
+      {parts.map((p, i) => (
+        <Fragment key={i}>
+          {i > 0 ? " " : null}
+          <span className="inline-block">
+            <M>{p}</M>
+          </span>
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
 /* ------------------------------------------------------------------------ */
 /* 1. Bracket grid                                                           */
 /* ------------------------------------------------------------------------ */
@@ -240,11 +259,13 @@ function BracketGrid() {
   const leftVal = outVal * brVal;
   const rightVals = prods.map((t) => valueOf(t, xv));
   const rightVal = rightVals.reduce((s, v) => s + v, 0);
-  const leftMk =
-    outT.p === 0
-      ? `${a} * (${sumMk([subMk(b, 1, xv), String(c)])}) = ${a} * ${pn(brVal)} = ${leftVal}`
-      : `${subMk(a, 1, xv)} * (${sumMk([subMk(b, 1, xv), String(c)])}) = ${outVal} * ${pn(brVal)} = ${leftVal}`;
-  const rightMk = `${sumMk(prods.map((t) => subMk(t.c, t.p, xv)))} = ${sumMk(rightVals.map(String))} = ${rightVal}`;
+  // Each chain is split at its "=" signs so it can wrap on a narrow (360 px) screen.
+  const leftMk = [
+    `${outT.p === 0 ? String(a) : subMk(a, 1, xv)} * (${sumMk([subMk(b, 1, xv), String(c)])})`,
+    `= ${outVal} * ${pn(brVal)}`,
+    `= ${leftVal}`,
+  ];
+  const rightMk = [sumMk(prods.map((t) => subMk(t.c, t.p, xv))), `= ${sumMk(rightVals.map(String))}`, `= ${rightVal}`];
 
   /* ---------------- factorise ---------------- */
   const terms = TARGETS[ti];
@@ -364,7 +385,7 @@ function BracketGrid() {
         {mode === "expand" ? (
           <>
             <div className="rounded-xl bg-surface-2 p-3 text-center text-xl font-extrabold text-ink" aria-live="polite">
-              <M>{`${bracketMk} = ${expandedMk}`}</M>
+              <MathChain parts={[bracketMk, `= ${expandedMk}`]} />
             </div>
 
             <GridTable
@@ -412,11 +433,11 @@ function BracketGrid() {
               <div className="space-y-1 text-sm">
                 <p>
                   <span className="font-bold text-ink-2">Bracket: </span>
-                  <M>{leftMk}</M>
+                  <MathChain parts={leftMk} />
                 </p>
                 <p>
                   <span className="font-bold text-ink-2">Expanded: </span>
-                  <M>{rightMk}</M>
+                  <MathChain parts={rightMk} />
                 </p>
                 <p className={`font-bold ${leftVal === rightVal ? "text-good" : "text-bad"}`}>
                   {leftVal === rightVal ? `✓ Both give ${intTx(leftVal)} when x = ${signed(xv)}.` : "✗ The two forms disagree."}

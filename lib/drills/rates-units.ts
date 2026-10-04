@@ -584,7 +584,7 @@ function imperialOther(rng: Rng): DrillItem {
     const c = rng.int(10, 180);
     const ans = clean((c * 2) / 5);
     return {
-      prompt: `${nm} is measuring things for a UK website. A shelf is ${c} cm long. Use 1 inch ≈ 2.5 cm to estimate this in inches.`,
+      prompt: `${nm} is selling a shelf on a UK website. The shelf is ${c} cm long. Use 1 inch ≈ 2.5 cm to estimate its length in inches.`,
       answer: numAns(ans, "inches"),
       solution: ["1 inch ≈ 2.5 cm, so divide by 2.5.", `${c} ÷ 2.5 = ${num(ans)} inches`],
       hint: "Inches are bigger than centimetres, so expect a smaller number.",
@@ -606,7 +606,7 @@ function imperialOther(rng: Rng): DrillItem {
     const lb = rng.int(1, 20) * 11;
     const ans = (lb * 5) / 11;
     return {
-      prompt: `A recipe from the USA uses a ${lb} lb sack of flour for a bakery. Use 1 kg ≈ 2.2 lb to estimate its mass in kilograms.`,
+      prompt: `A bakery in the USA buys a ${lb} lb sack of flour. Use 1 kg ≈ 2.2 lb to estimate its mass in kilograms.`,
       answer: numAns(ans, "kg"),
       solution: ["1 kg ≈ 2.2 lb, so divide by 2.2.", `${lb} ÷ 2.2 = ${num(ans)} kg`],
       hint: "There are more pounds than kilograms in the same mass.",
@@ -661,20 +661,24 @@ function imperialOther(rng: Rng): DrillItem {
 // ---------------------------------------------------------------------------
 
 interface DurCtx {
+  /** Allowed durations (minutes). */
   lo: number;
   hi: number;
+  /** Allowed start times (minutes after midnight). */
+  from: number;
+  to: number;
   text: (a: string, b: string, nm: string) => string;
 }
 
 const DAY_CTX: DurCtx[] = [
-  { lo: 20, hi: 120, text: (a, b) => `A bus leaves the interchange at ${a} and reaches the last stop at ${b}. How long is the journey?` },
-  { lo: 75, hi: 200, text: (a, b) => `A film starts at ${a} and finishes at ${b}. How long is the film?` },
-  { lo: 45, hi: 180, text: (a, b, nm) => `${nm}'s CCA training starts at ${a} and ends at ${b}. How long does it last?` },
-  { lo: 150, hi: 400, text: (a, b) => `A school trip to Sentosa leaves at ${a} and gets back at ${b}. How long is the trip?` },
-  { lo: 240, hi: 400, text: (a, b) => `A coach leaves Singapore at ${a} and arrives in Kuala Lumpur at ${b}. How long is the journey?` },
+  { lo: 20, hi: 120, from: 360, to: 1260, text: (a, b) => `A bus leaves the interchange at ${a} and reaches the last stop at ${b}. How long is the journey?` },
+  { lo: 75, hi: 200, from: 600, to: 1230, text: (a, b) => `A film starts at ${a} and finishes at ${b}. How long is the film?` },
+  { lo: 45, hi: 180, from: 420, to: 1020, text: (a, b, nm) => `${nm}'s CCA training starts at ${a} and ends at ${b}. How long does it last?` },
+  { lo: 150, hi: 400, from: 420, to: 840, text: (a, b) => `A school trip to Sentosa leaves at ${a} and gets back at ${b}. How long is the trip?` },
+  { lo: 240, hi: 400, from: 360, to: 960, text: (a, b) => `A coach leaves Singapore at ${a} and arrives in Kuala Lumpur at ${b}. How long is the journey?` },
 ];
 
-const NIGHT_CTX: DurCtx[] = [
+const NIGHT_CTX: Array<Pick<DurCtx, "lo" | "hi" | "text">> = [
   { lo: 300, hi: 420, text: (a, b) => `An overnight coach leaves Singapore at ${a} and arrives in Kuala Lumpur at ${b} the next morning. How long is the journey?` },
   { lo: 120, hi: 330, text: (a, b) => `A New Year's Eve party starts at ${a} and ends at ${b} the next morning. How long does it last?` },
   { lo: 60, hi: 240, text: (a, b) => `A stargazing session starts at ${a} and ends at ${b} the next morning. How long does it last?` },
@@ -686,19 +690,34 @@ const TWELVE_CTX = [
   (a: string, b: string) => `A school open day runs from ${a} to ${b}. How long is it?`,
 ];
 
+interface WrongDuration {
+  /** The wrong answer in minutes (NaN = none). */
+  min: number;
+  /** The wrong answer as typed in hours and minutes, if it is not simply min split into h and min. */
+  hm?: [number, number];
+  fb: string;
+}
+
 /** Answer + traps for a duration, asked either in minutes or in hours and minutes. */
-function durationAnswer(rng: Rng, d: number, wrong: Array<[number, string]>): { suffix: string; answer: AnswerSpec; traps: Trap[] } {
+function durationAnswer(rng: Rng, d: number, wrong: WrongDuration[]): { suffix: string; answer: AnswerSpec; traps: Trap[]; inMinutes: boolean } {
   const asHm = d >= 60 && d % 60 !== 0 && rng.bool();
   if (asHm) {
     const tr: Trap[] = [];
-    for (const [w, fb] of wrong) {
-      if (!Number.isInteger(w) || w <= 0 || w === d) continue;
-      const wh = Math.floor(w / 60), wm = w % 60;
-      tr.push({ spec: { type: "list", values: [wh, wm], ordered: true }, feedback: fb });
+    for (const w of wrong) {
+      if (!Number.isInteger(w.min) || w.min <= 0 || w.min === d) continue;
+      const pair = w.hm ?? [Math.floor(w.min / 60), w.min % 60];
+      if (pair[1] === 0 || (pair[0] === Math.floor(d / 60) && pair[1] === d % 60)) continue;
+      tr.push({ spec: { type: "list", values: pair, ordered: true }, feedback: w.fb });
     }
-    return { suffix: " Give your answer in hours and minutes, e.g. 2 h 5 min.", answer: hmAns(d), traps: tr };
+    return { suffix: " Give your answer in hours and minutes, e.g. 2 h 5 min.", answer: hmAns(d), traps: tr, inMinutes: false };
   }
-  return { suffix: " Give your answer in minutes.", answer: numAns(d, "minutes"), traps: numTraps(d, wrong) };
+  return { suffix: " Give your answer in minutes.", answer: numAns(d, "minutes"), traps: numTraps(d, wrong.map((w) => [w.min, w.fb] as [number, string])), inMinutes: true };
+}
+
+/** "Total: 2 h 35 min = 155 minutes." */
+function durationTotal(d: number, inMinutes: boolean): string {
+  if (d < 60) return `Total: ${d} minutes.`;
+  return `Total: ${hm(d)}${inMinutes ? ` = ${d} minutes` : ""}.`;
 }
 
 function durationItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
@@ -758,13 +777,13 @@ function durationItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     );
     const e = o.s + o.d;
     const ctx = rng.pick(NIGHT_CTX.filter((c) => o.d >= c.lo && o.d <= c.hi));
-    const a = durationAnswer(rng, o.d, [[1440 - o.d, "That's the time from the end back to the start. Count forwards from the start time, through midnight."]]);
+    const a = durationAnswer(rng, o.d, [{ min: 1440 - o.d, fb: "That's the time from the end back to the start. Count forwards from the start time, through midnight." }]);
     return {
       prompt: ctx.text(clock(o.s), clock(e), nm) + a.suffix,
       answer: a.answer,
       solution: [
         `Split the time at midnight: ${clock(o.s)} → 00:00 is ${hm(1440 - o.s)}, and 00:00 → ${clock(e)} is ${hm(e - 1440)}.`,
-        `Total: ${hm(1440 - o.s)} + ${hm(e - 1440)} = ${hm(o.d)}${a.answer.type === "number" ? ` = ${o.d} minutes` : ""}.`,
+        `Total: ${hm(1440 - o.s)} + ${hm(e - 1440)} = ${hm(o.d)}${a.inMinutes ? ` = ${o.d} minutes` : ""}.`,
       ],
       hint: "Find the time up to midnight (00:00), then the time after midnight, and add.",
       traps: a.traps,
@@ -779,36 +798,46 @@ function durationItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     );
     const d = o.e - o.s;
     const wrong = o.e >= 780 ? o.s - (o.e - 720) : NaN;
-    const a = durationAnswer(rng, d, [[wrong, `Change ${clock12(o.e)} to 24-hour time (${clock(o.e)}) first, then count on from the start.`]]);
+    const a = durationAnswer(rng, d, [{ min: wrong, fb: `Change ${clock12(o.e)} to 24-hour time (${clock(o.e)}) first, then count on from the start.` }]);
     return {
       prompt: rng.pick(TWELVE_CTX)(clock12(o.s), clock12(o.e), nm) + a.suffix,
       answer: a.answer,
       solution: [
         `In 24-hour time: ${clock12(o.s)} = ${clock(o.s)} and ${clock12(o.e)} = ${clock(o.e)}.`,
         countOn(o.s, o.e),
-        `Total: ${hm(d)}${a.answer.type === "number" ? ` = ${d} minutes` : ""}.`,
+        durationTotal(d, a.inMinutes),
       ],
       hint: "Change both times to the 24-hour clock, then count on.",
       traps: a.traps,
     };
   }
 
-  // Same day, 24-hour clock.
+  // Same day, 24-hour clock. Pick the context first so the times suit it.
+  const dLo = tier === 1 ? 35 : 25, dHi = tier === 1 ? 200 : 330;
+  const ctx = rng.pick(DAY_CTX.filter((c) => Math.max(c.lo, dLo) <= Math.min(c.hi, dHi)));
+  const lo = Math.max(ctx.lo, dLo), hi = Math.min(ctx.hi, dHi);
   const o = find(
-    () => (tier === 1 ? { s: rng.int(72, 216) * 5, d: rng.int(7, 40) * 5 } : { s: rng.int(360, 1150), d: rng.int(25, 330) }),
+    () =>
+      tier === 1
+        ? { s: rng.int(ctx.from / 5, ctx.to / 5) * 5, d: rng.int(Math.ceil(lo / 5), Math.floor(hi / 5)) * 5 }
+        : { s: rng.int(ctx.from, ctx.to), d: rng.int(lo, hi) },
     (z) => z.s + z.d <= 1435 && z.d % 60 !== 0,
-    { s: 875, d: 155 },
+    { s: ctx.from, d: lo % 60 === 0 ? lo + 5 : lo },
   );
   const e = o.s + o.d;
-  const ctx = rng.pick(DAY_CTX.filter((c) => o.d >= c.lo && o.d <= c.hi));
   const borrow = e % 60 < o.s % 60;
+  // Subtracting clock times like ordinary numbers, e.g. 18:20 − 15:45 → "2 h 75 min".
   const a = durationAnswer(rng, o.d, [
-    [borrow ? o.d + 40 : NaN, "It looks like you subtracted the times like ordinary numbers. There are 60 minutes in an hour, not 100. Count on to the next whole hour instead."],
+    {
+      min: borrow ? o.d + 40 : NaN,
+      hm: [Math.floor(o.d / 60), (o.d % 60) + 40],
+      fb: "It looks like you subtracted the times like ordinary numbers. There are 60 minutes in an hour, not 100. Count on to the next whole hour instead.",
+    },
   ]);
   return {
     prompt: ctx.text(clock(o.s), clock(e), nm) + a.suffix,
     answer: a.answer,
-    solution: [countOn(o.s, e), `Total: ${hm(o.d)}${a.answer.type === "number" ? ` = ${o.d} minutes` : ""}.`],
+    solution: [countOn(o.s, e), durationTotal(o.d, a.inMinutes)],
     hint: "Count on from the start time to the next whole hour, then to the end time.",
     traps: a.traps,
   };
@@ -1119,10 +1148,26 @@ function sdtItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
 // 8. km/h ↔ m/s
 // ---------------------------------------------------------------------------
 
-const KMH_THINGS = ["A cyclist", "A bus", "A train", "A car", "A cheetah", "A ferry", "A runner"];
+/** Things that move, with a realistic speed range in km/h. */
+const SPEEDSTERS = [
+  { who: "A runner", lo: 8, hi: 22 },
+  { who: "A cyclist", lo: 12, hi: 45 },
+  { who: "A bus", lo: 20, hi: 70 },
+  { who: "A car", lo: 30, hi: 120 },
+  { who: "A train", lo: 40, hi: 160 },
+  { who: "A cheetah", lo: 60, hi: 110 },
+  { who: "A ferry", lo: 20, hi: 60 },
+  { who: "A high-speed train", lo: 160, hi: 320 },
+  { who: "A lift in a tall building", lo: 3, hi: 30 },
+];
+
+/** A sentence opener for something moving at kmh km/h, or null if nothing realistic fits. */
+function moverAt(rng: Rng, kmh: number): string | null {
+  const fits = SPEEDSTERS.filter((t) => kmh >= t.lo && kmh <= t.hi);
+  return fits.length ? rng.pick(fits).who : null;
+}
 
 function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
-  const thing = rng.pick(KMH_THINGS);
   const toMsSteps = (kmh: number, v: string) => [
     "1 km = 1000 m and 1 hour = 3600 seconds.",
     `${num(kmh)} km/h means ${show(kmh * 1000)} m in 3600 s.`,
@@ -1138,8 +1183,9 @@ function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     if (kind === "round") {
       const kmh = find(() => rng.int(10, 200), (x) => x % 9 !== 0, 100);
       const v = roundTo((kmh * 5) / 18, 1);
+      const who = moverAt(rng, kmh);
       return {
-        prompt: `${thing} travels at ${kmh} km/h. Write this speed in m/s. Give your answer correct to 1 decimal place.`,
+        prompt: `${who ? `${who} travels at ${kmh} km/h. Write this speed in m/s.` : `Convert ${kmh} km/h to m/s.`} Give your answer correct to 1 decimal place.`,
         answer: numAns(v, "m/s", true),
         solution: toMsSteps(kmh, `${trunc4((kmh * 5) / 18)}…`).concat([`≈ ${num(v)} m/s (1 d.p.)`]),
         hint: "Change km to m (× 1000) and hours to seconds (÷ 3600).",
@@ -1150,30 +1196,41 @@ function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       };
     }
     if (kind === "compare") {
+      const pair = rng.pick([
+        { a: "car", aText: "A car on the expressway travels at", jLo: 3, jHi: 5, b: "cheetah", bText: "A cheetah can sprint at", bLo: 18, bHi: 31 },
+        { a: "cyclist", aText: "A cyclist rides at", jLo: 1, jHi: 2, b: "runner", bText: "A runner sprints at", bLo: 3, bHi: 9 },
+        { a: "train", aText: "A train travels at", jLo: 3, jHi: 8, b: "racing car", bText: "A racing car on a test track reaches", bLo: 30, bHi: 70 },
+      ]);
       const o = find(
-        () => ({ kmh: rng.int(2, 7) * 18, ms: rng.int(10, 35) }),
-        (z) => z.kmh / 3.6 !== z.ms && Math.abs((z.kmh * 5) / 18 - z.ms) <= 15,
-        { kmh: 90, ms: 30 },
+        () => ({ kmh: rng.int(pair.jLo, pair.jHi) * 18, ms: rng.int(pair.bLo, pair.bHi) }),
+        (z) => (z.kmh * 5) / 18 !== z.ms && Math.abs((z.kmh * 5) / 18 - z.ms) <= 20,
+        pair.a === "car" ? { kmh: 90, ms: 28 } : pair.a === "cyclist" ? { kmh: 36, ms: 7 } : { kmh: 108, ms: 40 },
       );
       const a = (o.kmh * 5) / 18;
       const diff = Math.abs(a - o.ms);
-      const carFaster = a > o.ms;
+      const faster = a > o.ms ? pair.a : pair.b;
       return {
-        prompt: `A car on the expressway travels at ${o.kmh} km/h. A cheetah can sprint at ${o.ms} m/s. Which is faster, and by how many metres per second? Give the difference in m/s.`,
-        answer: { type: "number", value: diff, display: `${num(diff)} m/s (the ${carFaster ? "car" : "cheetah"} is faster)` },
+        prompt: `${pair.aText} ${o.kmh} km/h. ${pair.bText} ${o.ms} m/s. Which is faster, and by how many metres per second? Give the difference in m/s.`,
+        answer: { type: "number", value: diff, display: `${num(diff)} m/s (the ${faster} is faster)` },
         solution: [
-          `Change the car's speed to m/s: ${o.kmh} ÷ 3.6 = ${num(a)} m/s.`,
-          `Compare: ${num(a)} m/s and ${o.ms} m/s. The ${carFaster ? "car" : "cheetah"} is faster by ${num(diff)} m/s.`,
+          `Change the ${pair.a}'s speed to m/s: ${o.kmh} ÷ 3.6 = ${num(a)} m/s.`,
+          `Compare: ${num(a)} m/s and ${o.ms} m/s. The ${faster} is faster by ${num(diff)} m/s.`,
         ],
         hint: "Put both speeds in the same unit before you compare them.",
         traps: numTraps(diff, [[Math.abs(o.kmh - o.ms), "Those speeds are in different units. Change km/h to m/s first."]]),
       };
     }
-    const k = find(() => rng.int(15, 120), (x) => x % 10 !== 0, 104);
+    const ctx = rng.pick([
+      { text: "A world-class sprinter's average speed in a 100 m race is", lo: 85, hi: 104 },
+      { text: "A racing cyclist's average speed is", lo: 100, hi: 140 },
+      { text: "The lift in a tall office tower travels at", lo: 25, hi: 100 },
+      { text: "A strong wind is blowing at", lo: 105, hi: 200 },
+    ]);
+    const k = find(() => rng.int(ctx.lo, ctx.hi), (x) => x % 10 !== 0, ctx.lo + 1);
     const v = clean(k / 10);
     const kmh = clean((k * 36) / 100);
     return {
-      prompt: `A world-class sprinter's average speed in a race is ${num(v)} m/s. Write this speed in km/h.`,
+      prompt: `${ctx.text} ${num(v)} m/s. Write this speed in km/h.`,
       answer: numAns(kmh, "km/h"),
       solution: toKmhSteps(v, kmh),
       hint: "How many metres would the sprinter cover in a whole hour at this speed?",
@@ -1186,8 +1243,9 @@ function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     const j = tier === 1 ? rng.int(1, 8) : rng.int(1, 18);
     const kmh = tier === 1 ? 18 * j : 9 * j;
     const v = clean((kmh * 5) / 18);
+    const who = moverAt(rng, kmh);
     return {
-      prompt: rng.pick([`Convert ${kmh} km/h to m/s.`, `${thing} moves at ${kmh} km/h. What is this speed in m/s?`]),
+      prompt: who && rng.bool(0.7) ? `${who} travels at ${kmh} km/h. What is this speed in m/s?` : `Convert ${kmh} km/h to m/s.`,
       answer: numAns(v, "m/s"),
       solution: toMsSteps(kmh, num(v)),
       hint: "Change km to m (× 1000) and hours to seconds (÷ 3600).",
@@ -1201,8 +1259,9 @@ function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   const k = tier === 1 ? rng.int(2, 30) * 2 : find(() => rng.int(3, 60), (x) => x % 2 === 1 || rng.bool(0.3), 25);
   const v = clean(k / 2);
   const kmh = clean((k * 18) / 10);
+  const who = moverAt(rng, kmh);
   return {
-    prompt: rng.pick([`Convert ${num(v)} m/s to km/h.`, `${thing} moves at ${num(v)} m/s. What is this speed in km/h?`]),
+    prompt: who && rng.bool(0.7) ? `${who} travels at ${num(v)} m/s. What is this speed in km/h?` : `Convert ${num(v)} m/s to km/h.`,
     answer: numAns(kmh, "km/h"),
     solution: toKmhSteps(v, kmh),
     hint: "How many metres would it cover in a whole hour (3600 seconds)?",
@@ -1919,7 +1978,15 @@ function pressureItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   );
   const F = clean(o.P * o.A);
   const kind = rng.pick(["P", "F", "A"] as const);
-  const obj = rng.pick(["A crate", "A box of books", "A large plant pot", "A stack of bricks"]);
+  const obj = rng.pick(
+    F <= 400
+      ? ["A box of books", "A suitcase", "A stool"]
+      : F <= 1500
+        ? ["A large plant pot", "A fridge", "A washing machine"]
+        : F <= 4000
+          ? ["A piano", "A large crate", "A stone statue"]
+          : ["A garden shed", "A loaded crate", "A stone statue"],
+  );
   if (kind === "P") {
     return {
       prompt: `${obj} with a weight of ${show(F)} N rests on the ground. The area touching the ground is ${num(o.A)} ${aUnit}. Work out the pressure on the ground in ${unit}.`,

@@ -160,7 +160,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "averages-spread-p3-q07",
         question:
-          "Eight swimmers raced 50 m freestyle at a school swimming gala. Their times, in seconds, were:\n\n34.2, 31.8, 36.5, 33.0, 32.4, 35.1, 33.9, 31.8\n\nThe coach will pick the swimmers who are faster than the median time for the relay team. Find the median time, in seconds.",
+          "Eight swimmers raced 50 m freestyle at a school swimming gala. Their times, in seconds, were:\n\n34.2, 31.8, 36.5, 33.0, 32.4, 35.1, 33.9, 31.8\n\nEvery swimmer whose time is faster than the median time will be picked for the relay team. Find the median time, in seconds.",
         answer: { type: "number", value: 33.45, display: "33.45 s" },
         solution: [
           "Order the times: 31.8, 31.8, 32.4, 33.0, 33.9, 34.2, 35.1, 36.5.",
@@ -469,7 +469,7 @@ export const morePapers: Paper[] = [
           "A school floorball team has played 24 matches this season.\n\n| Goals scored | Number of matches |\n|---|---|\n| 0 | 5 |\n| 1 | 9 |\n| 2 | 6 |\n| 3 | 3 |\n| 4 | 1 |\n\nAt the moment the median is 1 goal. Suppose the team scores exactly 4 goals in every one of its next matches.\n\n(a) What is the smallest number of extra matches needed to make the median 2 goals?\n\n(b) After how many extra matches would the mean be exactly 2 goals?\n\nGive your answers in order: (a), then (b).",
         answer: { type: "list", values: [5, 7], ordered: true, display: "(a) 5 matches, (b) 7 matches" },
         solution: [
-          "(a) 5 + 9 = 14 matches had 0 or 1 goals. The median becomes 2 once the middle position is past the 14th value (positions 15 to 20 are the 2-goal matches).",
+          "(a) 5 + 9 = 14 matches had 0 or 1 goals, and positions 15 to 20 are the 2-goal matches. The median is exactly 2 once the median position {{(n+1)/2}} reaches 15, so that no 1-goal value is used.",
           "With 4 extra matches there are 28 values: the median is halfway between the 14th (1) and 15th (2), which is 1.5. Not enough.",
           "With 5 extra matches there are 29 values: the median is the {{(29+1)/2 = 15}}th value, which is 2. So 5 extra matches.",
           "(b) Total goals so far = 0 × 5 + 1 × 9 + 2 × 6 + 3 × 3 + 4 × 1 = 34. For a mean of 2 after k extra matches: (34 + 4k) ÷ (24 + k) = 2.",
@@ -495,7 +495,7 @@ export const morePapers: Paper[] = [
         guideRef: "frequency-tables",
         hints: [
           "How many matches so far had 0 or 1 goals? Those are the values at the bottom of the ordered list.",
-          "The median becomes 2 once its position is past the 14th value. With n matches, the median is the {{(n+1)/2}}th value. Be careful with odd and even n.",
+          "With n matches, the median is the {{(n+1)/2}}th value. It is exactly 2 only when that position is at least 15. Be careful with odd and even n: a position of 14.5 means halfway between the 14th and 15th.",
           "For (b): after k extra matches the total goals are 34 + 4k and the number of matches is 24 + k.",
           "Or think 'balance': the team is 14 goals short of a mean of 2, and each 4-goal match makes up 2 of those goals.",
         ],
@@ -591,7 +591,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "averages-spread-p4-q02",
         question:
-          "Priya ran five laps of a 400 m track. Her lap times, in seconds, were:\n\n62.4, 61.8, 63.0, 62.1, 61.7\n\nWork out her mean lap time, in seconds.",
+          "At athletics training, Priya ran 400 m five times, with a rest after each run. Her times, in seconds, were:\n\n62.4, 61.8, 63.0, 62.1, 61.7\n\nWork out her mean time for the 400 m, in seconds.",
         answer: { type: "number", value: 62.2, display: "62.2 s" },
         solution: [
           "Total = 62.4 + 61.8 + 63.0 + 62.1 + 61.7 = 311.0 seconds.",
@@ -609,11 +609,11 @@ export const morePapers: Paper[] = [
         ],
         commonError: "Dividing by 4 instead of 5, or slipping on a decimal when adding.",
         traps: [
-          { spec: { type: "number", value: 77.75 }, feedback: "That is 311 ÷ 4. Priya ran 5 laps, so divide by 5." },
+          { spec: { type: "number", value: 77.75 }, feedback: "That is 311 ÷ 4. Priya ran 5 times, so divide by 5." },
         ],
         difficulty: "warmup",
         guideRef: "mean-median-mode-range",
-        hints: ["Add the five times, then divide by the number of laps.", "Shortcut: find the mean of the amounts over 60 seconds, then add 60 back."],
+        hints: ["Add the five times, then divide by the number of runs.", "Shortcut: find the mean of the amounts over 60 seconds, then add 60 back."],
         strategy: "Make it simpler",
       },
       // ---------------------------------------------------------------- q03
@@ -650,7 +650,7 @@ export const morePapers: Paper[] = [
           "In order: 12, 12, 13, 14, 16, 19, 26.",
           "Mode = 12. Median = 4th value = 14. Mean = 112 ÷ 7 = 16.",
           "The highest is the mean, 16, so that is the one Marcus would choose.",
-          "But is it fair? The single high score of 26 pulls the mean up: 5 of his 7 scores are below 16. The median, 14, is a more honest 'typical' score.",
+          "But is it fair? The single high score of 26 pulls the mean up: 4 of his 7 scores are below 16 and only 2 are above it. The median, 14, is a more honest 'typical' score.",
         ],
         commonError: "Assuming 'average' always means the mean. There are three averages, and they can give quite different values.",
         traps: [
@@ -833,7 +833,7 @@ export const morePapers: Paper[] = [
           "Two Year 8 classes did the 2.4 km run in their fitness test. The table summarises their times.\n\n| Class | Number of pupils | Median time (minutes) | Range (minutes) |\n|---|---|---|---|\n| 8R | 30 | 14.2 | 7.5 |\n| 8T | 32 | 12.9 | 3.6 |\n\nHana is in 8R. She says, 'Our class is fitter, because the fastest runner in the whole year group is in 8R.'\n\n(a) Compare the times of the two classes.\n\n(b) Is Hana's argument convincing? Explain your answer.",
         marks: 4,
         modelAnswer:
-          "(a) On average, 8T ran faster: their median time was 12.9 minutes compared with 14.2 minutes for 8R. (In a race a lower time is better.) 8T's times were also more consistent: their range was 3.6 minutes compared with 7.5 minutes for 8R, so 8R's times were much more spread out.\n\n(b) No. The fastest runner tells you about just one pupil, not the whole class. 8R's large range shows that, as well as some very fast runners, it also had some very slow ones. A typical pupil in 8T ran faster (lower median), so the data suggest that 8T is fitter overall.",
+          "(a) On average, 8T ran faster: their median time was 12.9 minutes compared with 14.2 minutes for 8R. (In a race a lower time is better.) 8T's times were also more consistent: their range was 3.6 minutes compared with 7.5 minutes for 8R, so 8R's times were much more spread out.\n\n(b) No. The fastest runner tells you about just one pupil, not the whole class. 8R's large range shows its times were very spread out: its slowest runner took 7.5 minutes longer than its fastest. A typical pupil in 8T ran faster (lower median), so the data suggest that 8T is fitter overall.",
         markScheme: [
           { point: "Compares medians in context: 8T faster on average (12.9 vs 14.2 minutes; a lower time is better)", keywords: ["12.9", "14.2", "median", "faster", "quicker", "lower", "on average"] },
           { point: "Compares ranges in context: 8T more consistent (3.6 vs 7.5 minutes) / 8R more spread out", keywords: ["3.6", "7.5", "range", "consistent", "spread", "varied", "variable"] },
@@ -1056,7 +1056,7 @@ export const morePapers: Paper[] = [
           { point: "A fairer test: many more runners, the same runners trying both drinks (or random groups), same conditions", keywords: ["more runners", "same runners", "same people", "both", "random", "same conditions", "larger sample"] },
         ],
         commonError: "Accepting the claim because the drink group's mean is lower, without asking whether the difference is bigger than the natural variation.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "comparing-distributions",
         hints: [
           "Start with the numbers: find both means and both ranges.",

@@ -325,7 +325,7 @@ function RollingWheel() {
             </Label>
           ) : null}
           <circle cx={dotX} cy={dotY} r={5} fill={DOT} className="stroke-surface" strokeWidth={1.5} />
-          <Label x={cx} y={cy - R - 8}>{`d = ${d} cm`}</Label>
+          <Label x={cx} y={cy - R - 13}>{`d = ${d} cm`}</Label>
         </svg>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -390,7 +390,7 @@ function RollingWheel() {
 const SLICES = [4, 6, 8, 12, 16, 24, 36, 48, 72];
 const W2 = 480;
 const H2 = 252;
-const U2 = 15; // px per cm
+const U2 = 16; // px per cm
 const CX2 = 240;
 const CY2 = 126;
 const SLIDE_CLASS = "transition-transform duration-1000 ease-in-out motion-reduce:transition-none";
@@ -446,6 +446,7 @@ function SliceRearrange() {
   const widthCm = n * Math.sin(alpha) * r; // straight-across width of the strip
   const pct = ((n * Math.sin(alpha)) / Math.PI) * 100;
   const cornerH = r * Math.cos(alpha);
+  const heightText = cornerH.toFixed(2) === r.toFixed(2) ? `≈ ${r.toFixed(2)} cm` : `${cornerH.toFixed(2)} to ${r.toFixed(2)} cm`;
   const rectRight = CX2 + (Math.PI * R) / 2;
   const bracketX = Math.max(rectRight, CX2 + stripW / 2) + 8;
   const topY = yb - R; // highest point of the strip
@@ -499,7 +500,7 @@ function SliceRearrange() {
               className={SLIDE_CLASS}
               style={{ transform: arranged ? sl.inStrip : sl.inCircle, transformOrigin: "0px 0px", transformBox: "view-box", transitionDelay: `${sl.delay}ms` }}
             >
-              <path d={body} className={sl.top ? "fill-accent-soft stroke-ink" : "fill-brand-soft stroke-ink"} strokeWidth={n > 24 ? 0.6 : 1} strokeLinejoin="round" />
+              <path d={body} className={sl.top ? "fill-accent-soft stroke-ink" : "fill-brand-soft stroke-ink"} strokeWidth={n > 36 ? 0.5 : n > 16 ? 0.7 : 1} strokeLinejoin="round" />
               <path d={crust} fill="none" className={sl.top ? "stroke-accent" : "stroke-brand"} strokeWidth={3} strokeLinecap="round" />
             </g>
           ))}
@@ -518,7 +519,7 @@ function SliceRearrange() {
             <line x1={bracketX} x2={bracketX} y1={CY2 - R / 2} y2={CY2 + R / 2} className="stroke-ink" strokeWidth={1.5} />
             <line x1={bracketX - 4} x2={bracketX + 4} y1={CY2 - R / 2} y2={CY2 - R / 2} className="stroke-ink" strokeWidth={1.5} />
             <line x1={bracketX - 4} x2={bracketX + 4} y1={CY2 + R / 2} y2={CY2 + R / 2} className="stroke-ink" strokeWidth={1.5} />
-            <Label x={bracketX + 6} y={CY2 + 4} anchor="start">{`≈ r`}</Label>
+            <Label x={bracketX + 6} y={CY2 + 4} anchor="start">r</Label>
           </g>
         </svg>
 
@@ -535,8 +536,8 @@ function SliceRearrange() {
           <div className="col-span-2">
             <Readout label="Area of the slices (the same before and after)" value={<><M>{`${r * r} pi`}</M> ≈ {sf3(area)} cm²</>} />
           </div>
-          <Readout label="Strip width" value={<Two main={`${widthCm.toFixed(2)} cm`} sub={`${pct.toFixed(2)}% of πr ≈ ${sf3(piR)}`} />} tone="ink" />
-          <Readout label="Strip height" value={<Two main={`${cornerH.toFixed(2)} to ${r} cm`} sub={`heading for r = ${r} cm`} />} tone="ink" />
+          <Readout label="Strip width" value={<Two main={`${widthCm.toFixed(2)} cm`} sub={`${pct.toFixed(2)}% of πr`} />} tone="ink" />
+          <Readout label="Strip height" value={<Two main={heightText} sub={`heading for r = ${r} cm`} />} tone="ink" />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">

@@ -24,14 +24,14 @@ export const extras: TopicExtras = {
         "A partner",
       ],
       steps: [
-        "Player 1 secretly picks a number and hides exactly that many counters under **every** cup.",
+        "Player 1 secretly picks a number (1 to 5 works well) and hides exactly that many counters under **every** cup.",
         "Player 1 builds a true equation: some cups and loose counters on the left of the pencil, some cups and loose counters on the right, with the same total on each side. For example, with 4 counters per cup: 3 cups + 2 counters on the left, 1 cup + 10 counters on the right.",
         "Player 2 writes the equation down ({{3x + 2 = x + 10}}) and may only make **fair moves**: take the same thing away from both sides (a cup, or some loose counters), or split both sides into the same number of equal groups.",
         "Keep going until one cup sits alone opposite a pile of counters. Say the answer, then lift a cup to check.",
         "Swap roles. Make it harder: put more cups on the right than the left, or build one that is quickest if you split into groups first.",
       ],
       maths:
-        "Every fair move keeps the two sides equal — that is the balance method. Taking away a cup, then 2 counters, then halving turns {{3x + 2 = x + 10}} into {{2x + 2 = 10}}, then {{2x = 8}}, then {{x = 4}}. Lifting the cup is *checking by substitution*. Notice that you always take cups away from the side with fewer cups: that is why we collect the unknown on the side with the larger coefficient.",
+        "Every fair move keeps the two sides equal — that is the balance method. Taking away a cup, then 2 counters, then halving turns {{3x + 2 = x + 10}} into {{2x + 2 = 10}}, then {{2x = 8}}, then {{x = 4}}. Lifting the cup is *checking by substitution*. Notice that you can only take away as many cups as the side with fewer cups has, so the cups that are left end up on the side that had more: that is why we collect the unknown on the side with the larger coefficient.",
     },
     {
       title: "Guess my inequality",
@@ -50,7 +50,7 @@ export const extras: TopicExtras = {
         "Bonus round: Player 1 secretly chooses either {{x > 2}} or {{x >= 3}}. Which questions can tell them apart?",
       ],
       maths:
-        "An inequality is a whole region of the number line, not a single answer, and the ends matter: an open circle means the end number is not included, a closed circle means it is. {{x > 2}} and {{x >= 3}} have the same whole-number solutions, but only {{x > 2}} includes 2.5 — so only a question about an in-between number can tell them apart. Asking about the middle of the unknown stretch each time halves the possibilities, which is the fastest strategy.",
+        "An inequality is a whole region of the number line, not a single answer, and the ends matter: an open circle means the end number is not included, a closed circle means it is. {{x > 2}} and {{x >= 3}} have the same whole-number solutions, but only {{x > 2}} includes 2.5 — so only a question about an in-between number can tell them apart. Asking about the middle of the stretch where an end could be halves that stretch each time, which is the quickest way to pin the end down.",
     },
   ],
 
@@ -72,6 +72,6 @@ export const extras: TopicExtras = {
   history: {
     title: "Restoring and balancing in Baghdad",
     story:
-      "Around 820 CE, in Baghdad's House of Wisdom, the scholar Muhammad ibn Musa al-Khwarizmi wrote a book whose title contains two Arabic words: *al-jabr* and *al-muqabala*. *Al-jabr*, \"restoring\", meant adding the same amount to both sides to remove a subtraction. *Al-muqabala*, \"balancing\", meant cancelling equal amounts from both sides. They are the two moves of the balance method you use today.\n\nAl-Khwarizmi wrote everything in words: no x, no equals sign, and even the numbers were spelled out. He aimed the book at practical problems such as sharing out inheritances, trade and measuring land. When it was translated into Latin in the 1100s, *al-jabr* became *algebra* — and his own name, written as *Algoritmi*, gave us the word *algorithm*.",
+      "Around 820 CE, in Baghdad's House of Wisdom, the scholar Muhammad ibn Musa al-Khwarizmi wrote a book whose title contains two Arabic words: *al-jabr* and *al-muqabala*. *Al-jabr*, \"restoring\", meant adding the same amount to both sides to remove a subtraction. *Al-muqabala*, \"balancing\", meant cancelling equal amounts from both sides. They are the two moves of the balance method you use today.\n\nAl-Khwarizmi wrote everything in words: no x, no equals sign, and even the numbers were spelled out. He aimed the book at practical problems such as sharing out inheritances, trade and measuring land. When it was translated into Latin in the 1100s, *al-jabr* became *algebra*. His name had a Latin life too: written as *Algoritmi* in a translation of his book on Hindu–Arabic numerals, it gave us the word *algorithm*.",
   },
 };

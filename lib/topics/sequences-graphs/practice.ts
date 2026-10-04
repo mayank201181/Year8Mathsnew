@@ -751,7 +751,7 @@ const paper1: Paper = {
         "Subtract: 3 − 2 = 1, 9 − 8 = 1, 19 − 18 = 1, … always 1.",
         "nth term = {{2n^2 + 1}}.",
       ],
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "quadratic-sequences",
       hints: [
         "Find the first differences, then the differences between those.",
@@ -1062,7 +1062,7 @@ const paper2: Paper = {
         "Aisha saves $50 in week 1, and each week she saves $10 more than the week before. Marcus saves $1 in week 1, and each week he saves double the week before.\n\nIn which week does Marcus first save more than Aisha *in that week*? Show your working, and explain why Marcus was bound to overtake Aisha eventually.",
       marks: 4,
       modelAnswer:
-        "Aisha's amounts form an **arithmetic** sequence (add $10): 50, 60, 70, 80, 90, 100, 110, 120, … Marcus's form a **geometric** sequence (multiply by 2): 1, 2, 4, 8, 16, 32, 64, 128, … In week 7 Aisha saves $110 and Marcus $64; in week 8 Aisha saves $120 and Marcus $128. So **week 8** is the first week Marcus saves more. He was bound to overtake her because doubling adds more each week (his increase equals his whole amount, which keeps growing), while Aisha's increase is always just $10. From week 5 on his weekly increase is more than $10, so he gains on her every week after that.",
+        "Aisha's amounts form an **arithmetic** sequence (add $10): 50, 60, 70, 80, 90, 100, 110, 120, … Marcus's form a **geometric** sequence (multiply by 2): 1, 2, 4, 8, 16, 32, 64, 128, … In week 7 Aisha saves $110 and Marcus $64; in week 8 Aisha saves $120 and Marcus $128. So **week 8** is the first week Marcus saves more. He was bound to overtake her because doubling adds more each week (each week's increase equals the whole of the previous week's amount, which keeps growing), while Aisha's increase is always just $10. From week 6 on, his weekly increase ($16, $32, $64, …) is more than $10, so he closes the gap every week after that.",
       markScheme: [
         {
           point: "Aisha's amounts are arithmetic: add $10 each week",
@@ -1293,7 +1293,7 @@ const paper2: Paper = {
           ],
         },
       ],
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "term-to-term",
       hints: [
         "How many *new* matches does each extra column need?",

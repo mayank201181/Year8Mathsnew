@@ -966,7 +966,7 @@ export const practice: TopicPractice = {
           ],
           traps: [
             { spec: { type: "number", value: 6 }, feedback: "6 cm is the distance on the map. Use the scale to turn it into real kilometres." },
-            { spec: { type: "number", value: 30 }, feedback: "Check the conversion: 300 000 cm = 3000 m = 3 km." },
+            { spec: { type: "number", value: 30 }, feedback: "30 is ten times too big. Check the unit conversion: there are 100 × 1000 = 100 000 cm in 1 km." },
           ],
           difficulty: "core",
           guideRef: "scale-drawings",

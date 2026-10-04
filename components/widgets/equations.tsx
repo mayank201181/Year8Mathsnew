@@ -67,7 +67,7 @@ interface Puzzle {
 const PUZZLES: Puzzle[] = [
   { name: "One step", L: { x: 1, n: 9 }, R: { x: 0, n: 17 } },
   { name: "Two steps", L: { x: 3, n: 4 }, R: { x: 0, n: 25 } },
-  { name: "Brackets", L: { x: 4, n: 12 }, R: { x: 0, n: 32 }, shown: "4(x + 3) = 32", shownNote: "the tiles show 4 groups of {{x + 3}}" },
+  { name: "Brackets", L: { x: 4, n: 12 }, R: { x: 0, n: 32 }, shown: "4(x + 3) = 32", shownNote: "4 lots of {{x + 3}} is 4 x-tiles and {{4 * 3 = 12}} ones" },
   { name: "Unknowns on both sides", L: { x: 5, n: 2 }, R: { x: 2, n: 14 } },
   { name: "More x on the right", L: { x: 1, n: 14 }, R: { x: 3, n: 4 } },
   { name: "A negative number", L: { x: 4, n: -3 }, R: { x: 2, n: 9 } },
@@ -212,7 +212,7 @@ function hintFor(st: BState): string {
     const small = Math.min(L.x, R.x);
     return small > 0
       ? `x is on both sides. Take {{${term(small)}}} (the smaller x-term) away from both sides — then x is left only on the side that had more.`
-      : `Clear the negative x-term: add {{${term(-small)}}} to both sides.`;
+      : `Add {{${term(-small)}}} to both sides. That clears the ${Math.max(L.x, R.x) < 0 ? "more negative" : "negative"} x-term and leaves positive x-tiles on the other side.`;
   }
   const xs = L.x !== 0 ? L : R;
   if (xs.x < 0) return `The x-term is negative. Add {{${term(-xs.x)}}} to both sides so the x-tiles end up positive on the other side.`;
@@ -304,10 +304,10 @@ function SeeSaw({ st, angle, label }: { st: BState; angle: number; label: string
       </g>
       <polygon points={`${PIVOT_X},${BEAM_Y + 7} ${PIVOT_X - 18},${BEAM_Y + 38} ${PIVOT_X + 18},${BEAM_Y + 38}`} className="fill-surface-2 stroke-ink-2" strokeWidth={2} />
       <rect x={PIVOT_X - 40} y={BEAM_Y + 38} width={80} height={5} rx={2} className="fill-ink-2" />
-      <text x={105} y={BEAM_Y + 30} textAnchor="middle" fontSize={12} className="fill-ink-2">
+      <text x={105} y={BEAM_Y + 30} textAnchor="middle" fontSize={13} className="fill-ink-2">
         left side
       </text>
-      <text x={295} y={BEAM_Y + 30} textAnchor="middle" fontSize={12} className="fill-ink-2">
+      <text x={295} y={BEAM_Y + 30} textAnchor="middle" fontSize={13} className="fill-ink-2">
         right side
       </text>
     </svg>
@@ -324,7 +324,10 @@ function TileKey() {
         <span className="inline-block h-3 w-3 rounded-sm bg-accent" aria-hidden /> = 1
       </span>
       <span className="inline-flex items-center gap-1">
-        <span className="inline-block h-3 w-3 rounded-sm bg-bad" aria-hidden /> red = negative (a +1 and a −1 cancel)
+        <span className="inline-block h-4 w-3 rounded-sm border-2 border-bad bg-bad-soft" aria-hidden /> = −x
+      </span>
+      <span className="inline-flex items-center gap-1">
+        <span className="inline-block h-3 w-3 rounded-sm bg-bad" aria-hidden /> = −1 (a +1 and a −1 cancel)
       </span>
     </div>
   );
@@ -343,7 +346,8 @@ function randomPuzzle(): Puzzle {
     if (a === c) continue;
     const b = randInt(-6, 15);
     const d = (a - c) * sol + b;
-    if (Math.abs(d) > 30) continue;
+    // Keep every constant within the move stepper's range (1–20), so each hinted move is one click.
+    if (Math.abs(d) > 20) continue;
     if (c === 0 && b === 0 && a === 1) continue; // already solved
     if (sol === 0 && Math.random() < 0.7) continue; // keep x = 0 rare
     const big: Side = { x: a, n: b };
@@ -410,8 +414,8 @@ function BalancePuzzle() {
   const opButtons: { op: OpKind; text: string; aria: string }[] = [
     { op: "subN", text: `−${k}`, aria: `Subtract ${k} from both sides` },
     { op: "addN", text: `+${k}`, aria: `Add ${k} to both sides` },
-    { op: "subX", text: `−${k === 1 ? "" : k}x`, aria: `Subtract ${k === 1 ? "" : k} x from both sides` },
-    { op: "addX", text: `+${k === 1 ? "" : k}x`, aria: `Add ${k === 1 ? "" : k} x to both sides` },
+    { op: "subX", text: `−${k === 1 ? "" : k}x`, aria: `Subtract ${k === 1 ? "" : k}x from both sides` },
+    { op: "addX", text: `+${k === 1 ? "" : k}x`, aria: `Add ${k === 1 ? "" : k}x to both sides` },
     { op: "div", text: `÷${k}`, aria: `Divide both sides by ${k}` },
   ];
 
@@ -419,7 +423,7 @@ function BalancePuzzle() {
   if (mode === "check") {
     caption = (
       <>
-        Substitute <M>{`x = ${mn(t)}`}</M> into <M>{shownStart}</M>: left <M>{substMarkup(puzzle.L, t)}</M>, right{" "}
+        Substitute <M>{`x = ${mn(t)}`}</M> into <M>{eqMarkup(start)}</M>: left <M>{substMarkup(puzzle.L, t)}</M>, right{" "}
         <M>{substMarkup(puzzle.R, t)}</M>.{" "}
         {level ? (
           <strong className="text-good">Level! x = {pn(t)} makes both sides equal, so it is the solution.</strong>
@@ -439,7 +443,7 @@ function BalancePuzzle() {
         <strong className="text-good">
           Solved: <M>{`x = ${fracMarkup(done)}`}</M>
         </strong>{" "}
-        in {hist.length} {hist.length === 1 ? "move" : "moves"}. Check by substituting into the original equation: left{" "}
+        in {hist.length} {hist.length === 1 ? "move" : "moves"}. Check by substituting into <M>{eqMarkup(start)}</M>: left{" "}
         <M>{substMarkup(puzzle.L, v)}</M>, right <M>{substMarkup(puzzle.R, v)}</M> ✓. Could you do it in fewer moves?
       </>
     );
@@ -489,7 +493,7 @@ function BalancePuzzle() {
         </div>
 
         <div className="text-center text-2xl font-extrabold text-ink" aria-live="polite">
-          {mode === "solve" ? <M>{eqMarkup(cur)}</M> : <M>{shownStart}</M>}
+          {mode === "solve" && hist.length ? <M>{eqMarkup(cur)}</M> : <M>{shownStart}</M>}
           {puzzle.shown && (mode === "check" || hist.length === 0) ? (
             <div className="mt-1 text-sm font-semibold text-ink-2">
               Expanded, that is <M>{eqMarkup(start)}</M>
@@ -527,7 +531,15 @@ function BalancePuzzle() {
             <p className="text-xs text-ink-2">Each button does the move to both sides at once.</p>
             {msg ? <p className="rounded-lg bg-bad-soft p-2 text-sm text-bad">{msg}</p> : null}
             <div className="flex flex-wrap gap-2">
-              <button type="button" className="btn btn-secondary" onClick={() => setHist(hist.slice(0, -1))} disabled={!hist.length}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setHist(hist.slice(0, -1));
+                  setMsg(null);
+                }}
+                disabled={!hist.length}
+              >
                 ↶ Undo
               </button>
               <button
@@ -714,7 +726,7 @@ const CHALLENGES: Challenge[] = [
       const info = intInfo(s);
       return s.lo === "open" && s.hi === "open" && info.kind === "finite" && info.vals.length === 3 && info.vals[2] < 0;
     },
-    answer: "With two open circles the ends must be 4 apart, e.g. {{-4 < x < 0}} gives −3, −2, −1. {{-7 < x < -3}} works too.",
+    answer: "With two open circles at whole numbers, the ends must be 4 apart, e.g. {{-4 < x < 0}} gives −3, −2, −1. {{-7 < x < -3}} works too.",
   },
   {
     prompt: "Solve {{2x + 1 > 7}}, then show the solution.",
@@ -727,9 +739,9 @@ const CHALLENGES: Challenge[] = [
     answer: "Add 4 to both sides: {{3x <= 15}}. Divide by 3: {{x <= 5}}. Closed circle at 5, arrow left.",
   },
   {
-    prompt: "Cinema tickets cost $4 each and Jun has $22. Show every possible number of tickets, x, he could buy (he might buy none).",
+    prompt: "Cinema tickets cost $8 each and Jun has $44. Show every possible number of tickets, x, he could buy (he might buy none).",
     check: (s) => sameInts(s, [0, 1, 2, 3, 4, 5]),
-    answer: "{{4x <= 22}} gives {{x <= 5.5}}. Tickets come in whole numbers and can't be negative, so x = 0, 1, 2, 3, 4 or 5 — neatest as {{0 <= x <= 5}}.",
+    answer: "{{8x <= 44}} gives {{x <= 5.5}}. Tickets come in whole numbers and can't be negative, so x = 0, 1, 2, 3, 4 or 5 — neatest as {{0 <= x <= 5}}.",
   },
   {
     prompt: "Stretch: solve {{5 - x > 2}}, then show the solution. Careful!",
@@ -758,16 +770,16 @@ function NumberLine({ s }: { s: Ineq }) {
       <circle key={key} cx={nlx(v)} cy={NL_Y} r={7} className={kind === "closed" ? "fill-brand stroke-brand" : "fill-surface stroke-brand"} strokeWidth={3} />
     );
   return (
-    <svg viewBox="0 0 440 76" className="h-auto w-full" role="img" aria-label={label}>
+    <svg viewBox="0 0 440 78" className="h-auto w-full" role="img" aria-label={label}>
       <line x1={6} x2={434} y1={NL_Y} y2={NL_Y} className="stroke-ink-2" strokeWidth={1.5} />
       {ticks.map((v) => (
         <g key={v}>
           <line x1={nlx(v)} x2={nlx(v)} y1={NL_Y - 6} y2={NL_Y + 6} className="stroke-ink-2" strokeWidth={v === 0 ? 2 : 1} />
           <text
             x={nlx(v)}
-            y={NL_Y + 24}
+            y={NL_Y + 25}
             textAnchor="middle"
-            fontSize={12}
+            fontSize={14}
             fontWeight={satisfies(s, v) && !empty ? 800 : 400}
             className={satisfies(s, v) && !empty ? "fill-good" : "fill-ink-2"}
           >
@@ -804,7 +816,7 @@ function EndControls({
   onValue: (v: number) => void;
 }) {
   return (
-    <div className="space-y-2 rounded-xl border border-line p-3">
+    <div role="group" aria-label={title} className="space-y-2 rounded-xl border border-line p-3">
       <div className="text-sm font-bold text-ink">{title}</div>
       <Segmented
         label={title}
@@ -849,7 +861,10 @@ function InequalityLine() {
     caption = (
       <>
         <strong>No number fits.</strong> x would have to be {s.lo === "open" ? "bigger than" : "at least"} {pn(s.a)} and{" "}
-        {s.hi === "open" ? "smaller than" : "at most"} {pn(s.b)} at the same time — impossible. The left end must be below the right end.
+        {s.hi === "open" ? "smaller than" : "at most"} {pn(s.b)} at the same time — impossible.{" "}
+        {s.a === s.b
+          ? "To include just that one number, make both circles closed; otherwise move the left end below the right end."
+          : "The left end must be below the right end."}
       </>
     );
   } else if (point) {
@@ -907,7 +922,11 @@ function InequalityLine() {
           <EndControls title="Right end (largest value)" end={s.hi} value={s.b} onEnd={(hi) => setS({ ...s, hi })} onValue={(b) => setS({ ...s, b })} />
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <Readout label="Integer solutions" value={countText} tone={empty ? "bad" : "good"} />
+          <Readout
+            label="Integer solutions"
+            value={countText}
+            tone={empty ? "bad" : info.kind === "finite" && info.vals.length === 0 ? "ink" : "good"}
+          />
           <Readout
             label={info.kind === "down" ? "Largest integer" : "Smallest integer"}
             value={

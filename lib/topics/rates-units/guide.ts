@@ -17,7 +17,7 @@ export const guide: TopicGuide = {
         problem:
           "A 1 kg bag of rice holds roughly 50 000 grains. Estimate the mass of one grain in **milligrams**. Before you calculate: will the answer be a big number or a small one?",
         idea:
-          "Change 1 kg into milligrams first: 1 kg = 1000 g = 1 000 000 mg. Then share it out: 1 000 000 ÷ 50 000 = 20 mg per grain. A milligram is a tiny unit, so even a light grain is a fair *number* of them. Every metric conversion is just × or ÷ by 10, 100 or 1000, and the prefix tells you which.",
+          "Change 1 kg into milligrams first: 1 kg = 1000 g = 1 000 000 mg. Then share it out: 1 000 000 ÷ 50 000 = 20 mg per grain. A milligram is a tiny unit, so even a light grain is a fair *number* of them. Every metric conversion is just × or ÷ by a power of 10 (10, 100, 1000, …), and the prefixes tell you which.",
       },
       body:
         "The metric system has a **base unit** for each kind of measurement: the **metre** (m) for length, the **gram** (g) for mass and the **litre** (l) for **capacity**, which is how much liquid a container holds. A **prefix** in front of the base unit scales it by a power of 10.\n\n| Prefix | Meaning | Example |\n|---|---|---|\n| kilo- (k) | 1000 times | 1 km = 1000 m |\n| centi- (c) | one hundredth, {{1/100}} | 1 cm = {{1/100}} m |\n| milli- (m) | one thousandth, {{1/1000}} | 1 mg = {{1/1000}} g |\n\nThe facts to know by heart:\n\n- **Length:** 10 mm = 1 cm, 100 cm = 1 m, 1000 m = 1 km\n- **Mass:** 1000 mg = 1 g, 1000 g = 1 kg, 1000 kg = 1 tonne (t)\n- **Capacity:** 1000 ml = 1 l, 100 cl = 1 l, 10 ml = 1 cl\n\n**The golden rule.** Changing to a **smaller** unit, you need **more** of them, so **multiply**. Changing to a **bigger** unit, you need **fewer** of them, so **divide**.\n\n    3.6 km = 3.6 × 1000 = 3600 m\n    450 g = 450 ÷ 1000 = 0.45 kg\n    75 cl = 75 × 10 = 750 ml\n\nFor a two-step change, go one rung at a time (km → m → cm) or combine the factors: 1 km = 1000 × 100 = 100 000 cm.\n\n**Choosing sensible units.** Pick the unit that gives a manageable number: a phone's thickness in mm, a classroom in m, the drive from Jurong to Changi in km; a 5-cent coin in g, a durian in kg; a spoonful of syrup in ml, a water bottle in litres. Before you add, subtract or compare quantities, put them all in the **same unit**.",
@@ -60,7 +60,7 @@ export const guide: TopicGuide = {
             "79 500 mm = 79 500 ÷ 1000 = 79.5 m",
             "In order: 79.5 m, 750 m, 800 m, 810 m.",
           ],
-          answer: "79 500 mm, 750 m, 0.8 km, 81 000 cm. The biggest-looking number is actually the shortest length.",
+          answer: "79 500 mm, 750 m, 0.8 km, 81 000 cm. Notice that 79 500 mm looks huge but is the shortest length, because millimetres are tiny.",
         },
       ],
       keyPoints: [
@@ -162,7 +162,7 @@ export const guide: TopicGuide = {
           ],
           answer: "≈ 48 km",
           yourTurn: {
-            question: "Your turn: convert 45 miles to kilometres.",
+            question: "Your turn: using 5 miles ≈ 8 km, convert 45 miles to kilometres.",
             answer: { type: "number", value: 72 },
             solution: "45 ÷ 5 = 9 lots of 5 miles, so 9 × 8 = 72 km (or 45 × 1.6 = 72 km).",
           },
@@ -334,7 +334,7 @@ export const guide: TopicGuide = {
         "'Kilometres per hour' literally means kilometres **÷** hours, so speed = distance ÷ time is built into the unit. If you travel 18 km in every hour, then in 2.5 hours you travel 18 × 2.5 km. That is D = S × T, and dividing both sides by S or by T gives the other two forms. For average speed, imagine a second car driving at one steady speed that arrives at exactly the same moment: it covers the total distance in the total time, so its speed is total ÷ total. And ÷ 3.6 comes from {{1000/3600}} = {{1/3.6}}.",
       strategies: ["Write the units on every line", "Convert units before substituting", "Make a table of distance, speed and time"],
       thinkDeeper:
-        "You run up a hill path at 4 m/s and jog straight back down at 6 m/s. Is your average speed 5 m/s? Try a path 120 m long, then 300 m long. What do you notice, and why doesn't the length of the path matter?",
+        "You cycle up a hill path at 4 m/s and freewheel straight back down at 6 m/s. Is your average speed 5 m/s? Try a path 120 m long, then 300 m long. What do you notice, and why doesn't the length of the path matter?",
     },
     // ------------------------------------------------------------------ 6
     {
@@ -670,7 +670,7 @@ export const guide: TopicGuide = {
     ],
     formulas: [
       { name: "Speed", formula: "{{speed = distance/time}}", note: "Also distance = speed × time and time = distance ÷ speed." },
-      { name: "Average speed", formula: "{{average speed = (total distance)/(total time)}}", note: "Include stops in the total time." },
+      { name: "Average speed", formula: "{{\"average speed\" = (\"total distance\")/(\"total time\")}}", note: "Include stops in the total time." },
       { name: "km/h and m/s", formula: "1 km/h = {{1000/3600}} m/s = {{5/18}} m/s", note: "km/h ÷ 3.6 = m/s; m/s × 3.6 = km/h." },
       { name: "Density", formula: "{{density = mass/volume}}", note: "Water: 1 g/cm³." },
       { name: "Area and volume units", formula: "1 m² = 10 000 cm²; 1 m³ = 1 000 000 cm³", note: "Square the length factor for area, cube it for volume." },

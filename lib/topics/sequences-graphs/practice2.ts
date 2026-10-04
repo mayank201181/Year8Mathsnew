@@ -63,6 +63,10 @@ export const morePapers: Paper[] = [
         traps: [
           { spec: { type: "number", value: 15 }, feedback: "That adds 3 people each day. But every person passes it on to 3 more, so the number is **multiplied** by 3 each day." },
           { spec: { type: "number", value: 81 }, feedback: "81 people receive it on day 4. One more day: 81 × 3." },
+          {
+            spec: { type: "number", value: 363 },
+            feedback: "363 = 3 + 9 + 27 + 81 + 243 is the total over all five days. The question asks only about the people who receive it on day 5.",
+          },
         ],
         solution: [
           "Day 1: 3 people. Each day the number is multiplied by 3, so this is a geometric sequence with common ratio 3.",
@@ -159,6 +163,10 @@ export const morePapers: Paper[] = [
           {
             spec: { type: "list", values: [50, 75], ordered: true },
             feedback: "Neighbouring sections share a post, so you can't give every section its own 2 posts.",
+          },
+          {
+            spec: { type: "list", values: [75, 26], ordered: true },
+            feedback: "Right numbers, wrong order. Give the number of posts (26) first, then the number of rails (75).",
           },
         ],
         solution: [
@@ -393,6 +401,10 @@ export const morePapers: Paper[] = [
             spec: { type: "list", values: [10, 70], ordered: true },
             feedback: "Right number of weeks. But Wei Ling started with $3, so after 10 weeks she has 3 + 70 = $73.",
           },
+          {
+            spec: { type: "list", values: [73, 10], ordered: true },
+            feedback: "Right numbers, wrong order. Give the number of weeks (10) first, then the amount in dollars (73).",
+          },
         ],
         solution: [
           "After n weeks, Wei Ling has 3 + 7n dollars and Marcus has 113 − 4n dollars.",
@@ -472,7 +484,7 @@ export const morePapers: Paper[] = [
           {
             label: "Differences",
             steps: [
-              "4, 12, 24, … has first differences 8, 12, … which go up by 4 each time: a constant second difference, so the sequence is quadratic.",
+              "4, 12, 24, … has first differences 8, 12, … Two differences alone can't prove a pattern, but if they keep going up by 4 (a constant second difference) the sequence is quadratic. The line-counting method shows that they do.",
               "Continue the differences 8, 12, 16, 20, …: the terms are 4, 12, 24, 40, 60, 84, 112, 144, 180, 220.",
               "The 10th term is 220. Same answer, but counting lines is much quicker and explains *why*.",
             ],
@@ -605,6 +617,10 @@ export const morePapers: Paper[] = [
             spec: { type: "list", values: [3.15, 4.45], ordered: true },
             feedback: "Check the gap: 2.40 − 1.75 = 0.65, not 0.75. Line up the decimal points. (Also, 2.4 + 2 × 0.75 = 3.9, which doesn't match the 4th term.)",
           },
+          {
+            spec: { type: "list", values: [4.35, 3.05], ordered: true },
+            feedback: "Right values, wrong order. Give the 3rd term (3.05) first, then the 5th term (4.35).",
+          },
         ],
         solution: [
           "The rule is 'add 0.65', because 2.4 − 1.75 = 0.65.",
@@ -627,6 +643,10 @@ export const morePapers: Paper[] = [
           {
             spec: { type: "list", values: [2.5, 5.5], ordered: true },
             feedback: "Those come from (n + 2) ÷ 4. The rule {{n/4 + 2}} means divide n by 4 **first**, then add 2.",
+          },
+          {
+            spec: { type: "list", values: [7, 4], ordered: true },
+            feedback: "Right values, wrong order. Give the 8th term (4) first, then the 20th term (7).",
           },
         ],
         solution: [
@@ -709,6 +729,10 @@ export const morePapers: Paper[] = [
           {
             spec: { type: "list", values: [259, 79], ordered: true },
             feedback: "You used 'first term + n × 5'. From the 1st term to the nth term there are only n − 1 steps, so the nth term is 5n + 4.",
+          },
+          {
+            spec: { type: "list", values: [80, 254], ordered: true },
+            feedback: "Right values, wrong order. Give the answer to (b), the 50th term (254), first, then the answer to (c), the position of 404 (80).",
           },
         ],
         solution: [

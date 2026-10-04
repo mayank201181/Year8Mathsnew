@@ -908,7 +908,13 @@ const circumferenceCalc: Drill = {
 // 5. Circumference without a calculator (exact, π = 3.14, π = 22/7)
 // ===========================================================================
 
-const SMALL_THINGS = ["a round coaster", "a circular badge", "a round mirror", "a circular plate", "a round biscuit tin", "a circular sticker"];
+/** A real round object of about this diameter (cm), so the context stays believable. */
+function objFor(rng: Rng, dCm: number): string {
+  if (dCm <= 12) return rng.pick(["a round coaster", "a circular badge", "a circular sticker", "a jar lid"]);
+  if (dCm <= 40) return rng.pick(["a round mirror", "a dinner plate", "a round biscuit tin", "a cake tin"]);
+  if (dCm <= 80) return rng.pick(["a bicycle wheel", "a round stool top", "a drum"]);
+  return rng.pick(["a round table", "a hula hoop", "a round rug"]);
+}
 
 function circExactTerms(rng: Rng, tier: Tier): DrillItem | null {
   const giveR = rng.bool();
@@ -923,7 +929,7 @@ function circExactTerms(rng: Rng, tier: Tier): DrillItem | null {
   const prompt = rng.pick([
     `A circle has ${what} ${num(x)} cm. Find its circumference in terms of π.`,
     `Work out the exact circumference of a circle with ${what} ${num(x)} cm. Give your answer in terms of π.`,
-    `${cap(rng.pick(SMALL_THINGS))} has a ${what} of ${num(x)} cm. Write its circumference in terms of π.`,
+    `${cap(objFor(rng, giveR ? 2 * x : x))} has a ${what} of ${num(x)} cm. Write its circumference in terms of π.`,
   ]);
   const solution = giveR
     ? [`With the radius, use {{C = 2 pi r}}.`, `{{C = 2 * pi * ${num(x)} = ${ans.tex}}} cm`, "Leaving π as a symbol keeps the answer exact."]
@@ -985,7 +991,7 @@ function circExact314(rng: Rng, tier: Tier): DrillItem {
   const prompt = rng.pick([
     `Use π = 3.14 to work out the circumference of a circle with ${what} ${num(x)} cm.`,
     `Taking π as 3.14, find the circumference of a circle with ${what} ${num(x)} cm.`,
-    `${cap(rng.pick(SMALL_THINGS))} has a ${what} of ${num(x)} cm. Using π = 3.14, work out its circumference.`,
+    `${cap(objFor(rng, d))} has a ${what} of ${num(x)} cm. Using π = 3.14, work out its circumference.`,
   ]);
   const solution = [...(giveR ? [`Diameter = 2 × ${num(x)} = ${num(d)} cm.`] : []), `C = π × d = 3.14 × ${num(d)} = ${num(C)} cm`];
   const cands = giveR
@@ -1094,7 +1100,7 @@ function rFromC314(rng: Rng, tier: Tier): DrillItem {
   const what = askR ? "radius" : "diameter";
   const prompt = rng.pick([
     `Using π = 3.14, a circle has a circumference of ${num(C)} cm. Work out its ${what}.`,
-    `${rng.pick(NAMES)} measures the circumference of ${rng.pick(SMALL_THINGS)} as ${num(C)} cm. Using π = 3.14, find its ${what}.`,
+    `${rng.pick(NAMES)} measures the circumference of ${objFor(rng, d)} as ${num(C)} cm. Using π = 3.14, find its ${what}.`,
   ]);
   return {
     prompt: `${prompt} Give your answer in cm.`,

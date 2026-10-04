@@ -332,7 +332,7 @@ export const morePapers: Paper[] = [
             spec: { type: "number", value: 180 },
             feedback: "180 comes from {{4 1/2 × 40}} — but the speed is per **hour** and 40 is in minutes. 40 minutes is {{2/3}} of an hour.",
           },
-          { spec: { type: "fraction", n: 27, d: 4 }, feedback: "{{6 3/4}} is {{4 1/2 ÷ 2/3}}. Distance = speed × time, so multiply." },
+          { spec: { type: "fraction", n: 27, d: 4, allowDecimal: true }, feedback: "{{6 3/4}} is {{4 1/2 ÷ 2/3}}. Distance = speed × time, so multiply." },
         ],
         commonError: "Multiplying the speed by 40 without changing minutes into hours.",
         difficulty: "core",
@@ -598,7 +598,7 @@ export const morePapers: Paper[] = [
           "New length = {{7/5}} × old length.",
           "For the area to stay the same, the width must be multiplied by the reciprocal of {{7/5}}, which is {{5/7}}.",
           "Keeping {{5/7}} of the width means reducing it by {{1 - 5/7 = 2/7}} of itself.",
-          "Check with numbers: 5 cm by 7 cm (area 35 cm²) becomes 7 cm by 5 cm (area 35 cm²). The length went up by {{2/5}} of 5 and the width went down by {{2/7}} of 7. ✓",
+          "Check with numbers: 50 cm long by 70 cm wide (area 3500 cm²) becomes 70 cm long by 50 cm wide (area 3500 cm²). The length went up by {{2/5}} of 50 = 20 cm and the width went down by {{2/7}} of 70 = 20 cm. ✓",
         ],
         traps: [
           {
@@ -611,7 +611,7 @@ export const morePapers: Paper[] = [
         difficulty: "challenge",
         guideRef: "dividing",
         hints: [
-          "Try numbers: a poster 5 cm long and 7 cm wide. What is the new length?",
+          "Try numbers: a poster 50 cm long and 70 cm wide. What is the new length?",
           "Area = length × width. If the length is multiplied by {{7/5}}, what must the width be multiplied by?",
           "A number times its reciprocal is 1. The width keeps {{5/7}} of itself — how much does it lose?",
         ],
@@ -711,7 +711,7 @@ export const morePapers: Paper[] = [
         ],
         traps: [
           { spec: { type: "number", value: 135 }, feedback: "135 is the angle, not the number of students. What fraction of the full 360° is it?" },
-          { spec: { type: "fraction", n: 3, d: 8 }, feedback: "{{3/8}} is the **fraction** of students who walk. Now find {{3/8}} of 240." },
+          { spec: { type: "fraction", n: 3, d: 8, allowDecimal: true }, feedback: "{{3/8}} is the **fraction** of students who walk. Now find {{3/8}} of 240." },
         ],
         difficulty: "warmup",
         guideRef: "fractions-of-amounts",
@@ -1154,8 +1154,8 @@ export const morePapers: Paper[] = [
         guideRef: "calculating-with-fractions",
         hints: [
           "Which is easier to list: pairs that add to {{5/6}}, or pairs that multiply to {{1/6}}?",
-          "Unit fractions are a good place to start: {{1/6}} is {{1/2 × 1/3}}.",
-          "Check the sum of each pair you try.",
+          "List pairs that multiply to {{1/6}} — unit fractions are a good place to start. Then check the sum of each pair.",
+          "{{1/6}} can be written as {{1/6 × 1}} or {{1/2 × 1/3}}. Which of these pairs adds up to {{5/6}}?",
         ],
         strategy: "Try small cases",
       },

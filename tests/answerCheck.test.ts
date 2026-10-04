@@ -86,6 +86,9 @@ test("lists and coordinates", () => {
   assert.equal(st(roots, "x=-3, x=2"), "correct");
   const hcfLcm: AnswerSpec = { type: "list", values: [36, 7560], ordered: true };
   assert.equal(st(hcfLcm, "HCF = 36, LCM = 7560"), "correct");
+  const pm: AnswerSpec = { type: "list", values: [12, -12] };
+  for (const i of ["±12", "x = ±12", "+-12", "12, -12"]) assert.equal(st(pm, i), "correct", i);
+  assert.notEqual(st(pm, "12"), "correct");
   const primes: AnswerSpec = { type: "list", values: [2, 2, 2, 3, 5] };
   for (const i of ["2, 2, 2, 3, 5", "2 × 2 × 2 × 3 × 5", "2^3 × 3 × 5", "2³×3×5", "120 = 2^3 * 3 * 5", "5 x 3 x 2^3"]) assert.equal(st(primes, i), "correct", i);
   for (const i of ["2^2 × 3 × 5", "2 × 3 × 5", "120"]) assert.notEqual(st(primes, i), "correct", i);
