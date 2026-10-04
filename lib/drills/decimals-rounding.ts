@@ -1051,7 +1051,7 @@ export const drills: Drill[] = [
       for (let i = 0; i < 100; i++) {
         const terminating = rng.bool();
         const unsimplified = tier >= 2 && rng.bool(tier === 2 ? 0.3 : 0.5);
-        let ca: number, cb: number, k = 1;
+        let cb: number, k = 1;
         if (unsimplified) {
           cb = terminating ? rng.pick([2, 4, 5, 8, 10, 20, 25, 40]) : rng.pick([3, 6, 7, 9, 11]);
           k = terminating ? rng.pick([3, 7, 9, 11, 3]) : rng.pick([2, 4, 5, 10]);
@@ -1060,7 +1060,7 @@ export const drills: Drill[] = [
             ? rng.pick(tier === 1 ? [2, 4, 5, 8, 10, 20, 25] : tier === 2 ? [8, 16, 20, 25, 40, 50, 80, 125] : [16, 32, 40, 64, 80, 125, 160, 200, 250, 320, 625])
             : rng.pick(tier === 1 ? [3, 6, 7, 9, 11, 12] : tier === 2 ? [12, 15, 18, 22, 24, 30, 45, 60] : [21, 28, 33, 35, 36, 48, 55, 75, 96, 120]);
         }
-        ca = rng.int(1, cb - 1);
+        const ca = rng.int(1, cb - 1);
         if (gcd(ca, cb) !== 1) continue;
         [a, b, n, d] = [ca, cb, ca * k, cb * k];
         break;

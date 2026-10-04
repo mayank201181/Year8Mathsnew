@@ -924,7 +924,6 @@ const divideDrill: Drill = {
     if (kind === "recip") {
       hint = "The reciprocal is the number you multiply by to get 1. For a fraction, swap the top and the bottom.";
       let x: Q;
-      let shown: string;
       let mx: Mixed | null = null;
       const r = rng.next();
       if (tier === 1 && r < 0.3) x = [rng.int(2, 12), 1];
@@ -939,7 +938,7 @@ const divideDrill: Drill = {
         x = mx.m;
       }
       if (tier === 3) x = neg(x);
-      shown = mx ? M(x) : F(x);
+      const shown = mx ? M(x) : F(x);
       const ans = recip(x);
       prompt = rng.pick([`Write down the reciprocal of ${shown}.`, `What is the reciprocal of ${shown}?`, `What number do you multiply ${shown} by to get 1?`]);
       if (mx) steps.push(`Change to an improper fraction first: ${shown} = ${F(x)}.`);

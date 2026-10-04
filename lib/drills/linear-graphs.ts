@@ -321,7 +321,8 @@ export const drills: Drill[] = [
         };
       }
       if (kind === "vdesc" || kind === "hdesc" || kind === "axis") {
-        let p = val(), q = val();
+        const p = val();
+        let q = val();
         for (let i = 0; i < 50 && p === q; i++) q = val();
         if (p === q) q = p + 1;
         const vertical = kind === "vdesc" ? true : kind === "hdesc" ? false : rng.bool();
@@ -354,7 +355,8 @@ export const drills: Drill[] = [
         };
       }
       if (kind === "cross") {
-        let a = val(), b = val();
+        const a = val();
+        let b = val();
         for (let i = 0; i < 50 && a === b; i++) b = val();
         if (a === b) b = a + 1;
         const lines = rng.bool() ? `{{x = ${asc(a)}}} and {{y = ${asc(b)}}}` : `{{y = ${asc(b)}}} and {{x = ${asc(a)}}}`;

@@ -558,7 +558,8 @@ function rdPuzzle(rng: Rng): DrillItem {
       traps: pickTraps(k, [nTrap(2 * k, "That's the diameter of a small circle. Halve it for the radius.")]),
     };
   }
-  let d1 = 2 * rng.int(2, 15), d2 = 2 * rng.int(2, 15);
+  const d1 = 2 * rng.int(2, 15);
+  let d2 = 2 * rng.int(2, 15);
   if (d1 === d2) d2 += 2;
   const ans = d1 / 2 + d2 / 2;
   return {

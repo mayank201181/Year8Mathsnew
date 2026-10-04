@@ -27,6 +27,8 @@ function gcd(a: number, b: number): number {
 }
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+/** Randomness for click handlers (kept out of the component body for the React Compiler). */
+const rand = () => Math.random();
 
 /** Round to `dp` places and drop trailing zeros. */
 function fmt(v: number, dp = 3): string {
@@ -614,9 +616,9 @@ function ExperimentLab() {
     let a = angle;
     if (!isDie) {
       for (let i = 0; i < m; i++) {
-        const s = Math.floor(Math.random() * N);
+        const s = Math.floor(rand() * N);
         arr.push(s < sec[0] ? 0 : s < sec[0] + sec[1] ? 1 : 2);
-        if (i === m - 1) a = ((s + 0.15 + 0.7 * Math.random()) * 360) / N;
+        if (i === m - 1) a = ((s + 0.15 + 0.7 * rand()) * 360) / N;
       }
     } else if (mystery) {
       const cum: number[] = [];
@@ -626,7 +628,7 @@ function ExperimentLab() {
         cum.push(t);
       }
       for (let i = 0; i < m; i++) {
-        const r = Math.random();
+        const r = rand();
         const f = cum.findIndex((c) => r < c);
         arr.push(f < 0 ? 5 : f);
       }
