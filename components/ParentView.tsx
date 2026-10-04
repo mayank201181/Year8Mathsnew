@@ -552,7 +552,9 @@ function LearnerPanel({ learner, summaries, now, pin, onSaved }: { learner: Lear
   let insight = "";
   if (stats.dailySets === 0) insight = "No Daily 5 in the last two weeks — five mixed questions a day is one of the best habits for making learning stick.";
   else if (dailyAcc !== null && practiceAcc !== null) {
-    if (practiceAcc - dailyAcc >= 15) insight = "Scores are higher straight after practice than in mixed sets. That's normal — things feel easier just after a lesson — and regular Daily 5s close the gap.";
+    if (stats.dailyTotal < 10 || stats.practiceAnswered < 10) insight = "Early days — after a few more Daily 5s and practice sessions this will show whether learning is sticking.";
+    else if (practiceAcc - dailyAcc >= 15) insight = "Scores are higher straight after practice than in mixed sets. That's normal — things feel easier just after a lesson — and regular Daily 5s close the gap.";
+    else if (dailyAcc < 50 && practiceAcc < 50) insight = "Both scores are low at the moment. Working through the lessons (each starts with a puzzle and worked examples) before practising will help.";
     else if (dailyAcc >= practiceAcc - 5) insight = "Mixed-topic scores are holding up well, so what's being learnt is sticking.";
   }
 

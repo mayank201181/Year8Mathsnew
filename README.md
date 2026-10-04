@@ -19,7 +19,9 @@ throughout.
   (fractions, powers, roots) and read-aloud.
 - **Practice** — per topic: a quick check, 4 multiple-choice papers, 4 practice papers (mostly
   auto-marked typed answers, plus explain/convince questions that are self-marked against a mark
-  scheme) and a 10-problem **AoPS-style challenge set**. ~3,600 audited questions.
+  scheme) and a 10-problem **AoPS-style challenge set**. ~3,700 audited questions; every one of the
+  ~3,300 auto-marked answers was also re-solved blind by two independent solvers and checked against
+  the key (`scripts/blind-export.ts` / `scripts/blind-compare.ts`).
 - **Auto-marking that understands maths** — accepts equivalent fractions, mixed numbers,
   decimals, units, coordinates, ratios and algebraic expressions (checked by equivalence, with
   factorised/expanded/simplified form checks), and gives targeted feedback on classic slips.
@@ -33,6 +35,8 @@ throughout.
   topic), **certificates**, a **formula sheet**, and **interactive explorables** for every topic.
 - **Professor Pi** — an AI tutor that gives hints, not answers (needs `ANTHROPIC_API_KEY`).
 - **Family accounts** with learner profiles and cloud sync, or **guest mode** on one device.
+  Progress from several devices or tabs is merged on the server (nothing a device did is lost
+  by another device saving an older copy); a parent-PIN reset is the only way to clear it.
 - **Parent dashboard** (PIN) — time, Daily 5 vs practice accuracy, hint use, skills, topic mastery,
   "where to help" (weak topics, rusty skills, repeated slips), reported questions, and focus-topic
   / goal settings.
