@@ -597,10 +597,10 @@ function DotPicture({ kind, d, c }: { kind: "arith" | "quad"; d: number; c: numb
     cursor += w + GAP;
   }
   const count = (p: number) => c + (kind === "arith" ? p * d : p * p);
-  const greyText = c === 0 ? "no grey dots" : c === 1 ? "1 grey dot" : `${c} grey dots`;
+  const greyText = c === 1 ? "1 grey dot" : `${c} grey dots`;
   const aria =
     kind === "arith"
-      ? `Dot patterns 1 to 4. Each has ${greyText} plus n columns of ${d} coloured dots: ${[1, 2, 3, 4].map(count).join(", ")} dots.`
+      ? `Dot patterns 1 to 4. Each has ${c > 0 ? `${greyText} plus ` : ""}n columns of ${d} coloured dots: ${[1, 2, 3, 4].map(count).join(", ")} dots.`
       : `Dot patterns 1 to 4. Each is an n by n square of dots${c > 0 ? ` plus ${greyText}` : ""}: ${[1, 2, 3, 4].map(count).join(", ")} dots. The newest L-shaped layer is highlighted.`;
 
   return (

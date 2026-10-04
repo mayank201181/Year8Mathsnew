@@ -332,19 +332,24 @@ const GC_T3: GCtx[] = [
 // ---------------------------------------------------------------------------
 
 interface PieCtx {
+  /** Table heading, e.g. "Favourite CCA". */
   topic: string;
+  /** What each person was asked: "their favourite CCA" / "how they travel to school". */
+  ask: string;
+  /** "the favourite CCA of 40 pupils" / "how 40 pupils travel to school". */
+  of: (group: string) => string;
   who: string;
   one: string;
   cats: string[];
 }
 
 const PIE_CTX: PieCtx[] = [
-  { topic: "favourite CCA", who: "pupils", one: "pupil", cats: ["Football", "Choir", "Robotics", "Swimming", "Drama", "Chess"] },
-  { topic: "way of getting to school", who: "pupils", one: "pupil", cats: ["Walk", "Bus", "MRT", "Car", "Cycle"] },
-  { topic: "favourite fruit", who: "people", one: "person", cats: ["Mango", "Durian", "Banana", "Papaya", "Rambutan", "Watermelon"] },
-  { topic: "favourite hawker breakfast", who: "people", one: "person", cats: ["Roti prata", "Thosai", "Chwee kueh", "Kaya toast", "Bee hoon"] },
-  { topic: "favourite sport to watch", who: "people", one: "person", cats: ["Football", "Badminton", "Basketball", "Tennis", "Athletics"] },
-  { topic: "favourite type of book", who: "pupils", one: "pupil", cats: ["Adventure", "Fantasy", "Mystery", "Comics", "Science"] },
+  { topic: "favourite CCA", ask: "their favourite CCA", of: (g) => `the favourite CCA of ${g}`, who: "pupils", one: "pupil", cats: ["Football", "Choir", "Robotics", "Swimming", "Drama", "Chess"] },
+  { topic: "way of travelling to school", ask: "how they usually travel to school", of: (g) => `how ${g} usually travel to school`, who: "pupils", one: "pupil", cats: ["Walk", "Bus", "MRT", "Car", "Cycle"] },
+  { topic: "favourite fruit", ask: "their favourite fruit", of: (g) => `the favourite fruit of ${g}`, who: "people", one: "person", cats: ["Mango", "Durian", "Banana", "Papaya", "Rambutan", "Watermelon"] },
+  { topic: "favourite hawker breakfast", ask: "their favourite hawker breakfast", of: (g) => `the favourite hawker breakfast of ${g}`, who: "people", one: "person", cats: ["Roti prata", "Thosai", "Chwee kueh", "Kaya toast", "Bee hoon"] },
+  { topic: "favourite sport to watch", ask: "their favourite sport to watch", of: (g) => `which sport ${g} most like to watch`, who: "people", one: "person", cats: ["Football", "Badminton", "Basketball", "Tennis", "Athletics"] },
+  { topic: "favourite type of book", ask: "their favourite type of book", of: (g) => `which type of book ${g} like best`, who: "pupils", one: "pupil", cats: ["Adventure", "Fantasy", "Mystery", "Comics", "Science"] },
 ];
 
 /** Totals that divide 360 (whole number of degrees per person). */
@@ -844,13 +849,13 @@ export const drills: Drill[] = [
       let solution: string[];
       if (tier === 1) {
         const u = 360 / N;
-        prompt = `${N} ${ctx.who} were asked their ${ctx.topic}. The results are in the table.\n\n${table}\n\n${name} draws a pie chart. Work out the angle of the sector for **${cat}**. Give your answer in degrees.`;
+        prompt = `${N} ${ctx.who} were asked ${ctx.ask}. The results are in the table.\n\n${table}\n\n${name} draws a pie chart. Work out the angle of the sector for **${cat}**. Give your answer in degrees.`;
         solution = [
           `There are ${N} ${ctx.who}, so each ${ctx.one} gets 360° ÷ ${N} = ${u}°.`,
           `${cat}: ${f} × ${u}° = ${A}°.`,
         ];
       } else if (tier === 2) {
-        prompt = `The table shows the ${ctx.topic} of a group of ${ctx.who}.\n\n${table}\n\nWork out the angle of the pie chart sector for **${cat}**. Give your answer in degrees.`;
+        prompt = `The table shows ${ctx.of(`a group of ${ctx.who}`)}.\n\n${table}\n\nWork out the angle of the pie chart sector for **${cat}**. Give your answer in degrees.`;
         solution = [
           `Total = ${fs.join(" + ")} = ${N} ${ctx.who}.`,
           `${cat} is {{${f}/${N}}} of the total, so its sector is {{${f}/${N}}} of 360°.`,
@@ -858,7 +863,7 @@ export const drills: Drill[] = [
         ];
       } else {
         const others = fs.filter((_, j) => j !== t);
-        prompt = `${N} ${ctx.who} were asked their ${ctx.topic}. The frequency for **${cat}** is missing from the table.\n\n${table}\n\nWork out the angle of the **${cat}** sector in a pie chart. Give your answer in degrees.`;
+        prompt = `${N} ${ctx.who} were asked ${ctx.ask}. The frequency for **${cat}** is missing from the table.\n\n${table}\n\nWork out the angle of the **${cat}** sector in a pie chart. Give your answer in degrees.`;
         solution = [
           `${cat}: ${N} − (${others.join(" + ")}) = ${N} − ${sumOf(others)} = ${f} ${ctx.who}.`,
           `${cat} is {{${f}/${N}}} of the total, so its angle is {{${f}/${N}}} × 360°.`,
@@ -1300,7 +1305,7 @@ export const drills: Drill[] = [
         const A = (f * 360) / N;
         const easy = 360 % N === 0;
         return {
-          prompt: `A pie chart shows the ${ctx.topic} of ${N} ${ctx.who}. The sector for **${cats[0]}** has an angle of ${A}°. How many ${ctx.who} chose ${cats[0]}?`,
+          prompt: `A pie chart shows ${ctx.of(`${N} ${ctx.who}`)}. The sector for **${cats[0]}** has an angle of ${A}°. How many ${ctx.who} chose ${cats[0]}?`,
           answer: { type: "number", value: f },
           solution: easy
             ? [`360° stands for all ${N} ${ctx.who}, so each ${ctx.one} is 360° ÷ ${N} = ${360 / N}°.`, `${A}° ÷ ${360 / N}° = ${f} ${ctx.who}.`]
@@ -1315,7 +1320,7 @@ export const drills: Drill[] = [
         const f = pickF(N);
         const A = (f * 360) / N;
         return {
-          prompt: `In a pie chart about ${ctx.topic}, the sector for **${cats[0]}** has an angle of ${A}° and stands for ${f} ${ctx.who}. How many ${ctx.who} does the whole pie chart represent?`,
+          prompt: `In a pie chart showing ${ctx.of(`some ${ctx.who}`)}, the sector for **${cats[0]}** has an angle of ${A}° and stands for ${f} ${ctx.who}. How many ${ctx.who} does the whole pie chart represent?`,
           answer: { type: "number", value: N },
           solution: [
             `${A}° is {{${A}/360}} of the circle, so ${f} ${ctx.who} is {{${A}/360}} of the total.`,
@@ -1340,7 +1345,7 @@ export const drills: Drill[] = [
         const traps: Trap[] = [];
         if (B !== g) traps.push(numTrap(B, `That's the angle of the ${cats[1]} sector. Turn it into a number of ${ctx.who}.`));
         return {
-          prompt: `In a pie chart about ${ctx.topic}, the **${cats[0]}** sector has an angle of ${A}° and stands for ${f} ${ctx.who}. The **${cats[1]}** sector has an angle of ${B}°. How many ${ctx.who} chose ${cats[1]}?`,
+          prompt: `In a pie chart showing ${ctx.of(`some ${ctx.who}`)}, the **${cats[0]}** sector has an angle of ${A}° and stands for ${f} ${ctx.who}. The **${cats[1]}** sector has an angle of ${B}°. How many ${ctx.who} chose ${cats[1]}?`,
           answer: { type: "number", value: g },
           solution: [
             `Total: ${f} × 360 ÷ ${A} = ${N} ${ctx.who}.`,
@@ -1374,7 +1379,7 @@ export const drills: Drill[] = [
       const traps: Trap[] = [];
       if (ang[3] !== fs[3]) traps.push(numTrap(ang[3], `That's the angle of the ${cats[3]} sector. Now turn it into a number of ${ctx.who}.`));
       return {
-        prompt: `A pie chart shows the ${ctx.topic} of ${N} ${ctx.who}. The table gives the angles of three of the sectors.\n\n${table}\n\nHow many ${ctx.who} chose **${cats[3]}**?`,
+        prompt: `A pie chart shows ${ctx.of(`${N} ${ctx.who}`)}. The table gives the angles of three of the sectors.\n\n${table}\n\nHow many ${ctx.who} chose **${cats[3]}**?`,
         answer: { type: "number", value: fs[3] },
         solution: [
           `Angle for ${cats[3]} = 360° − (${ang[0]}° + ${ang[1]}° + ${ang[2]}°) = ${ang[3]}°.`,

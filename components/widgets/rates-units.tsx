@@ -398,7 +398,7 @@ function UnitZoom() {
           1 m³ = 1000 litres, so {bigText} km³ = {group(smallVal)} m³ = <strong>
             <M>{standardForm(t * 10 ** 11)}</M> litres
           </strong>
-          . Lakes and reservoirs are measured in km³ for a reason.
+          . That is why the volumes of big lakes are given in km³.
         </>
       );
     }
