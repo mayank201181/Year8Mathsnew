@@ -434,24 +434,24 @@ export const morePapers: Paper[] = [
         kind: "written",
         id: "rates-units-p3-q16",
         question:
-          "A jeweller tests a ring that is sold as pure gold. The ring has a mass of 38.6 g. When it is dropped into a measuring cylinder of water, the water level rises by 2.5 ml. Pure gold has a density of 19.3 g/cm³.\n\nIs the ring pure gold? Explain your answer with calculations.",
+          "Mei fills a 500 cm³ plastic tub right to the brim with water, presses the lid on and puts it in the freezer. Water has a density of 1 g/cm³ and ice has a density of 0.92 g/cm³.\n\nMei says: \"The ice will still fit in the tub, because it's the same amount of water.\"\n\nIs she right? Explain your answer with calculations.",
         marks: 3,
         modelAnswer:
-          "The ring pushes aside its own volume of water, so its volume is 2.5 ml = 2.5 cm³.\n\nDensity = mass ÷ volume = 38.6 ÷ 2.5 = 15.44 g/cm³.\n\nThis is less than 19.3 g/cm³, so the ring is not pure gold: it must contain some less dense metal. (Check: pure gold with volume 2.5 cm³ would have a mass of 19.3 × 2.5 = 48.25 g, not 38.6 g.)",
+          "Mass of water = density × volume = 1 × 500 = 500 g. Freezing doesn't change the mass, so there is 500 g of ice.\n\nVolume of ice = mass ÷ density = 500 ÷ 0.92 ≈ 543 cm³.\n\n543 cm³ is more than the 500 cm³ the tub holds, so Mei is wrong: the ice needs about 43 cm³ more space, so it will push the lid off or crack the tub. The *mass* stays the same, but the *volume* grows because ice is less dense than water.",
         markScheme: [
-          { point: "Uses volume 2.5 cm³ (1 ml = 1 cm³) with density = mass ÷ volume", keywords: ["2.5", "mass ÷ volume", "mass/volume", "1 ml = 1 cm³", "divide"] },
-          { point: "Density 15.44 g/cm³ (or mass of a pure-gold ring 48.25 g)", keywords: ["15.44", "15.4", "48.25"] },
-          { point: "Conclusion: not pure gold, because its density is less than 19.3", keywords: ["not pure", "not gold", "less than 19.3", "less dense", "no"] },
+          { point: "Mass of water 500 g, and the mass stays the same when it freezes", keywords: ["500 g", "same mass", "mass stays", "mass doesn't change", "mass does not change"] },
+          { point: "Volume of ice = 500 ÷ 0.92 ≈ 543 cm³", keywords: ["543", "543.5", "543.48"] },
+          { point: "Conclusion: no, the ice is bigger than 500 cm³ (by about 43 cm³), so it won't fit", keywords: ["no", "won't fit", "will not fit", "more than 500", "bigger", "43", "wrong"] },
         ],
-        commonError: "Dividing the wrong way (2.5 ÷ 38.6) or multiplying. Density is grams per cm³, so the mass is divided by the volume.",
+        commonError: "Working out 500 × 0.92 = 460 cm³ and saying the ice shrinks. Volume = mass ÷ density, so a smaller density means a **bigger** volume.",
         difficulty: "core",
         guideRef: "density-and-rates",
         hints: [
-          "What does the rise in the water level tell you about the ring?",
-          "1 ml = 1 cm³. Now use density = mass ÷ volume.",
-          "Compare your density with 19.3 g/cm³.",
+          "What stays the same when water freezes: the mass or the volume?",
+          "Find the mass of the water, using mass = density × volume.",
+          "Now find the volume of that mass of ice: volume = mass ÷ density.",
         ],
-        strategy: "Compare with a known value",
+        strategy: "Look for an invariant",
       },
       // ------------------------------------------------------------- q17
       {

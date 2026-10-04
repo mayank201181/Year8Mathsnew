@@ -261,7 +261,7 @@ function YourTurn({ yt, awardKey }: { yt: NonNullable<WorkedExample["yourTurn"]>
   }
 
   return (
-    <div className="mt-4 rounded-2xl border-2 border-brand/30 bg-surface p-4">
+    <div className="mt-4 rounded-2xl border-2 border-brand/30 bg-surface p-3 sm:p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="text-xs font-black uppercase tracking-wider text-brand">✍️ Your turn</div>
         {solvedBefore && !result ? <span className="chip border-0 bg-good-soft text-good">✓ Solved before</span> : null}
@@ -335,7 +335,7 @@ function WorkedExampleView({ ex, index, topicId, sectionId }: { ex: WorkedExampl
   const complete = shown >= total;
 
   return (
-    <div className="rounded-2xl border border-line bg-surface-2 p-4 sm:p-5">
+    <div className="rounded-2xl border border-line bg-surface-2 p-3 sm:p-5">
       <div className="text-xs font-black uppercase tracking-wider text-brand">
         Worked example {index + 1}
         {ex.title ? (

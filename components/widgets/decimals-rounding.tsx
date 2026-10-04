@@ -258,14 +258,14 @@ function RoundingMicroscope() {
   // ----- number line -----
   let numberLine: ReactNode = null;
   if (dec && res) {
-    const X0 = 36;
-    const X1 = 304;
+    const X0 = 46;
+    const X1 = 294;
     const Y = 62;
     const xAt = (t: number) => X0 + (X1 - X0) * t;
     const xp = xAt(res.t);
     const chosenX = res.up ? X1 : X0;
-    const labelX = Math.min(306, Math.max(34, xp));
-    const nearer = res.exact ? "exactly on" : res.up ? "nearer to (or exactly halfway towards)" : "nearer to";
+    const labelX = Math.min(300, Math.max(40, xp));
+    const nearer = res.exact ? "exactly on" : res.halfway ? "exactly halfway, and by convention goes up to" : "nearer to";
     numberLine = (
       <svg
         viewBox="0 0 340 112"
@@ -388,7 +388,7 @@ function RoundingMicroscope() {
         </Fragment>,
       );
     }
-    if (res.overflow) {
+    if (res.overflow && res.upper !== res.answer) {
       notes.push(
         <Fragment key="over">
           The carry creates a new leading digit, so {res.upper} is written {res.answer} to keep exactly {n} s.f.{" "}
@@ -403,10 +403,15 @@ function RoundingMicroscope() {
       );
     }
     if (res.places > 0 && res.answer.endsWith("0")) {
+      const many = /00$/.test(res.answer);
+      const why =
+        mode === "dp"
+          ? `${many ? "they show" : "it shows"} the answer is accurate to ${n} d.p.`
+          : `${many ? "they are significant figures" : "it is a significant figure"} here`;
       notes.push(
         <Fragment key="zeros">
-          Keep the final zero{/0{2,}$/.test(res.answer) ? "s" : ""} in {res.answer}: {mode === "dp" ? `they show the answer is accurate to ${n} d.p.` : `they are significant figures here`}
-          {trimZeros(res.answer) !== res.answer ? ` (${trimZeros(res.answer)} would claim less accuracy).` : "."}{" "}
+          Keep the final zero{many ? "s" : ""} in {res.answer}: {why}
+          {trimZeros(res.answer) !== res.answer ? ` (writing ${trimZeros(res.answer)} would claim less accuracy).` : "."}{" "}
         </Fragment>,
       );
     }
@@ -634,7 +639,7 @@ function RemainderClock({ ld, shown }: { ld: LongDivision; shown: number }) {
             y1={prev.y}
             x2={pt.x}
             y2={pt.y}
-            className={last ? "stroke-brand" : "stroke-brand"}
+            className="stroke-brand"
             strokeWidth={last ? 3 : 1.5}
             opacity={last ? 0.95 : 0.4}
           />
@@ -754,8 +759,8 @@ function FractionDecimalMachine() {
         {sd > 1 ? (
           <>
             The denominator {sd} = <M>{factorMarkup(factors)}</M> has only 2s and 5s as prime factors, so it divides a power of 10:{" "}
-            <M>{`${sn}/${sd} = (${sn} * ${mult})/(${sd} * ${mult}) = ${sn * mult}/${pow}`}</M> = {soFar}. Its {tdp} decimal place
-            {tdp === 1 ? "" : "s"} come from the biggest power of 2 or 5.
+            <M>{`${sn}/${sd} = (${sn} * ${mult})/(${sd} * ${mult}) = ${sn * mult}/${pow}`}</M> = {soFar}. The denominator becomes{" "}
+            {pow} (a 1 followed by {tdp} zero{tdp === 1 ? "" : "s"}), so there {tdp === 1 ? "is 1 decimal place" : `are ${tdp} decimal places`}.
           </>
         ) : null}
       </span>

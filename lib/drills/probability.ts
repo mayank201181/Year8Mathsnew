@@ -1008,22 +1008,22 @@ const VENN = [
   {
     intro: "Students in a class were asked whether they play badminton and whether they swim.", who: "student",
     la: "Badminton", lb: "Swimming", predA: "plays badminton", predB: "swims", negA: "does not play badminton", negB: "does not swim",
-    neither: "does neither activity", exactly: "does exactly one of the two activities",
+    neither: "does neither activity", exactly: "does exactly one of the two activities", bothV: "do both",
   },
   {
     intro: "Shoppers at a fruit stall were asked whether they like durian and whether they like mango.", who: "shopper",
     la: "Durian", lb: "Mango", predA: "likes durian", predB: "likes mango", negA: "does not like durian", negB: "does not like mango",
-    neither: "likes neither fruit", exactly: "likes exactly one of the two fruits",
+    neither: "likes neither fruit", exactly: "likes exactly one of the two fruits", bothV: "like both",
   },
   {
     intro: "Students were asked whether they study French and whether they study Japanese.", who: "student",
     la: "French", lb: "Japanese", predA: "studies French", predB: "studies Japanese", negA: "does not study French", negB: "does not study Japanese",
-    neither: "studies neither language", exactly: "studies exactly one of the two languages",
+    neither: "studies neither language", exactly: "studies exactly one of the two languages", bothV: "study both",
   },
   {
     intro: "Families in an HDB block were asked whether they own a cat and whether they own a dog.", who: "family",
     la: "Cat", lb: "Dog", predA: "owns a cat", predB: "owns a dog", negA: "does not own a cat", negB: "does not own a dog",
-    neither: "owns neither pet", exactly: "owns exactly one of the two pets",
+    neither: "owns neither pet", exactly: "owns exactly one of the two pets", bothV: "own both",
   },
 ];
 
@@ -1066,7 +1066,7 @@ function vennDrill(rng: Rng, tier: Tier): DrillItem {
     }
     const groupWord = ctx.who === "family" ? "families" : `${ctx.who}s`;
     return {
-      prompt: `In a group of ${T} ${groupWord}, ${nA} ${ctx.predA.replace(/s\b/, "").replace(/^(\w+)/, (w) => w)} ${""}`.trim() === "" ? "" : `There are ${T} ${groupWord} in a group. ${nA} of them ${verbPlural(ctx.predA)}, ${nB} ${verbPlural(ctx.predB)} and ${both} do both. One ${ctx.who} is chosen at random. Find the probability that this ${ctx.who} ${phrase}.${SIMPLEST}`,
+      prompt: `There are ${T} ${groupWord} in a group. ${nA} of them ${verbPlural(ctx.predA)}, ${nB} ${verbPlural(ctx.predB)} and ${both} ${ctx.bothV}. One ${ctx.who} is chosen at random. Find the probability that this ${ctx.who} ${phrase}.${SIMPLEST}`,
       answer: fs(fav, T),
       solution: [
         `Draw a Venn diagram. Overlap = ${both}. ${ctx.la} only = ${nA} − ${both} = ${oA}. ${ctx.lb} only = ${nB} − ${both} = ${oB}.`,
