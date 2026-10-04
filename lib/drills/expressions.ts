@@ -494,7 +494,7 @@ export const drills: Drill[] = [
         let qq = tier === 1 ? rng.int(2, 9) : rng.nonZero(-9, 9);
         if (Math.abs(qq) < 2) qq = -3;
         const f: Fac = [[a, 1], [b, 1]];
-        if (p + qq !== p * qq && p + qq !== 0) traps.push(etrap(mono(p + qq, f), `You added ${p} and ${bq(qq)}. When terms are multiplied, multiply the numbers.`));
+        if (p + qq !== p * qq && p + qq !== 0) traps.push(etrap(mono(p + qq, f), `You added ${p} and ${num(qq)}. When terms are multiplied, multiply the numbers.`));
         return {
           prompt: `${verb} ${M(`${p}${a} × ${qq < 0 ? `(${qq}${b})` : `${qq}${b}`}`)}.`,
           answer: monoAnswer(p * qq, f),
@@ -565,7 +565,7 @@ export const drills: Drill[] = [
         const p = rng.bool(0.3) ? -rng.int(2, 9) : rng.int(2, 9);
         const qq = rng.int(2, 6), m = rng.int(4, 10), n = rng.int(1, m - 1);
         const top = mono(p * qq, [[v, m]]), bot = mono(qq, [[v, n]]);
-        if (m % n === 0 && m / n !== m - n) traps.push(etrap(mono(p, [[v, m / n]]), `Subtract the indices when dividing: ${m} − ${n}, not ${m} ÷ ${n}.`));
+        if (n > 1 && m % n === 0 && m / n !== m - n) traps.push(etrap(mono(p, [[v, m / n]]), `Subtract the indices when dividing: ${m} − ${n}, not ${m} ÷ ${n}.`));
         return {
           prompt: `${verb} ${M(rng.bool() ? `${top} ÷ ${bot}` : `${top}/(${bot})`)}.`,
           answer: monoAnswer(p, [[v, m - n]]),
@@ -610,7 +610,7 @@ export const drills: Drill[] = [
         const pk = Math.pow(p, k);
         traps.push(etrap(mono(p, [[v, m * k]]), `The number is inside the bracket too, so raise it to the power ${k}: ${M(`${bq(p)}^${k} = ${pk}`)}.`));
         if (m + k !== m * k) traps.push(etrap(mono(pk, [[v, m + k]]), `${M(`(${v}^${m})^${k}`)} means ${k} lots of ${M(`${v}^${m}`)} multiplied together, so multiply the indices: ${m} × ${k}.`));
-        if (p * k !== pk) traps.push(etrap(mono(p * k, [[v, m * k]]), `${M(`${bq(p)}^${k}`)} means ${p} multiplied by itself ${k} times, not ${p} × ${k}.`));
+        if (p * k !== pk) traps.push(etrap(mono(p * k, [[v, m * k]]), `${M(`${bq(p)}^${k}`)} means ${num(p)} multiplied by itself ${k} times, not ${num(p)} × ${k}.`));
         return {
           prompt: `${verb} ${M(`(${mono(p, [[v, m]])})^${k}`)}.`,
           answer: monoAnswer(pk, [[v, m * k]]),
@@ -655,7 +655,8 @@ export const drills: Drill[] = [
       const ans: Fac = [[a, e1 - e3], [b, e2 - e4]];
       traps.push(etrap(mono(p, [[a, e1 + e3], [b, e2 + e4]]), "When dividing, **subtract** the indices — you added them."));
       return {
-        prompt: `${verb} ${M(rng.bool() ? `${top} ÷ ${bot}` : `${top}/(${bot})`)}.`,
+        // Bracket the two-letter numerator so the fraction line sits under all of it.
+        prompt: `${verb} ${M(rng.bool() ? `${top} ÷ ${bot}` : `(${top})/(${bot})`)}.`,
         answer: monoAnswer(p, ans),
         solution: [
           `Divide the numbers: ${M(`${bq(p * qq)} ÷ ${qq} = ${p}`)}.`,

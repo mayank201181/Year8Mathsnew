@@ -446,11 +446,13 @@ export const drills: Drill[] = [
       if (type === "fromAngle") {
         const ang = rng.pick(tier === 2 ? [30, 36, 40, 45, 60, 72, 90, 120, 180] : [10, 12, 15, 18, 20, 24, 40, 45]);
         const n = 360 / ang;
+        // List every turn when there are only a few; otherwise the first three, then "…, 360°".
+        const turnList = n <= 4 ? Array.from({ length: n }, (_, i) => `${ang * (i + 1)}°`).join(", ") : `${ang}°, ${2 * ang}°, ${3 * ang}°, … all the way up to 360°`;
         return {
           prompt: `A ${rng.pick(DESIGNS)} fits onto its own outline when it is turned through ${ang}° about its centre, and no smaller turn works. What is its order of rotational symmetry?`,
           answer: { type: "number", value: n },
           solution: [
-            `The turns that work are ${ang}°, ${2 * ang}°, ${3 * ang}°, … all the way up to 360°.`,
+            `The turns that work are ${turnList}.`,
             `Number of turns in one full turn: 360 ÷ ${ang} = ${n}, so the order is ${n}.`,
           ],
           hint: "How many turns of this size fit into one full turn of 360°?",

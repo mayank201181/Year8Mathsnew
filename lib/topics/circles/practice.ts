@@ -992,7 +992,6 @@ export const practice: TopicPractice = {
           traps: [
             { spec: { type: "number", value: 78.5, tolerance: 0.05 }, feedback: "78.5 cm² is one whole quarter circle. The leaf is only the part covered by **both**." },
             { spec: { type: "number", value: 42.9, tolerance: 0.05 }, feedback: "42.9 cm² is the two unshaded corners of the square together. The leaf is the rest of the square." },
-            { spec: { type: "number", value: 57, tolerance: 0.01 }, feedback: "Right method, but 57.0 comes from using π = 3.14. The question asks for the π button: {{50 pi - 100 = 57.079…}}." },
           ],
           difficulty: "challenge",
           guideRef: "compound-circle-shapes",
@@ -1017,7 +1016,6 @@ export const practice: TopicPractice = {
           ],
           traps: [
             { spec: { type: "number", value: 127.3, tolerance: 0.05 }, feedback: "127.3 cm² is the circle's whole area. The question asks how much **bigger** it is than the square." },
-            { spec: { type: "number", value: 27.4, tolerance: 0.01 }, feedback: "Close, but 27.4 comes from using π = 3.14. Use the π button and keep the exact radius {{20/pi}} until the end: the circle's area is {{400/pi = 127.32…}} cm²." },
           ],
           commonError: "Rounding the radius early (e.g. to 6.37), which throws the final answer off.",
           difficulty: "challenge",
