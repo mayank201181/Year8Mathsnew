@@ -920,6 +920,7 @@ const circumferenceCalc: Drill = {
 
 /** A real round object of about this diameter (cm), so the context stays believable. */
 function objFor(rng: Rng, dCm: number): string {
+  if (dCm <= 5) return rng.pick(["a coin", "a button", "a circular sticker"]);
   if (dCm <= 12) return rng.pick(["a round coaster", "a circular badge", "a circular sticker", "a jar lid"]);
   if (dCm <= 40) return rng.pick(["a round mirror", "a dinner plate", "a round biscuit tin", "a cake tin"]);
   if (dCm <= 80) return rng.pick(["a bicycle wheel", "a round stool top", "a drum"]);

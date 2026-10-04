@@ -2117,39 +2117,47 @@ export const drills: Drill[] = [
       const nm = rng.pick(NAMES);
       const useFive = rng.bool();
       const fact = useFive ? "5 miles ≈ 8 km" : "1 mile ≈ 1.6 km";
+      // Each context has a realistic range (nobody does a 180 km charity run).
+      const fiveStep = useFive ? [] : ["1 mile ≈ 1.6 km, so 5 miles ≈ 5 × 1.6 = 8 km."];
       if (rng.bool()) {
-        const miles = tier === 1 ? rng.int(2, 20) * 5 : find(() => rng.int(3, 150), (x) => x % 5 !== 0, 13);
-        const km = clean((miles * 8) / 5);
-        const ctx = rng.pick([
-          `A road sign in Scotland says Edinburgh is ${miles} miles away.`,
-          `${nm}'s family drives ${miles} miles on a holiday in England.`,
-          `A cycle route in the USA is ${miles} miles long.`,
-          `A charity walk in London is ${miles} miles long.`,
+        const c = rng.pick([
+          { lo: 5, hi: 150, text: (m: number) => `A road sign in Scotland says Edinburgh is ${m} miles away.` },
+          { lo: 20, hi: 150, text: (m: number) => `${nm}'s family drives ${m} miles on a holiday in England.` },
+          { lo: 10, hi: 100, text: (m: number) => `A cycle route in the USA is ${m} miles long.` },
+          { lo: 3, hi: 26, text: (m: number) => `A charity walk in London is ${m} miles long.` },
         ]);
+        const miles =
+          tier === 1
+            ? rng.int(Math.ceil(Math.max(c.lo, 10) / 5), Math.floor(Math.min(c.hi, 100) / 5)) * 5
+            : find(() => rng.int(c.lo, c.hi), (x) => x % 5 !== 0, 13);
+        const km = clean((miles * 8) / 5);
         const steps = miles % 5 === 0
-          ? [`${miles} miles is ${miles} ÷ 5 = ${miles / 5} lots of 5 miles.`, `${miles / 5} × 8 = ${km}, so ${miles} miles ≈ ${km} km.`]
+          ? [...fiveStep, `${miles} miles is ${miles} ÷ 5 = ${miles / 5} lots of 5 miles.`, `${miles / 5} × 8 = ${km}, so ${miles} miles ≈ ${km} km.`]
           : [`${useFive ? "5 miles ≈ 8 km, so 1 mile ≈ 8 ÷ 5 = 1.6 km." : "1 mile ≈ 1.6 km, so multiply by 1.6."}`, `${miles} × 1.6 = ${num(km)}, so ${miles} miles ≈ ${num(km)} km.`];
         return {
-          prompt: `${ctx} Use ${fact} to estimate this distance in kilometres.`,
+          prompt: `${c.text(miles)} Use ${fact} to estimate this distance in kilometres.`,
           answer: numAns(km, "km"),
           solution: steps,
           hint: "A kilometre is shorter than a mile, so the km number should be bigger.",
           traps: numTraps(km, [[(miles * 5) / 8, "You divided. A kilometre is shorter than a mile, so there are MORE km than miles."]]),
         };
       }
-      const km = tier === 1 ? rng.int(2, 20) * 8 : find(() => rng.int(5, 100) * 2, (x) => x % 8 !== 0, 20);
-      const miles = clean((km * 5) / 8);
-      const ctx = rng.pick([
-        `${nm} runs ${km} km in a charity run.`,
-        `The drive from ${nm}'s home to the airport is ${km} km.`,
-        `A cycling route around an island is ${km} km long.`,
-        `A train line is ${km} km long.`,
+      const c = rng.pick([
+        { lo: 5, hi: 42, text: (k: number) => `${nm} runs ${k} km in a charity run.` },
+        { lo: 10, hi: 60, text: (k: number) => `The drive from ${nm}'s home to the airport is ${k} km.` },
+        { lo: 10, hi: 200, text: (k: number) => `A cycling route around an island is ${k} km long.` },
+        { lo: 20, hi: 200, text: (k: number) => `A train line is ${k} km long.` },
       ]);
+      const km =
+        tier === 1
+          ? rng.int(Math.ceil(Math.max(c.lo, 16) / 8), Math.floor(Math.min(c.hi, 160) / 8)) * 8
+          : find(() => rng.int(Math.ceil(c.lo / 2), Math.floor(c.hi / 2)) * 2, (x) => x % 8 !== 0, 20);
+      const miles = clean((km * 5) / 8);
       const steps = km % 8 === 0
-        ? [`${km} km is ${km} ÷ 8 = ${km / 8} lots of 8 km.`, `${km / 8} × 5 = ${miles}, so ${km} km ≈ ${miles} miles.`]
+        ? [...fiveStep, `${km} km is ${km} ÷ 8 = ${km / 8} lots of 8 km.`, `${km / 8} × 5 = ${miles}, so ${km} km ≈ ${miles} miles.`]
         : [`${useFive ? "5 miles ≈ 8 km, so 1 mile ≈ 8 ÷ 5 = 1.6 km. To change km to miles, divide by 1.6." : "1 mile ≈ 1.6 km, so divide the km by 1.6."}`, `${km} ÷ 1.6 = ${num(miles)}, so ${km} km ≈ ${num(miles)} miles.`];
       return {
-        prompt: `${ctx} Use ${fact} to estimate this distance in miles.`,
+        prompt: `${c.text(km)} Use ${fact} to estimate this distance in miles.`,
         answer: numAns(miles, "miles"),
         solution: steps,
         hint: "A mile is longer than a kilometre, so the miles number should be smaller.",
