@@ -783,7 +783,7 @@ function circContext(rng: Rng): DrillItem | null {
       hint: "How far does the bicycle move in one turn of the wheel?",
       traps: pickTraps(R.value, [
         rTrap(n * C, 1, "That's in centimetres. Divide by 100 to change to metres."),
-        rTrap((2 * n * C) / 100, 1, "You used 2 × π × diameter. With the diameter, C = πd."),
+        rTrap((2 * n * C) / 100, 1, "You used 2 × π × diameter. With the diameter, {{C = pi d}}."),
       ]),
     };
   }
@@ -817,7 +817,7 @@ function circContext(rng: Rng): DrillItem | null {
       solution: [`One lap: {{C = 2 pi r = 2 * pi * ${r}}} = ${dots(2 * PI * r)} m.`, `${n} laps: ${n} × ${dots(2 * PI * r)} = ${dots(dist)} m`, `= ${R.text} m to the nearest metre.`],
       hint: "One lap is one circumference.",
       traps: pickTraps(R.value, [
-        rTrap(n * PI * r, 0, "You used the radius as if it were the diameter. One lap is 2πr."),
+        rTrap(n * PI * r, 0, "You used the radius as if it were the diameter. One lap is {{2 pi r}}."),
         rTrap(2 * PI * r, 0, `That's only one lap. ${name} runs ${n} laps.`),
       ]),
     };
@@ -832,7 +832,7 @@ function circContext(rng: Rng): DrillItem | null {
       answer: calcSpec(R, "m"),
       solution: [`One turn is one circumference: {{C = pi d = pi * ${d}}} = ${dots(C)} m.`, `= ${R.text} m to 3 significant figures.`],
       hint: "The capsule travels once around the circle.",
-      traps: pickTraps(R.value, [rTrap(2 * C, 0, "You used 2 × π × diameter. With the diameter, C = πd.")]),
+      traps: pickTraps(R.value, [rTrap(2 * C, 0, "You used 2 × π × diameter. With the diameter, {{C = pi d}}.")]),
     };
   }
   const r10 = rng.int(15, 60);
@@ -846,8 +846,8 @@ function circContext(rng: Rng): DrillItem | null {
     solution: [`The edging goes round the circumference: {{C = 2 pi r = 2 * pi * ${num(r)}}}`, `= ${dots(C)} m = ${R.text} m (to 1 decimal place).`],
     hint: "Edging goes round the outside. Which formula uses the radius?",
     traps: pickTraps(R.value, [
-      rTrap(PI * r, 1, "You used the radius as if it were the diameter. C = 2πr."),
-      rTrap(PI * r * r, 1, "That's the area (πr²). Edging goes round the edge."),
+      rTrap(PI * r, 1, "You used the radius as if it were the diameter. {{C = 2 pi r}}."),
+      rTrap(PI * r * r, 1, "That's the area ({{pi r^2}}). Edging goes round the edge."),
     ]),
   };
 }
@@ -886,18 +886,18 @@ const circumferenceCalc: Drill = {
         : [`The diameter is ${num(d)} cm, so use {{C = pi d}}.`, `{{C = pi * ${num(d)}}} = ${dots(C)} cm`, `= ${R.text} cm (to ${R.phrase})`];
       const cands = giveR
         ? [
-            rTrap(PI * r, R.dp, "You used the radius as if it were the diameter. C = 2πr, or double the radius first."),
-            rTrap(PI * r * r, R.dp, "That's the area (πr²). Circumference is 2πr."),
+            rTrap(PI * r, R.dp, "You used the radius as if it were the diameter. {{C = 2 pi r}}, or double the radius first."),
+            rTrap(PI * r * r, R.dp, "That's the area ({{pi r^2}}). Circumference is {{2 pi r}}."),
           ]
         : [
-            rTrap(2 * PI * d, R.dp, "You doubled the diameter. With the diameter, C = πd. (2πr is for the radius.)"),
-            rTrap((PI * d * d) / 4, R.dp, "That's the area. Circumference is πd."),
+            rTrap(2 * PI * d, R.dp, "You doubled the diameter. With the diameter, {{C = pi d}}. ({{2 pi r}} is for the radius.)"),
+            rTrap((PI * d * d) / 4, R.dp, "That's the area. Circumference is {{pi d}}."),
           ];
       return {
         prompt: `${prompt} Give your answer to ${R.phrase}.`,
         answer: calcSpec(R, "cm"),
         solution,
-        hint: giveR ? "You have the radius. C = 2πr (or double it to get the diameter and use C = πd)." : "You have the diameter, so C = πd.",
+        hint: giveR ? "You have the radius. {{C = 2 pi r}} (or double it to get the diameter and use {{C = pi d}})." : "You have the diameter, so {{C = pi d}}.",
         traps: pickTraps(R.value, cands),
       };
     });
@@ -931,17 +931,17 @@ function circExactTerms(rng: Rng, tier: Tier): DrillItem | null {
   const cands = giveR
     ? [
         pTrap(piTerm(x10, 10), `That's π × radius. The circumference is π × diameter, and the diameter is 2 × ${num(x)}.`),
-        pTrap(piTerm(x10 * x10, 100), "That's πr², the area. Circumference is 2πr."),
+        pTrap(piTerm(x10 * x10, 100), "That's {{pi r^2}}, the area. Circumference is {{2 pi r}}."),
       ]
     : [
-        pTrap(piTerm(2 * x10, 10), "You doubled the diameter. With the diameter, C = πd."),
-        pTrap(piTerm(x10 * x10, 400), "That's the area. Circumference is πd."),
+        pTrap(piTerm(2 * x10, 10), "You doubled the diameter. With the diameter, {{C = pi d}}."),
+        pTrap(piTerm(x10 * x10, 400), "That's the area. Circumference is {{pi d}}."),
       ];
   return {
     prompt: `${prompt} ${TYPE_PI}`,
     answer: exactSpec(ans, "cm"),
     solution,
-    hint: giveR ? "C = 2πr. Multiply the numbers and keep π as a letter." : "C = πd. Keep π as a letter.",
+    hint: giveR ? "{{C = 2 pi r}}. Multiply the numbers and keep π as a letter." : "{{C = pi d}}. Keep π as a letter.",
     traps: [...pickTraps(ans.value, cands), decimalTrap(ans.value)],
   };
 }
@@ -965,7 +965,7 @@ function circExactCompare(rng: Rng): DrillItem | null {
     ],
     hint: "Find each circumference in terms of π first. Watch which one you were given the radius for.",
     traps: [
-      ...pickTraps(ans.value, [pTrap(piTerm(longer ? b - a : b + a), "Circle A's circumference is 2πr, so use its diameter, 2 × the radius.")]),
+      ...pickTraps(ans.value, [pTrap(piTerm(longer ? b - a : b + a), "Circle A's circumference is {{2 pi r}}, so use its diameter, 2 × the radius.")]),
       decimalTrap(ans.value),
     ],
   };
@@ -991,7 +991,7 @@ function circExact314(rng: Rng, tier: Tier): DrillItem {
   const cands = giveR
     ? [
         nTrap((314 * x10) / 1000, "You used the radius as if it were the diameter. Double the radius first."),
-        nTrap((314 * x10 * x10) / 10000, "That's the area (πr²). Circumference is π × d."),
+        nTrap((314 * x10 * x10) / 10000, "That's the area ({{pi r^2}}). Circumference is π × d."),
       ]
     : [nTrap((628 * d10) / 1000, "You doubled the diameter. With the diameter, C = π × d.")];
   return {
@@ -1078,7 +1078,7 @@ function rFromCExact(rng: Rng, tier: Tier): DrillItem {
       `Divide both sides by π: d = ${c} cm.`,
       ...(askR ? [`Radius = ${c} ÷ 2 = ${num(r)} cm.`] : []),
     ],
-    hint: "C = πd. What must d be to make π × d equal the circumference?",
+    hint: "{{C = pi d}}. What must d be to make π × d equal the circumference?",
     traps: pickTraps(ans, [
       askR ? nTrap(c, "That's the diameter. The radius is half of it.") : nTrap(r, "That's the radius. The diameter is twice it."),
     ]),
@@ -1122,7 +1122,7 @@ function rFromCCalc(rng: Rng, tier: Tier): DrillItem | null {
       ...(askR ? [`{{r = d / 2}} = ${dots(r)} cm`] : []),
       `= ${R.text} cm (to ${R.phrase})`,
     ],
-    hint: "Work backwards from C = πd: divide by π.",
+    hint: "Work backwards from {{C = pi d}}: divide by π.",
     traps: pickTraps(R.value, [
       askR ? rTrap(d, R.dp, "That's the diameter (C ÷ π). Halve it for the radius.") : rTrap(r, R.dp, "That's the radius. The diameter is C ÷ π."),
       askR ? rTrap(C / 2, R.dp, "Don't forget to divide by π.") : rTrap(C * PI, R.dp, "You multiplied by π. To undo × π, divide by π."),
@@ -1155,7 +1155,7 @@ function rFromCContext(rng: Rng): DrillItem | null {
       prompt: `The trunk of a rain tree has a circumference of ${num(X)} m. Find its diameter in centimetres, to the nearest centimetre.`,
       answer: calcSpec(R, "cm"),
       solution: [`Change to centimetres first: ${num(X)} m = ${X10 * 10} cm.`, `{{d = C / pi = ${X10 * 10} / pi}} = ${dots(d)} cm`, `= ${R.text} cm to the nearest centimetre.`],
-      hint: "C = πd, so d = C ÷ π. Watch the units.",
+      hint: "{{C = pi d}}, so d = C ÷ π. Watch the units.",
       traps: pickTraps(R.value, [rTrap(d / 2, 0, "That's the radius. The diameter is C ÷ π.")]),
     };
   }
@@ -1226,18 +1226,18 @@ function areaCalc(rng: Rng, tier: Tier): DrillItem | null {
   ];
   const cands = giveR
     ? [
-        rTrap(2 * PI * r, R.dp, "That's 2πr, the circumference (or you doubled r instead of squaring it). Area is πr²."),
-        rTrap(PI * r, R.dp, "You multiplied by r instead of r². Square the radius first."),
+        rTrap(2 * PI * r, R.dp, "That's {{2 pi r}}, the circumference (or you doubled r instead of squaring it). Area is {{pi r^2}}."),
+        rTrap(PI * r, R.dp, "You multiplied by r instead of {{r^2}}. Square the radius first."),
       ]
     : [
-        rTrap(PI * d * d, R.dp, "You used the diameter in πr². Halve it first to get the radius."),
-        rTrap(PI * d, R.dp, "That's πd, the circumference. Area is πr²."),
+        rTrap(PI * d * d, R.dp, "You used the diameter in {{pi r^2}}. Halve it first to get the radius."),
+        rTrap(PI * d, R.dp, "That's {{pi d}}, the circumference. Area is {{pi r^2}}."),
       ];
   return {
     prompt: `${prompt} Give your answer in cm² to ${R.phrase}.`,
     answer: calcSpec(R, "cm²"),
     solution,
-    hint: giveR ? "A = πr². Square the radius before multiplying by π." : "Area needs the radius. Halve the diameter first.",
+    hint: giveR ? "{{A = pi r^2}}. Square the radius before multiplying by π." : "Area needs the radius. Halve the diameter first.",
     traps: pickTraps(R.value, cands),
   };
 }
@@ -1259,13 +1259,13 @@ function areaTerms(rng: Rng, tier: Tier): DrillItem | null {
     `Work out the exact area of a circle with ${what} ${num(x)} cm. Give your answer in terms of π.`,
   ]);
   const cands = giveR
-    ? [pTrap(piTerm(2 * d10, 20), "That's 2πr, the circumference (or you doubled r instead of squaring it). Area is πr²."), pTrap(piTerm(d10 * d10, 100), "You used the diameter. Area uses the radius.")]
-    : [pTrap(piTerm(d10 * d10, 100), "You used the diameter in πr². Halve it first to get the radius."), pTrap(piTerm(d10, 10), "That's πd, the circumference. Area is πr².")];
+    ? [pTrap(piTerm(2 * d10, 20), "That's {{2 pi r}}, the circumference (or you doubled r instead of squaring it). Area is {{pi r^2}}."), pTrap(piTerm(d10 * d10, 100), "You used the diameter. Area uses the radius.")]
+    : [pTrap(piTerm(d10 * d10, 100), "You used the diameter in {{pi r^2}}. Halve it first to get the radius."), pTrap(piTerm(d10, 10), "That's {{pi d}}, the circumference. Area is {{pi r^2}}.")];
   return {
     prompt: `${prompt} ${TYPE_PI}`,
     answer: exactSpec(ans, "cm²"),
     solution: [...(giveR ? [] : [`Radius = ${num(d)} ÷ 2 = ${num(r)} cm.`]), `Square the radius: {{${num(r)}^2 = ${num(r2)}}}.`, `{{A = pi r^2 = ${ans.tex}}} cm²`],
-    hint: "A = πr². Square the radius and keep π as a letter.",
+    hint: "{{A = pi r^2}}. Square the radius and keep π as a letter.",
     traps: [...pickTraps(ans.value, cands), decimalTrap(ans.value)],
   };
 }
@@ -1283,13 +1283,13 @@ function area314(rng: Rng, tier: Tier): DrillItem {
   return {
     prompt: `${rng.pick(["Use π = 3.14 to work out", "Taking π as 3.14, find"])} the area of a circle with ${what} ${num(x)} cm. Give your answer in cm².`,
     answer: numSpec(A, "cm²"),
-    solution: [...(giveR ? [] : [`Radius = ${num(d)} ÷ 2 = ${num(r)} cm.`]), `{{${num(r)}^2 = ${num(clean(r * r))}}}`, `A = π × r² = 3.14 × ${num(clean(r * r))} = ${num(A)} cm²`],
+    solution: [...(giveR ? [] : [`Radius = ${num(d)} ÷ 2 = ${num(r)} cm.`]), `{{${num(r)}^2 = ${num(clean(r * r))}}}`, `A = {{pi * r^2}} = 3.14 × ${num(clean(r * r))} = ${num(A)} cm²`],
     hint: giveR ? "Square the radius first, then multiply by 3.14." : "Halve the diameter, square it, then multiply by 3.14.",
     traps: pickTraps(
       A,
       giveR
-        ? [nTrap((628 * r10) / 1000, "That's 2 × 3.14 × r, the circumference. Area is π × r².")]
-        : [nTrap((314 * 4 * r10 * r10) / 10000, "You used the diameter in πr². Halve it first to get the radius.")],
+        ? [nTrap((628 * r10) / 1000, "That's 2 × 3.14 × r, the circumference. Area is {{pi * r^2}}.")]
+        : [nTrap((314 * 4 * r10 * r10) / 10000, "You used the diameter in {{pi r^2}}. Halve it first to get the radius.")],
     ),
   };
 }
@@ -1352,7 +1352,7 @@ function areaContext(rng: Rng): DrillItem | null {
       hint: "Find the area of the lawn first. Can you buy part of a box?",
       traps: pickTraps(ans, [
         nTrap(ans - 1, `${ans - 1} boxes would leave part of the lawn bare. Round up.`),
-        ...(fr2 > 0.001 ? [nTrap(Math.ceil(q2), "You used the diameter in πr². Halve it first to get the radius.")] : []),
+        ...(fr2 > 0.001 ? [nTrap(Math.ceil(q2), "You used the diameter in {{pi r^2}}. Halve it first to get the radius.")] : []),
       ]),
     };
   }
@@ -1401,9 +1401,9 @@ function rFromAExact(rng: Rng, tier: Tier): DrillItem {
     prompt: `A circle has an area of {{${num(k)} pi}} cm². Find its ${what}. Give your answer in cm.`,
     answer: numSpec(ans, "cm"),
     solution: [`{{A = pi r^2}}, so {{${num(k)} pi = pi r^2}}.`, `Divide by π: {{r^2 = ${num(k)}}}.`, `{{r = sqrt(${num(k)}) = ${num(r)}}} cm`, ...(askR ? [] : [`Diameter = 2 × ${num(r)} = ${num(ans)} cm.`])],
-    hint: "A = πr². What number squared gives the number in front of π?",
+    hint: "{{A = pi r^2}}. What number squared gives the number in front of π?",
     traps: pickTraps(ans, [
-      nTrap(k, "That's r². Take the square root to find r."),
+      nTrap(k, "That's {{r^2}}. Take the square root to find r."),
       askR ? nTrap(2 * r, "That's the diameter. The question asks for the radius.") : nTrap(r, "That's the radius. The diameter is twice it."),
     ]),
   };
@@ -1418,10 +1418,10 @@ function rFromA314(rng: Rng): DrillItem {
   return {
     prompt: `Using π = 3.14, a circle has an area of ${num(A)} cm². Find its ${what}. Give your answer in cm.`,
     answer: numSpec(ans, "cm"),
-    solution: [`A = π × r², so r² = A ÷ π.`, `r² = ${num(A)} ÷ 3.14 = ${r * r}`, `r = {{sqrt(${r * r})}} = ${r} cm`, ...(askR ? [] : [`Diameter = 2 × ${r} = ${2 * r} cm.`])],
+    solution: [`{{A = pi r^2}}, so {{r^2 = A / pi}}.`, `{{r^2}} = ${num(A)} ÷ 3.14 = ${r * r}`, `r = {{sqrt(${r * r})}} = ${r} cm`, ...(askR ? [] : [`Diameter = 2 × ${r} = ${2 * r} cm.`])],
     hint: "Work backwards: undo × π, then undo the squaring.",
     traps: pickTraps(ans, [
-      nTrap(r * r, "That's r². Take the square root to find r."),
+      nTrap(r * r, "That's {{r^2}}. Take the square root to find r."),
       askR ? nTrap(2 * r, "That's the diameter. The question asks for the radius.") : nTrap(r, "That's the radius. The diameter is twice it."),
     ]),
   };
@@ -1437,10 +1437,10 @@ function rFromA227(rng: Rng): DrillItem {
   return {
     prompt: `Taking π as {{22/7}}, a circle has an area of ${num(A)} cm². Find its ${what}. Give your answer in cm.`,
     answer: numSpec(ans, "cm"),
-    solution: [`r² = A ÷ π = {{${num(A)} * 7/22}} = ${num(r2)}`, `r = {{sqrt(${num(r2)})}} = ${num(r)} cm`, ...(askR ? [] : [`Diameter = 2 × ${num(r)} = ${num(ans)} cm.`])],
+    solution: [`{{r^2}} = A ÷ π = {{${num(A)} * 7/22}} = ${num(r2)}`, `r = {{sqrt(${num(r2)})}} = ${num(r)} cm`, ...(askR ? [] : [`Diameter = 2 × ${num(r)} = ${num(ans)} cm.`])],
     hint: "Dividing by {{22/7}} is the same as multiplying by {{7/22}}.",
     traps: pickTraps(ans, [
-      nTrap(r2, "That's r². Take the square root to find r."),
+      nTrap(r2, "That's {{r^2}}. Take the square root to find r."),
       askR ? nTrap(2 * r, "That's the diameter. The question asks for the radius.") : nTrap(r, "That's the radius. The diameter is twice it."),
     ]),
   };
@@ -1481,7 +1481,7 @@ function rFromACalc(rng: Rng, tier: Tier): DrillItem | null {
     ],
     hint: "Work backwards: divide by π, then square root.",
     traps: pickTraps(R.value, [
-      rTrap(askR ? A / PI : (2 * A) / PI, R.dp, "You forgot the square root. A ÷ π gives r², not r."),
+      rTrap(askR ? A / PI : (2 * A) / PI, R.dp, "You forgot the square root. A ÷ π gives {{r^2}}, not r."),
       rTrap(askR ? Math.sqrt(A) : 2 * Math.sqrt(A), R.dp, "Divide by π before taking the square root."),
       askR ? rTrap(2 * r, R.dp, "That's the diameter. The question asks for the radius.") : rTrap(r, R.dp, "That's the radius. The diameter is twice it."),
     ]),
@@ -1606,7 +1606,7 @@ const semicircleArea: Drill = {
       const diagram = pieceDiagram(S.piece, S.giveD, xLabel);
       const rStep = S.giveD ? [`Radius = ${num(2 * r)} ÷ 2 = ${num(r)} ${u}.`] : [];
       const ask = `Work out the area of ${S.shapeWord}.`;
-      const hint = `Find the area of the whole circle (πr²), then take ${P.fword} of it.`;
+      const hint = `Find the area of the whole circle ({{pi r^2}}), then take ${P.fword} of it.`;
       if (mode === "terms") {
         const ans = piTerm(P.n * S.r10 * S.r10, P.d * 100);
         if (!ans.nice || !exactOk(ans.value)) return null;
@@ -1916,7 +1916,7 @@ function compoundCase(rng: Rng, tier: Tier): CompoundCase {
       steps: () => [`Square: ${side} × ${side} = ${side * side} cm²`, `The circle's diameter is ${side} cm, so its radius is ${r} cm. Circle: {{pi * ${r}^2 = ${piTerm(r * r).tex}}} cm²`, "Shaded = square − circle."],
       traps: [
         [{ k: 0, s: 1, n: r * r, d: 1 }, "That's the circle. The shaded part is the square minus the circle."],
-        [{ k: side * side, s: -1, n: 2 * r, d: 1 }, "You subtracted the circumference (2πr). Subtract the circle's area, πr²."],
+        [{ k: side * side, s: -1, n: 2 * r, d: 1 }, "You subtracted the circumference ({{2 pi r}}). Subtract the circle's area, {{pi r^2}}."],
       ],
       hint: "Shaded area = square − circle. What is the circle's radius?",
     };
@@ -2119,12 +2119,12 @@ const arcsSectors: Drill = {
         kind === "arc"
           ? [
               [{ k: 0, s: 1, n: 2 * r, d: 1 }, "That's the whole circumference. The arc is only " + theta + "/360 of it."],
-              [{ k: 0, s: 1, n: theta * r * r, d: 360 }, "That's the sector's area. Arc length uses 2πr."],
+              [{ k: 0, s: 1, n: theta * r * r, d: 360 }, "That's the sector's area. Arc length uses {{2 pi r}}."],
             ]
           : kind === "area"
             ? [
                 [{ k: 0, s: 1, n: r * r, d: 1 }, "That's the whole circle. The sector is only " + theta + "/360 of it."],
-                [{ k: 0, s: 1, n: theta * 2 * r, d: 360 }, "That's the arc length. Sector area uses πr²."],
+                [{ k: 0, s: 1, n: theta * 2 * r, d: 360 }, "That's the arc length. Sector area uses {{pi r^2}}."],
               ]
             : [
                 [{ k: 0, s: 1, n: theta * 2 * r, d: 360 }, "That's just the arc. Add the two radii as well."],

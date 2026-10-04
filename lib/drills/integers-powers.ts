@@ -715,7 +715,7 @@ export const drills: Drill[] = [
             const d = rng.int(2, tier === 1 ? 12 : 20);
             const up = rng.bool();
             const t1 = up ? t0 + d : t0 - d;
-            if (t1 === 0) return null;
+            if (t1 === 0 || t1 < -25) return null;
             if (t0 > 0 && t1 > 0) return null;
             return { t0, d, up };
           },
@@ -745,12 +745,13 @@ export const drills: Drill[] = [
       if (kind === "change2") {
         const { t0, d1, d2, up } = attempt(
           () => {
-            const t0 = rng.nonZero(-25, 20);
-            const d1 = rng.int(3, 25), d2 = rng.int(3, 25);
+            const t0 = rng.nonZero(-20, 20);
+            const d1 = rng.int(3, 15), d2 = rng.int(3, 15);
             const up = rng.bool();
             const t1 = up ? t0 + d1 : t0 - d1;
             const t2 = up ? t1 - d2 : t1 + d2;
             if (t1 === 0 || t2 === 0 || t2 === t0 || d1 === d2) return null;
+            if (Math.min(t0, t1, t2) < -25 || Math.max(t0, t1, t2) > 30) return null;
             if (t0 > 0 && t1 > 0 && t2 > 0) return null;
             return { t0, d1, d2, up };
           },
@@ -795,8 +796,8 @@ export const drills: Drill[] = [
           };
         }
         const fall = tier === 1 ? rng.bool() : rng.bool(0.4);
-        const hi = fall ? rng.int(1, 15) : rng.int(26, 33);
-        const lo = -rng.int(2, tier === 1 ? 12 : 30);
+        const hi = fall ? rng.int(1, 10) : rng.int(26, 33);
+        const lo = -rng.int(2, fall ? (tier === 1 ? 10 : 15) : tier === 1 ? 12 : 25);
         const ans = hi - lo;
         const cold = rng.pick(COLD_CITIES);
         const prompt = fall
@@ -824,7 +825,7 @@ export const drills: Drill[] = [
           () => {
             const s = rng.int(5, 30), d = rng.int(2, 25), up = rng.bool();
             const res = up ? -s + d : -s - d;
-            if (res >= 0) return null;
+            if (res >= 0 || res < -40) return null;
             return { s, d, up };
           },
           { s: 18, d: 7, up: true },
@@ -848,11 +849,11 @@ export const drills: Drill[] = [
       if (kind === "sea2") {
         const { s, u, w, upFirst } = attempt(
           () => {
-            const s = rng.int(8, tier === 2 ? 40 : 60), u = rng.int(3, 20), w = rng.int(3, 25), upFirst = rng.bool();
+            const s = rng.int(8, tier === 2 ? 30 : 38), u = rng.int(3, 20), w = rng.int(3, 25), upFirst = rng.bool();
             if (u === w) return null;
             const mid = upFirst ? -s + u : -s - w;
             const res = -s + u - w;
-            if (mid >= 0 || res >= 0) return null;
+            if (mid >= 0 || res >= 0 || mid < -40 || res < -40) return null;
             return { s, u, w, upFirst };
           },
           { s: 18, u: 7, w: 12, upFirst: true },
@@ -874,20 +875,20 @@ export const drills: Drill[] = [
       }
 
       if (kind === "gap") {
+        const [above, below, hMax, dMax] = rng.pick([
+          ["A drone hovers", "a submarine", 120, 200],
+          ["A seagull flies", "a diver", 80, 40],
+          ["A helicopter hovers", "a submarine", 300, 250],
+          ["A lighthouse lamp is", "a shipwreck on the sea bed", 60, 150],
+        ] as Array<[string, string, number, number]>);
         const { h, d } = attempt(
           () => {
-            const h = rng.int(5, 120), d = rng.int(5, 200);
+            const h = rng.int(5, hMax), d = rng.int(5, dMax);
             if (Math.abs(h - d) < 3) return null;
             return { h, d };
           },
-          { h: 35, d: 60 },
+          { h: 35, d: 30 },
         );
-        const [above, below] = rng.pick([
-          ["A drone hovers", "a submarine"],
-          ["A seagull flies", "a diver"],
-          ["A helicopter hovers", "a submarine"],
-          ["A lighthouse lamp is", "a shipwreck on the sea bed"],
-        ]);
         const ans = h + d;
         return {
           prompt: `${above} ${h} m above sea level, directly above ${below} at ${num(-d)} m. What is the vertical distance between them? Give your answer in metres.`,
@@ -1519,7 +1520,7 @@ export const drills: Drill[] = [
         solution: [
           `Side × side = ${big(N)}, so side = {{sqrt(${N})}}.`,
           `{{${a}^2 = ${N}}}, so the side is ${a} ${unit}.`,
-          `{{x^2 = ${N}}} also has the solution ${num(-a)}, but a length can't be negative.`,
+          `{{(-${a})^2}} is also ${N}, but a length can't be negative, so only ${a} works.`,
         ],
         hint: "Which number multiplied by itself gives the area?",
         traps: quarter === a ? [] : numTraps(a, [[quarter, "Dividing the area by 4 doesn't give the side. Find the number that multiplies by itself to give the area."]]),

@@ -745,10 +745,9 @@ export const drills: Drill[] = [
       const value = val(sign * Q, dq);
       const prompts = [`Work out ${aS} ÷ ${bS}.`, `Calculate ${aS} ÷ ${bS} without a calculator.`];
       if (sign > 0 && dq === 0) {
-        prompts.push(
-          `How many pieces of ribbon, each ${absB} m long, can be cut from ${absA} m of ribbon?`,
-          `A cup holds ${absB} litres. How many cups can be filled from ${absA} litres of soya milk?`,
-        );
+        prompts.push(`How many pieces of ribbon, each ${absB} m long, can be cut from ${absA} m of ribbon?`);
+        // Only a realistic cup size (at most 0.5 litres).
+        if (2 * B <= s) prompts.push(`A cup holds ${absB} litres. How many cups can be filled from ${absA} litres of soya milk?`);
       }
       const prompt = rng.pick(prompts);
       const solution: string[] = [];
@@ -765,7 +764,7 @@ export const drills: Drill[] = [
           traps,
           val(sign * B * B * Q, 2 * db + dq),
           value,
-          `That's ${absA} × ${absB}. Dividing by a number between 0 and 1 makes the answer bigger, not smaller.`,
+          `That's ${aS} × ${bS}. Dividing by a number between 0 and 1 makes the answer bigger, not smaller.`,
         );
       }
       return {
@@ -860,14 +859,17 @@ export const drills: Drill[] = [
         up ? `${decider} is 5 or more, so round up.` : `${decider} is 4 or less, so the last figure you keep stays the same.`,
       ];
       if (drop > D) solution.push(`Fill the places up to the decimal point with zeros so the number keeps its size: ${xs} = ${ans.shown} (to ${n} s.f.).`);
-      else if (ans.strict) solution.push(`The end zero is a significant figure, so it must be written: ${xs} = ${ans.shown} (to ${n} s.f.).`);
+      else if (ans.strict) {
+        const many = (ans.shown.match(/0+$/)?.[0].length ?? 1) > 1;
+        solution.push(`The end ${many ? "zeros are significant figures, so they" : "zero is a significant figure, so it"} must be written: ${xs} = ${ans.shown} (to ${n} s.f.).`);
+      }
       else solution.push(`So ${xs} = ${ans.shown} (to ${n} s.f.).`);
       const ansVal = val(Rint, D);
       const traps: Trap[] = [];
       if (ans.strict) {
         traps.push({
           spec: { type: "number", value: ansVal },
-          feedback: `Right value, but ${n} s.f. needs ${n} significant figures. The end zero counts, so write ${ans.shown}.`,
+          feedback: `Right value, but ${n} s.f. needs ${n} significant figures. The end ${(ans.shown.match(/0+$/)?.[0].length ?? 1) > 1 ? "zeros count" : "zero counts"}, so write ${ans.shown}.`,
         });
       }
       if (drop > D) numTrap(traps, Rint / p10(drop), ansVal, `Keep the size of the number: ${xs} is about ${ans.shown}, not ${group(String(Rint / p10(drop)))}. Fill up to the decimal point with zeros.`);

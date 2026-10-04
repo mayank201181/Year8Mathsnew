@@ -61,6 +61,16 @@ function numTraps(answer: number, cands: Array<[number, string]>): Trap[] {
   return out;
 }
 
+/** A recurring decimal cut (not rounded) to 4 d.p., for "0.1666…" style working. */
+function trunc4(x: number): string {
+  return num(Math.floor(x * 10000 + 1e-9) / 10000);
+}
+
+/** "2 hours" or "1 hour 40 minutes = {{1 2/3}} hours". */
+function totalTime(mins: number): string {
+  return mins % 60 === 0 ? hmWords(mins) : `${hmWords(mins)} = ${hoursStr(mins)} hours`;
+}
+
 /** Minutes as a number of hours: a decimal when it terminates, else a fraction. */
 function hoursStr(mins: number): string {
   return hasDp(mins / 60, 2) ? num(clean(mins / 60)) : frac(mins, 60, { mixed: true });
@@ -418,7 +428,7 @@ function volLToCm3(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   const v = clean(k / 100);
   const ans = k * 10;
   return {
-    prompt: rng.pick([`Convert ${num(v)} litres to cm³.`, `How many cm³ of water fill a ${num(v)}-litre bottle?`]),
+    prompt: k <= 300 && k % 5 === 0 && rng.bool() ? `How many cm³ of water fill a ${num(v)}-litre bottle?` : `Convert ${num(v)} litres to cm³.`,
     answer: numAns(ans, "cm³"),
     solution: ["1 litre = 1000 cm³ (a cube 10 cm by 10 cm by 10 cm).", `${num(v)} × 1000 = ${show(ans)} cm³`],
     hint: "Think of a 10 cm cube: it holds exactly 1 litre.",
@@ -882,7 +892,7 @@ function decimalHoursItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     return {
       prompt: `Write ${H} h ${m} min as a decimal number of hours. Give your answer correct to 2 decimal places.`,
       answer: numAns(val, "hours", true),
-      solution: [`${m} min = ${m} ÷ 60 = ${num(roundTo(m / 60, 4))}… hours.`, `${H} + ${num(roundTo(m / 60, 4))}… = ${num(roundTo(exact, 4))}… ≈ ${num(val)} hours (2 d.p.).`],
+      solution: [`${m} min = ${m} ÷ 60 = ${trunc4(m / 60)}… hours.`, `${H} + ${trunc4(m / 60)}… = ${trunc4(exact)}… ≈ ${num(val)} hours (2 d.p.).`],
       hint: "Divide the minutes by 60 on your calculator, add the whole hours, then round.",
       traps: numTraps(val, [[H + m / 100, `${m} minutes is {{${m}/60}} of an hour, not {{${m}/100}}.`]]),
     };
@@ -949,7 +959,7 @@ function sdtItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     }
     if (unknown === "D") {
       return {
-        prompt: `${mv.who} ${mv.verb} for ${t} ${tu} at an average speed of ${S} ${su}. Work out the distance travelled, in ${du}.`,
+        prompt: `${mv.who} ${mv.verb} for ${t} ${tu} at an average speed of ${S} ${su}. Work out the distance travelled, in ${kmh ? "km" : "metres"}.`,
         answer: numAns(D, du),
         solution: ["Distance = speed × time", `= ${S} × ${t} = ${D} ${du}`],
         hint: `In each ${kmh ? "hour" : "second"} it covers ${S} ${du}. How many of those are there?`,
@@ -1020,7 +1030,7 @@ function sdtItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     }
     if (kind === "D") {
       return {
-        prompt: `${mv.who} ${mv.verb} for ${hmWords(o.t)} at an average speed of ${o.S} km/h. How far does it travel? Give your answer in km.`,
+        prompt: `${mv.who} ${mv.verb} for ${hmWords(o.t)} at an average speed of ${o.S} km/h. Work out the distance travelled, in km.`,
         answer: numAns(D, "km"),
         solution: [`Change the time to hours: ${hmWords(o.t)} = ${hs} hours.`, `Distance = speed × time = ${o.S} × ${hs} = ${num(D)} km.`],
         hint: "Write the time as a number of hours before multiplying.",
@@ -1053,7 +1063,7 @@ function sdtItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     const Dm = v * t * 60;
     const Dkm = clean(Dm / 1000);
     return {
-      prompt: `${mv.who} travels at a steady ${v} m/s for ${t} minutes. How far does it travel? Give your answer in km.`,
+      prompt: `${mv.who} travels at a steady ${v} m/s for ${t} minutes. Work out the distance travelled, in km.`,
       answer: numAns(Dkm, "km"),
       solution: [`${t} minutes = ${t} × 60 = ${t * 60} seconds.`, `Distance = ${v} × ${t * 60} = ${show(Dm)} m.`, `${show(Dm)} m = ${num(Dkm)} km.`],
       hint: "The speed is in metres per SECOND, so change the time into seconds first.",
@@ -1131,7 +1141,7 @@ function kmhMsItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       return {
         prompt: `${thing} travels at ${kmh} km/h. Write this speed in m/s. Give your answer correct to 1 decimal place.`,
         answer: numAns(v, "m/s", true),
-        solution: toMsSteps(kmh, `${num(roundTo((kmh * 5) / 18, 4))}…`).concat([`≈ ${num(v)} m/s (1 d.p.)`]),
+        solution: toMsSteps(kmh, `${trunc4((kmh * 5) / 18)}…`).concat([`≈ ${num(v)} m/s (1 d.p.)`]),
         hint: "Change km to m (× 1000) and hours to seconds (÷ 3600).",
         traps: numTraps(v, [
           [kmh * 3.6, "You multiplied by 3.6. Going from km/h to m/s the number gets smaller, so divide."],
@@ -1251,7 +1261,7 @@ function averageSpeedItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       answer: numAns(o.s2, "km/h"),
       solution: [
         `First part: time = ${num(d1)} ÷ ${o.s1} = ${hoursStr(o.t1)} hours (${hmWords(o.t1)}).`,
-        `Whole ${trip.name}: time = ${hmWords(Tm)} = ${hoursStr(Tm)} hours, so distance = ${num(avg)} × ${hoursStr(Tm)} = ${num(D)} km.`,
+        `Whole ${trip.name}: time = ${totalTime(Tm)}, so distance = ${num(avg)} × ${hoursStr(Tm)} = ${num(D)} km.`,
         `Second part: ${num(D)} − ${num(d1)} = ${num(d2)} km in ${hoursStr(o.t2)} hours, so speed = ${num(d2)} ÷ ${hoursStr(o.t2)} = ${o.s2} km/h.`,
       ],
       hint: "Use the average speed to find the TOTAL distance first.",
@@ -1274,9 +1284,11 @@ function averageSpeedItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   if (stop) prompt += ` In between the two parts, ${nm} stops for a ${stop}-minute break.`;
   prompt += ` Work out the average speed for the whole ${trip.name}, in km/h.`;
   const timeLine = stop
-    ? `Total time = ${hmWords(o.t1)} + ${stop} min break + ${hmWords(o.t2)} = ${hmWords(Tm)} = ${hoursStr(Tm)} hours.`
-    : `Total distance = ${num(D)} km. Total time = ${hmWords(Tm)} = ${hoursStr(Tm)} hours.`;
-  const solution = kind === "dt" || kind === "stop" ? [first, timeLine, avgLine] : [first, timeLine, avgLine];
+    ? `Total time = ${hmWords(o.t1)} + ${stop} min break + ${hmWords(o.t2)} = ${totalTime(Tm)}.`
+    : kind === "dt"
+      ? `Total time = ${hmWords(o.t1)} + ${hmWords(o.t2)} = ${totalTime(Tm)}.`
+      : `Total distance = ${num(D)} km. Total time = ${totalTime(Tm)}.`;
+  const solution = [first, timeLine, avgLine];
   return {
     prompt,
     answer: numAns(avg, "km/h"),
@@ -1383,7 +1395,6 @@ function densityItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       hint: "Density is the mass of each 1 cm³.",
       traps: numTraps(d, [
         [V / M, "Density = mass ÷ volume, not volume ÷ mass."],
-        [M * V, "You multiplied. Density = mass ÷ volume."],
       ]),
     };
   }
@@ -1398,7 +1409,6 @@ function densityItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       hint: `Each cm³ has a mass of ${num(d)} g. How many cm³ are there?`,
       traps: numTraps(M, [
         [V / d, "Mass = density × volume, so multiply."],
-        [d / V, "Mass = density × volume, so multiply."],
       ]),
     };
   }
@@ -1409,7 +1419,6 @@ function densityItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     hint: `Each cm³ has a mass of ${num(d)} g. How many lots of ${num(d)} g make ${num(M)} g?`,
     traps: numTraps(V, [
       [M * d, "Volume = mass ÷ density, so divide."],
-      [d / M, "That is density ÷ mass. Volume = mass ÷ density."],
     ]),
   };
 }
@@ -1482,7 +1491,7 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   }
 
   if (kind === "best100") {
-    const item = rng.pick(["cereal", "pasta", "peanut butter", "rice crackers", "oats", "muesli"]);
+    const [item, pack] = rng.pick([["cereal", "box"], ["pasta", "packet"], ["peanut butter", "jar"], ["rice crackers", "packet"], ["oats", "bag"], ["muesli", "box"]] as const);
     const o = find(
       () => {
         const [sA, sB] = rng.shuffle([200, 250, 300, 400, 450, 500, 600, 750, 800, 900]).slice(0, 2);
@@ -1495,12 +1504,12 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     const best = Math.min(o.uA, o.uB), worst = Math.max(o.uA, o.uB);
     const bestSize = o.uA < o.uB ? o.sA : o.sB;
     return {
-      prompt: `A ${o.sA} g box of ${item} costs ${money(pA)}. A ${o.sB} g box of the same ${item} costs ${money(pB)}. Work out the price per 100 g of each box. What is the price per 100 g of the better-value box? Give your answer in dollars, e.g. $0.85.`,
+      prompt: `A ${o.sA} g ${pack} of ${item} costs ${money(pA)}. A ${o.sB} g ${pack} of the same ${item} costs ${money(pB)}. Work out the price per 100 g of each ${pack}. What is the price per 100 g of the better-value ${pack}? Give your answer in dollars, e.g. $0.85.`,
       answer: moneyAns(best / 100),
       solution: [
-        `${o.sA} g box: ${o.sA} g is ${num(o.sA / 100)} lots of 100 g, so ${money(pA)} ÷ ${num(o.sA / 100)} = ${money(o.uA / 100)} per 100 g.`,
-        `${o.sB} g box: ${money(pB)} ÷ ${num(o.sB / 100)} = ${money(o.uB / 100)} per 100 g.`,
-        `The lower price per 100 g is better value: the ${bestSize} g box at ${money(best / 100)} per 100 g.`,
+        `${o.sA} g ${pack}: ${o.sA} g is ${num(o.sA / 100)} lots of 100 g, so ${money(pA)} ÷ ${num(o.sA / 100)} = ${money(o.uA / 100)} per 100 g.`,
+        `${o.sB} g ${pack}: ${money(pB)} ÷ ${num(o.sB / 100)} = ${money(o.uB / 100)} per 100 g.`,
+        `The lower price per 100 g is better value: the ${bestSize} g ${pack} at ${money(best / 100)} per 100 g.`,
       ],
       hint: "Find what 100 g costs in each box. The cheaper 100 g is the better buy.",
       traps: numTraps(best / 100, [[worst / 100, "That is the worse buy. Better value means a LOWER price per 100 g."]]),
@@ -1599,9 +1608,9 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
   }
   if (kind === "rateDiff") {
     const ctx = rng.pick([
-      { a: "Printer A", b: "Printer B", what: "pages", per: "pages per minute", lo: 12, hi: 40, verb: "prints" },
-      { a: "Tap A", b: "Tap B", what: "litres", per: "litres per minute", lo: 4, hi: 20, verb: "fills" },
-      { a: rng.pick(NAMES), b: "Wei Ling", what: "words", per: "words per minute", lo: 25, hi: 60, verb: "types" },
+      { a: "Printer A", b: "Printer B", what: "pages", per: "pages per minute", one: "page per minute", lo: 12, hi: 40, verb: "prints" },
+      { a: "Tap A", b: "Tap B", what: "litres", per: "litres per minute", one: "litre per minute", lo: 4, hi: 20, verb: "fills" },
+      { a: rng.pick(NAMES), b: "Wei Ling", what: "words", per: "words per minute", one: "word per minute", lo: 25, hi: 60, verb: "types" },
     ]);
     const bName = ctx.b === ctx.a ? "Jun" : ctx.b;
     const o = find(
@@ -1614,11 +1623,11 @@ function ratesItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     const fast = o.rA > o.rB ? ctx.a : bName;
     return {
       prompt: `${ctx.a} ${ctx.verb} ${nA} ${ctx.what} in ${o.tA} minutes. ${bName} ${ctx.verb} ${nB} ${ctx.what} in ${o.tB} minutes. How many more ${ctx.per} does the faster one manage?`,
-      answer: numAns(diff, ctx.per),
+      answer: numAns(diff, diff === 1 ? ctx.one : ctx.per),
       solution: [
         `${ctx.a}: ${nA} ÷ ${o.tA} = ${o.rA} ${ctx.per}.`,
         `${bName}: ${nB} ÷ ${o.tB} = ${o.rB} ${ctx.per}.`,
-        `${fast} is faster by ${Math.max(o.rA, o.rB)} − ${Math.min(o.rA, o.rB)} = ${diff} ${ctx.per}.`,
+        `${fast} is faster by ${Math.max(o.rA, o.rB)} − ${Math.min(o.rA, o.rB)} = ${diff} ${diff === 1 ? ctx.one : ctx.per}.`,
       ],
       hint: "Compare the rates (amount per minute), not the totals: the times are different.",
       traps: numTraps(diff, [[Math.abs(nA - nB), "That compares the totals, but the times are different. Work out each rate per minute first."]]),
@@ -1807,7 +1816,8 @@ function conversionGraphItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
       prompt: `${intro} Use the graph to convert ${c.xu(x)} to ${c.yWord}.`,
       answer: { type: "number", value: y, display: c.yu(y) },
       solution: [
-        `Find ${x} on the horizontal axis (${c.xTitle}), go up to the line, then across to the vertical axis.`,
+        `On this graph each small square is ${c.xu(c.xMinor)} across and ${c.yu(c.yMinor)} up.`,
+        `Find ${c.xu(x)} on the horizontal axis, go up to the line, then across to the vertical axis.`,
         `The line passes through (${x}, ${y}), so ${c.xu(x)} ≈ ${c.yu(y)}.`,
       ],
       hint: "Start on the axis of the unit you are given, go to the line, then across to the other axis.",
@@ -1819,7 +1829,8 @@ function conversionGraphItem(rng: Rng, tier: 1 | 2 | 3): DrillItem {
     prompt: `${intro} Use the graph to convert ${c.yu(y)} to ${c.xWord}.`,
     answer: { type: "number", value: x, display: c.xu(x) },
     solution: [
-      `Find ${y} on the vertical axis (${c.yTitle}), go across to the line, then down to the horizontal axis.`,
+      `On this graph each small square is ${c.xu(c.xMinor)} across and ${c.yu(c.yMinor)} up.`,
+      `Find ${c.yu(y)} on the vertical axis, go across to the line, then down to the horizontal axis.`,
       `The line passes through (${x}, ${y}), so ${c.yu(y)} ≈ ${c.xu(x)}.`,
     ],
     hint: "Start on the axis of the unit you are given, go to the line, then across to the other axis.",
@@ -2003,7 +2014,7 @@ export const drills: Drill[] = [
       ]);
       const steps = km % 8 === 0
         ? [`${km} km is ${km} ÷ 8 = ${km / 8} lots of 8 km.`, `${km / 8} × 5 = ${miles}, so ${km} km ≈ ${miles} miles.`]
-        : [`${useFive ? "5 miles ≈ 8 km, so 1 mile ≈ 1.6 km." : "1 mile ≈ 1.6 km"}: divide the km by 1.6.`, `${km} ÷ 1.6 = ${num(miles)}, so ${km} km ≈ ${num(miles)} miles.`];
+        : [`${useFive ? "5 miles ≈ 8 km, so 1 mile ≈ 8 ÷ 5 = 1.6 km. To change km to miles, divide by 1.6." : "1 mile ≈ 1.6 km, so divide the km by 1.6."}`, `${km} ÷ 1.6 = ${num(miles)}, so ${km} km ≈ ${num(miles)} miles.`];
       return {
         prompt: `${ctx} Use ${fact} to estimate this distance in miles.`,
         answer: numAns(miles, "miles"),

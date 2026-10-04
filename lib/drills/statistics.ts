@@ -405,11 +405,11 @@ const SL_B2B: B2BCtx[] = [
 // ---------------------------------------------------------------------------
 
 const SYS_CTX: Array<{ intro: (N: number) => string; pop: string; item: string }> = [
-  { intro: (N) => `A school has ${N} pupils, numbered 1 to ${N} on an alphabetical list.`, pop: "pupils", item: "pupil" },
-  { intro: (N) => `A badminton club has ${N} members, numbered 1 to ${N}.`, pop: "members", item: "member" },
-  { intro: (N) => `A factory made ${N} phone cases yesterday, numbered 1 to ${N} in the order they were made.`, pop: "phone cases", item: "phone case" },
-  { intro: (N) => `A library catalogue lists ${N} books, numbered 1 to ${N}.`, pop: "books", item: "book" },
-  { intro: (N) => `An HDB estate has ${N} households on a list, numbered 1 to ${N}.`, pop: "households", item: "household" },
+  { intro: (N) => `A school has ${big(N)} pupils, numbered 1 to ${big(N)} on an alphabetical list.`, pop: "pupils", item: "pupil" },
+  { intro: (N) => `A badminton club has ${big(N)} members, numbered 1 to ${big(N)}.`, pop: "members", item: "member" },
+  { intro: (N) => `A factory made ${big(N)} phone cases yesterday, numbered 1 to ${big(N)} in the order they were made.`, pop: "phone cases", item: "phone case" },
+  { intro: (N) => `A library catalogue lists ${big(N)} books, numbered 1 to ${big(N)}.`, pop: "books", item: "book" },
+  { intro: (N) => `An HDB estate has ${big(N)} households on a list, numbered 1 to ${big(N)}.`, pop: "households", item: "household" },
 ];
 
 const STRAT_CTX: Array<{ intro: string; head: string; groups: string[]; unit: string }> = [
