@@ -131,6 +131,7 @@ export const morePapers: Paper[] = [
         traps: [
           { spec: { type: "number", value: 25 }, feedback: "$25 is his balance at the end of the week. Track the balance after every day and find the lowest one." },
           { spec: { type: "number", value: -15 }, feedback: "−15 is Wednesday's balance. Check Monday's too: which is lower, −15 or −17?" },
+          { spec: { type: "number", value: 17 }, feedback: "Being $17 overdrawn means a balance of −$17. Give the balance as a negative number." },
         ],
         difficulty: "core",
         guideRef: "adding-subtracting-negatives",
@@ -741,7 +742,7 @@ export const morePapers: Paper[] = [
         modelAnswer:
           "The sign is wrong: −589 ÷ 31 is negative, and a negative × (−4) is positive, so the answer must be positive. The size is wrong too: −589 ÷ 31 ≈ −600 ÷ 30 = −20, and −20 × (−4) = 80. So the answer should be about +80, not about −8. (The exact answer is 76.)",
         markScheme: [
-          { point: "Sign: there are two negatives (÷ by a positive, × by a negative), so the answer is positive", keywords: ["positive", "two negatives", "sign"] },
+          { point: "Sign: there are two negative numbers, −589 and −4, so the answer must be positive", keywords: ["positive", "two negatives", "sign"] },
           { point: "Estimates −589 ÷ 31 ≈ −600 ÷ 30 = −20 (or similar rounding)", keywords: ["600", "30", "-20", "−20", "20"] },
           { point: "Estimate × (−4) gives about 80, so Jun's answer is far too small", keywords: ["80", "too small", "size", "76"] },
         ],

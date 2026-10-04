@@ -104,10 +104,13 @@ function solveSteps(A: number, B: number, C: number, D: number, v: string): stri
   return out;
 }
 
-/** Answer spec for the exact value n/d: a whole number or a simplest-form fraction. */
-function valueSpec(n: number, d = 1): AnswerSpec {
+/**
+ * Answer spec for the exact value n/d: a whole number, or a simplest-form
+ * fraction (prompts ask for a fraction, so a decimal is only "close").
+ */
+function valueSpec(n: number, d = 1, allowDecimal = false): AnswerSpec {
   const [p, q] = simplify(n, d);
-  return q === 1 ? { type: "number", value: p } : { type: "fraction", n: p, d: q, simplest: true, allowDecimal: true };
+  return q === 1 ? { type: "number", value: p } : { type: "fraction", n: p, d: q, simplest: true, allowDecimal };
 }
 
 /**
@@ -124,7 +127,7 @@ function trapper(ansN: number, ansD = 1) {
     const key = `${p}/${q}`;
     if (seen.has(key)) return;
     seen.add(key);
-    traps.push({ spec: valueSpec(p, q), feedback });
+    traps.push({ spec: valueSpec(p, q, true), feedback }); // traps also catch the equal decimal
   };
   return { traps, add };
 }
@@ -895,8 +898,9 @@ export const drills: Drill[] = [
       const moved = leftSide ? C : A; // x-term moved across
       const kept = leftSide ? B : D; // number moved across in the second step
       if (A + C !== 0) {
-        if (leftSide) T.add(D - B, A + C, `To move ${M(term(moved, v))} to the other side, ${moved > 0 ? "subtract" : "add"} it on both sides — don't add the ${v}-terms together.`);
-        else T.add(B - D, A + C, `To move ${M(term(moved, v))} to the other side, ${moved > 0 ? "subtract" : "add"} it on both sides — don't add the ${v}-terms together.`);
+        const fb = `To move ${M(term(moved, v))} across, ${moved > 0 ? "subtract" : "add"} ${M(term(Math.abs(moved), v))} on both sides — its sign changes when it moves.`;
+        if (leftSide) T.add(D - B, A + C, fb);
+        else T.add(B - D, A + C, fb);
       }
       if (leftSide) T.add(D + B, A - C, `Sign slip: to move the ${kept > 0 ? "+" : "−"} ${Math.abs(kept)}, ${kept > 0 ? "subtract" : "add"} ${Math.abs(kept)} on both sides.`);
       else T.add(B + D, C - A, `Sign slip: to move the ${kept > 0 ? "+" : "−"} ${Math.abs(kept)}, ${kept > 0 ? "subtract" : "add"} ${Math.abs(kept)} on both sides.`);
@@ -1473,7 +1477,7 @@ export const drills: Drill[] = [
         prompt: `List all the integers ${M("x")} such that ${M(`${Lb} ${r1} ${lin(a, b)} ${r2} ${Rb}`)}. Separate them with commas.`,
         answer: { type: "list", values: vals },
         solution: [
-          `Do the same to all three parts. ${undo(b)}: ${M(`${Lb - b} ${r1} ${a}x ${r2} ${Rb - b}`)}.`,
+          `Do the same to all three parts. ${b > 0 ? `Subtract ${b} from` : `Add ${-b} to`} each part: ${M(`${Lb - b} ${r1} ${a}x ${r2} ${Rb - b}`)}.`,
           `Divide all three parts by ${a}: ${M(`${ratStr(Lb - b, a)} ${r1} x ${r2} ${ratStr(Rb - b, a)}`)}.`,
           `The integers in this range are ${vals.map(num).join(", ")}.`,
         ],
@@ -2065,7 +2069,7 @@ export const drills: Drill[] = [
       if (ctx) steps.push(`Work in cents. Let x = the price of one ${s1n} and y = the price of one ${s2n}: ${M(eqS(a, b, c))} and ${M(eqS(d, e, f))}.`);
       if (m1 > 1) steps.push(`Multiply the first equation by ${m1}: ${M(eqS(s1[0], s1[1], s1[2]))}.`);
       if (m2 > 1) steps.push(`Multiply the second equation by ${m2}: ${M(eqS(s2[0], s2[1], s2[2]))}.`);
-      steps.push(`The ${elim}-terms ${same ? "are the same, so subtract" : "have opposite signs, so add"} the equations: ${M(`${term(K, keep)} = ${r[2]}`)}, so ${keep} = ${num(keepVal)}.`);
+      steps.push(`The ${elim}-terms ${same ? "are the same, so subtract" : "have opposite signs, so add"} the equations: ${M(`${term(K, keep)} = ${r[2]}`)}${K === 1 ? "" : `, so ${keep} = ${num(keepVal)}`}.`);
       const kc = elim === "y" ? a : b; // coefficient of the kept variable in equation 1
       steps.push(`Substitute into the first equation: ${M(`${term(p1, elim)} = ${c} - ${kc * keepVal < 0 ? `(${kc * keepVal})` : kc * keepVal}`)} = ${num(c - kc * keepVal)}, so ${elim} = ${num(otherVal)}.`);
       steps.push(`Check in the second equation: ${subLin(d, 0, x)} ${e < 0 ? "−" : "+"} ${Math.abs(e) === 1 ? br(y) : `${Math.abs(e)} × ${br(y)}`} = ${num(f)} ✓`);

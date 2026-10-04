@@ -44,7 +44,7 @@ const quiz: Question[] = [
     options: ["4839", "7362", "9124", "4372"],
     answerIndex: 1,
     explanation:
-      "Add the digits: 7 + 3 + 6 + 2 = 18, a multiple of 9, so 7362 is divisible by 9 (7362 = 9 × 818). 4839 has digit sum 24: that is a multiple of 3 but not of 9, so 4839 is divisible by 3 only. 9124 starts with a 9 and 4372 ends in 72 = 9 × 8, but neither of those is the test for 9: both have digit sum 16.",
+      "Add the digits: 7 + 3 + 6 + 2 = 18, a multiple of 9, so 7362 is divisible by 9 (7362 = 9 × 818). 4839 has digit sum 24: that is a multiple of 3 but not of 9, so 4839 is divisible by 3 but not by 9. 9124 starts with a 9 and 4372 ends in 72 = 9 × 8, but neither of those is the test for 9: both have digit sum 16.",
     difficulty: "warmup",
     guideRef: "factors-multiples-primes",
     hints: ["The test for 9 uses the digit sum, not the first or last digits."],
@@ -190,7 +190,7 @@ const quiz: Question[] = [
     kind: "short",
     id: "factors-multiples-quiz-q09",
     question:
-      "{{540 = 2^2 * 3^3 * 5}}. What is the smallest whole number you can multiply 540 by to make a square number?",
+      "{{540 = 2^2 * 3^3 * 5}}. What is the smallest positive whole number you can multiply 540 by to make a square number?",
     answer: { type: "number", value: 15 },
     traps: [
       {
@@ -242,7 +242,7 @@ const quiz: Question[] = [
       },
     ],
     commonError: "Giving a prime as the counterexample. Primes have 2 factors, which is even.",
-    difficulty: "challenge",
+    difficulty: "core",
     guideRef: "counting-factors",
     hints: [
       "Count the factors of a few numbers: 12, 16, 20, 25.",
@@ -422,7 +422,7 @@ const paper1: Paper = {
       guideRef: "factors-multiples-primes",
       hints: [
         "If 6 went into 179, what else would have to go into 179?",
-        "Think about factor pairs. Could both numbers in a pair be bigger than 14?",
+        "Think about factor pairs. Could both numbers in a pair be bigger than 13?",
         "{{13^2 = 169}} and {{14^2 = 196}}. Now test each prime up to 13.",
       ],
       strategy: "Consider extremes: stop at the square root",
@@ -482,7 +482,7 @@ const paper1: Paper = {
       guideRef: "hcf-lcm",
       hints: [
         "Which region shows the primes that A and B share?",
-        "HCF: multiply the primes in the overlap. LCM: multiply every prime in the diagram, each one once.",
+        "HCF: multiply the primes in the overlap. LCM: multiply together all six numbers in the diagram, including both 2s and both 3s.",
       ],
       strategy: "Draw a diagram (Venn)",
     },
@@ -610,7 +610,7 @@ const paper1: Paper = {
     {
       kind: "short",
       id: "factors-multiples-p1-q16",
-      question: "Find the smallest whole number k such that 96k is a cube number.",
+      question: "Find the smallest positive whole number k such that 96k is a cube number.",
       answer: { type: "number", value: 18 },
       traps: [
         {
@@ -696,7 +696,7 @@ const paper1: Paper = {
         "It can use 0, 1 or 2 threes (3 choices), and 0 or 1 five (2 choices).",
         "Every combination gives a different factor, so there are 5 × 3 × 2 = 30 factors.",
       ],
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "counting-factors",
       hints: [
         "Every factor of 720 is made of some 2s, some 3s and some 5s. How many choices are there for the 2s?",
@@ -746,7 +746,7 @@ const paper1: Paper = {
         "Jun says: \"If you multiply two numbers that are *not* square numbers, the answer can never be a square number.\"\n\nShow that Jun is wrong. Then use prime factorisation to explain when the product of two non-square numbers *is* a square.",
       marks: 3,
       modelAnswer:
-        "Jun is wrong: 2 and 8 are not squares, but 2 × 8 = 16 = {{4^2}}. (So are 3 × 12 = 36 and 12 × 27 = 324 = {{18^2}}.)\n\nWhen you multiply two numbers, the powers of each prime **add**. For example, {{12 = 2^2 * 3}} and {{27 = 3^3}} give {{12 * 27 = 2^2 * 3^4}}.\n\nThe product is a square exactly when every one of these totals is even. An odd power plus an even power is odd, so the primes with **odd** powers in the first number must be exactly the primes with odd powers in the second number; then odd + odd makes even. In 12 and 27, the only odd power in each is the power of 3. So the product of two non-squares is *sometimes* a square.",
+        "Jun is wrong: 2 and 8 are not squares, but 2 × 8 = 16 = {{4^2}}. (Other examples: 3 × 12 = 36 and 12 × 27 = 324 = {{18^2}}.)\n\nWhen you multiply two numbers, the powers of each prime **add**. For example, {{12 = 2^2 * 3}} and {{27 = 3^3}} give {{12 * 27 = 2^2 * 3^4}}.\n\nThe product is a square exactly when every one of these totals is even. An odd power plus an even power is odd, so the primes with **odd** powers in the first number must be exactly the primes with odd powers in the second number; then odd + odd makes even. In 12 and 27, the only odd power in each is the power of 3. So the product of two non-squares is *sometimes* a square.",
       markScheme: [
         {
           point: "Gives a correct counterexample, e.g. 2 × 8 = 16 or 3 × 12 = 36",
@@ -1186,7 +1186,7 @@ const paper2: Paper = {
         "Smallest {{p^9}}: {{2^9 = 512}}. Smallest {{p^4 * q}}: give the big power to the smallest prime, {{2^4 * 3 = 48}}.",
         "48 is smaller than 512, so the answer is 48. Check: 1, 2, 3, 4, 6, 8, 12, 16, 24, 48 is ten factors ✓",
       ],
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "counting-factors",
       hints: [
         "How does the number of factors depend on the powers in the prime factorisation?",
@@ -1223,7 +1223,7 @@ const paper2: Paper = {
           ],
         },
       ],
-      difficulty: "challenge",
+      difficulty: "core",
       guideRef: "hcf-lcm-problems",
       hints: [
         "Each runner is at the start line after a whole number of laps. When are all three there at once?",

@@ -321,7 +321,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 2,
         explanation:
           "Product rule: 5 choices for the first digit, then 4 left for the second, then 3 for the third: 5 × 4 × 3 = 60. 125 = 5 × 5 × 5 allows repeated digits, which the question rules out. 10 counts *sets* of three digits and ignores order — but 123 and 321 are different codes. 15 adds 5 + 4 + 3 instead of multiplying.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "sample-spaces",
         hints: [
           "How many choices are there for the first digit?",
@@ -743,7 +743,7 @@ export const mcqPapers: Paper[] = [
         options: ["{{9/25}}", "{{6/5}}", "{{3/10}}", "{{6/25}}"],
         answerIndex: 2,
         explanation:
-          "First red: {{3/5}}. Now 4 counters are left and 2 are red, so second red: {{2/4}}. Multiply along the branch: {{3/5 * 2/4 = 6/20 = 3/10}}. {{9/25}} = {{3/5 * 3/5}} would be right only if the counter were put back. {{6/25}} changes the top for the second pick but not the bottom — only 4 counters are left. {{6/5}} adds instead of multiplying, and it's bigger than 1.",
+          "First red: {{3/5}}. Now 4 counters are left and 2 are red, so second red: {{2/4}}. Multiply along the branch: {{3/5 * 2/4 = 6/20 = 3/10}}. {{9/25}} = {{3/5 * 3/5}} would be right only if the counter were put back. {{6/25}} changes the top for the second pick but not the bottom — only 4 counters are left. {{6/5}} = {{3/5 + 3/5}} adds instead of multiplying, and it's bigger than 1.",
         difficulty: "challenge",
         guideRef: "tree-diagrams",
         hints: [
@@ -905,7 +905,7 @@ export const mcqPapers: Paper[] = [
         options: ["{{3/7}}", "{{5/9}}", "{{2/3}}", "{{4/9}}"],
         answerIndex: 3,
         explanation:
-          "The 3 × 3 grid has 9 equally likely totals: 3, 5, 7 / 4, 6, 8 / 5, 7, 9. Four are greater than 6 (7, 8, 7, 9), so P = {{4/9}}. {{5/9}} also counts the 6, but 6 is not *greater than* 6. {{3/7}} lists the 7 different totals (3 to 9) as if they were equally likely, but some totals happen in more ways. {{2/3}} divides by 3 + 3 = 6 outcomes instead of 3 × 3 = 9.",
+          "The 3 × 3 grid has 9 equally likely totals: 3, 5, 7 (spinner 1 shows 1); 4, 6, 8 (shows 2); 5, 7, 9 (shows 3). Four are greater than 6 (7, 8, 7, 9), so P = {{4/9}}. {{5/9}} also counts the 6, but 6 is not *greater than* 6. {{3/7}} lists the 7 different totals (3 to 9) as if they were equally likely, but some totals happen in more ways. {{2/3}} divides by 3 + 3 = 6 outcomes instead of 3 × 3 = 9.",
         difficulty: "core",
         guideRef: "combined-events",
         hints: [
@@ -1099,9 +1099,9 @@ export const mcqPapers: Paper[] = [
         difficulty: "challenge",
         guideRef: "probability-scale",
         hints: [
-          "The blue counters don't change. Since P(blue) = {{3/5}} at the start, try writing the counts as 2n red and 3n blue.",
-          "After adding 6 red, P(red) = {{1/2}}. What does that tell you about the numbers of red and blue?",
-          "Solve 2n + 6 = 3n.",
+          "When Jun adds red counters, which count stays the same?",
+          "P(red) = {{2/5}} means red : blue = 2 : 3, so write the counts as 2n red and 3n blue. After adding 6 red, P(red) = {{1/2}} — what does that tell you about red and blue?",
+          "Red now equals blue: solve 2n + 6 = 3n.",
         ],
         strategy: "Introduce a variable",
       },
@@ -1335,7 +1335,7 @@ export const mcqPapers: Paper[] = [
         options: ["21 fewer than expected", "18 fewer than expected", "171 fewer than expected", "11 fewer than expected"],
         answerIndex: 3,
         explanation:
-          "With 5 equally likely scores, the expected frequency is {{1/5}} × 200 = 40. Score 4 came up 29 times: 40 − 29 = 11 fewer. \"21 fewer\" uses an expected 50, dividing 200 by 4 instead of 5. \"18 fewer\" compares with the highest frequency (47), not the expected one, and \"171 fewer\" compares with all 200 spins. On its own, a gap like 11 in 200 spins doesn't prove the spinner is unfair.",
+          "With 5 equally likely scores, the expected frequency is {{1/5}} × 200 = 40. Score 4 came up 29 times: 40 − 29 = 11 fewer. \"21 fewer\" uses an expected 50, dividing 200 by 4 instead of 5. \"18 fewer\" compares with the highest frequency (47), not the expected one, and \"171 fewer\" compares with all 200 spins. Gaps like this are normal chance variation — even a fair spinner rarely matches its expected frequency exactly.",
         difficulty: "core",
         guideRef: "expected-outcomes",
         hints: [

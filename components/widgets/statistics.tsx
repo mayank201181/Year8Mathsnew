@@ -546,10 +546,25 @@ function ScatterLab() {
                 strokeWidth={useOutlier ? 0 : 1.5}
                 strokeDasharray={useOutlier ? undefined : "2 2"}
               />
-              <text x={px(ds.outlier.pt[0]) + 8} y={py(ds.outlier.pt[1]) + 4} fontSize={10} fontWeight={700} className="fill-bad">
+              <text
+                x={px(ds.outlier.pt[0]) + 8}
+                y={py(ds.outlier.pt[1]) + 4}
+                fontSize={10}
+                fontWeight={700}
+                className="fill-bad stroke-surface"
+                strokeWidth={3}
+                paintOrder="stroke"
+              >
                 outlier{useOutlier ? "" : " (ignored)"}
               </text>
             </g>
+          ) : null}
+
+          {/* the prediction is off the chart: point an arrow at it */}
+          {py(yp) > SB + 1 ? (
+            <path d={`M ${px(predX) - 6} ${SB - 10} L ${px(predX) + 6} ${SB - 10} L ${px(predX)} ${SB - 1} Z`} className="fill-accent" />
+          ) : py(yp) < ST - 1 ? (
+            <path d={`M ${px(predX) - 6} ${ST + 10} L ${px(predX) + 6} ${ST + 10} L ${px(predX)} ${ST + 1} Z`} className="fill-accent" />
           ) : null}
 
           {/* the mean point */}
@@ -557,7 +572,7 @@ function ScatterLab() {
             <g>
               <line x1={px(fit.mx) - 8} x2={px(fit.mx) + 8} y1={py(fit.my)} y2={py(fit.my)} className="stroke-accent" strokeWidth={3} />
               <line x1={px(fit.mx)} x2={px(fit.mx)} y1={py(fit.my) - 8} y2={py(fit.my) + 8} className="stroke-accent" strokeWidth={3} />
-              <text x={px(fit.mx) + 10} y={py(fit.my) - 8} fontSize={10} fontWeight={700} className="fill-ink">
+              <text x={px(fit.mx) + 10} y={py(fit.my) - 8} fontSize={10} fontWeight={700} className="fill-ink stroke-surface" strokeWidth={3} paintOrder="stroke">
                 mean point
               </text>
             </g>
@@ -570,7 +585,7 @@ function ScatterLab() {
             return (
               <g key={end} {...handlers(end)} style={{ touchAction: "none", cursor: "ns-resize" }} aria-hidden="true">
                 <circle cx={cx} cy={cy} r={18} fill="transparent" />
-                <circle cx={cx} cy={cy} r={drag === end ? 9 : 7} className="fill-brand stroke-surface" strokeWidth={2} />
+                <circle cx={cx} cy={cy} r={drag === end ? 10 : 8} className="fill-brand stroke-brand" fillOpacity={0.3} strokeWidth={3} />
               </g>
             );
           })}
@@ -705,6 +720,12 @@ type View = "bar" | "pie";
 function angleText(f: number, total: number): string {
   const exact = (360 * f) % total === 0;
   return `${exact ? "" : "≈"}${fmt((360 * f) / total, 1)}°`;
+}
+
+/** "= 120°" for an exact angle, "≈ 116.1°" for a rounded one. */
+function angleEq(f: number, total: number): string {
+  const t = angleText(f, total);
+  return t.startsWith("≈") ? `≈ ${t.slice(1)}` : `= ${t}`;
 }
 
 /** Point on a circle, angle measured clockwise from 12 o'clock. */
@@ -877,7 +898,7 @@ function ChartStudio() {
             which divide 360 exactly.
           </>
         )}{" "}
-        {CATS[big].name} is <M>{`${maxF}/${N}`}</M> of the class, so its slice is <M>{`${maxF}/${N}`}</M> × 360° = {angleText(maxF, N)}. Change any
+        {CATS[big].name} is <M>{`${maxF}/${N}`}</M> of the class, so its slice is <M>{`${maxF}/${N}`}</M> × 360° {angleEq(maxF, N)}. Change any
         one frequency and the total changes, so <em>every</em> slice gets resized.
       </>
     );
@@ -1093,7 +1114,7 @@ function ChartStudio() {
                 <ul className="mt-1 space-y-1 tabular-nums">
                   {CATS.map((c, i) => (
                     <li key={c.name}>
-                      {c.name}: <M>{`${freqs[i]}/${N}`}</M> × 360° = <strong className="text-ink">{angleText(freqs[i], N)}</strong>
+                      {c.name}: <M>{`${freqs[i]}/${N}`}</M> × 360° <strong className="text-ink">{angleEq(freqs[i], N)}</strong>
                     </li>
                   ))}
                 </ul>

@@ -16,15 +16,19 @@ const T = "averages-spread";
 const NAMES = ["Aisha", "Wei Ling", "Arjun", "Priya", "Marcus", "Siti", "Ethan", "Mei", "Ravi", "Hana", "Jun", "Zara"];
 
 const sum = (xs: readonly number[]) => xs.reduce((a, b) => a + b, 0);
+/** Small counts as a capitalised word for the start of a sentence: 4 → "Four". */
+const Count = (n: number) => ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"][n] ?? String(n);
 const asc = (xs: readonly number[]) => [...xs].sort((a, b) => a - b);
 
 /** Units → display string (134, 10 → "13.4"). */
 const show = (u: number, scale = 1) => num(clean(u / scale));
-const listOf = (us: readonly number[], scale = 1) => us.map((u) => show(u, scale)).join(", ");
+/** Data value: tenths are always shown to 1 d.p. (43.0, not 43) so a list looks consistent. */
+const showD = (u: number, scale = 1) => (scale === 10 ? num(clean(u / 10)).replace(/^(−?\d+)$/, "$1.0") : show(u, scale));
+const listOf = (us: readonly number[], scale = 1) => us.map((u) => showD(u, scale)).join(", ");
 
 /** "4 − 2 + 5" — a readable running total. */
 function sumExpr(us: readonly number[], scale = 1): string {
-  return us.map((u, i) => (i === 0 ? show(u, scale) : u < 0 ? `− ${show(-u, scale)}` : `+ ${show(u, scale)}`)).join(" ");
+  return us.map((u, i) => (i === 0 ? showD(u, scale) : u < 0 ? `− ${showD(-u, scale)}` : `+ ${showD(u, scale)}`)).join(" ");
 }
 
 /** n ÷ d (integers, d > 0) is a terminating decimal with at most dp decimal places. */
@@ -36,6 +40,9 @@ function divRound(n: number, d: number, dp: number): number {
   const q = Math.floor((2 * Math.abs(n) * f + d) / (2 * d));
   return clean((n < 0 ? -q : q) / f);
 }
+
+/** A value rounded to 1 d.p., always showing the decimal: 6 → "6.0". */
+const d1 = (v: number) => v.toFixed(1).replace(/^-/, "−");
 
 /** n ÷ d truncated to dp places (for "45.666…" in worked solutions). */
 function divTrunc(n: number, d: number, dp: number): number {
@@ -196,12 +203,12 @@ export const drills: Drill[] = [
       const sAbs = sum(v.us.map(Math.abs));
       return {
         prompt: v.lead + (v.ask ? `\n\n${v.ask}` : ""),
-        answer: v.dp < 0 ? { type: "number", value: ans } : { type: "number", value: ans, allowFraction: false },
+        answer: v.dp < 0 ? { type: "number", value: ans } : { type: "number", value: ans, allowFraction: false, display: d1(ans) },
         solution: [
           `Add them all up: ${sumExpr(v.us, v.scale)} = ${total}.`,
           v.dp < 0
             ? `There are ${n} values, so mean = ${total} ÷ ${n} = ${num(ans)}.`
-            : `There are ${n} values, so mean = ${total} ÷ ${n} = ${num(divTrunc(S, d, 3))}… = ${num(ans)} (1 d.p.).`,
+            : `There are ${n} values, so mean = ${total} ÷ ${n} = ${num(divTrunc(S, d, 3))}… = ${d1(ans)} (1 d.p.).`,
         ],
         hint: "Mean = total of all the values ÷ how many values there are.",
         traps: numTraps(ans, [
@@ -383,7 +390,7 @@ export const drills: Drill[] = [
         hint: "Range = largest value − smallest value. Watch out for negatives.",
         traps: numTraps(r, [
           [tier > 1 ? (mx + mn) / scale : null, `Subtracting a negative adds: ${show(mx, scale)} − ${br(clean(mn / scale))} = ${show(mx, scale)} + ${show(-mn, scale)}.`],
-          [tier === 1 ? us[us.length - 1] - us[0] : null, "Range = largest − smallest, not last − first. Find the biggest and smallest values first."],
+          [tier === 1 ? Math.abs(us[us.length - 1] - us[0]) : null, "Range = largest − smallest, not last − first. Find the biggest and smallest values first."],
         ]),
       };
     },
@@ -449,11 +456,11 @@ export const drills: Drill[] = [
       const exact = exactTo(S, N, 1);
       return {
         prompt: `The table shows ${c.what}.\n\n${table}\n\nWork out the mean ${c.noun}.${tier > 1 ? " Give your answer to 1 decimal place." : ""}`,
-        answer: tier === 1 ? { type: "number", value: ans } : { type: "number", value: ans, allowFraction: false },
+        answer: tier === 1 ? { type: "number", value: ans } : { type: "number", value: ans, allowFraction: false, display: d1(ans) },
         solution: [
           `Multiply each value by its frequency (the fx column): ${xs.map((x, i) => `${x} × ${fs[i]} = ${x * fs[i]}`).join(", ")}.`,
           `Total of fx = ${S}. Total frequency = ${fs.join(" + ")} = ${N}.`,
-          `Mean = ${S} ÷ ${N} = ${exact ? num(clean(S / N)) : `${num(divTrunc(S, N, 3))}… = ${num(ans)} (1 d.p.)`}.`,
+          `Mean = ${S} ÷ ${N} = ${exact ? num(clean(S / N)) : `${num(divTrunc(S, N, 3))}… = ${d1(ans)} (1 d.p.)`}.`,
         ],
         hint: "Total of all the values = sum of (value × frequency). Divide by the total frequency.",
         traps: numTraps(ans, [
@@ -590,7 +597,7 @@ export const drills: Drill[] = [
       const rows: string[] = [];
       for (let s = s0; s < s0 + r; s++) rows.push(`| ${s} | ${us.filter((u) => Math.floor(u / 10) === s).map((u) => u % 10).join(" ")} |`);
       const keyU = us[rng.int(0, N - 1)];
-      const prompt0 = `The stem-and-leaf diagram shows ${what}.\n\n| Stem | Leaf |\n|---|---|\n${rows.join("\n")}\n\nKey: ${Math.floor(keyU / 10)} | ${keyU % 10} means ${show(keyU, scale)} ${unit}`;
+      const prompt0 = `The stem-and-leaf diagram shows ${what}.\n\n| Stem | Leaf |\n|---|---|\n${rows.join("\n")}\n\nKey: ${Math.floor(keyU / 10)} | ${keyU % 10} means ${showD(keyU, scale)} ${unit}`;
       const mn = us[0], mx = us[N - 1];
 
       if (ask === "range") {
@@ -598,7 +605,7 @@ export const drills: Drill[] = [
         return {
           prompt: `${prompt0}\n\nFind the range.`,
           answer: { type: "number", value: ans },
-          solution: [`Smallest = first leaf on the top stem = ${show(mn, scale)}. Largest = last leaf on the bottom stem = ${show(mx, scale)}.`, `Range = ${show(mx, scale)} − ${show(mn, scale)} = ${num(ans)} ${unit}.`],
+          solution: [`Smallest = first leaf on the top stem = ${showD(mn, scale)}. Largest = last leaf on the bottom stem = ${showD(mx, scale)}.`, `Range = ${showD(mx, scale)} − ${showD(mn, scale)} = ${num(ans)} ${unit}.`],
           hint: "The smallest value is at the very start of the diagram and the largest at the very end.",
           traps: numTraps(ans, [[(mx % 10) - (mn % 10) > 0 ? (mx % 10) - (mn % 10) : null, "Use the key to turn the leaves back into full values before you subtract."]]),
         };
@@ -612,7 +619,7 @@ export const drills: Drill[] = [
         return {
           prompt: `${prompt0}\n\nFind the mode.`,
           answer: { type: "number", value: ans },
-          solution: [`Look for a leaf repeated on the same stem: ${Math.floor(modeU / 10)} | ${Array.from({ length: top }, () => modeU % 10).join(" ")}.`, `${show(modeU, scale)} appears ${top} times, more than any other value, so the mode is ${num(ans)} ${unit}.`],
+          solution: [`Look for a leaf repeated on the same stem: ${Math.floor(modeU / 10)} | ${Array.from({ length: top }, () => modeU % 10).join(" ")}.`, `${showD(modeU, scale)} appears ${top} times, more than any other value, so the mode is ${showD(modeU, scale)} ${unit}.`],
           hint: "Look along each stem for the same leaf appearing more than once.",
           traps: numTraps(ans, [[modeU % 10, "Join the stem and the leaf together — the key shows how."]]),
         };
@@ -620,11 +627,11 @@ export const drills: Drill[] = [
       const med = medianU(us);
       const ans = clean(med / scale);
       const solution = N % 2
-        ? [`There are ${N} values, so the median is the {{(${N} + 1)/2}} = ${ordinal((N + 1) / 2)} value.`, `The leaves are already in order, so count along from the start: the ${ordinal((N + 1) / 2)} value is ${num(ans)} ${unit}.`]
+        ? [`There are ${N} values, so the median is the {{(${N} + 1)/2}} = ${ordinal((N + 1) / 2)} value.`, `The leaves are already in order, so count along from the start: the ${ordinal((N + 1) / 2)} value is ${showD(med, scale)} ${unit}.`]
         : [
             `There are ${N} values, so the median is halfway between the ${ordinal(N / 2)} and ${ordinal(N / 2 + 1)} values.`,
-            `Counting along the ordered leaves, these are ${show(us[N / 2 - 1], scale)} and ${show(us[N / 2], scale)}.`,
-            `Median = (${show(us[N / 2 - 1], scale)} + ${show(us[N / 2], scale)}) ÷ 2 = ${num(ans)} ${unit}.`,
+            `Counting along the ordered leaves, these are ${showD(us[N / 2 - 1], scale)} and ${showD(us[N / 2], scale)}.`,
+            `Median = (${showD(us[N / 2 - 1], scale)} + ${showD(us[N / 2], scale)}) ÷ 2 = ${num(ans)} ${unit}.`,
           ];
       return {
         prompt: `${prompt0}\n\nFind the median.`,
@@ -651,10 +658,10 @@ export const drills: Drill[] = [
 
       if (kind === "category") {
         const sets = [
-          { thing: "drink at the canteen", head: "Drink", items: ["Milo", "bandung", "soya bean milk", "lime juice", "barley water"] },
-          { thing: "CCA", head: "CCA", items: ["football", "choir", "robotics", "badminton", "drama"] },
-          { thing: "local fruit", head: "Fruit", items: ["durian", "mango", "rambutan", "mangosteen", "papaya"] },
-          { thing: "hawker dish", head: "Dish", items: ["vegetable fried rice", "roti prata", "chee cheong fun", "laksa (vegetarian)", "popiah"] },
+          { thing: "drink at the canteen", plural: "drinks", head: "Drink", items: ["Milo", "bandung", "soya bean milk", "lime juice", "barley water"] },
+          { thing: "CCA", plural: "CCAs", head: "CCA", items: ["football", "choir", "robotics", "badminton", "drama"] },
+          { thing: "local fruit", plural: "fruits", head: "Fruit", items: ["durian", "mango", "rambutan", "mangosteen", "papaya"] },
+          { thing: "hawker dish", plural: "dishes", head: "Dish", items: ["vegetable fried rice", "roti prata", "chee cheong fun", "laksa (vegetarian)", "popiah"] },
         ];
         const set = rng.pick(sets);
         const k = rng.int(4, 5);
@@ -667,7 +674,7 @@ export const drills: Drill[] = [
           solution: ["The answers are categories (words), not numbers.", "You can't add them up (no mean) or put them in number order (no median).", `Only the mode works: the most popular ${set.thing} is ${top}.`],
           hint: "Can you add up or order these answers?",
           traps: [
-            avgTrap("mean", `You can't add up ${set.thing}s — the data aren't numbers, so there is no mean.`),
+            avgTrap("mean", `You can't add up ${set.plural} — the data aren't numbers, so there is no mean.`),
             avgTrap("median", "There's no number order for these answers, so there's no middle value. Only one average works for non-numerical data."),
           ],
         };
@@ -679,7 +686,8 @@ export const drills: Drill[] = [
           const us = ints(rng, n, 3, 8);
           const counts = [3, 4, 5, 6, 7, 8].map((s) => us.filter((u) => u === s).length);
           const mx = Math.max(...counts);
-          if (counts.filter((c) => c === mx).length !== 1 || exactTo(2 * sum(us), n, 0)) return null;
+          // The mean must not look like a real size (whole or half), even after rounding to 1 d.p.
+          if (counts.filter((c) => c === mx).length !== 1 || exactTo(2 * sum(us), n, 0) || Number.isInteger(2 * divRound(sum(us), n, 1))) return null;
           return { us, mode: 3 + counts.indexOf(mx), cnt: mx };
         }, { us: [5, 6, 4, 6, 7, 5, 6, 8, 3, 6, 5], mode: 6, cnt: 4 });
         const n = v.us.length;
@@ -898,8 +906,8 @@ export const drills: Drill[] = [
         const rest = tot - sum(known);
         return {
           prompt: kind === "two-equal"
-            ? `The mean of ${n} numbers is ${m}. ${n - 2} of them are ${listOf(known)}. The other two numbers are equal. What is each of them?`
-            : `The mean of ${n} numbers is ${m}. ${n - 2} of them are ${listOf(known)}. The other two numbers are {{x}} and {{2x}}. Find {{x}}.`,
+            ? `The mean of ${n} numbers is ${m}. ${Count(n - 2)} of them are ${listOf(known)}. The other two numbers are equal. What is each of them?`
+            : `The mean of ${n} numbers is ${m}. ${Count(n - 2)} of them are ${listOf(known)}. The other two numbers are {{x}} and {{2x}}. Find {{x}}.`,
           answer: { type: "number", value: xx },
           solution: [
             `Total of all ${n} numbers = ${m} × ${n} = ${tot}.`,
@@ -928,10 +936,10 @@ export const drills: Drill[] = [
       const tot = clean(n * m);
       const S = sum(known);
       let prompt: string;
-      if (kind === "cards") prompt = `${name} has ${n} number cards. The mean of the numbers on them is ${num(m)}. ${n - 1} of the cards show ${listOf(known)}. What number is on the last card?`;
-      else if (kind === "temps") prompt = `The mean of ${n} temperatures is ${num(m)} °C. ${n - 1} of the temperatures (°C) are ${listOf(known)}. Find the other temperature in °C.`;
-      else if (kind === "mangoes") prompt = `The mean mass of ${n} mangoes is ${num(m)} g. ${n - 1} of the mangoes have masses (g) of ${listOf(known)}. Find the mass of the last mango in grams.`;
-      else prompt = `The mean of ${n} numbers is ${num(m)}. ${n - 1} of the numbers are ${listOf(known)}. Find the other number.`;
+      if (kind === "cards") prompt = `${name} has ${n} number cards. The mean of the numbers on them is ${num(m)}. ${Count(n - 1)} of the cards show ${listOf(known)}. What number is on the last card?`;
+      else if (kind === "temps") prompt = `The mean of ${n} temperatures is ${num(m)} °C. ${Count(n - 1)} of the temperatures (°C) are ${listOf(known)}. Find the other temperature in °C.`;
+      else if (kind === "mangoes") prompt = `The mean mass of ${n} mangoes is ${num(m)} g. ${Count(n - 1)} of the mangoes have masses (g) of ${listOf(known)}. Find the mass of the last mango in grams.`;
+      else prompt = `The mean of ${n} numbers is ${num(m)}. ${Count(n - 1)} of the numbers are ${listOf(known)}. Find the other number.`;
       return {
         prompt,
         answer: { type: "number", value: x },
@@ -952,11 +960,11 @@ export const drills: Drill[] = [
     generate(rng, tier) {
       const [A, B] = rng.shuffle(NAMES).slice(0, 2);
       const contexts = [
-        { lead: (n: number) => `${A} and ${B} each did ${n} maths quizzes, marked out of 20. Their scores were:`, lo: 6, hi: 20, higher: true, noun: "score", scale: 1 },
-        { lead: (n: number) => `${A} and ${B} each did the long jump ${n} times. Their distances (cm) were:`, lo: 250, hi: 420, higher: true, noun: "distance", scale: 1 },
-        { lead: (n: number) => `${A} and ${B} each did ${n} typing tests. Their numbers of mistakes were:`, lo: 0, hi: 18, higher: false, noun: "number of mistakes", scale: 1 },
-        { lead: (n: number) => `${A} and ${B} each solved a puzzle cube ${n} times. Their times (seconds) were:`, lo: 40, hi: 120, higher: false, noun: "time", scale: 1 },
-        { lead: (n: number) => `${A} and ${B} each swam 50 m ${n} times. Their times (seconds) were:`, lo: 320, hi: 480, higher: false, noun: "time", scale: 10 },
+        { lead: (n: number) => `${A} and ${B} each did ${n} maths quizzes, marked out of 20. Their scores were:`, lo: 6, hi: 20, higher: true, noun: "score", better: "A higher score is better", scale: 1 },
+        { lead: (n: number) => `${A} and ${B} each did the long jump ${n} times. Their distances (cm) were:`, lo: 250, hi: 420, higher: true, noun: "distance", better: "A longer jump is better", scale: 1 },
+        { lead: (n: number) => `${A} and ${B} each did ${n} typing tests. Their numbers of mistakes were:`, lo: 0, hi: 18, higher: false, noun: "number of mistakes", better: "Making fewer mistakes is better", scale: 1 },
+        { lead: (n: number) => `${A} and ${B} each solved a puzzle cube ${n} times. Their times (seconds) were:`, lo: 40, hi: 120, higher: false, noun: "time", better: "A lower time is better (faster)", scale: 1 },
+        { lead: (n: number) => `${A} and ${B} each timed ${n} swims of 50 m. Their times (seconds) were:`, lo: 320, hi: 480, higher: false, noun: "time", better: "A lower time is better (faster)", scale: 10 },
       ];
       const cx = tier === 3 ? rng.pick(contexts.slice(2)) : rng.pick(contexts.slice(0, 4));
       const ask: "range" | "mean" | "median" = rng.bool(0.45) ? "range" : tier === 3 && rng.bool(0.5) ? "median" : "mean";
@@ -995,7 +1003,7 @@ export const drills: Drill[] = [
           solution.push(`In order — ${A}: ${listOf(asc(a), sc)}; median ${show(avA, sc)}.`);
           solution.push(`In order — ${B}: ${listOf(asc(b), sc)}; median ${show(avB, sc)}.`);
         }
-        solution.push(higherBetter ? `A higher ${cx.noun} is better, so ${winner} did better on average.` : `A lower ${cx.noun} is better here, so ${winner} did better on average.`);
+        solution.push(`${cx.better}, so ${winner} did better on average.`);
       }
       const loser = winner === A ? B : A;
       const question = ask === "range" ? "Use the range to decide who was more consistent." : `Use the ${ask} to decide who did better on average.`;
@@ -1003,7 +1011,7 @@ export const drills: Drill[] = [
         ? "Consistent means the results are close together — that's the smaller range."
         : higherBetter
           ? `Compare the ${ask}s carefully — the higher ${ask} wins here.`
-          : `Careful — for ${cx.noun === "time" ? "times" : "mistakes"}, lower is better. Pick the lower ${ask}.`;
+          : `Careful — ${cx.better.toLowerCase()} here. Pick the lower ${ask}.`;
       return {
         prompt: `${cx.lead(n)}\n\n- **${A}:** ${listOf(a, sc)}\n- **${B}:** ${listOf(b, sc)}\n\n${question} Type their name.`,
         answer: { type: "text", accept: [winner], display: winner },
@@ -1089,19 +1097,23 @@ export const drills: Drill[] = [
 
       if (kind === "combine") {
         const v = attempt(() => {
-          const [n1, n2] = distinctInts(rng, 2, 12, 32);
+          const [n1, n2] = distinctInts(rng, 2, 15, 32);
           const m1 = rng.int(50, 90), m2 = rng.int(50, 90);
           const S = n1 * m1 + n2 * m2, N = n1 + n2;
-          if (Math.abs(m1 - m2) < 4 || !exactTo(S, N, 1)) return null;
+          if (Math.abs(m1 - m2) < 4 || isTie(S, N, 1)) return null;
           return { n1, n2, m1, m2 };
         }, { n1: 20, n2: 30, m1: 70, m2: 60 });
         const { n1, n2, m1, m2 } = v;
         const N = n1 + n2, S = n1 * m1 + n2 * m2;
-        const ans = clean(S / N);
+        const ans = divRound(S, N, 1);
         return {
-          prompt: `Class 8A has ${n1} pupils, and their mean test score is ${m1}. Class 8B has ${n2} pupils, and their mean score is ${m2}. Work out the mean score of all ${N} pupils together.`,
-          answer: { type: "number", value: ans },
-          solution: [`Total for 8A = ${m1} × ${n1} = ${m1 * n1}. Total for 8B = ${m2} × ${n2} = ${m2 * n2}.`, `Combined total = ${S}, shared by ${N} pupils.`, `Mean = ${S} ÷ ${N} = ${num(ans)}.`],
+          prompt: `Class 8A has ${n1} pupils, and their mean test score is ${m1}. Class 8B has ${n2} pupils, and their mean score is ${m2}. Work out the mean score of all ${N} pupils together. Give your answer to 1 decimal place.`,
+          answer: { type: "number", value: ans, allowFraction: false, display: d1(ans) },
+          solution: [
+            `Total for 8A = ${m1} × ${n1} = ${m1 * n1}. Total for 8B = ${m2} × ${n2} = ${m2 * n2}.`,
+            `Combined total = ${S}, shared by ${N} pupils.`,
+            `Mean = ${S} ÷ ${N} = ${exactTo(S, N, 1) ? num(ans) : `${num(divTrunc(S, N, 3))}… = ${d1(ans)} (1 d.p.)`}.`,
+          ],
           hint: "You can't just average the two means — the classes are different sizes. Find each class's total first.",
           traps: numTraps(ans, [[(m1 + m2) / 2, `The classes are different sizes, so the bigger class counts for more. Use totals: (${m1} × ${n1} + ${m2} × ${n2}) ÷ ${N}.`]]),
         };
@@ -1168,11 +1180,11 @@ export const drills: Drill[] = [
       const upperS = sum(bounds.map(([, hi], i) => hi * fs[i]));
       return {
         prompt: `The table shows ${cx.what}.\n\n| ${cx.head} | Frequency |\n|---|---|\n${rows}\n\nWork out an estimate of the mean ${cx.noun}. Give your answer to 1 decimal place.`,
-        answer: { type: "number", value: ans, allowFraction: false },
+        answer: { type: "number", value: ans, allowFraction: false, display: d1(ans) },
         solution: [
           `Use the midpoint of each class: ${mid2.map((m2) => show(m2, 2)).join(", ")}.`,
           `Midpoint × frequency: ${mid2.map((m2, i) => `${show(m2, 2)} × ${fs[i]} = ${show(m2 * fs[i], 2)}`).join(", ")}. Total = ${num(S)}.`,
-          `Estimated mean = ${num(S)} ÷ ${N} = ${exact ? num(ans) : `${num(divTrunc(S2, 2 * N, 3))}… = ${num(ans)} (1 d.p.)`}.`,
+          `Estimated mean = ${num(S)} ÷ ${N} = ${exact ? num(ans) : `${num(divTrunc(S2, 2 * N, 3))}… = ${d1(ans)} (1 d.p.)`}.`,
           "It's only an estimate: we don't know the exact values, so we assume each one sits at the middle of its class.",
         ],
         hint: "You don't know the exact values — use the midpoint of each class to stand for every value in it.",

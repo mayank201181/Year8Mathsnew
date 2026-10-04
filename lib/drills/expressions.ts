@@ -4,7 +4,7 @@
 // ---------------------------------------------------------------------------
 import type { Drill, DrillItem, Rng } from "./types.ts";
 import type { AnswerSpec, Trap } from "../types.ts";
-import { clean, frac, gcd, lcm, num, poly, roundTo, term } from "./helpers.ts";
+import { clean, frac, gcd, num, poly, roundTo, term } from "./helpers.ts";
 
 type Tier = 1 | 2 | 3;
 type Terms = Array<[number, string]>;
@@ -135,8 +135,12 @@ function vocabCoef(rng: Rng, tier: Tier): DrillItem {
     let body = term(Math.abs(c), keyOf(k));
     if (k === "lin" && fracLin) {
       fd = rng.pick([2, 3, 4, 5]);
-      let fn = rng.int(1, fd - 1);
-      while (gcd(fn, fd) !== 1) fn = rng.int(1, fd - 1);
+      let fn = 1;
+      for (let i = 0; i < 20; i++) {
+        fn = rng.int(1, fd - 1);
+        if (gcd(fn, fd) === 1) break;
+      }
+      if (gcd(fn, fd) !== 1) fn = 1;
       c = rng.bool() ? fn : -fn;
       body = fn === 1 ? `${v}/${fd}` : `${fn}${v}/${fd}`;
     }
@@ -317,7 +321,7 @@ function vocabIdentity(rng: Rng, tier: Tier): DrillItem {
         `Match the constant terms: ${M(`${k}a = ${k * c}`)}, so a = ${num(c)}.`,
       ],
       hint: "Expand the left-hand side. Which term must equal the number on the right?",
-      traps: [ntrap(k * c, `${k * c} is ${k}a, not a. Divide by ${k}.`)],
+      traps: [ntrap(k * c, `${num(k * c)} is ${k}a, not a. Divide by ${k}.`)],
     };
   }
   if (kind === 2) {
@@ -360,11 +364,11 @@ type Poly1 = Array<[number, number]>;
 const polyStr = (t: Poly1, v: string): string => poly(t.map(([c, p]) => [c, pw(v, p)]));
 
 /** The substituted calculation inside {{ }}, e.g. "2 × (-3)^2 - 5 × (-3) + 4". */
-function subStr(t: Poly1, xs: string, xIsPlain: boolean): string {
+function subStr(t: Poly1, xs: string): string {
   return t
     .map(([c, p], i) => {
       const a = Math.abs(c);
-      const base = p === 0 ? "" : p === 1 ? xs : `${xIsPlain ? xs : xs}^${p}`;
+      const base = p === 0 ? "" : p === 1 ? xs : `${xs}^${p}`;
       const body = p === 0 ? `${a}` : a === 1 ? base : `${a} × ${base}`;
       return i === 0 ? (c < 0 ? "-" : "") + body : (c < 0 ? " - " : " + ") + body;
     })
@@ -487,7 +491,7 @@ export const drills: Drill[] = [
         const f: Fac = [[a, 1], [b, 1]];
         if (p + qq !== p * qq && p + qq !== 0) traps.push(etrap(mono(p + qq, f), `You added ${p} and ${bq(qq)}. When terms are multiplied, multiply the numbers.`));
         return {
-          prompt: `${verb} ${M(`${p}${a} × ${qq < 0 ? `(${qq}${b})` : `${qq}${b}`}`)}.`.replace("-", "-"),
+          prompt: `${verb} ${M(`${p}${a} × ${qq < 0 ? `(${qq}${b})` : `${qq}${b}`}`)}.`,
           answer: monoAnswer(p * qq, f),
           solution: [`Multiply the numbers: ${M(`${p} × ${bq(qq)} = ${p * qq}`)}.`, `Multiply the letters: ${M(`${a} × ${b} = ${a}${b}`)}.`, `So the answer is ${M(mono(p * qq, f))}.`],
           hint,
@@ -684,7 +688,7 @@ export const drills: Drill[] = [
           return {
             prompt: ask(polyStr(t, v), `${v} = ${x}`),
             answer: { type: "number", value: ans },
-            solution: [`Replace ${v} with ${x}: ${M(subStr(t, `${x}`, true))}`, `${M(`= ${joinVals(vals)}`)}`, `${M(`= ${ans}`)}`],
+            solution: [`Replace ${v} with ${x}: ${M(subStr(t, `${x}`))}`, `${M(`= ${joinVals(vals)}`)}`, `${M(`= ${ans}`)}`],
             hint: `Write the expression again with ${x} in place of ${v}. Powers first, then multiply, then add or subtract.`,
             traps,
           };
@@ -697,7 +701,7 @@ export const drills: Drill[] = [
             answer: { type: "number", value: p * A + qq * B },
             solution: [`${M(`${p} × ${A} + ${qq} × ${B}`)}`, `${M(`= ${p * A} + ${qq * B} = ${p * A + qq * B}`)}`],
             hint: `${M(`${p}${a}`)} means ${M(`${p} × ${a}`)}.`,
-            traps: [ntrap(Number(`${p}${A}`) + Number(`${qq}${B}`), `${M(`${p}${a}`)} means ${p} × ${a}, not the digits ${p} and ${A} side by side.`)],
+            traps: Number(`${p}${A}`) + Number(`${qq}${B}`) !== p * A + qq * B ? [ntrap(Number(`${p}${A}`) + Number(`${qq}${B}`), `${M(`${p}${a}`)} means ${p} × ${a}, not the digits ${p} and ${A} side by side.`)] : [],
           };
         }
         if (kind === 3) {
@@ -759,8 +763,12 @@ export const drills: Drill[] = [
           }
         } else if (style === 1) {
           const d = rng.pick([2, 3, 4, 5]);
-          let n = rng.int(1, d - 1);
-          while (gcd(n, d) !== 1) n = rng.int(1, d - 1);
+          let n = 1;
+          for (let i = 0; i < 20; i++) {
+            n = rng.int(1, d - 1);
+            if (gcd(n, d) === 1) break;
+          }
+          if (gcd(n, d) !== 1) n = 1;
           x = q(rng.bool() ? -n : n, d);
           xs = `(${qin(x)})`;
           xText = frac(x[0], x[1]);
@@ -810,7 +818,7 @@ export const drills: Drill[] = [
           prompt: ask(polyStr(t, v), `${v} = ${xText}`) + formNote,
           answer,
           solution: [
-            `Replace ${v} with ${xText}: ${M(subStr(t, xs, false))}`,
+            `Replace ${v} with ${xText}: ${M(subStr(t, xs))}`,
             `Powers first, then multiply: ${M(`= ${valsLine}`)}`,
             `${M(`= ${ansText}`)}`,
           ],
@@ -872,11 +880,11 @@ export const drills: Drill[] = [
           traps,
         };
       }
-      if (kind === 5) {
-        // two letters, one a fraction or both negative products
+      // kind 5: two letters — fractions (tier 3) or a product of negatives (tier 2)
+      {
         if (tier === 3) {
           const d1 = rng.pick([2, 3, 4]), d2 = rng.pick([2, 3, 5]);
-          const A: Q = q(rng.bool() ? 1 : -1, d1), B: Q = q(rng.pick([1, 2, -1, -2, 3]), d2);
+          const A: Q = q(rng.bool() ? 1 : -1, d1), B: Q = q(rng.pick([1, 2, -1, -2, 3].filter((n) => gcd(n, d2) === 1)), d2);
           const p = d1 * rng.int(1, 3), qq = rng.int(2, 9);
           const vals = [qmul(q(p), A), qmul(q(qq), B)];
           const ans = qsum(vals);
@@ -888,7 +896,9 @@ export const drills: Drill[] = [
             hint: "Multiply each fraction by its coefficient, then add.",
           };
         }
-        const A = -rng.int(2, 9), B = rng.nonZero(-9, 9), C = rng.nonZero(-12, 12);
+        const A = -rng.int(2, 9), B = rng.nonZero(-9, 9);
+        let C = rng.nonZero(-12, 12);
+        if (A * B + C === 0) C = C > 0 ? C + 1 : C - 1;
         const cL = a === "c" ? "e" : "c";
         const ans = A * B + C;
         return {
@@ -899,8 +909,6 @@ export const drills: Drill[] = [
           traps: B < 0 ? [ntrap(-A * B + C, `A negative times a negative is positive: ${M(`${bq(A)} × ${bq(B)} = ${A * B}`)}.`)] : [],
         };
       }
-      // tier 3 kind 5 handled above; kind 6 handled with polynomials
-      return drills[3].generate(rng, 2);
     },
   },
 
@@ -917,9 +925,9 @@ export const drills: Drill[] = [
       if (kind === "v") {
         let u = 0, A10 = 20, t = 2, V10 = 0;
         for (let i = 0; i < 100; i++) {
-          t = rng.int(2, 10);
-          if (tier === 1) { u = rng.int(0, 15); A10 = 10 * rng.int(2, 6); }
-          else { u = rng.int(5, 30); A10 = rng.bool(0.5) ? -10 * rng.int(1, 4) : rng.pick([15, 25, 35, 5]); }
+          t = rng.int(2, 6);
+          if (tier === 1) { u = rng.int(0, 10); A10 = 10 * rng.int(2, 3); }
+          else { u = rng.int(5, 25); A10 = rng.bool(0.5) ? -10 * rng.int(1, 4) : rng.pick([15, 25, 5, 10, 20]); }
           V10 = 10 * u + A10 * t;
           if (V10 >= 0 && V10 % 1 === 0) break;
         }
@@ -928,7 +936,7 @@ export const drills: Drill[] = [
         const wrong = clean((u + a) * t);
         if (wrong !== v) traps.push(ntrap(wrong, `Multiply before adding: work out ${M("at")} first, then add u.`));
         return {
-          prompt: `The formula ${M("v = u + at")} gives the speed v (in m/s) of a cyclist after t seconds, where u is the starting speed and a is the acceleration. Find v when u = ${u}, a = ${num(a)} and t = ${t}.`,
+          prompt: `The formula ${M("v = u + at")} gives the speed v (in m/s) of a car after t seconds, where u is its starting speed and a is its acceleration. Find v when u = ${u}, a = ${num(a)} and t = ${t}.`,
           answer: { type: "number", value: v },
           solution: [`${M(`v = ${u} + ${bq(a)} × ${t}`)}`, `Multiply first: ${M(`${bq(a)} × ${t} = ${clean(a * t)}`)}`, `${M(`v = ${u}${pm(clean(a * t))} = ${v}`)} m/s`],
           hint: `${M("at")} means a × t. Do the multiplication before the addition.`,
@@ -990,13 +998,13 @@ export const drills: Drill[] = [
         const f = rng.int(5, 30), r = tier === 1 ? rng.int(3, 15) : clean(rng.int(25, 90) / 10), n = rng.int(2, 12);
         const C = clean(f + r * n);
         const ctx = rng.pick([
-          [`A school CCA trip costs ${M(`C = ${f} + ${r}n`)} dollars, where n is the number of students.`, "students"],
-          [`The cost in dollars of hiring a bike for n hours at East Coast Park is ${M(`C = ${f} + ${r}n`)}.`, "hours"],
-          [`A printing shop charges ${M(`C = ${f} + ${r}n`)} dollars to print n posters.`, "posters"],
+          `The cost in dollars of a school CCA trip for n students is ${M(`C = ${f} + ${r}n`)}.`,
+          `The cost in dollars of hiring a bike for n hours at East Coast Park is ${M(`C = ${f} + ${r}n`)}.`,
+          `A printing shop charges ${M(`C = ${f} + ${r}n`)} dollars to print n posters.`,
         ]);
         const wrong = clean((f + r) * n);
         return {
-          prompt: `${ctx[0]} Find C when n = ${n}.`,
+          prompt: `${ctx} Find C when n = ${n}.`,
           answer: { type: "number", value: C, display: `$${C % 1 === 0 ? C : C.toFixed(2)}` },
           solution: [`${M(`C = ${f} + ${r} × ${n}`)}`, `Multiply first: ${M(`${r} × ${n} = ${clean(r * n)}`)}`, `${M(`C = ${f} + ${clean(r * n)} = ${C}`)}, so the cost is $${C % 1 === 0 ? C : C.toFixed(2)}.`],
           hint: `${M(`${r}n`)} means ${r} × n. Multiply before adding.`,
@@ -1045,7 +1053,7 @@ export const drills: Drill[] = [
           };
         }
         const traps: Trap[] = [];
-        if (v / a - u !== t && Number.isInteger(v / a - u)) traps.push(ntrap(v / a - u, "Subtract u before you divide by a."));
+        if (v / a - u !== t && v / a - u > 0 && Number.isInteger(v / a - u)) traps.push(ntrap(v / a - u, "Subtract u before you divide by a."));
         return {
           prompt: `The formula ${M("v = u + at")} links the final speed v, the starting speed u, the acceleration a and the time t. Find t when v = ${v}, u = ${u} and a = ${a}.`,
           answer: { type: "number", value: t },
@@ -1224,7 +1232,7 @@ export const drills: Drill[] = [
         const wrong = new Map(res);
         wrong.set(p2[1][1], wrong.get(p2[1][1])! - 2 * p2[1][0]);
         const wt: Poly1 = [...wrong.entries()].sort((x, y) => y[0] - x[0]).map(([p, c]) => [c, p]);
-        traps.push(etrap(polyStr(wt, v), `The minus sign in front of the second bracket multiplies **both** terms inside it: ${M(`${outerStr(b2)} × ${bq(b2.inner[1][0])} = ${b2.K * b2.inner[1][0]}`)}.`));
+        traps.push(etrap(polyStr(wt, v), `The minus sign in front of the second bracket multiplies **both** terms inside it: ${M(`${outerStr(b2)} × ${bq(b2.inner[1][0])} = ${term(p2[1][0], pw(v, p2[1][1]))}`)}.`));
       }
       return {
         prompt: `Expand and simplify ${M(shown)}.`,
@@ -1292,7 +1300,7 @@ export const drills: Drill[] = [
         if (H.f.length) traps.push(etrap(String(H.c), `Both terms also contain ${M(mono(1, H.f))} — include the letters in the HCF.`));
         const pf = [2, 3, 5, 7].find((p) => H.c % p === 0 && H.c > p);
         if (pf) traps.push(etrap(mono(H.c / pf, H.f), `That is a common factor, but not the highest — ${H.c} also divides both numbers.`));
-        if (H.f.length) traps.push(etrap(mono(H.c, H.f.map(([x]) => [x, 1] as [string, number])).replace(/^1(?=[a-z])/, ""), "Check the powers: use the lowest power of each letter that appears in both terms."));
+        if (H.f.length) traps.push(etrap(mono(H.c, H.f.map(([x]) => [x, 1] as [string, number])), "Check the powers: use the lowest power of each letter that appears in both terms."));
         const okTraps = traps.filter((t) => t.spec.type === "expression" && t.spec.expr !== Hs);
         return {
           prompt: `What is the highest common factor (HCF) of ${M(mono(orig[0][0], orig[0][1]))} and ${M(mono(Math.abs(orig[1][0]), orig[1][1]))}?`,
@@ -1438,7 +1446,7 @@ export const drills: Drill[] = [
       type F = { text: string; lhs: string; rhs: string; traps: Trap[]; steps: string[] };
       const f1: Array<() => F> = [
         () => {
-          const f = rng.int(2, 8), r = rng.int(3, 12);
+          const f = rng.int(2, 8), r = f + rng.int(1, 6);
           return {
             text: `A bike-hire stall at East Coast Park charges $${f} to hire a bike plus $${r} for every hour. Write a formula for C, the total cost in dollars of hiring a bike for h hours.`,
             lhs: "C", rhs: `${r}h + ${f}`,
@@ -1681,9 +1689,9 @@ export const drills: Drill[] = [
           };
         },
         () => ({
-          f: `${y} = ${x}^2 + ${c}`, subj: x, rhs: `sqrt(${y} - ${c})`,
-          steps: [`Subtract ${c}: ${M(`${y} - ${c} = ${x}^2`)}.`, `Square root both sides (${x} is positive): ${M(`${x} = sqrt(${y} - ${c})`)}.`],
-          traps: [etrap(`sqrt(${y}) - ${c}`, `Undo the + ${c} first, then square root the WHOLE of ${M(`${y} - ${c}`)}.`), etrap(`${y} - ${c}`, `That is ${M(`${x}^2`)}. Take the square root.`)],
+          f: `${y} = ${x}^2 - ${c}`, subj: x, rhs: `sqrt(${y} + ${c})`,
+          steps: [`Add ${c}: ${M(`${y} + ${c} = ${x}^2`)}.`, `Square root both sides (${x} is positive): ${M(`${x} = sqrt(${y} + ${c})`)}.`],
+          traps: [etrap(`sqrt(${y}) + ${c}`, `Undo the − ${c} first, then square root the WHOLE of ${M(`${y} + ${c}`)}.`), etrap(`${y} + ${c}`, `That is ${M(`${x}^2`)}. Take the square root.`)],
           note: `Assume ${x} is positive.`,
         }),
         () => ({
@@ -1736,7 +1744,7 @@ export const drills: Drill[] = [
           else if (f === 1) { a = -rng.int(1, 9); b = -rng.int(1, 9); }
           else if (f === 2) { a = rng.nonZero(-9, 9); b = a; square = true; }
           else { a = rng.nonZero(-9, 9); b = rng.nonZero(-9, 9); }
-          if (a + b === 0 && rng.bool(0.7)) continue;
+          if (a + b === 0) continue;
         } else {
           const f = rng.int(0, 4);
           p = 1; qq = 1;

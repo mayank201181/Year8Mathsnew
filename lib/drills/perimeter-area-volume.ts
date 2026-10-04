@@ -30,6 +30,8 @@ function halfOr(rng: Rng, lo: number, hi: number, pHalf: number): number {
 }
 
 const sq = (u: string) => `${u}²`;
+/** Always show exactly one decimal place (88 → "88.0") for "to 1 d.p." answers. */
+const dp1 = (x: number) => big(roundTo(x, 1)).replace(/^([^.]*)$/, "$1.0");
 const cu = (u: string) => `${u}³`;
 
 /** Pythagorean triples [leg1, leg2, hypotenuse], used so sloping sides are honest whole numbers. */
@@ -146,6 +148,23 @@ function drawPlan(g: number[][], showSide: boolean): string {
     out += svgText(rx + 34, cy - 10, "Side");
   }
   return out + "</svg>";
+}
+
+/** L-shape (W × H with a w × h corner notch) is big enough on screen for every label to sit clear. */
+function lShapeFits(W: number, H: number, w: number, h: number): boolean {
+  const s = Math.min(300 / W, 180 / H);
+  return w * s >= 80 && h * s >= 60 && (W - w) * s >= 50 && (H - h) * s >= 40;
+}
+
+/** Trapezium (bottom b, top a from x1, height h): room either side of the dashed height at mid-height. */
+function trapRoomy(a: number, b: number, h: number, x1: number): boolean {
+  return (Math.max(x1, a + b - x1) / 2) * Math.min(300 / b, 180 / h) >= 50;
+}
+
+/** "18 m, 3 m, 8 m and 10 m" from a list of edge labels. */
+function listLabels(labels: Array<string | null>): string {
+  const xs = labels.filter((x): x is string => !!x);
+  return xs.length > 1 ? `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}` : xs.join("");
 }
 
 /** Reflect a list of points so the "notch" can sit in any corner. */
@@ -298,7 +317,9 @@ export const drills: Drill[] = [
       for (let i = 0; i < 100; i++) {
         [p, h, s] = rng.pick(pool);
         b = p + rng.int(2, tier === 1 ? 7 : 11);
-        if (tier !== 1 || (b * h) % 2 === 0) break;
+        // the height label needs room inside the triangle at mid-height
+        const roomy = (Math.max(p, b - p) / 2) * Math.min(300 / b, 180 / h) >= 50;
+        if (roomy && (tier !== 1 || (b * h) % 2 === 0)) break;
       }
       const A = clean((b * h) / 2);
       const mirror = rng.bool();
@@ -310,7 +331,7 @@ export const drills: Drill[] = [
         labels,
         aria: `Triangle with base ${b} cm, perpendicular height ${h} cm shown dashed, and a sloping side of ${s} cm`,
         fill: "#fde68a",
-        height: { from: apex, foot: [apex[0], 0], text: `${h} cm`, side: mirror ? "left" : "right" },
+        height: { from: apex, foot: [apex[0], 0], text: `${h} cm`, side: apex[0] >= b - apex[0] ? "left" : "right" },
       });
       return {
         prompt: `The triangle has base ${b} cm, perpendicular height ${h} cm and a sloping side of ${s} cm. Find its area in cm².`,
@@ -350,10 +371,11 @@ export const drills: Drill[] = [
         }
         const A = clean(L * W);
         const ctx = rng.pick([
-          { thing: "garden bed", u: "m" },
-          { thing: "rug", u: "m" },
+          { thing: "community garden", u: "m" },
+          { thing: "school garden plot", u: "m" },
           { thing: "tray", u: "cm" },
           { thing: "poster", u: "cm" },
+          { thing: "tablet screen", u: "cm" },
         ]);
         return {
           prompt: `A rectangular ${ctx.thing} has an area of ${num(A)} ${sq(ctx.u)}. It is ${num(L)} ${ctx.u} long. How wide is it? Give your answer in ${ctx.u}.`,
@@ -419,7 +441,6 @@ export const drills: Drill[] = [
           traps: numTraps(W, [
             [P - L, "You only took away one side. The perimeter includes the known side twice."],
             [P - 2 * L, "That's both of the other sides together. Halve it to get one side."],
-            [P / L, "Perimeter is a sum of sides, not a product, so don't divide by the side."],
           ]),
         };
       }
@@ -558,7 +579,11 @@ export const drills: Drill[] = [
         height: leanLeft ? { from: [b, h], foot: [b, 0], text: `${h} cm`, side: "left" } : { from: [p, h], foot: [p, 0], text: `${h} cm`, side: "right" },
       });
       return {
-        prompt: `Find the area of the parallelogram. Its base is ${num(b)} cm, its sloping side is ${s} cm and its perpendicular height is ${h} cm. Give your answer in cm².`,
+        prompt: rng.pick([
+          `Find the area of the parallelogram. Its base is ${num(b)} cm, its sloping side is ${s} cm and its perpendicular height is ${h} cm. Give your answer in cm².`,
+          `A parallelogram-shaped tile has a base of ${num(b)} cm, sloping sides of ${s} cm and a perpendicular height of ${h} cm. What is its area in cm²?`,
+          `Wei Ling cuts a parallelogram from card. The base is ${num(b)} cm, the sloping side is ${s} cm and the perpendicular height is ${h} cm. Find the area of the card in cm².`,
+        ]),
         diagram,
         answer: { type: "number", value: A, display: `${num(A)} cm²` },
         solution: [
@@ -636,7 +661,7 @@ export const drills: Drill[] = [
           h = rng.int(2, 10);
           x1 = rng.int(1, b - a);
           slant = null;
-          if (((a + b) * h) % 2 === 0 && h !== a && h !== b) break;
+          if (((a + b) * h) % 2 === 0 && h !== a && h !== b && trapRoomy(a, b, h, x1)) break;
         } else {
           const [p, hh, s] = rng.pick(TRIPLES_ALL);
           a = rng.int(3, 14) + (tier === 3 && rng.bool(0.4) ? 0.5 : 0);
@@ -644,7 +669,7 @@ export const drills: Drill[] = [
           h = hh;
           x1 = p;
           slant = s;
-          if (h !== a && h !== b && s !== a && s !== b && b <= 3 * h + 20) break;
+          if (h !== a && h !== b && s !== a && s !== b && b <= 3 * h + 20 && trapRoomy(a, b, h, x1)) break;
         }
       }
       const A = clean(((a + b) * h) / 2);
@@ -657,7 +682,7 @@ export const drills: Drill[] = [
         labels,
         aria: `Trapezium with parallel sides ${num(a)} cm and ${num(b)} cm and perpendicular height ${h} cm shown dashed${slant !== null ? `, and a sloping side of ${slant} cm` : ""}`,
         fill: "#bae6fd",
-        height: flip ? { from: [x1, 0], foot: [x1, h], text: `${h} cm`, side: "right" } : { from: [x1, h], foot: [x1, 0], text: `${h} cm`, side: "right" },
+        height: { from: flip ? [x1, 0] : [x1, h], foot: flip ? [x1, h] : [x1, 0], text: `${h} cm`, side: x1 > a + b - x1 ? "left" : "right" },
       });
       const thing = rng.pick(["trapezium", "trapezium-shaped tile", "trapezium-shaped table top", "trapezium-shaped face of a ramp"]);
       return {
@@ -728,7 +753,8 @@ export const drills: Drill[] = [
           d = rng.int(2, 7);
           e = rng.int(2, 7);
           h = rng.int(2, H - 2);
-          if (W - d - e >= 2 && W !== H) break;
+          const sc = Math.min(300 / W, 180 / H);
+          if (W - d - e >= 2 && W !== H && (W - d - e) * sc >= 55 && Math.min(d, e) * sc >= 30 && h * sc >= 30 && (H - h) * sc >= 25) break;
         }
         const w = W - d - e;
         const ans = W * H - w * h;
@@ -736,7 +762,7 @@ export const drills: Drill[] = [
         const labels: Array<string | null> = [`${W} ${u}`, `${H} ${u}`, `${e} ${u}`, `${h} ${u}`, null, null, `${d} ${u}`, null];
         const diagram = drawShape({ pts, labels, aria: `U-shaped compound shape: a ${W} by ${H} rectangle with a rectangular gap ${h} deep cut from the top`, fill: "#bbf7d0" });
         return {
-          prompt: `The diagram shows a U-shape. All the corners are right angles and the lengths are in ${u}. Find its area in ${sq(u)}.`,
+          prompt: `The diagram shows a U-shape. All the corners are right angles. The labelled lengths are ${listLabels(labels)}. Find its area in ${sq(u)}.`,
           diagram,
           answer: { type: "number", value: ans, display: `${ans} ${sq(u)}` },
           solution: [
@@ -759,7 +785,7 @@ export const drills: Drill[] = [
         else { W = rng.int(9, 26); H = rng.int(7, 20); }
         w = rng.int(2, W - 3);
         h = rng.int(2, H - 3);
-        if (W !== H && w !== h && W - w !== H - h) break;
+        if (W !== H && w !== h && W - w !== H - h && lShapeFits(W, H, w, h)) break;
       }
       const t = W - w, r = H - h;
       const ans = W * H - w * h;
@@ -773,7 +799,7 @@ export const drills: Drill[] = [
       const diagram = drawShape({ pts, labels, aria: `L-shaped compound shape made of two rectangles, overall ${W} by ${H}`, fill: "#bbf7d0" });
       const thing = u === "m" ? rng.pick(["L-shaped lawn", "L-shaped garden", "L-shaped playground"]) : rng.pick(["L-shaped tile", "L-shaped piece of card", "L-shaped shape"]);
       return {
-        prompt: `The diagram shows an ${thing.replace("L-shaped shape", "L-shape")}. All the corners are right angles and the lengths are in ${u}. Find its area in ${sq(u)}.`,
+        prompt: `The diagram shows an ${thing.replace("L-shaped shape", "L-shape")}. All the corners are right angles. The labelled lengths are ${listLabels(labels)}. Find its area in ${sq(u)}.`,
         diagram,
         answer: { type: "number", value: ans, display: `${ans} ${sq(u)}` },
         solution: giveOuter
@@ -841,7 +867,7 @@ export const drills: Drill[] = [
         const diagram = drawShape({ pts, labels, aria: `Staircase shape ${W} wide and ${H} tall with ${k} steps`, fill: "#fde68a" });
         const P = 2 * (W + H);
         return {
-          prompt: `The diagram shows a staircase shape with ${k} steps. All the corners are right angles and the lengths are in ${u}. Only two sides are labelled. Find the perimeter in ${u}.`,
+          prompt: `The diagram shows a staircase shape with ${k} steps. All the corners are right angles. Only two sides are labelled: the bottom is ${W} ${u} and the left side is ${H} ${u}. Find the perimeter in ${u}.`,
           diagram,
           answer: { type: "number", value: P, display: `${P} ${u}` },
           solution: [
@@ -863,7 +889,7 @@ export const drills: Drill[] = [
         else { W = rng.int(9, 30); H = rng.int(7, 24); }
         w = rng.int(2, W - 3);
         h = rng.int(2, H - 3);
-        if (W !== H && w !== h && W - w !== H - h) break;
+        if (W !== H && w !== h && W - w !== H - h && lShapeFits(W, H, w, h)) break;
       }
       const t = W - w, r = H - h;
       // edges: 0 bottom W, 1 right r, 2 notch w, 3 notch h, 4 top t, 5 left H
@@ -881,7 +907,7 @@ export const drills: Drill[] = [
       const hCalc = missH === 0 ? `${t} + ${w} = ${W}` : missH === 2 ? `${W} − ${t} = ${w}` : `${W} − ${w} = ${t}`;
       const vCalc = missV === 5 ? `${r} + ${h} = ${H}` : missV === 3 ? `${H} − ${r} = ${h}` : `${H} − ${h} = ${r}`;
       return {
-        prompt: `The diagram shows an L-shape. All the corners are right angles and the lengths are in ${u}. Two sides are not labelled. Find the perimeter in ${u}.`,
+        prompt: `The diagram shows an L-shape. All the corners are right angles. The labelled lengths are ${listLabels(labels)}; two sides are not labelled. Find the perimeter in ${u}.`,
         diagram,
         answer: { type: "number", value: P, display: `${P} ${u}` },
         solution: [
@@ -1012,7 +1038,7 @@ export const drills: Drill[] = [
         solid === "prism"
           ? [
               [n, askWhat === "F" ? "Don't forget the two end faces." : askWhat === "V" ? "Each end has corners — and there are two ends." : "Count the edges round both ends AND the ones joining them."],
-              [2 * n, "Count the edges round both ends AND the edges joining them."],
+              ...(askWhat === "E" ? ([[2 * n, "You've counted the edges round both ends — now add the edges joining them."]] as Array<[number, string]>) : []),
             ]
           : [[n, askWhat === "F" ? "Don't forget the base." : askWhat === "V" ? "Don't forget the apex at the top." : "Count the base edges AND the sloping edges up to the apex."]];
       return {
@@ -1078,7 +1104,9 @@ export const drills: Drill[] = [
       const rowMax = g.map((row) => Math.max(...row));
       const big2 = tier === 3; // 2 cm cubes → areas ×4, volumes ×8
       const cubeWord = big2 ? "2 cm cubes" : "1 cm cubes";
-      const intro = `The diagram is the plan view (looking down from above) of a solid made from ${cubeWord}. The number in each square tells you how many cubes are stacked there.`;
+      const rowNames = R === 2 ? ["Back row", "Front row"] : ["Back row", "Middle row", "Front row"];
+      const rowsText = g.map((row, i) => `${rowNames[i]}: ${row.map((v) => (v > 0 ? String(v) : "empty")).join(", ")}`).join(". ");
+      const intro = `The diagram is the plan view (looking down from above) of a solid made from ${cubeWord}. The number in each square tells you how many cubes are stacked there (left to right — ${rowsText}).`;
       const diagram = drawPlan(g, kind === "side");
 
       if (kind === "total") {
@@ -1183,6 +1211,7 @@ export const drills: Drill[] = [
       const V = clean(l * w * h);
 
       if (kind === "open") {
+        if (w > l) [l, w] = [w, l];
         const So = clean(lw + 2 * lh + 2 * wh);
         const thing = rng.pick(["open box (it has no lid)", "fish tank with no lid", "planter box with an open top"]);
         return {
@@ -1313,19 +1342,26 @@ export const drills: Drill[] = [
       }
       const tri = p * hh; // ½ × 2p × hh
       if (kind === "tent") {
-        const S = 2 * tri + 2 * s * L;
+        // tent-sized triples in metres: [half-base, height, sloping side]
+        const [tp, th, ts] = rng.pick([[1.5, 2, 2.5], [2, 1.5, 2.5], [1.2, 1.6, 2], [1.6, 1.2, 2], [1, 2.4, 2.6], [2.4, 1, 2.6], [0.9, 1.2, 1.5], [1.2, 0.9, 1.5]] as Array<[number, number, number]>);
+        const tb = clean(2 * tp);
+        const TL = halfOr(rng, 2, 5, 0.5);
+        const ends = clean(tb * th); // 2 × ½ × base × height
+        const sides = clean(2 * ts * TL);
+        const S = clean(ends + sides);
         return {
-          prompt: `A tent is a triangular prism ${L} dm long with no groundsheet (no floor). Its cross-section is an isosceles triangle with base ${base} dm, perpendicular height ${hh} dm and two sloping sides of ${s} dm. How much fabric is needed, in dm²?`,
-          answer: { type: "number", value: S, display: `${S} dm²` },
+          prompt: `A tent is a triangular prism ${num(TL)} m long with no groundsheet (no floor). Its cross-section is an isosceles triangle with base ${num(tb)} m, perpendicular height ${num(th)} m and two sloping sides of ${num(ts)} m. How much fabric is needed to make it, in m²?`,
+          answer: { type: "number", value: S, display: `${num(S)} m²` },
           solution: [
-            `Two triangular ends: 2 × {{1/2}} × ${base} × ${hh} = ${2 * tri} dm².`,
-            `Two sloping rectangles: 2 × ${s} × ${L} = ${2 * s * L} dm². (No floor rectangle.)`,
-            `Fabric = ${2 * tri} + ${2 * s * L} = ${S} dm²`,
+            `Two triangular ends: 2 × {{1/2}} × ${num(tb)} × ${num(th)} = ${num(ends)} m².`,
+            `Two sloping rectangles: 2 × ${num(ts)} × ${num(TL)} = ${num(sides)} m². (No floor rectangle.)`,
+            `Fabric = ${num(ends)} + ${num(sides)} = ${num(S)} m²`,
           ],
           hint: "List the faces of the prism, then cross out the floor.",
           traps: numTraps(S, [
-            [S + base * L, "That includes the floor — but the tent has no groundsheet."],
-            [2 * tri + 2 * hh * L, "The sloping rectangles are " + `${s} dm wide (the sloping side), not the height.`],
+            [S + tb * TL, "That includes the floor — but the tent has no groundsheet."],
+            [ends + 2 * th * TL, `The sloping rectangles are ${num(ts)} m wide (the sloping side), not the height.`],
+            [ends / 2 + sides, "There are TWO triangular ends."],
           ]),
         };
       }
@@ -1503,6 +1539,7 @@ export const drills: Drill[] = [
           const V = l * w * h;
           if (l !== w && w !== h && (tier === 1 ? V % 1000 === 0 : V % 100 === 0)) break;
         }
+        if (w > l) [l, w] = [w, l];
         const V = l * w * h;
         const Lt = clean(V / 1000);
         const thing = rng.pick(["fish tank", "water tank", "cool box", "rice storage bin"]);

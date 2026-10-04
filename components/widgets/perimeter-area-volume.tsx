@@ -167,7 +167,9 @@ function AreaRearrange() {
       if (a > 0) labels.push({ x: px(b + a / 2), y: py(0) + 17, t: short(a, "a", a) });
     }
   }
-  const hLabelX = px(foot) + (dir > 0 ? 6 : -6);
+  // Height label: on the outside when the foot is beyond the base, otherwise just right of the line.
+  const hLabelLeft = foot < 0;
+  const hLabelX = px(foot) + (hLabelLeft ? -6 : 6);
 
   const formula =
     shape === "parallelogram"
@@ -282,7 +284,7 @@ function AreaRearrange() {
             className="stroke-ink"
             strokeWidth={1.2}
           />
-          <Label x={hLabelX} y={py(h / 2) + 4} anchor={dir > 0 ? "start" : "end"}>{`h = ${h}`}</Label>
+          <Label x={hLabelX} y={py(h / 2) + 4} anchor={hLabelLeft ? "end" : "start"}>{`h = ${h}`}</Label>
           {labels.map((l, i) => (
             <Label key={i} x={l.x} y={l.y} anchor={l.anchor}>
               {l.t}
@@ -308,7 +310,7 @@ function AreaRearrange() {
           <Slider label="Base b (cm)" value={b} min={1} max={10} onChange={changeB} />
           <Slider label="Perpendicular height h (cm)" value={h} min={1} max={HMAX} onChange={setH} />
           {shape === "parallelogram" ? <Slider label="Slant (cm the top is pushed right)" value={slant} min={0} max={Math.min(5, b)} onChange={setSlant} /> : null}
-          {shape === "triangle" ? <Slider label="Apex position (cm from left end of base)" value={apex} min={-2} max={b + 2} onChange={setApex} /> : null}
+          {shape === "triangle" ? <Slider label="Apex position (cm from left end of base)" value={apex} min={-2} max={b + 2} onChange={setApex} format={(v) => (v < 0 ? `−${-v}` : String(v))} /> : null}
           {shape === "trapezium" ? <Slider label="Top side starts (cm from the left)" value={shift} min={0} max={3} onChange={setShift} /> : null}
         </div>
       </div>
@@ -445,13 +447,26 @@ function BoxBuilder() {
       </g>
     );
 
+  // Edges of the whole (glass) solid. Hidden edges are drawn before the filled slab so the slab
+  // covers them; visible edges (and the dotted half-cuboid, which is in front) go on top.
   const EDGE = "stroke-ink-2";
-  const ghost =
+  const ghostHidden =
     solid === "cuboid" ? (
       <g>
         {seg([0, 0, 0], [l, 0, 0], "h1", EDGE, "4 4")}
         {seg([0, 0, 0], [0, w, 0], "h2", EDGE, "4 4")}
         {seg([0, 0, 0], [0, 0, h], "h3", EDGE, "4 4")}
+      </g>
+    ) : (
+      <g>
+        {seg([0, 0, 0], [0, w, 0], "h1", EDGE, "4 4")}
+        {seg([0, 0, 0], [0, 0, h], "h2", EDGE, "4 4")}
+        {seg([0, 0, 0], [l, 0, 0], "h3", EDGE, "4 4")}
+      </g>
+    );
+  const ghostVisible =
+    solid === "cuboid" ? (
+      <g>
         {seg([l, 0, 0], [l, w, 0], "v1", EDGE, undefined, 1.5)}
         {seg([0, w, 0], [l, w, 0], "v2", EDGE, undefined, 1.5)}
         {seg([l, 0, 0], [l, 0, h], "v3", EDGE, undefined, 1.5)}
@@ -464,16 +479,12 @@ function BoxBuilder() {
       </g>
     ) : (
       <g>
-        {/* the cuboid it was cut from (dotted) */}
+        {/* the cuboid the prism was cut from (dotted; the missing half is in front of the slope) */}
         {seg([0, w, 0], [0, w, h], "c1", EDGE, "2 4")}
         {seg([l, w, 0], [l, w, h], "c2", EDGE, "2 4")}
         {seg([0, 0, h], [0, w, h], "c3", EDGE, "2 4")}
         {seg([l, 0, h], [l, w, h], "c4", EDGE, "2 4")}
         {seg([0, w, h], [l, w, h], "c5", EDGE, "2 4")}
-        {/* the prism itself */}
-        {seg([0, 0, 0], [0, w, 0], "h1", EDGE, "4 4")}
-        {seg([0, 0, 0], [0, 0, h], "h2", EDGE, "4 4")}
-        {seg([0, 0, 0], [l, 0, 0], "h3", EDGE, "4 4")}
         {seg([0, w, 0], [0, 0, h], "v1", EDGE, undefined, 1.5)}
         {seg([l, 0, 0], [l, w, 0], "v2", EDGE, undefined, 1.5)}
         {seg([l, 0, 0], [l, 0, h], "v3", EDGE, undefined, 1.5)}
@@ -550,7 +561,7 @@ function BoxBuilder() {
         </>
       ) : (
         <>
-          2 triangles + 3 rectangles. The sloping rectangle is {l} cm by <M>{"s"}</M> cm, where <M>{"s"}</M> {eqApprox(s)} cm — measure it, or use Pythagoras in Year 9. Surface area = 2 × {num(A)} + {l * w} + {l * h} + {l} × {isWhole(s) ? num(s) : s.toFixed(1)} {eqApprox(SA)} cm².
+          2 triangles + 3 rectangles. The sloping rectangle is {l} cm by <M>{"s"}</M> cm, where <M>{"s"}</M> {eqApprox(s)} cm (measure it — or use Pythagoras in Year 9), so its area is {l} × <M>{"s"}</M> {eqApprox(l * s)} cm². Surface area = 2 × {num(A)} + {l * w} + {l * h} + {num(l * s)} {eqApprox(SA)} cm².
         </>
       );
   }
@@ -590,8 +601,9 @@ function BoxBuilder() {
 
         {view === "solid" ? (
           <svg viewBox={`0 0 ${WI} ${HI}`} className="h-auto w-full" role="img" aria-label={ariaSolid}>
+            {ghostHidden}
             {slab}
-            {ghost}
+            {ghostVisible}
             <Label x={lMid[0] - 6} y={lMid[1] + 18} anchor="end">{`l = ${l} cm`}</Label>
             <Label x={wMid[0] + 8} y={wMid[1] + 18} anchor="start">{`w = ${w} cm`}</Label>
             <Label x={hMid[0] + 8} y={hMid[1] + 4} anchor="start">{`h = ${h} cm`}</Label>

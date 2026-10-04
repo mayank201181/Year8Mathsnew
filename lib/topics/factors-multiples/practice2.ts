@@ -412,7 +412,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         id: "factors-multiples-p3-q16",
         question:
-          "Zara says: \"The 323 pupils in Year 8 can't be split into equal teams, because 323 is prime.\" Show that Zara is wrong by finding the **smallest** team size (more than 1 pupil) that splits 323 pupils into equal teams.",
+          "Zara says: \"The 323 pupils in Year 8 can't be split into equal teams, because 323 is prime.\" Zara is wrong. Find the **smallest** team size (more than 1 pupil) that splits 323 pupils into equal teams.",
         answer: { type: "number", value: 17, display: "17 pupils per team" },
         solution: [
           "You only need to test primes up to {{sqrt(323)}}, which is just under 18 (17² = 289 and 18² = 324).",
@@ -1047,14 +1047,17 @@ export const morePapers: Paper[] = [
           "Priya knows that for any two whole numbers a and b,\n\n    HCF × LCM = a × b\n\nShe says: \"So for any three whole numbers, HCF × LCM = the product of all three.\"\n\n(a) Use a prime-factor Venn diagram to explain why HCF × LCM = a × b for two numbers.\n\n(b) Show, with an example, that Priya's claim about three numbers is false, and explain why it fails.",
         marks: 4,
         modelAnswer:
-          "(a) Put the prime factors of a and b in a Venn diagram. The overlap holds the shared primes, so the HCF is the product of the overlap. The LCM is the product of **everything** in the diagram. So HCF × LCM uses the overlap twice and each outer part once. The product a × b also uses the overlap twice (it is part of a **and** part of b) and each outer part once. So the two products are equal. For example, with {{12 = 2^2 * 3}} and {{18 = 2 * 3^2}}: HCF = 6 and LCM = 36, and 6 × 36 = 216 = 12 × 18.\n\n(b) Try 2, 4 and 8. The HCF is 2 and the LCM is 8, so HCF × LCM = 16. But 2 × 4 × 8 = 64. So the claim is false.\n\nIt fails because with three numbers, a factor shared by all three appears **three** times in the product but only twice in HCF × LCM. (It only works in special cases, such as three numbers with no common factors, like 2, 3 and 5.)",
+          "(a) Put the prime factors of a and b in a Venn diagram. The overlap holds the shared primes, so the HCF is the product of the overlap. The LCM is the product of **everything** in the diagram. So HCF × LCM uses the overlap twice and each outer part once. The product a × b also uses the overlap twice (it is part of a **and** part of b) and each outer part once. So the two products are equal. For example, with {{12 = 2^2 * 3}} and {{18 = 2 * 3^2}}: HCF = 6 and LCM = 36, and 6 × 36 = 216 = 12 × 18.\n\n(b) Try 2, 4 and 8. The HCF is 2 and the LCM is 8, so HCF × LCM = 16. But 2 × 4 × 8 = 64. So the claim is false.\n\nIt fails because, with three numbers, a prime factor shared by two or more of them is counted more times in the product than in HCF × LCM. For 2, 4 and 8, the 2 that all three share appears **three** times in 2 × 4 × 8 but only **twice** in HCF × LCM (once in the HCF, once in the LCM) — and the extra 2 shared by 4 and 8 is counted twice in the product but only once, in the LCM. (The rule only works in special cases: when no two of the numbers share a factor, like 2, 3 and 5.)",
         markScheme: [
           { point: "HCF is the product of the overlap; LCM is the product of everything in the diagram", keywords: ["overlap", "middle", "shared", "everything", "intersection"] },
           { point: "So HCF × LCM counts the overlap twice and the rest once — exactly like a × b", keywords: ["twice", "two times", "once", "same", "both"] },
           { point: "A counterexample for three numbers, e.g. 2, 4, 8: HCF × LCM = 16 but the product is 64", keywords: ["2, 4, 8", "16", "64", "counterexample", "false"] },
-          { point: "Explains why: a factor shared by all three appears three times in the product but only twice in HCF × LCM", keywords: ["three times", "3 times", "only twice", "counted", "all three"] },
+          {
+            point: "Explains why: a shared prime factor is counted more times in the product than in HCF × LCM (e.g. the 2 common to 2, 4 and 8 appears three times in the product but only twice in HCF × LCM)",
+            keywords: ["three times", "3 times", "only twice", "counted", "all three", "more times", "shared"],
+          },
         ],
-        commonError: "Testing three numbers with no common factor, like 2, 3 and 5, which happen to work, and deciding Priya is right.",
+        commonError: "Testing three numbers where no two share a factor, like 2, 3 and 5, which happen to work, and deciding Priya is right.",
         difficulty: "challenge",
         guideRef: "hcf-lcm",
         hints: [

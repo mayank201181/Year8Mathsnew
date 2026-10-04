@@ -441,9 +441,9 @@ interface StickCtx {
   tables?: boolean;
 }
 
-function stickContext(rng: Rng, tier: 1 | 2 | 3): StickCtx {
-  const opts = ["squares", "triangles", "grid", "hexagons", "pentagons", "tables"];
-  if (tier > 1) opts.push("generic", "generic");
+function stickContext(rng: Rng, tier: 1 | 2 | 3, name: string): StickCtx {
+  const opts = ["squares", "triangles", "grid", "hexagons", "pentagons", "tables", "generic"];
+  if (tier > 1) opts.push("generic");
   const pick = rng.pick(opts);
   switch (pick) {
     case "squares":
@@ -482,12 +482,11 @@ function stickContext(rng: Rng, tier: 1 | 2 | 3): StickCtx {
     default: {
       let d = 3, c = 1;
       for (let i = 0; i < 50; i++) {
-        d = rng.int(2, 8);
-        c = rng.nonZero(-3, 9);
+        d = rng.int(2, tier === 1 ? 6 : 8);
+        c = tier === 1 ? rng.int(1, 6) : rng.nonZero(-3, 9);
         if (d + c >= 2) break;
       }
       const item = rng.pick(["square tiles", "counters", "beads", "cubes"]);
-      const name = rng.pick(NAMES);
       return {
         d, c, thing: item, label: item[0].toUpperCase() + item.slice(1),
         intro: `${name} builds a sequence of patterns from ${item}. The table shows how many ${item} are in the first three patterns.`,
@@ -503,7 +502,8 @@ const matchstickPatterns: Drill = {
   level: 2,
   guideRef: "term-to-term",
   generate(rng, tier) {
-    const ctx = stickContext(rng, tier);
+    const name = rng.pick(NAMES);
+    const ctx = stickContext(rng, tier, name);
     const { d, c } = ctx;
     const t = [1, 2, 3].map((n) => d * n + c);
     const R = lin(d, c);
@@ -514,10 +514,9 @@ const matchstickPatterns: Drill = {
       `Each step adds ${d} ${ctx.thing}, so the rule starts {{${d}n}}.`,
       `Zero term: ${t[0]} − ${d} = ${num(c)}, so the number of ${ctx.thing} is {{${R}}}.`,
     ];
-    const name = rng.pick(NAMES);
     let question: string, answer: AnswerSpec, solution: string[], hint: string, traps: Trap[];
     if (mode === "count") {
-      const k = tier === 1 ? rng.int(5, 10) : rng.int(12, 60);
+      const k = tier === 1 ? rng.int(4, 12) : rng.int(12, 60);
       const v = d * k + c;
       question = ctx.tables
         ? `How many people can sit at ${k} tables pushed together in a row?`
@@ -526,7 +525,9 @@ const matchstickPatterns: Drill = {
       solution = [...ruleSteps, `For ${ctx.tables ? `${k} tables` : `Pattern ${k}`}: ${subst(d, c, k)} = ${v}.`];
       hint = "How many are added each time? Use that to build a rule instead of drawing every pattern.";
       traps = numTraps(v, [
-        [k * t[0], `Scaling Pattern 1 up by ${k} counts the shared ${ctx.tables ? "sides" : "sticks"} more than once. Use the rule {{${R}}}.`],
+        [k * t[0], ctx.tables
+          ? `${k} × 4 counts seats on the sides where tables are pushed together — nobody can sit there. Use the rule {{${R}}}.`
+          : `Pattern ${k} is not ${k} copies of Pattern 1 — use the rule {{${R}}}.`],
         [d * k, `You need the ${d}n part AND the extra ${num(c)}: {{${R}}}.`],
       ]);
     } else if (mode === "expr") {
@@ -538,7 +539,7 @@ const matchstickPatterns: Drill = {
       hint = "The number added each time goes in front of n. Then compare with the first pattern.";
       traps = linTraps(d, c, [
         [1, d, `“Add ${d} each time” is the term-to-term rule. The nth term needs ${d} × n: {{${d}n}}.`],
-        [t[0], 0, `Multiplying Pattern 1 by n counts shared ${ctx.tables ? "sides" : "sticks"} more than once.`],
+        [t[0], 0, ctx.tables ? "That counts seats on the joined sides, where nobody can sit." : "Pattern n is not n copies of Pattern 1 — check your rule against the table."],
         [d, 0, `Nearly — compare {{${d}n}} with the table. What must you add or subtract?`],
       ]);
     } else if (mode === "which") {
@@ -1198,7 +1199,7 @@ const sequenceTypes: Drill = {
       prompt: rng.pick([
         `What type of sequence is this?\n\n${shown}`,
         `${name} writes down the sequence ${shown}\n\nWhat type of sequence is it?`,
-        `Look carefully at how this sequence grows:\n\n${shown}\n\nWhat type of sequence is it?`,
+        `Look carefully at how this sequence changes:\n\n${shown}\n\nWhat type of sequence is it?`,
       ]) + "\n\nAnswer with one of: arithmetic, geometric, Fibonacci-type, square numbers, triangular numbers, cube numbers.",
       answer: { type: "text", accept: TYPE_ACCEPT[type], display: TYPE_ACCEPT[type][0] },
       solution: explain,
@@ -1261,6 +1262,7 @@ const specialTerms: Drill = {
         v = [a, b];
         for (let j = 2; j < 5; j++) v.push(v[j - 1] + v[j - 2]);
         if (tier > 1 && v.every((x) => x > 0)) continue; // tier 2: include a negative
+        if (v.some((x) => x === 0) || new Set(v).size !== 5) continue; // no zeros or repeats
         if (!isArith(v)) break;
       }
       const next = v[3] + v[4];
@@ -1321,7 +1323,7 @@ const specialTerms: Drill = {
       for (let i = 0; i < 100; i++) {
         const a = rng.nonZero(-6, 12), b = rng.nonZero(-6, 12);
         v = [a, b, a + b, a + 2 * b, 2 * a + 3 * b];
-        if (new Set(v).size === 5 && v[2] !== 0 && !isArith(v)) break;
+        if (new Set(v).size === 5 && !v.some((x) => x === 0) && !isArith(v)) break;
       }
       return {
         prompt: `In a Fibonacci-type sequence, each term is the sum of the two terms before it. The 3rd, 4th and 5th terms are ${num(v[2])}, ${num(v[3])} and ${num(v[4])}.\n\nFind the 1st and 2nd terms. Give them in order, separated by a comma.`,
@@ -1348,7 +1350,7 @@ const specialTerms: Drill = {
         solution: [
           `Call the 2nd term x. Then the 3rd term is {{${a} + x}} and the 4th term is {{x + (${a} + x) = 2x + ${a}}}.`,
           `So {{2x + ${a} = ${t4}}}, giving {{2x = ${t4 - a}}}.`,
-          `x = ${t4 - a} ÷ 2 = ${num(x)}. Check: ${a}, ${num(x)}, ${num(a + x)}, ${num(t4)} ✓`,
+          `x = ${num(t4 - a)} ÷ 2 = ${num(x)}. Check: ${a}, ${num(x)}, ${num(a + x)}, ${num(t4)} ✓`,
         ],
         hint: "Introduce a variable: call the missing 2nd term x and write the 3rd and 4th terms in terms of x.",
         traps: numTraps(x, [
@@ -1358,7 +1360,7 @@ const specialTerms: Drill = {
       };
     }
     if (kind === "geogap") {
-      const a = rng.nonZero(-6, 6);
+      const a = rng.int(2, 6) * (rng.bool(0.75) ? 1 : -1);
       const r = rng.pick([2, 3, -2, -3]);
       const v = [a, a * r, a * r * r, a * r ** 3];
       const lin3 = (v[3] - v[0]) / 3;
@@ -1467,7 +1469,7 @@ const functionMachines: Drill = {
       if (mode === "fracBack") {
         y = q(rng.int(-20, 40));
         x = runBack(y, ops);
-        if (x.d === 1 || x.d > 9 || Math.abs(x.n) > 99) continue;
+        if (x.d === 1 || x.d > 9 || Math.abs(x.n) > 9 * x.d) continue; // a friendly fraction, |x| ≤ 9
         break;
       }
       if (mode === "fracFwd") {
@@ -1476,7 +1478,7 @@ const functionMachines: Drill = {
         if (gcd(pn, qd) !== 1) continue;
         x = q(pn, qd);
         y = runOps(x, ops);
-        if (y.d > 10 || Math.abs(y.n) > 200 || y.n === 0) continue;
+        if (y.d > 10 || Math.abs(y.n) > 30 * y.d || y.n === 0) continue;
         break;
       }
       const xi = tier === 1 ? rng.int(1, 12) : rng.nonZero(-10, 15);
@@ -1604,7 +1606,7 @@ const functionNotation: Drill = {
         solution: [
           `Set the rule equal to ${num(N)}: {{${R} = ${N}}}.`,
           `{{${term(a, "x")} = ${N - b}}}`,
-          `x = ${N - b} ÷ ${br(a)} = ${qShow(ans)}`,
+          `x = ${num(N - b)} ÷ ${br(a)} = ${qShow(ans)}`,
         ],
         hint: `Here ${num(N)} is the OUTPUT. Write an equation and solve it.`,
         traps: qTraps(ans, [
@@ -1714,7 +1716,7 @@ const quadraticSequences: Drill = {
       const base = [1, 2, 3, 4].map((n) => a * n * n);
       const qTrap = (A: number, C: number): Trap => ({ spec: { type: "expression", expr: quadStr(A, C, false), display: `{{${quadStr(A, C, true)}}}` }, feedback: "" });
       const t1 = qTrap(2 * a, t[0] - 2 * a);
-      t1.feedback = `The coefficient of {{n^2}} is HALF the second difference: ${2 * a} ÷ 2 = ${a}.`;
+      t1.feedback = `The coefficient of {{n^2}} is HALF the second difference: ${num(2 * a)} ÷ 2 = ${num(a)}.`;
       const traps: Trap[] = [t1];
       traps.push({ spec: { type: "expression", expr: lin(d1[0], t[0] - d1[0]) }, feedback: "The first differences change, so the rule can't be linear. Look at the second differences." });
       return {

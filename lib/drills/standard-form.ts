@@ -181,6 +181,12 @@ function plural(k: number, word: string): string {
   return `${k} ${word}${k === 1 ? "" : "s"}`;
 }
 
+/** Feedback for writing A × 10^(−k) with one zero too many after the point. */
+function extraZeroFb(k: number, A: string): string {
+  const z = k - 1;
+  return `Moving the point ${plural(k, "place")} left from ${A} leaves ${z === 0 ? "no zeros" : `only ${plural(z, "zero")}`} between the decimal point and the first digit — the first jump just moves the point past the digit ${A[0]}.`;
+}
+
 /** Calculator / spreadsheet E-notation for a standard-form number. */
 function eNote(x: SF, style: number): string {
   const a = Math.abs(x.n);
@@ -553,13 +559,12 @@ export const drills: Drill[] = [
         };
       }
 
-      let m: number, e: number, unit = "", say: (x: string) => string;
+      let m: number, e: number, say: (x: string) => string;
       if (style === "fact") {
         const pool = BIG_FACTS.filter((f) => (tier === 3 ? true : sf(f.m, f.e).n <= (tier === 1 ? 9 : 12)));
         const f = rng.pick(pool);
         m = f.m;
         e = f.e;
-        unit = f.unit;
         say = f.say;
       } else {
         let s = 2, n = 5;
@@ -585,7 +590,6 @@ export const drills: Drill[] = [
       const traps: Trap[] = [];
       if (zeros !== ans.n) traps.push(sfTrap(sfOf(m, zeros), "Don't just count the zeros. Count how many places the decimal point jumps to land just after the first digit."));
       traps.push(sfTrap(sfOf(m, ans.n + 1), "That is the number of digits. The point moves one place fewer than the number of digits."));
-      void unit;
       return {
         prompt,
         answer: sfSpec(ans),
@@ -740,7 +744,7 @@ export const drills: Drill[] = [
         ],
         hint: `Start at ${x.A} and move the decimal point ${plural(k, "place")} to the left.`,
         traps: [
-          ordTrap(m, e - 1, `Moving the point ${plural(k, "place")} left from ${x.A} leaves ${zerosAfter === 0 ? "no zeros" : `only ${plural(zerosAfter, "zero")}`} after the decimal point — the first jump just moves past the digit ${String(m)[0]}.`),
+          ordTrap(m, e - 1, extraZeroFb(k, x.A)),
           ordTrap(m, -x.n - (x.s - 1), "A negative power makes the number small (less than 1), not big."),
           sfTrap(x, "That's the same number, still in standard form. Write it out as a decimal."),
         ],
@@ -774,7 +778,7 @@ export const drills: Drill[] = [
         `${shown} is not in standard form. Write it in standard form.`,
         `Rewrite ${shown} so that it is in standard form.`,
       ];
-      if (ordinaryOk) prompts.push(`${name} writes ${dec(ans.m, ans.e)} as ${shown}. Explain to yourself why that isn't standard form, then write ${dec(ans.m, ans.e)} correctly in standard form.`);
+      if (ordinaryOk) prompts.push(`${name} writes ${dec(ans.m, ans.e)} as ${shown}, but that is not standard form. Write ${dec(ans.m, ans.e)} correctly in standard form.`);
       return {
         prompt: rng.pick(prompts),
         answer: sfSpec(ans),
@@ -836,7 +840,7 @@ export const drills: Drill[] = [
             `Work out each part: ${terms.map(([dg, x]) => `${dg} × {{${p10(x)}}} = ${dec(dg, x)}`).join(", ")}.`,
             `Add them, with 0 in any empty column: ${terms.map(([dg, x]) => dec(dg, x)).join(" + ")} = ${ans}`,
           ],
-          hint: "Work out each part on its own first, e.g. {{10^(-2)}} = 0.01.",
+          hint: minE < 0 ? "Work out each part on its own first, e.g. 3 × {{10^(-2)}} = 0.03." : "Work out each part on its own first, e.g. 3 × {{10^2}} = 300.",
           traps,
         };
       }
@@ -995,7 +999,13 @@ export const drills: Drill[] = [
           const target = largest ? Math.min(...ns) : Math.max(...ns);
           const cand = ns.filter((n) => n === target).length === 1 ? ns.indexOf(target) : -1;
           if (cand >= 0 && cand !== ansI && cand !== mantI) {
-            traps.push(sfTrap(items[cand].x, "Careful with negative powers: {{10^(-7)}} is much smaller than {{10^(-3)}}, because −7 is less than −3."));
+            const nC = items[cand].x.n, nA = items[ansI].x.n;
+            traps.push(
+              sfTrap(
+                items[cand].x,
+                `Careful with negative powers: {{${p10(nC)}}} is ${largest ? "smaller" : "bigger"} than {{${p10(nA)}}}, because ${num(nC)} is ${largest ? "less" : "greater"} than ${num(nA)}.`,
+              ),
+            );
           }
         }
         return {
@@ -1068,7 +1078,7 @@ export const drills: Drill[] = [
 
       if (kind === "calc") {
         // A real calculation whose result the display shows.
-        let res = sf(12, 7), X = "", Y = "", op = "×";
+        let res = sf(12, 7), X = "", Y = "", op = "×", sense = "";
         for (let i = 0; i < 100; i++) {
           if (rng.bool(0.3)) {
             const y = rng.pick([2, 4, 5, 8]);
@@ -1079,6 +1089,7 @@ export const drills: Drill[] = [
             X = "1";
             Y = dec(y, kk);
             op = "÷";
+            sense = "1 divided by a big number is a small number, less than 1";
           } else if (rng.bool()) {
             const a = sfOf(rng.int(2, 9), rng.int(3, tier === 1 ? 6 : 8));
             const b = sfOf(rng.int(2, 9), rng.int(3, tier === 1 ? 6 : 8));
@@ -1086,6 +1097,7 @@ export const drills: Drill[] = [
             X = dec(a.m, a.e);
             Y = dec(b.m, b.e);
             op = "×";
+            sense = "multiplying two big numbers gives a huge number";
           } else {
             const a = sfOf(rng.int(2, 9), -rng.int(2, tier === 1 ? 3 : 5));
             const b = sfOf(rng.int(2, 9), -rng.int(2, tier === 1 ? 3 : 4));
@@ -1093,6 +1105,7 @@ export const drills: Drill[] = [
             X = dec(a.m, a.e);
             Y = dec(b.m, b.e);
             op = "×";
+            sense = "multiplying two numbers less than 1 gives an even smaller number";
           }
           if (dp(res.m, res.e) <= 8 && tidy(res.value) && res.value < 1e15) break;
         }
@@ -1101,7 +1114,7 @@ export const drills: Drill[] = [
         const traps: Trap[] = [];
         if (asOrd) {
           traps.push(sfTrap(res, "Right number — but write it out in full as an ordinary number."));
-          if (res.n < 0) traps.push(ordTrap(res.m, res.e - 1, `Moving the point ${plural(-res.n, "place")} left from ${res.A} leaves one fewer zero after the point than that.`));
+          if (res.n < 0) traps.push(ordTrap(res.m, res.e - 1, extraZeroFb(-res.n, res.A)));
         } else if (res.n < 0) {
           traps.push(sfTrap(sfOf(res.m, -res.n), "The minus sign in the display matters: it is a negative power of 10, so the number is less than 1."));
         }
@@ -1111,7 +1124,7 @@ export const drills: Drill[] = [
           solution: [
             `\`${E}\` means ${res.A} × 10 to the power ${num(res.n)}: ${res.tex}.`,
             ...(asOrd ? [`${res.tex} = ${dec(res.m, res.e)}`] : []),
-            `Sense check: ${res.n < 0 ? "the answer is less than 1, which fits multiplying or dividing to make something small" : "the answer is huge, which fits multiplying two big numbers"}.`,
+            `Sense check: ${sense}.`,
           ],
           hint: "The part after the E is the power of 10.",
           traps,
@@ -1138,7 +1151,7 @@ export const drills: Drill[] = [
       }
       const traps: Trap[] = [sfTrap(x, "Right number — but write it out in full as an ordinary number.")];
       if (x.n < 0) {
-        traps.push(ordTrap(x.m, x.e - 1, `Moving the point ${plural(-x.n, "place")} left from ${x.A} leaves one fewer zero after the point than that.`));
+        traps.push(ordTrap(x.m, x.e - 1, extraZeroFb(-x.n, x.A)));
         traps.push(ordTrap(x.m, -x.n - (x.s - 1), "The minus sign after the E means a negative power, so the number is less than 1."));
       } else if (x.s >= 2) {
         traps.push(ordTrap(x.m, x.n, `Don't just write ${plural(x.n, "zero")} after the digits — move the point ${plural(x.n, "place")} to the right.`));
@@ -1148,7 +1161,7 @@ export const drills: Drill[] = [
         answer: ordSpec(x.m, x.e),
         solution: [
           `\`${E}\` means ${x.tex}.`,
-          `Move the decimal point of ${x.A} ${plural(Math.abs(x.n), "place")} to the ${x.n > 0 ? "right" : "left"}.`,
+          `Start at ${x.A} and move the decimal point ${plural(Math.abs(x.n), "place")} to the ${x.n > 0 ? "right" : "left"}.`,
           `${x.tex} = ${dec(x.m, x.e)}`,
         ],
         hint: "The part after the E is the power of 10. Positive: a big number. Negative: a number less than 1.",
@@ -1179,11 +1192,11 @@ export const drills: Drill[] = [
             b = sfOf(rng.pick([2, 4, 5, 6, 8]), rng.int(1, 4));
           } else {
             a = sfOf(mantissa(rng, tier === 1 ? 1 : rng.int(1, 2)), rng.int(lo, hi));
-            b = sfOf(mantissa(rng, 1), rng.int(lo, hi));
+            b = sfOf(rng.int(2, 9), rng.int(lo, hi)); // never × 1
           }
           ans = sf(a.m * b.m, a.e + b.e);
           if (tier === 1 && val(a.m * b.m, -(a.s - 1) - (b.s - 1)) >= 10) continue;
-          if (a.n === 0 || b.n === 0 || ans.n === 0) continue;
+          if (a.m === 1 || a.n === 0 || b.n === 0 || ans.n === 0) continue;
           if (ans.s <= 3 && dp(ans.m, ans.e) <= 8 && tidy(ans.value)) break;
         }
         const prodA = dec(a.m * b.m, -(a.s - 1) - (b.s - 1), false);
@@ -1212,7 +1225,7 @@ export const drills: Drill[] = [
       if (style === "div") {
         let d = sfOf(2, 3), q = sfOf(3, 2), x = sf(6, 5);
         for (let i = 0; i < 200; i++) {
-          d = sfOf(mantissa(rng, 1), rng.int(lo, hi));
+          d = sfOf(rng.int(2, 9), rng.int(lo, hi)); // never ÷ 1
           q = sfOf(mantissa(rng, tier === 1 ? 1 : rng.int(1, 2)), rng.int(lo, hi));
           x = sf(d.m * q.m, d.e + q.e); // dividend = divisor × quotient
           if (tier === 1 && x.A !== dec(d.m * q.m, -(d.s - 1) - (q.s - 1), false)) continue; // no re-normalising at tier 1

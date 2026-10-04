@@ -189,15 +189,15 @@ const RH = 17; // row height
 const PITCH = 19; // row height + gap
 const rowY = (k: number) => ROW_TOP + (k - 1) * PITCH;
 const WALL_BOTTOM = rowY(12) + RH;
-const NL_Y = WALL_BOTTOM + 58; // the number line (compare mode)
+const NL_Y = WALL_BOTTOM + 70; // the number line (compare mode), clear of its heading
 const NX = (v: number) => WX0 + ((v + 1) / 2) * WW; // −1 … 1
 
 function FractionWall() {
   const [mode, setMode] = useState<WallMode>("equiv");
-  const [a, setA] = useState(2);
-  const [b, setB] = useState(3);
-  const [c, setC] = useState(3);
-  const [d, setD] = useState(4);
+  const [a, setA] = useState(6);
+  const [b, setB] = useState(8);
+  const [c, setC] = useState(2);
+  const [d, setD] = useState(3);
   const compare = mode === "compare";
 
   const A = frac(a, b);
@@ -437,7 +437,7 @@ function FractionWall() {
           {/* number line with the negatives (compare mode) */}
           {compare ? (
             <g>
-              <text x={WX0} y={WALL_BOTTOM + 26} fontSize={11} className="fill-ink-2">
+              <text x={WX0} y={WALL_BOTTOM + 25} fontSize={11} className="fill-ink-2">
                 On the number line (with the negatives):
               </text>
               <line x1={WX0} x2={WX1} y1={NL_Y} y2={NL_Y} className="stroke-ink-2" strokeWidth={1.5} />
@@ -534,10 +534,10 @@ const PCS_H = 28;
 const AX_Y = 110; // axis
 
 function HowManyFit() {
-  const [m, setM] = useState(2); // amount = m/n
+  const [m, setM] = useState(3); // amount = m/n
   const [n, setN] = useState(1);
-  const [p, setP] = useState(3); // piece size = p/q
-  const [q, setQ] = useState(4);
+  const [p, setP] = useState(2); // piece size = p/q
+  const [q, setQ] = useState(3);
   const [hidden, setHidden] = useState(false);
 
   const X = frac(m, n);

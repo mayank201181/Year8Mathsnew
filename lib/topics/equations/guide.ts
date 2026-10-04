@@ -68,7 +68,7 @@ export const guide: TopicGuide = {
         "Check by substituting into the *original* equation.",
       ],
       whyItWorks:
-        "If two quantities are equal, say {{a = b}}, then {{a - 4}} and {{b - 4}} are still equal, and so are {{a/3}} and {{b/3}} — you have changed both by exactly the same amount. So every move gives a new, simpler equation with **exactly the same solution** as the one before. When you finally reach {{x = 5}}, that answer was hiding inside {{3x + 4 = 19}} all along.\n\nThe one forbidden move is dividing by 0: {{0 * 3 = 0 * 7}} is true, but 3 ≠ 7.",
+        "If two quantities are equal, say {{a = b}}, then {{a - 4}} and {{b - 4}} are still equal, and so are {{a/3}} and {{b/3}} — you have changed both by exactly the same amount. So every move gives a new, simpler equation with **exactly the same solution** as the one before. When you finally reach {{x = 5}}, that answer was hiding inside {{3x + 4 = 19}} all along.\n\nThe one forbidden move is dividing by 0: {{0 * 3 = 0 * 7}} is true, but dividing both sides by 0 would 'prove' that 3 = 7.",
       strategies: ["Use the inverse", "Work backwards", "Check by substituting"],
       thinkDeeper:
         "Arjun divides {{3x + 4 = 19}} by 3 first and writes {{x + 4 = 19/3}}. What went wrong? Is there a correct way to divide by 3 first — and does it lead to the same answer?",
@@ -353,9 +353,9 @@ export const guide: TopicGuide = {
       heading: "Inequalities & number lines",
       discovery: {
         problem:
-          "A lift has a sign: 'Maximum 8 people.' A ride at Sentosa says: 'Riders must be taller than 120 cm.' Write each rule using a letter and a symbol. Can 8 people ride the lift? Can a child who is exactly 120 cm tall go on the ride?\n\nThen list every whole number that is bigger than −2 but no more than 3.",
+          "A lift has a sign: 'Maximum 8 people.' A ride at Sentosa says: 'Riders must be taller than 120 cm.' Write each rule using a letter and a symbol. Can 8 people ride the lift? Can a child who is exactly 120 cm tall go on the ride?\n\nThen list every integer (whole number, positive, negative or zero) that is bigger than −2 but no more than 3.",
         idea:
-          "Lift: {{p <= 8}}, so 8 people is allowed — ≤ includes the end value. Ride: {{h > 120}}, so exactly 120 cm is *not* allowed — > leaves the end value out.\n\nWhole numbers bigger than −2 but at most 3: −1, 0, 1, 2, 3, written {{-2 < x <= 3}}. An **inequality** describes a whole range of values, and the little line under the symbol decides whether the endpoint is in.",
+          "Lift: {{p <= 8}}, so 8 people is allowed — ≤ includes the end value. Ride: {{h > 120}}, so exactly 120 cm is *not* allowed — > leaves the end value out.\n\nIntegers bigger than −2 but at most 3: −1, 0, 1, 2, 3, written {{-2 < x <= 3}}. An **inequality** describes a whole range of values, and the little line under the symbol decides whether the endpoint is in.",
       },
       body:
         "An **inequality** compares two quantities that need not be equal. Its solution is usually a whole **range** of numbers rather than a single value.\n\n| Symbol | Meaning | Example | Endpoint |\n|---|---|---|---|\n| < | is less than | {{x < 4}} | 4 not included |\n| > | is greater than | {{x > -1}} | −1 not included |\n| ≤ | is less than or equal to | {{x <= 4}} | 4 included |\n| ≥ | is greater than or equal to | {{x >= -1}} | −1 included |\n\nThe pointed end of the symbol always faces the smaller number, so {{x < 4}} and {{4 > x}} say exactly the same thing.\n\n**Number lines.** To show a solution set:\n- draw an **open circle** ○ at the endpoint for < or > (the number is *not* included);\n- draw a **closed (filled) circle** ● for ≤ or ≥ (the number *is* included);\n- draw a line or arrow over all the values that work.\n\n**Two-sided inequalities.** {{-2 < x <= 3}} means x is greater than −2 **and** at most 3, both at once: every number between them, with −2 left out and 3 kept in. On a number line, put an open circle at −2, a closed circle at 3, and join them.\n\n**Integer solutions.** An **integer** is a whole number — positive, negative or zero. To list the integers in {{-2 < x <= 3}}, start just inside each end and check each endpoint: −1, 0, 1, 2, 3, which is five integers. The endpoints are where most marks are lost.",
@@ -420,7 +420,7 @@ export const guide: TopicGuide = {
         problem:
           "Zara has $20 at a hawker centre. She buys a $2 drink and wants as many $4 plates of vegetable fried rice as she can afford. Write an inequality for the number of plates p, and find the most she can buy.\n\nNow a puzzle: which numbers satisfy {{-2x < 6}}? Test x = 0 and x = −5. Does dividing both sides by −2 to get {{x < -3}} give the right answer?",
         idea:
-          "{{4p + 2 <= 20}} solves just like an equation: {{4p <= 18}}, so {{p <= 4.5}}. Plates come whole, so Zara can buy at most 4.\n\nFor {{-2x < 6}}: x = 0 works (0 < 6), but 0 is not less than −3 — so {{x < -3}} must be wrong. The correct answer is {{x > -3}}. Multiplying or dividing by a negative number **reverses** an inequality.",
+          "{{4p + 2 <= 20}} solves just like an equation: {{4p <= 18}}, so {{p <= 4.5}}. Plates come whole, so Zara can buy at most 4.\n\nFor {{-2x < 6}}: x = 0 works (0 < 6), but 0 is not less than −3; and x = −5 fails (−2 × (−5) = 10, which is not less than 6), even though −5 < −3. So {{x < -3}} must be wrong. The correct answer is {{x > -3}}. Multiplying or dividing by a negative number **reverses** an inequality.",
       },
       body:
         "To solve a **linear inequality**, use the balance method exactly as for an equation. Adding or subtracting the same number on both sides, or multiplying or dividing both sides by a **positive** number, keeps an inequality true:\n\n    {{3x - 5 > 10}}\n    {{3x > 15}}    (add 5 to both sides)\n    {{x > 5}}    (divide both sides by 3)\n\nThe answer is a range: every number greater than 5 works — 5.1, 6, 100. Test a value inside the range (x = 6 gives 18 − 5 = 13, and 13 > 10 ✓) and look at the boundary (x = 5 gives exactly 10, which is not > 10, so 5 is rightly excluded).\n\n**Unknowns on both sides** work the same way: {{7x + 2 <= 4x + 14}} gives {{3x + 2 <= 14}}, then {{3x <= 12}}, so {{x <= 4}}.\n\n**Forming inequalities from context.** Look for these phrases:\n\n| Phrase | Symbol |\n|---|---|\n| at least, no less than, minimum | ≥ |\n| at most, no more than, maximum, up to | ≤ |\n| more than, over, exceeds | > |\n| less than, under, below | < |\n\nThen think about what the answer *means*. You can't buy 4.5 plates, so round **down** for 'how many can you afford?' — but round **up** for 'how many buses are needed?'.\n\n**Stretch — multiplying or dividing by a negative.** This reverses the order of numbers, so you must **flip** the inequality sign: {{-2x < 6}} becomes {{x > -3}}. Or avoid it altogether by collecting x where its coefficient is positive: add 2x to both sides to get {{0 < 6 + 2x}}, then {{-6 < 2x}}, so {{-3 < x}}.",
@@ -561,7 +561,7 @@ export const guide: TopicGuide = {
       { front: "Angle facts for forming equations", back: "Straight line 180°, around a point 360°, triangle 180°, quadrilateral 360°." },
       { front: "Open circle or closed circle?", back: "Open ○ for < or > (not included); closed ● for ≤ or ≥ (included)." },
       { front: "Integers satisfying {{-2 < x <= 3}}", back: "−1, 0, 1, 2, 3" },
-      { front: "'You must be at least 12' as an inequality", back: "{{a >= 12}}" },
+      { front: "'You must be at least 12' as an inequality", back: "{{a >= 12}}, where a is the age in years — 12 itself is allowed." },
       { front: "Stretch: solve {{-2x < 6}}", back: "Divide by −2 and flip the sign: {{x > -3}}." },
       { front: "Stretch: simultaneous equations — add or subtract?", back: "Same signs subtract; opposite signs add." },
     ],
@@ -606,7 +606,7 @@ export const guide: TopicGuide = {
       },
     ],
     examMistakes: [
-      "Undoing in the wrong order — dividing {{3x + 4 = 19}} by 3 without dividing the 4 as well.",
+      "Dividing {{3x + 4 = 19}} by 3 but forgetting to divide the 4 as well — undo the + 4 first and this slip can't happen.",
       "Expanding a bracket but forgetting to multiply the second term, or getting the sign wrong when the number outside is negative.",
       "Sign slips when collecting terms, e.g. turning {{5x - 2 = 2x + 13}} into {{3x = 11}} instead of {{3x = 15}}.",
       "Clearing a fraction by multiplying only the fraction term instead of every term.",

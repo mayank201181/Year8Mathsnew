@@ -918,7 +918,7 @@ export const mcqPapers: Paper[] = [
         ],
         answerIndex: 1,
         explanation:
-          "A calculator applies √ only to the number straight after it, so she got {{sqrt(16) + 9 = 4 + 9 = 13}}. The root sign covers the whole of 16 + 9, so she needs brackets: {{sqrt(16 + 9) = sqrt(25) = 5}}. 7 comes from rooting each part separately — but {{sqrt(16 + 9)}} is not the same as {{sqrt(16) + sqrt(9)}}. 25 forgets the root altogether.",
+          "Her calculator applied the √ only to the 16 straight after it, so she got {{sqrt(16) + 9 = 4 + 9 = 13}}. The root sign covers the whole of 16 + 9, so she needs brackets: {{sqrt(16 + 9) = sqrt(25) = 5}}. 7 comes from rooting each part separately — but {{sqrt(16 + 9)}} is not the same as {{sqrt(16) + sqrt(9)}}. 25 forgets the root altogether.",
         difficulty: "core",
         guideRef: "order-of-operations",
         hints: [

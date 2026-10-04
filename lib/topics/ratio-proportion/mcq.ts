@@ -759,7 +759,7 @@ export const mcqPapers: Paper[] = [
         options: ["40 minutes", "22 minutes", "10 minutes", "7.5 minutes"],
         answerIndex: 2,
         explanation:
-          "The tap fills 12 ÷ 4 = 3 litres per minute, so 30 litres takes 30 ÷ 3 = 10 minutes. 22 minutes adds 18 minutes for the 18 extra litres — but each minute gives 3 litres, not 1. 7.5 minutes divides 30 by 4, and 40 minutes multiplies by {{4/3}} the wrong way round.",
+          "The tap fills 12 ÷ 4 = 3 litres per minute, so 30 litres takes 30 ÷ 3 = 10 minutes. 22 minutes adds 18 minutes for the 18 extra litres — but each minute gives 3 litres, not 1. 7.5 minutes divides 30 by 4. 40 minutes finds 30 ÷ 3 = 10 and then multiplies by 4 as well — but 3 litres is already the amount for *one* minute, so the 4 minutes has been used twice.",
         difficulty: "warmup",
         guideRef: "direct-proportion",
         hints: ["How many litres flow in one minute?"],

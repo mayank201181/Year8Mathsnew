@@ -552,7 +552,7 @@ export const practice: TopicPractice = {
             { spec: { type: "number", value: 2250 }, feedback: "Taking 50% off twice doesn't undo two 50% rises. Divide by the multiplier instead." },
           ],
           commonError: "Adding the percentages (50% + 50% = 100%) instead of multiplying the multipliers.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "repeated-change",
           hints: [
             "What do you multiply by for one hour of growth?",
@@ -600,7 +600,7 @@ export const practice: TopicPractice = {
           kind: "short",
           id: "percentages-p1-q19",
           question:
-            "Hana scored 48 out of 80 in her first maths test and 63 out of 90 in her second. Work out each score as a percentage. Then find the percentage increase from her first percentage score to her second, correct to 1 decimal place.",
+            "Hana scored 48 out of 80 in her first maths test and 63 out of 90 in her second. Work out each score as a percentage. Then find the percentage increase from her first percentage score to her second, correct to 1 decimal place. Type only this percentage increase.",
           answer: { type: "number", value: 16.7, display: "16.7%" },
           solution: [
             "Test 1: {{48/80}} = 0.6 = 60%.",
@@ -849,8 +849,8 @@ export const practice: TopicPractice = {
             { point: "The rate rose by 1 percentage point (3 − 2)", keywords: ["percentage point", "1 point", "points", "3 - 2", "3 − 2"] },
             { point: "As a percentage of the old rate, the increase is {{1/2}} × 100 = 50%", keywords: ["50%", "50", "1/2", "half"] },
             {
-              point: "Both describe the change correctly in different ways (absolute vs relative); Hana should say percentage point",
-              keywords: ["both", "relative", "absolute", "percentage point"],
+              point: "Explains absolute vs relative change: Jun's 50% is the relative change; Hana's change is 1 percentage point (absolute), not 1%",
+              keywords: ["relative", "absolute", "percentage point", "jun", "both"],
             },
           ],
           commonError: "Mixing up percentage points (a difference of percentages) with percentage change.",
@@ -984,7 +984,7 @@ export const practice: TopicPractice = {
             { point: "Actual increase is 33.1%", keywords: ["33.1", "33.1%"] },
           ],
           commonError: "Adding repeated percentage changes as if they were simple interest.",
-          difficulty: "challenge",
+          difficulty: "core",
           guideRef: "repeated-change",
           hints: [
             "Try a population of 1000. What is it after 1 year? After 2 years?",
@@ -1122,7 +1122,7 @@ export const practice: TopicPractice = {
         },
       ],
       traps: [
-        { spec: { type: "number", value: 100 }, feedback: "100 works, but it isn't the smallest. A percentage doesn't need 100 people — write each percentage as a fraction in its simplest form." },
+        { spec: { type: "number", value: 100 }, feedback: "100 doesn't even work: 6.25% of 100 is 6.25 people. A percentage of people doesn't need a group of 100 — write each percentage as a fraction in its simplest form." },
         { spec: { type: "number", value: 16 }, feedback: "With 16 members, 35% would be 5.6 people. The number must also make 35% a whole number." },
       ],
       commonError: "Assuming a percentage of people needs a group of 100.",

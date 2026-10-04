@@ -274,14 +274,14 @@ export const morePapers: Paper[] = [
         solution: [
           "Exact thickness: 4.8 ÷ 500 = (4.8 ÷ 5) ÷ 100 = 0.96 ÷ 100 = 0.0096 cm.",
           "The first significant figure is the 9 (thousandths). The next digit is 6, so round up.",
-          "9 thousandths + 1 thousandth = 10 thousandths, so 0.0096 rounds to 0.010 = 0.01 cm.",
+          "9 thousandths + 1 thousandth = 10 thousandths = 1 hundredth, so 0.0096 rounds to 0.01 cm (not 0.010 — that zero on the end would make it 2 s.f.).",
           "That's about a tenth of a millimetre — sensible for paper.",
         ],
         traps: [
           { spec: { type: "number", value: 0.0096 }, feedback: "That's the exact thickness. Now round it to 1 significant figure." },
           {
             spec: { type: "number", value: 0.009 },
-            feedback: "The digit after the 9 is a 6, so the 9 rounds up — and that carries into the next column: 0.010.",
+            feedback: "The digit after the 9 is a 6, so the 9 rounds up — and that carries into the next column: 10 thousandths = 0.01.",
           },
         ],
         commonError: "Chopping 0.0096 to 0.009, or forgetting that rounding a 9 up carries into the next column.",
@@ -516,11 +516,11 @@ export const morePapers: Paper[] = [
           "Place the digits 2, 4, 6 and 8, each used once, in the boxes to make the **largest** possible product:\n\n    □.□ × □.□\n\nFind the largest product, and explain why no other arrangement gives a larger one.",
         marks: 4,
         modelAnswer:
-          "The units digits matter most, so they should be the two biggest digits, 8 and 6. That leaves 2 and 4 for the tenths, giving two options:\n\n    8.2 × 6.4 = 52.48\n    8.4 × 6.2 = 52.08\n\nSo the largest product is **8.2 × 6.4 = 52.48**.\n\nWhy: both pairs have the same sum, 14.6, and for a fixed sum the product is bigger when the two numbers are closer together (8.2 and 6.4 differ by 1.8; 8.4 and 6.2 differ by 2.2). Another way to see it: in 8.2 × 6.4 the 0.4 is multiplied by 8 (giving 3.2), but in 8.4 × 6.2 it is only multiplied by 6 (giving 2.4), so the bigger tenths digit should go with the smaller units digit.",
+          "The units digits matter most, so they should be the two biggest digits, 8 and 6. (If they are not, one number has a units digit of 4 or less, so it is less than 5, and the other is less than 9 — the product is then less than 5 × 9 = 45.) That leaves 2 and 4 for the tenths, giving two options:\n\n    8.2 × 6.4 = 52.48\n    8.4 × 6.2 = 52.08\n\nBoth are bigger than 45, and the largest product is **8.2 × 6.4 = 52.48**.\n\nWhy: both pairs have the same sum, 14.6, and for a fixed sum the product is bigger when the two numbers are closer together (8.2 and 6.4 differ by 1.8; 8.4 and 6.2 differ by 2.2). Another way to see it: expand. 8.2 × 6.4 = 48 + 8 × 0.4 + 6 × 0.2 + 0.08 = 48 + 4.4 + 0.08, but 8.4 × 6.2 = 48 + 8 × 0.2 + 6 × 0.4 + 0.08 = 48 + 4.0 + 0.08. The bigger tenths digit (0.4) should be multiplied by the bigger units digit (8), so it belongs in the other number: 6.4.",
         markScheme: [
-          { point: "Units digits must be 8 and 6 (largest digits in the most valuable places)", keywords: ["8 and 6", "6 and 8", "units", "ones", "biggest digits"] },
+          { point: "Units digits must be 8 and 6 (largest digits in the most valuable places; otherwise the product is under 45)", keywords: ["8 and 6", "6 and 8", "units", "ones", "biggest digits", "45"] },
           { point: "Compares 8.2 × 6.4 with 8.4 × 6.2 = 52.08", keywords: ["52.08", "8.4 × 6.2", "8.4 x 6.2"] },
-          { point: "Valid reason: same sum so closer numbers give a bigger product, or the 0.4 is multiplied by 8", keywords: ["same sum", "14.6", "closer", "3.2", "multiplied by 8"] },
+          { point: "Valid reason: same sum so closer numbers give a bigger product, or expanding shows 8 × 0.4 + 6 × 0.2 = 4.4 beats 8 × 0.2 + 6 × 0.4 = 4.0", keywords: ["same sum", "14.6", "closer", "4.4", "multiplied by 8"] },
           { point: "Largest product 52.48", keywords: ["52.48"] },
         ],
         commonError: "Putting the larger tenths digit with the larger units digit (8.4 × 6.2) because it 'makes the biggest number bigger'.",
@@ -1005,7 +1005,7 @@ export const morePapers: Paper[] = [
           "Put these numbers in order from smallest to largest. Answer with the letters, for example D, C, B, A.\n\n| Letter | Number |\n|---|---|\n| A | 0.32̇ |\n| B | 0.3̇2̇ |\n| C | 0.323 |\n| D | 0.3̇ |",
         answer: {
           type: "text",
-          accept: ["A, C, B, D", "ACBD", "A,C,B,D", "A<C<B<D", "A;C;B;D", "A C B D"],
+          accept: ["A, C, B, D", "ACBD", "A,C,B,D", "A<C<B<D", "A;C;B;D", "A C B D", "A-C-B-D", "A/C/B/D"],
           display: "A, C, B, D (0.32̇ < 0.323 < 0.3̇2̇ < 0.3̇)",
         },
         solution: [
@@ -1028,7 +1028,7 @@ export const morePapers: Paper[] = [
           },
         ],
         commonError: "Ignoring the dots and reading 0.3̇ as 0.3 or 0.3̇2̇ as 0.32.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "ordering-and-shortcuts",
         hints: [
           "Write each number out in full to 6 decimal places.",
@@ -1060,7 +1060,7 @@ export const morePapers: Paper[] = [
           },
         ],
         commonError: "Trusting the 'count the decimal places' rule for the length of the answer: it places the point, but a product ending in zeros gets shorter.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "multiplying-decimals",
         hints: [
           "Work out 15 × 15 × 4 first.",

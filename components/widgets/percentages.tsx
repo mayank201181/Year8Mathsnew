@@ -204,8 +204,15 @@ function PercentBar() {
   const amountLabels = dense ? amounts : amounts.filter((a) => a.t % 100 === 0);
   const mx = xOf(pctV);
   const x100 = xOf(100);
-  const near = (x: number) => Math.abs(x - mx) < 30;
-  const markX = clamp(mx, X0 + 6, X1 - 6);
+  // Rough text widths (SVG units) so labels never overlap or leave the viewBox.
+  const textW = (s: string, size: number) => s.length * size * 0.62;
+  const inBox = (x: number, w: number) => clamp(x, w / 2 + 2, 358 - w / 2);
+  const pctMarkW = textW(pctShow.plain, 12);
+  const partMarkW = textW(partText, 12);
+  const pctMarkX = inBox(mx, pctMarkW);
+  const partMarkX = inBox(mx, partMarkW);
+  const clashes = (x: number, w: number, markX: number, markW: number) => Math.abs(x - markX) < (w + markW) / 2 + 3;
+  const amountText = (v: number) => (dense ? fmt(v, 2) : approx(v, 2));
 
   const aria = `Double number line. 0% to 100% matches 0 to ${wholeText}. The marker at ${pctShow.plain} matches ${partText}.`;
 
@@ -375,7 +382,7 @@ function PercentBar() {
             );
           })}
           {labelled
-            .filter((t) => !near(xOf(t)))
+            .filter((t) => !clashes(xOf(t), textW(`${t}%`, 10), pctMarkX, pctMarkW))
             .map((t) => (
               <text
                 key={`p${t}`}
@@ -390,28 +397,29 @@ function PercentBar() {
               </text>
             ))}
           {amountLabels
-            .filter((a) => !near(xOf(a.t)))
+            .map((a) => ({ ...a, s: amountText(a.v), x: inBox(xOf(a.t), textW(amountText(a.v), 10)) }))
+            .filter((a) => !clashes(a.x, textW(a.s, 10), partMarkX, partMarkW))
             .map((a) => (
               <text
                 key={`a${a.t}`}
-                x={xOf(a.t)}
+                x={a.x}
                 y={110}
                 fontSize={10}
                 textAnchor="middle"
                 className={a.t === 100 ? "fill-ink" : "fill-ink-2"}
                 fontWeight={a.t === 100 ? 700 : 400}
               >
-                {dense ? fmt(a.v, 2) : approx(a.v, 2)}
+                {a.s}
               </text>
             ))}
           {/* the marker */}
           <line x1={mx} x2={mx} y1={38} y2={98} className="stroke-brand" strokeWidth={2} strokeDasharray="4 3" />
           <circle cx={mx} cy={50} r={3.5} className="fill-brand" />
           <circle cx={mx} cy={86} r={3.5} className="fill-brand" />
-          <text x={markX} y={34} fontSize={12} fontWeight={800} textAnchor="middle" className="fill-brand">
+          <text x={pctMarkX} y={34} fontSize={12} fontWeight={800} textAnchor="middle" className="fill-brand">
             {pctShow.plain}
           </text>
-          <text x={markX} y={111} fontSize={12} fontWeight={800} textAnchor="middle" className="fill-brand">
+          <text x={partMarkX} y={111} fontSize={12} fontWeight={800} textAnchor="middle" className="fill-brand">
             {partText}
           </text>
         </svg>
@@ -431,7 +439,7 @@ function PercentBar() {
           ) : null}
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           <Readout label={mode === "whole" ? "Whole (answer)" : "Whole"} value={wholeText} tone={tone("whole")} />
           <Readout label={mode === "percent" ? "Percent (answer)" : "Percent"} value={pctShow.rich} tone={tone("percent")} />
           <Readout label={mode === "part" ? "Part (answer)" : "Part"} value={partText} tone={tone("part")} />
@@ -486,6 +494,19 @@ function MultiplierChain() {
   const movers = active.filter((s) => s !== 0).length;
   const multText = (m: number) => fmt(m, 2);
   const overallText = fmt(overall, 6);
+  // The second step that actually changes something works on an amount that is no longer the start.
+  const moving = active.flatMap((s, i) => (s !== 0 ? [i] : []));
+  const second = moving.length >= 2 ? moving[1] : -1;
+  const absChange = final - start;
+  const absChangeText = absChange !== 0 && Math.abs(absChange) < 0.005 ? "less than 1 cent" : money(absChange, true);
+  const undoText = signedPct(undo, Math.abs(undo) < 1 ? 4 : 2);
+  // When the change is tiny, the wrong answer can round to the start amount: show more places.
+  let wrongText = money(wrongBack);
+  if (Math.abs(wrongBack - start) < 0.005) {
+    let dp = 3;
+    while (dp < 8 && wrongBack.toFixed(dp) === start.toFixed(dp)) dp++;
+    wrongText = `≈$${wrongBack.toFixed(dp)} — very close, because the change is tiny, but still not exact —`;
+  }
 
   const setStep = (i: number, v: number) => setSteps((prev) => prev.map((s, j) => (j === i ? v : s)));
   const applyPreset = (ps: (typeof PRESETS)[number]) => {
@@ -550,11 +571,11 @@ function MultiplierChain() {
           )
         ) : (
           <>
-            Just adding the percentages gives {signedPct(sum)} — wrong, because each percentage is taken of a <em>different</em> amount: step 2
-            works on {money(values[1])}, not {money(start)}.
+            Just adding the percentages gives {signedPct(sum)} — wrong, because each percentage is taken of a <em>different</em> amount: step{" "}
+            {second + 1} works on {money(values[second])}, not {money(start)}.
           </>
         )}{" "}
-        The change in money is {money(final - start, true)} (the <strong>absolute</strong> change); {signedPct(change)} is the{" "}
+        The change in money is {absChangeText} (the <strong>absolute</strong> change); {signedPct(change)} is the{" "}
         <strong>relative</strong> change.
       </>
     );
@@ -663,7 +684,7 @@ function MultiplierChain() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
           <Readout label="Overall multiplier" value={`×${overallText}`} />
           <Readout label="Overall change" value={signedPct(change)} tone={noChange ? "ink" : change > 0 ? "good" : "bad"} />
           <Readout label="Just adding the %s" value={signedPct(sum)} tone="ink" />
@@ -684,12 +705,12 @@ function MultiplierChain() {
                 {exactTo(final, 2) ? "" : " (using the unrounded final amount)"}.
               </p>
               <p className="mt-1">
-                As one percentage, undoing the chain is a change of <strong className="text-ink">{signedPct(undo, 2)}</strong>, not{" "}
+                As one percentage, undoing the chain is a change of <strong className="text-ink">{undoText}</strong>, not{" "}
                 {signedPct(-change)}.
               </p>
               <p className="mt-1">
                 <span className="font-bold text-bad">Classic mistake:</span> {change < 0 ? "adding" : "taking off"} {approx(Math.abs(change), 4)}% of
-                the final {money(final)} gives {money(wrongBack)}, not {money(start)}. The percentage was of the <em>start</em>, not of the final
+                the final {money(final)} gives {wrongText}, not {money(start)}. The percentage was of the <em>start</em>, not of the final
                 amount.
               </p>
             </>

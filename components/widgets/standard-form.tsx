@@ -845,6 +845,7 @@ function SizeLadder() {
   const mid = (RAIL1 + RAIL2) / 2;
   const logP = logOf(p);
   const logQ = logOf(q);
+  const onLadder = (band: number) => band >= LAD_MIN && band < LAD_MAX;
   const off = (L: number) => (L > LAD_MAX ? " (off the top of the ladder)" : L < LAD_MIN ? " (off the bottom of the ladder)" : "");
   const aria = `Powers-of-ten ladder from ${pow10Text(LAD_MIN)} to ${pow10Text(LAD_MAX)} metres with landmarks from a hydrogen atom to the distance from the Sun to Neptune. P = ${aText(p.a)} × ${pow10Text(p.n)} m sits between ${pow10Text(pSL.lead)} and ${pow10Text(pSL.lead + 1)}${off(logP)}. Q = ${aText(q.a)} × ${pow10Text(q.n)} m sits between ${pow10Text(qSL.lead)} and ${pow10Text(qSL.lead + 1)}${off(logQ)}. ${c === 0 ? "P equals Q." : `${bigName} is bigger.`}`;
 
@@ -860,7 +861,7 @@ function SizeLadder() {
       );
   } else if (both && p.n !== q.n) {
     const aSays = big.a < small.a;
-    const negs = big.n < 0 || small.n < 0;
+    const negs = big.n <= 0 && small.n < 0;
     reason = (
       <>
         {bigName} has the bigger power ({int(big.n)} &gt; {int(small.n)}), so {bigName} is bigger — whatever A is.
@@ -963,8 +964,12 @@ function SizeLadder() {
         <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <svg viewBox={`0 0 360 ${H}`} className="h-auto w-full" role="img" aria-label={aria}>
             {/* bands where P and Q really are */}
-            <rect x={RAIL1} y={yOf(pSL.lead + 1)} width={356 - RAIL1} height={PX} className="fill-brand" opacity={0.14} />
-            <rect x={RAIL1} y={yOf(qSL.lead + 1)} width={356 - RAIL1} height={PX} className="fill-accent" opacity={0.2} />
+            {onLadder(pSL.lead) ? (
+              <rect x={RAIL1} y={yOf(pSL.lead + 1)} width={356 - RAIL1} height={PX} className="fill-brand" opacity={0.14} />
+            ) : null}
+            {onLadder(qSL.lead) ? (
+              <rect x={RAIL1} y={yOf(qSL.lead + 1)} width={356 - RAIL1} height={PX} className="fill-accent" opacity={0.2} />
+            ) : null}
             {/* the band a non-standard power claims */}
             {pBandClaim !== null && pBandClaim !== pSL.lead ? (
               <rect x={RAIL1} y={yOf(pBandClaim + 1)} width={356 - RAIL1} height={PX} fill="none" className="stroke-brand" strokeWidth={1.5} strokeDasharray="4 3" />
@@ -978,7 +983,7 @@ function SizeLadder() {
             {rungs.map((k) => (
               <g key={`r${k}`}>
                 <line x1={RAIL1} x2={RAIL2} y1={yOf(k)} y2={yOf(k)} className="stroke-ink-2" strokeWidth={k === 0 ? 2.5 : 1.5} />
-                <text x={30} y={yOf(k) + 3} fontSize={9} textAnchor="end" className={k === 0 ? "fill-ink" : "fill-ink-2"} fontWeight={k === 0 ? 800 : 400}>
+                <text x={30} y={yOf(k) + 3.5} fontSize={9.5} textAnchor="end" className={k === 0 ? "fill-ink" : "fill-ink-2"} fontWeight={k === 0 ? 800 : 400}>
                   {pow10Text(k)}
                 </text>
               </g>
@@ -989,7 +994,7 @@ function SizeLadder() {
               return (
                 <g key={l.label}>
                   <line x1={RAIL2} x2={RAIL2 + 5} y1={y} y2={y} className="stroke-ink" strokeWidth={1.5} />
-                  <text x={92} y={y + 3} fontSize={9} className="fill-ink-2">
+                  <text x={92} y={y + 3.5} fontSize={10} className="fill-ink-2">
                     {l.label} ≈ {aText(l.a)} × {pow10Text(l.n)} m
                   </text>
                 </g>
@@ -1026,7 +1031,7 @@ function SizeLadder() {
               <p className="mt-1 tabular-nums">
                 <M>{`(${sfOf(big)}) ÷ (${sfOf(small)})`}</M> = <M>{`(${aText(big.a)} ÷ ${aText(small.a)}) * 10^(${big.n} - ${br(small.n)})`}</M>{" "}
                 {Math.abs(quotient - Number(quotientText)) < 1e-9 ? "=" : "≈"} <M>{`${quotientText} * ${pow10Markup(big.n - small.n)}`}</M>
-                {quotient >= 1 && quotient < 10 && Math.abs(quotient - Number(quotientText)) < 1e-9 ? null : (
+                {quotient >= 1 && Number(quotientText) < 10 ? null : (
                   <>
                     {" "}
                     {exact ? "=" : "≈"} <M>{`${r} * ${pow10Markup(e)}`}</M>

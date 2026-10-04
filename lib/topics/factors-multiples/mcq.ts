@@ -299,7 +299,7 @@ export const mcqPapers: Paper[] = [
         answerIndex: 1,
         explanation:
           "A square number has every prime power even. In n the 5 already has power 2, but {{2^3}} and {{3^1}} are odd. One more 2 and one more 3 fix both: n × 6 = {{2^4 * 3^2 * 5^2 = (2^2 * 3 * 5)^2 = 60^2}}. Multiplying by 2 or by 3 alone leaves one power odd. 30 also brings in an extra 5, making {{5^3}} — odd again.",
-        difficulty: "challenge",
+        difficulty: "core",
         guideRef: "squares-cubes-from-primes",
         hints: [
           "What is special about the prime factorisation of a square number?",
@@ -434,7 +434,7 @@ export const mcqPapers: Paper[] = [
         options: ["{{2^2 * 5^2}}", "{{2^3 * 5}}", "{{2^3 * 5^3}}", "{{2^3 + 5^3}}"],
         answerIndex: 2,
         explanation:
-          "{{2^3 * 5^3 = (2 * 5)^3 = 10^3 = 1000}}: every power is 3, so the factors split into three identical groups. {{2^2 * 5^2}} = 100 is a square, not a cube. {{2^3 * 5}} = 40 has a lone 5. {{2^3 + 5^3}} = 8 + 125 = 133 adds the cubes, and a sum of cubes isn't a cube.",
+          "{{2^3 * 5^3 = (2 * 5)^3 = 10^3 = 1000}}: every power is 3, so the factors split into three identical groups. {{2^2 * 5^2}} = 100 is a square, not a cube. {{2^3 * 5}} = 40 has a lone 5. {{2^3 + 5^3}} = 8 + 125 = 133 adds the cubes instead of multiplying, and 133 lies between {{5^3 = 125}} and {{6^3 = 216}}, so it isn't a cube.",
         difficulty: "warmup",
         guideRef: "squares-cubes-from-primes",
         hints: ["A cube number splits into three identical groups of prime factors."],
@@ -608,7 +608,7 @@ export const mcqPapers: Paper[] = [
         options: ["3 March", "25 March", "12 March", "13 March"],
         answerIndex: 3,
         explanation:
-          "They swim on the same day again after LCM(4, 6) = 12 days, and 12 days after 1 March is 13 March. 12 March comes from counting the 12 days from 0 instead of from 1 March. 3 March uses the HCF (2 days), but Zara doesn't swim then. 25 March uses 4 × 6 = 24 days, a common multiple but not the first.",
+          "They swim on the same day again after LCM(4, 6) = 12 days, and 12 days after 1 March is 13 March. 12 March is an off-by-one slip: it counts 1 March itself as the first of the 12 days. 3 March uses the HCF (2 days), but Zara doesn't swim then. 25 March uses 4 × 6 = 24 days, a common multiple but not the first.",
         difficulty: "core",
         guideRef: "hcf-lcm-problems",
         hints: [

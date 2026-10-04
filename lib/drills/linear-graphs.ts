@@ -138,7 +138,10 @@ function lineGraphSvg(n: number, d: number, c: number, px: number, py: number, s
   out.push(`<line x1="${X(lo)}" y1="${Y(m * lo + c)}" x2="${X(hi)}" y2="${Y(m * hi + c)}" stroke="#2563eb" stroke-width="2.2"/>`);
   if (showIntercept) out.push(`<circle cx="${X(0)}" cy="${Y(c)}" r="4" fill="#dc2626"/>`);
   out.push(`<circle cx="${X(px)}" cy="${Y(py)}" r="4" fill="#1f2937"/>`);
-  out.push(`<text x="${X(px) + 7}" y="${Y(py) - 7}" font-size="13" font-family="sans-serif" font-weight="bold" fill="#1f2937" ${HALO}>P</text>`);
+  // Keep the "P" label clear of the tick numbers that run along both axes.
+  const lx = px === -1 ? X(px) - 7 : X(px) + 7;
+  const ly = py === -1 ? Y(py) + 17 : Y(py) - 7;
+  out.push(`<text x="${lx}" y="${ly}" font-size="13" font-family="sans-serif" font-weight="bold" fill="#1f2937" text-anchor="${px === -1 ? "end" : "start"}" ${HALO}>P</text>`);
   const label = `A straight line on a coordinate grid with x and y from −6 to 6. The line crosses the y-axis at ${pt(0, c)} and passes through the marked point P${pt(px, py)}.`;
   return `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${label}">${out.join("")}</svg>`;
 }

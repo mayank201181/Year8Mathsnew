@@ -7,19 +7,19 @@
 // ---------------------------------------------------------------------------
 import type { ExamPaper } from "../types.ts";
 
-const DRONE_BEARINGS = `<svg viewBox="0 0 360 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sketch of a drone's route. North lines are drawn at P and at Q. The drone flies from P to Q on a bearing of 064 degrees, then from Q to R on a bearing of 155 degrees. Angle PQR is marked with a question mark." font-family="sans-serif"><rect x="0" y="0" width="360" height="290" fill="#ffffff"/><g stroke="#334155" stroke-width="1.5"><line x1="70" y1="215" x2="70" y2="118"/><line x1="231.78" y1="136.09" x2="231.78" y2="40"/></g><polygon points="70,106 65,119 75,119" fill="#334155"/><polygon points="231.78,28 226.78,41 236.78,41" fill="#334155"/><line x1="70" y1="215" x2="231.78" y2="136.09" stroke="#1f2937" stroke-width="2.5"/><line x1="231.78" y1="136.09" x2="286.72" y2="253.91" stroke="#1f2937" stroke-width="2.5"/><path d="M70 185 A30 30 0 0 1 96.96 201.85" fill="none" stroke="#334155" stroke-width="1.5"/><path d="M231.78 110.09 A26 26 0 0 1 242.77 159.66" fill="none" stroke="#334155" stroke-width="1.5"/><path d="M239.39 152.41 A18 18 0 0 1 215.6 143.98" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/><circle cx="70" cy="215" r="3.5" fill="#1f2937"/><circle cx="231.78" cy="136.09" r="3.5" fill="#1f2937"/><circle cx="286.72" cy="253.91" r="3.5" fill="#1f2937"/><g font-size="13" fill="#1f2937"><text x="70" y="100" text-anchor="middle">N</text><text x="231.78" y="22" text-anchor="middle">N</text><text x="56" y="232" font-weight="bold">P</text><text x="212" y="128" font-weight="bold">Q</text><text x="294" y="270" font-weight="bold">R</text></g><g font-size="12" fill="#1f2937"><text x="96" y="178" text-anchor="middle">064°</text><text x="276" y="130" text-anchor="middle">155°</text><text x="219" y="172" text-anchor="middle" font-weight="bold">?</text></g><text x="352" y="284" font-size="11" fill="#334155" text-anchor="end">Not to scale</text></svg>`;
+const DRONE_BEARINGS = `<svg viewBox="0 0 360 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sketch of a drone's route. North lines are drawn at P and at Q. The drone flies from P to Q on a bearing of 064 degrees, then from Q to R on a bearing of 155 degrees. Angle PQR is marked with a question mark." font-family="sans-serif"><rect x="0" y="0" width="360" height="290" fill="#ffffff"/><g stroke="#334155" stroke-width="1.5"><line x1="70" y1="215" x2="70" y2="118"/><line x1="231.78" y1="136.09" x2="231.78" y2="40"/></g><polygon points="70,106 65,119 75,119" fill="#334155"/><polygon points="231.78,28 226.78,41 236.78,41" fill="#334155"/><line x1="70" y1="215" x2="231.78" y2="136.09" stroke="#1f2937" stroke-width="2.5"/><line x1="231.78" y1="136.09" x2="286.72" y2="253.91" stroke="#1f2937" stroke-width="2.5"/><path d="M70 185 A30 30 0 0 1 96.96 201.85" fill="none" stroke="#334155" stroke-width="1.5"/><path d="M231.78 110.09 A26 26 0 0 1 242.77 159.66" fill="none" stroke="#334155" stroke-width="1.5"/><path d="M231.78 136.09 L239.39 152.41 A18 18 0 0 1 215.6 143.98 Z" fill="#fde68a" stroke="#1f2937" stroke-width="1.2"/><circle cx="70" cy="215" r="3.5" fill="#1f2937"/><circle cx="231.78" cy="136.09" r="3.5" fill="#1f2937"/><circle cx="286.72" cy="253.91" r="3.5" fill="#1f2937"/><g font-size="13" fill="#1f2937"><text x="70" y="100" text-anchor="middle">N</text><text x="231.78" y="22" text-anchor="middle">N</text><text x="56" y="232" font-weight="bold">P</text><text x="212" y="128" font-weight="bold">Q</text><text x="294" y="270" font-weight="bold">R</text></g><g font-size="12" fill="#1f2937"><text x="96" y="178" text-anchor="middle">064°</text><text x="276" y="130" text-anchor="middle">155°</text><text x="219" y="172" text-anchor="middle" font-weight="bold">?</text></g><text x="352" y="284" font-size="11" fill="#334155" text-anchor="end">Not to scale</text></svg>`;
 
 const A_FRAME = `<svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Isosceles triangle ABC with apex A at the top and base BC horizontal. AB and AC are marked equal. A horizontal crossbar DE joins D on AB to E on AC and is marked parallel to BC. Angle BAC is labelled 2x degrees. Angle BDE, between DB and DE below the crossbar, is labelled 5x minus 14 degrees." font-family="sans-serif"><rect x="0" y="0" width="360" height="300" fill="#ffffff"/><polygon points="180,23.96 60,270 300,270" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><line x1="113.65" y1="160" x2="246.35" y2="160" stroke="#1f2937" stroke-width="2"/><g stroke="#1f2937" stroke-width="1.5" fill="none"><line x1="138.61" y1="95.14" x2="149.39" y2="100.4"/><line x1="210.61" y1="100.4" x2="221.39" y2="95.14"/><path d="M176 155 L183 160 L176 165"/><path d="M176 265 L183 270 L176 275"/></g><path d="M170.36 43.74 A22 22 0 0 0 189.64 43.74" fill="none" stroke="#334155" stroke-width="1.5"/><path d="M131.65 160 A18 18 0 0 1 105.76 176.18" fill="none" stroke="#334155" stroke-width="1.5"/><g font-size="13" fill="#1f2937" font-weight="bold"><text x="180" y="16" text-anchor="middle">A</text><text x="48" y="286">B</text><text x="304" y="286">C</text><text x="98" y="158" text-anchor="end">D</text><text x="262" y="158">E</text></g><g font-size="12" fill="#1f2937"><text x="180" y="66" text-anchor="middle">2x°</text><text x="126" y="196">(5x − 14)°</text></g></svg>`;
 
 const RIDE_GRAPH = `<svg viewBox="0 0 380 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Distance-time graph from 09:00 to 10:00. Distance from Marcus's home is 0 to 6 km. Marcus, solid line: from 0 km at 09:00 to 4 km at 09:15, flat at 4 km until 09:25, then to 6 km at 09:35. Hana, dashed line: a straight line from 6 km at 09:00 down to 0 km at 10:00. The lines cross at 09:20 at 4 km." font-family="sans-serif"><rect x="0" y="0" width="380" height="290" fill="#ffffff"/><g stroke="#e2e8f0" stroke-width="1"><line x1="75" y1="50" x2="75" y2="230"/><line x1="100" y1="50" x2="100" y2="230"/><line x1="125" y1="50" x2="125" y2="230"/><line x1="150" y1="50" x2="150" y2="230"/><line x1="175" y1="50" x2="175" y2="230"/><line x1="200" y1="50" x2="200" y2="230"/><line x1="225" y1="50" x2="225" y2="230"/><line x1="250" y1="50" x2="250" y2="230"/><line x1="275" y1="50" x2="275" y2="230"/><line x1="300" y1="50" x2="300" y2="230"/><line x1="325" y1="50" x2="325" y2="230"/><line x1="350" y1="50" x2="350" y2="230"/><line x1="50" y1="200" x2="350" y2="200"/><line x1="50" y1="170" x2="350" y2="170"/><line x1="50" y1="140" x2="350" y2="140"/><line x1="50" y1="110" x2="350" y2="110"/><line x1="50" y1="80" x2="350" y2="80"/><line x1="50" y1="50" x2="350" y2="50"/></g><line x1="50" y1="230" x2="358" y2="230" stroke="#1f2937" stroke-width="1.5"/><line x1="50" y1="230" x2="50" y2="40" stroke="#1f2937" stroke-width="1.5"/><g font-size="10" fill="#1f2937" text-anchor="middle"><text x="50" y="246">09:00</text><text x="100" y="246">09:10</text><text x="150" y="246">09:20</text><text x="200" y="246">09:30</text><text x="250" y="246">09:40</text><text x="300" y="246">09:50</text><text x="350" y="246">10:00</text></g><g font-size="11" fill="#1f2937" text-anchor="end"><text x="44" y="234">0</text><text x="44" y="204">1</text><text x="44" y="174">2</text><text x="44" y="144">3</text><text x="44" y="114">4</text><text x="44" y="84">5</text><text x="44" y="54">6</text></g><text x="200" y="266" font-size="12" fill="#1f2937" text-anchor="middle">Time</text><text x="16" y="140" font-size="11" fill="#1f2937" text-anchor="middle" transform="rotate(-90 16 140)">Distance from Marcus's home (km)</text><polyline points="50,230 125,110 175,110 225,50" fill="none" stroke="#1f2937" stroke-width="2.5"/><line x1="50" y1="50" x2="350" y2="230" stroke="#334155" stroke-width="2.5" stroke-dasharray="8 5"/><rect x="248" y="58" width="118" height="44" fill="#ffffff" stroke="#cbd5e1"/><line x1="256" y1="72" x2="284" y2="72" stroke="#1f2937" stroke-width="2.5"/><text x="290" y="76" font-size="11" fill="#1f2937">Marcus</text><line x1="256" y1="90" x2="284" y2="90" stroke="#334155" stroke-width="2.5" stroke-dasharray="8 5"/><text x="290" y="94" font-size="11" fill="#1f2937">Hana</text></svg>`;
 
-const TENT = `<svg viewBox="0 0 400 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A tent shaped like a triangular prism. The front triangle has base 1.6 m, sloping sides 1.7 m and perpendicular height 1.5 m. The tent is 2.4 m long. Hidden edges are dashed." font-family="sans-serif"><rect x="0" y="0" width="400" height="290" fill="#ffffff"/><polygon points="120,110 270,40 350,190 200,260" fill="#c7d2fe" stroke="#1f2937" stroke-width="2"/><g stroke="#334155" stroke-width="1.2" stroke-dasharray="5 4" fill="none"><line x1="40" y1="260" x2="190" y2="190"/><line x1="190" y1="190" x2="350" y2="190"/><line x1="190" y1="190" x2="270" y2="40"/></g><polygon points="40,260 200,260 120,110" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><line x1="120" y1="110" x2="120" y2="260" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/><path d="M120 250 L130 250 L130 260" fill="none" stroke="#334155" stroke-width="1.2"/><g font-size="12" fill="#1f2937"><text x="120" y="278" text-anchor="middle">1.6 m</text><text x="70" y="180" text-anchor="end">1.7 m</text><text x="126" y="200">1.5 m</text><text x="290" y="244">2.4 m</text></g></svg>`;
+const TENT = `<svg viewBox="0 0 400 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A tent shaped like a triangular prism. The front triangle has base 1.6 m, sloping sides 1.7 m and perpendicular height 1.5 m. The tent is 2.4 m long. Hidden edges are dashed." font-family="sans-serif"><rect x="0" y="0" width="400" height="290" fill="#ffffff"/><polygon points="120,110 270,40 350,190 200,260" fill="#c7d2fe" stroke="#1f2937" stroke-width="2"/><polygon points="40,260 200,260 120,110" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><g stroke="#334155" stroke-width="1.2" stroke-dasharray="5 4" fill="none"><line x1="40" y1="260" x2="190" y2="190"/><line x1="190" y1="190" x2="350" y2="190"/><line x1="190" y1="190" x2="270" y2="40"/></g><line x1="120" y1="110" x2="120" y2="260" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/><path d="M120 250 L130 250 L130 260" fill="none" stroke="#334155" stroke-width="1.2"/><g font-size="12" fill="#1f2937"><text x="120" y="278" text-anchor="middle">1.6 m</text><text x="70" y="180" text-anchor="end">1.7 m</text><text x="125" y="238">1.5 m</text><text x="290" y="244">2.4 m</text></g></svg>`;
 
 const SMOOTHIE_CHART = `<svg viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart titled Mango smoothies sold. The vertical axis starts at 400 and goes up to 480 in steps of 20, with minor gridlines every 10. January is 420, February is 440 and March is 470." font-family="sans-serif"><rect x="0" y="0" width="360" height="280" fill="#ffffff"/><text x="200" y="26" font-size="14" font-weight="bold" fill="#1f2937" text-anchor="middle">Mango smoothies sold</text><g stroke="#f1f5f9" stroke-width="1"><line x1="60" y1="207.5" x2="340" y2="207.5"/><line x1="60" y1="162.5" x2="340" y2="162.5"/><line x1="60" y1="117.5" x2="340" y2="117.5"/><line x1="60" y1="72.5" x2="340" y2="72.5"/></g><g stroke="#cbd5e1" stroke-width="1"><line x1="60" y1="185" x2="340" y2="185"/><line x1="60" y1="140" x2="340" y2="140"/><line x1="60" y1="95" x2="340" y2="95"/><line x1="60" y1="50" x2="340" y2="50"/></g><g fill="#fbbf24" stroke="#1f2937" stroke-width="1"><rect x="85" y="185" width="60" height="45"/><rect x="175" y="140" width="60" height="90"/><rect x="265" y="72.5" width="60" height="157.5"/></g><line x1="60" y1="230" x2="340" y2="230" stroke="#1f2937" stroke-width="1.5"/><line x1="60" y1="230" x2="60" y2="45" stroke="#1f2937" stroke-width="1.5"/><g font-size="11" fill="#1f2937" text-anchor="end"><text x="54" y="234">400</text><text x="54" y="189">420</text><text x="54" y="144">440</text><text x="54" y="99">460</text><text x="54" y="54">480</text></g><g font-size="12" fill="#1f2937" text-anchor="middle"><text x="115" y="248">Jan</text><text x="205" y="248">Feb</text><text x="295" y="248">Mar</text></g><text x="16" y="140" font-size="11" fill="#1f2937" text-anchor="middle" transform="rotate(-90 16 140)">Number sold</text></svg>`;
 
 const COASTERS = `<svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three circles of radius 5 cm, each touching the other two. Dashed lines join their centres to form an equilateral triangle. The small curved gap enclosed between the three circles is shaded yellow." font-family="sans-serif"><rect x="0" y="0" width="300" height="270" fill="#ffffff"/><polygon points="90,190 210,190 150,86.08" fill="#fde68a"/><g fill="#bae6fd" stroke="#1f2937" stroke-width="1.5"><circle cx="90" cy="190" r="60"/><circle cx="210" cy="190" r="60"/><circle cx="150" cy="86.08" r="60"/></g><polygon points="90,190 210,190 150,86.08" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="5 4"/><g fill="#1f2937"><circle cx="90" cy="190" r="3"/><circle cx="210" cy="190" r="3"/><circle cx="150" cy="86.08" r="3"/></g><line x1="90" y1="190" x2="30" y2="190" stroke="#1f2937" stroke-width="1.5"/><text x="60" y="184" font-size="12" fill="#1f2937" text-anchor="middle">5 cm</text><line x1="156" y1="152" x2="252" y2="96" stroke="#334155" stroke-width="1"/><text x="256" y="94" font-size="12" fill="#1f2937">gap</text></svg>`;
 
-const PILLAR = `<svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sketch, not to scale, of a cylindrical pillar of diameter 35 cm and height 3.5 m. A string of lights winds around it 4 times from the bottom to the top. Parts of the string at the back are dashed." font-family="sans-serif"><rect x="0" y="0" width="320" height="300" fill="#ffffff"/><rect x="160" y="40" width="70" height="230" fill="#e2e8f0"/><ellipse cx="195" cy="40" rx="35" ry="9" fill="#f1f5f9" stroke="#1f2937" stroke-width="1.5"/><path d="M160 270 A35 9 0 0 0 230 270" fill="none" stroke="#1f2937" stroke-width="1.5"/><path d="M160 270 A35 9 0 0 1 230 270" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/><line x1="160" y1="40" x2="160" y2="270" stroke="#1f2937" stroke-width="1.5"/><line x1="230" y1="40" x2="230" y2="270" stroke="#1f2937" stroke-width="1.5"/><g stroke="#b45309" stroke-width="2.5"><line x1="160" y1="270" x2="230" y2="241.25"/><line x1="160" y1="212.5" x2="230" y2="183.75"/><line x1="160" y1="155" x2="230" y2="126.25"/><line x1="160" y1="97.5" x2="230" y2="68.75"/></g><g stroke="#b45309" stroke-width="1.5" stroke-dasharray="4 3"><line x1="230" y1="241.25" x2="160" y2="212.5"/><line x1="230" y1="183.75" x2="160" y2="155"/><line x1="230" y1="126.25" x2="160" y2="97.5"/><line x1="230" y1="68.75" x2="160" y2="40"/></g><g stroke="#334155" stroke-width="1"><line x1="160" y1="20" x2="230" y2="20"/><line x1="160" y1="15" x2="160" y2="25"/><line x1="230" y1="15" x2="230" y2="25"/><line x1="255" y1="40" x2="255" y2="270"/><line x1="250" y1="40" x2="260" y2="40"/><line x1="250" y1="270" x2="260" y2="270"/></g><g font-size="12" fill="#1f2937"><text x="195" y="13" text-anchor="middle">35 cm</text><text x="262" y="159">3.5 m</text></g><text x="312" y="294" font-size="11" fill="#334155" text-anchor="end">Not to scale</text></svg>`;
+const PILLAR = `<svg viewBox="110 0 210 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sketch, not to scale, of a cylindrical pillar of diameter 35 cm and height 3.5 m. A string of lights winds around it 4 times from the bottom to the top. Parts of the string at the back are dashed." font-family="sans-serif"><rect x="0" y="0" width="320" height="300" fill="#ffffff"/><rect x="160" y="40" width="70" height="230" fill="#e2e8f0"/><ellipse cx="195" cy="40" rx="35" ry="9" fill="#f1f5f9" stroke="#1f2937" stroke-width="1.5"/><path d="M160 270 A35 9 0 0 0 230 270" fill="none" stroke="#1f2937" stroke-width="1.5"/><path d="M160 270 A35 9 0 0 1 230 270" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/><line x1="160" y1="40" x2="160" y2="270" stroke="#1f2937" stroke-width="1.5"/><line x1="230" y1="40" x2="230" y2="270" stroke="#1f2937" stroke-width="1.5"/><g stroke="#b45309" stroke-width="2.5"><line x1="160" y1="270" x2="230" y2="241.25"/><line x1="160" y1="212.5" x2="230" y2="183.75"/><line x1="160" y1="155" x2="230" y2="126.25"/><line x1="160" y1="97.5" x2="230" y2="68.75"/></g><g stroke="#b45309" stroke-width="1.5" stroke-dasharray="4 3"><line x1="230" y1="241.25" x2="160" y2="212.5"/><line x1="230" y1="183.75" x2="160" y2="155"/><line x1="230" y1="126.25" x2="160" y2="97.5"/><line x1="230" y1="68.75" x2="160" y2="40"/></g><g stroke="#334155" stroke-width="1"><line x1="160" y1="20" x2="230" y2="20"/><line x1="160" y1="15" x2="160" y2="25"/><line x1="230" y1="15" x2="230" y2="25"/><line x1="255" y1="40" x2="255" y2="270"/><line x1="250" y1="40" x2="260" y2="40"/><line x1="250" y1="270" x2="260" y2="270"/></g><g font-size="12" fill="#1f2937"><text x="195" y="13" text-anchor="middle">35 cm</text><text x="262" y="159">3.5 m</text></g><text x="312" y="294" font-size="11" fill="#334155" text-anchor="end">Not to scale</text></svg>`;
 
 export const paper: ExamPaper = {
   id: "exam-c2",
@@ -65,7 +65,7 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "number", value: 0.0035 },
-          feedback: "0.0035 is the thickness in **millimetres**. There are 1000 mm in 1 m, so divide by 1000 again to get metres.",
+          feedback: "0.0035 is the thickness in millimetres. There are 1000 mm in 1 m, so divide by 1000 again to get metres.",
         },
         {
           spec: { type: "number", value: 285.714, tolerance: 0.5 },
@@ -131,7 +131,7 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "number", value: 25, tolerance: 0.03 },
-          feedback: "Dividing by 4 finds a side from the *perimeter*. For a square's area, side × side = 99.9, so use the square root.",
+          feedback: "Dividing by 4 finds a side from the perimeter. For a square's area, side × side = 99.9, so use the square root.",
         },
         { spec: { type: "number", value: 9.1 }, feedback: "Careful with the carry: 9.9 rounded up becomes 10.0, not 9.10. Ten tenths make one whole." },
       ],
@@ -195,8 +195,8 @@ export const paper: ExamPaper = {
         "Mei's recipe for vegetable curry uses {{1 3/4}} cups of coconut milk for each batch. She has {{8 1/2}} cups of coconut milk.\n\nShe makes as many **full** batches as she can. How much coconut milk is left over? Give your answer in cups.",
       answer: { type: "fraction", n: 3, d: 2, allowDecimal: true, display: "{{1 1/2}} cups" },
       traps: [
-        { spec: { type: "number", value: 4 }, feedback: "4 is the number of full batches. The question asks how much coconut milk is **left over**." },
-        { spec: { type: "fraction", n: 6, d: 7 }, feedback: "{{6/7}} is the part of a *batch* that is left. Change it into cups: {{6/7}} of {{1 3/4}} cups." },
+        { spec: { type: "number", value: 4 }, feedback: "4 is the number of full batches. The question asks how much coconut milk is left over." },
+        { spec: { type: "fraction", n: 6, d: 7 }, feedback: "That's the leftover part of a batch, not a number of cups. Multiply it by the 1.75 cups each batch uses." },
       ],
       solution: [
         "Number of batches: {{8 1/2}} ÷ {{1 3/4}} = {{17/2 * 4/7 = 34/7 = 4 6/7}}, so she can make 4 full batches.",
@@ -282,8 +282,8 @@ export const paper: ExamPaper = {
       answer: { type: "number", value: 15.1, display: "$15.10" },
       traps: [
         { spec: { type: "number", value: 17.7 }, feedback: "$17.70 is $88.50 ÷ 5, which pretends all five tickets cost the same. Each adult ticket costs $6.50 more." },
-        { spec: { type: "number", value: 21.6 }, feedback: "$21.60 is the price of an **adult** ticket. The question asks for the student price." },
-        { spec: { type: "number", value: 16.4 }, feedback: "You added the extra $6.50 only once — but there are **2** adult tickets, so the extra is 2 × $6.50 = $13." },
+        { spec: { type: "number", value: 21.6 }, feedback: "$21.60 is the price of an adult ticket. The question asks for the student price." },
+        { spec: { type: "number", value: 16.4 }, feedback: "You added the extra $6.50 only once — but there are 2 adult tickets, so the extra is 2 × $6.50 = $13." },
       ],
       solution: [
         "Let a student ticket cost $s. Then an adult ticket costs $(s + 6.50).",
@@ -326,7 +326,7 @@ export const paper: ExamPaper = {
         },
         {
           spec: { type: "number", value: 1.6, tolerance: 0.005 },
-          feedback: "You left out the square root. Work out {{sqrt(2.5/9.8)}} before multiplying by 2π.",
+          feedback: "You left out the square root. Work out the square root of (2.5 ÷ 9.8) before multiplying by 2π.",
         },
       ],
       solution: [
@@ -457,11 +457,11 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "number", value: 9 },
-          feedback: "After bounce 9 the ball rises to 2.5 × {{0.8^9}} ≈ 0.336 m = 33.6 cm — still not below 30 cm.",
+          feedback: "After bounce 9 the ball rises to 2.5 × 0.8⁹ ≈ 0.336 m = 33.6 cm — still not below 30 cm.",
         },
         {
           spec: { type: "number", value: 5 },
-          feedback: "The ball doesn't lose the same 0.5 m each time — it loses 20% of a *smaller* height each bounce. Multiply by 0.8 each time (a geometric sequence).",
+          feedback: "The ball doesn't lose the same 0.5 m each time — it loses 20% of a smaller height each bounce. Multiply by 0.8 each time (a geometric sequence).",
         },
       ],
       solution: [
@@ -494,7 +494,7 @@ export const paper: ExamPaper = {
         },
         {
           spec: { type: "number", value: 77.57, tolerance: 0.01 },
-          feedback: "Undoing a percentage change is **not** the opposite percentage of the new amount. To undo × 1.09, divide by 1.09; to undo × 0.85, divide by 0.85.",
+          feedback: "Undoing a percentage change is not the opposite percentage of the new amount. To undo × 1.09, divide by 1.09; to undo × 0.85, divide by 0.85.",
         },
       ],
       solution: [
@@ -532,7 +532,7 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "number", value: 7.875, tolerance: 0.03 },
-          feedback: "That's his average speed in **km/h**. Change it to m/s: multiply by 1000 and divide by 3600 (or just divide by 3.6).",
+          feedback: "That's his average speed in km/h. Change it to m/s: multiply by 1000 and divide by 3600 (or just divide by 3.6).",
         },
         {
           spec: { type: "number", value: 2.42, tolerance: 0.005 },
@@ -642,7 +642,7 @@ export const paper: ExamPaper = {
       answer: { type: "number", value: 132, display: "$132" },
       traps: [
         { spec: { type: "number", value: 180 }, feedback: "$180 includes the floor (1.6 m × 2.4 m). The floor is not made of canvas." },
-        { spec: { type: "number", value: 162 }, feedback: "The area of a triangle is **half** of base × height. Each end is ½ × 1.6 × 1.5 = 1.2 m²." },
+        { spec: { type: "number", value: 162 }, feedback: "The area of a triangle is half of base × height. Each end is ½ × 1.6 × 1.5 = 1.2 m²." },
         { spec: { type: "number", value: 120 }, feedback: "The sloping rectangles are 1.7 m wide (the slant edge), not 1.5 m (the height of the tent)." },
         { spec: { type: "number", value: 10.56 }, feedback: "10.56 m² is the area of canvas. Now multiply by $12.50 per m²." },
       ],
@@ -672,13 +672,13 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "fraction", n: 1, d: 10 },
-          feedback: "{{24/240}} picks from all 240 students. You know the student takes the **bus**, so choose from the 81 bus users only.",
+          feedback: "Dividing 24 by 240 picks from all 240 students. You know the student takes the bus, so choose from the 81 bus users only.",
         },
         {
           spec: { type: "fraction", n: 1, d: 5 },
-          feedback: "{{24/120}} is the fraction of Year 8 students who take the bus. Here the student is picked from the bus users, so divide by 81.",
+          feedback: "24 out of 120 is the proportion of Year 8 students who take the bus. Here the student is picked from the bus users, so divide by 81.",
         },
-        { spec: { type: "fraction", n: 19, d: 27 }, feedback: "{{57/81}} is the probability that the bus user is in **Year 7**." },
+        { spec: { type: "fraction", n: 19, d: 27 }, feedback: "57 out of 81 is the probability that the bus user is in Year 7." },
       ],
       solution: [
         "Year 7 bus = 120 − 46 − 17 = 57.",
@@ -735,7 +735,7 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "number", value: 3 },
-          feedback: "You multiplied the area by 25 000 — but the scale is for **lengths**. Area is length × length, so areas are scaled by 25 000².",
+          feedback: "You multiplied the area by 25 000 — but the scale is for lengths. Area is length × length, so areas are scaled by 25 000².",
         },
         {
           spec: { type: "number", value: 0.00003 },
@@ -880,10 +880,10 @@ export const paper: ExamPaper = {
       answer: { type: "number", value: 4.03, allowFraction: false, display: "4.03 cm²" },
       traps: [
         { spec: { type: "number", value: 43.3 }, feedback: "43.3 cm² is the whole triangle. Take away the parts of the coasters that lie inside it." },
-        { spec: { type: "number", value: 47.3, tolerance: 0.05 }, feedback: "Check the triangle: its area is **half** of base × height, ½ × 10 × 8.66 = 43.3 cm²." },
+        { spec: { type: "number", value: 47.3, tolerance: 0.05 }, feedback: "Check the triangle: its area is half of base × height, ½ × 10 × 8.66 = 43.3 cm²." },
         {
           spec: { type: "number", value: -15.6, tolerance: 0.05 },
-          feedback: "An area can't be negative! Each angle of an equilateral triangle is 60°, not 90°, so each piece of coaster is {{1/6}} of a circle, not a quarter.",
+          feedback: "An area can't be negative! Each angle of an equilateral triangle is 60°, not 90°, so each piece of coaster is one sixth of a circle, not a quarter.",
         },
       ],
       solution: [
@@ -913,11 +913,11 @@ export const paper: ExamPaper = {
       traps: [
         {
           spec: { type: "number", value: 7.9, tolerance: 0.006 },
-          feedback: "You added the distance around (4 × the circumference) to the height. The string goes round *and* up at the same time, so it makes a slanted line — use Pythagoras.",
+          feedback: "You added the distance around (4 × the circumference) to the height. The string goes round and up at the same time, so it makes a slanted line — use Pythagoras.",
         },
         {
           spec: { type: "number", value: 9.47, tolerance: 0.006 },
-          feedback: "35 cm is the **diameter**, so one circumference is π × 0.35 m. It looks as if you used 35 cm as the radius.",
+          feedback: "35 cm is the diameter, so one circumference is π × 0.35 m. It looks as if you used 35 cm as the radius.",
         },
         {
           spec: { type: "number", value: 4.4, tolerance: 0.006 },
