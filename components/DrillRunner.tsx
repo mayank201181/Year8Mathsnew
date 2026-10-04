@@ -97,10 +97,13 @@ export function DrillRunner({ drills, title, onExit }: { drills: Drill[]; title?
 
   function next() {
     if (!cur) return;
-    const h = history[cur.drill.id] ?? [];
-    const tier = adaptTier(cur.tier, h);
     const d = pick(cur.drill.id);
-    const t = d.id === cur.drill.id ? tier : store.data.skills[d.id]?.tier ?? 1;
+    // Adapt the picked skill on its own answers this session. Its stored tier is the tier it was
+    // last played at (recordSkill keeps it), so mixed sessions adapt too, not just single drills.
+    const base = d.id === cur.drill.id ? cur.tier : (store.data.skills[d.id]?.tier ?? 1);
+    const t = adaptTier(base, history[d.id] ?? []);
+    // A new tier starts a new streak: each tier needs its own 3 clean answers (or 2 misses) to move on.
+    if (t !== base) setHistory((h) => ({ ...h, [d.id]: [] }));
     setCur(build(d, t, freshSeed()));
     setToast(null);
     setN((x) => x + 1);

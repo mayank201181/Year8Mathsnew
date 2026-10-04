@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 import { createHash, createHmac, randomBytes, scryptSync, timingSafeEqual } from "crypto";
 import type { NextResponse } from "next/server";
 import type { Account } from "../profileTypes";
-import { blobConfigured, readJson, writeJson } from "./blob";
+import { blobConfigured, createJson, deleteJson, readJson, updateJson, writeJson } from "./blob";
+import { PIN_RULE, clearAttempts, takeAttempt } from "./ratelimit";
 
 // Session cookie and token format are unchanged from v1 so existing sign-ins
 // survive the upgrade: base64url("<accountId>.<issuedAtMs>") + "." + hex HMAC.
@@ -103,14 +104,37 @@ export async function currentAccountId(): Promise<string | null> {
 // ---------------------------------------------------------------------------
 // Account storage
 // ---------------------------------------------------------------------------
-export async function getAccount(id: string): Promise<Account | null> {
-  const acc = await readJson<Account>(`accounts/${id}.json`);
+function asAccount(acc: Account | null): Account | null {
   if (!acc || typeof acc !== "object") return null;
   return { ...acc, profiles: Array.isArray(acc.profiles) ? acc.profiles : [] };
 }
 
+export async function getAccount(id: string): Promise<Account | null> {
+  return asAccount(await readJson<Account>(`accounts/${id}.json`));
+}
+
+/** Write a brand-new account. Change an existing one with updateAccount. */
 export async function saveAccount(account: Account): Promise<void> {
   await writeJson(`accounts/${account.id}.json`, account);
+}
+
+/**
+ * Change an account without losing a change made at the same time on another device:
+ * `change` is applied to a copy re-read just before the write (and re-applied to a fresh
+ * copy if another write lands first), so it must work from what it is given. It returns
+ * the new account, or null to leave it as it is. `account` is null when there's no such account.
+ */
+export async function updateAccount(id: string, change: (account: Account) => Account | null): Promise<{ account: Account | null; changed: boolean }> {
+  const { value, changed } = await updateJson<Account>(`accounts/${id}.json`, (raw) => {
+    const acc = asAccount(raw);
+    return acc ? change(acc) : null;
+  });
+  return { account: asAccount(value), changed };
+}
+
+/** Remove an account that never got a name (lost a sign-up race). */
+export async function discardAccount(id: string): Promise<void> {
+  await Promise.all([deleteJson(`accounts/${id}.json`), deleteJson(`secrets/${id}.json`)]);
 }
 
 export async function currentAccount(): Promise<Account | null> {
@@ -143,21 +167,41 @@ export async function lookupAccountIdByName(name: string): Promise<string | null
   return typeof doc?.id === "string" ? doc.id : null;
 }
 
-export async function indexAccountName(name: string, id: string): Promise<void> {
-  await writeJson(`names/${nameSlug(name)}.json`, { id });
+/**
+ * Point names/<slug> at account `id`, unless the name is taken. The index is created only if
+ * it doesn't exist yet, so of two sign-ups racing for one name exactly one wins. False = taken.
+ */
+export async function claimAccountName(name: string, id: string): Promise<boolean> {
+  const slug = nameSlug(name);
+  if (!slug || !(await createJson(`names/${slug}.json`, { id }))) return false;
+  // Belt and braces: make sure the index now points at this account before handing out a session.
+  const owner = await lookupAccountIdByName(name);
+  return owner === null || owner === id;
 }
 
-/** Check the parent PIN for an account (with lockout), upgrading old hashes. */
+/**
+ * Check the parent PIN for an account, with lockout. The guess is counted before it is
+ * checked, so parallel guesses can't all get past the lock.
+ */
 export async function checkPin(accountId: string, pin: unknown): Promise<{ ok: true } | { ok: false; status: number; error: string }> {
-  const { lockedFor, recordFailure, clearFailures } = await import("./ratelimit");
-  const wait = await lockedFor("pin", accountId);
-  if (wait > 0) return { ok: false, status: 429, error: `Too many wrong PINs. Try again in ${Math.ceil(wait / 60)} minute${wait > 60 ? "s" : ""}.` };
-  const secrets = await getSecrets(accountId);
-  const ok = verifySecret(typeof pin === "string" ? pin : String(pin ?? ""), secrets?.pinHash);
-  if (!ok || !secrets) {
-    const left = await recordFailure("pin", accountId);
-    return { ok: false, status: 403, error: left > 0 ? `That PIN isn't right (${left} tr${left === 1 ? "y" : "ies"} left).` : "Too many wrong PINs. Try again in 15 minutes." };
+  try {
+    const attempt = await takeAttempt("pin", accountId, PIN_RULE);
+    if (attempt.wait > 0) {
+      const mins = Math.ceil(attempt.wait / 60);
+      return { ok: false, status: 429, error: `Too many wrong PINs. Try again in ${mins} minute${mins === 1 ? "" : "s"}.` };
+    }
+    const secrets = await getSecrets(accountId);
+    if (!secrets || !verifySecret(typeof pin === "string" ? pin : String(pin ?? ""), secrets.pinHash)) {
+      const { left } = attempt;
+      return {
+        ok: false,
+        status: 403,
+        error: left > 0 ? `That PIN isn't right (${left} tr${left === 1 ? "y" : "ies"} left).` : `Too many wrong PINs. Try again in ${PIN_RULE.lockMs / 60000} minutes.`,
+      };
+    }
+    await clearAttempts("pin", accountId);
+    return { ok: true };
+  } catch {
+    return { ok: false, status: 503, error: "Couldn't check the PIN right now. Please try again." };
   }
-  await clearFailures("pin", accountId);
-  return { ok: true };
 }

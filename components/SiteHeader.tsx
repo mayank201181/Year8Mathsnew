@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "@/lib/store";
 import { rankFor } from "@/lib/learning";
+import { addDaysISO, todayISO } from "@/lib/dates";
 
 const NAV = [
   { href: "/", label: "Home", icon: "🏠" },
@@ -26,6 +27,9 @@ export function SiteHeader() {
   const open = openAt === path;
   const menuRef = useRef<HTMLDivElement>(null);
   const { rank } = rankFor(data.stars);
+  // streak.count only resets on the next activity, so show it only while it is still alive.
+  const streak = data.streak;
+  const streakLive = streak.count > 1 && (streak.last === todayISO() || streak.last === addDaysISO(-1));
 
   useEffect(() => {
     if (!open) return;
@@ -63,9 +67,9 @@ export function SiteHeader() {
           <Link href="/progress" className="chip text-sm" title={`${rank.name} · ${data.stars} stars`}>
             ⭐ {data.stars}
           </Link>
-          {data.streak.count > 1 ? (
+          {streakLive ? (
             <span className="chip hidden text-sm sm:inline-flex" title="Days in a row">
-              🔥 {data.streak.count}
+              🔥 {streak.count}
             </span>
           ) : null}
           <div className="relative" ref={menuRef}>

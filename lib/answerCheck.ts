@@ -12,16 +12,20 @@
 import type { AnswerSpec } from "./types.ts";
 import {
   countTerms,
+  evalExpr,
   exprEquivalent,
   exprVars,
   extractNumbers,
   gcd,
   hasCommonFactorInBracket,
   hasGroup,
+  hasLooseGroup,
+  hasUncombinedTerm,
   isFactorised,
   normalizeInput,
   parseExpr,
   parseNumberAnswer,
+  type Expr,
 } from "./mathParse.ts";
 
 export type CheckStatus = "correct" | "close" | "incorrect" | "invalid";
@@ -102,7 +106,46 @@ export function checkAnswer(spec: AnswerSpec, raw: string): CheckResult {
   }
 }
 
+/** `e` with π (parsed as the number Math.PI) replaced by an approximation such as 3.14. */
+function withPi(e: Expr, pi: number): Expr {
+  switch (e.t) {
+    case "num": return e.v === Math.PI ? { t: "num", v: pi } : e;
+    case "var": return e;
+    case "neg": case "group": case "fn": return { ...e, a: withPi(e.a, pi) };
+    default: return { ...e, a: withPi(e.a, pi), b: withPi(e.b, pi) };
+  }
+}
+
+/**
+ * The values of a number typed with π, like "12π" or "x = 12π cm", using the π button,
+ * π = 3.14 and π = 22/7 (questions use all three); null if there's no π in it.
+ */
+function piNumberValues(input: string): number[] | null {
+  const s = stripEquation(input);
+  if (!input.includes("π") && !/(?<![a-z])pi(?![a-z])/i.test(s)) return null;
+  for (const text of [s, stripTrailingUnit(s, new Set())]) {
+    const e = text === null ? null : parseExpr(text);
+    if (e && exprVars(e).size === 0) return [Math.PI, 3.14, 22 / 7].map((pi) => evalExpr(withPi(e, pi), {}));
+  }
+  return null; // "6 pieces", "17 pupils" — not π after all
+}
+
+/** True if `v` rounds to `target` at the accuracy `target` is written to (37.699 → 37.7). */
+function roundsTo(v: number, target: number): boolean {
+  const text = String(target);
+  if (text.includes("e")) return false;
+  const dp = text.split(".")[1]?.length ?? 0;
+  return Math.abs(v - target) <= 0.5 * 10 ** -dp + 1e-9;
+}
+
 function checkNumber(spec: Extract<AnswerSpec, { type: "number" }>, input: string): CheckResult {
+  const pi = piNumberValues(input);
+  if (pi !== null) {
+    if (pi.some((v) => near(v, spec.value, spec.tolerance) || roundsTo(v, spec.value))) {
+      return { status: "close", feedback: "That's the exact value in terms of π — now work it out as a decimal, rounded as the question asks." };
+    }
+    return { status: "incorrect" };
+  }
   const p = parseNumberAnswer(input);
   if (!p) {
     // Maybe they wrote a list or an expression.
@@ -203,13 +246,23 @@ function expandPowerProduct(input: string): number[] | null {
 function checkList(spec: Extract<AnswerSpec, { type: "list" }>, input: string): CheckResult {
   // A list of prime factors may be typed as a product in index form.
   const product = !spec.ordered && spec.values.length > 1 && spec.values.every(isPrimeInt) ? expandPowerProduct(input) : null;
-  const got = product ?? extractNumbers(input);
+  let got = product ?? extractNumbers(input);
+  if (!product && got?.length !== spec.values.length) {
+    // "1,400" or "7 560" may be one number with thousands separators, not two values.
+    const alt = extractNumbers(input, true);
+    if (alt?.length === spec.values.length) got = alt;
+  }
   if (!got) return { status: "invalid", feedback: "Separate your answers with commas, e.g. 28, 35." };
   if (got.length !== spec.values.length) {
-    return {
-      status: got.length < spec.values.length ? "close" : "incorrect",
-      feedback: `I was expecting ${spec.values.length} value${spec.values.length === 1 ? "" : "s"}.`,
-    };
+    const feedback = `I was expecting ${spec.values.length} value${spec.values.length === 1 ? "" : "s"}.`;
+    // Too few values is only "almost" when every value given is one of the answers.
+    const pool = [...spec.values];
+    const partRight = got.length < spec.values.length && got.every((g) => {
+      const i = pool.findIndex((v) => near(g, v, spec.tolerance));
+      if (i >= 0) pool.splice(i, 1);
+      return i >= 0;
+    });
+    return { status: partRight ? "close" : "incorrect", feedback };
   }
   if (spec.ordered) {
     const ok = spec.values.every((v, i) => near(got[i], v, spec.tolerance));
@@ -286,6 +339,10 @@ function checkExpression(spec: Extract<AnswerSpec, { type: "expression" }>, inpu
     return { status: "invalid", feedback: "I couldn't read that expression. Use * or nothing for ×, ^ for powers, e.g. 3x^2 + 2(x − 1)." };
   }
   if (!exprEquivalent(expected, got)) return { status: "incorrect" };
+  // "In terms of π": a calculator decimal has the right value but not the asked-for form.
+  if (/pi/i.test(normalizeInput(spec.expr)) && !/pi/i.test(normalizeInput(input))) {
+    return { status: "close", feedback: "Right value — but leave your answer in terms of π (keep π as a symbol)." };
+  }
   const form = spec.form ?? "any";
   if (form === "factorised" && !isFactorised(got)) {
     return { status: "close", feedback: "That's equivalent — but it isn't factorised. Take out the common factor into a bracket." };
@@ -297,12 +354,15 @@ function checkExpression(spec: Extract<AnswerSpec, { type: "expression" }>, inpu
     return { status: "close", feedback: "That's equivalent — now multiply out the brackets." };
   }
   if (form === "simplified") {
-    if (hasGroup(got) && !hasGroup(expected)) {
+    if (hasLooseGroup(got) && !hasGroup(expected)) {
       return { status: "close", feedback: "That's equivalent — now remove the brackets and simplify." };
     }
     if (countTerms(got) > countTerms(expected)) {
       return { status: "close", feedback: "That's equivalent — but collect the like terms to simplify fully." };
     }
+  }
+  if ((form === "simplified" || form === "expanded") && hasUncombinedTerm(got) && !hasUncombinedTerm(expected)) {
+    return { status: "close", feedback: "That's equivalent — now finish each term: multiply or cancel the numbers, and combine powers of the same letter." };
   }
   return { status: "correct" };
 }

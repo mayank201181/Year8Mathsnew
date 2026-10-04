@@ -71,9 +71,18 @@ export interface ParsedNumber {
   kind: "integer" | "decimal" | "fraction" | "mixed" | "standard";
 }
 
-/** A trailing unit such as cm, cm^2, cm², m/s, km/h, %, °, degrees, litres. */
-const UNIT_TAIL =
-  /^\s*(?:%|°\s*[a-z]?|[a-z]{1,12}(?:\s*\^?\s*[23])?(?:\s*\/\s*[a-z]{1,5})?)?\s*$/i;
+/** A length unit squared or cubed: cm^2, cm2, m^3, units^2 (² and ³ are already ^2 and ^3). */
+const POWER_UNIT = String.raw`(?:mm|cm|dm|m|km|units?)\s*\^?\s*[23]`;
+
+/**
+ * A trailing unit such as cm, cm^2, cm², m/s, km/h, g/cm³, %, °, degrees, litres.
+ * A power digit is only allowed after a length unit, so "9 or 3" and "9 x 2" are not
+ * read as 9 followed by a unit.
+ */
+const UNIT_TAIL = new RegExp(
+  String.raw`^\s*(?:%|°\s*[a-z]?|(?:${POWER_UNIT}|[a-z]{1,12})(?:\s*\/\s*(?:${POWER_UNIT}|[a-z]{1,5}))?)?\s*$`,
+  "i",
+);
 
 /**
  * Parse a single number answer such as "-2.5", "3/4", "1 3/4", "1,200",
@@ -117,10 +126,11 @@ export function parseNumberAnswer(raw: string): ParsedNumber | null {
     if (d === 0) return null;
     return { value: (sign * n) / d, frac: { whole: 0, n, d, negative }, kind: "fraction" };
   }
-  // Thousands separators: 1,200 or 12,345.6
-  m = s.match(/^(\d{1,3}(?:,\d{3})+(?:\.\d+)?)(.*)$/);
+  // Thousands separators: 1,200 or 12,345.6 — or spaced, as the app writes them:
+  // 7 050 000, 2 591.8, 0.000 25 (groups of exactly three, never followed by "/").
+  m = s.match(/^(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d{1,3}(?: \d{3})+(?:\.\d{3}(?: \d{1,3})*|\.\d+)?|\d+\.\d{3}(?: \d{1,3})+)(?!\s*\/)(.*)$/);
   if (m && UNIT_TAIL.test(m[2])) {
-    return { value: sign * parseFloat(m[1].replace(/,/g, "")), kind: m[1].includes(".") ? "decimal" : "integer" };
+    return { value: sign * parseFloat(m[1].replace(/[, ]/g, "")), kind: m[1].includes(".") ? "decimal" : "integer" };
   }
   // Plain integer / decimal (".5" and "5." allowed)
   m = s.match(/^(\d+(?:\.\d*)?|\.\d+)(.*)$/);
@@ -134,19 +144,25 @@ export function parseNumberAnswer(raw: string): ParsedNumber | null {
 
 /**
  * Parse a list of numbers: "28, 35", "(3, −2)", "x = 2 or x = −3", "£28 and £35",
- * "3/4; 1/2". Returns null if any piece is not a number.
+ * "3/4; 1/2", "(0, 6 1/2)", "7 cm², 5 cm²", "8h15min". Returns null if any piece is
+ * not a number. With `thousands`, "1,400" and "7 560" are each read as one number
+ * (the checker tries this only when the plain reading gives the wrong count).
  */
-export function extractNumbers(raw: string): number[] | null {
-  const s = normalizeInput(raw)
+export function extractNumbers(raw: string, thousands = false): number[] | null {
+  let s = normalizeInput(raw)
     .replace(/\b[a-z]+\s*=/gi, " ") // "x =", "HCF =" labels
     .replace(/(?:±|\+\s*\/?\s*-)\s*(\d+(?:\.\d+)?(?:\/\d+)?)/g, "$1, -$1") // "±12" → 12, -12
     .replace(/\b(?:or|and)\b/gi, ",")
+    .replace(/(^|[,;(\[{])\s*-\s+(?=\d)/g, "$1 -") // "(-½, 3)" became "(- 1/2, 3)"
     .replace(/[()\[\]{}]/g, " ")
-    .replace(/(?:s\$|[£$€¥₹])/gi, "");
-  const pieces = s.split(/[,;]|\s+/).map((p) => p.trim()).filter(Boolean);
+    .replace(/(?:s\$|[£$€¥₹])/gi, "")
+    .replace(/(\d)\s*(h|hrs?|hours?|mins?|minutes?)\s*(?=\d)/gi, "$1 $2 "); // "8h15min" → 8 h 15min
+  if (thousands) s = s.replace(/(?<![\d.])\d{1,3}(?:(?:,\d{3})+|(?: \d{3})+)(?![\d/])/g, (m) => m.replace(/[, ]/g, ""));
+  // Split on commas, semicolons and spaces, keeping a mixed number such as "6 1/2" whole.
+  const pieces = s.split(/[,;]/).flatMap((chunk) => chunk.match(/-?\d+ \d+\s*\/\s*\d+|\S+/g) ?? []);
   const out: number[] = [];
   for (const p of pieces) {
-    if (/^[a-z°%²³]+$/i.test(p)) continue; // stray unit words
+    if (/^[a-z°%]+$/i.test(p) || UNIT_TAIL.test(p)) continue; // stray unit words: cm, cm^2, km/h
     const n = parseNumberAnswer(p);
     if (!n) return null;
     out.push(n.value);
@@ -350,6 +366,80 @@ export function hasGroup(e: Expr): boolean {
 function isSumLike(e: Expr): boolean {
   if (e.t === "group") return isSumLike(e.a);
   return e.t === "add" || e.t === "sub";
+}
+
+type Factor = { f: Expr; under: boolean };
+
+/** What one term multiplies (or divides, `under`): 2a³ × 5a⁴ / a² → 2, a³, 5, a⁴, a² (under). */
+function termFactors(e: Expr, under = false, out: Factor[] = []): Factor[] {
+  if (e.t === "neg" || (e.t === "group" && !isSumLike(e.a))) return termFactors(e.a, under, out);
+  if (e.t === "mul" || e.t === "div") {
+    termFactors(e.a, under, out);
+    return termFactors(e.b, e.t === "div" ? !under : under, out);
+  }
+  out.push({ f: e, under });
+  return out;
+}
+
+/** The letter a factor is a power of (π counts as a letter), or null. */
+function letterOf(f: Expr): string | null {
+  const b = f.t === "pow" ? f.a : f;
+  if (b.t === "var") return b.name;
+  return b.t === "num" && b.v === Math.PI ? "π" : null;
+}
+
+const isNumberFactor = (f: Expr) => letterOf(f) === null && (f.t === "num" || (f.t === "pow" && f.a.t === "num"));
+
+/**
+ * Two numbers on top (or underneath), the same letter twice, or a number fraction that still
+ * cancels: 4 × 3x, 10a⁷/a², 3m⁴ × 3m⁴, 12x/4, 6x/10.
+ */
+function isUncombined(term: Expr): boolean {
+  const fs = termFactors(term);
+  const numbers = (under: boolean) => fs.filter((x) => x.under === under && isNumberFactor(x.f)).map((x) => evalExpr(x.f, {}));
+  const top = numbers(false), bottom = numbers(true);
+  const letters = fs.map((x) => letterOf(x.f)).filter((l) => l !== null);
+  const cancels = top.length === 1 && bottom.length === 1 &&
+    (!Number.isInteger(top[0]) || !Number.isInteger(bottom[0]) || gcd(top[0], bottom[0]) > 1);
+  return top.length > 1 || bottom.length > 1 || cancels || new Set(letters).size < letters.length;
+}
+
+/**
+ * True if some term still multiplies or divides things a learner should have combined:
+ * 2a³ × 5a⁴ / a², p¹² ÷ p⁵, 4 × 3x − 4 × 2. A number fraction as a coefficient (3/5 x, x/2)
+ * and anything inside a bracketed sum are left alone.
+ */
+export function hasUncombinedTerm(e: Expr): boolean {
+  if (e.t === "add" || e.t === "sub") return hasUncombinedTerm(e.a) || hasUncombinedTerm(e.b);
+  if (e.t === "group" && isSumLike(e.a)) return hasUncombinedTerm(e.a);
+  return isUncombined(e);
+}
+
+/** One clean term such as 7x or 8x²: a product of at most one number and distinct letters. */
+function isCleanMonomial(e: Expr): boolean {
+  const plainPower = (f: Expr) => f.t !== "pow" || f.b.t === "num" || (f.b.t === "neg" && f.b.a.t === "num");
+  return termFactors(e).every((x) => !x.under && (x.f.t === "num" || (letterOf(x.f) !== null && plainPower(x.f)))) && !isUncombined(e);
+}
+
+function isNumberFraction(e: Expr): boolean {
+  if (e.t === "neg") return isNumberFraction(e.a);
+  return e.t === "div" && e.a.t === "num" && e.b.t === "num";
+}
+
+/**
+ * Like hasGroup, but ignores harmless brackets: around one clean term on the top or bottom
+ * of a fraction, (7x)/10, and around a number fraction used as a coefficient, (7/10)x.
+ */
+export function hasLooseGroup(e: Expr): boolean {
+  const bare = (x: Expr): Expr => (x.t === "neg" ? bare(x.a) : x);
+  switch (e.t) {
+    case "group": return true;
+    case "num": case "var": return false;
+    case "neg": case "fn": return hasLooseGroup(e.a);
+    case "div": return [e.a, e.b].some((x) => { const b = bare(x); return !(b.t === "group" && isCleanMonomial(b.a)) && hasLooseGroup(x); });
+    case "mul": return [e.a, e.b].some((x) => { const b = bare(x); return !(b.t === "group" && isNumberFraction(b.a)) && hasLooseGroup(x); });
+    default: return hasLooseGroup(e.a) || hasLooseGroup(e.b);
+  }
 }
 
 /** A product with at least one bracketed sum factor, e.g. 3(x+2), (x+1)(x−4), (x+3)^2. */

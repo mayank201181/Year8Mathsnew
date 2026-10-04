@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { currentAccount } from "@/lib/server/auth";
-import { throttle } from "@/lib/server/ratelimit";
+import { throttle, takeDailyAllowance } from "@/lib/server/ratelimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,6 +10,14 @@ export const maxDuration = 60;
 const DEFAULT_MODEL = "claude-opus-5-5";
 /** Models that accept the server-side refusal fallback ("default" form). */
 const FALLBACK_MODELS = new Set(["claude-fable-5-1", "claude-opus-5-5", "claude-opus-5", "claude-sonnet-5-5"]);
+
+// Daily caps (UTC days, shared across server instances) so the AI key's cost stays bounded
+// however many accounts are signed up: one per family, and one for the whole site.
+const RESTING = "Professor Pi needs a rest — try again tomorrow.";
+function dailyLimit(name: string, fallback: number): number {
+  const n = Math.floor(Number(process.env[name]));
+  return Number.isFinite(n) && n > 0 ? n : fallback;
+}
 
 // Static (cacheable) system prompt — never interpolate per-request data here.
 const SYSTEM = `You are Professor Pi, a warm, patient maths tutor inside a Year 8 (age 12-13) maths practice app used by a learner in Singapore (UK-style Year 8 curriculum: Cambridge Lower Secondary Stage 8 / KS3).
@@ -64,6 +72,15 @@ export async function POST(req: Request) {
   const turns = cleanTurns(body.messages);
   if (!turns.length || turns[turns.length - 1].role !== "user") return NextResponse.json({ error: "Ask a question first." }, { status: 400 });
   const context = typeof body.context === "string" ? body.context.slice(0, 4000) : "";
+
+  try {
+    const allowed =
+      (await takeDailyAllowance(`ai-${account.id}`, dailyLimit("AI_ACCOUNT_DAILY_LIMIT", 100))) && (await takeDailyAllowance("ai-site", dailyLimit("AI_DAILY_LIMIT", 300)));
+    if (!allowed) return NextResponse.json({ error: RESTING }, { status: 429 });
+  } catch {
+    // Can't count it, so don't spend on it.
+    return NextResponse.json({ error: "Professor Pi couldn't answer just now. Please try again." }, { status: 503 });
+  }
 
   // Per-request context goes in the first user turn (after the cached system prompt).
   const messages: Anthropic.Beta.BetaMessageParam[] = turns.map((t, i) => ({

@@ -18,6 +18,8 @@ export interface PaperRunnerProps {
   /** Exam: suggested minutes (shows a countdown; time-up finishes the paper). */
   minutes?: number;
   onExit?: () => void;
+  /** Label for the in-paper exit button (default "Save & exit"). */
+  exitLabel?: string;
   /** Topic titles for the exam breakdown. */
   topicTitles?: Record<string, string>;
 }
@@ -56,6 +58,7 @@ export function PaperRunner(props: PaperRunnerProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const exam = mode === "exam";
+  const retryKey = `${attemptKey}:retry`;
   const total = questions.length;
   const q = questions[Math.min(state.index, total - 1)];
   const answeredCount = exam ? questions.filter((x) => state.answers[x.id] !== undefined && state.answers[x.id] !== "").length : questions.filter((x) => state.results[x.id]).length;
@@ -74,9 +77,12 @@ export function PaperRunner(props: PaperRunnerProps) {
 
   function onDone(question: Question, o: QuestionOutcome) {
     const cur = stateRef.current;
+    // One mark and one record per question per attempt.
+    if (cur.results[question.id]) return;
     const results = { ...cur.results, [question.id]: { r: o.score, h: o.hints, t: o.tries, ...(o.solutionShown ? { s: 1 as const } : {}) } };
     const answers = { ...cur.answers, [question.id]: o.answer };
-    const completed = !exam && questions.every((x) => results[x.id]);
+    // An exam only finishes through finishExam; self-marking a written answer afterwards must not reopen it.
+    const completed = exam ? cur.completed : questions.every((x) => results[x.id]);
     persist({ ...cur, results, answers, completed });
     store.recordAnswer({
       qid: question.id,
@@ -101,6 +107,7 @@ export function PaperRunner(props: PaperRunnerProps) {
 
   function finishExam() {
     const cur = stateRef.current;
+    if (cur.completed) return; // a stray timer tick or double click must not mark (and record) it twice
     const results: Record<string, QResult> = { ...cur.results };
     for (const x of questions) {
       const a = cur.answers[x.id];
@@ -145,12 +152,13 @@ export function PaperRunner(props: PaperRunnerProps) {
   if (retry) {
     return (
       <PaperRunner
-        attemptKey={`${attemptKey}:retry`}
+        attemptKey={retryKey}
         title={`${title} — retry`}
         questions={retry}
         topicId={topicId}
+        exitLabel="Back to results"
         onExit={() => {
-          store.clearAttempt(`${attemptKey}:retry`);
+          store.clearAttempt(retryKey);
           setRetry(null);
         }}
       />
@@ -180,7 +188,15 @@ export function PaperRunner(props: PaperRunnerProps) {
               {exam ? "Review & mark answers" : "Review my answers"}
             </button>
             {missed.length && !exam ? (
-              <button type="button" className="btn btn-primary" onClick={() => setRetry(missed)}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  // Each retry is a fresh run: never resume (or show the summary of) an old one.
+                  store.clearAttempt(retryKey);
+                  setRetry(missed);
+                }}
+              >
                 Retry the {missed.length} I missed
               </button>
             ) : null}
@@ -189,6 +205,7 @@ export function PaperRunner(props: PaperRunnerProps) {
               className="btn btn-ghost"
               onClick={() => {
                 store.clearAttempt(attemptKey);
+                store.clearAttempt(retryKey);
                 setViewResults(false);
                 const fresh: AttemptState = { index: 0, answers: {}, results: {}, completed: false, updatedAt: Date.now(), ...(exam ? { startedAt: Date.now() } : {}) };
                 stateRef.current = fresh;
@@ -286,7 +303,7 @@ export function PaperRunner(props: PaperRunnerProps) {
           ) : null}
           {onExit ? (
             <button type="button" className="btn btn-ghost btn-sm" onClick={onExit}>
-              Save & exit
+              {props.exitLabel ?? "Save & exit"}
             </button>
           ) : null}
         </div>

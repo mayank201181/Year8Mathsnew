@@ -219,6 +219,7 @@ function McqBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextLab
   const [hints, setHints] = useState(restored?.outcome?.hints ?? 0);
   const wait = useHintGate(0);
   const exam = mode === "exam";
+  const groupRef = useRef<HTMLDivElement>(null);
 
   function check() {
     if (picked === null || done) return;
@@ -228,14 +229,27 @@ function McqBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextLab
     onDone?.(o);
   }
 
+  // Keys 1–4 pick an option (and focus it); Enter checks the pick.
   useEffect(() => {
     if (done || exam) return;
     const onKey = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement)?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+      const el = e.target instanceof Element ? e.target : null;
+      if (el && (el.closest("input, textarea, select") || (el as HTMLElement).isContentEditable)) return;
       const n = Number(e.key);
-      if (n >= 1 && n <= 4) setPicked(order[n - 1]);
-      if (e.key === "Enter" && picked !== null) check();
+      if (Number.isInteger(n) && n >= 1 && n <= order.length) {
+        setPicked(order[n - 1]);
+        groupRef.current?.querySelectorAll<HTMLElement>('[role="radio"]')[n - 1]?.focus();
+        return;
+      }
+      if (e.key !== "Enter" || picked === null) return;
+      // A focused button or link (Check, a hint, another option, page navigation) handles its own Enter;
+      // only the picked option itself, or no control at all, means "check my pick".
+      const control = el?.closest("button, a, summary");
+      if (control && !(groupRef.current?.contains(control) && control.getAttribute("aria-checked") === "true")) return;
+      // Cancel the key: otherwise its keypress clicks the Next button that check() reveals and focuses.
+      e.preventDefault();
+      check();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -243,7 +257,7 @@ function McqBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextLab
 
   return (
     <div>
-      <div className="grid gap-2" role="radiogroup" aria-label="Options">
+      <div ref={groupRef} className="grid gap-2" role="radiogroup" aria-label="Options">
         {order.map((oi, pos) => {
           const isPicked = picked === oi;
           const isAnswer = oi === q.answerIndex;
@@ -329,7 +343,7 @@ function ShortBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextL
       finish({ score: 0, correct: false, hints, tries: nTries, solutionShown: true, answer: value, slip: thisSlip });
       setMsg({ status: "incorrect", text: r.feedback });
     } else {
-      setMsg({ status: "incorrect", text: r.feedback ?? "Not quite. Check your working and have another go — or take a hint." });
+      setMsg({ status: "incorrect", text: r.feedback });
     }
   }
 
@@ -359,7 +373,7 @@ function ShortBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextL
               aria-live="polite"
             >
               {msg.status === "incorrect" ? <strong>Not quite. </strong> : msg.status === "close" ? <strong>Almost! </strong> : null}
-              {msg.text}
+              {msg.text ?? (msg.status === "incorrect" ? "Check your working and have another go — or take a hint." : null)}
               {msg.status === "incorrect" && tries < MAX_TRIES ? <span className="block text-ink-2">You have one more try.</span> : null}
             </div>
           ) : null}
@@ -378,7 +392,8 @@ function ShortBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextL
       ) : null}
       {!exam && done ? (
         <Verdict status={done.correct ? "correct" : "incorrect"}>
-          {!done.correct && msg?.text ? <p className="font-semibold">{msg.text}</p> : null}
+          {/* Only specific feedback on the last wrong answer (a trap or checker hint) — never a "try again" prompt. */}
+          {!done.correct && msg?.status === "incorrect" && msg.text ? <p className="font-semibold">{msg.text}</p> : null}
           <p>
             <span className="font-bold">Answer: </span>
             <RichInline text={displayAnswer(q.answer)} />
@@ -409,12 +424,14 @@ export function suggestMarks(q: WrittenQ, text: string): boolean[] {
 function WrittenBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextLabel }: QuestionCardProps & { q: WrittenQ }) {
   const [value, setValue] = useState(typeof restored?.answer === "string" ? restored.answer : "");
   const [phase, setPhase] = useState<"answer" | "mark" | "done">(restored?.outcome ? "done" : "answer");
-  const [marks, setMarks] = useState<boolean[]>(() => q.markScheme.map(() => false));
+  // A saved score doesn't record which points were ticked, so a restored answer has no ticks (null).
+  const [marks, setMarks] = useState<boolean[] | null>(() => (restored?.outcome ? null : q.markScheme.map(() => false)));
   const [hints, setHints] = useState(restored?.outcome?.hints ?? 0);
   const [result, setResult] = useState<QuestionOutcome | null>(restored?.outcome ?? null);
   const wait = useHintGate(0);
   const exam = mode === "exam";
   const enough = value.trim().length >= 3;
+  const ticked = marks ? marks.filter(Boolean).length : 0;
 
   if (exam) {
     return (
@@ -465,42 +482,54 @@ function WrittenBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nex
             <div className="font-bold">Model answer</div>
             <Rich text={q.modelAnswer} />
           </div>
-          <fieldset>
-            <legend className="font-bold">Mark it honestly — tick each point your answer made</legend>
-            <ul className="mt-2 space-y-2">
-              {q.markScheme.map((p, i) => (
-                <li key={i}>
-                  <label className="flex cursor-pointer items-start gap-2">
-                    <input
-                      type="checkbox"
-                      className="mt-1 h-5 w-5 accent-[var(--brand)]"
-                      checked={marks[i]}
-                      disabled={phase === "done"}
-                      onChange={(e) => setMarks((m) => m.map((x, j) => (j === i ? e.target.checked : x)))}
-                    />
-                    <span>
-                      <RichInline text={p.point} />
-                    </span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-            {phase === "mark" ? <p className="mt-2 text-xs text-ink-2">Ticks are suggested from words in your answer — change them if they&apos;re not fair.</p> : null}
-          </fieldset>
+          {marks ? (
+            <fieldset>
+              <legend className="font-bold">Mark it honestly — tick each point your answer made</legend>
+              <ul className="mt-2 space-y-2">
+                {q.markScheme.map((p, i) => (
+                  <li key={i}>
+                    <label className="flex cursor-pointer items-start gap-2">
+                      <input
+                        type="checkbox"
+                        className="mt-1 h-5 w-5 accent-[var(--brand)]"
+                        checked={marks[i]}
+                        disabled={phase === "done"}
+                        onChange={(e) => setMarks((m) => (m ? m.map((x, j) => (j === i ? e.target.checked : x)) : m))}
+                      />
+                      <span>
+                        <RichInline text={p.point} />
+                      </span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+              {phase === "mark" ? <p className="mt-2 text-xs text-ink-2">Ticks are suggested from words in your answer — change them if they&apos;re not fair.</p> : null}
+            </fieldset>
+          ) : (
+            <div>
+              <div className="font-bold">Mark scheme</div>
+              <ul className="rich-ul mt-1">
+                {q.markScheme.map((p, i) => (
+                  <li key={i}>
+                    <RichInline text={p.point} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {phase === "mark" ? (
             <button
               type="button"
               className="btn btn-primary"
               onClick={() => {
-                const got = marks.filter(Boolean).length;
-                const score = q.marks ? got / q.marks : 0;
+                const score = q.marks ? ticked / q.marks : 0;
                 const o: QuestionOutcome = { score, correct: score >= 1, hints, tries: 1, solutionShown: false, answer: value };
                 setResult(o);
                 setPhase("done");
                 onDone?.(o);
               }}
             >
-              Save my marks ({marks.filter(Boolean).length}/{q.marks})
+              Save my marks ({ticked}/{q.marks})
             </button>
           ) : null}
         </div>

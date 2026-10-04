@@ -2,11 +2,12 @@
 // Typed-answer box with a maths keypad and a live "we read this as" preview.
 import { useId, useRef } from "react";
 import type { AnswerSpec } from "@/lib/types";
-import { toMathML } from "@/lib/mathml";
+import { typedToMathML } from "@/lib/mathml";
 import { normalizeInput } from "@/lib/mathParse";
 
+// No π for number answers: they want the decimal value (exact "in terms of π" answers are expressions).
 const KEYS_BY_TYPE: Record<AnswerSpec["type"], string[]> = {
-  number: ["−", "/", ".", "×10^", "π"],
+  number: ["−", "/", ".", "×10^"],
   fraction: ["−", "/", "␣"],
   list: [",", "−", "/", "(", ")"],
   ratio: [":", "/", "."],
@@ -23,12 +24,9 @@ const PLACEHOLDER: Record<AnswerSpec["type"], string> = {
   text: "Type your answer",
 };
 
-/** Convert typed input into display maths for the preview. */
-function previewMarkup(raw: string): string {
-  const s = normalizeInput(raw)
-    .replace(/\bsqrt\s*\(/g, "sqrt(")
-    .replace(/\*/g, " * ");
-  return toMathML(s);
+/** Convert typed input into display maths for the preview, read the way the marker reads it. */
+function previewMarkup(raw: string, type: AnswerSpec["type"]): string {
+  return typedToMathML(normalizeInput(raw), type === "expression");
 }
 
 export function AnswerInput({
@@ -105,7 +103,7 @@ export function AnswerInput({
       ) : null}
       {showPreview ? (
         <div className="text-sm text-ink-2" aria-live="polite">
-          We read this as: <span className="math align-middle text-ink" dangerouslySetInnerHTML={{ __html: previewMarkup(value) }} />
+          We read this as: <span className="math align-middle text-ink" dangerouslySetInnerHTML={{ __html: previewMarkup(value, type) }} />
         </div>
       ) : null}
     </div>

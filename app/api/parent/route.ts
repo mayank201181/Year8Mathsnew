@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
-import { checkPin, currentAccount, saveAccount } from "@/lib/server/auth";
+import { checkPin, currentAccount, updateAccount } from "@/lib/server/auth";
 import { getProgress } from "@/lib/server/progress";
 import { TOPIC_META } from "@/lib/topics/meta";
+import type { Profile } from "@/lib/profileTypes";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const TOPIC_IDS = new Set(TOPIC_META.map((t) => t.id));
+
+function newSettings(prof: Profile, body: { focusTopics?: unknown; goalMinutes?: unknown }): Profile["settings"] {
+  const focus = Array.isArray(body.focusTopics) ? body.focusTopics.filter((t: unknown): t is string => typeof t === "string" && TOPIC_IDS.has(t)).slice(0, 6) : prof.settings?.focusTopics ?? [];
+  const goal = typeof body.goalMinutes === "number" && Number.isFinite(body.goalMinutes) ? Math.max(5, Math.min(60, Math.round(body.goalMinutes))) : prof.settings?.goalMinutes;
+  return { ...prof.settings, focusTopics: focus, ...(goal ? { goalMinutes: goal } : {}) };
+}
 
 /**
  * POST { pin, action?: "verify" | "load" | "settings", profileId?, focusTopics?, goalMinutes? }
@@ -21,17 +28,20 @@ export async function POST(req: Request) {
   if (action === "verify") return NextResponse.json({ ok: true });
 
   if (action === "settings") {
-    const prof = account.profiles.find((p) => p.id === body.profileId);
-    if (!prof) return NextResponse.json({ error: "Learner not found." }, { status: 404 });
-    const focus = Array.isArray(body.focusTopics) ? body.focusTopics.filter((t: unknown): t is string => typeof t === "string" && TOPIC_IDS.has(t)).slice(0, 6) : prof.settings?.focusTopics ?? [];
-    const goal = typeof body.goalMinutes === "number" && Number.isFinite(body.goalMinutes) ? Math.max(5, Math.min(60, Math.round(body.goalMinutes))) : prof.settings?.goalMinutes;
-    prof.settings = { ...prof.settings, focusTopics: focus, ...(goal ? { goalMinutes: goal } : {}) };
+    let result;
     try {
-      await saveAccount(account);
+      // Applied to a fresh copy of the account, not the one loaded before the PIN check, so a
+      // learner added or renamed meanwhile on another device isn't reverted or dropped.
+      result = await updateAccount(account.id, (acc) =>
+        acc.profiles.some((p) => p.id === body.profileId)
+          ? { ...acc, profiles: acc.profiles.map((p) => (p.id === body.profileId ? { ...p, settings: newSettings(p, body) } : p)) }
+          : null,
+      );
     } catch {
       return NextResponse.json({ error: "Couldn't save. Please try again." }, { status: 503 });
     }
-    return NextResponse.json({ ok: true, account });
+    if (!result.changed) return NextResponse.json({ error: "Learner not found." }, { status: 404 });
+    return NextResponse.json({ ok: true, account: result.account });
   }
 
   try {

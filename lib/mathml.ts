@@ -239,6 +239,23 @@ class P {
   }
 }
 
+/**
+ * Preview a learner's typed answer (already passed through normalizeInput).
+ * The marker (parseExpr in lib/mathParse.ts) divides by the single factor straight
+ * after a "/", so "A/2h" is (A/2)·h and "1/2x" is ½x. Content markup glues 2h or bh
+ * into one term, which would show A over 2h — the opposite of how the answer is
+ * marked — so split that first factor off before rendering.
+ *
+ * Only `algebra` answers (type "expression") are marked by parseExpr. Number, list and
+ * ratio answers read the letters after a "/" as one unit (60 km/hr, £3.50/kg, 2.7 g/cm³),
+ * so those previews keep the content grouping.
+ */
+export function typedToMathML(normalized: string, algebra = true): string {
+  let s = normalized.replace(/\bsqrt\s*\(/g, "sqrt(").replace(/\*/g, " * ");
+  if (algebra) s = s.replace(/\/\s*(?!sqrt|cbrt)(\d+(?:\.\d+)?|\.\d+|pi|(?!pi)[a-z])(?=[a-z])/gi, "/$1 ");
+  return toMathML(s);
+}
+
 /** Convert maths markup (the inside of {{ }}) to a MathML string. */
 export function toMathML(src: string): string {
   try {

@@ -612,28 +612,6 @@ function DangerZone() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setMsg(null);
-    if (cloud) {
-      setBusy(true);
-      let error: string | null = null;
-      try {
-        const r = await fetch("/api/parent", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pin, action: "verify" }),
-          cache: "no-store",
-        });
-        const j = (await r.json().catch(() => ({}))) as { error?: unknown };
-        if (!r.ok) error = typeof j.error === "string" ? j.error : "That PIN couldn't be checked. Please try again.";
-      } catch {
-        error = "Couldn't reach the server. Check your internet connection and try again.";
-      }
-      setBusy(false);
-      if (error) {
-        setMsg({ ok: false, text: error });
-        return;
-      }
-      setPin("");
-    }
     const ok = window.confirm(
       `Reset ${who} progress? Stars, skills, lessons read, goals and history will all be cleared. This can't be undone.`,
     );
@@ -641,7 +619,15 @@ function DangerZone() {
       setMsg({ ok: true, text: "Nothing was changed." });
       return;
     }
-    resetAll();
+    // In cloud mode the server checks the PIN before it replaces the saved progress.
+    setBusy(true);
+    const r = await resetAll(cloud ? pin : undefined);
+    setBusy(false);
+    if (!r.ok) {
+      setMsg({ ok: false, text: r.error ?? "Progress couldn't be reset. Please try again." });
+      return;
+    }
+    setPin("");
     setMsg({ ok: true, text: "Progress reset — a fresh start." });
   }
 

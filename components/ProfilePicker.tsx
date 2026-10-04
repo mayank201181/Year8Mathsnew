@@ -7,7 +7,7 @@ import { useStore } from "@/lib/store";
 const AVATARS = ["🦊", "🐼", "🦉", "🐯", "🐬", "🦄", "🐙", "🦁", "🐧", "🐢", "🦋", "🐝", "🌟", "🚀", "🎧", "🎨"];
 
 export function ProfilePicker() {
-  const { account, selectProfile, createProfile, updateProfile, deleteProfile, guestHasProgress, logout } = useStore();
+  const { account, selectProfile, createProfile, importGuest: importGuestInto, updateProfile, deleteProfile, guestHasProgress, logout } = useStore();
   const [adding, setAdding] = useState(account?.profiles.length === 0);
   const [editing, setEditing] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -17,15 +17,17 @@ export function ProfilePicker() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   if (!account) return null;
-  const hasGuest = account.profiles.length === 0 && guestHasProgress();
+  // Progress made in guest mode on this device (kept until it has been copied to a learner).
+  const guestProgress = guestHasProgress();
+  const hasGuest = account.profiles.length === 0 && guestProgress;
 
-  async function run(f: () => Promise<{ ok: boolean; error?: string }>, after?: () => void) {
+  async function run<R extends { ok: boolean; error?: string }>(f: () => Promise<R>, after?: (r: R) => void) {
     setBusy(true);
     setError(null);
     const r = await f();
     setBusy(false);
     if (!r.ok) setError(r.error ?? "Something went wrong.");
-    else after?.();
+    else after?.(r);
   }
 
   const form = (mode: "add" | "edit", id?: string) => (
@@ -33,7 +35,18 @@ export function ProfilePicker() {
       className="card mt-4 space-y-4 p-5 text-left"
       onSubmit={(e) => {
         e.preventDefault();
-        if (mode === "add") void run(() => createProfile(name, avatar, hasGuest && importGuest));
+        if (mode === "add") {
+          void run(
+            () => createProfile(name, avatar, hasGuest && importGuest),
+            (r) => {
+              // Added, but the guest progress didn't come across: say so and offer it again below.
+              if (r.importError) {
+                setAdding(false);
+                setError(r.importError);
+              }
+            },
+          );
+        }
         else if (id) void run(() => updateProfile(id, name, avatar), () => setEditing(null));
       }}
     >
@@ -122,6 +135,24 @@ export function ProfilePicker() {
               </button>
             ) : null}
           </div>
+          {guestProgress && account.profiles.length > 0 ? (
+            <div className="card mt-6 p-4 text-left">
+              <h2 className="font-extrabold">Progress from guest mode</h2>
+              <p className="mt-1 text-sm text-ink-2">This device has stars and answers saved as a guest. Bring them across to:</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {account.profiles.map((p) => (
+                  <button key={p.id} type="button" className="btn btn-secondary btn-sm" disabled={busy} onClick={() => void run(() => importGuestInto(p.id))}>
+                    <span aria-hidden>{p.avatar}</span> {p.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          {error ? (
+            <p className="mt-4 rounded-xl bg-bad-soft px-3 py-2 text-sm" role="alert">
+              {error}
+            </p>
+          ) : null}
           <div className="mt-8 flex flex-wrap justify-center gap-2 text-sm">
             <Link href="/parent" className="btn btn-ghost btn-sm">
               👪 Parent dashboard
