@@ -9,7 +9,7 @@ import type { IndexedQuestion, QuestionSource } from "@/lib/types";
 import type { Drill } from "@/lib/drills/types";
 import { ALL_DRILLS, drillById, freshSeed } from "@/lib/drills";
 import { DAILY_REASONS, generateDrillItem, isDailyDone, itemKey, pickDaily, swapForDrill, type DailyInput, type DailyItem } from "@/lib/daily";
-import { lastNDays, localISO, todayISO } from "@/lib/dates";
+import { localISO, todayISO } from "@/lib/dates";
 import { isRusty, skillDue, skillLevel, topicOfQid } from "@/lib/learning";
 import { useStore } from "@/lib/store";
 import { DrillItemCard, type DrillOutcome } from "./DrillItemCard";
@@ -139,9 +139,17 @@ function parseISO(iso: string): Date {
   return new Date(y, (m || 1) - 1, d || 1);
 }
 
+/** The 7 local dates ending on `today`, oldest first (from the session's date, not the clock). */
+function weekEnding(today: string): string[] {
+  const end = parseISO(today);
+  const out: string[] = [];
+  for (let i = 6; i >= 0; i--) out.push(localISO(new Date(end.getFullYear(), end.getMonth(), end.getDate() - i)));
+  return out;
+}
+
 /** Last 7 days of Daily 5 completions. */
 export function WeekStrip({ daily, today }: { daily: Record<string, { correct: number; total: number; done: boolean }>; today: string }) {
-  const days = lastNDays(7);
+  const days = weekEnding(today);
   const doneCount = days.filter((d) => daily[d]?.done).length;
   return (
     <div className="mt-5">
@@ -303,8 +311,12 @@ function DailySession({ summaries, profileKey, today }: { summaries: TopicInfo[]
     const restored = typeof window !== "undefined" ? loadSession(storageKey) : null;
     const doneToday = isDailyDone(store.data, today);
     if (restored?.set) {
+      // A started set (or a "Practise more" set, whose seed was random) is kept as it was.
       const untouchedDaily = restored.set.kind === "daily" && !restored.set.finished && restored.set.results.every((r) => !r);
-      if (!(untouchedDaily && doneToday)) return restored;
+      if (!untouchedDaily) return restored;
+      // Nothing answered yet: rebuild from today's data (same set unless progress changed,
+      // e.g. a Review in between already covered some of its questions).
+      if (!doneToday) return { phase: restored.phase === "run" ? "run" : "intro", set: newSet("daily", "daily", pickDaily(makeInput())) };
     }
     if (doneToday) return { phase: "doneToday", set: null };
     return { phase: "intro", set: newSet("daily", "daily", pickDaily(makeInput())) };
@@ -384,10 +396,25 @@ function DailySession({ summaries, profileKey, today }: { summaries: TopicInfo[]
   }
 
   // ------------------------------------------------------------- actions
+  /**
+   * Store one item's result. The moment the last item of today's set is answered,
+   * the Daily 5 is recorded (exactly once) — even if the learner never presses
+   * "See my results" (closes the tab, loses signal, wanders off).
+   */
   function record(index: number, r: ItemResult) {
+    if (!set || set.results[index]) return;
+    const results = set.results.map((x, i) => (i === index ? r : x));
+    let { finished, bonus } = set;
+    if (set.kind === "daily" && !finished && results.every(Boolean)) {
+      finished = true;
+      if (!isDailyDone(store.data, today)) bonus = store.finishDaily(results.filter((x) => x?.correct).length, results.length);
+    }
     setSession((prev) => {
-      if (!prev.set || prev.set.results[index]) return prev;
-      return { ...prev, set: { ...prev.set, results: prev.set.results.map((x, i) => (i === index ? r : x)) } };
+      if (!prev.set || prev.set.id !== set.id || prev.set.results[index]) return prev;
+      return {
+        ...prev,
+        set: { ...prev.set, results: prev.set.results.map((x, i) => (i === index ? r : x)), finished: prev.set.finished || finished, bonus: Math.max(prev.set.bonus, bonus) },
+      };
     });
   }
 

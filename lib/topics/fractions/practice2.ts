@@ -808,6 +808,7 @@ export const morePapers: Paper[] = [
             spec: { type: "list", values: [5 / 12, 1 / 12], ordered: true },
             feedback: "The magic total isn't 1. Work it out from the complete row: {{1/6 + 7/12 + 1/2 = 15/12}}.",
           },
+          { spec: { type: "list", values: [1 / 3, 2 / 3], ordered: true }, feedback: "Right values, wrong order — type A (bottom right) first, then B (bottom left)." },
         ],
         commonError: "Assuming each line adds up to 1 instead of finding the total from the complete row.",
         difficulty: "core",

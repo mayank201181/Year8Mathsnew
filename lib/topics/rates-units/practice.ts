@@ -37,7 +37,7 @@ export const practice: TopicPractice = {
       question: "Write 12:25 am (25 minutes after midnight) using the 24-hour clock.",
       answer: {
         type: "text",
-        accept: ["00:25", "0025", "00.25", "00:25hrs", "0025hrs", "00h25"],
+        accept: ["00:25", "0025", "00.25", "0:25", "00:25hrs", "0025hrs", "00h25"],
         display: "00:25",
       },
       solution: [
@@ -1630,6 +1630,10 @@ export const practice: TopicPractice = {
         {
           spec: { type: "text", accept: ["17:57", "1757", "17.57", "17:58", "1758", "17.58", "17:57:30"] },
           feedback: "Adding 5 minutes for each hour shown on the watch undercounts: the watch loses 5 minutes per *real* hour, and more than 5.5 real hours have passed. How many real minutes match 330 watch-minutes?",
+        },
+        {
+          spec: { type: "text", accept: ["6pm", "6:00pm", "6.00pm", "6 pm", "6:00 pm"] },
+          feedback: "Right time! Now write it using the 24-hour clock.",
         },
       ],
       difficulty: "challenge",
