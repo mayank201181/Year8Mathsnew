@@ -140,7 +140,8 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
   function openSetup(paper: ExamPaper, restart: boolean) {
     const a = data.attempts[attemptKey(paper)];
     const resuming = !restart && !!a && !a.completed;
-    const minutesLeft = resuming && a?.startedAt ? Math.floor((a.startedAt + paper.minutes * 60000 - Date.now()) / 60000) : null;
+    // A resumed attempt keeps its original clock (PaperRunner counts from startedAt).
+    const minutesLeft = !resuming ? null : a?.startedAt ? Math.floor((a.startedAt + paper.minutes * 60000 - Date.now()) / 60000) : 0;
     setUseTimer(false);
     setSetup({ paperId: paper.id, restart, minutesLeft });
   }
@@ -198,7 +199,7 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
     <div className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-2xl font-black tracking-tight sm:text-3xl">The Big Exam</h1>
-        <p className="max-w-2xl text-ink-2">The Big Exam — mixed questions from every topic, marked at the end like a real paper.</p>
+        <p className="max-w-2xl text-ink-2">Mixed questions from every topic, marked at the end like a real paper.</p>
         {papers.length && done.length ? (
           <p className="text-sm font-bold text-ink-2">
             {done.length} of {papers.length} paper{papers.length === 1 ? "" : "s"} completed
@@ -264,7 +265,7 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
               const timerAvailable = open ? open.minutesLeft === null || open.minutesLeft >= 1 : false;
               const headingId = `${uid}-paper-${i}`;
               return (
-                <li key={paper.id} className="card p-4 sm:p-5" aria-labelledby={headingId}>
+                <li key={paper.id} className="card p-4 sm:p-5">
                   <div className="flex items-start gap-3">
                     <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-lg font-black text-brand sm:flex" aria-hidden>
                       {i + 1}
@@ -314,7 +315,7 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
                                   ? `${paper.minutes} minutes on the clock, like the real thing. The clock keeps running if you leave, and the paper is marked automatically when time is up.`
                                   : open.minutesLeft >= 1
                                     ? `About ${open.minutesLeft} minute${open.minutesLeft === 1 ? "" : "s"} left on this attempt's clock. The paper is marked automatically when time is up.`
-                                    : `The ${paper.minutes} minutes for this attempt have passed, so carry on without the clock.`}
+                                    : "The clock for this attempt has already run out, so carry on without it."}
                               </p>
                             </div>
                             <Switch checked={useTimer && timerAvailable} onChange={setUseTimer} disabled={!timerAvailable} labelledBy={`${headingId}-timer`} describedBy={`${headingId}-timer-desc`} />

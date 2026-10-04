@@ -22,6 +22,7 @@ function norm(s: string): string {
 interface Indexed {
   summary: TopicSummary;
   haystack: string;
+  titleKey: string;
   sections: { id: string; heading: string; stretch: boolean; key: string }[];
 }
 
@@ -84,6 +85,7 @@ export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
       summaries.map((s) => ({
         summary: s,
         haystack: norm([s.title, s.summary, s.strand, ...s.sections.map((x) => x.heading)].join(" | ")),
+        titleKey: norm(s.title),
         sections: s.sections.map((x) => ({ ...x, key: norm(x.heading) })),
       })),
     [summaries],
@@ -102,7 +104,7 @@ export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
     for (const it of index) {
       if (strand !== ALL && it.summary.strand !== strand) continue;
       if (terms.length && !terms.every((t) => it.haystack.includes(t))) continue;
-      const titleHit = terms.length > 0 && terms.every((t) => norm(it.summary.title).includes(t));
+      const titleHit = terms.length > 0 && terms.every((t) => it.titleKey.includes(t));
       const sections = terms.length && !titleHit ? it.sections.filter((x) => terms.every((t) => x.key.includes(t))).slice(0, 3) : [];
       out.push({ summary: it.summary, sections });
     }

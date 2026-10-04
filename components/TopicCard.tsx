@@ -99,6 +99,17 @@ export function masteryLabel(m: TopicMastery): string {
   return parts.join(" · ");
 }
 
+/** Screen-reader wording of the same label: "42% mastered, 3 of 7 lessons, 2 skills secure". */
+export function masterySpoken(m: TopicMastery): string {
+  const parts = [`${m.pct}% mastered`];
+  if (m.sectionsTotal > 0) parts.push(`${m.sectionsRead} of ${m.sectionsTotal} lessons`);
+  if (m.skills.total > 0) {
+    const secure = m.skills.secure + m.skills.mastered;
+    parts.push(`${secure} skill${secure === 1 ? "" : "s"} secure`);
+  }
+  return parts.join(", ");
+}
+
 /** Mastery for one topic summary using the shared weighting. */
 export function useTopicMastery(summary: TopicSummary): TopicMastery {
   const { data } = useStore();
@@ -178,7 +189,7 @@ export function TopicCard({
           <Heading className="font-extrabold leading-snug text-ink">
             <Link href={`/topic/${summary.id}`} className="outline-none after:absolute after:inset-0 after:z-0">
               {summary.title}
-              <span className="sr-only">{`. ${cta}, ${label}${focus ? ". Focus topic" : ""}`}</span>
+              <span className="sr-only">{` — ${cta}. ${masterySpoken(m)}${focus ? ". Focus topic" : ""}`}</span>
             </Link>
           </Heading>
         </div>
@@ -194,7 +205,7 @@ export function TopicCard({
         </p>
       ) : null}
       <div className="mt-auto pt-1" aria-hidden>
-        <ProgressBar value={m.pct / 100} label={`${summary.title} mastery`} valueText={label} barClass={style.bg} minVisible={m.started ? 0.03 : 0} />
+        <ProgressBar value={m.pct / 100} label={`${summary.title} mastery`} valueText={masterySpoken(m)} barClass={style.bg} minVisible={m.started ? 0.03 : 0} />
         <div className="mt-2 flex items-center justify-between gap-2 text-xs">
           <span className="min-w-0 tabular-nums text-ink-2">{label}</span>
           <span className="shrink-0 font-bold text-brand group-hover:underline">{cta} →</span>
