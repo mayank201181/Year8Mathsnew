@@ -139,11 +139,17 @@ function PractiseTab({
 }) {
   const { data } = useStore();
   const close = () => onOpen(null);
+  const runnerBox = useRef<HTMLDivElement>(null);
+
+  // The button that opened the runner has gone, so move focus to the runner itself.
+  useEffect(() => {
+    if (runner) runnerBox.current?.focus({ preventScroll: true });
+  }, [runner]);
 
   if (runner) {
     return (
-      <div className="space-y-3">
-        <button type="button" className="btn btn-ghost btn-sm -ml-2" onClick={close}>
+      <div ref={runnerBox} tabIndex={-1} className="space-y-3 outline-none" aria-label={runner.label} role="region">
+        <button type="button" className="btn btn-ghost btn-sm min-h-10 -ml-2" onClick={close}>
           ← Back to practice
         </button>
         {runner.kind === "quiz" ? (
@@ -227,7 +233,7 @@ function PractiseTab({
                     {d.guideRef ? (
                       <a
                         href={topicHref(topic.id, "learn", null, `sec-${d.guideRef}`)}
-                        className="btn btn-ghost btn-sm"
+                        className="btn btn-ghost btn-sm min-h-10"
                         aria-label={`Lesson for ${d.title}`}
                         onClick={(e) => {
                           if (!isPlainClick(e)) return;
@@ -238,7 +244,7 @@ function PractiseTab({
                         📖 <span className="hidden sm:inline">Lesson</span>
                       </a>
                     ) : null}
-                    <button type="button" className="btn btn-primary btn-sm" onClick={() => onOpen(`drill:${d.id}`)} aria-label={`Practise ${d.title}`}>
+                    <button type="button" className="btn btn-primary btn-sm min-h-10" onClick={() => onOpen(`drill:${d.id}`)} aria-label={`Practise ${d.title}`}>
                       Practise
                     </button>
                   </div>
@@ -274,7 +280,7 @@ function PractiseTab({
                   <div className="mt-auto pt-3">
                     <button
                       type="button"
-                      className={`btn btn-sm ${info.state === "progress" ? "btn-primary" : "btn-secondary"}`}
+                      className={`btn btn-sm min-h-10 ${info.state === "progress" ? "btn-primary" : "btn-secondary"}`}
                       onClick={() => onOpen(`paper:${paper.id}`)}
                       aria-label={`${ACTION_LABEL[info.state]}: ${paper.title}`}
                     >
@@ -442,22 +448,47 @@ export function TopicView({
     if (window.scrollY > y) window.scrollTo({ top: Math.max(0, y) });
   }, []);
 
+  // Opening a runner PUSHES a history entry, so the phone's Back gesture returns to the
+  // practice list instead of leaving the topic. Closing it from the page pops that entry
+  // again (so Back isn't left pointing at a duplicate of the list).
+  const runnerPushed = useRef(false);
+  useEffect(() => {
+    if (!openParam) runnerPushed.current = false;
+  }, [openParam]);
+
+  const closeRunner = useCallback(() => {
+    if (runnerPushed.current) {
+      runnerPushed.current = false;
+      window.history.back();
+    } else {
+      window.history.replaceState(null, "", topicHref(topic.id, "practise"));
+    }
+  }, [topic.id]);
+
   // The URL is the source of truth for the tab. history.replaceState is integrated with
   // the Next.js router (useSearchParams updates) and switches tabs without a server round trip.
   const selectTab = useCallback(
     (next: TopicTab) => {
-      if (next !== tab || openParam) window.history.replaceState(null, "", topicHref(topic.id, next));
+      if (next === "practise" && openParam) closeRunner();
+      else if (next !== tab || openParam) window.history.replaceState(null, "", topicHref(topic.id, next));
       scrollToTabs();
     },
-    [tab, openParam, topic.id, scrollToTabs],
+    [tab, openParam, topic.id, scrollToTabs, closeRunner],
   );
 
   const openRunner = useCallback(
     (open: string | null) => {
-      window.history.replaceState(null, "", topicHref(topic.id, "practise", open));
+      if (!open) {
+        closeRunner();
+      } else if (runnerPushed.current) {
+        window.history.replaceState(null, "", topicHref(topic.id, "practise", open));
+      } else {
+        window.history.pushState(null, "", topicHref(topic.id, "practise", open));
+        runnerPushed.current = true;
+      }
       window.scrollTo({ top: 0 });
     },
-    [topic.id],
+    [topic.id, closeRunner],
   );
 
   // Jump from a drill to its lesson section; pushState so Back returns to the drills.

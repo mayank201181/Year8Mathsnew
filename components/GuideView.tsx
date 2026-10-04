@@ -268,11 +268,11 @@ function YourTurn({ yt, awardKey }: { yt: NonNullable<WorkedExample["yourTurn"]>
             </div>
           ) : null}
           <div className="mt-3 flex flex-wrap gap-2">
-            <button type="button" className="btn btn-primary btn-sm" onClick={check} disabled={!value.trim()}>
+            <button type="button" className="btn btn-primary btn-sm min-h-10" onClick={check} disabled={!value.trim()}>
               Check
             </button>
             {tries > 0 ? (
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => finish(false)}>
+              <button type="button" className="btn btn-ghost btn-sm min-h-10" onClick={() => finish(false)}>
                 Show solution
               </button>
             ) : null}
@@ -347,10 +347,10 @@ function WorkedExampleView({ ex, index, topicId, sectionId }: { ex: WorkedExampl
       </div>
       {!complete ? (
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShown((n) => Math.min(total, n + 1))}>
+          <button type="button" className="btn btn-secondary btn-sm min-h-10" onClick={() => setShown((n) => Math.min(total, n + 1))}>
             {shown === 0 ? "Show the first step" : "Next step"}
           </button>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => setShown(total)}>
+          <button type="button" className="btn btn-ghost btn-sm min-h-10" onClick={() => setShown(total)}>
             Show all steps
           </button>
           <span className="text-xs text-ink-2">
@@ -431,7 +431,7 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
         {speech.supported ? (
           <button
             type="button"
-            className={`btn btn-sm shrink-0 ${speech.speaking ? "btn-secondary text-bad" : "btn-ghost"}`}
+            className={`btn btn-sm min-h-10 shrink-0 ${speech.speaking ? "btn-secondary text-bad" : "btn-ghost"}`}
             aria-pressed={speech.speaking}
             aria-label={speech.speaking ? `Stop reading “${s.heading}”` : `Read “${s.heading}” aloud`}
             onClick={() => speech.toggle(sectionSpeech(s, open, ideaShown))}
@@ -479,7 +479,7 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
               {!ideaShown ? (
                 <button
                   type="button"
-                  className={`btn btn-sm ${open ? "btn-secondary" : "btn-primary"}`}
+                  className={`btn btn-sm min-h-10 ${open ? "btn-secondary" : "btn-primary"}`}
                   onClick={() => {
                     setIdeaShown(true);
                     onReveal();
@@ -492,7 +492,7 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
               {!open ? (
                 <button
                   type="button"
-                  className="btn btn-ghost btn-sm"
+                  className="btn btn-ghost btn-sm min-h-10"
                   onClick={() => {
                     onReveal();
                     focusSoon(bodyRef);

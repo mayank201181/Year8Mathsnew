@@ -172,13 +172,13 @@ function Flashcards({ cards }: { cards: Flashcard[] }) {
       )}
 
       <div className="flex items-center justify-between gap-2">
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => go(pos - 1)} disabled={pos === 0}>
+        <button type="button" className="btn btn-ghost btn-sm min-h-10" onClick={() => go(pos - 1)} disabled={pos === 0}>
           ← Prev
         </button>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => restart(shuffled(order))} disabled={total < 2}>
+        <button type="button" className="btn btn-ghost btn-sm min-h-10" onClick={() => restart(shuffled(order))} disabled={total < 2}>
           🔀 Shuffle
         </button>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => go(pos + 1)} disabled={pos >= total - 1}>
+        <button type="button" className="btn btn-ghost btn-sm min-h-10" onClick={() => go(pos + 1)} disabled={pos >= total - 1}>
           Next →
         </button>
       </div>

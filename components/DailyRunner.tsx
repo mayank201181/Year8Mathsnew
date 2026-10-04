@@ -578,11 +578,13 @@ function DailySession({ summaries, profileKey, today }: { summaries: TopicInfo[]
                   </span>
                   <span className="sr-only">{`Item ${i + 1}:`}</span>
                   <ReasonChip reason={it.reason} />
-                  <TopicTag topic={topicOfItem(it)} />
                 </li>
               ))}
             </ol>
-            <p className="mt-4 text-sm text-ink-2">About 10 minutes · +5 ⭐ when you finish · anything you miss comes back in Review.</p>
+            <p className="mt-4 text-sm text-ink-2">
+              Each question&apos;s topic is revealed once you&apos;ve answered it — spotting which method a question needs is part of the workout.
+            </p>
+            <p className="mt-2 text-sm text-ink-2">About 10 minutes · +5 ⭐ when you finish · anything you miss comes back in Review.</p>
             <button
               type="button"
               className="btn btn-primary mt-5 w-full sm:w-auto sm:px-8"
@@ -677,6 +679,7 @@ function DailySession({ summaries, profileKey, today }: { summaries: TopicInfo[]
       <DrillSlot
         key={cardKey}
         item={cur}
+        revealed={!!set.results[set.index]}
         level={skillLevel(data.skills[cur.skillId])}
         onDone={(drill, o) => onDrillDone(set.index, drill, cur.tier, o)}
         onNext={next}
@@ -733,7 +736,8 @@ function DailySession({ summaries, profileKey, today }: { summaries: TopicInfo[]
       {cur ? (
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <ReasonChip reason={cur.reason} />
-          <TopicTag topic={topicOfItem(cur)} />
+          {/* The topic stays hidden until answered: choosing the method is part of mixed practice. */}
+          {set.results[set.index] ? <TopicTag topic={topicOfItem(cur)} /> : null}
         </div>
       ) : null}
       <div aria-live="polite">{toast ? <div className="animate-pop mb-3 rounded-xl bg-accent-soft px-4 py-2 font-bold">{toast}</div> : null}</div>
@@ -746,6 +750,7 @@ function DailySession({ summaries, profileKey, today }: { summaries: TopicInfo[]
 
 function DrillSlot({
   item,
+  revealed,
   level,
   onDone,
   onNext,
@@ -753,6 +758,8 @@ function DrillSlot({
   onSwap,
 }: {
   item: Extract<DailyItem, { kind: "drill" }>;
+  /** Answered: show which skill it was (hidden before, like the topic). */
+  revealed: boolean;
   level: number;
   onDone: (drill: Drill, o: DrillOutcome) => void;
   onNext: () => void;
@@ -779,10 +786,12 @@ function DrillSlot({
       onNext={onNext}
       nextLabel={nextLabel}
       header={
-        <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
-          <span className="font-extrabold text-ink-2">Skill · {drill.title}</span>
-          <LevelBadge level={level} />
-        </div>
+        revealed ? (
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+            <span className="font-extrabold text-ink-2">Skill · {drill.title}</span>
+            <LevelBadge level={level} />
+          </div>
+        ) : null
       }
     />
   );
@@ -793,7 +802,7 @@ function EndRow({ item, result, topic, question }: { item: DailyItem; result: It
   const label = drill ? drill.title : question ? SOURCE_LABEL[question.source] ?? "Question" : "Question";
   const lesson = drill
     ? topic?.ready
-      ? guideHref(drill.topicId, drill.guideRef)
+      ? guideHref(drill.topicId, drill.guideRef) ?? `/topic/${drill.topicId}?tab=learn`
       : null
     : question
       ? guideHref(question.topicId, question.question.guideRef) ?? (topic?.ready ? `/topic/${question.topicId}?tab=learn` : null)
