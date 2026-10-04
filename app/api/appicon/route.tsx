@@ -34,9 +34,10 @@ export function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const size = sizeFrom(searchParams.get("size"));
   const maskable = searchParams.get("maskable") === "1";
-  // Maskable icons are cropped to (at least) a circle of 80% diameter: keep the
-  // glyph well inside it. "any" icons get rounded corners and a larger glyph.
-  const glyph = Math.round(size * (maskable ? 0.5 : 0.66));
+  // Maskable icons may be cropped to a circle of 80% diameter. The π's ink spans
+  // about 67% × 52% of its box, so a 60% box keeps it within a ~26% radius of the
+  // centre (safe zone: 40%). "any" icons get rounded corners and a larger glyph.
+  const glyph = Math.round(size * (maskable ? 0.6 : 0.66));
 
   return new ImageResponse(
     (

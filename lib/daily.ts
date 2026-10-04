@@ -213,18 +213,23 @@ function build(input: DailyInput): DailyItem[] {
   const items: DailyItem[] = [];
   const usedKeys = new Set<string>();
   const usedTopics = new Set<string>();
+  const topicCount = new Map<string, number>();
+  const useTopic = (t: string) => {
+    usedTopics.add(t);
+    topicCount.set(t, (topicCount.get(t) ?? 0) + 1);
+  };
 
   const addDrill = (d: DailyDrillRef, tier: 1 | 2 | 3, reason: string, allowRepeat = false) => {
     if (!allowRepeat && usedKeys.has(d.id)) return false;
     usedKeys.add(d.id);
-    usedTopics.add(d.topicId);
+    useTopic(d.topicId);
     items.push({ kind: "drill", skillId: d.id, tier, seed: nextSeed(), reason });
     return true;
   };
   const addQuestion = (qid: string, topicId: string, reason: string) => {
     if (usedKeys.has(qid)) return false;
     usedKeys.add(qid);
-    usedTopics.add(topicId);
+    useTopic(topicId);
     items.push({ kind: "question", qid, reason });
     return true;
   };
@@ -297,10 +302,13 @@ function build(input: DailyInput): DailyItem[] {
   }
 
   // ------------------------------------------------------- slots 2–3: review
+  // Map against EVERY topic id (so a question from an unready topic can't be
+  // mistaken for a ready topic whose id is a prefix of it), then keep ready ones.
+  const allTopicIds = summaries.map((s) => s.id);
   const dueQuestions = Object.entries(srs)
     .filter(([, s]) => !!s && typeof s.due === "string" && s.due <= date)
-    .map(([qid, s]) => ({ qid, due: s.due, topic: topicOfQid(qid, readyIds) }))
-    .filter((x): x is { qid: string; due: string; topic: string } => !!x.topic)
+    .map(([qid, s]) => ({ qid, due: s.due, topic: topicOfQid(qid, allTopicIds) }))
+    .filter((x): x is { qid: string; due: string; topic: string } => !!x.topic && ready.has(x.topic))
     .sort((a, b) => a.due.localeCompare(b.due) || a.qid.localeCompare(b.qid));
 
   const dueSkills = pool
@@ -319,10 +327,18 @@ function build(input: DailyInput): DailyItem[] {
     if (q2 && addQuestion(q2.qid, q2.topic, DAILY_REASONS.review)) continue;
     const s2 = prefer(dueSkills, (d) => d.id, (d) => d.topicId);
     if (s2 && addDrill(s2, reviewTier(s2), DAILY_REASONS.review)) continue;
-    const w = prefer(weakSkills, (d) => d.id, (d) => d.topicId);
-    if (w && addDrill(w, reviewTier(w), DAILY_REASONS.review)) continue;
+    // Nothing due: the weakest practised skills — but keep the set mixed (at most
+    // two items from one topic) before falling back to a brand-new topic.
+    const w1 = prefer(
+      weakSkills.filter((d) => (topicCount.get(d.topicId) ?? 0) < 2),
+      (d) => d.id,
+      (d) => d.topicId,
+    );
+    if (w1 && addDrill(w1, reviewTier(w1), DAILY_REASONS.review)) continue;
     const fresh = newTopicDrill();
-    if (fresh) addDrill(fresh, 1, DAILY_REASONS.newTopic);
+    if (fresh && addDrill(fresh, 1, DAILY_REASONS.newTopic)) continue;
+    const w2 = prefer(weakSkills, (d) => d.id, (d) => d.topicId);
+    if (w2) addDrill(w2, reviewTier(w2), DAILY_REASONS.review);
   }
 
   // --------------------------------------------------- slot 4: keep it fresh
@@ -344,7 +360,11 @@ function build(input: DailyInput): DailyItem[] {
   }
 
   // --------------------------------------------------------- slot 5: stretch
-  {
+  if (isBrandNew) {
+    // First ever set: basics only — a challenge problem on day one is a poor welcome.
+    const fresh = newTopicDrill();
+    if (fresh) addDrill(fresh, 1, DAILY_REASONS.newTopic);
+  } else {
     let done = false;
     const stretchTopics = uniq([...focus, ...[...practisedTopics].sort(byRecency)]).filter((t) => ready.has(t));
     const challengeFor = (t: string) =>
@@ -365,8 +385,14 @@ function build(input: DailyInput): DailyItem[] {
       if (chosen) done = addDrill(chosen, 3, DAILY_REASONS.stretch);
     }
     if (!done) {
+      // No practised skill to stretch: a skill from a topic they've worked on (or a focus topic).
+      const inStretchTopics = pool.filter((d) => stretchTopics.includes(d.topicId));
+      const chosen = prefer(inStretchTopics, (d) => d.id, (d) => d.topicId);
+      if (chosen) done = addDrill(chosen, 3, DAILY_REASONS.stretch);
+    }
+    if (!done) {
       const fresh = newTopicDrill();
-      if (fresh) addDrill(fresh, isBrandNew ? 1 : 2, isBrandNew ? DAILY_REASONS.newTopic : DAILY_REASONS.stretch);
+      if (fresh) addDrill(fresh, 3, DAILY_REASONS.stretch);
     }
   }
 
@@ -385,7 +411,7 @@ function build(input: DailyInput): DailyItem[] {
       if (items.length >= DAILY_SIZE) break;
       for (const id of summaryOf.get(t)?.challengeIds ?? []) {
         if (items.length >= DAILY_SIZE) break;
-        if (!solved[id] && !srs[id]) addQuestion(id, t, DAILY_REASONS.stretch);
+        if (!solved[id] && !srs[id] && !avoid.has(id)) addQuestion(id, t, DAILY_REASONS.stretch);
       }
     }
     // Very few skills exist: repeat one with a fresh seed rather than serve a short set.
@@ -410,14 +436,16 @@ export function swapForDrill(input: DailyInput, items: readonly DailyItem[], ind
   try {
     const rng = makeRng(seedFrom(`${input.date}:${input.profileKey}:${input.salt ?? ""}:swap:${index}:${itemKey(old)}`));
     const ready = new Set(input.summaries.filter((s) => s.ready).map((s) => s.id));
+    const allIds = input.summaries.map((s) => s.id);
+    const topicOfItem = (it: DailyItem) => (it.kind === "drill" ? input.drills.find((d) => d.id === it.skillId)?.topicId : topicOfQid(it.qid, allIds));
     const inSet = new Set(out.map(itemKey));
     const setTopics = new Set<string>();
     for (const it of out) {
       if (it === old) continue;
-      const t = it.kind === "drill" ? input.drills.find((d) => d.id === it.skillId)?.topicId : topicOfQid(it.qid, [...ready]);
+      const t = topicOfItem(it);
       if (t) setTopics.add(t);
     }
-    const oldTopic = old.kind === "drill" ? input.drills.find((d) => d.id === old.skillId)?.topicId : topicOfQid(old.qid, input.summaries.map((s) => s.id));
+    const oldTopic = topicOfItem(old);
     const candidates = input.drills.filter((d) => !inSet.has(d.id) && (ready.has(d.topicId) || !ready.size));
     const sameTopic = candidates.filter((d) => d.topicId === oldTopic);
     const newTopic = candidates.filter((d) => !setTopics.has(d.topicId));

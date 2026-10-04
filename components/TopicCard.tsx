@@ -99,6 +99,14 @@ export function masteryLabel(m: TopicMastery): string {
   return parts.join(" · ");
 }
 
+/** Label for a topic not started yet: "Not started · 7 lessons · 5 skills". */
+export function newTopicLabel(m: TopicMastery, sep = " · "): string {
+  const parts = ["Not started"];
+  if (m.sectionsTotal > 0) parts.push(`${m.sectionsTotal} lesson${m.sectionsTotal === 1 ? "" : "s"}`);
+  if (m.skills.total > 0) parts.push(`${m.skills.total} skill${m.skills.total === 1 ? "" : "s"}`);
+  return parts.join(sep);
+}
+
 /** Screen-reader wording of the same label: "42% mastered, 3 of 7 lessons, 2 skills secure". */
 export function masterySpoken(m: TopicMastery): string {
   const parts = [`${m.pct}% mastered`];
@@ -150,7 +158,8 @@ export function TopicCard({
   const Heading = `h${headingLevel}` as HeadingTag;
   const focus = focusTopics.includes(summary.id);
   const cta = m.started ? "Continue" : "Start";
-  const label = masteryLabel(m);
+  const label = m.started ? masteryLabel(m) : newTopicLabel(m);
+  const spoken = m.started ? masterySpoken(m) : newTopicLabel(m, ", ");
 
   if (!summary.ready) {
     return (
@@ -173,7 +182,7 @@ export function TopicCard({
   }
 
   return (
-    <article className="card group relative flex flex-col gap-3 overflow-hidden p-4 pl-5 transition duration-150 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-brand">
+    <article className="card group relative flex flex-col gap-3 overflow-hidden p-4 pl-5 transition duration-150 hover:-translate-y-0.5 hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 has-[.topic-link:focus-visible]:ring-2 has-[.topic-link:focus-visible]:ring-brand">
       <span aria-hidden className={`absolute inset-y-0 left-0 w-1.5 ${style.bg}`} />
       <div className="flex items-start gap-3">
         <span aria-hidden className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-2xl ${style.soft}`}>
@@ -187,15 +196,16 @@ export function TopicCard({
             </p>
           ) : null}
           <Heading className="font-extrabold leading-snug text-ink">
-            <Link href={`/topic/${summary.id}`} className="outline-none after:absolute after:inset-0 after:z-0">
+            {/* The link's ::after covers the whole card, so the card is one big target; the ring shows on the card. */}
+            <Link href={`/topic/${summary.id}`} className="topic-link outline-none after:absolute after:inset-0 after:z-0">
               {summary.title}
-              <span className="sr-only">{` — ${cta}. ${masterySpoken(m)}${focus ? ". Focus topic" : ""}`}</span>
+              <span className="sr-only">{` — ${cta}. ${spoken}${focus ? ". Focus topic" : ""}`}</span>
             </Link>
           </Heading>
         </div>
         {focus ? (
           <span className="chip shrink-0 border-0 bg-accent-soft text-warn" aria-hidden>
-            🎯 Focus
+            📌 Focus
           </span>
         ) : null}
       </div>
@@ -205,8 +215,8 @@ export function TopicCard({
         </p>
       ) : null}
       <div className="mt-auto pt-1" aria-hidden>
-        <ProgressBar value={m.pct / 100} label={`${summary.title} mastery`} valueText={masterySpoken(m)} barClass={style.bg} minVisible={m.started ? 0.03 : 0} />
-        <div className="mt-2 flex items-center justify-between gap-2 text-xs">
+        <ProgressBar value={m.pct / 100} label={`${summary.title} mastery`} valueText={spoken} barClass={style.bg} minVisible={m.started ? 0.03 : 0} />
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs">
           <span className="min-w-0 tabular-nums text-ink-2">{label}</span>
           <span className="shrink-0 font-bold text-brand group-hover:underline">{cta} →</span>
         </div>

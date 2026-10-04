@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import { RANKS, rankFor, skillLevel } from "@/lib/learning";
 import { topicMastery, type TopicMastery } from "@/lib/mastery";
 import { ALL_DRILLS, drillsForTopic } from "@/lib/drills";
-import { lastNDays, todayISO, weekStartISO } from "@/lib/dates";
+import { addDaysISO, lastNDays, todayISO, weekStartISO } from "@/lib/dates";
 import { activeDaysThisWeek } from "@/lib/profileTypes";
 import { STRANDS } from "@/lib/topics/meta";
 import { MiniBars, type MiniBar } from "./MiniBars";
@@ -17,6 +17,8 @@ const GOAL_OPTIONS = [10, 15, 20, 30, 45];
 const WEEK_OPTIONS = [2, 3, 4, 5, 6, 7];
 const MAX_FOCUS = 4;
 const THEME_KEY = "y8m2:theme";
+/** Topic mastery needed for a topic certificate (matches components/Certificate). */
+const CERT_PCT = 80;
 type Theme = "system" | "light" | "dark";
 
 const STRAND_DOT: Record<string, string> = {
@@ -140,6 +142,9 @@ export function ProgressView({ summaries }: { summaries: TopicSummary[] }) {
   }, [a.days]);
 
   const name = activeProfile && mode === "cloud" ? activeProfile.name : null;
+  // streak.count only resets on the next activity, so check it is still alive.
+  const streakLast = data.streak.last;
+  const currentStreak = streakLast === todayISO() || streakLast === addDaysISO(-1) ? data.streak.count : 0;
 
   return (
     <div className="space-y-6">
@@ -159,7 +164,7 @@ export function ProgressView({ summaries }: { summaries: TopicSummary[] }) {
           <Tile icon="✏️" label="Questions answered" value={a.answered.toLocaleString("en-GB")} sub={`${a.correct.toLocaleString("en-GB")} correct`} />
           <Tile icon="🎯" label="Accuracy" value={pct(a.correct, a.answered)} sub={a.answered ? "of all answers" : "Answer a question to start"} />
           <Tile icon="⭐" label="Stars" value={data.stars.toLocaleString("en-GB")} sub={rankFor(data.stars).rank.name} />
-          <Tile icon="🔥" label="Best streak" value={`${data.streak.best} day${data.streak.best === 1 ? "" : "s"}`} sub={data.streak.count > 0 ? `Current: ${data.streak.count}` : "Start one today"} />
+          <Tile icon="🔥" label="Best streak" value={`${data.streak.best} day${data.streak.best === 1 ? "" : "s"}`} sub={currentStreak > 0 ? `Current: ${currentStreak} day${currentStreak === 1 ? "" : "s"}` : "Practise today to start one"} />
           <Tile
             icon="🧠"
             label="Skills mastered"
@@ -200,7 +205,7 @@ export function ProgressView({ summaries }: { summaries: TopicSummary[] }) {
             🎓 Year 8 certificate
           </h2>
           <p className="mt-1 flex-1 text-sm text-ink-2">
-            A printable certificate showing your mastery of every Year 8 topic. Each topic also gets its own certificate once you reach 80% mastery.
+            A printable certificate showing your mastery of every Year 8 topic. Each topic also gets its own certificate once you reach {CERT_PCT}% mastery.
           </p>
           <div className="mt-3">
             <Link href="/certificate/year8" className="btn btn-secondary">
@@ -225,7 +230,7 @@ function Tile({ icon, label, value, sub, href }: { icon: string; label: string; 
         <span aria-hidden>{icon}</span>
         {label}
       </p>
-      <p className="mt-1 text-2xl font-black leading-tight text-ink">{value}</p>
+      <p className="mt-1 text-xl font-black leading-tight text-ink sm:text-2xl">{value}</p>
       {sub ? <p className="mt-0.5 text-xs text-ink-2">{sub}</p> : null}
     </>
   );
@@ -324,7 +329,7 @@ function TopicList({ summaries, masteries }: { summaries: TopicSummary[]; master
   const { data } = useStore();
   const readyCount = masteries.size;
   const avg = readyCount ? Math.round([...masteries.values()].reduce((t, m) => t + m.pct, 0) / readyCount) : 0;
-  const certs = [...masteries.values()].filter((m) => m.pct >= 80).length;
+  const certs = [...masteries.values()].filter((m) => m.pct >= CERT_PCT).length;
   const known = new Set<string>(STRANDS);
   const groups: { strand: string; topics: TopicSummary[] }[] = STRANDS.map((strand) => ({ strand, topics: summaries.filter((s) => s.strand === strand) })).filter(
     (g) => g.topics.length,
@@ -344,7 +349,7 @@ function TopicList({ summaries, masteries }: { summaries: TopicSummary[]; master
           </p>
         ) : null}
       </div>
-      <p className="mt-0.5 text-xs text-ink-2">Mastery combines lessons understood, skill levels, questions solved and challenge problems. 80% earns a certificate.</p>
+      <p className="mt-0.5 text-xs text-ink-2">Mastery combines lessons understood, skill levels, questions solved and challenge problems. {CERT_PCT}% earns a certificate.</p>
       <div className="mt-3 space-y-5">
         {groups.map((g) => (
           <div key={g.strand}>
@@ -367,7 +372,7 @@ function TopicList({ summaries, masteries }: { summaries: TopicSummary[]; master
                   );
                 }
                 const time = data.analytics.topics[s.id]?.timeMs ?? 0;
-                const done = m.pct >= 80;
+                const done = m.pct >= CERT_PCT;
                 return (
                   <li key={s.id} className="flex items-start gap-3 py-3">
                     <span className="w-7 shrink-0 pt-0.5 text-center text-xl" aria-hidden>
@@ -448,7 +453,7 @@ function Goals() {
         </div>
         <div className="mt-3">
           <Meter value={(100 * minsToday) / Math.max(1, data.goalMinutes)} label="Today's minutes towards your daily goal" tone={goalMet ? "good" : "brand"} />
-          <p className="mt-1.5 text-sm text-ink-2" aria-live="polite">
+          <p className="mt-1.5 text-sm text-ink-2">
             Today: <span className="font-bold text-ink">{minsToday}</span> of {data.goalMinutes} min{goalMet ? " — goal reached ✓" : ""}
           </p>
         </div>
@@ -457,7 +462,7 @@ function Goals() {
             <span>
               A parent suggested <span className="font-bold">{suggested} minutes</span> a day.
             </span>
-            <button type="button" className="btn btn-secondary btn-sm" onClick={() => setGoalMinutes(suggested)}>
+            <button type="button" className="btn btn-secondary btn-sm min-h-10" onClick={() => setGoalMinutes(suggested)}>
               Use {suggested} min
             </button>
           </p>
@@ -512,7 +517,7 @@ function FocusPicker({ ready }: { ready: TopicSummary[] }) {
         </span>
       </div>
       <p className="mt-1 text-sm text-ink-2">
-        Pick up to {MAX_FOCUS} topics you&apos;re doing at school right now. The Daily 5 and review will lean towards them.
+        Pick up to {MAX_FOCUS} topics you&apos;re doing at school right now. Your Daily 5 will lean towards them.
       </p>
       {fromParent.length ? (
         <div className="mt-3 rounded-xl bg-info-soft px-3 py-2 text-sm">
@@ -572,15 +577,14 @@ function ThemePicker() {
         Appearance
       </h2>
       <p className="mt-1 text-sm text-ink-2">System follows your device&apos;s light or dark setting. Saved on this device.</p>
-      <div className="mt-3 grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="theme-h">
+      <div className="mt-3 grid grid-cols-3 gap-2" role="group" aria-labelledby="theme-h">
         {options.map((o) => {
           const on = theme === o.id;
           return (
             <button
               key={o.id}
               type="button"
-              role="radio"
-              aria-checked={on}
+              aria-pressed={on}
               onClick={() => {
                 setTheme(o.id);
                 applyTheme(o.id);
@@ -631,14 +635,14 @@ function DangerZone() {
       setPin("");
     }
     const ok = window.confirm(
-      `Reset ${who} progress? Stars, skills, lessons read, goals and history will all go back to zero. This can't be undone.`,
+      `Reset ${who} progress? Stars, skills, lessons read, goals and history will all be cleared. This can't be undone.`,
     );
     if (!ok) {
       setMsg({ ok: true, text: "Nothing was changed." });
       return;
     }
     resetAll();
-    setMsg({ ok: true, text: "Progress reset. A fresh start!" });
+    setMsg({ ok: true, text: "Progress reset — a fresh start." });
   }
 
   return (
@@ -676,7 +680,7 @@ function DangerZone() {
           </button>
           <div aria-live="polite">
             {msg ? (
-              <p className={`rounded-xl px-3 py-2 text-sm ${msg.ok ? "bg-surface-2" : "bg-bad-soft"}`} role={msg.ok ? "status" : "alert"}>
+              <p className={`rounded-xl px-3 py-2 text-sm ${msg.ok ? "bg-surface-2" : "bg-bad-soft"}`}>
                 {msg.text}
               </p>
             ) : null}

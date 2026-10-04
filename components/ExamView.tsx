@@ -47,6 +47,18 @@ function paperStatus(paper: ExamPaper, a: AttemptState | undefined): PaperStatus
   return { kind: "progress", answered };
 }
 
+/** Whole minutes left on a resumed attempt's clock (PaperRunner counts from startedAt). Event handlers only. */
+function clockMinutesLeft(a: AttemptState | undefined, minutes: number): number {
+  if (!a?.startedAt) return 0;
+  return Math.floor((a.startedAt + minutes * 60000 - Date.now()) / 60000);
+}
+
+/** Move focus once React has committed the next screen (event handlers only). */
+function focusSoon(id: string) {
+  if (typeof window === "undefined") return;
+  window.requestAnimationFrame(() => document.getElementById(id)?.focus({ preventScroll: true }));
+}
+
 function topicCount(paper: ExamPaper): number {
   return new Set(paper.questions.map((q) => q.topicId).filter(Boolean)).size;
 }
@@ -140,32 +152,43 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
   function openSetup(paper: ExamPaper, restart: boolean) {
     const a = data.attempts[attemptKey(paper)];
     const resuming = !restart && !!a && !a.completed;
-    // A resumed attempt keeps its original clock (PaperRunner counts from startedAt).
-    const minutesLeft = !resuming ? null : a?.startedAt ? Math.floor((a.startedAt + paper.minutes * 60000 - Date.now()) / 60000) : 0;
+    const minutesLeft = resuming ? clockMinutesLeft(a, paper.minutes) : null;
     setUseTimer(false);
     setSetup({ paperId: paper.id, restart, minutesLeft });
   }
 
   function launch(paper: ExamPaper, timed: boolean, restart = false) {
+    const a = data.attempts[attemptKey(paper)];
+    // A resumed clock may have run out while the start panel was open: carry on
+    // untimed rather than opening a paper that is marked the moment it loads.
+    const clockOk = !timed || restart || !a || a.completed || clockMinutesLeft(a, paper.minutes) >= 1;
     if (restart) store.clearAttempt(attemptKey(paper));
-    setRunning({ paperId: paper.id, timed });
+    setRunning({ paperId: paper.id, timed: timed && clockOk });
     setSetup(null);
     store.setLast("/exam", `The Big Exam · ${paper.title}`);
     scrollTop();
+    focusSoon(`${uid}-run`);
   }
 
   function exit() {
+    const id = running?.paperId;
     setRunning(null);
     scrollTop();
+    if (id) focusSoon(`${uid}-act-${id}`);
+  }
+
+  function cancelSetup(paper: ExamPaper) {
+    setSetup(null);
+    focusSoon(`${uid}-act-${paper.id}`);
   }
 
   // ------------------------------------------------------------ sitting a paper
   const active = running ? papers.find((p) => p.id === running.paperId) : undefined;
   if (running && active) {
     return (
-      <div className="space-y-4">
+      <div id={`${uid}-run`} tabIndex={-1} role="region" className="space-y-4 outline-none" aria-label={`The Big Exam: ${active.title}`}>
         <div className="flex flex-wrap items-center gap-2">
-          <button type="button" className="btn btn-ghost btn-sm" onClick={exit}>
+          <button type="button" className="btn btn-ghost btn-sm min-h-10" onClick={exit}>
             ← All papers
           </button>
           <CalcBadge calculator={active.calculator} />
@@ -315,7 +338,7 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
                                   ? `${paper.minutes} minutes on the clock, like the real thing. The clock keeps running if you leave, and the paper is marked automatically when time is up.`
                                   : open.minutesLeft >= 1
                                     ? `About ${open.minutesLeft} minute${open.minutesLeft === 1 ? "" : "s"} left on this attempt's clock. The paper is marked automatically when time is up.`
-                                    : "The clock for this attempt has already run out, so carry on without it."}
+                                    : "This attempt’s clock has already run out, so carry on without it — or choose Start over for a fresh timed sitting."}
                               </p>
                             </div>
                             <Switch checked={useTimer && timerAvailable} onChange={setUseTimer} disabled={!timerAvailable} labelledBy={`${headingId}-timer`} describedBy={`${headingId}-timer-desc`} />
@@ -325,10 +348,10 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
                             <li>Answers are marked when you press “Finish & mark”. Written answers are marked by you against the mark scheme.</li>
                           </ul>
                           <div className="mt-4 flex flex-wrap gap-2">
-                            <button type="button" className="btn btn-primary" onClick={() => launch(paper, useTimer && timerAvailable, open.restart)}>
+                            <button type="button" className="btn btn-primary" autoFocus onClick={() => launch(paper, useTimer && timerAvailable, open.restart)}>
                               {st.kind === "progress" && !open.restart ? "Carry on" : "Start the paper"}
                             </button>
-                            <button type="button" className="btn btn-ghost" onClick={() => setSetup(null)}>
+                            <button type="button" className="btn btn-ghost" onClick={() => cancelSetup(paper)}>
                               Cancel
                             </button>
                           </div>
@@ -336,12 +359,12 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
                       ) : (
                         <div className="mt-4 flex flex-wrap gap-2">
                           {st.kind === "new" ? (
-                            <button type="button" className="btn btn-primary" onClick={() => openSetup(paper, false)}>
+                            <button id={`${uid}-act-${paper.id}`} type="button" className="btn btn-primary" onClick={() => openSetup(paper, false)}>
                               Start
                             </button>
                           ) : st.kind === "progress" ? (
                             <>
-                              <button type="button" className="btn btn-primary" onClick={() => openSetup(paper, false)}>
+                              <button id={`${uid}-act-${paper.id}`} type="button" className="btn btn-primary" onClick={() => openSetup(paper, false)}>
                                 Resume
                               </button>
                               <button
@@ -356,7 +379,7 @@ export function ExamView({ papers, topicTitles, practiceTopics = [] }: ExamViewP
                             </>
                           ) : (
                             <>
-                              <button type="button" className="btn btn-primary" onClick={() => launch(paper, false)}>
+                              <button id={`${uid}-act-${paper.id}`} type="button" className="btn btn-primary" onClick={() => launch(paper, false)}>
                                 {st.toMark ? "Review & mark" : "See results"}
                               </button>
                               <button

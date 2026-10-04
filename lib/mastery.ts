@@ -28,7 +28,8 @@ export interface TopicMastery {
 }
 
 /**
- * Weighted: lessons 15% · skills (avg level/3) 45% · questions solved (to 60) 25% · challenge solved (to 5) 15%.
+ * Weighted: lessons 15% · skills (avg level/3) 45% · questions solved (to 60) 25% · challenge solved (to 5) 15%
+ * (missing parts are re-weighted away).
  * `skillIds` are the drill ids for the topic.
  */
 export function topicMastery(t: TopicShape, d: ProgressDoc, skillIds: string[]): TopicMastery {
@@ -51,7 +52,13 @@ export function topicMastery(t: TopicShape, d: ProgressDoc, skillIds: string[]):
   const skillPart = skillIds.length ? levels.reduce((a, b) => a + b, 0) / (3 * skillIds.length) : 0;
   const solvedPart = Math.min(1, solved / 60);
   const chPart = Math.min(1, challengeSolved / 5);
-  const pct = Math.round(100 * (0.15 * lessonPart + 0.45 * skillPart + 0.25 * solvedPart + 0.15 * chPart));
+  // Weights: lessons 15, skills 45, solved 25, challenge 15 — parts a topic doesn't have are left out
+  // and the rest re-scaled, so a topic without drills (or challenge problems) can still reach 100%.
+  const parts: Array<[number, number]> = [[0.15, lessonPart], [0.25, solvedPart]];
+  if (skillIds.length) parts.push([0.45, skillPart]);
+  if (t.challengeIds.length) parts.push([0.15, chPart]);
+  const wsum = parts.reduce((a, [w]) => a + w, 0);
+  const pct = Math.round((100 * parts.reduce((a, [w, v]) => a + w * v, 0)) / wsum);
   return {
     pct,
     sectionsRead,

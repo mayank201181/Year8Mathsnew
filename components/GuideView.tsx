@@ -76,15 +76,36 @@ export function toSpeech(text: string): string {
     .replace(/±/g, " plus or minus ")
     .replace(/°/g, " degrees")
     .replace(/→/g, ", gives ")
+    .replace(/\s\+\s/g, " plus ")
+    .replace(/\s=\s/g, " equals ")
     .replace(/[ \t]+/g, " ")
     .replace(/ +([,.;:!?])/g, "$1")
     .replace(/\n{2,}/g, "\n");
   return s.trim();
 }
 
+/** Break an over-long sentence at a comma or space. */
+function splitLong(sentence: string, max: number): string[] {
+  const out: string[] = [];
+  let rest = sentence;
+  while (rest.length > max) {
+    let cut = rest.lastIndexOf(", ", max);
+    if (cut < max / 2) cut = rest.lastIndexOf(" ", max);
+    if (cut <= 0) cut = max;
+    out.push(rest.slice(0, cut + 1).trim());
+    rest = rest.slice(cut + 1).trim();
+  }
+  if (rest) out.push(rest);
+  return out;
+}
+
 /** Split long text into sentence-sized chunks (long utterances stall in some browsers). */
 function speechChunks(text: string, max = 220): string[] {
-  const sentences = text.split(/(?<=[.!?])\s+|\n+/).map((x) => x.trim()).filter(Boolean);
+  const sentences = text
+    .split(/(?<=[.!?])\s+|\n+/)
+    .map((x) => x.trim())
+    .filter(Boolean)
+    .flatMap((x) => splitLong(x, max));
   const out: string[] = [];
   let cur = "";
   for (const sentence of sentences) {
@@ -109,10 +130,12 @@ function useSpeech() {
   const [speakingId, setSpeakingId] = useState<string | null>(null);
   const run = useRef(0);
 
+  // Stop talking when the lesson closes (and invalidate any pending start).
   useEffect(() => {
     if (!supported) return;
+    const runRef = run;
     return () => {
-      run.current++;
+      runRef.current++;
       window.speechSynthesis.cancel();
     };
   }, [supported]);
@@ -122,27 +145,37 @@ function useSpeech() {
       if (!supported) return;
       const synth = window.speechSynthesis;
       const token = ++run.current;
+      const busy = synth.speaking || synth.pending;
       synth.cancel();
       if (speakingId === id) {
         setSpeakingId(null);
         return;
       }
       const chunks = speechChunks(text);
-      if (!chunks.length) return;
+      if (!chunks.length) {
+        setSpeakingId(null);
+        return;
+      }
       const voices = synth.getVoices();
       const voice = voices.find((v) => v.lang === "en-GB") ?? voices.find((v) => v.lang?.toLowerCase().startsWith("en"));
       const stop = () => {
         if (run.current === token) setSpeakingId(null);
       };
-      chunks.forEach((chunk, i) => {
-        const u = new SpeechSynthesisUtterance(chunk);
-        u.lang = voice?.lang ?? "en-GB";
-        if (voice) u.voice = voice;
-        u.rate = 0.95;
-        if (i === chunks.length - 1) u.onend = stop;
-        u.onerror = stop;
-        synth.speak(u);
-      });
+      const start = () => {
+        if (run.current !== token) return;
+        chunks.forEach((chunk, i) => {
+          const u = new SpeechSynthesisUtterance(chunk);
+          u.lang = voice?.lang ?? "en-GB";
+          if (voice) u.voice = voice;
+          u.rate = 0.95;
+          if (i === chunks.length - 1) u.onend = stop;
+          u.onerror = stop;
+          synth.speak(u);
+        });
+      };
+      // Some browsers drop a speak() issued in the same tick as cancel(); give it a moment.
+      if (busy) window.setTimeout(start, 80);
+      else start();
       setSpeakingId(id);
     },
     [supported, speakingId],
@@ -369,6 +402,10 @@ interface SectionProps {
 function SectionView({ topicId, section: s, index, stretch, read, open, next, onReveal, onMarkRead, onPractise, speech }: SectionProps) {
   const [ideaShown, setIdeaShown] = useState(false);
   const [scratch, setScratch] = useState("");
+  const ideaRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  /** The button the learner pressed disappears, so move focus to what it revealed. */
+  const focusSoon = (el: { current: HTMLElement | null }) => window.requestAnimationFrame(() => el.current?.focus({ preventScroll: true }));
   const examples = s.workedExamples ?? [];
 
   return (
@@ -429,7 +466,7 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
           ) : null}
           <div aria-live="polite">
             {ideaShown ? (
-              <div className="mt-3 rounded-xl border border-line bg-surface p-3 sm:p-4">
+              <div ref={ideaRef} tabIndex={-1} className="mt-3 rounded-xl border border-line bg-surface p-3 outline-none sm:p-4">
                 <div className="text-xs font-black uppercase tracking-wider text-brand">
                   <span aria-hidden>💡</span> The idea
                 </div>
@@ -446,13 +483,21 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
                   onClick={() => {
                     setIdeaShown(true);
                     onReveal();
+                    focusSoon(ideaRef);
                   }}
                 >
                   💡 Reveal the idea
                 </button>
               ) : null}
               {!open ? (
-                <button type="button" className="btn btn-ghost btn-sm" onClick={onReveal}>
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => {
+                    onReveal();
+                    focusSoon(bodyRef);
+                  }}
+                >
                   Skip to the lesson ↓
                 </button>
               ) : null}
@@ -462,7 +507,7 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
       ) : null}
 
       {open ? (
-        <div className="mt-5 space-y-5">
+        <div ref={bodyRef} tabIndex={-1} className="mt-5 space-y-5 outline-none">
           <Rich text={s.body} />
           {s.diagram ? <Diagram svg={s.diagram} caption={s.diagramCaption} /> : null}
           {examples.map((ex, i) => (
@@ -533,7 +578,24 @@ export function GuideView({ topic, extras, onPractise }: { topic: Topic; extras:
   const { data, markSectionRead } = useStore();
   const sections = useMemo(() => topic.guide ?? [], [topic.guide]);
   const stretchIds = useMemo(() => new Set((metaById(topic.id)?.sections ?? []).filter((s) => s.stretch).map((s) => s.id)), [topic.id]);
-  const [revealed, setRevealed] = useState<Record<string, true>>({});
+  // Sections opened this session survive a tab switch (sessionStorage; not progress data).
+  const revealKey = `y8m2:revealed:${topic.id}`;
+  const [revealed, setRevealed] = useState<Record<string, true>>(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const v: unknown = JSON.parse(window.sessionStorage.getItem(revealKey) ?? "{}");
+      return v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, true>) : {};
+    } catch {
+      return {};
+    }
+  });
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem(revealKey, JSON.stringify(revealed));
+    } catch {
+      /* storage unavailable — reveals just won't persist */
+    }
+  }, [revealKey, revealed]);
   const speech = useSpeech();
 
   const reveal = useCallback((id: string) => setRevealed((r) => (r[id] ? r : { ...r, [id]: true })), []);

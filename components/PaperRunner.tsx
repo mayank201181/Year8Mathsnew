@@ -50,6 +50,11 @@ export function PaperRunner(props: PaperRunnerProps) {
   const [viewResults, setViewResults] = useState(() => !!saved?.completed);
   const stateRef = useRef(state);
   stateRef.current = state;
+  // Exams: save the start time as soon as the paper opens so the clock survives leaving early.
+  useEffect(() => {
+    if (mode === "exam" && !saved) store.saveAttempt(attemptKey, { ...stateRef.current, updatedAt: Date.now() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const exam = mode === "exam";
   const total = questions.length;
   const q = questions[Math.min(state.index, total - 1)];

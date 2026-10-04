@@ -3,7 +3,7 @@
 // minutes, weekly goal), continue, review, one suggestion from Professor Pi,
 // rank, focus topics, quick links and every topic grouped by strand.
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import type { TopicSummary } from "@/lib/server/content";
 import type { ProgressDoc } from "@/lib/profileTypes";
 import { useStore } from "@/lib/store";
@@ -29,7 +29,8 @@ const QUICK_LINKS = [
 ] as const;
 
 // ---------------------------------------------------------------------------
-// Clock (local time; computed after mount so server and client never disagree)
+// Clock — local time, read through useSyncExternalStore so a server render
+// (snapshot -1) never disagrees with the browser, and it ticks each minute.
 // ---------------------------------------------------------------------------
 
 interface Clock {
@@ -39,26 +40,104 @@ interface Clock {
   now: number;
 }
 
-function readClock(): Clock {
-  const d = new Date();
+function subscribeMinute(onChange: () => void): () => void {
+  let timer = 0;
+  const schedule = () => {
+    timer = window.setTimeout(() => {
+      onChange();
+      schedule();
+    }, 60_000 - (Date.now() % 60_000) + 50);
+  };
+  schedule();
+  const onVisible = () => {
+    if (document.visibilityState === "visible") onChange();
+  };
+  document.addEventListener("visibilitychange", onVisible);
+  return () => {
+    window.clearTimeout(timer);
+    document.removeEventListener("visibilitychange", onVisible);
+  };
+}
+const currentMinute = () => Math.floor(Date.now() / 60_000);
+const serverMinute = () => -1;
+
+function clockAt(ms: number): Clock {
+  const d = new Date(ms);
   const h = d.getHours();
   const greeting = h < 5 ? "Hello" : h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
   return {
     today: localISO(d),
     greeting,
     dateLabel: d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" }),
-    now: d.getTime(),
+    now: ms,
   };
 }
 
 function useClock(): Clock | null {
-  const [clock, setClock] = useState<Clock | null>(null);
-  useEffect(() => {
-    setClock(readClock());
-    const id = window.setInterval(() => setClock(readClock()), 60_000);
-    return () => window.clearInterval(id);
-  }, []);
-  return clock;
+  const minute = useSyncExternalStore(subscribeMinute, currentMinute, serverMinute);
+  return useMemo(() => (minute < 0 ? null : clockAt(minute * 60_000)), [minute]);
+}
+
+// ---------------------------------------------------------------------------
+// Dismissals (tip: per day in localStorage; guest note: per session)
+// ---------------------------------------------------------------------------
+
+type StoreKind = "local" | "session";
+/** In-memory fallback so dismissing still works when storage is blocked. */
+const dismissedInMemory = new Set<string>();
+const dismissalListeners = new Set<() => void>();
+
+function storageGet(kind: StoreKind, key: string): string | null {
+  try {
+    return (kind === "local" ? window.localStorage : window.sessionStorage).getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function subscribeDismissals(onChange: () => void): () => void {
+  dismissalListeners.add(onChange);
+  const onStorage = (e: StorageEvent) => {
+    if (!e.key || e.key.startsWith("y8m2:")) onChange();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    dismissalListeners.delete(onChange);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+function isDismissed(kind: StoreKind, key: string): boolean {
+  return dismissedInMemory.has(`${kind}:${key}`) || storageGet(kind, key) === "1";
+}
+
+function dismiss(kind: StoreKind, key: string): void {
+  dismissedInMemory.add(`${kind}:${key}`);
+  try {
+    const store = kind === "local" ? window.localStorage : window.sessionStorage;
+    if (kind === "local" && key.startsWith(TIP_PREFIX)) {
+      // Drop dismissals from earlier days so keys don't pile up.
+      const stale: string[] = [];
+      for (let i = 0; i < store.length; i++) {
+        const k = store.key(i);
+        if (k && k.startsWith(TIP_PREFIX) && k !== key) stale.push(k);
+      }
+      for (const k of stale) store.removeItem(k);
+    }
+    store.setItem(key, "1");
+  } catch {
+    /* storage unavailable (private mode / blocked) — the in-memory flag covers this visit */
+  }
+  for (const l of dismissalListeners) l();
+}
+
+function useDismissed(kind: StoreKind, key: string): boolean {
+  // Server snapshot: hidden, so nothing dismissible flashes before we can check.
+  return useSyncExternalStore(
+    subscribeDismissals,
+    () => isDismissed(kind, key),
+    () => true,
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -92,37 +171,6 @@ function timeAgo(at: number, now: number, today: string): string {
   return `${days} days ago`;
 }
 
-function storageGet(kind: "local" | "session", key: string): string | null {
-  try {
-    return (kind === "local" ? window.localStorage : window.sessionStorage).getItem(key);
-  } catch {
-    return null;
-  }
-}
-
-function storageSet(kind: "local" | "session", key: string, value: string): void {
-  try {
-    (kind === "local" ? window.localStorage : window.sessionStorage).setItem(key, value);
-  } catch {
-    /* storage unavailable (private mode / blocked) — dismissal lasts until reload */
-  }
-}
-
-/** Remove tip dismissals from previous days so keys don't pile up. */
-function pruneOldTips(today: string): void {
-  try {
-    const ls = window.localStorage;
-    const stale: string[] = [];
-    for (let i = 0; i < ls.length; i++) {
-      const k = ls.key(i);
-      if (k && k.startsWith(TIP_PREFIX) && k !== `${TIP_PREFIX}${today}`) stale.push(k);
-    }
-    for (const k of stale) ls.removeItem(k);
-  } catch {
-    /* ignore */
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Professor Pi: one suggestion, chosen by priority
 // ---------------------------------------------------------------------------
@@ -151,7 +199,7 @@ function chooseTip(data: ProgressDoc, summaries: TopicSummary[], focusIds: strin
       return {
         id: "start",
         title: `Start with ${first.title}`,
-        body: "Each lesson opens with a puzzle to try before anything is explained. Have a go first — even a wrong guess makes the idea stick better when it arrives.",
+        body: "Lessons start with a puzzle to try before anything is explained. Have a go first — even a wrong guess helps the idea stick when it arrives.",
         href: `/topic/${first.id}?tab=learn`,
         cta: "Open the first lesson",
       };
@@ -255,25 +303,10 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
 
   const byId = useMemo(() => new Map(summaries.map((s) => [s.id, s])), [summaries]);
 
-  // ---- dismissible bits (read after mount) ----
-  const [tipHidden, setTipHidden] = useState<boolean | null>(null);
-  useEffect(() => {
-    setTipHidden(storageGet("local", `${TIP_PREFIX}${today}`) === "1");
-  }, [today]);
-  function dismissTip() {
-    setTipHidden(true);
-    pruneOldTips(today);
-    storageSet("local", `${TIP_PREFIX}${today}`, "1");
-  }
-
-  const [guestNoteHidden, setGuestNoteHidden] = useState(true);
-  useEffect(() => {
-    setGuestNoteHidden(storageGet("session", GUEST_NOTE_KEY) === "1");
-  }, []);
-  function dismissGuestNote() {
-    setGuestNoteHidden(true);
-    storageSet("session", GUEST_NOTE_KEY, "1");
-  }
+  // ---- dismissible bits ----
+  const tipKey = `${TIP_PREFIX}${today}`;
+  const tipHidden = useDismissed("local", tipKey);
+  const guestNoteHidden = useDismissed("session", GUEST_NOTE_KEY);
 
   // ---- today ----
   const daily = data.daily[today];
@@ -299,12 +332,19 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
     });
   }, [today, data.analytics.days]);
   const activeDays = week.filter((d) => d.active).length;
-  const weeklyTarget = data.weeklyDays;
+  const weeklyTarget = Math.max(1, Math.min(7, data.weeklyDays || 1));
   const todayActive = week.some((d) => d.isToday && d.active);
+  // Days still available this week (today counts if it isn't already active).
+  const daysLeft = week.filter((d) => d.future || (d.isToday && !d.active)).length;
+  const daysNeeded = weeklyTarget - activeDays;
 
   let weekNote: string;
-  if (activeDays >= weeklyTarget) weekNote = "Weekly goal reached — brilliant consistency.";
-  else if (todayActive) weekNote = `Today counts. ${plural(weeklyTarget - activeDays, "more day")} to reach your goal.`;
+  if (daysNeeded <= 0) weekNote = "Weekly goal reached — brilliant consistency.";
+  else if (daysNeeded > daysLeft)
+    weekNote = todayActive
+      ? "Today counts — every day of practice adds up. A fresh week starts on Monday."
+      : "A day counts once you answer a question or practise for 2 minutes. A fresh week starts on Monday.";
+  else if (todayActive) weekNote = `Today counts. ${plural(daysNeeded, "more day")} to reach your goal.`;
   else weekNote = "A day counts once you answer a question or practise for 2 minutes.";
 
   const streak = data.streak;
@@ -350,7 +390,7 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
         <span aria-hidden className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-line bg-surface text-3xl shadow-sm">
           {avatar}
         </span>
-        <h1 className="min-w-0 flex-1">
+        <h1 className="min-w-[9rem] flex-1">
           <span className="block min-h-5 text-sm font-semibold text-ink-2">{clock ? `${clock.greeting},` : " "}</span>
           <span className="block truncate text-2xl font-black tracking-tight sm:text-3xl">{name}</span>
         </h1>
@@ -381,7 +421,7 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
             <button type="button" className="btn btn-primary text-sm" onClick={leaveGuest}>
               Create account
             </button>
-            <button type="button" className="btn btn-ghost h-10 w-10 p-0" onClick={dismissGuestNote} aria-label="Dismiss guest note">
+            <button type="button" className="btn btn-ghost h-10 w-10 p-0" onClick={() => dismiss("session", GUEST_NOTE_KEY)} aria-label="Dismiss guest note">
               <span aria-hidden>✕</span>
             </button>
           </div>
@@ -396,9 +436,9 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
           </h2>
           {clock ? <p className="text-sm text-ink-2">{clock.dateLabel}</p> : null}
         </div>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {/* Daily 5 */}
-          <div className={`flex flex-col rounded-xl p-4 ${dailyDone ? "bg-good-soft" : "bg-brand-soft"}`}>
+          <div className={`flex flex-col rounded-xl p-4 sm:col-span-2 lg:col-span-1 ${dailyDone ? "bg-good-soft" : "bg-brand-soft"}`}>
             <h3 className="flex items-center gap-2 font-extrabold">
               <span aria-hidden>🎯</span> Daily 5
             </h3>
@@ -414,9 +454,11 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
             ) : (
               <>
                 <p className="mt-1 text-sm text-ink-2">5 mixed questions from across your topics — about 10 minutes.</p>
-                <Link href="/daily" className="btn btn-primary mt-auto w-full py-3 text-base">
-                  Start your Daily 5
-                </Link>
+                <div className="mt-auto pt-3">
+                  <Link href="/daily" className="btn btn-primary w-full py-3 text-base">
+                    Start your Daily 5
+                  </Link>
+                </div>
               </>
             )}
           </div>
@@ -455,7 +497,7 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
               <span className="text-2xl font-black tabular-nums">{activeDays}</span>
               <span className="text-ink-2"> of {plural(weeklyTarget, "day")} this week</span>
             </p>
-            <ol className="mt-2 flex justify-between gap-1" aria-label="Days practised this week">
+            <ol className="mt-2 flex justify-between gap-0.5" aria-label="Days practised this week">
               {week.map((d) => (
                 <li key={d.iso} className="flex flex-col items-center gap-1">
                   <span
@@ -499,9 +541,11 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
                 ) : null}
               </div>
             </div>
-            <Link href={last.href} className="btn btn-secondary mt-4 w-full sm:mt-auto sm:w-auto sm:self-start">
-              Continue <span aria-hidden>→</span>
-            </Link>
+            <div className="mt-auto pt-4">
+              <Link href={last.href} className="btn btn-secondary w-full sm:w-auto">
+                Continue <span aria-hidden>→</span>
+              </Link>
+            </div>
           </section>
         ) : null}
 
@@ -515,23 +559,31 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
               <span className="text-sm text-ink-2">{review.total === 1 ? "item" : "items"} ready</span>
             </p>
             <ul className="mt-1 space-y-0.5 text-sm text-ink-2">
-              {review.questions > 0 ? <li>🔁 {plural(review.questions, "question")} to try again</li> : null}
+              {review.questions > 0 ? (
+                <li>
+                  <span aria-hidden>🔁 </span>
+                  {plural(review.questions, "question")} to try again
+                </li>
+              ) : null}
               {review.skills > 0 ? (
                 <li>
-                  🧩 {plural(review.skills, "skill")} to refresh{review.rusty > 0 ? ` (${review.rusty} getting rusty)` : ""}
+                  <span aria-hidden>🧩 </span>
+                  {plural(review.skills, "skill")} to refresh{review.rusty > 0 ? ` (${review.rusty} getting rusty)` : ""}
                 </li>
               ) : null}
             </ul>
-            <Link href="/review" className="btn btn-primary mt-4 w-full sm:mt-auto sm:w-auto sm:self-start">
-              Start review
-            </Link>
+            <div className="mt-auto pt-4">
+              <Link href="/review" className="btn btn-primary w-full sm:w-auto">
+                Start review
+              </Link>
+            </div>
           </section>
         ) : null}
 
-        {tipHidden === false ? (
+        {!tipHidden ? (
           <section aria-labelledby="tip-h" className="card flex flex-col border-brand/30 p-4 sm:p-5">
             <div className="flex items-start gap-3">
-              <span aria-hidden className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-2 text-xl font-black text-white">
+              <span aria-hidden className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-2 text-xl font-black text-brand-ink">
                 π
               </span>
               <div className="min-w-0 flex-1">
@@ -542,12 +594,12 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
                 <p className="mt-1 text-sm text-ink-2">{tip.body}</p>
               </div>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2 sm:mt-auto sm:pt-4">
+            <div className="mt-auto flex flex-wrap gap-2 pt-4">
               <Link href={tip.href} className="btn btn-primary">
                 {tip.cta}
               </Link>
-              <button type="button" className="btn btn-ghost" onClick={dismissTip}>
-                Not today
+              <button type="button" className="btn btn-ghost" onClick={() => dismiss("local", tipKey)}>
+                Not today<span className="sr-only"> — hide this suggestion until tomorrow</span>
               </button>
             </div>
           </section>
@@ -585,7 +637,7 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
             <p className="mt-3 text-sm text-ink-2">You&apos;ve reached the top rank. Legendary.</p>
           )}
           <p className="mt-1 text-xs text-ink-2">Stars come from correct answers — first-try solves without hints earn a bonus.</p>
-          <Link href="/progress" className="mt-2 inline-flex min-h-10 items-center self-start text-sm font-bold text-brand hover:underline sm:mt-auto">
+          <Link href="/progress" className="mt-auto inline-flex min-h-10 items-center self-start pt-2 text-sm font-bold text-brand hover:underline">
             See your progress <span aria-hidden>&nbsp;→</span>
           </Link>
         </section>
@@ -595,7 +647,7 @@ export function HomeDashboard({ summaries }: { summaries: TopicSummary[] }) {
       {focusList.length > 0 ? (
         <section aria-labelledby="focus-h">
           <h2 id="focus-h" className="section-title">
-            <span aria-hidden>🎯 </span>Focus topics
+            <span aria-hidden>📌 </span>Focus topics
           </h2>
           <p className="mt-0.5 text-sm text-ink-2">What you&apos;re working on right now — your Daily 5 leans towards these.</p>
           <ul className="mt-3 flex flex-wrap gap-2">

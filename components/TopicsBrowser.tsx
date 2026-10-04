@@ -3,6 +3,7 @@
 // grid of topic cards with the learner's mastery, plus a legend for the bar.
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { TopicSummary } from "@/lib/server/content";
 import { STRANDS } from "@/lib/topics/meta";
 import { TopicCard, STRAND_STYLES, strandStyle } from "./TopicCard";
@@ -13,7 +14,7 @@ function norm(s: string): string {
   return s
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/[{}*`|_]/g, " ")
     .replace(/&/g, " and ")
     .replace(/\s+/g, " ");
@@ -32,38 +33,34 @@ interface Result {
   sections: { id: string; heading: string; stretch: boolean }[];
 }
 
+// Mirrors the weighting in lib/mastery.ts (topicMastery).
 const LEGEND = [
-  { label: "Lessons", weight: 15, bar: "bg-info", text: "Mark each lesson section as understood." },
-  { label: "Skills", weight: 45, bar: "bg-brand", text: "Practise skill drills until they're Secure — then Mastered in mixed practice." },
-  { label: "Questions", weight: 25, bar: "bg-good", text: "Solve quiz and practice-paper questions (full marks at 60)." },
-  { label: "Challenge", weight: 15, bar: "bg-accent", text: "Crack challenge problems (full marks at 5)." },
+  { label: "Skills", weight: 45, text: "Practise the skill drills until they're Secure, then get them right in mixed practice to reach Mastered." },
+  { label: "Questions", weight: 25, text: "Solve quiz and practice-paper questions — this part is full at 60 solved." },
+  { label: "Lessons", weight: 15, text: "Mark each lesson section as understood." },
+  { label: "Challenge", weight: 15, text: "Crack challenge problems — this part is full at 5 solved." },
 ] as const;
 
 export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
-  const [strand, setStrand] = useState<string>(ALL);
+  // The strand filter lives in the URL (/topics?strand=algebra) so it can be linked and survives reloads.
+  const params = useSearchParams();
+  const urlSlug = params?.get("strand") ?? "";
+  const urlStrand = STRANDS.find((s) => STRAND_STYLES[s]?.slug === urlSlug) ?? ALL;
+  /** Only used if the History API is unavailable. */
+  const [localStrand, setLocalStrand] = useState<string | null>(null);
+  const strand = localStrand ?? urlStrand;
   const [query, setQuery] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
 
-  // Deep link: /topics?strand=algebra (read after mount; kept in sync below).
-  useEffect(() => {
-    try {
-      const slug = new URLSearchParams(window.location.search).get("strand");
-      const match = STRANDS.find((s) => STRAND_STYLES[s]?.slug === slug);
-      if (match) setStrand(match);
-    } catch {
-      /* ignore malformed URLs */
-    }
-  }, []);
-
   function chooseStrand(next: string) {
-    setStrand(next);
     try {
       const url = new URL(window.location.href);
       if (next === ALL) url.searchParams.delete("strand");
       else url.searchParams.set("strand", strandStyle(next).slug);
       window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      setLocalStrand(null);
     } catch {
-      /* history unavailable — the filter still works */
+      setLocalStrand(next);
     }
   }
 
@@ -112,7 +109,8 @@ export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
   }, [index, strand, terms]);
 
   const filtered = strand !== ALL || terms.length > 0;
-  const readyCount = summaries.filter((s) => s.ready).length;
+  const strandCount = STRANDS.filter((s) => counts[s]).length;
+  const comingSoon = summaries.filter((s) => !s.ready).length;
 
   function reset() {
     setQuery("");
@@ -127,7 +125,7 @@ export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
       <header>
         <h1 className="text-2xl font-black tracking-tight sm:text-3xl">All topics</h1>
         <p className="mt-1 text-ink-2">
-          {readyCount} topics across five strands. Each one has a lesson, practice questions, skill drills and challenge problems.
+          {summaries.length} topics across {strandCount} strands{comingSoon > 0 ? ` (${comingSoon} coming soon)` : ""}. Open one for its lessons, practice questions, skill drills and challenge problems.
         </p>
       </header>
 
@@ -180,7 +178,11 @@ export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
               >
                 {st ? <span aria-hidden className={`h-2.5 w-2.5 rounded-full ${st.bg} ${on ? "ring-2 ring-brand-ink/70" : ""}`} /> : null}
                 {s === ALL ? "All" : s}
-                <span className={`tabular-nums ${on ? "opacity-80" : "text-ink-2"}`}>{counts[s] ?? 0}</span>
+                <span className={`tabular-nums ${on ? "opacity-80" : "text-ink-2"}`}>
+                  <span className="sr-only">, </span>
+                  {counts[s] ?? 0}
+                  <span className="sr-only"> topics</span>
+                </span>
               </button>
             );
           })}
@@ -204,7 +206,7 @@ export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
                   <ul className="mt-1 space-y-0.5">
                     {sections.map((x) => (
                       <li key={x.id}>
-                        <Link href={`/topic/${summary.id}?tab=learn#sec-${x.id}`} className="inline-flex min-h-8 items-center text-sm font-semibold text-brand hover:underline">
+                        <Link href={`/topic/${summary.id}?tab=learn#sec-${x.id}`} className="inline-flex min-h-10 items-center text-sm font-semibold text-brand hover:underline">
                           {x.heading}
                           {x.stretch ? <span className="ml-1.5 text-xs font-bold text-ink-2">(stretch)</span> : null}
                         </Link>
@@ -235,23 +237,20 @@ export function TopicsBrowser({ summaries }: { summaries: TopicSummary[] }) {
           How the mastery bar fills
         </h2>
         <p className="mt-1 text-sm text-ink-2">
-          Each topic&apos;s bar blends four things. The label underneath shows your overall score, lessons understood and skills that are Secure or better.
+          The label under each bar reads like <span className="whitespace-nowrap font-semibold text-ink">42% · 3/7 lessons · 2 skills secure</span>: your overall score, the lesson
+          sections you&apos;ve marked as understood, and the skills that are Secure or Mastered. The 100% is made up of:
         </p>
-        <div aria-hidden className="mt-3 flex h-2.5 gap-0.5 overflow-hidden rounded-full">
+        <ul className="mt-3 grid gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
           {LEGEND.map((l) => (
-            <span key={l.label} className={l.bar} style={{ width: `${l.weight}%` }} />
-          ))}
-        </div>
-        <ul className="mt-3 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
-          {LEGEND.map((l) => (
-            <li key={l.label} className="flex items-start gap-2">
-              <span aria-hidden className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${l.bar}`} />
-              <span>
-                <strong className="font-extrabold">
-                  {l.label} · {l.weight}%
-                </strong>{" "}
-                <span className="text-ink-2">— {l.text}</span>
-              </span>
+            <li key={l.label}>
+              <div className="flex items-center gap-2">
+                <strong className="w-24 shrink-0 font-extrabold">{l.label}</strong>
+                <span aria-hidden className="h-2 flex-1 overflow-hidden rounded-full bg-line/60">
+                  <span className="block h-full rounded-full bg-brand" style={{ width: `${(100 * l.weight) / 45}%` }} />
+                </span>
+                <span className="w-10 shrink-0 text-right font-bold tabular-nums">{l.weight}%</span>
+              </div>
+              <p className="mt-0.5 text-ink-2">{l.text}</p>
             </li>
           ))}
         </ul>

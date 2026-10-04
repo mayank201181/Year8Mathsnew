@@ -78,12 +78,12 @@ export function MiniBars({ data, unit, height = 120, caption = "Daily values", v
         )}
         <button
           type="button"
-          className="btn btn-ghost btn-sm shrink-0"
+          className={`btn btn-ghost btn-sm min-h-10 shrink-0 ${showTable ? "bg-surface-2 text-ink" : ""}`}
           aria-controls={tableId}
-          aria-expanded={showTable}
+          aria-pressed={showTable}
           onClick={() => setShowTable((s) => !s)}
         >
-          {showTable ? "Chart" : "Table"}
+          Table view
         </button>
       </div>
 
@@ -91,23 +91,23 @@ export function MiniBars({ data, unit, height = 120, caption = "Daily values", v
         <div aria-hidden className="mt-1 select-none" onPointerLeave={() => setHover(null)}>
           <div className="relative" style={{ height: height + 8 }}>
             {/* Top gridline, with its value in the right-hand gutter */}
-            <div className="absolute left-0 right-9 top-2 border-t border-line" />
-            <span className="absolute right-0 top-0 w-8 text-right text-[10px] leading-none tabular-nums text-ink-2">
+            <div className="absolute left-0 right-11 top-2 border-t border-line" />
+            <span className="absolute right-0 top-0 w-10 text-right text-[10px] leading-none tabular-nums text-ink-2">
               {fmt(top)}
               {unit.length <= 4 ? ` ${unit}` : ""}
             </span>
             {goalPct !== null ? (
               <>
-                <div className="absolute left-0 right-9 border-t border-ink-2/60" style={{ bottom: (goalPct / 100) * height }} />
+                <div className="absolute left-0 right-11 border-t border-ink-2/60" style={{ bottom: (goalPct / 100) * height }} />
                 <span
-                  className="absolute right-0 w-8 translate-y-1/2 text-right text-[10px] font-bold leading-none text-ink-2"
+                  className="absolute right-0 w-10 translate-y-1/2 text-right text-[10px] font-bold leading-none text-ink-2"
                   style={{ bottom: (goalPct / 100) * height }}
                 >
                   {goalLabel}
                 </span>
               </>
             ) : null}
-            <div className="absolute bottom-0 left-0 right-9 flex items-end gap-[2px] border-b border-line" style={{ height }}>
+            <div className="absolute bottom-0 left-0 right-11 flex items-end gap-[2px] border-b border-line" style={{ height }}>
               {data.map((d, i) => {
                 const pct = (Math.max(0, d.value) / top) * 100;
                 const active = i === focus;
@@ -133,7 +133,7 @@ export function MiniBars({ data, unit, height = 120, caption = "Daily values", v
               })}
             </div>
           </div>
-          <div className="mt-1 flex gap-[2px] pr-9">
+          <div className="mt-1 flex gap-[2px] pr-11">
             {data.map((d, i) => (
               <span
                 key={i}

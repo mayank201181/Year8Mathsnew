@@ -15,7 +15,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const topic = getTopic(id);
   if (!topic) return { title: "Topic not found" };
-  return { title: topic.title, description: topic.summary };
+  // Summaries may contain content markup ({{maths}}, **bold**) — keep the meta description plain.
+  const description = topic.summary.replace(/\{\{|\}\}|\*\*|`/g, "").trim();
+  return { title: topic.title, description: description || undefined };
 }
 
 function TopicFallback() {
