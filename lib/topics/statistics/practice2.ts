@@ -299,7 +299,7 @@ export const morePapers: Paper[] = [
         answer: { type: "number", value: 55, display: "55%" },
         traps: [
           { spec: { type: "number", value: 22 }, feedback: "22 boys skipped breakfast. Now write that as a percentage of the 40 pupils who skipped." },
-          { spec: { type: "number", value: 18.33, tolerance: 0.01 }, feedback: "You divided by all 120 pupils. Only the 40 pupils who skipped breakfast count here." },
+          { spec: { type: "number", value: 18.33, tolerance: 0.05 }, feedback: "You divided by all 120 pupils. Only the 40 pupils who skipped breakfast count here." },
         ],
         solution: [
           "Girls: {{3/5}} × 120 = 72, so boys: 120 − 72 = 48.",
@@ -440,8 +440,8 @@ export const morePapers: Paper[] = [
             feedback: "15 is right for the least. But could some of the 9 swimmers in {{40 < t <= 45}} have times like 40.5 s or 41.8 s?",
           },
           {
-            spec: { type: "list", values: [24, 24], ordered: true },
-            feedback: "24 is right for the greatest. But all 9 swimmers in {{40 < t <= 45}} could have times of 42 s or more.",
+            spec: { type: "list", values: [24, 15], ordered: true },
+            feedback: "Right numbers, wrong order: the question asks for the least first.",
           },
         ],
         solution: [
