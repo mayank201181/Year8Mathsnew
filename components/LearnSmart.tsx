@@ -1,9 +1,25 @@
 "use client";
 // The Revise tab: flashcards, a "Can you…?" checklist, formulas, myth vs fact,
 // exam mistakes, memory tricks, real-world links and videos.
-import { useCallback, useId, useMemo, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
+import { useCallback, useId, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import type { Flashcard, LearnSmart as LearnSmartData, Topic } from "@/lib/types";
 import { Rich, RichInline } from "./Rich";
+
+/**
+ * In-page jump that doesn't add a history entry. A plain #hash link creates an entry the
+ * Next.js router can't restore, so a later Back press would reload the whole app.
+ */
+function jumpTo(e: MouseEvent<HTMLAnchorElement>, id: string) {
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  e.preventDefault();
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  // Move keyboard focus too, as a real anchor would.
+  if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+  el.focus({ preventScroll: true });
+}
 
 // ---------------------------------------------------------------------------
 // Flashcards
@@ -333,7 +349,7 @@ export function LearnSmart({ topic }: { topic: Topic }) {
     <div className="space-y-8">
       <nav aria-label="Revision sections" className="nav-scroll -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
         {nav.map((n) => (
-          <a key={n.id} href={`#${n.id}`} className="chip shrink-0 whitespace-nowrap px-3 py-1.5 text-sm hover:bg-brand-soft hover:text-brand">
+          <a key={n.id} href={`#${n.id}`} onClick={(e) => jumpTo(e, n.id)} className="chip shrink-0 whitespace-nowrap px-3 py-1.5 text-sm hover:bg-brand-soft hover:text-brand">
             {n.label}
           </a>
         ))}

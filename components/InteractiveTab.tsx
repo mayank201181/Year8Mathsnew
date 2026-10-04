@@ -1,13 +1,29 @@
 "use client";
 // The Explore tab: interactive explorables for the topic, loaded lazily so the
 // widget code only downloads when the tab is opened.
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { WIDGET_LOADERS } from "./widgets/registry";
 import type { WidgetDef } from "./widgets/kit";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { RichInline } from "./Rich";
 
 type Loader = () => Promise<WidgetDef[]>;
+
+/**
+ * In-page jump that doesn't add a history entry. A plain #hash link creates an entry the
+ * Next.js router can't restore, so a later Back press would reload the whole app.
+ */
+function jumpTo(e: MouseEvent<HTMLAnchorElement>, id: string) {
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  e.preventDefault();
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  // Move keyboard focus too, as a real anchor would.
+  if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+  el.focus({ preventScroll: true });
+}
 
 interface LoadResult {
   /** Which request this result answers (topic + retry count). */
@@ -125,7 +141,7 @@ export function InteractiveTab({ topicId, onGoTab }: { topicId: string; onGoTab?
       {widgets.length > 1 ? (
         <nav aria-label="Explorables in this topic" className="nav-scroll -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
           {widgets.map((w) => (
-            <a key={w.id} href={`#w-${w.id}`} className="chip shrink-0 whitespace-nowrap px-3 py-1.5 text-sm hover:bg-brand-soft hover:text-brand">
+            <a key={w.id} href={`#w-${w.id}`} onClick={(e) => jumpTo(e, `w-${w.id}`)} className="chip shrink-0 whitespace-nowrap px-3 py-1.5 text-sm hover:bg-brand-soft hover:text-brand">
               {w.title}
             </a>
           ))}

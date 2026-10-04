@@ -3,7 +3,7 @@
 // BEFORE the idea is explained; the rest of the lesson appears once the learner
 // has had a go (or chooses to skip). Worked examples reveal one step at a time
 // and finish with a "your turn" question that is auto-marked.
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent } from "react";
 import type { GuideSection, Topic, TopicExtras, WorkedExample } from "@/lib/types";
 import { useStore } from "@/lib/store";
 import { metaById } from "@/lib/topics/meta";
@@ -11,6 +11,22 @@ import { checkAnswer, displayAnswer, type CheckStatus } from "@/lib/answerCheck"
 import { Diagram, Rich, RichInline } from "./Rich";
 import { AnswerInput } from "./AnswerInput";
 import { AskAI } from "./AskAI";
+
+/**
+ * In-page jump that doesn't add a history entry. A plain #hash link creates an entry the
+ * Next.js router can't restore, so a later Back press would reload the whole app.
+ */
+function jumpTo(e: MouseEvent<HTMLAnchorElement>, id: string) {
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  e.preventDefault();
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  // Move keyboard focus too, as a real anchor would.
+  if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+  el.focus({ preventScroll: true });
+}
 
 // ---------------------------------------------------------------------------
 // Read-aloud: content markup → words a speech engine can say.
@@ -60,6 +76,14 @@ export function toSpeech(text: string): string {
     .replace(/(^|[\s(])\*(\S[^*\n]*?)\*/g, "$1$2")
     .replace(/^\s*[-•]\s+/gm, "")
     .replace(/^>\s?/gm, "")
+    // Maths written outside {{ }} (plain ASCII in prose).
+    .replace(/\bsqrt\s*\(([^()]*)\)/g, " the square root of $1 ")
+    .replace(/\^\s*2(?![\d.])/g, " squared")
+    .replace(/\^\s*3(?![\d.])/g, " cubed")
+    .replace(/\^\s*\(\s*([^()]*?)\s*\)/g, " to the power $1")
+    .replace(/\^\s*(-?[\w.]+)/g, " to the power $1")
+    .replace(/(\d)\s*\*\s*(?=\d)/g, "$1 times ")
+    .replace(/(\d)\s+-\s+(?=\d)/g, "$1 minus ")
     .replace(/(^|[\s(])[-−](?=\d)/g, "$1minus ")
     .replace(/−/g, " minus ")
     .replace(/×/g, " times ")
@@ -547,13 +571,12 @@ function SectionView({ topicId, section: s, index, stretch, read, open, next, on
               type="button"
               className={read ? "btn border-good/40 bg-good-soft text-good disabled:cursor-default disabled:opacity-100" : "btn btn-primary"}
               disabled={read}
-              aria-pressed={read}
               onClick={onMarkRead}
             >
               {read ? "✓ Understood" : "I understand this section ✓"}
             </button>
             {next ? (
-              <a href={`#sec-${next.id}`} className="btn btn-ghost">
+              <a href={`#sec-${next.id}`} className="btn btn-ghost" onClick={(e) => jumpTo(e, `sec-${next.id}`)}>
                 Next: {next.heading} ↓
               </a>
             ) : onPractise ? (
@@ -666,7 +689,7 @@ export function GuideView({ topic, extras, onPractise }: { topic: Topic; extras:
               const stretch = stretchIds.has(s.id);
               return (
                 <li key={s.id}>
-                  <a href={`#sec-${s.id}`} className="flex min-h-10 items-center gap-2.5 rounded-xl px-2 py-1.5 text-sm hover:bg-surface-2">
+                  <a href={`#sec-${s.id}`} onClick={(e) => jumpTo(e, `sec-${s.id}`)} className="flex min-h-10 items-center gap-2.5 rounded-xl px-2 py-1.5 text-sm hover:bg-surface-2">
                     <span
                       className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-black ${read ? "bg-good-soft text-good" : "bg-surface-2 text-ink-2"}`}
                       aria-hidden

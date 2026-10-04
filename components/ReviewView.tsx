@@ -16,7 +16,7 @@ import { TOPIC_META, metaById } from "@/lib/topics/meta";
 import { useStore } from "@/lib/store";
 import { DrillItemCard, type DrillOutcome } from "./DrillItemCard";
 import { LevelBadge } from "./DrillRunner";
-import { QuestionCard, type QuestionOutcome } from "./QuestionCard";
+import { QuestionCard, guideHref, type QuestionOutcome } from "./QuestionCard";
 import { fetchQuestions, LoadingCard, QUESTION_BATCH, ResultMark, SOURCE_LABEL, TopicTag } from "./DailyRunner";
 
 const TOPIC_IDS = TOPIC_META.map((t) => t.id);
@@ -111,12 +111,15 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
   const [stopped, setStopped] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
-  const gone = (it: ReviewItem, i: number) => !!skipped[i] || (it.kind === "question" && qmap[it.qid] === null);
+  /** A question the server doesn't have: dropped from the session and not counted. */
+  const gone = (it: ReviewItem) => it.kind === "question" && qmap[it.qid] === null;
+  /** Skipped items (couldn't load / build) are passed over but still count as due. */
+  const passOver = (it: ReviewItem, i: number) => gone(it) || !!skipped[i];
 
   let cur = index;
-  while (cur < items.length && gone(items[cur], cur)) cur++;
+  while (cur < items.length && passOver(items[cur], cur)) cur++;
 
-  const live = items.map((it, i) => !gone(it, i));
+  const live = items.map((it) => !gone(it));
   const validCount = live.filter(Boolean).length;
   const qCount = items.filter((it, i) => live[i] && it.kind === "question").length;
   const sCount = validCount - qCount;
@@ -124,7 +127,11 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
   const answered = answeredIdx.length;
   const correctCount = answeredIdx.filter((i) => results[i].correct).length;
   const position = live.slice(0, cur).filter(Boolean).length + 1;
-  const remaining = items.filter((_, i) => i >= cur && live[i] && !results[i]).length;
+  /** Still to come in this session (what "Keep going" would show). */
+  const remaining = items.filter((it, i) => i >= cur && !passOver(it, i) && !results[i]).length;
+  /** Still due after this session (includes skipped items). */
+  const stillDue = items.filter((_, i) => live[i] && !results[i]).length;
+  const firstIndex = items.findIndex((it, i) => !passOver(it, i));
 
   // Fetch questions in batches, staying a little ahead of the learner.
   const upcoming = items.slice(cur).flatMap((it) => (it.kind === "question" ? [it.qid] : []));
@@ -250,7 +257,7 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
   if (stopped || cur >= items.length) {
     const reviewed = items.map((it, i) => ({ it, i })).filter(({ i }) => !!results[i]);
     const stars = reviewed.reduce((a, { i }) => a + results[i].stars, 0);
-    const allDone = remaining === 0;
+    const allDone = stillDue === 0;
     return (
       <div className="mx-auto max-w-2xl space-y-4">
         <section className="card p-5 text-center sm:p-8" aria-labelledby="review-end-title">
@@ -267,7 +274,7 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
                 ? "Every one remembered. Each of those now waits longer before it comes back."
                 : "The ones that slipped come back tomorrow — getting them right next time is exactly how they stick."}
           </p>
-          {!allDone ? <p className="mt-2 text-sm text-ink-2">{plural(remaining, "item")} still due — they&apos;ll wait for you.</p> : null}
+          {!allDone ? <p className="mt-2 text-sm text-ink-2">{plural(stillDue, "item")} still due — they&apos;ll wait for you.</p> : null}
           {stars > 0 ? <p className="mt-3 inline-flex chip border-0 bg-accent-soft text-warn">+{stars} ⭐</p> : null}
         </section>
 
@@ -285,13 +292,13 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
         ) : null}
 
         <div className="flex flex-wrap gap-2">
-          {!allDone ? (
+          {remaining > 0 ? (
             <button type="button" className="btn btn-primary" onClick={() => setStopped(false)}>
               Keep going
             </button>
           ) : null}
           {!dailyDone ? (
-            <Link href="/daily" className={`btn ${allDone ? "btn-primary" : "btn-secondary"}`}>
+            <Link href="/daily" className={`btn ${remaining > 0 ? "btn-secondary" : "btn-primary"}`}>
               Do today&apos;s Daily 5
             </Link>
           ) : null}
@@ -355,6 +362,7 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
       <SkillSlot
         key={`s:${cur}:${it.skillId}`}
         item={it}
+        revealed={done}
         level={skillLevel(data.skills[it.skillId])}
         onDone={(drill, o) => onSkillDone(cur, it, drill, o)}
         onNext={goNext}
@@ -399,11 +407,12 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
       </header>
       <div className="mb-3 flex flex-wrap items-center gap-2">
         {meta}
-        <TopicTag topic={metaById(it.topicId)} />
+        {/* Revealed after answering: the topic is a clue, and review is about recalling without one. */}
+        {done ? <TopicTag topic={metaById(it.topicId)} /> : null}
       </div>
       <div aria-live="polite">{toast ? <div className="animate-pop mb-3 rounded-xl bg-accent-soft px-4 py-2 font-bold">{toast}</div> : null}</div>
       {body}
-      {cur === items.findIndex((x, i) => !gone(x, i)) && !done ? (
+      {cur === firstIndex && !done ? (
         <p className="mt-3 text-xs text-ink-2">Answer first, then check — pulling it out of memory is what makes it stick.</p>
       ) : null}
     </div>
@@ -414,6 +423,7 @@ function ReviewSession({ profileKey, today }: { profileKey: string; today: strin
 
 function SkillSlot({
   item,
+  revealed,
   level,
   onDone,
   onNext,
@@ -421,6 +431,8 @@ function SkillSlot({
   onSkip,
 }: {
   item: Extract<ReviewItem, { kind: "skill" }>;
+  /** Answered: show which skill it was. */
+  revealed: boolean;
   level: number;
   onDone: (drill: Drill, o: DrillOutcome) => void;
   onNext: () => void;
@@ -447,10 +459,12 @@ function SkillSlot({
       onNext={onNext}
       nextLabel={nextLabel}
       header={
-        <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
-          <span className="font-extrabold text-ink-2">Skill · {drill.title}</span>
-          <LevelBadge level={level} />
-        </div>
+        revealed ? (
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+            <span className="font-extrabold text-ink-2">Skill · {drill.title}</span>
+            <LevelBadge level={level} />
+          </div>
+        ) : null
       }
     />
   );
@@ -459,6 +473,7 @@ function SkillSlot({
 function ResultRow({ item, result, question, data, today }: { item: ReviewItem; result: ItemResult; question?: IndexedQuestion; data: ProgressDoc; today: string }) {
   const drill = item.kind === "skill" ? drillById(item.skillId) : undefined;
   const label = drill ? drill.title : question ? SOURCE_LABEL[question.source] ?? "Question" : "Question";
+  const lesson = drill ? guideHref(drill.topicId, drill.guideRef) : question ? guideHref(question.topicId, question.question.guideRef) : null;
   let when: string;
   if (item.kind === "question") {
     const s = data.srs[item.qid];
@@ -476,10 +491,19 @@ function ResultRow({ item, result, question, data, today }: { item: ReviewItem; 
           <TopicTag topic={metaById(item.topicId)} />
           <span className="text-sm text-ink-2">{when}</span>
         </div>
-        {drill && !result.correct ? (
-          <Link href={`/drill/${encodeURIComponent(drill.id)}`} className="btn btn-secondary btn-sm mt-2">
-            Practise this skill
-          </Link>
+        {!result.correct && (drill || lesson) ? (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {drill ? (
+              <Link href={`/drill/${encodeURIComponent(drill.id)}`} className="btn btn-secondary btn-sm">
+                Practise this skill
+              </Link>
+            ) : null}
+            {lesson ? (
+              <Link href={lesson} className="btn btn-ghost btn-sm">
+                📖 Back to the lesson
+              </Link>
+            ) : null}
+          </div>
         ) : null}
       </div>
     </li>
