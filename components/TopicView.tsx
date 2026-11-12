@@ -417,7 +417,7 @@ export function TopicView({
 }: {
   topic: Topic;
   extras: TopicExtras;
-  neighbours: { prev?: TopicLink; next?: TopicLink };
+  neighbours: { prev?: TopicLink | null; next?: TopicLink | null };
 }) {
   const searchParams = useSearchParams();
   const tab = parseTab(searchParams.get("tab"));
