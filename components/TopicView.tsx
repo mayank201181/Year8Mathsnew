@@ -1,8 +1,8 @@
 "use client";
-// One topic: header with mastery, then five tabs —
-// Learn (lesson) · Practise (quick check, skill drills, papers) · Challenge ·
-// Explore (interactive widgets) · Revise (flashcards & revision lists).
-// The tab (and an open practice runner) live in the URL: ?tab=…&open=…
+// One topic: header with mastery, then six tabs -
+// Learn (lesson) · Watch (studio whiteboard & beast sitcom) · Practise ·
+// Challenge · Explore (interactive widgets) · Revise (flashcards & revision lists).
+// The tab (and an open practice runner) live in the URL: ?tab=...&open=...
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, type KeyboardEvent, type MouseEvent } from "react";
@@ -20,6 +20,7 @@ import { GuideView } from "./GuideView";
 import { InteractiveTab } from "./InteractiveTab";
 import { LearnSmart } from "./LearnSmart";
 import { RichInline } from "./Rich";
+import { WatchTab } from "./WatchTab";
 
 export interface TopicLink {
   id: string;
@@ -27,10 +28,11 @@ export interface TopicLink {
   icon?: string;
 }
 
-export type TopicTab = "learn" | "practise" | "challenge" | "explore" | "revise";
+export type TopicTab = "learn" | "watch" | "practise" | "challenge" | "explore" | "revise";
 
 const TABS: { id: TopicTab; label: string; icon: string }[] = [
   { id: "learn", label: "Learn", icon: "📖" },
+  { id: "watch", label: "Watch", icon: "🎬" },
   { id: "practise", label: "Practise", icon: "✏️" },
   { id: "challenge", label: "Challenge", icon: "🧗" },
   { id: "explore", label: "Explore", icon: "🎛️" },
@@ -59,9 +61,9 @@ function topicHref(id: string, tab: TopicTab, open?: string | null, hash?: strin
 
 const isPlainClick = (e: MouseEvent) => e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
 
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 // Practice runners (quick check / one paper / drills) opened inside the tab
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 
 type Runner =
   | { kind: "quiz"; label: string }
@@ -99,8 +101,8 @@ function attemptInfo(a: AttemptState | undefined, qs: Question[]): AttemptInfo {
   const done = qs.filter((q) => a.results[q.id]).length;
   const score = qs.reduce((s, q) => s + (a.results[q.id]?.r ?? 0), 0);
   const pct = total ? Math.round((score / total) * 100) : 0;
-  if (a.completed) return { state: "done", text: `Completed — ${pct}%`, done, pct };
-  return { state: "progress", text: `In progress — question ${Math.min(a.index + 1, Math.max(1, total))} of ${total}`, done, pct };
+  if (a.completed) return { state: "done", text: `Completed – ${pct}%`, done, pct };
+  return { state: "progress", text: `In progress – question ${Math.min(a.index + 1, Math.max(1, total))} of ${total}`, done, pct };
 }
 
 const ACTION_LABEL: Record<AttemptInfo["state"], string> = { new: "Start", progress: "Continue", done: "See results" };
@@ -120,9 +122,9 @@ function ProgressLine({ info, total }: { info: AttemptInfo; total: number }) {
   );
 }
 
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 // Practise tab
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 
 function PractiseTab({
   topic,
@@ -215,6 +217,7 @@ function PractiseTab({
             </button>
           ) : null}
         </div>
+
         {drills.length ? (
           <ul className="mt-3 divide-y divide-line">
             {drills.map((d) => {
@@ -299,9 +302,9 @@ function PractiseTab({
   );
 }
 
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 // Challenge tab
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 
 function ChallengeTab({ topic }: { topic: Topic }) {
   const { data, setBest } = useStore();
@@ -358,9 +361,9 @@ function ChallengeTab({ topic }: { topic: Topic }) {
   );
 }
 
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 // Header pieces
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
@@ -395,7 +398,7 @@ function MasteryCard({ m, challengeTotal, barClass }: { m: TopicMastery; challen
       </div>
       <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-4">
         <Stat label="Lessons understood" value={`${m.sectionsRead}/${m.sectionsTotal}`} />
-        <Stat label="Skills secure" value={m.skills.total ? `${m.skills.secure + m.skills.mastered}/${m.skills.total}` : "—"} />
+        <Stat label="Skills secure" value={m.skills.total ? `${m.skills.secure + m.skills.mastered}/${m.skills.total}` : "-"} />
         <Stat label="Questions solved" value={String(m.solved)} sub={m.accuracy !== null ? `${Math.round(m.accuracy * 100)}% right` : undefined} />
         <Stat label="Challenges solved" value={`${m.challengeSolved}/${challengeTotal}`} />
       </dl>
@@ -403,9 +406,9 @@ function MasteryCard({ m, challengeTotal, barClass }: { m: TopicMastery; challen
   );
 }
 
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 // The view
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------
 
 export function TopicView({
   topic,
@@ -414,7 +417,7 @@ export function TopicView({
 }: {
   topic: Topic;
   extras: TopicExtras;
-  neighbours: { prev: TopicLink | null; next: TopicLink | null };
+  neighbours: { prev?: TopicLink; next?: TopicLink };
 }) {
   const searchParams = useSearchParams();
   const tab = parseTab(searchParams.get("tab"));
@@ -448,9 +451,6 @@ export function TopicView({
     if (window.scrollY > y) window.scrollTo({ top: Math.max(0, y) });
   }, []);
 
-  // Opening a runner PUSHES a history entry, so the phone's Back gesture returns to the
-  // practice list instead of leaving the topic. Closing it from the page pops that entry
-  // again (so Back isn't left pointing at a duplicate of the list).
   const runnerPushed = useRef(false);
   useEffect(() => {
     if (!openParam) runnerPushed.current = false;
@@ -465,8 +465,6 @@ export function TopicView({
     }
   }, [topic.id]);
 
-  // The URL is the source of truth for the tab. history.replaceState is integrated with
-  // the Next.js router (useSearchParams updates) and switches tabs without a server round trip.
   const selectTab = useCallback(
     (next: TopicTab) => {
       if (next === "practise" && openParam) closeRunner();
@@ -491,7 +489,6 @@ export function TopicView({
     [topic.id, closeRunner],
   );
 
-  // Jump from a drill to its lesson section; pushState so Back returns to the drills.
   const goLesson = useCallback(
     (sectionId: string) => {
       window.history.pushState(null, "", topicHref(topic.id, "learn", null, `sec-${sectionId}`));
@@ -500,7 +497,6 @@ export function TopicView({
     [topic.id, scrollToTabs],
   );
 
-  // "Continue where you left off" for Home.
   const runnerLabel = runner?.label;
   useEffect(() => {
     if (runnerLabel && openParam) {
@@ -511,7 +507,6 @@ export function TopicView({
     }
   }, [tab, openParam, runnerLabel, topic.id, topic.title, setLast]);
 
-  // Keep the active tab visible in the scrollable tab bar.
   useEffect(() => {
     const list = tabListRef.current;
     const btn = list?.querySelector<HTMLElement>('[aria-selected="true"]');
@@ -602,6 +597,7 @@ export function TopicView({
 
       <div id="topic-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="mt-5">
         {tab === "learn" ? <GuideView topic={topic} extras={extras} onPractise={() => selectTab("practise")} /> : null}
+        {tab === "watch" ? <WatchTab topic={topic} onPractise={() => selectTab("practise")} onChallenge={() => selectTab("challenge")} /> : null}
         {tab === "practise" ? <PractiseTab topic={topic} drills={drills} runner={runner} onOpen={openRunner} onLesson={goLesson} /> : null}
         {tab === "challenge" ? <ChallengeTab topic={topic} /> : null}
         {tab === "explore" ? <InteractiveTab topicId={topic.id} onGoTab={selectTab} /> : null}

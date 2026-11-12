@@ -15,6 +15,14 @@ const NAV = [
   { href: "/progress", label: "Progress", icon: "📈" },
 ];
 
+const DESKTOP_NAV = [
+  { href: "/topics", label: "Topics" },
+  { href: "/watch", label: "🎬 Watch" },
+  { href: "/daily", label: "Daily 5" },
+  { href: "/review", label: "Review" },
+  { href: "/progress", label: "Progress" },
+];
+
 function active(path: string, href: string) {
   return href === "/" ? path === "/" : path.startsWith(href);
 }
@@ -22,12 +30,10 @@ function active(path: string, href: string) {
 export function SiteHeader() {
   const { data, activeProfile, mode, account, switchProfile, logout, leaveGuest } = useStore();
   const path = usePathname() ?? "/";
-  // The menu remembers the page it was opened on, so navigating closes it.
   const [openAt, setOpenAt] = useState<string | null>(null);
   const open = openAt === path;
   const menuRef = useRef<HTMLDivElement>(null);
   const { rank } = rankFor(data.stars);
-  // streak.count only resets on the next activity, so show it only while it is still alive.
   const streak = data.streak;
   const streakLive = streak.count > 1 && (streak.last === todayISO() || streak.last === addDaysISO(-1));
 
@@ -56,22 +62,30 @@ export function SiteHeader() {
           </span>
           <span className="hidden sm:inline">Maths Lab</span>
         </Link>
+
         <nav className="ml-2 hidden items-center gap-1 md:flex" aria-label="Main">
-          {NAV.slice(1).map((n) => (
+          {DESKTOP_NAV.map((n) => (
             <Link key={n.href} href={n.href} className={`rounded-lg px-3 py-1.5 text-sm font-bold ${active(path, n.href) ? "bg-brand-soft text-brand" : "text-ink-2 hover:bg-surface-2"}`}>
               {n.label}
             </Link>
           ))}
         </nav>
+
         <div className="ml-auto flex items-center gap-2">
+          <Link href="/watch" className="chip border-brand/30 bg-brand-soft text-brand text-sm md:hidden" title="Studio Masterclasses & Beast Sitcom TV">
+            🎬 <span className="hidden sm:inline">Watch</span>
+          </Link>
+
           <Link href="/progress" className="chip text-sm" title={`${rank.name} · ${data.stars} stars`}>
             ⭐ {data.stars}
           </Link>
+
           {streakLive ? (
             <span className="chip hidden text-sm sm:inline-flex" title="Days in a row">
               🔥 {streak.count}
             </span>
           ) : null}
+
           <div className="relative" ref={menuRef}>
             <button type="button" onClick={() => setOpenAt(open ? null : path)} aria-expanded={open} aria-haspopup="menu" className="flex h-10 items-center gap-1 rounded-xl px-2 hover:bg-surface-2">
               <span className="text-2xl" aria-hidden>
@@ -79,11 +93,15 @@ export function SiteHeader() {
               </span>
               <span className="hidden max-w-[8rem] truncate text-sm font-bold sm:inline">{activeProfile?.name ?? "Menu"}</span>
             </button>
+
             {open ? (
               <div role="menu" className="card absolute right-0 top-12 z-40 w-60 p-2 text-sm">
                 <div className="px-3 py-2 text-xs text-ink-2">{mode === "guest" ? "Guest — saved on this device only" : `${account?.name ?? ""} family`}</div>
+                <Link role="menuitem" href="/watch" className="block rounded-lg px-3 py-2 font-bold text-brand hover:bg-surface-2">
+                  🎬 Studio &amp; Beast Sitcom TV
+                </Link>
                 <Link role="menuitem" href="/skills" className="block rounded-lg px-3 py-2 hover:bg-surface-2">
-                  🧩 Skills & mastery
+                  🧩 Skills &amp; mastery
                 </Link>
                 <Link role="menuitem" href="/sprint" className="block rounded-lg px-3 py-2 hover:bg-surface-2">
                   ⚡ Fluency sprint
@@ -98,7 +116,7 @@ export function SiteHeader() {
                 {mode === "cloud" ? (
                   <>
                     <Link role="menuitem" href="/parent" className="block rounded-lg px-3 py-2 hover:bg-surface-2">
-                      👪 Parent dashboard
+                      👨‍👩‍👧 Parent dashboard
                     </Link>
                     {account && account.profiles.length > 1 ? (
                       <button role="menuitem" type="button" className="block w-full rounded-lg px-3 py-2 text-left hover:bg-surface-2" onClick={switchProfile}>
@@ -125,6 +143,7 @@ export function SiteHeader() {
 
 export function MobileNav() {
   const path = usePathname() ?? "/";
+
   return (
     <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
       <div className="mx-auto grid max-w-md grid-cols-5">
