@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E01 "Minus Times Minus Equals Drama" (Topic: Integers, Powers & Roots)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="integers-powers")
+EP = dict(topic="integers-powers", logline="Dad's bank balance goes negative and he insists two negatives make a bigger negative. Centi untangles minus signs, powers and order of operations.")
 
 NUMLINE = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 150">'
            '<line x1="20" y1="100" x2="500" y2="100" stroke="#f8fafc" stroke-width="3"/>'

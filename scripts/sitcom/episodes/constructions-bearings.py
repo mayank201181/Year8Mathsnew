@@ -2,7 +2,7 @@
 # Format and helpers: see common.py; check with lint_episode.py.
 import math
 
-EP = dict(topic="constructions-bearings")
+EP = dict(topic="constructions-bearings", logline="Lost in a nature reserve on Dad's bearing of 'minus ninety degrees'. Protractors, three-figure bearings, back bearings and map scales.")
 
 # ---- diagram helpers (SVG for the Holo-Board) ----
 def _svg(parts, h=240):

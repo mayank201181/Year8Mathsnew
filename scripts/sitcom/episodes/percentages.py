@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E06 "Seventy Percent Off My Patience" (Topic: Percentages)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="percentages")
+EP = dict(topic="percentages", logline="Mum adds discounts together and Dad's BananaCoin goes up 50% then down 50%. Multipliers, reverse percentages and GST.")
 
 # ---------------- COLD OPEN ----------------
 scene("living", [("tara", 300), ("mum", 760)])

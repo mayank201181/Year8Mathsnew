@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E10 "Balance Issues" (Topic: Equations & Inequalities)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="equations")
+EP = dict(topic="equations", logline="Mum's 'five-dollar' phone plan also charges five dollars per gigabyte. The balance method, unknowns on both sides and inequalities.")
 
 SCALE = (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200">'

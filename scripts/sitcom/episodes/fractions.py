@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E04 "A Fraction Of The Respect" (Topic: Fractions)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="fractions")
+EP = dict(topic="fractions", logline="Pizza night: Dad adds the bottoms of fractions and decides there's plenty left for him. Common denominators, 'of' means times, and dividing by fractions.")
 
 BARS = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 190">'
         '<rect x="70" y="10" width="200" height="34" fill="#fde047" fill-opacity="0.75" stroke="#f8fafc" stroke-width="2"/>'

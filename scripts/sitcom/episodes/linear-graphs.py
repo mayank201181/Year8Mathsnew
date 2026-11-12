@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E12 "Gradient Expectations" (Topic: Straight-Line & Real-Life Graphs)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="linear-graphs")
+EP = dict(topic="linear-graphs", logline="Dad's first run produces a graph with a suspiciously flat middle. Coordinates, y = mx + c, gradient and distance–time graphs.")
 
 # ---- diagram helpers (SVG for the Holo-Board) ----
 def _plot(xr, yr, xt, yt, h=240, xl="x", yl="y", grid=True):

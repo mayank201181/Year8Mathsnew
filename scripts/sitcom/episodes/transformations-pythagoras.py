@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E17 "Mirror, Mirror, On The Axis" (Topic: Transformations & Symmetry)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="transformations-pythagoras")
+EP = dict(topic="transformations-pythagoras", logline="Tara's dance routine meets the self-titled Dancing Accountant. Translations, reflections, rotations, enlargements and a Pythagoras shortcut.")
 
 # ---- diagram helpers (dark-board friendly SVG) ----
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 {h}">{body}</svg>'

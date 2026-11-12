@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E20 "Odds Are, Dad Is Wrong" (Topic: Probability) — Season 1 finale
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="probability")
+EP = dict(topic="probability", logline="Season finale. Dad hasn't rolled a six in twelve goes, so one is 'basically guaranteed'. Probability, sample spaces and the gambler's fallacy.")
 
 # ---- diagram helpers (dark-board friendly SVG) ----
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 {h}">{body}</svg>'

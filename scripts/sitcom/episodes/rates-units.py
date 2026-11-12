@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E08 "Are We There Yet, Per Hour" (Topic: Measures, Units & Rates)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="rates-units")
+EP = dict(topic="rates-units", logline='Dad promises Malacca in two hours. Speed, distance and time, average speed (stops count!), km/h to m/s and square-metre surprises.')
 
 TRIANGLE = (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200">'

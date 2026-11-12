@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E19 "The Mean, The Median And The Ugly" (Topic: Averages, Range & Comparing Data)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="averages-spread")
+EP = dict(topic="averages-spread", logline="Tara's pocket-money pitch uses an 'average' that includes one very rich friend. Mean, median, mode, range and outliers.")
 
 # ---- diagram helpers (dark-board friendly SVG) ----
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 {h}">{body}</svg>'

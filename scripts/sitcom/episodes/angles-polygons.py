@@ -2,7 +2,7 @@
 # Format and helpers: see common.py; check with lint_episode.py.
 import math
 
-EP = dict(topic="angles-polygons")
+EP = dict(topic="angles-polygons", logline="Mum's pentagon tiles won't fit and Dad's 'parallel' shelves aren't. Angle facts, Z/F/C angles, triangles and polygon angle sums.")
 
 # ---- diagram helpers (SVG for the Holo-Board) ----
 def _svg(parts, h=240):

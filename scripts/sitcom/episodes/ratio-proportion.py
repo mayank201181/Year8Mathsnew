@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E07 "The Great Biryani Split" (Topic: Ratio & Proportion)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="ratio-proportion")
+EP = dict(topic="ratio-proportion", logline="Ten aunties are coming and Mum's biryani serves four. Dad wants to add six to everything. Scaling, sharing in a ratio and best buys.")
 
 BAR_MODEL = (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 170">'

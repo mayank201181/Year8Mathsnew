@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E09 "Let X Be Dad" (Topic: Expressions & Formulae)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="expressions")
+EP = dict(topic="expressions", logline="Dad's chai-stall business plan says 3c + 2t = 5ct. Like terms, substitution, negative squares, expanding brackets and factorising.")
 
 AREA_MODEL = (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200">'

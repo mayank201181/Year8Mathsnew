@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E02 "The Prime Suspect" (Topic: Factors, Multiples & Primes)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="factors-multiples")
+EP = dict(topic="factors-multiples", logline='Mum needs identical Deepavali goody bags and the buses never arrive together. Prime factor trees, HCF and LCM to the rescue.')
 
 VENN = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 220">'
         '<circle cx="200" cy="115" r="95" fill="none" stroke="#7dd3fc" stroke-width="3"/>'

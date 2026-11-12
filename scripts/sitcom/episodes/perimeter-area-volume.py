@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E15 "Room For Improvement" (Topic: Area, Surface Area & Volume)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="perimeter-area-volume")
+EP = dict(topic="perimeter-area-volume", logline="Mum measures Tara's room with her arm; Dad fills a fish tank with one-litre bottles. Perimeter vs area, compound shapes and volume.")
 
 # ---- diagram helpers (SVG for the Holo-Board) ----
 def _svg(parts, h=240):

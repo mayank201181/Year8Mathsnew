@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E05 "Rounding Error, Party Of Four" (Topic: Decimals, Rounding & Estimation)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="decimals-rounding")
+EP = dict(topic="decimals-rounding", logline='Dad rounds a $47.85 hawker bill down to $40 and calls it maths. Uncle Hock disagrees. Decimal places, significant figures and estimating.')
 
 # ---------------- COLD OPEN ----------------
 scene("hawker", [("tara", 240), ("mum", 470), ("dad", 700), ("uncle", 1000)])

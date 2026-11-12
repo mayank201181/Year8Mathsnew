@@ -2,7 +2,7 @@
 # Format and helpers: see common.py; check with lint_episode.py.
 import math
 
-EP = dict(topic="circles")
+EP = dict(topic="circles", logline="A round table, a 'Head of Table' sticker and Dad's claim that pi is three. Circumference, area and the semicircle trap.")
 
 # ---- diagram helpers (SVG for the Holo-Board) ----
 def _svg(parts, h=240):

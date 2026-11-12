@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E03 "Ten To The Power Of Nope" (Topic: Powers of 10 & Standard Form)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="standard-form")
+EP = dict(topic="standard-form", logline="BananaCoin is worth 3.5 cents and Dad thinks 'times ten' means 'add a zero'. Powers of ten and standard form, big and tiny.")
 
 PLACE = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 150">'
          '<line x1="10" y1="62" x2="510" y2="62" stroke="#c4b5fd" stroke-width="2"/>'

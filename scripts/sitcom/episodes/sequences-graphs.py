@@ -1,7 +1,7 @@
 # "Totally Raotional" S01E11 "The Nth Time's The Charm" (Topic: Sequences & Functions)
 # Format and helpers: see common.py; check with lint_episode.py.
 
-EP = dict(topic="sequences-graphs")
+EP = dict(topic="sequences-graphs", logline="Tara's pocket-money deal: $5, then $3 more every week, for a whole year. Dad shakes on it. Term-to-term rules, nth terms and patterns.")
 
 STICKS = (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 170">'

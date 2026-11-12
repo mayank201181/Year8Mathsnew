@@ -2,7 +2,7 @@
 # Format and helpers: see common.py; check with lint_episode.py.
 import math
 
-EP = dict(topic="statistics")
+EP = dict(topic="statistics", logline="Dad's bar chart 'proves' the family needs an 85-inch TV, with an axis starting at 97. Misleading graphs, sampling, pie charts and correlation.")
 
 # ---- diagram helpers (dark-board friendly SVG) ----
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 {h}">{body}</svg>'
