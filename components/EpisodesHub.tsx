@@ -37,7 +37,7 @@ export function EpisodesHub() {
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="flex flex-wrap gap-2">
-            <span className="chip border-0 bg-brand-soft text-brand">📺 Season 1 · {eps.length} episodes · {totalMin} min</span>
+            <span className="chip border-0 bg-brand-soft text-brand">📺 Season 1 · {eps.length} episode{eps.length === 1 ? "" : "s"} · {totalMin} min</span>
             <span className="chip">⭐ {watchedCount}/{eps.length} watched</span>
           </div>
           <h1 className="mt-2 text-2xl font-black sm:text-3xl">Totally Raotional</h1>
