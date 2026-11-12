@@ -21,14 +21,22 @@ const server = http.createServer((req, res) => {
 const port = server.address().port;
 
 async function page(browser) {
-  const pg = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  const pg = await browser.newPage({ viewport: { width: 1280, height: 720 } });
   pg.on('pageerror', e => console.error('PAGEERR', e.message));
+  pg.on('console', m => { if (m.type() === 'error') console.error('CONSOLE', m.text()); });
   await pg.goto(`http://127.0.0.1:${port}/render.html`);
   await pg.evaluate(tl => window.init(tl), tl);
   return pg;
 }
 
 const browser = await chromium.launch({ args: ['--disable-gpu-vsync'] });
+const poster = opt('--poster');
+if (poster) {
+  const pg = await page(browser);
+  const d = await pg.evaluate(t => window.frameJpeg(t, 0.85), tl.poster_t || 8);
+  fs.writeFileSync(poster, Buffer.from(d.split(',')[1], 'base64'));
+  await browser.close(); server.close(); process.exit(0);
+}
 const stills = opt('--stills');
 if (stills) {
   const pg = await page(browser);
@@ -49,7 +57,7 @@ await Promise.all([...Array(workers)].map(async (_, w) => {
   const pg = await page(browser);
   const seg = path.join(out, `part${w}.mp4`);
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
-    '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p', '-tune', 'animation', seg], { stdio: ['pipe', 'inherit', 'inherit'] });
+    '-c:v', 'libx264', '-preset', 'medium', '-crf', '26', '-pix_fmt', 'yuv420p', '-tune', 'animation', seg], { stdio: ['pipe', 'inherit', 'inherit'] });
   for (let i = a; i < b; i++) {
     const d = await pg.evaluate(t => window.frameJpeg(t, 0.92), i / fps);
     const buf = Buffer.from(d.slice(d.indexOf(',') + 1), 'base64');

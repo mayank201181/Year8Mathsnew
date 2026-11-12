@@ -1,5 +1,5 @@
 """Build audio + timeline for a sitcom episode.
-Usage: python3 build.py script.py outdir
+Usage: python3 build.py episodes/<topic>.py out/<topic>
 Produces outdir/timeline.json and outdir/audio.wav
 """
 import sys, os, json, hashlib, re, subprocess
@@ -13,8 +13,9 @@ os.makedirs(out, exist_ok=True)
 cache = os.path.join(HERE, "tts_cache"); os.makedirs(cache, exist_ok=True)
 
 ns = {}
+exec(open(os.path.join(HERE, "common.py")).read(), ns)
 exec(open(script_path).read(), ns)
-BEATS, VOICES = ns["B"], ns["VOICES"]
+BEATS, VOICES, EP = ns["B"], ns["VOICES"], ns["EP"]
 
 _k = None
 def kokoro():
@@ -198,7 +199,7 @@ for b in BEATS:
     if k == "freeze":
         sfx_events.append((t, b["sfx"], 1.0))
         hold = segs[-1]["t1"] - 0.35
-        push("freeze", b["dur"], text=b["text"], hold=round(hold, 3), ref=len(segs) - 1); continue
+        push("freeze", b["dur"], text=b["text"], narrator=b.get("narrator", ""), hold=round(hold, 3), ref=len(segs) - 1); continue
     if k == "title":
         set_music(False)
         sfx_events.append((t, "jingle", 0.8)); push("title", b["dur"], title=b["title"], sub=b["sub"]); continue
@@ -225,6 +226,9 @@ for b in BEATS:
         a = tts(who, b["text"]); d = len(a) / SR
         st = t + 0.22
         if b.get("board"): board.append(dict(text=b["board"], t=round(st + 0.15, 3)))
+        if b.get("diagram"):
+            board = [x for x in board if "svg" not in x]
+            board.append(dict(svg=b["diagram"], t=round(st + 0.15, 3)))
         moods[who] = b.get("mood", moods.get(who, "neutral"))
         dialog.append((st, a))
         cs = chunks(display_text(b["text"])); tot = sum(len(c) for c in cs); acc = 0; subs = []
@@ -264,5 +268,6 @@ mix = mix[:int(total*SR)]
 mix /= max(1.0, np.abs(mix).max() / 0.97)
 sf.write(os.path.join(out, "audio.wav"), mix, SR)
 
-json.dump(dict(fps=FPS, duration=round(total, 3), segments=segs), open(os.path.join(out, "timeline.json"), "w"))
+title_t = next((x["t0"] for x in segs if x["kind"] == "title"), 5.0)
+json.dump(dict(fps=FPS, duration=round(total, 3), topic=EP["topic"], poster_t=round(title_t + 3.6, 2), segments=segs), open(os.path.join(out, "timeline.json"), "w"))
 print(f"segments={len(segs)} duration={total:.1f}s ({total/60:.1f} min)")

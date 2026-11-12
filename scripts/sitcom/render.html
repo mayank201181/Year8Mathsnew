@@ -7,9 +7,9 @@ html,body{margin:0;background:#000}
 canvas{display:block}
 </style></head>
 <body>
-<canvas id="c" width="1920" height="1080"></canvas>
+<canvas id="c" width="1280" height="720"></canvas>
 <script>
-const W = 1280, H = 720, SCALE = 1.5, GROUND = 655;
+const W = 1280, H = 720, SCALE = 1, GROUND = 655;
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
 let TL = null;
 
@@ -44,6 +44,8 @@ const CH = {
   dad:     { name: 'DAD', color: '#fbbf24', skin: '#a87150', hair: '#2a211d', top: '#f59e0b', top2: '#d97f06', legs: '#7a6a55', h: 1.04, glasses: 'rect', hairStyle: 'short', mo: true, belly: true },
   cashier: { name: 'CASHIER', color: '#f87171', skin: '#e2b48d', hair: '#3b2a20', top: '#ef4444', top2: '#c81e1e', legs: '#33334d', h: 1.0, hairStyle: 'cap' },
   centi:   { name: 'CENTI', color: '#c084fc', monster: true, h: 1.0 },
+  teacher: { name: 'MS LIM', color: '#f472b6', skin: '#dcae86', hair: '#2b1d14', top: '#ec4899', top2: '#be185d', legs: '#334155', h: 0.98, glasses: 'rect', hairStyle: 'bob', long: true },
+  uncle:   { name: 'UNCLE HOCK', color: '#60a5fa', skin: '#d6a074', hair: '#9ca3af', top: '#f1f5f9', top2: '#cbd5e1', legs: '#1f2937', h: 1.0, hairStyle: 'short', belly: true, apron: '#2563eb' },
 };
 
 function blinkAt(t, seed) {
@@ -76,6 +78,8 @@ function drawHuman(id, x, st) {
   if (id === 'tara') { ctx.fillStyle = c.top2; rr(-30, -215, 60, 40, 10); ctx.fill(); strokeC('#ffffff55', 2); text('%', 0, -195, 26, '#fff'); }
   if (id === 'dad') { ctx.fillStyle = c.top2; ctx.beginPath(); ctx.moveTo(-20, -300); ctx.lineTo(0, -262); ctx.lineTo(20, -300); ctx.fill(); }
   if (id === 'cashier') { ctx.fillStyle = '#fff'; rr(16, -260, 40, 18, 4); ctx.fill(); text('KAI', 36, -251, 11, '#c81e1e'); }
+  if (c.apron) { ctx.fillStyle = c.apron; rr(-44, -262, 88, 132, 12); ctx.fill(); ctx.fillStyle = '#fff'; text('HOCK', 0, -220, 15, '#fff'); }
+  if (id === 'teacher') { ctx.fillStyle = '#fde047'; rr(-12, -298, 24, 16, 4); ctx.fill(); }
   // arms
   const gest = st.talking && ['teach', 'excited', 'shock', 'smug', 'happy', 'thinking', 'annoyed'].includes(st.mood);
   const armR = gest ? -1.1 + Math.sin(t * 3.2) * 0.35 * (0.4 + talk) : 0.12 + Math.sin(t * 1.3) * 0.03;
@@ -91,12 +95,21 @@ function drawHuman(id, x, st) {
   if (st.prop === 'tablet') { ctx.save(); ctx.translate(-bw - 20, -205); ctx.rotate(0.15); ctx.fillStyle = '#111827'; rr(-40, -30, 80, 60, 6); ctx.fill(); ctx.fillStyle = '#e5f9ec'; rr(-35, -25, 70, 50, 3); ctx.fill();
     ctx.beginPath(); ctx.moveTo(-30, 12); ctx.lineTo(-10, -18); ctx.lineTo(10, 16); ctx.lineTo(30, 20); strokeC('#ef4444', 3); text('🍌', -22, -12, 12, '#000'); ctx.restore(); }
   if (st.prop === 'cushion') { ctx.save(); ctx.translate(0, -215); ctx.rotate(Math.sin(t*2)*0.05); ctx.fillStyle = '#f472b6'; rr(-50, -40, 100, 80, 22); ctx.fill(); ctx.fillStyle = '#fbcfe8'; rr(-25, -20, 50, 40, 12); ctx.fill(); ctx.fillStyle = '#f472b6'; rr(-12, -10, 24, 20, 6); ctx.fill(); ctx.restore(); }
+  const PX = bw + 30, PY = -230;
+  if (st.prop === 'book') { ctx.save(); ctx.translate(PX, PY); ctx.rotate(-0.15); ctx.fillStyle = '#1d4ed8'; rr(-26, -34, 52, 68, 4); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillRect(-20, -26, 40, 6); text('MATHS', 0, 4, 11, '#fde047'); ctx.restore(); }
+  if (st.prop === 'plate') { ctx.save(); ctx.translate(PX, PY + 10); ell(0, 0, 44, 14); fillC('#f8fafc'); ell(0, -6, 30, 12); fillC('#f59e0b'); circ(-8, -10, 5); fillC('#16a34a'); circ(10, -9, 4); fillC('#dc2626'); ctx.restore(); }
+  if (st.prop === 'map') { ctx.save(); ctx.translate(PX, PY); ctx.rotate(-0.1); ctx.fillStyle = '#fef3c7'; rr(-40, -30, 80, 60, 3); ctx.fill(); ctx.beginPath(); ctx.moveTo(-30, 18); ctx.lineTo(-5, -10); ctx.lineTo(25, 8); ctx.setLineDash([5, 4]); strokeC('#dc2626', 3); ctx.setLineDash([]); text('N', 28, -18, 12, '#1e3a8a'); ctx.restore(); }
+  if (st.prop === 'dice') { ctx.save(); ctx.translate(PX, PY); ctx.rotate(Math.sin(t * 2) * 0.2); ctx.fillStyle = '#fff'; rr(-18, -18, 36, 36, 7); ctx.fill(); strokeC('#111', 2); for (const [a, b2] of [[-8, -8], [0, 0], [8, 8], [-8, 8], [8, -8]]) { circ(a, b2, 3.2); fillC('#111'); } ctx.restore(); }
+  if (st.prop === 'calculator') { ctx.save(); ctx.translate(PX, PY); ctx.fillStyle = '#374151'; rr(-22, -32, 44, 64, 6); ctx.fill(); ctx.fillStyle = '#bbf7d0'; rr(-17, -27, 34, 14, 2); ctx.fill(); ctx.fillStyle = '#9ca3af'; for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) { rr(-16 + j * 12, -8 + i * 12, 9, 9, 2); ctx.fill(); } ctx.restore(); }
+  if (st.prop === 'compass') { ctx.save(); ctx.translate(PX, PY); circ(0, 0, 24); fillC('#e5e7eb'); circ(0, 0, 20); fillC('#fff'); ctx.rotate(Math.sin(t * 1.5) * 0.3); ctx.beginPath(); ctx.moveTo(0, -17); ctx.lineTo(5, 0); ctx.lineTo(-5, 0); ctx.fillStyle = '#dc2626'; ctx.fill(); ctx.beginPath(); ctx.moveTo(0, 17); ctx.lineTo(5, 0); ctx.lineTo(-5, 0); ctx.fillStyle = '#1f2937'; ctx.fill(); ctx.restore(); }
+  if (st.prop === 'paintroller') { ctx.save(); ctx.translate(PX, PY - 20); ctx.rotate(-0.4 + Math.sin(t * 4) * 0.15); ctx.fillStyle = '#78716c'; ctx.fillRect(-3, 0, 6, 60); ctx.fillStyle = '#a78bfa'; rr(-30, -18, 60, 22, 8); ctx.fill(); ctx.restore(); }
   // neck + head
   ctx.fillStyle = c.skin; rr(-14, -318, 28, 30, 8); ctx.fill();
   const hx = 0, hy = -372, hr = 58;
   // hair back
   if (c.hairStyle === 'pony') { ctx.save(); ctx.translate(hx + 46, hy - 30); ctx.rotate(0.5 + Math.sin(t * 2.2) * 0.12); ctx.fillStyle = c.hair; ell(18, 32, 18, 46, 0.2); ctx.fill(); ctx.restore(); ctx.fillStyle = '#f472b6'; circ(hx + 50, hy - 34, 7); ctx.fill(); }
   if (c.hairStyle === 'bun') { circ(hx, hy - 62, 26); fillC(c.hair); }
+  if (c.hairStyle === 'bob') { ctx.fillStyle = c.hair; rr(hx - hr - 8, hy - 30, 2 * hr + 16, 78, 26); ctx.fill(); }
   if (c.hairStyle === 'mumlong') {}
   circ(hx, hy, hr); fillC(c.skin);
   // ears
@@ -108,7 +121,7 @@ function drawHuman(id, x, st) {
   else {
     ctx.beginPath(); ctx.arc(hx, hy - 4, hr + 3, Math.PI * 1.0, Math.PI * 2.0); ctx.fill();
     if (c.hairStyle === 'short') { ctx.fillStyle = '#9ca3af'; ell(hx - hr + 6, hy - 6, 7, 16); ctx.fill(); ell(hx + hr - 6, hy - 6, 7, 16); ctx.fill(); }
-    if (c.hairStyle === 'pony' || c.hairStyle === 'bun') { ctx.fillStyle = c.hair; ctx.beginPath(); ctx.moveTo(hx - hr - 2, hy); ctx.quadraticCurveTo(hx - 20, hy - 70, hx + 30, hy - 40); ctx.quadraticCurveTo(hx + 10, hy - 30, hx - hr + 10, hy + 10); ctx.fill(); }
+    if (c.hairStyle === 'pony' || c.hairStyle === 'bun' || c.hairStyle === 'bob') { ctx.fillStyle = c.hair; ctx.beginPath(); ctx.moveTo(hx - hr - 2, hy); ctx.quadraticCurveTo(hx - 20, hy - 70, hx + 30, hy - 40); ctx.quadraticCurveTo(hx + 10, hy - 30, hx - hr + 10, hy + 10); ctx.fill(); }
   }
   // face
   drawFace(hx, hy + 8, st, c);
@@ -278,28 +291,72 @@ function setCheckout(t) {
   ctx.fillStyle = '#1f2937'; rr(860, 170, 320, 60, 8); ctx.fill(); text('CHECKOUT', 1020, 200, 30, '#fde047');
   ctx.fillStyle = '#fff'; rr(80, 190, 300, 110, 10); ctx.fill(); strokeC('#e11d48', 4); text('ALL PRICES', 230, 225, 22, '#e11d48'); text('+ 9% GST', 230, 258, 30, '#e11d48'); text('(obviously)', 230, 286, 16, '#9f1239');
 }
+function setClassroom(t) {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#e2e8f0'; ctx.fillRect(0, 470, W, 250);
+  ctx.fillStyle = '#94a3b8'; ctx.fillRect(0, 462, W, 10);
+  ctx.fillStyle = '#7c2d12'; rr(60, 70, 520, 300, 8); ctx.fill(); ctx.fillStyle = '#f8fafc'; rr(72, 82, 496, 276, 4); ctx.fill();
+  ctx.font = '400 30px Hand'; ctx.textAlign = 'left'; ctx.fillStyle = '#1e3a8a'; ctx.fillText('Today: no calculators :(', 92, 130);
+  ctx.fillStyle = '#dc2626'; ctx.fillText('Homework due FRIDAY', 92, 180); ctx.fillStyle = '#16a34a'; ctx.fillText('Show your working!', 92, 230);
+  ctx.fillStyle = '#334155'; ctx.fillRect(80, 360, 480, 8);
+  circ(820, 140, 54); fillC('#fff'); strokeC('#1f2937', 6); ctx.beginPath(); ctx.moveTo(820, 140); ctx.lineTo(820, 104); ctx.moveTo(820, 140); ctx.lineTo(846, 150); strokeC('#1f2937', 5);
+  ctx.fillStyle = '#bae6fd'; rr(960, 80, 260, 200, 8); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillRect(1086, 80, 8, 200); ctx.fillRect(960, 176, 260, 8);
+  for (let i = 0; i < 3; i++) { ctx.fillStyle = '#b45309'; rr(640 + i * 210, 520, 170, 20, 4); ctx.fill(); ctx.fillStyle = '#92400e'; ctx.fillRect(650 + i * 210, 540, 10, 90); ctx.fillRect(800 + i * 210, 540, 10, 90); }
+  for (let i = 0; i < 5; i++) { ctx.fillStyle = CUSH[i * 2]; rr(620 + i * 120, 400, 90, 60, 6); ctx.fill(); text(['π', '√', '%', '∠', 'x²'][i], 665 + i * 120, 430, 26, '#fff'); }
+}
+function setHawker(t) {
+  const g = ctx.createLinearGradient(0, 0, 0, 520); g.addColorStop(0, '#fff7ed'); g.addColorStop(1, '#fed7aa'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#9a3412'; ctx.fillRect(0, 0, W, 26);
+  for (let i = 0; i < 6; i++) { ctx.save(); ctx.translate(130 + i * 210, 60); ctx.rotate(t * 3 + i); ctx.fillStyle = '#78716c'; for (let k = 0; k < 3; k++) { ctx.rotate(Math.PI * 2 / 3); rr(-4, 0, 8, 46, 4); ctx.fill(); } ctx.restore(); }
+  const stalls = [['THOSAI KING', '#16a34a'], ['CHAPATI CORNER', '#d97706'], ['PRATA PALACE', '#dc2626'], ['VEG BEE HOON', '#2563eb']];
+  stalls.forEach(([n, c], i) => { const x = 40 + i * 300; ctx.fillStyle = '#fff'; rr(x, 110, 260, 230, 10); ctx.fill(); ctx.fillStyle = c; rr(x, 110, 260, 56, 10); ctx.fill(); text(n, x + 130, 139, 26, '#fff');
+    ctx.fillStyle = '#fef3c7'; rr(x + 20, 190, 220, 120, 6); ctx.fill(); for (let k = 0; k < 4; k++) { ctx.fillStyle = '#e5e7eb'; ctx.fillRect(x + 34, 206 + k * 26, 120, 10); ctx.fillStyle = '#9ca3af'; ctx.fillRect(x + 176, 206 + k * 26, 44, 10); } });
+  ctx.fillStyle = '#d6d3d1'; ctx.fillRect(0, 470, W, 250); ctx.strokeStyle = '#a8a29e'; ctx.lineWidth = 2; for (let y = 500; y < 720; y += 50) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  for (const x of [180, 560]) { ctx.fillStyle = '#e7e5e4'; ell(x, 520, 120, 26); ctx.fill(); ctx.fillStyle = '#78716c'; ctx.fillRect(x - 6, 530, 12, 90); ell(x - 120, 590, 26, 10); fillC('#f97316'); ell(x + 120, 590, 26, 10); fillC('#f97316'); }
+  ctx.fillStyle = '#fbbf24'; rr(140, 494, 30, 22, 4); ctx.fill(); circ(205, 500, 14); fillC('#ffffff');
+}
+function setPark(t) {
+  const g = ctx.createLinearGradient(0, 0, 0, 470); g.addColorStop(0, '#38bdf8'); g.addColorStop(1, '#e0f2fe'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  circ(1110, 90, 44); fillC('#fde68a');
+  for (let i = 0; i < 4; i++) { ctx.fillStyle = 'rgba(255,255,255,0.85)'; const x = ((i * 380 + t * 10) % 1500) - 150; ell(x, 80 + i * 22, 70, 20); ctx.fill(); ell(x + 50, 70 + i * 22, 50, 18); ctx.fill(); }
+  hdb(40, 150, 170, 320, '#fecaca'); hdb(240, 200, 150, 270, '#c7d2fe'); hdb(880, 170, 170, 300, '#bbf7d0'); hdb(1070, 220, 180, 250, '#fde68a');
+  ctx.fillStyle = '#4ade80'; ctx.fillRect(0, 460, W, 260); ctx.fillStyle = '#22c55e'; ctx.fillRect(0, 460, W, 14);
+  ctx.fillStyle = '#d6d3d1'; ctx.beginPath(); ctx.moveTo(420, 720); ctx.lineTo(560, 470); ctx.lineTo(720, 470); ctx.lineTo(860, 720); ctx.fill();
+  for (const [x, s2] of [[470, 1], [800, 0.85], [130, 0.9], [1180, 1.1]]) { ctx.fillStyle = '#92400e'; ctx.fillRect(x - 8 * s2, 330, 16 * s2, 150); ctx.fillStyle = '#15803d'; circ(x, 320, 70 * s2); ctx.fill(); circ(x - 40 * s2, 350, 50 * s2); ctx.fill(); circ(x + 40 * s2, 350, 50 * s2); ctx.fill(); }
+  ctx.fillStyle = '#a16207'; rr(980, 520, 150, 14, 4); ctx.fill(); ctx.fillRect(990, 534, 10, 40); ctx.fillRect(1110, 534, 10, 40);
+}
+function stallFront(x) { ctx.fillStyle = '#b45309'; rr(x - 170, 470, 340, 190, 10); ctx.fill(); ctx.fillStyle = '#f59e0b'; ctx.fillRect(x - 170, 462, 340, 18);
+  ctx.fillStyle = '#fff'; rr(x - 140, 500, 280, 70, 8); ctx.fill(); text("UNCLE HOCK'S", x, 520, 20, '#b45309'); text('Prata · Thosai · Teh', x, 550, 18, '#92400e');
+  ctx.fillStyle = '#e5e7eb'; ell(x + 100, 458, 40, 10); ctx.fill(); }
 function counterFront(x) { ctx.fillStyle = '#7e22ce'; rr(x - 170, 470, 340, 190, 10); ctx.fill(); ctx.fillStyle = '#a855f7'; ctx.fillRect(x - 170, 462, 340, 18);
   ctx.fillStyle = '#111827'; rr(x + 40, 400, 100, 66, 6); ctx.fill(); ctx.fillStyle = '#22c55e'; rr(x + 48, 408, 84, 30, 3); ctx.fill(); text('$63.00', x + 90, 424, 16, '#052e16', { font: 'monospace' }); text('KINGDOM', x - 60, 560, 24, '#f3e8ff'); }
 function setConfess(who, t) {
-  const pal = { tara: ['#ede9fe', '#c4b5fd'], dad: ['#fef3c7', '#fcd34d'], centi: ['#dcfce7', '#86efac'], mum: ['#ccfbf1', '#5eead4'] }[who] || ['#eee', '#ccc'];
+  const pal = { tara: ['#ede9fe', '#c4b5fd'], dad: ['#fef3c7', '#fcd34d'], centi: ['#dcfce7', '#86efac'], mum: ['#ccfbf1', '#5eead4'], teacher: ['#fce7f3', '#f9a8d4'], uncle: ['#dbeafe', '#93c5fd'], cashier: ['#fee2e2', '#fca5a5'] }[who] || ['#eee', '#ccc'];
   const g = ctx.createRadialGradient(640, 300, 50, 640, 300, 800); g.addColorStop(0, pal[0]); g.addColorStop(1, pal[1]); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
   ctx.save(); ctx.filter = 'blur(6px)';
   if (who === 'tara') { for (let r = 0; r < 3; r++) { ctx.fillStyle = '#92400e'; ctx.fillRect(60, 150 + r * 130, 330, 12); for (let i = 0; i < 11; i++) { ctx.fillStyle = CUSH[(i * 3 + r) % 14]; ctx.fillRect(70 + i * 29, 70 + r * 130, 24, 80); } } ctx.fillStyle = '#fef9c3'; rr(900, 120, 260, 180, 8); ctx.fill(); text('A+', 1030, 210, 90, '#16a34a'); }
   if (who === 'dad') { ctx.fillStyle = '#fff'; rr(830, 90, 340, 230, 8); ctx.fill(); ctx.beginPath(); ctx.moveTo(860, 280); ctx.lineTo(940, 150); ctx.lineTo(1020, 260); ctx.lineTo(1140, 300); strokeC('#ef4444', 10); ctx.fillStyle = '#78350f'; ctx.fillRect(80, 200, 260, 300); }
+  if (who === 'mum') { for (let i = 0; i < 8; i++) cushion(140 + (i % 4) * 90, 200 + Math.floor(i / 4) * 80, 80, 66, CUSH[i], (hash(i) - 0.5) * 0.4); ctx.fillStyle = '#fff'; rr(860, 120, 300, 200, 10); ctx.fill(); text('SALE', 1010, 220, 80, '#dc2626'); }
+  if (who === 'teacher') { ctx.fillStyle = '#f8fafc'; rr(100, 100, 500, 280, 8); ctx.fill(); ctx.font = '400 40px Hand'; ctx.fillStyle = '#1e3a8a'; ctx.textAlign = 'left'; ctx.fillText('x + 3 = 7', 150, 200); ctx.fillText('a² + b² = c²', 150, 280); }
+  if (who === 'uncle') { ctx.fillStyle = '#b45309'; rr(800, 100, 400, 300, 10); ctx.fill(); text('SINCE 1987', 1000, 250, 50, '#fde68a'); }
   if (who === 'centi') { ctx.fillStyle = '#14532d'; rr(120, 80, 1040, 140, 20); ctx.fill(); text('0.000000001', 640, 150, 90, '#86efac', { font: 'monospace' }); for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) { ctx.fillStyle = '#166534'; rr(130 + i * 70 + (i > 1 ? 800 : 0) - (i > 1 ? 140 : 0), 300 + j * 80, 56, 56, 10); ctx.fill(); } }
   ctx.restore();
   ctx.fillStyle = 'rgba(0,0,0,0.12)'; ctx.fillRect(0, 600, W, 120);
 }
 function drawSet(id, t) {
   if (id === 'living') setLiving(t); else if (id === 'kitchen') setKitchen(t); else if (id === 'mall') setMall(t);
-  else if (id === 'checkout') setCheckout(t); else if (id && id.startsWith('confess_')) setConfess(id.slice(8), t);
+  else if (id === 'checkout') setCheckout(t); else if (id === 'classroom') setClassroom(t); else if (id === 'hawker') setHawker(t); else if (id === 'park') setPark(t);
+  else if (id && id.startsWith('confess_')) setConfess(id.slice(8), t);
 }
 
 // ---------- overlays ----------
-function drawBoard(lines, t, side) {
-  const vis = lines.filter(l => t >= l.t); if (!vis.length) return;
-  const w = 560, lh = 50, h = 74 + vis.length * lh, x = side === 'left' ? 30 : W - w - 30, y = 36;
-  const k = ease((t - vis[0].t) / 0.35);
+const SVG_IMG = new Map();
+function drawBoard(entries, t, side) {
+  const all = entries.filter(l => t >= l.t); if (!all.length) return;
+  const vis = all.filter(l => l.text !== undefined); const dg = all.filter(l => l.svg).pop();
+  const img = dg ? SVG_IMG.get(dg.svg) : null; const dh = img ? Math.min(280, img.height * 520 / img.width) : 0;
+  const w = 560, lh = 50, h = 60 + vis.length * lh + (img ? dh + 18 : 0) + 14, x = side === 'left' ? 30 : W - w - 30, y = 36;
+  const k = ease((t - all[0].t) / 0.35);
   ctx.save(); ctx.globalAlpha = k; ctx.translate(0, (1 - k) * -20);
   ctx.shadowColor = 'rgba(0,0,0,0.35)'; ctx.shadowBlur = 20;
   ctx.fillStyle = 'rgba(20,40,32,0.93)'; rr(x, y, w, h, 18); ctx.fill(); ctx.shadowBlur = 0;
@@ -316,6 +373,7 @@ function drawBoard(lines, t, side) {
     text(l.text, x + 22, y + 75 + i * lh, size, col, { align: 'left', font: 'Hand', weight: 400 });
     ctx.restore();
   });
+  if (img) { ctx.globalAlpha = k * ease((t - dg.t) / 0.5); ctx.drawImage(img, x + 20, y + 56 + vis.length * lh + 8, 520, dh); ctx.globalAlpha = k; }
   ctx.restore();
 }
 function drawSubs(seg, t) {
@@ -374,13 +432,14 @@ function clampCam(c) { const hw = W / 2 / c.s, hh = H / 2 / c.s; c.cx = clamp(c.
 function drawStage(seg, t, opts = {}) {
   const cam = clampCam(camera(seg, t));
   const conf = seg.scene && seg.scene.startsWith('confess');
-  const wob = conf ? 3 : 1.2;
+  const wob = conf ? 2.5 : 0;
   ctx.save();
   ctx.translate(W / 2 + Math.sin(t * 0.9) * wob + Math.sin(t * 2.3) * wob * 0.4, H / 2 + Math.cos(t * 0.7) * wob);
   if (conf) ctx.rotate(Math.sin(t * 0.5) * 0.004);
   ctx.scale(cam.s * (opts.zoom || 1), cam.s * (opts.zoom || 1)); ctx.translate(-cam.cx, -cam.cy);
   drawSet(seg.scene, t);
-  const order = [...seg.cast].sort((a, b) => (a.who === 'cashier') - (b.who === 'cashier'));
+  const behind = w => (w === 'cashier' || w === 'uncle') && (seg.scene === 'checkout' || seg.scene === 'hawker');
+  const order = [...seg.cast].sort((a, b) => behind(a.who) - behind(b.who));
   for (const c of order) {
     if (t < c.appear) continue;
     const pk = c.appear > 0 ? clamp((t - c.appear) / 0.45, 0, 1) : 1;
@@ -388,7 +447,8 @@ function drawStage(seg, t, opts = {}) {
     if (pk < 1) { const sc = back(pk); ctx.translate(c.x, GROUND); ctx.scale(sc, sc); ctx.translate(-c.x, -GROUND); }
     drawChar(c.who, c.x, charState(seg, c, t));
     ctx.restore();
-    if (c.who === 'cashier') counterFront(c.x);
+    if (c.who === 'cashier' && seg.scene === 'checkout') counterFront(c.x);
+    if ((c.who === 'uncle' || c.who === 'cashier') && seg.scene === 'hawker') stallFront(c.x);
     if (c.appear > 0 && t - c.appear < 0.8) { const k = (t - c.appear) / 0.8; for (let i = 0; i < 9; i++) { const a = i / 9 * Math.PI * 2; circ(c.x + Math.cos(a) * 130 * k, GROUND - 160 + Math.sin(a) * 110 * k, 50 * (1 - k) + 10); fillC(`rgba(237,233,254,${0.9 * (1 - k)})`); } }
   }
   ctx.restore();
@@ -448,7 +508,7 @@ function drawFreeze(seg, t) {
   ctx.fillStyle = 'rgba(255,240,200,0.12)'; ctx.fillRect(0, 0, W, H);
   const kk = back((k - 0.25) / 0.35); if (kk > 0) { ctx.save(); ctx.translate(640, 470); ctx.rotate(-0.06); ctx.scale(kk, kk);
     ctx.fillStyle = '#dc2626'; rr(-330, -60, 660, 120, 14); ctx.fill(); text(seg.text, 0, 4, 70, '#fff'); ctx.restore(); }
-  const k2 = ease((k - 1.0) / 0.3); if (k2 > 0) { ctx.globalAlpha = k2; ctx.fillStyle = '#111'; rr(330, 590, 620, 70, 10); ctx.fill(); text('Narrator: It was not basic maths.', 640, 625, 30, '#fde047'); ctx.globalAlpha = 1; }
+  const k2 = ease((k - 1.0) / 0.3); if (k2 > 0 && seg.narrator) { ctx.globalAlpha = k2; const nl = wrap(seg.narrator, 760, 30); ctx.fillStyle = '#111'; rr(240, 600, 800, 64, 10); ctx.fill(); text(nl[0], 640, 632, 30, '#fde047'); ctx.globalAlpha = 1; }
 }
 
 window.renderAt = function (t) {
@@ -472,7 +532,9 @@ const _first = new Map();
 function firstOf(seg) { const key = seg.scene + '|' + seg.caption; if (_first.has(key + seg.t0)) return _first.get(key + seg.t0);
   const S = TL.segments; let i = S.indexOf(seg); while (i > 0 && S[i - 1].scene === seg.scene && S[i - 1].caption === seg.caption) i--; _first.set(key + seg.t0, S[i]); return S[i]; }
 
-window.init = async function (tl) { TL = tl; await document.fonts.load('700 40px Fredoka'); await document.fonts.load('400 30px Hand'); await document.fonts.ready; return true; };
+window.init = async function (tl) { TL = tl;
+  const svgs = new Set(); for (const sg of tl.segments) for (const b of sg.board || []) if (b.svg) svgs.add(b.svg);
+  await Promise.all([...svgs].map(sv => new Promise(res => { const im = new Image(); im.onload = () => { SVG_IMG.set(sv, im); res(); }; im.onerror = () => { console.error('SVGFAIL ' + sv.slice(0, 80)); res(); }; im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(sv); }))); await document.fonts.load('700 40px Fredoka'); await document.fonts.load('400 30px Hand'); await document.fonts.ready; return true; };
 window.frameJpeg = function (t, q) { window.renderAt(t); return cv.toDataURL('image/jpeg', q || 0.9); };
 </script>
 </body></html>

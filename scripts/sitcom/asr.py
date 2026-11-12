@@ -4,7 +4,8 @@ Usage: python3 asr.py episodes/<topic>.py   (after build.py)
 import json, re, hashlib, os, difflib, sys
 HERE=os.path.dirname(os.path.abspath(__file__))
 from faster_whisper import WhisperModel
-ns={}; exec(open(sys.argv[1]).read(), ns)
+ns={}; exec(open(os.path.join(HERE,'common.py')).read(), ns)
+exec(open(sys.argv[1]).read(), ns)
 V=ns['VOICES']; m=WhisperModel('base.en', device='cpu', compute_type='int8', cpu_threads=2)
 norm=lambda s: re.sub(r"[^a-z0-9 ]","",s.lower().replace('-',' ')).split()
 items=[]

@@ -1,32 +1,7 @@
-# "Totally Raotional" — S01E01 "Seventy Percent Off My Patience"  (Topic: Percentages)
-# Each beat is a dict. Types:
-#  scene: {id, cast: [(who, x)], caption?}   -> sets location + who's on stage (x in 0..1280)
-#  line:  {who, text, mood?, shot?, moods?, board?, boardClear?, speed?, gap?, look?}
-#  sfx:   {name, gap?}
-#  freeze:{text, dur, sfx}
-#  title: {title, sub, dur}
-#  poof:  {who, x}         -> character appears in a puff
-#  card:  {text, sub, dur} -> full-screen text card
-#  challenge: {n, q, a, work}
+# "Totally Raotional" S01E06 "Seventy Percent Off My Patience" (Topic: Percentages)
+# Format and helpers: see common.py; check with lint_episode.py.
 
-VOICES = {
-    "tara":    dict(voice="af_heart", speed=1.06, lang="en-us"),
-    "mum":     dict(voice="bf_emma", speed=1.08, lang="en-gb"),
-    "dad":     dict(voice="bm_george", speed=1.0, lang="en-gb"),
-    "centi":   dict(voice="am_fenrir", speed=0.95, lang="en-us", pitch=-2.5),
-    "cashier": dict(voice="am_puck", speed=1.12, lang="en-us"),
-}
-
-B = []
-def scene(id, cast, caption=None): B.append(dict(type="scene", id=id, cast=cast, caption=caption))
-def L(who, text, **kw): B.append(dict(type="line", who=who, text=text, **kw))
-def sfx(name, gap=0.0): B.append(dict(type="sfx", name=name, gap=gap))
-def freeze(text, dur=2.6, s="scratch"): B.append(dict(type="freeze", text=text, dur=dur, sfx=s))
-def title(t, sub, dur=5.0): B.append(dict(type="title", title=t, sub=sub, dur=dur))
-def poof(who, x): B.append(dict(type="poof", who=who, x=x))
-def card(text, sub="", dur=2.5): B.append(dict(type="card", text=text, sub=sub, dur=dur))
-def challenge(n, q, a, work, qs, as_): B.append(dict(type="challenge", n=n, q=q, a=a, work=work, qs=qs, as_=as_))
-def confess(who, caption): scene("confess_" + who, [(who, 640)], caption)
+EP = dict(topic="percentages")
 
 # ---------------- COLD OPEN ----------------
 scene("living", [("tara", 300), ("mum", 760)])
@@ -39,12 +14,12 @@ sfx("door")
 L("dad", "Family. Big news. My stock, Banana Coin, went UP fifty percent on Monday.", mood="smug", shot="close", prop="tablet")
 L("mum", "Ooh!", mood="excited", shot="wide")
 L("dad", "And then DOWN fifty percent on Tuesday. So, net net, I'm exactly where I started. Plus fifty, minus fifty. Zero. Basic maths.", mood="smug", shot="close")
-freeze("\"BASIC MATHS.\"", 2.4)
+freeze("\"BASIC MATHS.\"", 2.4, narrator="Narrator: It was not basic maths.")
 confess("tara", "TARA RAO · 12 · Only Sane Person In This House")
 L("tara", "Basic maths. He said basic maths. My father manages money. Other people's money.", mood="deadpan")
 L("tara", "Sleep well, Singapore.", mood="deadpan", gap=0.6)
 
-title("TOTALLY RAOTIONAL", "Episode 1 · “Seventy Percent Off My Patience”")
+title()
 
 # ---------------- ACT 1: CENTI ----------------
 scene("kitchen", [("tara", 380)])
@@ -159,4 +134,4 @@ challenge(2, "A jacket costs $54 AFTER 10% off. What was the original price?", "
 challenge(3, "A price goes UP 20%, then DOWN 20%. Overall?", "DOWN 4%", "× 1.2 × 0.8 = × 0.96  →  4% less",
   "Question three. A price goes up twenty percent, then down twenty percent. What happens overall?",
   "Down four percent. One point two times zero point eight is zero point nine six. If you said it stays the same, go and sit with Dad.")
-card("TOTALLY RAOTIONAL", "Next time: Ratio — “The Great Biryani Split”", 4.0)
+end_card()
