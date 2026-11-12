@@ -18,7 +18,7 @@ export const SITCOM_EPISODES: SitcomEpisode[] = [
     "topicId": "percentages",
     "topicShort": "Percentages",
     "title": "Seventy Percent Off My Patience",
-    "logline": "",
+    "logline": "Mum adds discounts together and Dad's BananaCoin goes up 50% then down 50%. Multipliers, reverse percentages and GST.",
     "durationSec": 464,
     "src": "/videos/percentages.mp4",
     "poster": "/videos/posters/percentages.jpg"
