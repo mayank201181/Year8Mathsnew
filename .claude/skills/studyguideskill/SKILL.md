@@ -97,7 +97,7 @@ Data-model additions that make this real (reflected in §3): `GuideSection.disco
 
 ## 7. AI tutor (optional; needs an Anthropic key)
 - `app/api/ai/route.ts` using `@anthropic-ai/sdk` (`import Anthropic from "@anthropic-ai/sdk"`), **gated behind `currentAccount()`**. **AoPS-style kid-safe system prompt**: warm Socratic tutor — respond to a posed problem with a guiding question or the *single next* hint, never the full solution unless the learner says they give up; nudge them to try; reward and build on their reasoning; explain *why*, show an elegant alternative when apt; short, age-appropriate; refuses/redirects off-topic.
-- Model default `claude-opus-4-8`; allow `AI_MODEL` env override (e.g. `claude-haiku-4-5` for ~5× lower cost). `max_tokens` ~800, no thinking needed for short explanations. Handle `Anthropic.RateLimitError`.
+- Default to the current Opus model (take the exact ID from the claude-api skill rather than a pinned name); allow an `AI_MODEL` env override for a cheaper Haiku. Keep tutor replies short with `output_config.effort: "low"` and leave thinking at its default; size `max_tokens` with room for thinking (~2000 or more). Handle `Anthropic.RateLimitError`.
 - If `ANTHROPIC_API_KEY` is unset → return 503 with a friendly "ask a grown-up" message; the `AskAI` widget shows it gracefully.
 - `components/AskAI.tsx`: a reusable button → panel with preset actions ("Explain simply", "Give an example", "Explain why", "Hint") + a free-text box. Wire into GuideView (topic context) and PaperRunner (after an answer is checked).
 
