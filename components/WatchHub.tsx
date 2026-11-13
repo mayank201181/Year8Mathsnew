@@ -2,6 +2,8 @@
 import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { SITCOM_EPISODES, sitcomEpisodeFor } from "@/lib/sitcom";
+import { useWatchedEpisodes } from "./EpisodePlayer";
 
 export interface WatchTopicItem {
   id: string;
@@ -34,6 +36,7 @@ function getServerStorageSnapshot(): string {
 export function WatchHub({ topics }: { topics: WatchTopicItem[] }) {
   const [strand, setStrand] = useState<string>("All");
   const raw = useSyncExternalStore(subscribeStorage, getStorageSnapshot, getServerStorageSnapshot);
+  const epDone = useWatchedEpisodes();
 
   let mcDone: Record<string, boolean> = {};
   let scDone: Record<string, boolean> = {};
@@ -56,6 +59,18 @@ export function WatchHub({ topics }: { topics: WatchTopicItem[] }) {
 
   return (
     <div className="space-y-6 pb-8">
+      {SITCOM_EPISODES.length ? (
+        <Link href="/episodes" className="card flex items-center gap-4 border-2 border-brand p-4 transition-colors hover:bg-brand-soft/40 sm:p-5">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#7c3aed] text-3xl" aria-hidden>📺</span>
+          <div className="min-w-0 flex-1">
+            <div className="text-lg font-black">Sitcom Episodes: &ldquo;Totally Raotional&rdquo;</div>
+            <p className="text-sm text-ink-2">
+              {SITCOM_EPISODES.length} animated episodes, one per topic. Sarcasm, a 100-eyed calculator monster and pause challenges. Binge mode included.
+            </p>
+          </div>
+          <span className="chip shrink-0">⭐ {Object.keys(epDone).length}/{SITCOM_EPISODES.length}</span>
+        </Link>
+      ) : null}
       <section className="card overflow-hidden p-5 sm:p-6">
         <div className="grid items-center gap-5 md:grid-cols-12">
           <div className="space-y-3 md:col-span-7">
@@ -106,7 +121,9 @@ export function WatchHub({ topics }: { topics: WatchTopicItem[] }) {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {visible.map((t) => (
+        {visible.map((t) => {
+          const ep = sitcomEpisodeFor(t.id);
+          return (
           <article key={t.id} className="card flex flex-col justify-between gap-3 p-4">
             <div>
               <div className="flex items-center justify-between gap-2">
@@ -116,20 +133,27 @@ export function WatchHub({ topics }: { topics: WatchTopicItem[] }) {
                 <div className="flex gap-1">
                   {mcDone[t.id] ? <span className="chip border-0 bg-good-soft text-good">🎓✓</span> : null}
                   {scDone[t.id] ? <span className="chip border-0 bg-good-soft text-good">👾✓</span> : null}
+                  {epDone[t.id] ? <span className="chip border-0 bg-good-soft text-good">📺✓</span> : null}
                 </div>
               </div>
               <h2 className="mt-2 text-lg font-extrabold">{t.title}</h2>
             </div>
-            <div className="grid grid-cols-2 gap-2 pt-1">
+            <div className={`grid gap-2 pt-1 ${ep ? "grid-cols-3" : "grid-cols-2"}`}>
+              {ep ? (
+                <Link href={`/topic/${t.id}?tab=watch&mode=episode`} className="btn btn-primary btn-sm">
+                  📺 Episode
+                </Link>
+              ) : null}
               <Link href={`/topic/${t.id}?tab=watch&mode=masterclass`} className="btn btn-secondary btn-sm">
                 🎓 Whiteboard
               </Link>
-              <Link href={`/topic/${t.id}?tab=watch&mode=sitcom`} className="btn btn-primary btn-sm">
+              <Link href={`/topic/${t.id}?tab=watch&mode=sitcom`} className={`btn btn-sm ${ep ? "btn-secondary" : "btn-primary"}`}>
                 👾 Beast Sitcom
               </Link>
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

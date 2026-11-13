@@ -18,6 +18,7 @@ const NAV = [
 const DESKTOP_NAV = [
   { href: "/topics", label: "Topics" },
   { href: "/watch", label: "🎬 Watch" },
+  { href: "/episodes", label: "📺 Sitcom" },
   { href: "/daily", label: "Daily 5" },
   { href: "/review", label: "Review" },
   { href: "/progress", label: "Progress" },

@@ -4,8 +4,10 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { Topic } from "@/lib/types";
 import { useStore } from "@/lib/store";
+import { sitcomEpisodeFor } from "@/lib/sitcom";
+import { EpisodePlayer, formatDuration, useWatchedEpisodes } from "./EpisodePlayer";
 
-export type WatchMode = "masterclass" | "sitcom";
+export type WatchMode = "episode" | "masterclass" | "sitcom";
 
 function subscribeTheme(onChange: () => void): () => void {
   if (typeof document === "undefined") return () => {};
@@ -67,7 +69,10 @@ export function WatchTab({
   onChallenge: () => void;
 }) {
   const searchParams = useSearchParams();
-  const urlMode: WatchMode = searchParams.get("mode") === "sitcom" ? "sitcom" : "masterclass";
+  const episode = sitcomEpisodeFor(topic.id);
+  const rawMode = searchParams.get("mode");
+  const urlMode: WatchMode =
+    rawMode === "sitcom" || rawMode === "masterclass" ? rawMode : episode ? "episode" : "masterclass";
   const [override, setOverride] = useState<{ forUrl: WatchMode; picked: WatchMode } | null>(null);
   const mode: WatchMode = override && override.forUrl === urlMode ? override.picked : urlMode;
 
@@ -75,6 +80,8 @@ export function WatchTab({
   const rawProgress = useSyncExternalStore(subscribeWatchProgress, getWatchProgressSnapshot, getServerWatchProgressSnapshot);
 
   const frameRef = useRef<HTMLIFrameElement>(null);
+  const watchedEpisodes = useWatchedEpisodes();
+  const episodeDone = !!watchedEpisodes[topic.id];
   const { setBest } = useStore();
 
   let mcDone = false;
@@ -97,16 +104,38 @@ export function WatchTab({
   }, [theme]);
 
   useEffect(() => {
-    const count = (mcDone ? 1 : 0) + (sitcomDone ? 1 : 0);
+    const count = (mcDone ? 1 : 0) + (sitcomDone ? 1 : 0) + (episodeDone ? 1 : 0);
     if (count > 0) setBest(`watch:${topic.id}`, count);
-  }, [mcDone, sitcomDone, topic.id, setBest]);
+  }, [mcDone, sitcomDone, episodeDone, topic.id, setBest]);
 
   const src = `/coaching/index.html?topic=${encodeURIComponent(topic.id)}&mode=${mode}&embed=1&theme=${theme}`;
   const fullUrl = `/coaching/index.html?topic=${encodeURIComponent(topic.id)}&mode=${mode}`;
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className={`grid gap-3 ${episode ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+        {episode ? (
+          <button
+            type="button"
+            onClick={() => setOverride({ forUrl: urlMode, picked: "episode" })}
+            className={`card flex items-start gap-3 p-4 text-left transition-colors ${
+              mode === "episode" ? "border-2 border-brand bg-brand-soft/40" : "hover:bg-surface-2"
+            }`}
+          >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#7c3aed] text-xl text-white" aria-hidden>
+              📺
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-extrabold">Sitcom Episode</span>
+                {episodeDone ? <span className="chip border-0 bg-good-soft text-good">Done ✓</span> : null}
+              </div>
+              <p className="mt-0.5 text-xs text-ink-2">
+                Totally Raotional Ep {episode.num}: &ldquo;{episode.title}&rdquo; · {formatDuration(episode.durationSec)} · perfect for dinner.
+              </p>
+            </div>
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={() => setOverride({ forUrl: urlMode, picked: "masterclass" })}
@@ -150,6 +179,12 @@ export function WatchTab({
         </button>
       </div>
 
+      {mode === "episode" && episode ? (
+        <div className="card overflow-hidden p-1 sm:p-2">
+          <EpisodePlayer episode={episode} />
+          {episode.logline ? <p className="px-2 pt-2 text-sm text-ink-2">{episode.logline}</p> : null}
+        </div>
+      ) : (
       <div className="card overflow-hidden p-1 sm:p-2">
         <iframe
           ref={frameRef}
@@ -161,14 +196,21 @@ export function WatchTab({
           allow="autoplay"
         />
       </div>
+      )}
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <a href={fullUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
-            ⛶ Full screen player
-          </a>
+          {mode === "episode" && episode ? (
+            <Link href={`/episodes?ep=${episode.num}`} className="btn btn-secondary btn-sm">
+              📺 All sitcom episodes
+            </Link>
+          ) : (
+            <a href={fullUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+              ⛶ Full screen player
+            </a>
+          )}
           <Link href="/watch" className="btn btn-ghost btn-sm">
-            🍿 All 20 episodes hub
+            🍿 Watch hub
           </Link>
         </div>
         <div className="flex flex-wrap items-center gap-2">
