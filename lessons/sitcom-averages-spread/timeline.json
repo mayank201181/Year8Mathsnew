@@ -1,0 +1,1021 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 63.968,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 7.363,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, nine a.m., Studio 5, where they film game shows.",
+     "who": "narr"
+    },
+    {
+     "id": "benny",
+     "start": 7.883,
+     "end": 13.259,
+     "cap": "**Benny:** Welcome to **Singapore's Most Average Family**! The most average family wins **$1000**!",
+     "who": "benny"
+    },
+    {
+     "id": "above",
+     "start": 13.779,
+     "end": 16.616,
+     "cap": "**Dad:** We are not average. We are **above** average.",
+     "who": "dad"
+    },
+    {
+     "id": "money",
+     "start": 17.236,
+     "end": 18.964,
+     "cap": "**Mum:** Darling. One thousand dollars.",
+     "who": "mum"
+    },
+    {
+     "id": "extreme",
+     "start": 19.684,
+     "end": 21.455,
+     "cap": "**Dad:** We are **extremely** average.",
+     "who": "dad"
+    },
+    {
+     "id": "point",
+     "start": 22.475,
+     "end": 25.653,
+     "cap": "**Kavya:** Dad, you can't be extremely average. That's the whole point.",
+     "who": "kavya"
+    },
+    {
+     "id": "tiny",
+     "start": 26.373,
+     "end": 33.712,
+     "cap": "**Narrator:** But this documentary is about the four characters living inside the scoreboard. They decide what average means.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 34.132,
+     "end": 39.913,
+     "cap": "**Mean:** Mean. Head of averages. I add everything up and share it out **fairly**. Everybody gets the same.",
+     "who": "mean"
+    },
+    {
+     "id": "look",
+     "start": 40.533,
+     "end": 41.472,
+     "cap": "**Ah Boy:** You look a bit mean.",
+     "who": "boy"
+    },
+    {
+     "id": "not",
+     "start": 42.392,
+     "end": 45.805,
+     "cap": "**Mean:** I am not mean. I am **the** Mean. There is a difference.",
+     "who": "mean"
+    },
+    {
+     "id": "otto",
+     "start": 46.625,
+     "end": 50.252,
+     "cap": "**Otto:** Hellooo! Is this the average show? Can I join in?",
+     "who": "otto"
+    },
+    {
+     "id": "no",
+     "start": 50.772,
+     "end": 55.423,
+     "cap": "**Mean:** Absolutely not. That is an **outlier**. Nobody let him near my numbers.",
+     "who": "mean"
+    },
+    {
+     "id": "title",
+     "start": 56.343,
+     "end": 61.868,
+     "cap": "**Narrator:** Perfectly Average. Episode 19: The Most Average Family in Singapore.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "measures",
+   "title": "Round one: phone checks",
+   "short": "Mean, median, mode, range",
+   "card": true,
+   "start": 63.968,
+   "end": 159.549,
+   "lines": [
+    {
+     "id": "round",
+     "start": 65.768,
+     "end": 68.797,
+     "cap": "**Benny:** Round one! How many times did you each **check your phone** this morning?",
+     "who": "benny"
+    },
+    {
+     "id": "board",
+     "start": 69.317,
+     "end": 74.075,
+     "cap": "**Benny:** Kavya **7**, Mum **3**, Dad **9**, Ah Boy **4**, Priya **3**, and Mr Tan... **10**?",
+     "who": "benny"
+    },
+    {
+     "id": "cat",
+     "start": 74.595,
+     "end": 79.352,
+     "cap": "**Mr Tan:** I have a camera on my cat, Pythagoras. He was napping. It was riveting.",
+     "who": "tan"
+    },
+    {
+     "id": "total",
+     "start": 80.172,
+     "end": 86.956,
+     "cap": "**Mean:** The **mean**: add them all up, **36**. Six people, so 36 ÷ 6 = **6**. **Total ÷ number of values**.",
+     "who": "mean"
+    },
+    {
+     "id": "middle",
+     "start": 87.276,
+     "end": 92.951,
+     "cap": "**Dad:** The **median** is the middle. The middle of the board is **9** and **4**. So **6.5**!",
+     "who": "dad"
+    },
+    {
+     "id": "whistle",
+     "start": 93.471,
+     "end": 98.036,
+     "cap": "**Medi:** Medi. The median. **Line up!** In **order** first! **3, 3, 4, 7, 9, 10**.",
+     "who": "medi"
+    },
+    {
+     "id": "half",
+     "start": 98.556,
+     "end": 106.087,
+     "cap": "**Medi:** Six values: the **(6 + 1) ÷ 2 = 3.5th** value, halfway between **4** and **7**. Median **5.5**.",
+     "who": "medi"
+    },
+    {
+     "id": "mo",
+     "start": 106.407,
+     "end": 110.567,
+     "cap": "**Mo:** Mo! The **mode**! The **most** common value! **3** appears **twice**. Three is **trending**!",
+     "who": "mo"
+    },
+    {
+     "id": "ranger",
+     "start": 111.087,
+     "end": 116.356,
+     "cap": "**Ranger:** Ranger. The **range**: largest minus smallest, 10 − 3 = **7**. **One** number. I measure **spread**.",
+     "who": "ranger"
+    },
+    {
+     "id": "jingle",
+     "start": 116.976,
+     "end": 121.328,
+     "cap": "**Benny:** Everybody! Hey diddle diddle, the **median's the middle**, you **add and divide** for the **mean**!",
+     "who": "benny"
+    },
+    {
+     "id": "jingle2",
+     "start": 121.748,
+     "end": 125.865,
+     "cap": "**Ah Boy:** The **mode** is the one that appears the **most**, and the **range** is the **difference** between!",
+     "who": "boy"
+    },
+    {
+     "id": "seoul",
+     "start": 126.485,
+     "end": 136.213,
+     "cap": "**Mr Tan:** Bonus! My holiday in Seoul. Overnight lows: **−3, 2, −5, 0, −3, 4, −2** °C.",
+     "who": "tan"
+    },
+    {
+     "id": "minus",
+     "start": 136.733,
+     "end": 139.784,
+     "cap": "**Priya:** Range: 4 − 5 = **−1**!",
+     "who": "priya"
+    },
+    {
+     "id": "never",
+     "start": 140.304,
+     "end": 144.699,
+     "cap": "**Ranger:** Never negative. **4 − (−5) = 4 + 5 = 9** degrees.",
+     "who": "ranger"
+    },
+    {
+     "id": "mean2",
+     "start": 145.219,
+     "end": 153.944,
+     "cap": "**Kavya:** Mean: 6 + (−13) = **−7**, and −7 ÷ 7 = **−1 °C**. Median **−2 °C**. Mode **−3 °C**.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 154.264,
+     "end": 157.549,
+     "cap": "**Mr Tan:** Seoul was so cold, even my **mean** was negative.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "outlier",
+   "title": "A word from our sponsor",
+   "short": "Outliers & choosing",
+   "card": true,
+   "start": 159.549,
+   "end": 268.512,
+   "lines": [
+    {
+     "id": "ad",
+     "start": 161.349,
+     "end": 166.832,
+     "cap": "**Benny:** A word from our sponsor! **Boba Boss** bubble tea is hiring! **Mean monthly pay: $4000!**",
+     "who": "benny"
+    },
+    {
+     "id": "apply",
+     "start": 167.352,
+     "end": 169.869,
+     "cap": "**Mum:** Four thousand dollars? I'm applying. Today.",
+     "who": "mum"
+    },
+    {
+     "id": "pay",
+     "start": 170.489,
+     "end": 175.204,
+     "cap": "**Kavya:** Wait. The six workers earn **$2400** to **$3000**. And the owner...",
+     "who": "kavya"
+    },
+    {
+     "id": "otto",
+     "start": 175.524,
+     "end": 182.265,
+     "cap": "**Otto:** Hi! I'm Otto! The owner's pay: **$12 200**! I'm an **outlier**: much bigger than the rest!",
+     "who": "otto"
+    },
+    {
+     "id": "drag",
+     "start": 182.785,
+     "end": 189.185,
+     "cap": "**Mean:** Total **$28 000**, ÷ 7 = **$4000**. True! But he's dragging me **above every single worker**!",
+     "who": "mean"
+    },
+    {
+     "id": "medi",
+     "start": 189.805,
+     "end": 197.037,
+     "cap": "**Medi:** I don't move. I only care about **position**. The 4th of 7: **$2600**. The mode, **$2500**, stays put too.",
+     "who": "medi"
+    },
+    {
+     "id": "ranger",
+     "start": 197.357,
+     "end": 203.203,
+     "cap": "**Ranger:** Me, he **stretches**: 12 200 − 2400 = **$9800**. A huge range.",
+     "who": "ranger"
+    },
+    {
+     "id": "delete",
+     "start": 203.823,
+     "end": 205.081,
+     "cap": "**Ah Boy:** Can we just delete Otto?",
+     "who": "boy"
+    },
+    {
+     "id": "why",
+     "start": 205.801,
+     "end": 211.775,
+     "cap": "**Kavya:** Don't just delete an outlier. Ask **why** it's there. A mistake? Fix it. Real? Keep it, and use the **median**.",
+     "who": "kavya"
+    },
+    {
+     "id": "thanks",
+     "start": 212.295,
+     "end": 214.449,
+     "cap": "**Otto:** Thank you! I feel very seen.",
+     "who": "otto"
+    },
+    {
+     "id": "best",
+     "start": 215.369,
+     "end": 218.996,
+     "cap": "**Mean:** But I use **every** value! Isn't the mean **always** best?",
+     "who": "mean"
+    },
+    {
+     "id": "notalways",
+     "start": 219.516,
+     "end": 221.884,
+     "cap": "**Medi:** Not with outliers. Then the **median** wins.",
+     "who": "medi"
+    },
+    {
+     "id": "which",
+     "start": 222.504,
+     "end": 226.003,
+     "cap": "**Benny:** Round two: **which average**? A shoe shop orders most of one size.",
+     "who": "benny"
+    },
+    {
+     "id": "shoe",
+     "start": 226.423,
+     "end": 232.396,
+     "cap": "**Priya:** The **mode**! The most popular size. A mean shoe size like **5.37** doesn't even exist!",
+     "who": "priya"
+    },
+    {
+     "id": "flats",
+     "start": 232.716,
+     "end": 238.049,
+     "cap": "**Mum:** Flat prices, with a few outliers? The **median**. Test marks with **no** outliers? The **mean**.",
+     "who": "mum"
+    },
+    {
+     "id": "times",
+     "start": 238.569,
+     "end": 249.535,
+     "cap": "**Dad:** My 100 m times: **13.2, 12.8, 14.1, 12.8, 13.6** seconds. My average is **12.8**!",
+     "who": "dad"
+    },
+    {
+     "id": "mode",
+     "start": 250.155,
+     "end": 253.611,
+     "cap": "**Mo:** That's **me**, the **mode**! It's also your **fastest** time. Very flattering.",
+     "who": "mo"
+    },
+    {
+     "id": "real",
+     "start": 254.131,
+     "end": 262.6,
+     "cap": "**Mean:** Mean: 66.5 ÷ 5 = **13.3 s**. Median **13.2 s**. Range 14.1 − 12.8 = **1.3 s**.",
+     "who": "mean"
+    },
+    {
+     "id": "choose",
+     "start": 262.92,
+     "end": 264.349,
+     "cap": "**Dad:** I choose the mode.",
+     "who": "dad"
+    },
+    {
+     "id": "fair",
+     "start": 265.069,
+     "end": 266.712,
+     "cap": "**Mean:** That is not **fair**.",
+     "who": "mean"
+    }
+   ]
+  },
+  {
+   "id": "backwards",
+   "title": "Priya needs a twenty",
+   "short": "Working backwards",
+   "card": true,
+   "start": 268.512,
+   "end": 361.091,
+   "lines": [
+    {
+     "id": "round",
+     "start": 270.312,
+     "end": 276.2,
+     "cap": "**Narrator:** Round three: a quiz, five rounds, each out of 20. Priya's parents are still parking.",
+     "who": "narr"
+    },
+    {
+     "id": "priya",
+     "start": 276.82,
+     "end": 282.772,
+     "cap": "**Priya:** Team captain. My mean for four rounds is **15**. I want a mean of **16**. So **17** on the last one?",
+     "who": "priya"
+    },
+    {
+     "id": "rule",
+     "start": 283.292,
+     "end": 288.54,
+     "cap": "**Mean:** Means can't be added. **Totals** can. **Total = mean × number of values**.",
+     "who": "mean"
+    },
+    {
+     "id": "need",
+     "start": 289.06,
+     "end": 296.996,
+     "cap": "**Kavya:** So far: **4 × 15 = 60**. Needed: **5 × 16 = 80**. So the last round needs **80 − 60 = 20**.",
+     "who": "kavya"
+    },
+    {
+     "id": "full",
+     "start": 297.316,
+     "end": 299.3,
+     "cap": "**Priya:** Twenty? That's **full marks**!",
+     "who": "priya"
+    },
+    {
+     "id": "missing",
+     "start": 300.12,
+     "end": 305.368,
+     "cap": "**Benny:** Quick-fire! The mean of five numbers is **8**. Four of them are **3, 7, 9** and **12**. The fifth?",
+     "who": "benny"
+    },
+    {
+     "id": "dad",
+     "start": 305.688,
+     "end": 314.157,
+     "cap": "**Dad:** Required total: **5 × 8 = 40**. Known total: **31**. Missing: **40 − 31 = 9**. **Above** average.",
+     "who": "dad"
+    },
+    {
+     "id": "rose",
+     "start": 315.077,
+     "end": 318.021,
+     "cap": "**Auntie Rose:** Auntie Rose! I came to cheer! But don't tell them my **age**, ah!",
+     "who": "rose"
+    },
+    {
+     "id": "new",
+     "start": 318.541,
+     "end": 323.725,
+     "cap": "**Benny:** A new member! Team Kavya's four had a mean age of **26**. With Auntie Rose, it's **33**!",
+     "who": "benny"
+    },
+    {
+     "id": "work",
+     "start": 324.245,
+     "end": 333.461,
+     "cap": "**Kavya:** Old total: **4 × 26 = 104**. New total: **5 × 33 = 165**. So Auntie Rose is **165 − 104 = 61**.",
+     "who": "kavya"
+    },
+    {
+     "id": "rude",
+     "start": 333.781,
+     "end": 335.936,
+     "cap": "**Auntie Rose:** Aiyo. Mathematics is very rude.",
+     "who": "rose"
+    },
+    {
+     "id": "halves",
+     "start": 336.956,
+     "end": 342.929,
+     "cap": "**Benny:** The audience! Left side: **20** people, mean score **62**. Right side: **30** people, mean **72**.",
+     "who": "benny"
+    },
+    {
+     "id": "halfway",
+     "start": 343.249,
+     "end": 344.529,
+     "cap": "**Ah Boy:** Halfway! **67**!",
+     "who": "boy"
+    },
+    {
+     "id": "sizes",
+     "start": 345.149,
+     "end": 354.195,
+     "cap": "**Mean:** Only if the groups are the **same size**. Totals: 1240 + 2160 = **3400**, ÷ 50 = **68**.",
+     "who": "mean"
+    },
+    {
+     "id": "slide",
+     "start": 354.515,
+     "end": 359.891,
+     "cap": "**Ranger:** And if everyone gets **2** bonus marks? Mean, median and mode go **up 2**. My range stays **the same**.",
+     "who": "ranger"
+    }
+   ]
+  },
+  {
+   "id": "table",
+   "title": "Twenty flats on Floor 8",
+   "short": "Frequency tables",
+   "card": true,
+   "start": 361.091,
+   "end": 447.905,
+   "lines": [
+    {
+     "id": "round",
+     "start": 362.891,
+     "end": 368.139,
+     "cap": "**Narrator:** Round four. The show surveyed **20 flats** on Kavya's floor of Block 208.",
+     "who": "narr"
+    },
+    {
+     "id": "table",
+     "start": 368.459,
+     "end": 374.304,
+     "cap": "**Benny:** People per flat. **1** person: **3** flats. **2**: **6** flats. **3**: **5**. **4**: **4**. **5**: **2**.",
+     "who": "benny"
+    },
+    {
+     "id": "dad",
+     "start": 374.624,
+     "end": 381.216,
+     "cap": "**Dad:** Easy. 1 + 2 + 3 + 4 + 5 = 15. Divide by 5. Mean: **3**!",
+     "who": "dad"
+    },
+    {
+     "id": "boy",
+     "start": 381.736,
+     "end": 384.467,
+     "cap": "**Ah Boy:** No! Add the flats: **20**. Divide by 5: **4**!",
+     "who": "boy"
+    },
+    {
+     "id": "sigma",
+     "start": 384.987,
+     "end": 387.952,
+     "cap": "**Sigma:** SIGMA! Greek for **add them all up**! You're **both wrong**!",
+     "who": "sigma"
+    },
+    {
+     "id": "list",
+     "start": 388.472,
+     "end": 393.037,
+     "cap": "**Sigma:** It's a list of **20** numbers. Add an **fx** column: **value × frequency**.",
+     "who": "sigma"
+    },
+    {
+     "id": "fx",
+     "start": 393.357,
+     "end": 402.957,
+     "cap": "**Kavya:** 1 × 3 = **3**, 2 × 6 = **12**, 3 × 5 = **15**, 4 × 4 = **16**, 5 × 2 = **10**. Total: **56** people.",
+     "who": "kavya"
+    },
+    {
+     "id": "mean",
+     "start": 403.277,
+     "end": 411.811,
+     "cap": "**Mean:** Mean = **total of fx ÷ total of f** = 56 ÷ 20 = **2.8** people per flat. Divide by the **flats**, not the rows.",
+     "who": "mean"
+    },
+    {
+     "id": "median",
+     "start": 412.131,
+     "end": 420.835,
+     "cap": "**Medi:** Median: the **(20 + 1) ÷ 2 = 10.5th** value. Running totals: **3**, **9**, **14**. Values 10 to 14 are all **3**s.",
+     "who": "medi"
+    },
+    {
+     "id": "threes",
+     "start": 421.155,
+     "end": 425.229,
+     "cap": "**Kavya:** So the 10th and the 11th are both **3**. The median is **3 people**.",
+     "who": "kavya"
+    },
+    {
+     "id": "six",
+     "start": 425.549,
+     "end": 428.621,
+     "cap": "**Priya:** Mode is **6**! It's the biggest number in the table!",
+     "who": "priya"
+    },
+    {
+     "id": "bestie",
+     "start": 429.141,
+     "end": 433.344,
+     "cap": "**Mo:** Bestie, no. **6** is the **frequency**. The mode is the **value**: **2 people**.",
+     "who": "mo"
+    },
+    {
+     "id": "range",
+     "start": 433.864,
+     "end": 438.195,
+     "cap": "**Ranger:** Range: use the **values**, not the frequencies. 5 − 1 = **4** people.",
+     "who": "ranger"
+    },
+    {
+     "id": "mine",
+     "start": 438.515,
+     "end": 441.331,
+     "cap": "**Mr Tan:** My flat: one person. And Pythagoras.",
+     "who": "tan"
+    },
+    {
+     "id": "data",
+     "start": 441.951,
+     "end": 443.572,
+     "cap": "**Sigma:** Cats are not data.",
+     "who": "sigma"
+    },
+    {
+     "id": "disagree",
+     "start": 444.292,
+     "end": 446.105,
+     "cap": "**Mr Tan:** Pythagoras disagrees.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "stem",
+   "title": "The durian round",
+   "short": "Stem-and-leaf",
+   "card": true,
+   "start": 447.905,
+   "end": 523.052,
+   "lines": [
+    {
+     "id": "round",
+     "start": 449.705,
+     "end": 454.953,
+     "cap": "**Narrator:** Round five. Fifteen audience members were timed on their way to the studio.",
+     "who": "narr"
+    },
+    {
+     "id": "plant",
+     "start": 455.473,
+     "end": 459.335,
+     "cap": "**Benny:** Here's a **stem-and-leaf diagram**! **Key: 1 | 5** means **15 minutes**.",
+     "who": "benny"
+    },
+    {
+     "id": "boy",
+     "start": 459.655,
+     "end": 460.423,
+     "cap": "**Ah Boy:** It's a plant!",
+     "who": "boy"
+    },
+    {
+     "id": "order",
+     "start": 460.943,
+     "end": 463.225,
+     "cap": "**Medi:** It's **better** than a plant. It's **already in order**.",
+     "who": "medi"
+    },
+    {
+     "id": "count",
+     "start": 463.845,
+     "end": 469.648,
+     "cap": "**Medi:** **15** leaves, so the median is the **8th**. Stem 0 has **2**, stem 1 has **5** more: that's **7**.",
+     "who": "medi"
+    },
+    {
+     "id": "twenty",
+     "start": 469.968,
+     "end": 473.125,
+     "cap": "**Medi:** So the 8th is the **first leaf** on stem 2: **20 minutes**.",
+     "who": "medi"
+    },
+    {
+     "id": "mode",
+     "start": 473.445,
+     "end": 478.8,
+     "cap": "**Mo:** Mode: three **5**s on the **same stem**: **15 minutes**. A 5 on stem 2 would be 25!",
+     "who": "mo"
+    },
+    {
+     "id": "range",
+     "start": 479.12,
+     "end": 483.749,
+     "cap": "**Ranger:** Range: last value minus first value: **45 − 8 = 37 minutes**.",
+     "who": "ranger"
+    },
+    {
+     "id": "prize",
+     "start": 484.069,
+     "end": 488.592,
+     "cap": "**Narrator:** The prize: twelve durians, labelled with a stem-and-leaf diagram.",
+     "who": "narr"
+    },
+    {
+     "id": "rich",
+     "start": 489.112,
+     "end": 491.8,
+     "cap": "**Ah Boy:** **1 | 4**! A **14 kg** durian! We're rich!",
+     "who": "boy"
+    },
+    {
+     "id": "key",
+     "start": 492.42,
+     "end": 499.055,
+     "cap": "**Kavya:** Read the **key** first! **2 | 5** means **2.5 kg**. So 1 | 4 is just **1.4 kg**.",
+     "who": "kavya"
+    },
+    {
+     "id": "dmedian",
+     "start": 499.575,
+     "end": 507.468,
+     "cap": "**Medi:** **12** durians. Median: halfway between the 6th and 7th, **2.2** and **2.5**: **2.35 kg**.",
+     "who": "medi"
+    },
+    {
+     "id": "dmode",
+     "start": 507.788,
+     "end": 515.02,
+     "cap": "**Mo:** Mode **1.6 kg**: three of them! Range **3.8 − 1.4 = 2.4 kg**.",
+     "who": "mo"
+    },
+    {
+     "id": "smell",
+     "start": 515.54,
+     "end": 518.569,
+     "cap": "**Dad:** Twelve durians. In a closed studio. With air-con.",
+     "who": "dad"
+    },
+    {
+     "id": "outlier",
+     "start": 519.189,
+     "end": 521.152,
+     "cap": "**Mum:** The smell is definitely an outlier.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "compare",
+   "title": "The beanbag final",
+   "short": "Comparing distributions",
+   "card": true,
+   "start": 523.052,
+   "end": 593.435,
+   "lines": [
+    {
+     "id": "final",
+     "start": 524.852,
+     "end": 531.679,
+     "cap": "**Narrator:** The final. Each team picks **one** player for the beanbag toss. Five practice sessions, ten throws each.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 532.199,
+     "end": 534.823,
+     "cap": "**Mum:** My scores: **6, 6, 7, 6, 5**.",
+     "who": "mum"
+    },
+    {
+     "id": "dad",
+     "start": 535.243,
+     "end": 539.872,
+     "cap": "**Dad:** Mine: **10, 2, 9, 3, 6**. A **ten**! Clearly above average.",
+     "who": "dad"
+    },
+    {
+     "id": "means",
+     "start": 540.492,
+     "end": 545.74,
+     "cap": "**Mean:** Mum: 30 ÷ 5 = **6**. Dad: 30 ÷ 5 = **6**. The **same mean**.",
+     "who": "mean"
+    },
+    {
+     "id": "spread",
+     "start": 546.36,
+     "end": 550.392,
+     "cap": "**Ranger:** Not the same **spread**. Mum: 7 − 5 = **2**. Dad: 10 − 2 = **8**.",
+     "who": "ranger"
+    },
+    {
+     "id": "consistent",
+     "start": 550.712,
+     "end": 555.0,
+     "cap": "**Kavya:** Mum is **consistent**. Dad is **variable**: brilliant one day, terrible the next.",
+     "who": "kavya"
+    },
+    {
+     "id": "exciting",
+     "start": 555.52,
+     "end": 557.184,
+     "cap": "**Dad:** I prefer **exciting**.",
+     "who": "dad"
+    },
+    {
+     "id": "two",
+     "start": 558.104,
+     "end": 563.843,
+     "cap": "**Mr Tan:** To compare data sets, make **two** comparisons: an **average** and the **spread**. In **context**.",
+     "who": "tan"
+    },
+    {
+     "id": "css",
+     "start": 564.363,
+     "end": 569.227,
+     "cap": "**Kavya:** **Centre**, **Spread**, **Story**. On average, Mum and Dad scored the **same**: a mean of **6** each.",
+     "who": "kavya"
+    },
+    {
+     "id": "story",
+     "start": 569.547,
+     "end": 574.667,
+     "cap": "**Kavya:** But Mum's scores were **more consistent**, because her range was smaller: **2** compared with **8**.",
+     "who": "kavya"
+    },
+    {
+     "id": "poll",
+     "start": 574.987,
+     "end": 580.085,
+     "cap": "**Benny:** Breaking news! Viewers' poll: Team Priya, mean rating **9** out of 10. Team Kavya, only **7**!",
+     "who": "benny"
+    },
+    {
+     "id": "how",
+     "start": 580.405,
+     "end": 582.539,
+     "cap": "**Kavya:** How many people voted for Team Priya?",
+     "who": "kavya"
+    },
+    {
+     "id": "three",
+     "start": 583.059,
+     "end": 586.579,
+     "cap": "**Priya:** **Three.** My mum, my dad and me. They voted from the car park.",
+     "who": "priya"
+    },
+    {
+     "id": "sample",
+     "start": 587.499,
+     "end": 592.235,
+     "cap": "**Mr Tan:** A sample of **three** is far too small. The data **suggest**; they don't **prove**.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "grouped",
+   "title": "The fun run, in groups",
+   "short": "Grouped data",
+   "card": true,
+   "start": 593.435,
+   "end": 650.305,
+   "lines": [
+    {
+     "id": "run",
+     "start": 595.235,
+     "end": 600.632,
+     "cap": "**Narrator:** A stretch round, while the judges count. Forty audience members ran a fun run.",
+     "who": "narr"
+    },
+    {
+     "id": "groups",
+     "start": 601.152,
+     "end": 609.749,
+     "cap": "**Benny:** Times in groups! **20 to 30** minutes: **6** runners. **30 to 40**: **15**. **40 to 50**: **11**. **50 to 60**: **8**.",
+     "who": "benny"
+    },
+    {
+     "id": "mids",
+     "start": 610.069,
+     "end": 622.699,
+     "cap": "**Kavya:** No exact times, so use each group's **midpoint**: **25, 35, 45, 55**. Times the frequencies: **150, 525, 495, 440**. Total **1610**.",
+     "who": "kavya"
+    },
+    {
+     "id": "est",
+     "start": 623.019,
+     "end": 630.507,
+     "cap": "**Mean:** **1610 ÷ 40 = 40.25** minutes. Only an **estimate**: we pretended everyone finished on a midpoint.",
+     "who": "mean"
+    },
+    {
+     "id": "short",
+     "start": 630.827,
+     "end": 634.773,
+     "cap": "**Priya:** Shortcut! **(25 + 35 + 45 + 55) ÷ 4 = 40**!",
+     "who": "priya"
+    },
+    {
+     "id": "weight",
+     "start": 635.293,
+     "end": 639.325,
+     "cap": "**Sigma:** WRONG! You ignored the **frequencies**! Fifteen runners outweigh six!",
+     "who": "sigma"
+    },
+    {
+     "id": "modal",
+     "start": 639.845,
+     "end": 643.259,
+     "cap": "**Mo:** **Modal class**: **30 ≤ t < 40**. The most popular group!",
+     "who": "mo"
+    },
+    {
+     "id": "nobody",
+     "start": 643.579,
+     "end": 648.805,
+     "cap": "**Ranger:** And my range? Less than 60 − 20 = **40**. Exactly? Nobody knows. Very relaxing.",
+     "who": "ranger"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The scoreboard saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 650.305,
+   "end": 716.848,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 652.105,
+     "end": 656.073,
+     "cap": "**Narrator:** Before the results, the scoreboard would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 656.693,
+     "end": 660.256,
+     "cap": "**Medi:** One. Put the data **in order** before you find the median. **In ORDER!**",
+     "who": "medi"
+    },
+    {
+     "id": "t2",
+     "start": 660.876,
+     "end": 665.889,
+     "cap": "**Sigma:** Two. In a frequency table, divide by the **total frequency**, not the number of rows!",
+     "who": "sigma"
+    },
+    {
+     "id": "t3",
+     "start": 666.509,
+     "end": 670.883,
+     "cap": "**Mo:** Three. The mode is the **value**, not the frequency. **2 people**, not **6 flats**.",
+     "who": "mo"
+    },
+    {
+     "id": "t4",
+     "start": 671.503,
+     "end": 674.511,
+     "cap": "**Ranger:** Four. The range is **one** number. **8**, not '2 to 10'.",
+     "who": "ranger"
+    },
+    {
+     "id": "t5",
+     "start": 675.131,
+     "end": 679.568,
+     "cap": "**Kavya:** Five. Compare an **average** AND the **range**, in **context**. Two sentences.",
+     "who": "kavya"
+    },
+    {
+     "id": "t6",
+     "start": 680.188,
+     "end": 685.095,
+     "cap": "**Ah Boy:** Six. Read the **key**. My fourteen kilogram durian was one point four. I'm still sad.",
+     "who": "boy"
+    },
+    {
+     "id": "return",
+     "start": 685.815,
+     "end": 688.247,
+     "cap": "**Narrator:** Perfectly Average will return.",
+     "who": "narr"
+    },
+    {
+     "id": "results",
+     "start": 689.567,
+     "end": 692.596,
+     "cap": "**Benny:** And Singapore's Most Average Family is... **Team Tan**!",
+     "who": "benny"
+    },
+    {
+     "id": "one",
+     "start": 693.316,
+     "end": 699.695,
+     "cap": "**Mr Tan:** A family of one. My mean: me. My median: me. My range: **zero**. Perfectly consistent.",
+     "who": "tan"
+    },
+    {
+     "id": "cat",
+     "start": 700.315,
+     "end": 701.467,
+     "cap": "**Ah Boy:** What about Pythagoras?",
+     "who": "boy"
+    },
+    {
+     "id": "notdata",
+     "start": 702.087,
+     "end": 703.537,
+     "cap": "**Mr Tan:** Cats are not data.",
+     "who": "tan"
+    },
+    {
+     "id": "lost",
+     "start": 704.657,
+     "end": 707.772,
+     "cap": "**Dad:** We lost to one man. I am still **above** average.",
+     "who": "dad"
+    },
+    {
+     "id": "hug",
+     "start": 708.492,
+     "end": 709.473,
+     "cap": "**Otto:** Group hug!",
+     "who": "otto"
+    },
+    {
+     "id": "drag",
+     "start": 710.293,
+     "end": 714.048,
+     "cap": "**Mean:** Not fair... I am being dragged... towards the outlier...",
+     "who": "mean"
+    }
+   ]
+  }
+ ],
+ "total": 716.848
+}

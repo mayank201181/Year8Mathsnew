@@ -1,0 +1,1007 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 63.556,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.915,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, eight a.m. Her dad has called a family meeting.",
+     "who": "narr"
+    },
+    {
+     "id": "plan",
+     "start": 7.435,
+     "end": 13.003,
+     "cap": "**Dad:** **Operation Beach Day**! East Coast Park. Every minute planned. I have even drawn a **graph**.",
+     "who": "dad"
+    },
+    {
+     "id": "beach",
+     "start": 13.623,
+     "end": 16.076,
+     "cap": "**Kavya:** Dad, it's a beach. You just go to the beach.",
+     "who": "kavya"
+    },
+    {
+     "id": "five",
+     "start": 16.696,
+     "end": 19.043,
+     "cap": "**Mum:** He's been up since five. Let him have this.",
+     "who": "mum"
+    },
+    {
+     "id": "ice",
+     "start": 19.763,
+     "end": 21.235,
+     "cap": "**Ah Boy:** Is there a graph for **ice cream**?",
+     "who": "boy"
+    },
+    {
+     "id": "three",
+     "start": 21.755,
+     "end": 25.744,
+     "cap": "**Dad:** Ice cream is at **three p.m.** Not before. It's on the graph.",
+     "who": "dad"
+    },
+    {
+     "id": "tiny",
+     "start": 26.664,
+     "end": 32.168,
+     "cap": "**Narrator:** But this documentary is not about the beach. It's about the line on Dad's graph.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 32.788,
+     "end": 37.588,
+     "cap": "**Lionel:** Lionel. A **straight line**. I go on **forever**, in both directions. And I **never bend**.",
+     "who": "lionel"
+    },
+    {
+     "id": "mood",
+     "start": 38.308,
+     "end": 44.217,
+     "cap": "**Lionel:** My **gradient** shows my mood. Happy: **uphill**, positive. Sad: **downhill**, negative. Bored: **flat**. Zero.",
+     "who": "lionel"
+    },
+    {
+     "id": "up",
+     "start": 45.037,
+     "end": 46.104,
+     "cap": "**Ah Boy:** Can you go **straight up**?",
+     "who": "boy"
+    },
+    {
+     "id": "faint",
+     "start": 46.724,
+     "end": 51.119,
+     "cap": "**Lionel:** Vertical? Then **nobody** can calculate my gradient. Never. Ask me. That.",
+     "who": "lionel"
+    },
+    {
+     "id": "charge",
+     "start": 52.039,
+     "end": 56.305,
+     "cap": "**Lionel:** One family. One beach. One perfectly straight plan. I'll keep it straight.",
+     "who": "lionel"
+    },
+    {
+     "id": "title",
+     "start": 57.125,
+     "end": 61.456,
+     "cap": "**Narrator:** Rise Over Run. Episode 12: Operation Beach Day.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "grid",
+   "title": "The park map",
+   "short": "Coordinates & midpoints",
+   "card": true,
+   "start": 63.556,
+   "end": 148.876,
+   "lines": [
+    {
+     "id": "nine",
+     "start": 65.356,
+     "end": 71.713,
+     "cap": "**Narrator:** Nine a.m. East Coast Park. The park map is a **grid**. The bike kiosk is the **origin**.",
+     "who": "narr"
+    },
+    {
+     "id": "spot",
+     "start": 72.233,
+     "end": 75.135,
+     "cap": "**Dad:** Team! Our picnic spot is at **(2, 5)**. Go!",
+     "who": "dad"
+    },
+    {
+     "id": "found",
+     "start": 75.655,
+     "end": 77.105,
+     "cap": "**Ah Boy:** Found it! **5** across, **2** up!",
+     "who": "boy"
+    },
+    {
+     "id": "ex",
+     "start": 77.825,
+     "end": 80.044,
+     "cap": "**Ex:** Ex. I go **across**. And I go **first**.",
+     "who": "ex"
+    },
+    {
+     "id": "why",
+     "start": 80.564,
+     "end": 84.511,
+     "cap": "**Why:** Why. I go **up** or **down**. Why am I always **second**?",
+     "who": "why"
+    },
+    {
+     "id": "order",
+     "start": 85.331,
+     "end": 89.704,
+     "cap": "**Ex:** **(2, 5)** is **2 across**, then **5 up**. **(5, 2)** is somewhere else: the **toilets**.",
+     "who": "ex"
+    },
+    {
+     "id": "stairs",
+     "start": 90.524,
+     "end": 94.065,
+     "cap": "**Kavya:** **Along the corridor, then up the stairs.** x first, then y.",
+     "who": "kavya"
+    },
+    {
+     "id": "neg",
+     "start": 94.385,
+     "end": 99.932,
+     "cap": "**Kavya:** Negative x: **left**. Negative y: **down**. The beach is at **(−3, −2)**.",
+     "who": "kavya"
+    },
+    {
+     "id": "quad",
+     "start": 100.252,
+     "end": 107.633,
+     "cap": "**Why:** Four **quadrants**, numbered **anticlockwise** from the top right. The beach is in the **third**.",
+     "who": "why"
+    },
+    {
+     "id": "drone",
+     "start": 108.153,
+     "end": 112.932,
+     "cap": "**Priya:** Priya. Best friend. New **drone**. Beach **A** to jetty **B(5, 4)**, and it stops **halfway**.",
+     "who": "priya"
+    },
+    {
+     "id": "half",
+     "start": 113.452,
+     "end": 118.465,
+     "cap": "**Kavya:** A to B is **8 across** and **6 up**. Halfway is **4 across** and **3 up**: **(1, 1)**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mean",
+     "start": 118.785,
+     "end": 124.311,
+     "cap": "**Ex:** Or take the **mean**: (−3 + 5) ÷ 2 = **1**, and (−2 + 4) ÷ 2 = **1**.",
+     "who": "ex"
+    },
+    {
+     "id": "boy",
+     "start": 124.631,
+     "end": 126.38,
+     "cap": "**Ah Boy:** I got **(2, 2)**! I just **added** them!",
+     "who": "boy"
+    },
+    {
+     "id": "halve",
+     "start": 127.0,
+     "end": 130.349,
+     "cap": "**Why:** Why didn't you **halve** them? Divide by **2**!",
+     "who": "why"
+    },
+    {
+     "id": "cart",
+     "start": 131.269,
+     "end": 138.053,
+     "cap": "**Dad:** I'm at **(−3, 4)**. The ice-cream cart is **halfway** to Mum, at **(2, −1)**. Where's Mum?",
+     "who": "dad"
+    },
+    {
+     "id": "step",
+     "start": 138.373,
+     "end": 143.941,
+     "cap": "**Kavya:** Dad to the cart: **5 right**, **5 down**. Same step again: Mum is at **(7, −6)**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mum",
+     "start": 144.261,
+     "end": 147.376,
+     "cap": "**Mum:** Correct. And no, Ah Boy, it is **not** three p.m. yet.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "rope",
+   "title": "Mum's rope",
+   "short": "x = a, y = b, y = x",
+   "card": true,
+   "start": 148.876,
+   "end": 238.057,
+   "lines": [
+    {
+     "id": "ten",
+     "start": 150.676,
+     "end": 155.028,
+     "cap": "**Narrator:** Ten a.m. Mum ropes off the picnic area. Precisely.",
+     "who": "narr"
+    },
+    {
+     "id": "area",
+     "start": 155.548,
+     "end": 162.844,
+     "cap": "**Mum:** From **x = −1** to **x = 5**, and from **y = −3** to **y = 2**.",
+     "who": "mum"
+    },
+    {
+     "id": "dad",
+     "start": 163.164,
+     "end": 167.729,
+     "cap": "**Dad:** **x = −1**? That's on the x-axis. Rope goes **across**.",
+     "who": "dad"
+    },
+    {
+     "id": "stuck",
+     "start": 168.449,
+     "end": 173.697,
+     "cap": "**Ex:** No! In **x = −1**, I'm **stuck** at −1, and y can be **anything**. **Vertical!**",
+     "who": "ex"
+    },
+    {
+     "id": "free",
+     "start": 174.017,
+     "end": 175.703,
+     "cap": "**Why:** I'm free! Up! Down! Wheee!",
+     "who": "why"
+    },
+    {
+     "id": "other",
+     "start": 176.623,
+     "end": 182.831,
+     "cap": "**Kavya:** The line runs parallel to the **other** axis. **x = a** is **vertical**; **y = b** is **horizontal**.",
+     "who": "kavya"
+    },
+    {
+     "id": "axes",
+     "start": 183.151,
+     "end": 188.377,
+     "cap": "**Ex:** So the **y-axis** is the line **x = 0**, and the **x-axis** is **y = 0**.",
+     "who": "ex"
+    },
+    {
+     "id": "size",
+     "start": 188.697,
+     "end": 196.036,
+     "cap": "**Mum:** Width: 5 − (−1) = **6**. Height: 2 − (−3) = **5**. Area: **30** square units.",
+     "who": "mum"
+    },
+    {
+     "id": "tan",
+     "start": 196.656,
+     "end": 202.331,
+     "cap": "**Mr Tan:** Kavya! Mr Tan, out jogging. The line **y = x** goes right through your mat!",
+     "who": "tan"
+    },
+    {
+     "id": "yx",
+     "start": 202.851,
+     "end": 212.749,
+     "cap": "**Mr Tan:** On **y = x** the coordinates are **equal**: (−2, −2), (0, 0), (4, 4). It rises at **45°**.",
+     "who": "tan"
+    },
+    {
+     "id": "ynx",
+     "start": 213.069,
+     "end": 219.875,
+     "cap": "**Kavya:** And **y = −x** has **opposite** coordinates, like **(2, −2)**. It falls at 45°.",
+     "who": "kavya"
+    },
+    {
+     "id": "mirror",
+     "start": 220.195,
+     "end": 225.4,
+     "cap": "**Mr Tan:** Reflect **(5, 2)** in **y = x** and the coordinates **swap**: **(2, 5)**.",
+     "who": "tan"
+    },
+    {
+     "id": "boy",
+     "start": 225.92,
+     "end": 227.968,
+     "cap": "**Ah Boy:** So I wasn't wrong. I was just **reflected**.",
+     "who": "boy"
+    },
+    {
+     "id": "pun",
+     "start": 228.988,
+     "end": 233.532,
+     "cap": "**Mr Tan:** Careful with **y = x**. Whatever x says, y just **copies** it.",
+     "who": "tan"
+    },
+    {
+     "id": "copy",
+     "start": 234.252,
+     "end": 236.257,
+     "cap": "**Ah Boy:** Whatever x says, y just copies it.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "plot",
+   "title": "The drone that bent",
+   "short": "Plotting lines",
+   "card": true,
+   "start": 238.057,
+   "end": 314.751,
+   "lines": [
+    {
+     "id": "eleven",
+     "start": 239.857,
+     "end": 246.108,
+     "cap": "**Narrator:** Eleven a.m. Priya's drone will fly along the line **y = 3x + 2**.",
+     "who": "narr"
+    },
+    {
+     "id": "table",
+     "start": 246.628,
+     "end": 253.071,
+     "cap": "**Priya:** **Table of values**, x from −2 to 2. y: **−4, −1, 2, 6, 8**. Launch!",
+     "who": "priya"
+    },
+    {
+     "id": "bent",
+     "start": 253.791,
+     "end": 257.375,
+     "cap": "**Lionel:** It **bent**! Into a **coconut tree**! A straight line **never bends**!",
+     "who": "lionel"
+    },
+    {
+     "id": "diff",
+     "start": 258.095,
+     "end": 264.132,
+     "cap": "**Kavya:** Check the **differences**: +3, +3, **+4**, **+2**. In a straight-line table they're all the **same**.",
+     "who": "kavya"
+    },
+    {
+     "id": "fix",
+     "start": 264.452,
+     "end": 270.98,
+     "cap": "**Kavya:** Each step of 1 in x adds **3**. At x = 1: 3 × 1 + 2 = **5**. Not 6.",
+     "who": "kavya"
+    },
+    {
+     "id": "brackets",
+     "start": 271.3,
+     "end": 276.868,
+     "cap": "**Ex:** And at x = −2, **brackets** protect the negative: 3 × (−2) + 2 = **−4**.",
+     "who": "ex"
+    },
+    {
+     "id": "method",
+     "start": 277.188,
+     "end": 282.351,
+     "cap": "**Lionel:** **Table. Substitute. Plot.** Then join with **one ruled straight line**, across the whole range.",
+     "who": "lionel"
+    },
+    {
+     "id": "sand",
+     "start": 282.871,
+     "end": 284.556,
+     "cap": "**Ah Boy:** Done! I joined the dots in the sand!",
+     "who": "boy"
+    },
+    {
+     "id": "zigzag",
+     "start": 285.276,
+     "end": 289.18,
+     "cap": "**Lionel:** That's not me. That's a **zigzag**. I am **one** line. Drawn with a **ruler**.",
+     "who": "lionel"
+    },
+    {
+     "id": "check",
+     "start": 290.1,
+     "end": 299.252,
+     "cap": "**Mr Tan:** Mr Tan, lap two. Is **(−3, −7)** on the line? 3 × (−3) + 2 = **−7**. Yes!",
+     "who": "tan"
+    },
+    {
+     "id": "off",
+     "start": 299.572,
+     "end": 305.865,
+     "cap": "**Mr Tan:** And **(4, 15)**? 3 × 4 + 2 = **14**, not 15. Just **above** the line.",
+     "who": "tan"
+    },
+    {
+     "id": "again",
+     "start": 306.485,
+     "end": 310.539,
+     "cap": "**Priya:** Fixed: **−4, −1, 2, 5, 8**. Relaunch!",
+     "who": "priya"
+    },
+    {
+     "id": "sandwich",
+     "start": 311.259,
+     "end": 313.051,
+     "cap": "**Dad:** It landed on my **sandwich**.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "ramp",
+   "title": "Mo and the skate park",
+   "short": "Gradient & y-intercept",
+   "card": true,
+   "start": 314.751,
+   "end": 405.439,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 316.551,
+     "end": 320.86,
+     "cap": "**Narrator:** Twelve noon. The skate park. Ah Boy wants the **steepest** ramp.",
+     "who": "narr"
+    },
+    {
+     "id": "big",
+     "start": 321.38,
+     "end": 323.535,
+     "cap": "**Ah Boy:** Ramp A! It's the **biggest**, so it's the **steepest**!",
+     "who": "boy"
+    },
+    {
+     "id": "mo",
+     "start": 324.155,
+     "end": 327.867,
+     "cap": "**Mo:** Mo. Mountain goat. I am the **gradient**. **m** for **mountain**.",
+     "who": "mo"
+    },
+    {
+     "id": "rr",
+     "start": 328.487,
+     "end": 333.756,
+     "cap": "**Mo:** Gradient = **rise ÷ run**. How far **up**, divided by how far **across**.",
+     "who": "mo"
+    },
+    {
+     "id": "priya",
+     "start": 334.076,
+     "end": 337.596,
+     "cap": "**Priya:** Easy. **Across** over **up**. Ramp A: 4 ÷ 2 = **2**.",
+     "who": "priya"
+    },
+    {
+     "id": "seat",
+     "start": 338.216,
+     "end": 343.443,
+     "cap": "**Mo:** **Rise over run!** You **rise** from your seat **before** you **run**. Rise goes on **top**.",
+     "who": "mo"
+    },
+    {
+     "id": "ramps",
+     "start": 344.163,
+     "end": 352.611,
+     "cap": "**Kavya:** A: rise **2 m**, run **4 m**: 2 ÷ 4 = **0.5**. B: 3 ÷ 5 = **0.6**. C: 1 ÷ 2 = **0.5**.",
+     "who": "kavya"
+    },
+    {
+     "id": "steep",
+     "start": 352.931,
+     "end": 358.307,
+     "cap": "**Kavya:** **B** is the steepest. **A** and **C** are **equally** steep, even though A is bigger.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 358.627,
+     "end": 360.824,
+     "cap": "**Dad:** I'll be on ramp C. For the view.",
+     "who": "dad"
+    },
+    {
+     "id": "sign",
+     "start": 361.844,
+     "end": 369.865,
+     "cap": "**Mo:** Uphill, left to right: **positive**. Downhill: **negative**. Flat: **zero**. Gradient **3**? Up **3** for every **1** across.",
+     "who": "mo"
+    },
+    {
+     "id": "cece",
+     "start": 370.185,
+     "end": 376.031,
+     "cap": "**Cece:** Cece. **Crossing** guard. **c** for **crossing**. Every line crosses the y-axis at my post: **(0, c)**.",
+     "who": "cece"
+    },
+    {
+     "id": "name",
+     "start": 376.351,
+     "end": 383.327,
+     "cap": "**Lionel:** So my full name is **y = mx + c**. In America it's **y = mx + b**. I prefer c.",
+     "who": "lionel"
+    },
+    {
+     "id": "five",
+     "start": 383.947,
+     "end": 388.597,
+     "cap": "**Dad:** **y = 5 − 2x**. Gradient **5**. It comes **first**.",
+     "who": "dad"
+    },
+    {
+     "id": "minus",
+     "start": 389.217,
+     "end": 396.3,
+     "cap": "**Mo:** The gradient is the number **multiplying x**, **sign included**. m = **−2**, c = **5**. Downhill.",
+     "who": "mo"
+    },
+    {
+     "id": "vert",
+     "start": 396.62,
+     "end": 398.241,
+     "cap": "**Ah Boy:** What about a ramp that goes **straight up**?",
+     "who": "boy"
+    },
+    {
+     "id": "zero",
+     "start": 398.761,
+     "end": 403.839,
+     "cap": "**Lionel:** The run is **zero**. You **can't divide by zero**. No gradient. I **told** you never to ask.",
+     "who": "lionel"
+    }
+   ]
+  },
+  {
+   "id": "lunch",
+   "title": "Lionel's family reunion",
+   "short": "Writing line equations",
+   "card": true,
+   "start": 405.439,
+   "end": 495.324,
+   "lines": [
+    {
+     "id": "one",
+     "start": 407.239,
+     "end": 411.399,
+     "cap": "**Narrator:** One p.m. Lunch on the mat. Kavya's phone is dying.",
+     "who": "narr"
+    },
+    {
+     "id": "phone",
+     "start": 411.919,
+     "end": 415.673,
+     "cap": "**Kavya:** It was **80%** at nine. It loses **5%** every **hour**.",
+     "who": "kavya"
+    },
+    {
+     "id": "words",
+     "start": 415.993,
+     "end": 422.479,
+     "cap": "**Cece:** Start at **80**: that's my **c**. Lose **5** an hour: **m = −5**. So **B = 80 − 5t**.",
+     "who": "cece"
+    },
+    {
+     "id": "gym",
+     "start": 422.799,
+     "end": 430.201,
+     "cap": "**Dad:** I'm joining a **gym**! **$30** to join, then **$25** a month. **C = 25n + 30**.",
+     "who": "dad"
+    },
+    {
+     "id": "never",
+     "start": 430.521,
+     "end": 433.465,
+     "cap": "**Mum:** And **c** is the part you pay even if you **never go**.",
+     "who": "mum"
+    },
+    {
+     "id": "quiz",
+     "start": 434.485,
+     "end": 442.08,
+     "cap": "**Mr Tan:** Mr Tan, lap three. Lunch quiz! Match **three equations** to **three graphs**. Read the **sign** of m, its **size**, and **c**.",
+     "who": "tan"
+    },
+    {
+     "id": "match",
+     "start": 442.6,
+     "end": 453.245,
+     "cap": "**Kavya:** **Steep uphill**, crossing at 1: y = 3x + 1. **Shallow downhill**, crossing at 4: y = −½x + 4. **45°**, crossing at −3: y = x − 3.",
+     "who": "kavya"
+    },
+    {
+     "id": "family",
+     "start": 453.565,
+     "end": 460.051,
+     "cap": "**Lionel:** And now, my **family reunion**! Me, **y = 2x**. My brothers, **y = 2x + 3** and **y = 2x − 2**.",
+     "who": "lionel"
+    },
+    {
+     "id": "meet",
+     "start": 460.571,
+     "end": 465.115,
+     "cap": "**Lionel:** Same gradient. **Parallel**. We **never meet**. Family reunions are very awkward.",
+     "who": "lionel"
+    },
+    {
+     "id": "para",
+     "start": 465.935,
+     "end": 470.201,
+     "cap": "**Priya:** So **parallel** lines have **equal gradients**. Only **c** is different.",
+     "who": "priya"
+    },
+    {
+     "id": "stretch",
+     "start": 470.521,
+     "end": 475.023,
+     "cap": "**Mr Tan:** Stretch! **No graph**. Find the line through **(1, 5)** and **(4, 14)**.",
+     "who": "tan"
+    },
+    {
+     "id": "grad",
+     "start": 475.343,
+     "end": 482.617,
+     "cap": "**Kavya:** m = (14 − 5) ÷ (4 − 1) = 9 ÷ 3 = **3**. Subtract in the **same order**, top and bottom.",
+     "who": "kavya"
+    },
+    {
+     "id": "c",
+     "start": 482.937,
+     "end": 489.935,
+     "cap": "**Kavya:** Substitute **(1, 5)**: 5 = 3 × 1 + c, so c = **2**. Check **(4, 14)**: 3 × 4 + 2 = 14.",
+     "who": "kavya"
+    },
+    {
+     "id": "mine",
+     "start": 490.255,
+     "end": 493.924,
+     "cap": "**Priya:** **y = 3x + 2**. That's my **drone's** line!",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "club",
+   "title": "The Direct Proportion Club",
+   "short": "Direct proportion graphs",
+   "card": true,
+   "start": 495.324,
+   "end": 570.064,
+   "lines": [
+    {
+     "id": "two",
+     "start": 497.124,
+     "end": 500.196,
+     "cap": "**Narrator:** Two p.m. Dad comes back from a run.",
+     "who": "narr"
+    },
+    {
+     "id": "five",
+     "start": 500.716,
+     "end": 504.492,
+     "cap": "**Dad:** I ran **five**! Five **miles**. My watch is from London.",
+     "who": "dad"
+    },
+    {
+     "id": "km",
+     "start": 505.112,
+     "end": 506.861,
+     "cap": "**Mum:** And how many **kilometres** is that?",
+     "who": "mum"
+    },
+    {
+     "id": "ori",
+     "start": 507.481,
+     "end": 513.625,
+     "cap": "**Ori:** Ori. The **origin**, **(0, 0)**. I run the **Direct Proportion Club**. Lines get in **through me**.",
+     "who": "ori"
+    },
+    {
+     "id": "conv",
+     "start": 514.245,
+     "end": 520.987,
+     "cap": "**Ori:** Miles to km: **y = 1.6x**. **Straight**, through the **origin**: **direct proportion**.",
+     "who": "ori"
+    },
+    {
+     "id": "read",
+     "start": 521.307,
+     "end": 527.664,
+     "cap": "**Kavya:** Up from **5 miles** to the line, then across: **8 km**. **10 miles**: **16 km**. **25**: **40**.",
+     "who": "kavya"
+    },
+    {
+     "id": "k",
+     "start": 527.984,
+     "end": 534.277,
+     "cap": "**Ori:** km ÷ miles is always **1.6**. That's **k**, the **gradient**: kilometres per mile.",
+     "who": "ori"
+    },
+    {
+     "id": "plans",
+     "start": 534.597,
+     "end": 540.635,
+     "cap": "**Priya:** Phone plans. **Plan P**: **$3** per GB. **Plan Q**: **$6** a month, plus **$2** per GB.",
+     "who": "priya"
+    },
+    {
+     "id": "p",
+     "start": 540.955,
+     "end": 547.077,
+     "cap": "**Kavya:** P: **0 GB**, **$0**. **2 GB**, **$6**. **4 GB**, **$12**. Double the data, double the cost.",
+     "who": "kavya"
+    },
+    {
+     "id": "q",
+     "start": 547.397,
+     "end": 551.941,
+     "cap": "**Kavya:** Q: **2 GB** costs **$10**, but **4 GB** costs **$14**. Not **$20**.",
+     "who": "kavya"
+    },
+    {
+     "id": "list",
+     "start": 552.261,
+     "end": 557.275,
+     "cap": "**Ori:** Plan Q starts at **$6**. It **misses the origin**. **Not on the list.**",
+     "who": "ori"
+    },
+    {
+     "id": "straight",
+     "start": 557.995,
+     "end": 559.083,
+     "cap": "**Ah Boy:** But it's a **straight line**!",
+     "who": "boy"
+    },
+    {
+     "id": "both",
+     "start": 559.603,
+     "end": 564.531,
+     "cap": "**Ori:** Straight is **not enough**. It needs the **origin** too. No input, no output.",
+     "who": "ori"
+    },
+    {
+     "id": "vip",
+     "start": 565.151,
+     "end": 568.564,
+     "cap": "**Priya:** Plan P, then. **y = 3x**. I'm on the list.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "ride",
+   "title": "Lionel takes a nap",
+   "short": "Real-life graphs",
+   "card": true,
+   "start": 570.064,
+   "end": 655.645,
+   "lines": [
+    {
+     "id": "three",
+     "start": 571.864,
+     "end": 573.592,
+     "cap": "**Ah Boy:** It's **three p.m.**! **ICE CREAM!**",
+     "who": "boy"
+    },
+    {
+     "id": "shops",
+     "start": 574.312,
+     "end": 582.291,
+     "cap": "**Dad:** Then bike hire! Shop X: **$8**, plus **$3** an hour. Shop Y: **$5** an hour, no fixed fee.",
+     "who": "dad"
+    },
+    {
+     "id": "eqs",
+     "start": 582.611,
+     "end": 587.752,
+     "cap": "**Kavya:** X is **C = 3h + 8**. Y is **C = 5h**, through the origin.",
+     "who": "kavya"
+    },
+    {
+     "id": "cross",
+     "start": 588.072,
+     "end": 594.92,
+     "cap": "**Kavya:** Where the graphs **cross**, they cost the **same**: 3h + 8 = 5h, so **h = 4**. Both **$20**.",
+     "who": "kavya"
+    },
+    {
+     "id": "six",
+     "start": 595.24,
+     "end": 598.717,
+     "cap": "**Dad:** Operation Beach Day says we ride for **six** hours.",
+     "who": "dad"
+    },
+    {
+     "id": "x",
+     "start": 599.437,
+     "end": 604.707,
+     "cap": "**Mum:** Six hours: X is 3 × 6 + 8 = **$26**. Y is 5 × 6 = **$30**. Shop **X**. And we ride for **one**.",
+     "who": "mum"
+    },
+    {
+     "id": "priya",
+     "start": 605.627,
+     "end": 610.725,
+     "cap": "**Narrator:** Priya rides to the jetty and back. Her watch draws a **distance–time graph**.",
+     "who": "narr"
+    },
+    {
+     "id": "parts",
+     "start": 611.245,
+     "end": 617.645,
+     "cap": "**Lionel:** That's me, in three pieces. Up: **6 km** in **30 minutes**. Flat for **20**. Down: home in **20**.",
+     "who": "lionel"
+    },
+    {
+     "id": "steady",
+     "start": 617.965,
+     "end": 620.888,
+     "cap": "**Dad:** The flat bit is where she cycles at a **steady speed**.",
+     "who": "dad"
+    },
+    {
+     "id": "nap",
+     "start": 621.508,
+     "end": 626.095,
+     "cap": "**Lionel:** Flat means the distance **isn't changing**. She **stopped**. So did I. I had a **nap**.",
+     "who": "lionel"
+    },
+    {
+     "id": "speed",
+     "start": 627.015,
+     "end": 633.543,
+     "cap": "**Mo:** On a distance–time graph, **gradient = speed**. **Steeper** is **faster**. Going **down** means coming **back**.",
+     "who": "mo"
+    },
+    {
+     "id": "units",
+     "start": 633.863,
+     "end": 640.753,
+     "cap": "**Kavya:** Minutes to **hours** first! Out: 6 km in **½ hour** = **12 km/h**. Back: 6 km in **⅓ hour** = **18 km/h**.",
+     "who": "kavya"
+    },
+    {
+     "id": "curve",
+     "start": 641.073,
+     "end": 643.804,
+     "cap": "**Ah Boy:** Mine's **curved**! I went faster and faster down the slope!",
+     "who": "boy"
+    },
+    {
+     "id": "curvy",
+     "start": 644.324,
+     "end": 648.719,
+     "cap": "**Lionel:** That's my cousin, **Curvy**. A curve means the **speed is changing**. We don't talk.",
+     "who": "lionel"
+    },
+    {
+     "id": "meet",
+     "start": 649.539,
+     "end": 654.445,
+     "cap": "**Kavya:** And where **two** distance–time graphs **cross**, two people **meet**: same place, same time.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The beach saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 655.645,
+   "end": 718.435,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 657.445,
+     "end": 660.56,
+     "cap": "**Narrator:** Before the credits, the beach saves you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 661.18,
+     "end": 664.871,
+     "cap": "**Ex:** One. **Across first**, then up or down. **(x, y)**. Never (y, x).",
+     "who": "ex"
+    },
+    {
+     "id": "t2",
+     "start": 665.491,
+     "end": 671.037,
+     "cap": "**Ah Boy:** Two. **Brackets** for negatives: y = 4 − 3 × (−2) = **10**. Not −2.",
+     "who": "boy"
+    },
+    {
+     "id": "t3",
+     "start": 671.657,
+     "end": 675.753,
+     "cap": "**Lionel:** Three. **One ruled straight line** across the whole range. **Never** dot-to-dot.",
+     "who": "lionel"
+    },
+    {
+     "id": "t4",
+     "start": 676.373,
+     "end": 681.301,
+     "cap": "**Mo:** Four. Downhill means a **minus** gradient. Keep the sign. Goats fall for it.",
+     "who": "mo"
+    },
+    {
+     "id": "t5",
+     "start": 681.921,
+     "end": 686.807,
+     "cap": "**Priya:** Five. **Minutes** aren't **hours**. Convert before you find a speed in km/h.",
+     "who": "priya"
+    },
+    {
+     "id": "t6",
+     "start": 687.427,
+     "end": 692.973,
+     "cap": "**Dad:** Six. A **midpoint**: add the coordinates, then **halve** both: ÷ 2. Ask Ah Boy.",
+     "who": "dad"
+    },
+    {
+     "id": "return",
+     "start": 693.693,
+     "end": 696.211,
+     "cap": "**Narrator:** Rise Over Run will return.",
+     "who": "narr"
+    },
+    {
+     "id": "eight",
+     "start": 697.531,
+     "end": 701.691,
+     "cap": "**Narrator:** Eight p.m. Home. Dad reviews Operation Beach Day.",
+     "who": "narr"
+    },
+    {
+     "id": "plan",
+     "start": 702.311,
+     "end": 704.401,
+     "cap": "**Dad:** Everything went **exactly** to plan.",
+     "who": "dad"
+    },
+    {
+     "id": "graph",
+     "start": 705.121,
+     "end": 710.028,
+     "cap": "**Ah Boy:** I made a graph too! **Ice creams** against **time**. **Six** ice creams. All at **three p.m.**",
+     "who": "boy"
+    },
+    {
+     "id": "six",
+     "start": 710.648,
+     "end": 711.587,
+     "cap": "**Mum:** What? **SIX?!**",
+     "who": "mum"
+    },
+    {
+     "id": "faint",
+     "start": 712.307,
+     "end": 715.635,
+     "cap": "**Lionel:** Vertical... gradient... cannot... be... calculated...",
+     "who": "lionel"
+    }
+   ]
+  }
+ ],
+ "total": 718.435
+}

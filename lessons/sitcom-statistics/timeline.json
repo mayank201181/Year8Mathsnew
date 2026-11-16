@@ -1,0 +1,958 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 72.273,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 8.429,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Monday morning, Room 2-14: the Media Club studio. Also the mop cupboard.",
+     "who": "narr"
+    },
+    {
+     "id": "tan",
+     "start": 9.049,
+     "end": 16.068,
+     "cap": "**Mr Tan:** Kavya. Big story for **8B News**. The canteen gets **one** new stall: **bubble tea** or **ice kachang**.",
+     "who": "tan"
+    },
+    {
+     "id": "words",
+     "start": 16.388,
+     "end": 21.167,
+     "cap": "**Mr Tan:** The principal decides on Friday. Her exact words: \"**Show me the data.**\"",
+     "who": "tan"
+    },
+    {
+     "id": "report",
+     "start": 21.787,
+     "end": 24.923,
+     "cap": "**Kavya:** So we survey the school and report the result. **Fairly.**",
+     "who": "kavya"
+    },
+    {
+     "id": "priya",
+     "start": 25.443,
+     "end": 29.048,
+     "cap": "**Priya:** Done! I already asked. **100%** want bubble tea!",
+     "who": "priya"
+    },
+    {
+     "id": "who",
+     "start": 29.568,
+     "end": 31.104,
+     "cap": "**Kavya:** Priya. **Who** did you ask?",
+     "who": "kavya"
+    },
+    {
+     "id": "chat",
+     "start": 31.724,
+     "end": 34.817,
+     "cap": "**Priya:** My bubble tea group chat. All **43** of us.",
+     "who": "priya"
+    },
+    {
+     "id": "tiny",
+     "start": 35.837,
+     "end": 42.259,
+     "cap": "**Narrator:** But this documentary is about the old computer in the corner. Inside it: the **Fact-Check Desk**.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 42.779,
+     "end": 48.517,
+     "cap": "**Inspector Axis:** Inspector **Axis**. Fact-checker. I've seen a thousand graphs, kid. Most of them were lying.",
+     "who": "axis"
+    },
+    {
+     "id": "biased",
+     "start": 49.137,
+     "end": 55.089,
+     "cap": "**Inspector Axis:** Asking your own fan club is a **biased sample**. Bubble tea fans say bubble tea. Shocking.",
+     "who": "axis"
+    },
+    {
+     "id": "loyal",
+     "start": 56.009,
+     "end": 58.249,
+     "cap": "**Priya:** It's not biased. It's **loyal**.",
+     "who": "priya"
+    },
+    {
+     "id": "charge",
+     "start": 59.469,
+     "end": 65.037,
+     "cap": "**Inspector Axis:** Five days. One canteen. **1200** pupils. And somebody has to **check the axes**.",
+     "who": "axis"
+    },
+    {
+     "id": "title",
+     "start": 65.757,
+     "end": 70.173,
+     "cap": "**Narrator:** Show Me the Data. Episode 18: The Great Canteen Vote.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "survey",
+   "title": "Who do we ask?",
+   "short": "Data & sampling",
+   "card": true,
+   "start": 72.273,
+   "end": 167.62,
+   "lines": [
+    {
+     "id": "cycle",
+     "start": 74.073,
+     "end": 81.135,
+     "cap": "**Inspector Axis:** Every case goes round the **enquiry cycle**. **Plan. Collect. Process and represent. Interpret.** Then round again.",
+     "who": "axis"
+    },
+    {
+     "id": "all",
+     "start": 81.455,
+     "end": 83.929,
+     "cap": "**Dad:** Simple. Ask **all 1200** pupils.",
+     "who": "dad"
+    },
+    {
+     "id": "census",
+     "start": 84.449,
+     "end": 90.913,
+     "cap": "**Inspector Axis:** Asking everyone is a **census**. Too slow. Ask a **sample**: a smaller group that's **representative**.",
+     "who": "axis"
+    },
+    {
+     "id": "thousand",
+     "start": 91.233,
+     "end": 94.711,
+     "cap": "**Ah Boy:** I'll stand outside the bubble tea shop and ask **1000** people!",
+     "who": "boy"
+    },
+    {
+     "id": "digest",
+     "start": 95.231,
+     "end": 102.121,
+     "cap": "**Inspector Axis:** A **convenience** sample. Big, easy, and **biased**: you'd only meet bubble tea fans. **How** you choose beats **how many**.",
+     "who": "axis"
+    },
+    {
+     "id": "system",
+     "start": 102.741,
+     "end": 111.061,
+     "cap": "**Kavya:** **Simple random**: a computer picks. Or **systematic**: 1200 ÷ 60 = **20**, so every **20th** name from a random start.",
+     "who": "kavya"
+    },
+    {
+     "id": "seven",
+     "start": 111.381,
+     "end": 115.349,
+     "cap": "**Ah Boy:** Random start: **7**! Then 27, 47, 67...",
+     "who": "boy"
+    },
+    {
+     "id": "last",
+     "start": 115.869,
+     "end": 121.587,
+     "cap": "**Kavya:** The 60th name is 7 + 59 × 20 = **1187**. Still on the list.",
+     "who": "kavya"
+    },
+    {
+     "id": "strat",
+     "start": 121.907,
+     "end": 130.035,
+     "cap": "**Mum:** Or **stratified**: each year group in proportion. Sec 1's **320** pupils: 320 ÷ 20 = **16**.",
+     "who": "mum"
+    },
+    {
+     "id": "question",
+     "start": 130.355,
+     "end": 136.243,
+     "cap": "**Mum:** My question! \"How much do you spend on drinks?\" **$0–$2**, **$2–$4**, **$5 or more**.",
+     "who": "mum"
+    },
+    {
+     "id": "three",
+     "start": 136.763,
+     "end": 142.757,
+     "cap": "**Inspector Axis:** Three problems. No **time frame**. An **overlap** at $2. And a **gap**: where does **$4.50** go?",
+     "who": "axis"
+    },
+    {
+     "id": "fixed",
+     "start": 143.377,
+     "end": 148.839,
+     "cap": "**Kavya:** Fixed: \"In the **last 5 school days**...\" Under $5, $5 to $9.99, $10 or more.",
+     "who": "kavya"
+    },
+    {
+     "id": "types",
+     "start": 149.159,
+     "end": 156.007,
+     "cap": "**Kavya:** **Name it**: categorical, like favourite stall. **Count it**: discrete, like cups a week. **Measure it**: continuous, like queue time.",
+     "who": "kavya"
+    },
+    {
+     "id": "shoe",
+     "start": 156.327,
+     "end": 159.1,
+     "cap": "**Ah Boy:** My shoe size is continuous! My feet keep growing!",
+     "who": "boy"
+    },
+    {
+     "id": "shoe2",
+     "start": 159.62,
+     "end": 166.02,
+     "cap": "**Mum:** Your **feet** are continuous. **Shoe sizes** jump: 2, 2½, 3. **Discrete.** And you need new shoes.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "tally",
+   "title": "Recess with Tally",
+   "short": "Tables",
+   "card": true,
+   "start": 167.62,
+   "end": 245.216,
+   "lines": [
+    {
+     "id": "lead",
+     "start": 169.42,
+     "end": 172.599,
+     "cap": "**Priya:** Before you vote: **don't you agree** bubble tea is the best?",
+     "who": "priya"
+    },
+    {
+     "id": "leading",
+     "start": 173.119,
+     "end": 177.172,
+     "cap": "**Inspector Axis:** A **leading question**. It pushes people towards one answer.",
+     "who": "axis"
+    },
+    {
+     "id": "tally",
+     "start": 177.992,
+     "end": 182.173,
+     "cap": "**Tally:** Tally! I count! One, two, three, four... **GATE!** The fifth stroke goes across. Count in **fives**!",
+     "who": "tally"
+    },
+    {
+     "id": "votes",
+     "start": 182.693,
+     "end": 189.712,
+     "cap": "**Kavya:** Bubble tea **26**, ice kachang **22**, don't mind **12**. Total **60**: the frequencies add up to the sample.",
+     "who": "kavya"
+    },
+    {
+     "id": "rose",
+     "start": 190.032,
+     "end": 194.469,
+     "cap": "**Auntie Rose:** Kavya! Auntie timed her trial queue! **16** waits in seconds. Put them in **groups of ten**!",
+     "who": "rose"
+    },
+    {
+     "id": "forty",
+     "start": 194.789,
+     "end": 197.115,
+     "cap": "**Tally:** Forty seconds! Where does **40** go?! PANIC!",
+     "who": "tally"
+    },
+    {
+     "id": "ineq",
+     "start": 197.735,
+     "end": 204.241,
+     "cap": "**Mr Tan:** **40 ≤ t < 50**: at least forty, but **less than** fifty. Forty goes in. Fifty goes next door.",
+     "who": "tan"
+    },
+    {
+     "id": "freq",
+     "start": 204.561,
+     "end": 211.196,
+     "cap": "**Kavya:** Frequencies **2, 4, 6, 3, 1**. Total **16**. The **modal class** is 40 ≤ t < 50: the most common.",
+     "who": "kavya"
+    },
+    {
+     "id": "two",
+     "start": 211.516,
+     "end": 218.769,
+     "cap": "**Mr Tan:** Now a **two-way table**. Every row and column adds to its total. Find a line with **one gap**, and **subtract**.",
+     "who": "tan"
+    },
+    {
+     "id": "fill1",
+     "start": 219.089,
+     "end": 224.359,
+     "cap": "**Kavya:** Lower secondary, ice kachang: 31 − 17 − 5 = **9**.",
+     "who": "kavya"
+    },
+    {
+     "id": "fill2",
+     "start": 224.679,
+     "end": 231.761,
+     "cap": "**Priya:** Upper secondary, bubble tea: 26 − 17 = **9**. Ice kachang: 22 − 9 = **13**.",
+     "who": "priya"
+    },
+    {
+     "id": "fill3",
+     "start": 232.081,
+     "end": 239.057,
+     "cap": "**Kavya:** Don't mind: 12 − 5 = **7**. Upper total: 60 − 31 = **29**. Check: 9 + 13 + 7 = **29** ✓",
+     "who": "kavya"
+    },
+    {
+     "id": "taste",
+     "start": 239.377,
+     "end": 243.516,
+     "cap": "**Priya:** So the big kids prefer ice kachang. The big kids have **no taste**.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "pie",
+   "title": "Dame Pie presents",
+   "short": "Charts",
+   "card": true,
+   "start": 245.216,
+   "end": 334.739,
+   "lines": [
+    {
+     "id": "pie",
+     "start": 247.016,
+     "end": 252.925,
+     "cap": "**Dame Pie:** **Dame Pie**. Pie chart. My great-great-grandmother was **Florence Nightingale's** rose diagram, darling.",
+     "who": "pie"
+    },
+    {
+     "id": "one",
+     "start": 253.545,
+     "end": 260.137,
+     "cap": "**Kavya:** Sixty pupils share **360°**. So **one** pupil gets 360 ÷ 60 = **6°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mult",
+     "start": 260.457,
+     "end": 270.761,
+     "cap": "**Dame Pie:** **One first, then multiply.** Bubble tea: 26 × 6 = **156°**. Ice kachang: 22 × 6 = **132°**. Don't mind: 12 × 6 = **72°**. Total **360°**.",
+     "who": "pie"
+    },
+    {
+     "id": "rose",
+     "start": 271.081,
+     "end": 276.521,
+     "cap": "**Auntie Rose:** Kavya! Auntie's pie from the hawker centre: ice kachang is **90°**, out of **200** customers!",
+     "who": "rose"
+    },
+    {
+     "id": "back",
+     "start": 276.841,
+     "end": 281.001,
+     "cap": "**Kavya:** Backwards: 90 ÷ 360 × 200 = **50** customers.",
+     "who": "kavya"
+    },
+    {
+     "id": "more",
+     "start": 281.321,
+     "end": 287.721,
+     "cap": "**Priya:** Our ice kachang slice is **132°**. Hers is only **90°**. So **more** people like ours!",
+     "who": "priya"
+    },
+    {
+     "id": "totals",
+     "start": 288.241,
+     "end": 296.924,
+     "cap": "**Dame Pie:** Never compare two pies without their **totals**, darling. 132° of 60 is **22** people. 90° of 200 is **50**.",
+     "who": "pie"
+    },
+    {
+     "id": "dual",
+     "start": 297.544,
+     "end": 303.005,
+     "cap": "**Kavya:** Lower and upper secondary **side by side**: a **dual bar chart**. Best for comparing the groups.",
+     "who": "kavya"
+    },
+    {
+     "id": "compound",
+     "start": 303.325,
+     "end": 309.107,
+     "cap": "**Mr Tan:** **Stack** the parts instead, and each bar's height shows the **total**: a **compound bar chart**.",
+     "who": "tan"
+    },
+    {
+     "id": "weather",
+     "start": 309.427,
+     "end": 314.248,
+     "cap": "**Dame Pie:** And now... the **weather**! Auntie's ice kachang sales, every three months for two years.",
+     "who": "pie"
+    },
+    {
+     "id": "season",
+     "start": 314.768,
+     "end": 321.424,
+     "cap": "**Kavya:** A **time-series graph**: time along the bottom. **Seasonal pattern**: it peaks every **April to June**, the hottest months.",
+     "who": "kavya"
+    },
+    {
+     "id": "trend",
+     "start": 321.744,
+     "end": 328.037,
+     "cap": "**Mr Tan:** For the **trend**, compare the **same** quarter each year. Year 2 beats Year 1 **every** time. **Upwards.**",
+     "who": "tan"
+    },
+    {
+     "id": "slice",
+     "start": 328.357,
+     "end": 331.109,
+     "cap": "**Priya:** Great show, Dame Pie. Can I have a **slice**?",
+     "who": "priya"
+    },
+    {
+     "id": "dare",
+     "start": 331.729,
+     "end": 332.839,
+     "cap": "**Dame Pie:** **How dare you.**",
+     "who": "pie"
+    }
+   ]
+  },
+  {
+   "id": "stem",
+   "title": "Stemmy loses his key",
+   "short": "Stem-and-leaf",
+   "card": true,
+   "start": 334.739,
+   "end": 410.293,
+   "lines": [
+    {
+     "id": "times",
+     "start": 336.539,
+     "end": 344.069,
+     "cap": "**Priya:** Trial day! Bubble tea serving times, in seconds: 34, 27, 45, 31... **fifteen** of them! What's the **middle** one?",
+     "who": "priya"
+    },
+    {
+     "id": "stemmy",
+     "start": 344.589,
+     "end": 350.157,
+     "cap": "**Stemmy:** Stemmy! **Stem-and-leaf**! The **tens** digit is the **stem**. The **units** digit is the **leaf**.",
+     "who": "stemmy"
+    },
+    {
+     "id": "leaf",
+     "start": 350.477,
+     "end": 357.645,
+     "cap": "**Stemmy:** 34: stem 3, leaf 4. **One digit** per leaf. Then the leaves go **in order**, smallest by the stem.",
+     "who": "stemmy"
+    },
+    {
+     "id": "key",
+     "start": 357.965,
+     "end": 363.597,
+     "cap": "**Stemmy:** And a **key**: 3 | 4 means **34 seconds**. Now... where did I put my key?",
+     "who": "stemmy"
+    },
+    {
+     "id": "lost",
+     "start": 364.217,
+     "end": 370.319,
+     "cap": "**Stemmy:** Without my key I could be **34**, **3.4** or **340**! Who AM I?!",
+     "who": "stemmy"
+    },
+    {
+     "id": "median",
+     "start": 371.239,
+     "end": 378.151,
+     "cap": "**Kavya:** **15** leaves, so the median is the (15 + 1) ÷ 2 = **8th** value. Count along: **34 seconds**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mmr",
+     "start": 378.471,
+     "end": 385.297,
+     "cap": "**Stemmy:** Mode **31 s**: the only repeat. Range: 48 − 22 = **26 s**.",
+     "who": "stemmy"
+    },
+    {
+     "id": "rose",
+     "start": 385.617,
+     "end": 388.988,
+     "cap": "**Auntie Rose:** Auntie's times also! **11** bowls. Put me on the same stems!",
+     "who": "rose"
+    },
+    {
+     "id": "btb",
+     "start": 389.308,
+     "end": 398.929,
+     "cap": "**Stemmy:** **Back-to-back!** Auntie's leaves go on the **left**, reading **outwards**. Her median: **28 s**. Her range: 44 − 21 = **23 s**.",
+     "who": "stemmy"
+    },
+    {
+     "id": "compare",
+     "start": 399.249,
+     "end": 404.689,
+     "cap": "**Mr Tan:** Lower median: Auntie is generally **faster**. Smaller range: more **consistent**.",
+     "who": "tan"
+    },
+    {
+     "id": "found",
+     "start": 405.009,
+     "end": 408.593,
+     "cap": "**Stemmy:** Found my key! I'm **34** again. What a relief.",
+     "who": "stemmy"
+    }
+   ]
+  },
+  {
+   "id": "venn",
+   "title": "The Venn twins",
+   "short": "Venn & Carroll",
+   "card": true,
+   "start": 410.293,
+   "end": 480.923,
+   "lines": [
+    {
+     "id": "staff",
+     "start": 412.093,
+     "end": 419.24,
+     "cap": "**Mr Tan:** Thursday. Staff room survey. Of **30** teachers, **18** like bubble tea and **12** like ice kachang.",
+     "who": "tan"
+    },
+    {
+     "id": "thirty",
+     "start": 419.56,
+     "end": 423.613,
+     "cap": "**Priya:** 18 + 12 = **30**. Every single teacher likes one!",
+     "who": "priya"
+    },
+    {
+     "id": "twins",
+     "start": 424.233,
+     "end": 430.804,
+     "cap": "**Vera:** Hi! **Vera**, the bubble tea circle. My sister **Nina**, ice kachang. The **Venn diagram** twins. We **share the middle**.",
+     "who": "vera"
+    },
+    {
+     "id": "both",
+     "start": 431.324,
+     "end": 433.116,
+     "cap": "**Mr Tan:** **5** teachers like **both**.",
+     "who": "tan"
+    },
+    {
+     "id": "middle",
+     "start": 433.536,
+     "end": 437.355,
+     "cap": "**Nina:** **Middle first**, then outwards! The **overlap** means **both**. Five go in here.",
+     "who": "nina"
+    },
+    {
+     "id": "only",
+     "start": 437.675,
+     "end": 440.576,
+     "cap": "**Vera:** Bubble tea **only**: 18 − 5 = **13**.",
+     "who": "vera"
+    },
+    {
+     "id": "only2",
+     "start": 440.896,
+     "end": 444.16,
+     "cap": "**Nina:** Ice kachang **only**: 12 − 5 = **7**.",
+     "who": "nina"
+    },
+    {
+     "id": "neither",
+     "start": 444.48,
+     "end": 451.264,
+     "cap": "**Kavya:** Inside the circles: 13 + 5 + 7 = **25**. So **neither**: 30 − 25 = **5**.",
+     "who": "kavya"
+    },
+    {
+     "id": "twice",
+     "start": 451.584,
+     "end": 456.619,
+     "cap": "**Vera:** Priya, you counted the **both** teachers **twice**. 18 + 12 − 5 = **25**.",
+     "who": "vera"
+    },
+    {
+     "id": "kopi",
+     "start": 456.939,
+     "end": 459.307,
+     "cap": "**Priya:** So five teachers like **neither**?",
+     "who": "priya"
+    },
+    {
+     "id": "kopi2",
+     "start": 459.827,
+     "end": 461.811,
+     "cap": "**Mr Tan:** Five teachers like **kopi**.",
+     "who": "tan"
+    },
+    {
+     "id": "homework",
+     "start": 463.131,
+     "end": 466.288,
+     "cap": "**Ah Boy:** My homework! Sort **1 to 20**: multiple of 3? Even?",
+     "who": "boy"
+    },
+    {
+     "id": "carroll",
+     "start": 466.808,
+     "end": 474.296,
+     "cap": "**Dad:** A **Carroll diagram**: a **yes or no** grid for each question. Named after **Lewis Carroll**, of Alice in Wonderland.",
+     "who": "dad"
+    },
+    {
+     "id": "same",
+     "start": 474.616,
+     "end": 479.523,
+     "cap": "**Vera:** Same **four groups** as a Venn diagram: 3 + 3 + 7 + 7 = **20**.",
+     "who": "vera"
+    }
+   ]
+  },
+  {
+   "id": "scatter",
+   "title": "Lofty doesn't do dot-to-dot",
+   "short": "Scatter graphs",
+   "card": true,
+   "start": 480.923,
+   "end": 564.751,
+   "lines": [
+    {
+     "id": "book",
+     "start": 482.723,
+     "end": 487.587,
+     "cap": "**Auntie Rose:** Thursday night, Auntie's stall. Every day Auntie writes the **temperature**, and how many **bowls** I sell.",
+     "who": "rose"
+    },
+    {
+     "id": "plot",
+     "start": 488.107,
+     "end": 492.032,
+     "cap": "**Kavya:** Two numbers for each day. Plot every day as a point: a **scatter graph**.",
+     "who": "kavya"
+    },
+    {
+     "id": "uphill",
+     "start": 492.352,
+     "end": 493.696,
+     "cap": "**Ah Boy:** The dots are walking **uphill**!",
+     "who": "boy"
+    },
+    {
+     "id": "lofty",
+     "start": 494.216,
+     "end": 498.632,
+     "cap": "**Lofty:** Lofty. **Line of best fit**. Uphill is **positive**. Downhill is **negative**, dude.",
+     "who": "lofty"
+    },
+    {
+     "id": "context",
+     "start": 499.152,
+     "end": 503.589,
+     "cap": "**Kavya:** **Positive correlation**: as the temperature **increases**, sales **tend to increase**.",
+     "who": "kavya"
+    },
+    {
+     "id": "dots",
+     "start": 503.909,
+     "end": 505.787,
+     "cap": "**Dad:** Easy. Just **join the dots**.",
+     "who": "dad"
+    },
+    {
+     "id": "nodot",
+     "start": 506.407,
+     "end": 512.7,
+     "cap": "**Lofty:** No **dot-to-dot**, and no need to hit the **origin**. One straight line through the **middle**: as many points above as below.",
+     "who": "lofty"
+    },
+    {
+     "id": "rate",
+     "start": 513.02,
+     "end": 519.697,
+     "cap": "**Lofty:** I pass through (26, 12) and (34, 108). That's **96** bowls over **8** degrees: **12** bowls per degree.",
+     "who": "lofty"
+    },
+    {
+     "id": "forecast",
+     "start": 520.017,
+     "end": 523.985,
+     "cap": "**Auntie Rose:** Tomorrow's forecast: **33 °C**. How many bowls must Auntie prepare?",
+     "who": "rose"
+    },
+    {
+     "id": "ninetysix",
+     "start": 524.305,
+     "end": 529.532,
+     "cap": "**Kavya:** That's 7 degrees above 26 °C: 12 + 7 × 12 = **96 bowls**.",
+     "who": "kavya"
+    },
+    {
+     "id": "inter",
+     "start": 529.852,
+     "end": 533.82,
+     "cap": "**Lofty:** 33 is **inside** the data: **interpolation**. Fairly reliable.",
+     "who": "lofty"
+    },
+    {
+     "id": "extra",
+     "start": 534.14,
+     "end": 542.012,
+     "cap": "**Kavya:** And **45 °C**? That's **extrapolation**: way outside the data. Risky. At 45 °C, **we'd** be the ice kachang.",
+     "who": "kavya"
+    },
+    {
+     "id": "neg",
+     "start": 542.932,
+     "end": 550.249,
+     "cap": "**Dad:** Hot soup on hot days: **negative correlation**. Ah Boy's shoe size and spelling marks: **no correlation**.",
+     "who": "dad"
+    },
+    {
+     "id": "cause",
+     "start": 550.869,
+     "end": 557.397,
+     "cap": "**Priya:** Kavya! Ice kachang sales and **sunburn** both go up together! Ice kachang **causes sunburn**! Ban ice kachang!",
+     "who": "priya"
+    },
+    {
+     "id": "third",
+     "start": 557.917,
+     "end": 563.251,
+     "cap": "**Inspector Axis:** **Correlation is not causation.** A **third variable**, the hot sun, drives both.",
+     "who": "axis"
+    }
+   ]
+  },
+  {
+   "id": "spin",
+   "title": "Friday, live",
+   "short": "Misleading graphs",
+   "card": true,
+   "start": 564.751,
+   "end": 646.648,
+   "lines": [
+    {
+     "id": "fri",
+     "start": 566.551,
+     "end": 570.327,
+     "cap": "**Narrator:** Friday. 8B News goes out live to the whole school.",
+     "who": "narr"
+    },
+    {
+     "id": "poster",
+     "start": 570.847,
+     "end": 576.415,
+     "cap": "**Priya:** My poster! Bubble tea sold **102**, ice kachang **98**. Look how much **taller** we are!",
+     "who": "priya"
+    },
+    {
+     "id": "axes",
+     "start": 576.935,
+     "end": 580.455,
+     "cap": "**Inspector Axis:** **Check. The. Axes.** This one starts at **95**.",
+     "who": "axis"
+    },
+    {
+     "id": "heights",
+     "start": 581.075,
+     "end": 587.581,
+     "cap": "**Inspector Axis:** So the bars are **7** and **3** tall: yours looks **twice** as big. Really? About **4%** more.",
+     "who": "axis"
+    },
+    {
+     "id": "zero",
+     "start": 588.301,
+     "end": 592.419,
+     "cap": "**Kavya:** Bars must start at **0**. Then they look almost **equal**, because they **are**.",
+     "who": "kavya"
+    },
+    {
+     "id": "cup",
+     "start": 592.739,
+     "end": 598.84,
+     "cap": "**Priya:** Fine. Poster two. We got **twice** as many likes online, so our cup is **twice as tall** and **twice as wide**!",
+     "who": "priya"
+    },
+    {
+     "id": "area",
+     "start": 599.36,
+     "end": 604.672,
+     "cap": "**Inspector Axis:** 2 × 2 = **4**. Four times the **area**. It looks like **four times** as many.",
+     "who": "axis"
+    },
+    {
+     "id": "choose2",
+     "start": 605.392,
+     "end": 613.264,
+     "cap": "**Kavya:** Choosing charts, live: votes per stall, a **bar** or **pie chart**. Sales over time, a **line graph**. Temperature and bowls, a **scatter graph**.",
+     "who": "kavya"
+    },
+    {
+     "id": "gaps",
+     "start": 613.584,
+     "end": 616.485,
+     "cap": "**Priya:** And the queue times! A bar chart with nice **gaps**!",
+     "who": "priya"
+    },
+    {
+     "id": "touch",
+     "start": 617.005,
+     "end": 622.552,
+     "cap": "**Inspector Axis:** Time is **continuous**. The classes meet, so the bars **touch**. That's a **frequency diagram**.",
+     "who": "axis"
+    },
+    {
+     "id": "mid",
+     "start": 622.872,
+     "end": 628.696,
+     "cap": "**Kavya:** Stretch: plot each class **midpoint**, like (20 + 30) ÷ 2 = **25**, against its frequency.",
+     "who": "kavya"
+    },
+    {
+     "id": "poly",
+     "start": 629.016,
+     "end": 635.096,
+     "cap": "**Inspector Axis:** Join them up: a **frequency polygon**. Bubble tea's polygon sits further **right**: **longer** waits.",
+     "who": "axis"
+    },
+    {
+     "id": "verdict",
+     "start": 635.416,
+     "end": 638.36,
+     "cap": "**Mr Tan:** And the principal's decision, based on the data...",
+     "who": "tan"
+    },
+    {
+     "id": "pearls",
+     "start": 639.08,
+     "end": 643.176,
+     "cap": "**Auntie Rose:** Auntie Rose sells **ice kachang**... **with bubble tea pearls**! Everybody happy!",
+     "who": "rose"
+    },
+    {
+     "id": "overlap",
+     "start": 643.796,
+     "end": 644.948,
+     "cap": "**Vera:** It's **both**! The **overlap**!",
+     "who": "vera"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The Fact-Check Desk saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 646.648,
+   "end": 708.939,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 648.448,
+     "end": 651.52,
+     "cap": "**Narrator:** Before the credits: six ways to save marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 652.14,
+     "end": 658.945,
+     "cap": "**Stemmy:** One. Every stem-and-leaf needs a **key**, and leaves **in order**, **one digit** each. Never 3 | 12.",
+     "who": "stemmy"
+    },
+    {
+     "id": "t2",
+     "start": 659.565,
+     "end": 664.067,
+     "cap": "**Auntie Rose:** Two. A **boundary value**: 40 seconds goes in **40 ≤ t < 50**, not the class before.",
+     "who": "rose"
+    },
+    {
+     "id": "t3",
+     "start": 664.687,
+     "end": 670.831,
+     "cap": "**Dame Pie:** Three. Angles add up to **360°**. Frequencies add up to the **total**. **Check**, darling.",
+     "who": "pie"
+    },
+    {
+     "id": "t4",
+     "start": 671.451,
+     "end": 676.187,
+     "cap": "**Lofty:** Four. Correlation **in context**: \"as temperature increases, sales tend to increase\".",
+     "who": "lofty"
+    },
+    {
+     "id": "t5",
+     "start": 676.807,
+     "end": 680.668,
+     "cap": "**Inspector Axis:** Five. **Continuous** data: the bars **touch**. No gaps.",
+     "who": "axis"
+    },
+    {
+     "id": "t6",
+     "start": 681.288,
+     "end": 687.539,
+     "cap": "**Priya:** Six. Calling a sample **biased**? Say **who** is left out, and why. Mine left out everyone outside my group chat.",
+     "who": "priya"
+    },
+    {
+     "id": "return",
+     "start": 688.259,
+     "end": 690.669,
+     "cap": "**Narrator:** Show Me the Data will return.",
+     "who": "narr"
+    },
+    {
+     "id": "monday",
+     "start": 691.989,
+     "end": 693.803,
+     "cap": "**Narrator:** Monday. Kavya's flat.",
+     "who": "narr"
+    },
+    {
+     "id": "survey",
+     "start": 694.323,
+     "end": 698.675,
+     "cap": "**Ah Boy:** I did a survey! \"Who is the best child in this family?\" **100%** said **me**!",
+     "who": "boy"
+    },
+    {
+     "id": "who",
+     "start": 699.195,
+     "end": 700.88,
+     "cap": "**Kavya:** Ah Boy. **Who** did you ask?",
+     "who": "kavya"
+    },
+    {
+     "id": "me",
+     "start": 701.6,
+     "end": 702.112,
+     "cap": "**Ah Boy:** **Me.**",
+     "who": "boy"
+    },
+    {
+     "id": "closed",
+     "start": 703.032,
+     "end": 706.339,
+     "cap": "**Inspector Axis:** Sample size: **one**. **Biased.** Case closed.",
+     "who": "axis"
+    }
+   ]
+  }
+ ],
+ "total": 708.939
+}

@@ -1,0 +1,1056 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 64.592,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.04,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Deepavali morning, a flat in Block 208.",
+     "who": "narr"
+    },
+    {
+     "id": "test",
+     "start": 6.56,
+     "end": 13.237,
+     "cap": "**Kavya:** My maths test came back. Factorise **12x + 18**. I wrote **12(x + 18)**.",
+     "who": "kavya"
+    },
+    {
+     "id": "same",
+     "start": 13.757,
+     "end": 17.299,
+     "cap": "**Dad:** Looks fine to me. Same numbers, same letters. **Same thing.**",
+     "who": "dad"
+    },
+    {
+     "id": "revise",
+     "start": 18.119,
+     "end": 21.404,
+     "cap": "**Kavya:** Mr Tan wrote **REVISE**. In red. **Retest on Monday.**",
+     "who": "kavya"
+    },
+    {
+     "id": "guests",
+     "start": 21.924,
+     "end": 27.897,
+     "cap": "**Mum:** No revising today. **Fifty guests** at four! Kavya: goodie bags. Ah Boy: don't touch the ladoos.",
+     "who": "mum"
+    },
+    {
+     "id": "ladoo",
+     "start": 28.417,
+     "end": 29.889,
+     "cap": "**Ah Boy:** I haven't touched any ladoos.",
+     "who": "boy"
+    },
+    {
+     "id": "tiny",
+     "start": 31.009,
+     "end": 34.679,
+     "cap": "**Narrator:** But this documentary is about the **x** on her test.",
+     "who": "narr"
+    },
+    {
+     "id": "name",
+     "start": 35.199,
+     "end": 38.569,
+     "cap": "**Agent X:** The name's **X**. Just X. My value is **classified**.",
+     "who": "x"
+    },
+    {
+     "id": "anyone",
+     "start": 39.189,
+     "end": 43.093,
+     "cap": "**Agent X:** Today I'm **5**. Tomorrow, **−3**. I could be anyone.",
+     "who": "x"
+    },
+    {
+     "id": "blown",
+     "start": 43.613,
+     "end": 48.2,
+     "cap": "**Agent X:** Her answer? Expand it: **12x + 216**. Cover. Blown.",
+     "who": "x"
+    },
+    {
+     "id": "mission",
+     "start": 48.82,
+     "end": 53.385,
+     "cap": "**Agent X:** Mission: get Kavya through Monday's retest. Without fifty guests noticing.",
+     "who": "x"
+    },
+    {
+     "id": "spy",
+     "start": 53.905,
+     "end": 55.783,
+     "cap": "**Ah Boy:** Mum! There's a **spy** in Kavya's homework!",
+     "who": "boy"
+    },
+    {
+     "id": "bags",
+     "start": 56.303,
+     "end": 58.052,
+     "cap": "**Mum:** Then he can help with the goodie bags.",
+     "who": "mum"
+    },
+    {
+     "id": "title",
+     "start": 58.972,
+     "end": 62.492,
+     "cap": "**Narrator:** On Good Terms. Episode 9: The Open House.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "labels",
+   "title": "Four jobs for one letter",
+   "short": "The language of algebra",
+   "card": true,
+   "start": 64.592,
+   "end": 148.885,
+   "lines": [
+    {
+     "id": "one",
+     "start": 66.392,
+     "end": 70.189,
+     "cap": "**Narrator:** One p.m. Dad is in charge of the **fairy lights**.",
+     "who": "narr"
+    },
+    {
+     "id": "window",
+     "start": 70.709,
+     "end": 76.384,
+     "cap": "**Dad:** The window is a **square**, side **s**. Lights go all the way round: **P = 4s**.",
+     "who": "dad"
+    },
+    {
+     "id": "formula",
+     "start": 76.704,
+     "end": 80.693,
+     "cap": "**Agent X:** A **formula**. The letters are real quantities: **perimeter** and **side**.",
+     "who": "x"
+    },
+    {
+     "id": "metres",
+     "start": 81.013,
+     "end": 86.368,
+     "cap": "**Dad:** Side **1.2 m**, so P = **4.8 m**. I've got **5**. Engineer.",
+     "who": "dad"
+    },
+    {
+     "id": "sweets",
+     "start": 86.988,
+     "end": 91.489,
+     "cap": "**Ah Boy:** I've got **4** bags of sweets, the same in each, and **3** loose: **4x + 3**!",
+     "who": "boy"
+    },
+    {
+     "id": "expr",
+     "start": 91.809,
+     "end": 96.055,
+     "cap": "**Agent X:** An **expression**. No equals sign. I could be **any** number. My favourite job.",
+     "who": "x"
+    },
+    {
+     "id": "count",
+     "start": 96.575,
+     "end": 100.308,
+     "cap": "**Ah Boy:** I counted. **23**! So **4x + 3 = 23**.",
+     "who": "boy"
+    },
+    {
+     "id": "eq",
+     "start": 100.828,
+     "end": 105.223,
+     "cap": "**Agent X:** An **equation**. Now I'm one **particular** number: **5**. I hate equations.",
+     "who": "x"
+    },
+    {
+     "id": "more",
+     "start": 106.043,
+     "end": 111.611,
+     "cap": "**Kavya:** Put **3** more in **every** bag: **4(x + 3)**. That's always **4x + 12**.",
+     "who": "kavya"
+    },
+    {
+     "id": "ident",
+     "start": 111.931,
+     "end": 118.757,
+     "cap": "**Agent X:** An **identity**: **4(x + 3) ≡ 4x + 12**. True for **every** x.",
+     "who": "x"
+    },
+    {
+     "id": "dadid",
+     "start": 119.277,
+     "end": 124.184,
+     "cap": "**Dad:** Easy. **4(x + 2) = 4x + 2**. Same thing.",
+     "who": "dad"
+    },
+    {
+     "id": "counter",
+     "start": 124.704,
+     "end": 130.187,
+     "cap": "**Agent X:** Undercover as **0**: **8** on the left, **2** on the right. One **counter-example**. Cover. Blown.",
+     "who": "x"
+    },
+    {
+     "id": "anatomy",
+     "start": 131.007,
+     "end": 137.599,
+     "cap": "**Kavya:** My test: **5x² − 3x + 7**. Three **terms**. The sign in front **belongs** to the term.",
+     "who": "kavya"
+    },
+    {
+     "id": "coeff",
+     "start": 137.919,
+     "end": 142.591,
+     "cap": "**Agent X:** **Coefficients**: **5** and **−3**. The **7** has no letter: the **constant**.",
+     "who": "x"
+    },
+    {
+     "id": "invisible",
+     "start": 142.911,
+     "end": 144.447,
+     "cap": "**Ah Boy:** And the coefficient of just **x**?",
+     "who": "boy"
+    },
+    {
+     "id": "one1",
+     "start": 144.967,
+     "end": 147.185,
+     "cap": "**Agent X:** **1.** It's invisible. Like me.",
+     "who": "x"
+    }
+   ]
+  },
+  {
+   "id": "tiles",
+   "title": "Square and Stick",
+   "short": "Simplifying",
+   "card": true,
+   "start": 148.885,
+   "end": 230.885,
+   "lines": [
+    {
+     "id": "two",
+     "start": 150.685,
+     "end": 153.885,
+     "cap": "**Narrator:** Two p.m. Priya brings **rangoli tiles**.",
+     "who": "narr"
+    },
+    {
+     "id": "priya",
+     "start": 154.405,
+     "end": 159.056,
+     "cap": "**Priya:** Priya. Best friend. Big tiles: **x by x**. Long tiles: **x by 1**.",
+     "who": "priya"
+    },
+    {
+     "id": "square",
+     "start": 159.376,
+     "end": 162.981,
+     "cap": "**Square:** **x squared**, darling. An **area**. Don't confuse me with the help.",
+     "who": "square"
+    },
+    {
+     "id": "stick",
+     "start": 163.501,
+     "end": 165.293,
+     "cap": "**Stick:** Stick. I'm **x**. A length. Chill.",
+     "who": "stick"
+    },
+    {
+     "id": "dad",
+     "start": 165.813,
+     "end": 171.211,
+     "cap": "**Dad:** **3x² + 2x − x²**. Add the lot: **4x³**!",
+     "who": "dad"
+    },
+    {
+     "id": "ten",
+     "start": 171.731,
+     "end": 177.725,
+     "cap": "**Agent X:** Undercover as **10**. The start is **220**. Dad's answer is **4000**. Cover blown.",
+     "who": "x"
+    },
+    {
+     "id": "like",
+     "start": 178.345,
+     "end": 182.292,
+     "cap": "**Square:** Only **like terms** combine: the **same letters** with the **same powers**.",
+     "who": "square"
+    },
+    {
+     "id": "collect",
+     "start": 182.812,
+     "end": 188.871,
+     "cap": "**Priya:** Squares: **3x² − x² = 2x²**. Plus **2x**. Check: **220**.",
+     "who": "priya"
+    },
+    {
+     "id": "times",
+     "start": 189.191,
+     "end": 194.353,
+     "cap": "**Square:** **x + x = 2x**: a length. But **x × x** makes **me**: **x²**. An **area**.",
+     "who": "square"
+    },
+    {
+     "id": "rect",
+     "start": 194.873,
+     "end": 201.423,
+     "cap": "**Priya:** So **3x × 2x = 6x²**: six squares. Numbers times numbers, letters times letters.",
+     "who": "priya"
+    },
+    {
+     "id": "laws",
+     "start": 201.743,
+     "end": 207.737,
+     "cap": "**Agent X:** **Index laws.** Multiplying: **add** the powers. **x⁴ × x³ = x⁷**.",
+     "who": "x"
+    },
+    {
+     "id": "wrong",
+     "start": 208.057,
+     "end": 211.513,
+     "cap": "**Priya:** So **x³ × x⁴ = x¹²**!",
+     "who": "priya"
+    },
+    {
+     "id": "add",
+     "start": 212.033,
+     "end": 218.625,
+     "cap": "**Square:** **x⁷**, darling. Multiply only for a **power of a power**: **(x³)⁴ = x¹²**.",
+     "who": "square"
+    },
+    {
+     "id": "divide",
+     "start": 218.945,
+     "end": 226.156,
+     "cap": "**Agent X:** Dividing: **subtract** the powers. **y⁶ ÷ y² = y⁴**. And **x⁰ = 1**.",
+     "who": "x"
+    },
+    {
+     "id": "rangoli",
+     "start": 226.476,
+     "end": 229.185,
+     "cap": "**Ah Boy:** I made a rangoli out of **ladoos**. ...It's gone now.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "sub",
+   "title": "Brackets are a disguise",
+   "short": "Substitution",
+   "card": true,
+   "start": 230.885,
+   "end": 305.315,
+   "lines": [
+    {
+     "id": "half",
+     "start": 232.685,
+     "end": 236.952,
+     "cap": "**Narrator:** Half past two. Revision. Ah Boy has the calculator.",
+     "who": "narr"
+    },
+    {
+     "id": "q",
+     "start": 237.472,
+     "end": 240.395,
+     "cap": "**Kavya:** Find **x²** when **x = −3**.",
+     "who": "kavya"
+    },
+    {
+     "id": "calc",
+     "start": 240.815,
+     "end": 243.097,
+     "cap": "**Ah Boy:** Easy! Minus 3, squared: **−9**!",
+     "who": "boy"
+    },
+    {
+     "id": "brackets",
+     "start": 243.717,
+     "end": 249.413,
+     "cap": "**Agent X:** Undercover as **−3**. My disguise: **brackets**. Without them, my minus sign falls off.",
+     "who": "x"
+    },
+    {
+     "id": "nine",
+     "start": 249.933,
+     "end": 256.675,
+     "cap": "**Agent X:** **(−3)² = 9**. Type −3² and the calculator squares only the **3**.",
+     "who": "x"
+    },
+    {
+     "id": "bidmas",
+     "start": 256.995,
+     "end": 259.512,
+     "cap": "**Kavya:** So **bracket every value**. Then **BIDMAS**.",
+     "who": "kavya"
+    },
+    {
+     "id": "five",
+     "start": 260.032,
+     "end": 262.848,
+     "cap": "**Ah Boy:** My turn! x = 5, so **3x** is **35**!",
+     "who": "boy"
+    },
+    {
+     "id": "fifteen",
+     "start": 263.368,
+     "end": 267.485,
+     "cap": "**Agent X:** **3x** means **3 × x**: **15**. I'm a number, not a digit.",
+     "who": "x"
+    },
+    {
+     "id": "sq",
+     "start": 268.005,
+     "end": 274.171,
+     "cap": "**Kavya:** And **2x²** at x = 3: square **first**. 2 × 9 = **18**, not 36.",
+     "who": "kavya"
+    },
+    {
+     "id": "ravi",
+     "start": 274.491,
+     "end": 281.189,
+     "cap": "**Uncle Ravi:** Kavya! Happy Deepavali from **Miami**! Kulfi freezes at **−15 °C**. My freezer only speaks **Fahrenheit**!",
+     "who": "ravi"
+    },
+    {
+     "id": "f",
+     "start": 281.509,
+     "end": 290.768,
+     "cap": "**Kavya:** **F = 9/5 C + 32**. 9/5 × (−15) = **−27**. Plus 32: **5 °F**.",
+     "who": "kavya"
+    },
+    {
+     "id": "warm",
+     "start": 291.088,
+     "end": 293.776,
+     "cap": "**Uncle Ravi:** Five degrees? In Miami that's an emergency.",
+     "who": "ravi"
+    },
+    {
+     "id": "frac",
+     "start": 294.696,
+     "end": 299.432,
+     "cap": "**Agent X:** Fractions too. x = **½**: **8x² = 8 × ¼ = 2**.",
+     "who": "x"
+    },
+    {
+     "id": "ladoo",
+     "start": 299.752,
+     "end": 301.395,
+     "cap": "**Ah Boy:** Can you go undercover as a ladoo?",
+     "who": "boy"
+    },
+    {
+     "id": "anyone",
+     "start": 301.915,
+     "end": 303.515,
+     "cap": "**Agent X:** ...I could be anyone.",
+     "who": "x"
+    }
+   ]
+  },
+  {
+   "id": "hands",
+   "title": "Everyone gets a handshake",
+   "short": "Expanding brackets",
+   "card": true,
+   "start": 305.315,
+   "end": 380.419,
+   "lines": [
+    {
+     "id": "four",
+     "start": 307.115,
+     "end": 310.165,
+     "cap": "**Narrator:** Four p.m. Guests arrive in **families**.",
+     "who": "narr"
+    },
+    {
+     "id": "rule",
+     "start": 310.685,
+     "end": 313.757,
+     "cap": "**Mum:** Greet **everyone** in the family. Not just the first one.",
+     "who": "mum"
+    },
+    {
+     "id": "handy",
+     "start": 314.277,
+     "end": 317.797,
+     "cap": "**Handy:** Handy! The term **outside the bracket**. **Everyone inside gets a handshake!**",
+     "who": "handy"
+    },
+    {
+     "id": "boy",
+     "start": 318.317,
+     "end": 322.584,
+     "cap": "**Ah Boy:** **3(x + 4)**! I shook hands with x: **3x + 4**!",
+     "who": "boy"
+    },
+    {
+     "id": "missed",
+     "start": 323.104,
+     "end": 327.968,
+     "cap": "**Handy:** You missed the **4**! 3 × 4 = **12**. **3(x + 4) = 3x + 12**.",
+     "who": "handy"
+    },
+    {
+     "id": "area",
+     "start": 328.488,
+     "end": 333.224,
+     "cap": "**Kavya:** Like an area: **4** by **x + 3** is **4x** plus **12**. Our identity!",
+     "who": "kavya"
+    },
+    {
+     "id": "neg",
+     "start": 333.544,
+     "end": 339.901,
+     "cap": "**Handy:** A **negative** outside **flips every sign**: **−2(3x − 5) = −6x + 10**.",
+     "who": "handy"
+    },
+    {
+     "id": "dad",
+     "start": 340.221,
+     "end": 345.875,
+     "cap": "**Dad:** **−2(x − 4) = −2x − 8**. Same thing.",
+     "who": "dad"
+    },
+    {
+     "id": "blown",
+     "start": 346.395,
+     "end": 353.029,
+     "cap": "**Agent X:** Undercover as **0**: **8** and **−8**. Cover blown. −2 × −4 = **+8**.",
+     "who": "x"
+    },
+    {
+     "id": "tan",
+     "start": 353.649,
+     "end": 361.372,
+     "cap": "**Mr Tan:** Mr Tan. Happy Deepavali. **Letters** work too: **x(x + 3) = x² + 3x**.",
+     "who": "tan"
+    },
+    {
+     "id": "game",
+     "start": 361.692,
+     "end": 368.476,
+     "cap": "**Mr Tan:** Expand and simplify **3(2x + 1) − 2(x − 4)**.",
+     "who": "tan"
+    },
+    {
+     "id": "answer",
+     "start": 368.796,
+     "end": 373.191,
+     "cap": "**Kavya:** **6x + 3 − 2x + 8 = 4x + 11**.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 373.511,
+     "end": 378.119,
+     "cap": "**Mr Tan:** Why did the bracket come to the open house? To **expand** its social circle.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "heist",
+   "title": "The Great Factor Heist",
+   "short": "Factorising",
+   "card": true,
+   "start": 380.419,
+   "end": 498.815,
+   "lines": [
+    {
+     "id": "five",
+     "start": 382.219,
+     "end": 387.424,
+     "cap": "**Narrator:** Five p.m. Goodie bags. Kavya's least favourite word: **factorising**.",
+     "who": "narr"
+    },
+    {
+     "id": "bags",
+     "start": 387.944,
+     "end": 393.661,
+     "cap": "**Mum:** **12** packets of murukku, **18** ladoos. Every bag **identical**. As many as possible.",
+     "who": "mum"
+    },
+    {
+     "id": "x",
+     "start": 393.981,
+     "end": 398.845,
+     "cap": "**Kavya:** Murukku in a packet? Nobody knows. Call it **x**. That's **12x + 18**.",
+     "who": "kavya"
+    },
+    {
+     "id": "two",
+     "start": 399.165,
+     "end": 402.195,
+     "cap": "**Priya:** **Two** bags! **2(6x + 9)**.",
+     "who": "priya"
+    },
+    {
+     "id": "three",
+     "start": 402.615,
+     "end": 405.025,
+     "cap": "**Ah Boy:** **Three** bags! **3(4x + 6)**!",
+     "who": "boy"
+    },
+    {
+     "id": "fully",
+     "start": 405.545,
+     "end": 412.671,
+     "cap": "**Agent X:** Both expand back to 12x + 18. But **6x + 9** still splits by **3**. Not **fully** factorised.",
+     "who": "x"
+    },
+    {
+     "id": "hcf",
+     "start": 412.991,
+     "end": 419.497,
+     "cap": "**Kavya:** Most bags: the **highest common factor** of 12 and 18. **6** bags, each with **2** packets and **3** ladoos.",
+     "who": "kavya"
+    },
+    {
+     "id": "six",
+     "start": 419.817,
+     "end": 425.983,
+     "cap": "**Agent X:** **12x + 18 = 6(2x + 3)**. Expand to check. **Identity confirmed.**",
+     "who": "x"
+    },
+    {
+     "id": "hard",
+     "start": 426.603,
+     "end": 432.725,
+     "cap": "**Mr Tan:** Now the **hardest** one on Monday's retest: **6x²y + 9xy²**.",
+     "who": "tan"
+    },
+    {
+     "id": "heist",
+     "start": 433.245,
+     "end": 438.109,
+     "cap": "**Agent X:** Then we pull a heist. **The Great Factor Heist.** We take out **everything every term has**.",
+     "who": "x"
+    },
+    {
+     "id": "lineup",
+     "start": 438.629,
+     "end": 445.541,
+     "cap": "**Agent X:** The line-up. **6x²y = 2 × 3 × x × x × y**. **9xy² = 3 × 3 × x × y × y**.",
+     "who": "x"
+    },
+    {
+     "id": "num",
+     "start": 445.861,
+     "end": 447.845,
+     "cap": "**Priya:** Both terms have a **3**.",
+     "who": "priya"
+    },
+    {
+     "id": "lowx",
+     "start": 448.265,
+     "end": 452.809,
+     "cap": "**Kavya:** **Two** x's in the first, only **one** in the second. Take **one x**: the **lowest power**.",
+     "who": "kavya"
+    },
+    {
+     "id": "lowy",
+     "start": 453.129,
+     "end": 456.329,
+     "cap": "**Priya:** And **one y**. The HCF is **3xy**!",
+     "who": "priya"
+    },
+    {
+     "id": "left",
+     "start": 456.849,
+     "end": 461.585,
+     "cap": "**Agent X:** **3xy** goes outside. Inside: what's left. **2x** and **3y**.",
+     "who": "x"
+    },
+    {
+     "id": "answer",
+     "start": 461.905,
+     "end": 467.921,
+     "cap": "**Kavya:** **6x²y + 9xy² = 3xy(2x + 3y)**!",
+     "who": "kavya"
+    },
+    {
+     "id": "check",
+     "start": 468.441,
+     "end": 476.377,
+     "cap": "**Agent X:** Put it all back: **3xy × 2x = 6x²y**, **3xy × 3y = 9xy²**. **Identity confirmed.**",
+     "who": "x"
+    },
+    {
+     "id": "gap",
+     "start": 477.197,
+     "end": 480.163,
+     "cap": "**Ah Boy:** My go! **5x + 5 = 5(x)**!",
+     "who": "boy"
+    },
+    {
+     "id": "one",
+     "start": 480.683,
+     "end": 486.848,
+     "cap": "**Agent X:** **5 ÷ 5 = 1**. So **5(x + 1)**. Never leave anyone behind.",
+     "who": "x"
+    },
+    {
+     "id": "like",
+     "start": 487.368,
+     "end": 489.629,
+     "cap": "**Kavya:** I think I actually **like** factorising.",
+     "who": "kavya"
+    },
+    {
+     "id": "confess",
+     "start": 490.449,
+     "end": 492.519,
+     "cap": "**Ah Boy:** Also, there are only **17** ladoos.",
+     "who": "boy"
+    },
+    {
+     "id": "prime",
+     "start": 493.139,
+     "end": 496.915,
+     "cap": "**Agent X:** 12 and 17 share no factor but **1**. **One** goodie bag.",
+     "who": "x"
+    }
+   ]
+  },
+  {
+   "id": "words",
+   "title": "Think of a number",
+   "short": "Writing expressions & formulae",
+   "card": true,
+   "start": 498.815,
+   "end": 564.484,
+   "lines": [
+    {
+     "id": "six",
+     "start": 500.615,
+     "end": 503.687,
+     "cap": "**Narrator:** Six p.m. Ah Boy performs **magic**.",
+     "who": "narr"
+    },
+    {
+     "id": "trick",
+     "start": 504.207,
+     "end": 508.217,
+     "cap": "**Ah Boy:** Think of a number. **Double** it. **Add 10**. Cut it in **half**. Take away your number.",
+     "who": "boy"
+    },
+    {
+     "id": "five",
+     "start": 508.537,
+     "end": 509.817,
+     "cap": "**Ah Boy:** Your answer is... **5**!",
+     "who": "boy"
+    },
+    {
+     "id": "how",
+     "start": 510.437,
+     "end": 511.824,
+     "cap": "**Mr Tan:** Five. Remarkable.",
+     "who": "tan"
+    },
+    {
+     "id": "n",
+     "start": 512.444,
+     "end": 517.607,
+     "cap": "**Agent X:** Call it **n**. Double: **2n**. Add 10. Half of that: **n + 5**. Take away n: **5**.",
+     "who": "x"
+    },
+    {
+     "id": "ident",
+     "start": 517.927,
+     "end": 520.316,
+     "cap": "**Kavya:** **5** for **every** n. It's an **identity**!",
+     "who": "kavya"
+    },
+    {
+     "id": "less",
+     "start": 520.936,
+     "end": 524.179,
+     "cap": "**Priya:** My trick: '**n less than 10**'. That's **n − 10**.",
+     "who": "priya"
+    },
+    {
+     "id": "order",
+     "start": 524.699,
+     "end": 529.008,
+     "cap": "**Agent X:** It **starts** at 10: **10 − n**. '10 less than n' is **n − 10**.",
+     "who": "x"
+    },
+    {
+     "id": "dad",
+     "start": 529.328,
+     "end": 532.827,
+     "cap": "**Dad:** '**Add 3, then double**': **2n + 3**. Same thing.",
+     "who": "dad"
+    },
+    {
+     "id": "blown",
+     "start": 533.347,
+     "end": 539.704,
+     "cap": "**Agent X:** Undercover as **4**: **14**. But 2n + 3 gives **11**. Cover blown. **2(n + 3)**.",
+     "who": "x"
+    },
+    {
+     "id": "money",
+     "start": 540.024,
+     "end": 546.531,
+     "cap": "**Priya:** I had **p** dollars. I spent **a quarter** on a gift and **$3** on bubble tea. Left: **¾p − 3**.",
+     "who": "priya"
+    },
+    {
+     "id": "taxi",
+     "start": 546.851,
+     "end": 553.059,
+     "cap": "**Mum:** Taxis! **$4** flag-down, plus **70 cents** a kilometre. **5 km**: **$7.50**.",
+     "who": "mum"
+    },
+    {
+     "id": "formula",
+     "start": 553.379,
+     "end": 559.736,
+     "cap": "**Kavya:** **12 km**: **$12.40**. Only the distance changes: **C = 4 + 0.7d**.",
+     "who": "kavya"
+    },
+    {
+     "id": "subject",
+     "start": 560.056,
+     "end": 563.384,
+     "cap": "**Agent X:** A **formula**. **C** is the **subject**: the letter on its own.",
+     "who": "x"
+    }
+   ]
+  },
+  {
+   "id": "night",
+   "title": "Socks and shoes",
+   "short": "Changing the subject",
+   "card": true,
+   "start": 564.484,
+   "end": 654.577,
+   "lines": [
+    {
+     "id": "nine",
+     "start": 566.284,
+     "end": 569.612,
+     "cap": "**Narrator:** Nine p.m. Uncle Ravi calls again.",
+     "who": "narr"
+    },
+    {
+     "id": "ravi",
+     "start": 570.132,
+     "end": 573.78,
+     "cap": "**Uncle Ravi:** Kavya! It's **77 °F** here. What's that in **Celsius**?",
+     "who": "ravi"
+    },
+    {
+     "id": "phil",
+     "start": 574.1,
+     "end": 580.329,
+     "cap": "**Phil:** Phil. **Function machine.** Celsius in. **× 9/5**, **+ 32**. Fahrenheit out.",
+     "who": "phil"
+    },
+    {
+     "id": "back",
+     "start": 580.649,
+     "end": 588.5,
+     "cap": "**Kavya:** Run it **backwards**, in **reverse order**. 77 **− 32** = 45. **× 5/9**: **25 °C**.",
+     "who": "kavya"
+    },
+    {
+     "id": "socks",
+     "start": 588.82,
+     "end": 592.233,
+     "cap": "**Ah Boy:** Like **socks and shoes**! Socks go on first, so they come off **last**.",
+     "who": "boy"
+    },
+    {
+     "id": "shoes",
+     "start": 592.853,
+     "end": 594.496,
+     "cap": "**Ah Boy:** ...Can someone help me with my socks?",
+     "who": "boy"
+    },
+    {
+     "id": "letters",
+     "start": 595.616,
+     "end": 604.171,
+     "cap": "**Phil:** **Changing the subject**: **F − 32 = 9/5 C**, so **C = 5/9 (F − 32)**.",
+     "who": "phil"
+    },
+    {
+     "id": "subj",
+     "start": 604.491,
+     "end": 606.944,
+     "cap": "**Agent X:** Now **C** is on its own. Lucky C.",
+     "who": "x"
+    },
+    {
+     "id": "dad",
+     "start": 607.464,
+     "end": 613.117,
+     "cap": "**Dad:** Easy. **y = 3x + 6**, so **x = y/3 − 6**.",
+     "who": "dad"
+    },
+    {
+     "id": "blown",
+     "start": 613.637,
+     "end": 618.736,
+     "cap": "**Agent X:** Undercover as **2**: y = **12**. Dad's formula gives **−2**. Cover blown.",
+     "who": "x"
+    },
+    {
+     "id": "order",
+     "start": 619.256,
+     "end": 625.955,
+     "cap": "**Phil:** Shoes off first: **− 6**, then **÷ 3**. **x = (y − 6)/3**.",
+     "who": "phil"
+    },
+    {
+     "id": "kolam",
+     "start": 626.275,
+     "end": 631.971,
+     "cap": "**Mum:** The **kolam**: **x + 3** by **x + 2**. Area: **(x + 3)(x + 2)**.",
+     "who": "mum"
+    },
+    {
+     "id": "double",
+     "start": 632.291,
+     "end": 636.387,
+     "cap": "**Handy:** **Double** brackets! Everyone in one shakes hands with everyone in the other. **Four** handshakes!",
+     "who": "handy"
+    },
+    {
+     "id": "grid",
+     "start": 636.707,
+     "end": 642.147,
+     "cap": "**Kavya:** **x²**, **2x**, **3x**, **6**. Collect: **x² + 5x + 6**.",
+     "who": "kavya"
+    },
+    {
+     "id": "dadsq",
+     "start": 642.467,
+     "end": 647.267,
+     "cap": "**Dad:** So **(x + 4)² = x² + 16**. Same thing.",
+     "who": "dad"
+    },
+    {
+     "id": "sq",
+     "start": 647.787,
+     "end": 653.077,
+     "cap": "**Agent X:** You missed two **4x** handshakes: **x² + 8x + 16**. Cover blown.",
+     "who": "x"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The open house saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 654.577,
+   "end": 718.655,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 656.377,
+     "end": 659.449,
+     "cap": "**Narrator:** Before the credits: six ways to save marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 659.969,
+     "end": 666.177,
+     "cap": "**Dad:** One. **Unlike terms** don't combine: **2a + 3b** is not 5ab. Not the same thing.",
+     "who": "dad"
+    },
+    {
+     "id": "t2",
+     "start": 666.697,
+     "end": 671.497,
+     "cap": "**Handy:** Two. Everyone inside gets a handshake: **3(x + 4) = 3x + 12**.",
+     "who": "handy"
+    },
+    {
+     "id": "t3",
+     "start": 672.017,
+     "end": 679.164,
+     "cap": "**Mum:** Three. A negative flips **both** signs: **−3(x − 2) = −3x + 6**.",
+     "who": "mum"
+    },
+    {
+     "id": "t4",
+     "start": 679.684,
+     "end": 685.956,
+     "cap": "**Ah Boy:** Four. Bracket your negatives: if x = −5, **x² = 25**. I gave the calculator back.",
+     "who": "boy"
+    },
+    {
+     "id": "t5",
+     "start": 686.476,
+     "end": 692.001,
+     "cap": "**Square:** Five. **2x²** at x = 3 is **18**, not 36. Square first, darling.",
+     "who": "square"
+    },
+    {
+     "id": "t6",
+     "start": 692.521,
+     "end": 698.623,
+     "cap": "**Kavya:** Six. Factorise **fully**, and never lose a term: **5x + 5 = 5(x + 1)**.",
+     "who": "kavya"
+    },
+    {
+     "id": "return",
+     "start": 699.143,
+     "end": 701.361,
+     "cap": "**Narrator:** On Good Terms will return.",
+     "who": "narr"
+    },
+    {
+     "id": "ten",
+     "start": 702.681,
+     "end": 706.927,
+     "cap": "**Mr Tan:** Monday. Kavya, your retest. Factorising: **ten out of ten**.",
+     "who": "tan"
+    },
+    {
+     "id": "trick",
+     "start": 707.547,
+     "end": 712.176,
+     "cap": "**Ah Boy:** Agent X! Think of a number. Double it, add 10, cut it in half, take away your number.",
+     "who": "boy"
+    },
+    {
+     "id": "five",
+     "start": 712.696,
+     "end": 713.784,
+     "cap": "**Ah Boy:** Your answer is **5**!",
+     "who": "boy"
+    },
+    {
+     "id": "how",
+     "start": 714.404,
+     "end": 715.855,
+     "cap": "**Agent X:** ...How did you know?",
+     "who": "x"
+    }
+   ]
+  }
+ ],
+ "total": 718.655
+}

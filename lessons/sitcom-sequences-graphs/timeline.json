@@ -1,0 +1,1042 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 58.939,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 8.451,
+     "cap": "**Narrator:** This is Kavya. She is twelve. It's Deepavali, 2 p.m., Block 208. Mum's open house starts at seven.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 8.971,
+     "end": 13.856,
+     "cap": "**Mum:** Seven o'clock **sharp**! Forty guests! Lights, kolam, murukku. Everything **perfect**!",
+     "who": "mum"
+    },
+    {
+     "id": "system",
+     "start": 14.376,
+     "end": 19.283,
+     "cap": "**Dad:** Relax. I bought fairy lights with **pattern mode**. Nine ninety. I have a **system**.",
+     "who": "dad"
+    },
+    {
+     "id": "box",
+     "start": 20.103,
+     "end": 23.409,
+     "cap": "**Kavya:** Dad, the box says: '**Madame Nexta** predicts your next light.'",
+     "who": "kavya"
+    },
+    {
+     "id": "tiny",
+     "start": 24.029,
+     "end": 30.707,
+     "cap": "**Narrator:** But this documentary is not about the lights. It's about who lives in the little box that controls them.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 31.327,
+     "end": 36.489,
+     "cap": "**Madame Nexta:** Madame **Nexta**. I am a **term-to-term rule**. Show me a sequence, and I will see what comes **next**.",
+     "who": "nexta"
+    },
+    {
+     "id": "test",
+     "start": 37.109,
+     "end": 38.987,
+     "cap": "**Kavya:** Okay. **2, 4, 6**...",
+     "who": "kavya"
+    },
+    {
+     "id": "eight",
+     "start": 39.507,
+     "end": 42.323,
+     "cap": "**Madame Nexta:** The spirits say: **add 2**. The next term is... **EIGHT**!",
+     "who": "nexta"
+    },
+    {
+     "id": "boy",
+     "start": 43.043,
+     "end": 44.643,
+     "cap": "**Ah Boy:** Wow! What's term number **100**?",
+     "who": "boy"
+    },
+    {
+     "id": "count",
+     "start": 45.563,
+     "end": 48.293,
+     "cap": "**Madame Nexta:** The hundredth? Of course. **10**. **12**. **14**...",
+     "who": "nexta"
+    },
+    {
+     "id": "hours",
+     "start": 49.213,
+     "end": 52.2,
+     "cap": "**Mum:** Five hours to go, and my fairy lights are **counting**.",
+     "who": "mum"
+    },
+    {
+     "id": "title",
+     "start": 53.02,
+     "end": 56.839,
+     "cap": "**Narrator:** What Comes Next? Episode 11: Festival of Lights.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "sticks",
+   "title": "Forty ice-cream sticks",
+   "short": "Term-to-term rules",
+   "card": true,
+   "start": 58.939,
+   "end": 139.768,
+   "lines": [
+    {
+     "id": "priya",
+     "start": 60.739,
+     "end": 65.453,
+     "cap": "**Narrator:** Two fifteen. The corridor. Priya has heard there is a fortune teller.",
+     "who": "narr"
+    },
+    {
+     "id": "fracs",
+     "start": 65.973,
+     "end": 70.517,
+     "cap": "**Priya:** A fortune teller? Please. Try this: **½, ¾, 1, 1¼**.",
+     "who": "priya"
+    },
+    {
+     "id": "quarter",
+     "start": 71.037,
+     "end": 75.539,
+     "cap": "**Madame Nexta:** Every gap is **¼**. The rule is **add ¼**. Next... **1½**!",
+     "who": "nexta"
+    },
+    {
+     "id": "decs",
+     "start": 76.059,
+     "end": 81.243,
+     "cap": "**Priya:** Decimals, then. **2.3, 2.75, 3.2, 3.65**.",
+     "who": "priya"
+    },
+    {
+     "id": "point",
+     "start": 81.763,
+     "end": 85.496,
+     "cap": "**Madame Nexta:** Every gap is **0.45**. Next... **4.1**!",
+     "who": "nexta"
+    },
+    {
+     "id": "two",
+     "start": 86.016,
+     "end": 89.237,
+     "cap": "**Madame Nexta:** A sequence needs **two** things: the **first term** and the **rule**.",
+     "who": "nexta"
+    },
+    {
+     "id": "back",
+     "start": 89.557,
+     "end": 92.651,
+     "cap": "**Priya:** **80, 20, 5**. And what came **before** 80?",
+     "who": "priya"
+    },
+    {
+     "id": "inverse",
+     "start": 93.171,
+     "end": 100.531,
+     "cap": "**Madame Nexta:** Rule: **divide by 4**. Next: **5/4**. Backwards, use the **inverse**: 80 × 4 = **320**.",
+     "who": "nexta"
+    },
+    {
+     "id": "trick",
+     "start": 101.051,
+     "end": 103.227,
+     "cap": "**Priya:** Last one. **1, 2, 4**...",
+     "who": "priya"
+    },
+    {
+     "id": "double",
+     "start": 103.747,
+     "end": 105.027,
+     "cap": "**Madame Nexta:** **Double** it! **8**!",
+     "who": "nexta"
+    },
+    {
+     "id": "paati",
+     "start": 105.547,
+     "end": 108.875,
+     "cap": "**Paati:** Or **add 1, add 2, add 3**, kanna. Then it's **7**.",
+     "who": "paati"
+    },
+    {
+     "id": "divided",
+     "start": 109.595,
+     "end": 111.408,
+     "cap": "**Madame Nexta:** The spirits are... **divided**.",
+     "who": "nexta"
+    },
+    {
+     "id": "every",
+     "start": 112.528,
+     "end": 116.453,
+     "cap": "**Kavya:** Three terms can fit **two** rules. Always check the rule on **every** gap.",
+     "who": "kavya"
+    },
+    {
+     "id": "sticks",
+     "start": 116.773,
+     "end": 123.152,
+     "cap": "**Ah Boy:** My door border! **1** square, **4** sticks. **2** squares, **7**. **3** squares, **10**. So **10** squares need **40**!",
+     "who": "boy"
+    },
+    {
+     "id": "share",
+     "start": 123.772,
+     "end": 128.465,
+     "cap": "**Kavya:** Look at the picture. Each new square **shares** a side, so it only needs **3** new sticks.",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 128.985,
+     "end": 136.132,
+     "cap": "**Kavya:** Pattern n = first + **(n − 1) × 3**. Ten squares: 4 + 9 × 3 = **31** sticks.",
+     "who": "kavya"
+    },
+    {
+     "id": "glued",
+     "start": 136.752,
+     "end": 137.968,
+     "cap": "**Ah Boy:** I already glued forty.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "enn",
+   "title": "Positions, please",
+   "short": "Using the nth term",
+   "card": true,
+   "start": 139.768,
+   "end": 220.951,
+   "lines": [
+    {
+     "id": "three",
+     "start": 141.568,
+     "end": 147.392,
+     "cap": "**Narrator:** Three p.m. Dad hangs the lights. The **gold** bulbs are bulbs **1, 4, 7, 10**...",
+     "who": "narr"
+    },
+    {
+     "id": "fifty",
+     "start": 147.912,
+     "end": 151.389,
+     "cap": "**Mum:** The **fiftieth** gold bulb goes over the door. Which bulb is it?",
+     "who": "mum"
+    },
+    {
+     "id": "nexta",
+     "start": 151.909,
+     "end": 155.237,
+     "cap": "**Madame Nexta:** I see... **13**. Then **16**. Then... give me an hour.",
+     "who": "nexta"
+    },
+    {
+     "id": "enn",
+     "start": 155.957,
+     "end": 159.904,
+     "cap": "**Enn:** Positions, please! I'm **Enn**. Little **n**. I am the **position**: first, second, third.",
+     "who": "enn"
+    },
+    {
+     "id": "jump",
+     "start": 160.424,
+     "end": 165.181,
+     "cap": "**Enn:** With an **nth-term** rule I jump straight to **any** term. These bulbs: **3n − 2**.",
+     "who": "enn"
+    },
+    {
+     "id": "check",
+     "start": 165.701,
+     "end": 170.459,
+     "cap": "**Enn:** n = 1 gives **1**. n = 2 gives **4**. And the **3** in front of n is the **gap**.",
+     "who": "enn"
+    },
+    {
+     "id": "fiftieth",
+     "start": 170.979,
+     "end": 175.011,
+     "cap": "**Kavya:** Fiftieth: 3 × 50 − 2 = **148**. Bulb one hundred and forty-eight.",
+     "who": "kavya"
+    },
+    {
+     "id": "hundred",
+     "start": 175.531,
+     "end": 177.664,
+     "cap": "**Ah Boy:** So what's the hundredth term of **2, 4, 6**?",
+     "who": "boy"
+    },
+    {
+     "id": "done",
+     "start": 178.184,
+     "end": 180.573,
+     "cap": "**Enn:** **2n**. 2 × 100 = **200**. Done.",
+     "who": "enn"
+    },
+    {
+     "id": "priya",
+     "start": 181.193,
+     "end": 186.079,
+     "cap": "**Priya:** My turn. **4n + 1**. Second term: **42 + 1 = 43**!",
+     "who": "priya"
+    },
+    {
+     "id": "times",
+     "start": 186.599,
+     "end": 190.823,
+     "cap": "**Enn:** No! **4n** means **4 × n**. 4 × 2 + 1 = **9**.",
+     "who": "enn"
+    },
+    {
+     "id": "laddoo",
+     "start": 191.443,
+     "end": 197.352,
+     "cap": "**Mum:** **20** laddoos. Each family takes **4**. After n families, **20 − 4n** are left.",
+     "who": "mum"
+    },
+    {
+     "id": "rich",
+     "start": 197.872,
+     "end": 202.821,
+     "cap": "**Priya:** After 3 families: 20 − 4 = 16, times 3 = **48**! We're rich!",
+     "who": "priya"
+    },
+    {
+     "id": "first",
+     "start": 203.441,
+     "end": 209.948,
+     "cap": "**Enn:** **Multiply first**: 4 × 3 = 12, then 20 − 12 = **8**. The coefficient is **−4**: down in 4s.",
+     "who": "enn"
+    },
+    {
+     "id": "half",
+     "start": 210.568,
+     "end": 212.189,
+     "cap": "**Ah Boy:** Can I be the **two-and-a-halfth** guest?",
+     "who": "boy"
+    },
+    {
+     "id": "whole",
+     "start": 212.709,
+     "end": 219.451,
+     "cap": "**Enn:** No! Positions are **positive whole numbers**. Terms can be fractions: **n/2 + 1** gives **1½, 2, 2½**.",
+     "who": "enn"
+    }
+   ]
+  },
+  {
+   "id": "zero",
+   "title": "Nobody invites the zero term",
+   "short": "Finding the nth term",
+   "card": true,
+   "start": 220.951,
+   "end": 313.467,
+   "lines": [
+    {
+     "id": "four",
+     "start": 222.751,
+     "end": 227.401,
+     "cap": "**Narrator:** Four p.m. Outside the door, someone has been waiting since two o'clock.",
+     "who": "narr"
+    },
+    {
+     "id": "zed",
+     "start": 228.021,
+     "end": 232.8,
+     "cap": "**Zed:** Hello. I'm **Zed**, the **zero term**. I stand **one step before** the first term.",
+     "who": "zed"
+    },
+    {
+     "id": "sad",
+     "start": 233.42,
+     "end": 237.217,
+     "cap": "**Zed:** I'm not **in** the sequence. Nobody invites the zero term.",
+     "who": "zed"
+    },
+    {
+     "id": "dad",
+     "start": 238.237,
+     "end": 245.789,
+     "cap": "**Dad:** Kavya, my light show flashes **5, 8, 11, 14**. I have a system: you **add 3**, so it's **n + 3**.",
+     "who": "dad"
+    },
+    {
+     "id": "four2",
+     "start": 246.409,
+     "end": 250.228,
+     "cap": "**Kavya:** Dad, at n = 1, n + 3 gives **4**. Not 5.",
+     "who": "kavya"
+    },
+    {
+     "id": "step",
+     "start": 251.048,
+     "end": 258.515,
+     "cap": "**Zed:** **Step back, then build.** Add 3 means the rule starts **3n**. One step back from 5 is me: **5 − 3 = 2**.",
+     "who": "zed"
+    },
+    {
+     "id": "build",
+     "start": 259.035,
+     "end": 264.453,
+     "cap": "**Zed:** So the nth term is **3n + 2**. Difference times n, plus the **zero term**.",
+     "who": "zed"
+    },
+    {
+     "id": "check",
+     "start": 264.973,
+     "end": 269.112,
+     "cap": "**Kavya:** Check on another term: n = 3, 9 + 2 = **11**. It works.",
+     "who": "kavya"
+    },
+    {
+     "id": "tray",
+     "start": 269.732,
+     "end": 272.804,
+     "cap": "**Mum:** And the laddoo tray goes **20, 16, 12, 8**.",
+     "who": "mum"
+    },
+    {
+     "id": "easy",
+     "start": 273.324,
+     "end": 275.628,
+     "cap": "**Dad:** Easy. **4n + 16**.",
+     "who": "dad"
+    },
+    {
+     "id": "minus",
+     "start": 276.348,
+     "end": 284.049,
+     "cap": "**Zed:** It goes **down**, so **d = −4**. Step back: 20 − (−4) = **24**. Rule: **24 − 4n**.",
+     "who": "zed"
+    },
+    {
+     "id": "taxi",
+     "start": 284.569,
+     "end": 291.119,
+     "cap": "**Narrator:** Four thirty. Paati arrives by taxi. The meter went **$4.60**, **$5.20**, **$5.80**.",
+     "who": "narr"
+    },
+    {
+     "id": "paati",
+     "start": 291.639,
+     "end": 295.841,
+     "cap": "**Paati:** Sixty cents a kilometre, kanna. And **four dollars** just for sitting down.",
+     "who": "paati"
+    },
+    {
+     "id": "taxirule",
+     "start": 296.361,
+     "end": 303.337,
+     "cap": "**Zed:** **d = 0.6**, zero term **4**: fare = **0.6n + 4**. Decimals work the same.",
+     "who": "zed"
+    },
+    {
+     "id": "graph",
+     "start": 303.857,
+     "end": 309.02,
+     "cap": "**Zed:** Plot each term against its position: a **straight line**. And I'm where it meets the **axis**.",
+     "who": "zed"
+    },
+    {
+     "id": "finally",
+     "start": 309.64,
+     "end": 311.667,
+     "cap": "**Zed:** Finally. I'm **on** something.",
+     "who": "zed"
+    }
+   ]
+  },
+  {
+   "id": "bulb",
+   "title": "Is bulb 200 gold?",
+   "short": "Is it a term?",
+   "card": true,
+   "start": 313.467,
+   "end": 400.639,
+   "lines": [
+    {
+     "id": "five",
+     "start": 315.267,
+     "end": 319.811,
+     "cap": "**Narrator:** Five p.m. Bulb **200** has blown. Is it a **gold** one?",
+     "who": "narr"
+    },
+    {
+     "id": "forever",
+     "start": 320.331,
+     "end": 323.744,
+     "cap": "**Ah Boy:** The lights go on **forever**, so 200 **must** be gold somewhere!",
+     "who": "boy"
+    },
+    {
+     "id": "solve",
+     "start": 324.364,
+     "end": 332.001,
+     "cap": "**Enn:** Set the rule **equal** to 200 and solve. 3n − 2 = 200, so 3n = 202, n = **67.33...**",
+     "who": "enn"
+    },
+    {
+     "id": "not",
+     "start": 332.521,
+     "end": 337.919,
+     "cap": "**Enn:** There's no position **67.33**. Whole numbers only. **200 is not a term.**",
+     "who": "enn"
+    },
+    {
+     "id": "skip",
+     "start": 338.539,
+     "end": 344.725,
+     "cap": "**Kavya:** The **67th** gold bulb is **199** and the **68th** is **202**. 200 gets **skipped**.",
+     "who": "kavya"
+    },
+    {
+     "id": "hundred",
+     "start": 345.245,
+     "end": 347.187,
+     "cap": "**Dad:** Then what about bulb **100**?",
+     "who": "dad"
+    },
+    {
+     "id": "yes",
+     "start": 347.707,
+     "end": 355.557,
+     "cap": "**Enn:** 3n − 2 = 100, 3n = 102, n = **34**. Whole number! Bulb 100 is the **34th** gold bulb.",
+     "who": "enn"
+    },
+    {
+     "id": "still",
+     "start": 356.077,
+     "end": 358.467,
+     "cap": "**Madame Nexta:** ...**98**, **100**, **102**...",
+     "who": "nexta"
+    },
+    {
+     "id": "murukku",
+     "start": 359.187,
+     "end": 365.501,
+     "cap": "**Narrator:** Five thirty. Mum counts the murukku: **150**. Every family will take **7**.",
+     "who": "narr"
+    },
+    {
+     "id": "left",
+     "start": 366.021,
+     "end": 372.592,
+     "cap": "**Mum:** After n families, **150 − 7n** are left. Which family is the first to find **none**?",
+     "who": "mum"
+    },
+    {
+     "id": "below",
+     "start": 373.112,
+     "end": 380.408,
+     "cap": "**Enn:** First **negative** term: 150 − 7n < 0, so n > **21.4...** Round **up**: n = **22**.",
+     "who": "enn"
+    },
+    {
+     "id": "minus4",
+     "start": 380.928,
+     "end": 388.032,
+     "cap": "**Kavya:** 150 − 154 = **−4**. The 22nd family gets **minus four** murukku.",
+     "who": "kavya"
+    },
+    {
+     "id": "before",
+     "start": 388.652,
+     "end": 393.217,
+     "cap": "**Enn:** Always check the term **before**: n = 21 leaves **3**. Not negative yet.",
+     "who": "enn"
+    },
+    {
+     "id": "taste",
+     "start": 393.837,
+     "end": 395.907,
+     "cap": "**Ah Boy:** What does **minus four** murukku taste like?",
+     "who": "boy"
+    },
+    {
+     "id": "dad",
+     "start": 396.627,
+     "end": 398.739,
+     "cap": "**Paati:** Like your father's cooking, kanna.",
+     "who": "paati"
+    }
+   ]
+  },
+  {
+   "id": "family",
+   "title": "The family reading",
+   "short": "Special sequences",
+   "card": true,
+   "start": 400.639,
+   "end": 497.017,
+   "lines": [
+    {
+     "id": "six",
+     "start": 402.439,
+     "end": 407.409,
+     "cap": "**Narrator:** Six p.m. One hour to go. Mum sends her Deepavali greeting.",
+     "who": "narr"
+    },
+    {
+     "id": "send",
+     "start": 407.929,
+     "end": 412.879,
+     "cap": "**Mum:** I send it to **2** aunties. Each one forwards it to **2** more. Then **4**, then **8**...",
+     "who": "mum"
+    },
+    {
+     "id": "ratio",
+     "start": 413.399,
+     "end": 418.177,
+     "cap": "**Madame Nexta:** Same **difference**? No. Same **ratio**? Yes: **× 2**. A **geometric** sequence!",
+     "who": "nexta"
+    },
+    {
+     "id": "aa",
+     "start": 418.697,
+     "end": 421.855,
+     "cap": "**Madame Nexta:** **A**rithmetic **A**dds. **G**eometric **G**ets multiplied.",
+     "who": "nexta"
+    },
+    {
+     "id": "million",
+     "start": 422.475,
+     "end": 428.491,
+     "cap": "**Kavya:** Round 23: **2²³ = 8,388,608** people. More than everyone in **Singapore**.",
+     "who": "kavya"
+    },
+    {
+     "id": "bigger",
+     "start": 429.111,
+     "end": 432.823,
+     "cap": "**Mum:** See? Geometric things always get **bigger**. Like my greetings.",
+     "who": "mum"
+    },
+    {
+     "id": "tin",
+     "start": 433.443,
+     "end": 439.267,
+     "cap": "**Paati:** Not my murukku tin, kanna. **96, 48, 24, 12**. **Half** gone every hour.",
+     "who": "paati"
+    },
+    {
+     "id": "shrink",
+     "start": 439.887,
+     "end": 445.817,
+     "cap": "**Madame Nexta:** Ratio **½**. Geometric, but **shrinking**. Next: **6**, then **3**, then **1.5**.",
+     "who": "nexta"
+    },
+    {
+     "id": "who",
+     "start": 446.437,
+     "end": 448.549,
+     "cap": "**Ah Boy:** Wait. Who is eating **half** a tin every hour?",
+     "who": "boy"
+    },
+    {
+     "id": "qc",
+     "start": 449.269,
+     "end": 450.528,
+     "cap": "**Dad:** Quality control.",
+     "who": "dad"
+    },
+    {
+     "id": "rose",
+     "start": 451.748,
+     "end": 457.785,
+     "cap": "**Auntie Rose:** Kavya! Happy Deepavali! The man said my sunflowers have **34** spirals one way and **55** the other!",
+     "who": "rose"
+    },
+    {
+     "id": "fib",
+     "start": 458.305,
+     "end": 465.793,
+     "cap": "**Madame Nexta:** **Fibonacci**! Each term is the **sum of the two before**: 1, 1, 2, 3, 5, 8, 13, 21, **34, 55**.",
+     "who": "nexta"
+    },
+    {
+     "id": "tan",
+     "start": 466.313,
+     "end": 472.393,
+     "cap": "**Mr Tan:** Mr Tan. Upstairs neighbour. I brought laddoos, stacked in a **triangle**, **10** on the bottom row.",
+     "who": "tan"
+    },
+    {
+     "id": "tri",
+     "start": 472.913,
+     "end": 480.359,
+     "cap": "**Mr Tan:** **Triangular** numbers: 1, 3, 6, 10, 15... The 10th is **10 × 11 ÷ 2 = 55**.",
+     "who": "tan"
+    },
+    {
+     "id": "know",
+     "start": 480.879,
+     "end": 489.476,
+     "cap": "**Madame Nexta:** Know them by heart. **Squares**: 1, 4, 9, 16, 25. **Cubes**: 1, 8, 27, 64, 125.",
+     "who": "nexta"
+    },
+    {
+     "id": "pun",
+     "start": 489.996,
+     "end": 494.817,
+     "cap": "**Mr Tan:** I'd tell you a Fibonacci joke, but it's as bad as the last two put together.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "machine",
+   "title": "Shoes off before socks",
+   "short": "Function machines",
+   "card": true,
+   "start": 497.017,
+   "end": 586.691,
+   "lines": [
+    {
+     "id": "half6",
+     "start": 498.817,
+     "end": 503.916,
+     "cap": "**Narrator:** Six thirty. The first guests arrive early. Mr Tan does his party trick.",
+     "who": "narr"
+    },
+    {
+     "id": "think",
+     "start": 504.436,
+     "end": 509.983,
+     "cap": "**Mr Tan:** Auntie, think of a number. **Multiply by 4**, then **subtract 3**. Tell me the answer.",
+     "who": "tan"
+    },
+    {
+     "id": "seventeen",
+     "start": 510.503,
+     "end": 511.441,
+     "cap": "**Auntie Rose:** Seventeen!",
+     "who": "rose"
+    },
+    {
+     "id": "five",
+     "start": 511.961,
+     "end": 513.241,
+     "cap": "**Mr Tan:** You thought of **5**.",
+     "who": "tan"
+    },
+    {
+     "id": "mac",
+     "start": 513.861,
+     "end": 519.877,
+     "cap": "**Mac:** Not magic. Machine. I am **Mac**, a **function machine**. Every **input** gives exactly **one output**.",
+     "who": "mac"
+    },
+    {
+     "id": "fwd",
+     "start": 520.397,
+     "end": 525.411,
+     "cap": "**Mac:** Forwards: 5, **× 4** makes **20**. **− 3** makes **17**.",
+     "who": "mac"
+    },
+    {
+     "id": "priya",
+     "start": 525.931,
+     "end": 533.355,
+     "cap": "**Priya:** Backwards, use the inverses in order: **÷ 4**, then **+ 3**. 17 ÷ 4 + 3 = **7.25**!",
+     "who": "priya"
+    },
+    {
+     "id": "error",
+     "start": 533.975,
+     "end": 537.857,
+     "cap": "**Mac:** ERROR. **Shoes off before socks.** Undo the **last** step **first**.",
+     "who": "mac"
+    },
+    {
+     "id": "undo",
+     "start": 538.477,
+     "end": 544.771,
+     "cap": "**Kavya:** Undo − 3 first: 17 + 3 = **20**. Then undo × 4: 20 ÷ 4 = **5**.",
+     "who": "kavya"
+    },
+    {
+     "id": "paati",
+     "start": 545.291,
+     "end": 549.877,
+     "cap": "**Paati:** My machine: **× ¾**, then **+ 4**. My answer is **10**.",
+     "who": "paati"
+    },
+    {
+     "id": "frac",
+     "start": 550.397,
+     "end": 558.931,
+     "cap": "**Kavya:** Undo + 4: **6**. Undo × ¾: **÷ ¾**, which is **× 4/3**. 6 × 4/3 = **8**.",
+     "who": "kavya"
+    },
+    {
+     "id": "square",
+     "start": 559.451,
+     "end": 567.024,
+     "cap": "**Mac:** '**Square** it' is a function: 3 and −3 both give **9**. But 'a number whose square is 9'? **Two** outputs. **Not** a function.",
+     "who": "mac"
+    },
+    {
+     "id": "fx",
+     "start": 567.644,
+     "end": 577.5,
+     "cap": "**Mr Tan:** We write it **f(x) = 4x − 3**, so **f(5) = 17**. Backwards: **f⁻¹(x) = (x + 3)/4**.",
+     "who": "tan"
+    },
+    {
+     "id": "again",
+     "start": 578.02,
+     "end": 580.239,
+     "cap": "**Auntie Rose:** Again! I'm thinking of a number. My **age**.",
+     "who": "rose"
+    },
+    {
+     "id": "privacy",
+     "start": 580.859,
+     "end": 584.891,
+     "cap": "**Mac:** Input... declined. The machine respects your privacy, Auntie.",
+     "who": "mac"
+    }
+   ]
+  },
+  {
+   "id": "kolam",
+   "title": "Paati's kolam",
+   "short": "Quadratic sequences",
+   "card": true,
+   "start": 586.691,
+   "end": 653.711,
+   "lines": [
+    {
+     "id": "kolam",
+     "start": 588.491,
+     "end": 593.888,
+     "cap": "**Narrator:** Six forty-five. Paati's kolam: **squares** of dots, with **one** lamp in each.",
+     "who": "narr"
+    },
+    {
+     "id": "count",
+     "start": 594.408,
+     "end": 598.931,
+     "cap": "**Paati:** Count the dots and the lamps, kanna: **2, 5, 10, 17, 26**.",
+     "who": "paati"
+    },
+    {
+     "id": "broken",
+     "start": 599.451,
+     "end": 603.845,
+     "cap": "**Priya:** Gaps: **3, 5, 7, 9**. Not the same. Your pattern is **broken**, Paati.",
+     "who": "priya"
+    },
+    {
+     "id": "between",
+     "start": 604.565,
+     "end": 606.613,
+     "cap": "**Paati:** Look at the gaps **between** the gaps.",
+     "who": "paati"
+    },
+    {
+     "id": "second",
+     "start": 607.233,
+     "end": 612.119,
+     "cap": "**Kavya:** **2, 2, 2**! The **second differences** are the same. It's **quadratic**: there's an **n²** in it.",
+     "who": "kavya"
+    },
+    {
+     "id": "n2",
+     "start": 612.639,
+     "end": 617.631,
+     "cap": "**Paati:** Each kolam is a square of dots, **n²**, plus **one** lamp. So: **n² + 1**.",
+     "who": "paati"
+    },
+    {
+     "id": "L",
+     "start": 618.151,
+     "end": 623.015,
+     "cap": "**Paati:** Each new square wraps an **L** around the old one: **3**, then **5**, then **7** more dots.",
+     "who": "paati"
+    },
+    {
+     "id": "mine",
+     "start": 623.535,
+     "end": 628.74,
+     "cap": "**Priya:** Mine: **2, 8, 18, 32**. Gaps **6, 10, 14**. Second difference **4**.",
+     "who": "priya"
+    },
+    {
+     "id": "halve",
+     "start": 629.26,
+     "end": 635.596,
+     "cap": "**Paati:** **Halve the second**: 4 ÷ 2 = 2. So **2n²**. Check: n = 3, 2 × 9 = **18**.",
+     "who": "paati"
+    },
+    {
+     "id": "seven",
+     "start": 636.216,
+     "end": 637.56,
+     "cap": "**Narrator:** Seven o'clock.",
+     "who": "narr"
+    },
+    {
+     "id": "lights",
+     "start": 638.18,
+     "end": 638.756,
+     "cap": "**Mum:** Lights!",
+     "who": "mum"
+    },
+    {
+     "id": "works",
+     "start": 639.276,
+     "end": 642.113,
+     "cap": "**Dad:** Pattern mode. I **told** you I had a system.",
+     "who": "dad"
+    },
+    {
+     "id": "door",
+     "start": 642.833,
+     "end": 644.561,
+     "cap": "**Mum:** Forty guests! And... who is **this**?",
+     "who": "mum"
+    },
+    {
+     "id": "zed",
+     "start": 645.181,
+     "end": 647.827,
+     "cap": "**Zed:** The zero term. Nobody invites the—",
+     "who": "zed"
+    },
+    {
+     "id": "come",
+     "start": 648.347,
+     "end": 651.611,
+     "cap": "**Mum:** It's an **open house**. Everybody is invited. Come, eat.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The open house saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 653.711,
+   "end": 718.089,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 655.511,
+     "end": 659.756,
+     "cap": "**Narrator:** Before the credits, the open house would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 660.376,
+     "end": 665.603,
+     "cap": "**Dad:** One. They ask for the **nth term**? Don't write '**add 3**'. Write **3n + 2**.",
+     "who": "dad"
+    },
+    {
+     "id": "t2",
+     "start": 666.223,
+     "end": 671.833,
+     "cap": "**Zed:** Two. **Going down?** Then **d** is **negative**. 20, 16, 12 is **24 − 4n**.",
+     "who": "zed"
+    },
+    {
+     "id": "t3",
+     "start": 672.453,
+     "end": 677.445,
+     "cap": "**Priya:** Three. **Check** your nth term on a **second** term. I check everything twice. Twice.",
+     "who": "priya"
+    },
+    {
+     "id": "t4",
+     "start": 678.065,
+     "end": 683.676,
+     "cap": "**Enn:** Four. If solving gives **n = 67.33**, it is **not** a term. Whole numbers only.",
+     "who": "enn"
+    },
+    {
+     "id": "t5",
+     "start": 684.296,
+     "end": 688.883,
+     "cap": "**Mac:** Five. Reverse a machine in **reverse order**. Shoes off before socks.",
+     "who": "mac"
+    },
+    {
+     "id": "t6",
+     "start": 689.503,
+     "end": 693.236,
+     "cap": "**Ah Boy:** Six. Shared sticks count **once**. I have **nine** spare ice-cream sticks.",
+     "who": "boy"
+    },
+    {
+     "id": "return",
+     "start": 693.956,
+     "end": 696.217,
+     "cap": "**Narrator:** What Comes Next? will return.",
+     "who": "narr"
+    },
+    {
+     "id": "eleven",
+     "start": 697.537,
+     "end": 701.655,
+     "cap": "**Narrator:** Eleven p.m. The guests have gone. The lights are still on.",
+     "who": "narr"
+    },
+    {
+     "id": "reach",
+     "start": 702.275,
+     "end": 707.011,
+     "cap": "**Madame Nexta:** ...**196**... **198**... **TWO HUNDRED**! The hundredth term is **two hundred**!",
+     "who": "nexta"
+    },
+    {
+     "id": "knew",
+     "start": 707.831,
+     "end": 709.409,
+     "cap": "**Enn:** We know. Since three o'clock.",
+     "who": "enn"
+    },
+    {
+     "id": "thousand",
+     "start": 710.329,
+     "end": 712.612,
+     "cap": "**Ah Boy:** Madame Nexta? What's term number **1000**?",
+     "who": "boy"
+    },
+    {
+     "id": "next",
+     "start": 713.732,
+     "end": 715.289,
+     "cap": "**Madame Nexta:** ...**Two hundred and two**.",
+     "who": "nexta"
+    }
+   ]
+  }
+ ],
+ "total": 718.089
+}

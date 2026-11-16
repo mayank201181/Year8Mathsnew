@@ -1,0 +1,1007 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 62.17,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.872,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, 5 p.m., the void deck of Block 208.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 7.342,
+     "end": 12.569,
+     "cap": "**Mum:** Kavya! Paati turns **64** today. Party at six. Everything gets shared **equally**.",
+     "who": "mum"
+    },
+    {
+     "id": "paati",
+     "start": 13.039,
+     "end": 16.431,
+     "cap": "**Paati:** Equally? I'm the birthday girl. I want the **biggest** slice.",
+     "who": "paati"
+    },
+    {
+     "id": "dad",
+     "start": 17.151,
+     "end": 21.823,
+     "cap": "**Dad:** Relax. For any number problem I have one rule: **just multiply them**.",
+     "who": "dad"
+    },
+    {
+     "id": "hobby",
+     "start": 22.393,
+     "end": 24.675,
+     "cap": "**Kavya:** Dad, that's not a rule. That's a hobby.",
+     "who": "kavya"
+    },
+    {
+     "id": "tiny",
+     "start": 25.595,
+     "end": 31.654,
+     "cap": "**Narrator:** But this documentary is about the most exclusive club in Singapore. Behind the third pillar.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 32.224,
+     "end": 38.197,
+     "cap": "**Big Two:** Big Two. Security, **the Prime Club**. Members have **exactly two factors**: 1 and themselves.",
+     "who": "two"
+    },
+    {
+     "id": "even",
+     "start": 38.667,
+     "end": 44.086,
+     "cap": "**Big Two:** I'm the only **even** prime. Every other even number has **me** as a factor. Not on the list.",
+     "who": "two"
+    },
+    {
+     "id": "one",
+     "start": 44.656,
+     "end": 48.048,
+     "cap": "**One:** Hi! I'm **One**! Can I come in? I'm a factor of **every** number!",
+     "who": "one"
+    },
+    {
+     "id": "no",
+     "start": 48.518,
+     "end": 52.571,
+     "cap": "**Big Two:** You've got **one** factor. Exactly **two**, or you're **not on the list**.",
+     "who": "two"
+    },
+    {
+     "id": "later",
+     "start": 53.391,
+     "end": 55.375,
+     "cap": "**One:** Okay! I'll try again later!",
+     "who": "one"
+    },
+    {
+     "id": "title",
+     "start": 56.195,
+     "end": 60.27,
+     "cap": "**Narrator:** Prime Time. Episode 2: Paati Turns Sixty-Four.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "chairs",
+   "title": "Thirty-six chairs",
+   "short": "Factors & primes",
+   "card": true,
+   "start": 62.17,
+   "end": 136.887,
+   "lines": [
+    {
+     "id": "five",
+     "start": 63.97,
+     "end": 69.346,
+     "cap": "**Narrator:** 5:15 p.m. **36** plastic chairs. Mum wants a perfect **rectangle**.",
+     "who": "narr"
+    },
+    {
+     "id": "rows",
+     "start": 69.816,
+     "end": 71.864,
+     "cap": "**Ah Boy:** Five rows! Five is my lucky number!",
+     "who": "boy"
+    },
+    {
+     "id": "rem",
+     "start": 72.334,
+     "end": 77.198,
+     "cap": "**Kavya:** 36 ÷ 5 = 7 remainder **1**. 5 is **not** a factor of 36.",
+     "who": "kavya"
+    },
+    {
+     "id": "left",
+     "start": 77.518,
+     "end": 79.63,
+     "cap": "**One:** A leftover one? That's me! Hi!",
+     "who": "one"
+    },
+    {
+     "id": "factor",
+     "start": 80.45,
+     "end": 84.973,
+     "cap": "**Big Two:** A **factor** divides **exactly**. Find them in **pairs**, starting at 1.",
+     "who": "two"
+    },
+    {
+     "id": "pairs",
+     "start": 85.293,
+     "end": 92.525,
+     "cap": "**Kavya:** 1 × 36. 2 × 18. 3 × 12. 4 × 9. 5: no. **6 × 6**.",
+     "who": "kavya"
+    },
+    {
+     "id": "met",
+     "start": 92.845,
+     "end": 96.685,
+     "cap": "**Big Two:** The pairs have **met**. Stop. After that they just swap round.",
+     "who": "two"
+    },
+    {
+     "id": "list",
+     "start": 97.155,
+     "end": 103.405,
+     "cap": "**Mum:** So 36 has **nine** factors: 1, 2, 3, 4, 6, 9, 12, 18, 36.",
+     "who": "mum"
+    },
+    {
+     "id": "square",
+     "start": 103.725,
+     "end": 106.947,
+     "cap": "**Paati:** **Six by six**, please. A square. Squares are classy.",
+     "who": "paati"
+    },
+    {
+     "id": "make",
+     "start": 107.667,
+     "end": 115.027,
+     "cap": "**Big Two:** **Multiples** of 36? 36, 72, 108... **forever**. **Factors fit in. Multiples make more.**",
+     "who": "two"
+    },
+    {
+     "id": "priya",
+     "start": 115.347,
+     "end": 119.933,
+     "cap": "**Priya:** Priya. Best friend. My family's coming: **23** people. Make them a rectangle!",
+     "who": "priya"
+    },
+    {
+     "id": "line",
+     "start": 120.403,
+     "end": 124.243,
+     "cap": "**Kavya:** 23 chairs: only **1 × 23**. One long line.",
+     "who": "kavya"
+    },
+    {
+     "id": "prime",
+     "start": 124.813,
+     "end": 130.211,
+     "cap": "**Big Two:** Exactly two factors: **1** and **itself**. **23 is prime.** Welcome to the club.",
+     "who": "two"
+    },
+    {
+     "id": "comp",
+     "start": 130.931,
+     "end": 135.837,
+     "cap": "**Big Two:** 36 has more than two: **composite**. One has one factor: **neither**.",
+     "who": "two"
+    }
+   ]
+  },
+  {
+   "id": "club",
+   "title": "At the door of the Prime Club",
+   "short": "Primes & divisibility",
+   "card": true,
+   "start": 136.887,
+   "end": 221.791,
+   "lines": [
+    {
+     "id": "six",
+     "start": 138.687,
+     "end": 142.357,
+     "cap": "**Narrator:** 6 p.m. The guests arrive. So do the numbers.",
+     "who": "narr"
+    },
+    {
+     "id": "odd",
+     "start": 142.927,
+     "end": 146.383,
+     "cap": "**Priya:** Easy rule: **all odd numbers are prime**. Let them all in!",
+     "who": "priya"
+    },
+    {
+     "id": "nine",
+     "start": 146.953,
+     "end": 154.739,
+     "cap": "**Big Two:** 9 = 3 × 3. 15 = 3 × 5. 21 = 3 × 7. **Odd, but composite.** Not on the list.",
+     "who": "two"
+    },
+    {
+     "id": "ninety",
+     "start": 155.209,
+     "end": 158.495,
+     "cap": "**Priya:** Fine. **91** is definitely prime. Look at it!",
+     "who": "priya"
+    },
+    {
+     "id": "test",
+     "start": 158.965,
+     "end": 165.194,
+     "cap": "**Big Two:** Test the primes **2, 3, 5, 7**... Stop when the next prime **squared** is **bigger** than the number.",
+     "who": "two"
+    },
+    {
+     "id": "seven",
+     "start": 165.514,
+     "end": 173.066,
+     "cap": "**Kavya:** 11² = 121 is too big, so stop at 7. And 91 ÷ 7 = **13**. **Composite!**",
+     "who": "kavya"
+    },
+    {
+     "id": "tan",
+     "start": 173.636,
+     "end": 179.823,
+     "cap": "**Mr Tan:** Good evening. **Mr Tan**, seventh floor. Kavya's maths teacher. Happy birthday, Paati.",
+     "who": "tan"
+    },
+    {
+     "id": "gift",
+     "start": 180.293,
+     "end": 186.394,
+     "cap": "**Mr Tan:** A jigsaw: **7452** pieces. Can the tables share it **equally**?",
+     "who": "tan"
+    },
+    {
+     "id": "four",
+     "start": 186.714,
+     "end": 191.621,
+     "cap": "**Kavya:** **4** tables? Check the **last two** digits: 52 = 4 × 13. **Yes.**",
+     "who": "kavya"
+    },
+    {
+     "id": "wrong",
+     "start": 191.941,
+     "end": 197.317,
+     "cap": "**Priya:** No! 7 + 4 + 5 + 2 = 18, and 18 isn't a multiple of 4!",
+     "who": "priya"
+    },
+    {
+     "id": "digit",
+     "start": 197.787,
+     "end": 204.443,
+     "cap": "**Mr Tan:** The **digit sum** only works for **3** and **9**. For 2, 4, 8, check the **last 1, 2, 3** digits.",
+     "who": "tan"
+    },
+    {
+     "id": "rest",
+     "start": 204.763,
+     "end": 211.653,
+     "cap": "**Kavya:** Digit sum 18: so **3** and **9** work. Even too, so **6** works. 8? 452 = 8 × 56 + 4. **No.**",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 211.973,
+     "end": 215.728,
+     "cap": "**Mr Tan:** Why was 6 afraid of 7? Because 7, 8, 9.",
+     "who": "tan"
+    },
+    {
+     "id": "veg",
+     "start": 216.848,
+     "end": 220.091,
+     "cap": "**Paati:** Seven **ate** nine? Not at a vegetarian party.",
+     "who": "paati"
+    }
+   ]
+  },
+  {
+   "id": "tree",
+   "title": "The banyan tree",
+   "short": "Prime factorisation",
+   "card": true,
+   "start": 221.791,
+   "end": 300.161,
+   "lines": [
+    {
+     "id": "lights",
+     "start": 223.591,
+     "end": 230.481,
+     "cap": "**Narrator:** 6:30 p.m. Kavya, Priya and Ah Boy hang **120** fairy lights on the old banyan tree.",
+     "who": "narr"
+    },
+    {
+     "id": "banyan",
+     "start": 230.951,
+     "end": 233.917,
+     "cap": "**Banyan:** Hmmm. I am **Banyan**. I split things. Slowly.",
+     "who": "banyan"
+    },
+    {
+     "id": "split",
+     "start": 234.637,
+     "end": 240.311,
+     "cap": "**Banyan:** Split 120 **any** way you like. Keep splitting until every branch ends in a **prime**.",
+     "who": "banyan"
+    },
+    {
+     "id": "kav",
+     "start": 240.631,
+     "end": 244.493,
+     "cap": "**Kavya:** 12 × 10. 12 is 2 × 2 × 3. 10 is 2 × 5.",
+     "who": "kavya"
+    },
+    {
+     "id": "pri",
+     "start": 244.813,
+     "end": 248.951,
+     "cap": "**Priya:** 8 × 15. That's 2 × 2 × 2 and 3 × 5. Done first!",
+     "who": "priya"
+    },
+    {
+     "id": "boy",
+     "start": 249.421,
+     "end": 253.411,
+     "cap": "**Ah Boy:** 2 × 60! Then 6 × 10, then 2 × 3 and 2 × 5!",
+     "who": "boy"
+    },
+    {
+     "id": "same",
+     "start": 253.731,
+     "end": 256.099,
+     "cap": "**Kavya:** We all got **2, 2, 2, 3** and **5**.",
+     "who": "kavya"
+    },
+    {
+     "id": "unique",
+     "start": 256.669,
+     "end": 262.215,
+     "cap": "**Banyan:** Every whole number above 1 has **exactly one** prime factorisation. Its **DNA**.",
+     "who": "banyan"
+    },
+    {
+     "id": "index",
+     "start": 262.535,
+     "end": 267.442,
+     "cap": "**Banyan:** In **index form**, smallest prime first: **120 = 2³ × 3 × 5**.",
+     "who": "banyan"
+    },
+    {
+     "id": "laddoo",
+     "start": 267.762,
+     "end": 270.962,
+     "cap": "**Mum:** My turn. I made **180** laddoos for Paati.",
+     "who": "mum"
+    },
+    {
+     "id": "ladder",
+     "start": 271.432,
+     "end": 275.763,
+     "cap": "**Banyan:** The **ladder**: divide by the **smallest** prime that fits, until you reach **1**.",
+     "who": "banyan"
+    },
+    {
+     "id": "steps",
+     "start": 276.083,
+     "end": 284.125,
+     "cap": "**Kavya:** 180 ÷ 2 = 90. ÷ 2 = 45. ÷ 3 = 15. ÷ 3 = 5. ÷ 5 = 1.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 284.445,
+     "end": 287.667,
+     "cap": "**Dad:** Easy: 180 = 2² × 3 × **15**. Done.",
+     "who": "dad"
+    },
+    {
+     "id": "notdone",
+     "start": 288.237,
+     "end": 293.037,
+     "cap": "**Banyan:** **15** isn't prime. Split it: **180 = 2² × 3² × 5**.",
+     "who": "banyan"
+    },
+    {
+     "id": "check",
+     "start": 293.357,
+     "end": 298.861,
+     "cap": "**Mum:** Multiply back: 4 × 9 × 5 = **180**. Every laddoo accounted for.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "venn",
+   "title": "Hattie and Lottie",
+   "short": "HCF & LCM",
+   "card": true,
+   "start": 300.161,
+   "end": 389.003,
+   "lines": [
+    {
+     "id": "cups",
+     "start": 301.961,
+     "end": 308.574,
+     "cap": "**Narrator:** 6:45 p.m. Mum brought **60** cups. Dad brought **72** plates. They are not speaking.",
+     "who": "narr"
+    },
+    {
+     "id": "tables",
+     "start": 309.044,
+     "end": 316.788,
+     "cap": "**Mum:** The **most** tables, all set the same. I **listed** both sets of factors: the highest common one is **12**. It took ten minutes.",
+     "who": "mum"
+    },
+    {
+     "id": "hattie",
+     "start": 317.508,
+     "end": 321.369,
+     "cap": "**Hattie:** Hattie! She's **Lottie**. We're a **Venn diagram**: faster for big numbers.",
+     "who": "hattie"
+    },
+    {
+     "id": "lottie",
+     "start": 321.839,
+     "end": 323.013,
+     "cap": "**Lottie:** Don't touch my side.",
+     "who": "lottie"
+    },
+    {
+     "id": "sixty",
+     "start": 323.733,
+     "end": 327.85,
+     "cap": "**Hattie:** Prime factors first. **60 = 2² × 3 × 5**.",
+     "who": "hattie"
+    },
+    {
+     "id": "seventy",
+     "start": 328.17,
+     "end": 330.858,
+     "cap": "**Lottie:** And **72 = 2³ × 3²**.",
+     "who": "lottie"
+    },
+    {
+     "id": "share",
+     "start": 331.178,
+     "end": 336.49,
+     "cap": "**Hattie:** Shared primes go in the **middle**: **2, 2, 3**. Leftovers stay home: my **5**, her **2** and **3**.",
+     "who": "hattie"
+    },
+    {
+     "id": "hcf",
+     "start": 336.81,
+     "end": 340.607,
+     "cap": "**Lottie:** **HCF**: multiply the middle. 2 × 2 × 3 = **12**. **HCF is the Heart.**",
+     "who": "lottie"
+    },
+    {
+     "id": "twelve",
+     "start": 340.927,
+     "end": 344.341,
+     "cap": "**Kavya:** So **12** tables, each with **5** cups and **6** plates.",
+     "who": "kavya"
+    },
+    {
+     "id": "lcm",
+     "start": 344.811,
+     "end": 349.376,
+     "cap": "**Hattie:** **LCM**: multiply the **lot**. 5 × 2 × 2 × 3 × 2 × 3 = **360**. **LCM is the Lot.**",
+     "who": "hattie"
+    },
+    {
+     "id": "lows",
+     "start": 349.696,
+     "end": 353.92,
+     "cap": "**Lottie:** From index form: HCF takes the **lows**, 2² × 3. LCM takes the **highs**, 2³ × 3² × 5.",
+     "who": "lottie"
+    },
+    {
+     "id": "product",
+     "start": 354.24,
+     "end": 361.045,
+     "cap": "**Kavya:** And 12 × 360 = **4320** = 60 × 72. **HCF × LCM = a × b**.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 361.515,
+     "end": 367.169,
+     "cap": "**Dad:** Small numbers, my way. LCM of 6 and 8? **Just multiply them**: 48!",
+     "who": "dad"
+    },
+    {
+     "id": "listm",
+     "start": 367.739,
+     "end": 374.544,
+     "cap": "**Priya:** **List** the multiples of 8: 8, 16, **24**. 6 goes into 24. **LCM = 24.** They **share** a 2!",
+     "who": "priya"
+    },
+    {
+     "id": "nine",
+     "start": 374.864,
+     "end": 378.213,
+     "cap": "**Dad:** Four and nine, then. 4 × 9 = **36**!",
+     "who": "dad"
+    },
+    {
+     "id": "right",
+     "start": 378.683,
+     "end": 382.801,
+     "cap": "**Kavya:** They share **no** primes, so the LCM **is** 36. Dad... you're right.",
+     "who": "kavya"
+    },
+    {
+     "id": "hands",
+     "start": 383.521,
+     "end": 387.403,
+     "cap": "**Dad:** I've never been right before. I don't know what to do with my hands.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "party",
+   "title": "Building up or breaking down?",
+   "short": "HCF & LCM problems",
+   "card": true,
+   "start": 389.003,
+   "end": 482.737,
+   "lines": [
+    {
+     "id": "bus",
+     "start": 390.803,
+     "end": 397.63,
+     "cap": "**Narrator:** 7 p.m. Paati's sisters are on two buses: one every **12** minutes, one every **18**.",
+     "who": "narr"
+    },
+    {
+     "id": "both",
+     "start": 398.1,
+     "end": 401.556,
+     "cap": "**Paati:** Both buses left at seven. When do they next leave **together**?",
+     "who": "paati"
+    },
+    {
+     "id": "ask",
+     "start": 402.026,
+     "end": 406.165,
+     "cap": "**Big Two:** First question at my door: are we **building up**, or **breaking down**?",
+     "who": "two"
+    },
+    {
+     "id": "up",
+     "start": 406.635,
+     "end": 412.843,
+     "cap": "**Kavya:** 12, 24, **36**. 18, **36**. **Building up**: multiples. The **LCM**: 36.",
+     "who": "kavya"
+    },
+    {
+     "id": "answer",
+     "start": 413.163,
+     "end": 414.571,
+     "cap": "**Ah Boy:** So the answer is **36**!",
+     "who": "boy"
+    },
+    {
+     "id": "when",
+     "start": 415.041,
+     "end": 421.078,
+     "cap": "**Big Two:** The question asked **when**. Seven o'clock plus 36 minutes: **7:36 p.m.**",
+     "who": "two"
+    },
+    {
+     "id": "lights",
+     "start": 421.648,
+     "end": 428.56,
+     "cap": "**Dad:** My fairy lights flash every **8** and every **12** seconds. Together every 8 × 12 = **96**!",
+     "who": "dad"
+    },
+    {
+     "id": "lcm24",
+     "start": 429.03,
+     "end": 437.094,
+     "cap": "**Big Two:** They flash together every **24**: LCM = 2³ × 3 = **24**. 96 is **a** common multiple, not the **lowest**.",
+     "who": "two"
+    },
+    {
+     "id": "packs",
+     "start": 437.564,
+     "end": 443.665,
+     "cap": "**Dad:** Veggie burgers come in packs of **6**, buns in packs of **8**. I bought eight packs and six packs!",
+     "who": "dad"
+    },
+    {
+     "id": "fewest",
+     "start": 444.135,
+     "end": 450.877,
+     "cap": "**Mum:** **Fewest** packs: LCM(6, 8) = **24**. So **4 packs** of burgers, **3 packs** of buns.",
+     "who": "mum"
+    },
+    {
+     "id": "bags",
+     "start": 451.197,
+     "end": 456.807,
+     "cap": "**Ah Boy:** Goodie bags! **36** chocolate coins, **48** lollipops. Most identical bags: **48**!",
+     "who": "boy"
+    },
+    {
+     "id": "down",
+     "start": 457.277,
+     "end": 461.672,
+     "cap": "**Big Two:** **Breaking down** into equal groups, nothing left over: **HCF**.",
+     "who": "two"
+    },
+    {
+     "id": "hcf",
+     "start": 462.092,
+     "end": 469.111,
+     "cap": "**Kavya:** HCF(36, 48) = **12**. So **12** bags, each with **3** coins and **4** lollipops.",
+     "who": "kavya"
+    },
+    {
+     "id": "sense",
+     "start": 469.431,
+     "end": 475.596,
+     "cap": "**Big Two:** Sense check: an **HCF** is at most the **smaller** number. An **LCM** is at least the **bigger**.",
+     "who": "two"
+    },
+    {
+     "id": "sisters",
+     "start": 476.166,
+     "end": 481.137,
+     "cap": "**Paati:** Seven thirty-six. Same bus, same time. Now they'll have to talk to each other.",
+     "who": "paati"
+    }
+   ]
+  },
+  {
+   "id": "cake",
+   "title": "Sixty-four cupcakes",
+   "short": "Squares, cubes & roots",
+   "card": true,
+   "start": 482.737,
+   "end": 582.523,
+   "lines": [
+    {
+     "id": "cake",
+     "start": 484.537,
+     "end": 489.657,
+     "cap": "**Narrator:** 7:45 p.m. Cake time. Paati asked for **64** cupcakes.",
+     "who": "narr"
+    },
+    {
+     "id": "cubert",
+     "start": 490.127,
+     "end": 493.327,
+     "cap": "**Cubert:** **Cubert!** A **cube**! Sixty-four is **my** number!",
+     "who": "cubert"
+    },
+    {
+     "id": "tray",
+     "start": 493.797,
+     "end": 497.573,
+     "cap": "**Mum:** On a tray, it's **8 by 8**: 8² = 64. A **square**.",
+     "who": "mum"
+    },
+    {
+     "id": "tower",
+     "start": 497.893,
+     "end": 502.927,
+     "cap": "**Cubert:** Or a tower, **4 by 4 by 4**: 4³ = 64. A **cube**!",
+     "who": "cubert"
+    },
+    {
+     "id": "perfect",
+     "start": 503.247,
+     "end": 505.85,
+     "cap": "**Paati:** A square **and** a cube. I am **perfect**.",
+     "who": "paati"
+    },
+    {
+     "id": "tech",
+     "start": 506.42,
+     "end": 512.969,
+     "cap": "**Mr Tan:** Technically, a **perfect number** is the sum of its other factors. Like **6** = 1 + 2 + 3.",
+     "who": "tan"
+    },
+    {
+     "id": "bday",
+     "start": 513.439,
+     "end": 515.487,
+     "cap": "**Paati:** Technically, it's my birthday.",
+     "who": "paati"
+    },
+    {
+     "id": "powers",
+     "start": 516.507,
+     "end": 523.163,
+     "cap": "**Cubert:** **64 = 2⁶**. Squares have **even** powers. Cubes have powers in the **3** times table.",
+     "who": "cubert"
+    },
+    {
+     "id": "roots",
+     "start": 523.483,
+     "end": 530.651,
+     "cap": "**Cubert:** **Square root**: halve every power: 2³ = **8**. **Cube root**: divide every power by 3: 2² = **4**.",
+     "who": "cubert"
+    },
+    {
+     "id": "quiz",
+     "start": 530.971,
+     "end": 534.47,
+     "cap": "**Mr Tan:** Quick one. What's **√1764**?",
+     "who": "tan"
+    },
+    {
+     "id": "half",
+     "start": 534.79,
+     "end": 537.841,
+     "cap": "**Ah Boy:** Half of 1764 is **882**!",
+     "who": "boy"
+    },
+    {
+     "id": "halve",
+     "start": 538.411,
+     "end": 545.429,
+     "cap": "**Cubert:** Halve the **powers**, not the number! 1764 = 2² × 3² × 7².",
+     "who": "cubert"
+    },
+    {
+     "id": "fortytwo",
+     "start": 545.749,
+     "end": 552.235,
+     "cap": "**Kavya:** So √1764 = 2 × 3 × 7 = **42**. And 42 × 42 = 1764.",
+     "who": "kavya"
+    },
+    {
+     "id": "ladd",
+     "start": 552.705,
+     "end": 557.611,
+     "cap": "**Mum:** My **180** laddoos won't make a square. 180 = 2² × 3² × **5**.",
+     "who": "mum"
+    },
+    {
+     "id": "times",
+     "start": 557.931,
+     "end": 563.585,
+     "cap": "**Cubert:** Only the **5** has an **odd** power. × 5: 180 × 5 = **900 = 30²**.",
+     "who": "cubert"
+    },
+    {
+     "id": "eat",
+     "start": 563.905,
+     "end": 569.793,
+     "cap": "**Ah Boy:** Or **÷ 5**: keep **36**, a 6 by 6 square. I eat the other **144**.",
+     "who": "boy"
+    },
+    {
+     "id": "cubeit",
+     "start": 570.513,
+     "end": 577.147,
+     "cap": "**Cubert:** A **cube**? Every power to a multiple of 3: × 2 × 3 × 5² = **150**. **27 000** laddoos!",
+     "who": "cubert"
+    },
+    {
+     "id": "more",
+     "start": 577.467,
+     "end": 580.923,
+     "cap": "**Mum:** Square tray. Seven hundred and twenty more laddoos it is.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "count",
+   "title": "The plus one",
+   "short": "Counting factors",
+   "card": true,
+   "start": 582.523,
+   "end": 647.113,
+   "lines": [
+    {
+     "id": "eight",
+     "start": 584.323,
+     "end": 589.23,
+     "cap": "**Narrator:** 8 p.m. Mr Tan has brought a party quiz. Nobody asked him to.",
+     "who": "narr"
+    },
+    {
+     "id": "q",
+     "start": 589.95,
+     "end": 593.769,
+     "cap": "**Mr Tan:** How many factors does **72** have? **Without** listing them.",
+     "who": "tan"
+    },
+    {
+     "id": "twos",
+     "start": 594.089,
+     "end": 600.681,
+     "cap": "**Kavya:** 72 = 2³ × 3². A factor can use **0, 1, 2 or 3** twos: **4** choices.",
+     "who": "kavya"
+    },
+    {
+     "id": "threes",
+     "start": 601.001,
+     "end": 605.694,
+     "cap": "**Priya:** And **0, 1 or 2** threes: **3** choices. **4 × 3 = 12** factors!",
+     "who": "priya"
+    },
+    {
+     "id": "none",
+     "start": 606.164,
+     "end": 613.737,
+     "cap": "**Mr Tan:** **None** is a choice too: **2⁰ = 1**. That's the **+ 1**. Factors = (3 + 1)(2 + 1).",
+     "who": "tan"
+    },
+    {
+     "id": "me",
+     "start": 614.057,
+     "end": 616.959,
+     "cap": "**One:** The plus one... is **ME**! I'm in **every** factor count!",
+     "who": "one"
+    },
+    {
+     "id": "mine",
+     "start": 617.779,
+     "end": 620.317,
+     "cap": "**Paati:** And me? Sixty-four is 2⁶.",
+     "who": "paati"
+    },
+    {
+     "id": "seven",
+     "start": 620.637,
+     "end": 626.653,
+     "cap": "**Kavya:** 6 + 1 = **7** factors: 1, 2, 4, 8, 16, 32, 64. An **odd** number.",
+     "who": "kavya"
+    },
+    {
+     "id": "pairs",
+     "start": 626.973,
+     "end": 633.8,
+     "cap": "**Big Two:** Factors come in **pairs**, but in a **square** one pairs with **itself**: 8 × 8. Only **squares** have an **odd** count.",
+     "who": "two"
+    },
+    {
+     "id": "primes",
+     "start": 634.12,
+     "end": 640.435,
+     "cap": "**Big Two:** A prime has **2** factors. A prime squared, like **49**, has **3**: 1, 7, 49.",
+     "who": "two"
+    },
+    {
+     "id": "lucky",
+     "start": 640.905,
+     "end": 645.513,
+     "cap": "**Paati:** Seven factors. Lucky seven. And prime. Tonight I'm collecting everything.",
+     "who": "paati"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The party saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 647.113,
+   "end": 717.103,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 648.913,
+     "end": 652.646,
+     "cap": "**Narrator:** Before the credits, the party would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 653.216,
+     "end": 660.576,
+     "cap": "**Banyan:** One. Never leave a **composite** in your answer. 2² × 9 × 5? Split the 9. **Multiply back** to check.",
+     "who": "banyan"
+    },
+    {
+     "id": "t2",
+     "start": 661.146,
+     "end": 666.287,
+     "cap": "**Hattie:** Two. A **product** of primes means **multiplied**, in index form. Not a list. Not plus signs.",
+     "who": "hattie"
+    },
+    {
+     "id": "t3",
+     "start": 666.857,
+     "end": 672.191,
+     "cap": "**Big Two:** Three. **Building up** or **breaking down**? Decide first: **LCM** or **HCF**.",
+     "who": "two"
+    },
+    {
+     "id": "t4",
+     "start": 672.761,
+     "end": 679.075,
+     "cap": "**Paati:** Four. Answer the question asked: **7:36 p.m.**, not 36. My sisters were very clear.",
+     "who": "paati"
+    },
+    {
+     "id": "t5",
+     "start": 679.645,
+     "end": 686.408,
+     "cap": "**Mr Tan:** Five. **HCF × LCM = a × b** works for **two** numbers only. Never three.",
+     "who": "tan"
+    },
+    {
+     "id": "t6",
+     "start": 686.978,
+     "end": 693.229,
+     "cap": "**Ah Boy:** Six. Square roots: halve the **powers**, not the number. I said 882. I was very confident.",
+     "who": "boy"
+    },
+    {
+     "id": "return",
+     "start": 693.949,
+     "end": 696.125,
+     "cap": "**Narrator:** Prime Time will return.",
+     "who": "narr"
+    },
+    {
+     "id": "now",
+     "start": 697.245,
+     "end": 699.25,
+     "cap": "**One:** Big Two! Can I come in **now**?",
+     "who": "one"
+    },
+    {
+     "id": "still",
+     "start": 699.72,
+     "end": 703.581,
+     "cap": "**Big Two:** Members: **exactly two** factors. You've still got one.",
+     "who": "two"
+    },
+    {
+     "id": "plus",
+     "start": 704.151,
+     "end": 706.583,
+     "cap": "**Paati:** He's not a member. He's my **plus one**.",
+     "who": "paati"
+    },
+    {
+     "id": "fine",
+     "start": 707.403,
+     "end": 709.942,
+     "cap": "**Big Two:** ...Go on, then. As a **plus one**.",
+     "who": "two"
+    },
+    {
+     "id": "in",
+     "start": 710.662,
+     "end": 712.39,
+     "cap": "**One:** I'M IN! I'm in the **club**!",
+     "who": "one"
+    },
+    {
+     "id": "notprime",
+     "start": 713.21,
+     "end": 714.703,
+     "cap": "**Big Two:** Still not prime.",
+     "who": "two"
+    }
+   ]
+  }
+ ],
+ "total": 717.103
+}

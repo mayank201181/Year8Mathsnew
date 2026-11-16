@@ -1,0 +1,951 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 58.005,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 7.704,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, ten a.m.: the **Great Singapore Sale** at Plaza Seratus.",
+     "who": "narr"
+    },
+    {
+     "id": "budget",
+     "start": 8.224,
+     "end": 12.64,
+     "cap": "**Mum:** Listen up. Budget: **$200**. Rule one: **never pay full price**.",
+     "who": "mum"
+    },
+    {
+     "id": "ten",
+     "start": 13.16,
+     "end": 15.357,
+     "cap": "**Dad:** I'll give it **a hundred and ten per cent**!",
+     "who": "dad"
+    },
+    {
+     "id": "whole",
+     "start": 15.977,
+     "end": 19.305,
+     "cap": "**Kavya:** Dad. A hundred per cent is **everything**. You can't give more.",
+     "who": "kavya"
+    },
+    {
+     "id": "boy",
+     "start": 20.025,
+     "end": 24.484,
+     "cap": "**Ah Boy:** Look! **50% off**, then **another 20% off**! That's **70% off**!",
+     "who": "boy"
+    },
+    {
+     "id": "tiny",
+     "start": 25.304,
+     "end": 30.189,
+     "cap": "**Narrator:** But this documentary is about the tiny sign on every banner in the mall.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 30.809,
+     "end": 33.583,
+     "cap": "**Percy:** Percy! The **per cent sign**! Per cent means **out of a hundred**!",
+     "who": "percy"
+    },
+    {
+     "id": "lazy",
+     "start": 34.103,
+     "end": 37.495,
+     "cap": "**Percy:** A slash and two zeros. Basically a **100** that fell over.",
+     "who": "percy"
+    },
+    {
+     "id": "nonno",
+     "start": 38.315,
+     "end": 43.456,
+     "cap": "**Percy:** My great-great-grandad: the Italian **per cento**, 'for each hundred'. Merchants scribbled him smaller.",
+     "who": "percy"
+    },
+    {
+     "id": "rate",
+     "start": 44.076,
+     "end": 47.937,
+     "cap": "**Percy:** I rate everything **out of a hundred**. Seventy per cent off? I give that a **twelve**.",
+     "who": "percy"
+    },
+    {
+     "id": "play",
+     "start": 48.757,
+     "end": 51.147,
+     "cap": "**Percy:** One family. Two hundred dollars. Let's play...",
+     "who": "percy"
+    },
+    {
+     "id": "title",
+     "start": 51.767,
+     "end": 55.905,
+     "cap": "**Narrator:** Out of a Hundred. Episode 6: The Great Singapore Sale.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "signs",
+   "title": "Three signs, one winner",
+   "short": "Fractions, decimals, %",
+   "card": true,
+   "start": 58.005,
+   "end": 136.424,
+   "lines": [
+    {
+     "id": "rival",
+     "start": 59.805,
+     "end": 63.965,
+     "cap": "**Narrator:** Ten fifteen. Three rival shops. Three very different signs.",
+     "who": "narr"
+    },
+    {
+     "id": "priya",
+     "start": 64.485,
+     "end": 68.816,
+     "cap": "**Priya:** Priya. Bargain expert. **62% off** wins. Biggest number!",
+     "who": "priya"
+    },
+    {
+     "id": "same",
+     "start": 69.436,
+     "end": 72.017,
+     "cap": "**Percy:** Different forms! Put them all in the **same form** first.",
+     "who": "percy"
+    },
+    {
+     "id": "frac",
+     "start": 72.337,
+     "end": 80.081,
+     "cap": "**Kavya:** **⅝** = 5 ÷ 8 = **0.625** = **62.5%**. And **0.6** = **60%**.",
+     "who": "kavya"
+    },
+    {
+     "id": "order",
+     "start": 80.401,
+     "end": 85.265,
+     "cap": "**Kavya:** So **0.6 < 62% < ⅝**. The **fraction** shop wins!",
+     "who": "kavya"
+    },
+    {
+     "id": "rules",
+     "start": 85.885,
+     "end": 93.736,
+     "cap": "**Percy:** Decimal to per cent: **× 100**. Back: **÷ 100**, so **35% = 0.35**. As a fraction: **35/100 = 7/20**.",
+     "who": "percy"
+    },
+    {
+     "id": "quick",
+     "start": 94.056,
+     "end": 100.243,
+     "cap": "**Kavya:** Or scale the bottom up to 100: **7/25 = 28/100 = 28%**.",
+     "who": "kavya"
+    },
+    {
+     "id": "cash",
+     "start": 100.563,
+     "end": 104.381,
+     "cap": "**Ah Boy:** That one says **0.5% cashback**. I get **half** my money back!",
+     "who": "boy"
+    },
+    {
+     "id": "half",
+     "start": 105.001,
+     "end": 110.591,
+     "cap": "**Percy:** **0.5%** is **half of one per cent**: **0.005**. Spend **$10**, get back **5 cents**.",
+     "who": "percy"
+    },
+    {
+     "id": "still",
+     "start": 110.911,
+     "end": 113.684,
+     "cap": "**Dad:** And I'm **still** giving it a hundred and ten per cent.",
+     "who": "dad"
+    },
+    {
+     "id": "cant",
+     "start": 114.204,
+     "end": 115.847,
+     "cap": "**Kavya:** Dad. That's **impossible**.",
+     "who": "kavya"
+    },
+    {
+     "id": "whole",
+     "start": 116.467,
+     "end": 121.736,
+     "cap": "**Percy:** Wrong! **100%** is **one whole**. **110%** is just **1.1**: a whole, plus a tenth.",
+     "who": "percy"
+    },
+    {
+     "id": "over",
+     "start": 122.056,
+     "end": 129.523,
+     "cap": "**Percy:** **125%** = **125/100** = **5/4** = **1.25**. Over one whole is fine.",
+     "who": "percy"
+    },
+    {
+     "id": "dad",
+     "start": 130.043,
+     "end": 132.347,
+     "cap": "**Dad:** Hear that? I'm **one point one** dads.",
+     "who": "dad"
+    },
+    {
+     "id": "plenty",
+     "start": 133.167,
+     "end": 134.724,
+     "cap": "**Kavya:** One dad is plenty.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "chunks",
+   "title": "Ten, five, one",
+   "short": "Percentages of amounts",
+   "card": true,
+   "start": 136.424,
+   "end": 209.535,
+   "lines": [
+    {
+     "id": "shoes",
+     "start": 138.224,
+     "end": 142.811,
+     "cap": "**Narrator:** Eleven a.m. The shoe shop. Ah Boy needs new school shoes.",
+     "who": "narr"
+    },
+    {
+     "id": "boy",
+     "start": 143.331,
+     "end": 147.341,
+     "cap": "**Ah Boy:** These are **$64**, and **15% off**! How much do we save?",
+     "who": "boy"
+    },
+    {
+     "id": "tenner",
+     "start": 147.661,
+     "end": 150.733,
+     "cap": "**Tenner:** I'm Tenner! **10%**! That's **divide by ten**!",
+     "who": "tenner"
+    },
+    {
+     "id": "ten",
+     "start": 151.253,
+     "end": 155.861,
+     "cap": "**Tenner:** **10%** of **$64**: 64 ÷ 10 = **$6.40**.",
+     "who": "tenner"
+    },
+    {
+     "id": "fiver",
+     "start": 156.181,
+     "end": 160.149,
+     "cap": "**Tenner:** My little brother **Fiver**. **5%** is **half** of me: **$3.20**.",
+     "who": "tenner"
+    },
+    {
+     "id": "fifteen",
+     "start": 160.469,
+     "end": 166.4,
+     "cap": "**Kavya:** So **15% = 10% + 5%**: 6.40 + 3.20 = **$9.60** off.",
+     "who": "kavya"
+    },
+    {
+     "id": "pay",
+     "start": 166.72,
+     "end": 172.331,
+     "cap": "**Mum:** We pay 64 − 9.60 = **$54.40**. **Never** pay full price.",
+     "who": "mum"
+    },
+    {
+     "id": "swap",
+     "start": 172.951,
+     "end": 179.223,
+     "cap": "**Percy:** Bonus: **x% of y = y% of x**. **4% of 25**? Swap: **25% of 4** = **1**!",
+     "who": "percy"
+    },
+    {
+     "id": "blender",
+     "start": 179.543,
+     "end": 185.153,
+     "cap": "**Dad:** Blender, **$260**, **37% off**. Calculator time.",
+     "who": "dad"
+    },
+    {
+     "id": "of",
+     "start": 185.673,
+     "end": 190.623,
+     "cap": "**Percy:** 'Of' means **times**. Use a decimal: **0.37 × 260 = 96.2**.",
+     "who": "percy"
+    },
+    {
+     "id": "cents",
+     "start": 190.943,
+     "end": 193.439,
+     "cap": "**Dad:** Ninety-six dollars and... two cents?",
+     "who": "dad"
+    },
+    {
+     "id": "dp",
+     "start": 194.259,
+     "end": 198.589,
+     "cap": "**Kavya:** **$96.20**. Money always gets **two decimal places**.",
+     "who": "kavya"
+    },
+    {
+     "id": "est",
+     "start": 198.909,
+     "end": 204.285,
+     "cap": "**Percy:** **Estimate**: 37% is about a **third**. A third of 260: about **87**. Believable.",
+     "who": "percy"
+    },
+    {
+     "id": "gym",
+     "start": 204.905,
+     "end": 207.935,
+     "cap": "**Tenner:** Ten, five, one. Every morning. Before breakfast.",
+     "who": "tenner"
+    }
+   ]
+  },
+  {
+   "id": "tests",
+   "title": "Mr Tan buys red pens",
+   "short": "One as % of another",
+   "card": true,
+   "start": 209.535,
+   "end": 276.401,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 211.335,
+     "end": 217.884,
+     "cap": "**Narrator:** Twelve noon. The bookshop. Kavya's maths teacher, **Mr Tan**, is buying red pens. In bulk.",
+     "who": "narr"
+    },
+    {
+     "id": "marks",
+     "start": 218.504,
+     "end": 225.885,
+     "cap": "**Mr Tan:** I marked your tests on the MRT. Kavya: **18 out of 24**. Priya: **21 out of 30**.",
+     "who": "tan"
+    },
+    {
+     "id": "win",
+     "start": 226.405,
+     "end": 229.179,
+     "cap": "**Priya:** **21** is more than **18**. I win.",
+     "who": "priya"
+    },
+    {
+     "id": "rescale",
+     "start": 229.899,
+     "end": 232.48,
+     "cap": "**Percy:** Different totals! Rescale both to **out of a hundred**.",
+     "who": "percy"
+    },
+    {
+     "id": "formula",
+     "start": 232.8,
+     "end": 239.797,
+     "cap": "**Mr Tan:** Percentage = **part ÷ whole × 100**. The **whole**, after 'out of', goes on the **bottom**.",
+     "who": "tan"
+    },
+    {
+     "id": "calc",
+     "start": 240.117,
+     "end": 248.437,
+     "cap": "**Kavya:** Me: **18/24 = 0.75 = 75%**. Priya: **21/30 = 0.7 = 70%**.",
+     "who": "kavya"
+    },
+    {
+     "id": "recount",
+     "start": 248.757,
+     "end": 250.613,
+     "cap": "**Priya:** I demand a recount.",
+     "who": "priya"
+    },
+    {
+     "id": "joke",
+     "start": 251.533,
+     "end": 254.669,
+     "cap": "**Mr Tan:** Tests are like the sale. Some of you got **marked down**.",
+     "who": "tan"
+    },
+    {
+     "id": "sweets",
+     "start": 256.289,
+     "end": 264.695,
+     "cap": "**Ah Boy:** I spent **45 cents** of my **$2** on sweets. 45 ÷ 2 × 100... **2250%**!",
+     "who": "boy"
+    },
+    {
+     "id": "units",
+     "start": 265.315,
+     "end": 272.099,
+     "cap": "**Percy:** **Same units first!** $2 = **200 cents**. 45/200 × 100 = **22.5%**.",
+     "who": "percy"
+    },
+    {
+     "id": "score",
+     "start": 272.419,
+     "end": 274.701,
+     "cap": "**Percy:** Mr Tan's joke? **Four** out of a hundred.",
+     "who": "percy"
+    }
+   ]
+  },
+  {
+   "id": "magic",
+   "title": "The Great Multiplini",
+   "short": "Multipliers",
+   "card": true,
+   "start": 276.401,
+   "end": 356.147,
+   "lines": [
+    {
+     "id": "sign",
+     "start": 278.201,
+     "end": 283.769,
+     "cap": "**Narrator:** One p.m. The electronics shop. '**Tomorrow, all prices up 15%**'.",
+     "who": "narr"
+    },
+    {
+     "id": "dad",
+     "start": 284.289,
+     "end": 290.881,
+     "cap": "**Dad:** Rice cooker, **$40**. 15% of 40 is **$6**. Add it on: **$46**. Two steps.",
+     "who": "dad"
+    },
+    {
+     "id": "ordinary",
+     "start": 291.401,
+     "end": 295.113,
+     "cap": "**The Great Multiplini:** Two steps? How... **ordinary**. The Great Multiplini does it in **ONE**.",
+     "who": "multi"
+    },
+    {
+     "id": "trick",
+     "start": 295.733,
+     "end": 304.779,
+     "cap": "**The Great Multiplini:** Start at **100%**. Add 15%: **115%**. That's **1.15**. Behold: **40 × 1.15 = $46**! Ta-da!",
+     "who": "multi"
+    },
+    {
+     "id": "why",
+     "start": 305.399,
+     "end": 312.417,
+     "cap": "**Kavya:** Same thing: **40 + 0.15 × 40 = 40 × 1.15**. One number, **both** steps.",
+     "who": "kavya"
+    },
+    {
+     "id": "off",
+     "start": 312.737,
+     "end": 320.652,
+     "cap": "**Mum:** But **today** it's **20% off**. So I pay **80%**: × **0.8**. 40 × 0.8 = **$32**.",
+     "who": "mum"
+    },
+    {
+     "id": "rule",
+     "start": 321.172,
+     "end": 327.636,
+     "cap": "**The Great Multiplini:** **Increase** by r%: × **(1 + r/100)**. **Decrease**: × **(1 − r/100)**.",
+     "who": "multi"
+    },
+    {
+     "id": "boy",
+     "start": 327.956,
+     "end": 332.223,
+     "cap": "**Ah Boy:** My turn! The kettle goes up **5%**! Multiply by **1.5**!",
+     "who": "boy"
+    },
+    {
+     "id": "fifty",
+     "start": 332.743,
+     "end": 339.399,
+     "cap": "**The Great Multiplini:** No! **× 1.5** is **50%** up! **5% = 0.05**, so it's **× 1.05**.",
+     "who": "multi"
+    },
+    {
+     "id": "read",
+     "start": 340.019,
+     "end": 344.989,
+     "cap": "**The Great Multiplini:** Above **1**: **increase**. Below **1**: **decrease**. **× 0.93** is **7% off**.",
+     "who": "multi"
+    },
+    {
+     "id": "till",
+     "start": 345.309,
+     "end": 352.179,
+     "cap": "**The Great Multiplini:** And **9% GST**? **× 1.09**. A **$50** kettle costs 50 × 1.09 = **$54.50**.",
+     "who": "multi"
+    },
+    {
+     "id": "score",
+     "start": 352.499,
+     "end": 354.547,
+     "cap": "**Percy:** Magic: ninety. The cape: a **hundred**.",
+     "who": "percy"
+    }
+   ]
+  },
+  {
+   "id": "toast",
+   "title": "A dollar on the kaya toast",
+   "short": "Percentage change",
+   "card": true,
+   "start": 356.147,
+   "end": 441.689,
+   "lines": [
+    {
+     "id": "two",
+     "start": 357.947,
+     "end": 362.427,
+     "cap": "**Narrator:** Two p.m. The food court. Mum reads the menu, and gasps.",
+     "who": "narr"
+    },
+    {
+     "id": "toast",
+     "start": 363.047,
+     "end": 367.868,
+     "cap": "**Mum:** Kaya toast set! **$4** last year. Now **$5**! Up a whole dollar!",
+     "who": "mum"
+    },
+    {
+     "id": "bike",
+     "start": 368.388,
+     "end": 373.999,
+     "cap": "**Dad:** Relax. My bike went from **$250** to **$251**. Also a dollar. Same same.",
+     "who": "dad"
+    },
+    {
+     "id": "olive",
+     "start": 374.719,
+     "end": 379.241,
+     "cap": "**Olive:** Excuse me. **Olive**. The **original price**. Everyone crosses me out. But **I'm the whole**.",
+     "who": "olive"
+    },
+    {
+     "id": "abs",
+     "start": 379.861,
+     "end": 384.875,
+     "cap": "**Olive:** **Absolute change** = new − original: **$1** each. Now compare it with **me**.",
+     "who": "olive"
+    },
+    {
+     "id": "pct",
+     "start": 385.195,
+     "end": 393.472,
+     "cap": "**Kavya:** Toast: 1/4 × 100 = **25%**. Bike: 1/250 × 100 = **0.4%**. Same dollar. Very different change.",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 393.792,
+     "end": 399.488,
+     "cap": "**Olive:** **Percentage change = change ÷ original × 100**. **New minus Old, over Old.**",
+     "who": "olive"
+    },
+    {
+     "id": "boy",
+     "start": 399.808,
+     "end": 403.541,
+     "cap": "**Ah Boy:** But $1 out of the **new** price, **$5**, is **20%**!",
+     "who": "boy"
+    },
+    {
+     "id": "wrong",
+     "start": 404.061,
+     "end": 409.48,
+     "cap": "**Olive:** **Wrong whole!** Divide by the **original**, $4. Never the new price. It's **25%**.",
+     "who": "olive"
+    },
+    {
+     "id": "mult",
+     "start": 410.2,
+     "end": 415.789,
+     "cap": "**Olive:** Or divide **new by original**: 5 ÷ 4 = **1.25**. Up **25%**.",
+     "who": "olive"
+    },
+    {
+     "id": "otter",
+     "start": 416.109,
+     "end": 422.232,
+     "cap": "**Dad:** News: '**Otter sightings up 300%!**' Last year, **5**. So now, **15**.",
+     "who": "dad"
+    },
+    {
+     "id": "four",
+     "start": 422.752,
+     "end": 429.003,
+     "cap": "**Olive:** Up **300%** means **400%** of the original: **× 4**. 5 × 4 = **20** sightings. **15 more**.",
+     "who": "olive"
+    },
+    {
+     "id": "points",
+     "start": 429.323,
+     "end": 437.045,
+     "cap": "**Kavya:** And **GST** went from **8%** to **9%**. That's up **1 percentage point**, but **1/8** more tax: **12.5%**!",
+     "who": "kavya"
+    },
+    {
+     "id": "five",
+     "start": 437.365,
+     "end": 439.989,
+     "cap": "**Mum:** Either way, my toast still costs five dollars.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "jacket",
+   "title": "The jacket was $48",
+   "short": "Reverse percentages",
+   "card": true,
+   "start": 441.689,
+   "end": 525.101,
+   "lines": [
+    {
+     "id": "three",
+     "start": 443.489,
+     "end": 449.591,
+     "cap": "**Narrator:** Three p.m. Mum finds **the** jacket. Already **20% off**: **$48**.",
+     "who": "narr"
+    },
+    {
+     "id": "brag",
+     "start": 450.111,
+     "end": 452.585,
+     "cap": "**Mum:** I need the **original** price. For bragging.",
+     "who": "mum"
+    },
+    {
+     "id": "priya",
+     "start": 453.205,
+     "end": 459.52,
+     "cap": "**Priya:** Easy! **$48 plus 20%**. 48 × 1.2 = **$57.60**!",
+     "who": "priya"
+    },
+    {
+     "id": "check",
+     "start": 460.04,
+     "end": 466.12,
+     "cap": "**Kavya:** Check it. **20% off $57.60**: 57.60 × 0.8 = **$46.08**. Not **$48**.",
+     "who": "kavya"
+    },
+    {
+     "id": "wrong",
+     "start": 466.44,
+     "end": 470.771,
+     "cap": "**Olive:** **Wrong whole!** The 20% came off **me**, the **original**. Not off the sale price!",
+     "who": "olive"
+    },
+    {
+     "id": "bar",
+     "start": 471.491,
+     "end": 479.0,
+     "cap": "**Olive:** The sale price is **80%** of me. **10%** = 48 ÷ 8 = **$6**. **100%** = 10 × 6 = **$60**.",
+     "who": "olive"
+    },
+    {
+     "id": "undo",
+     "start": 479.32,
+     "end": 485.848,
+     "cap": "**The Great Multiplini:** Or in **one** step: undo my trick. **Divide** by the multiplier: 48 ÷ 0.8 = **$60**. Ad-aT!",
+     "who": "multi"
+    },
+    {
+     "id": "formula",
+     "start": 486.568,
+     "end": 492.008,
+     "cap": "**Olive:** **Original = new amount ÷ multiplier**. Going back? **Divide, don't subtract.**",
+     "who": "olive"
+    },
+    {
+     "id": "saved",
+     "start": 492.328,
+     "end": 495.507,
+     "cap": "**Mum:** I saved **$12**. Priya, I'm telling everyone.",
+     "who": "mum"
+    },
+    {
+     "id": "gst",
+     "start": 496.327,
+     "end": 502.151,
+     "cap": "**Kavya:** This receipt: **$43.60**, **including 9% GST**. What was it **before** GST?",
+     "who": "kavya"
+    },
+    {
+     "id": "take",
+     "start": 502.471,
+     "end": 506.14,
+     "cap": "**Priya:** Easy! Take **9%** off: **$39.68**!",
+     "who": "priya"
+    },
+    {
+     "id": "again",
+     "start": 506.76,
+     "end": 511.603,
+     "cap": "**Olive:** Wrong whole! **Again!** The 9% was 9% of the price **before** GST.",
+     "who": "olive"
+    },
+    {
+     "id": "divide",
+     "start": 512.223,
+     "end": 521.225,
+     "cap": "**The Great Multiplini:** With GST you have **109%**: **÷ 1.09**. 43.60 ÷ 1.09 = **$40**. Check: 40 × 1.09 = **$43.60**.",
+     "who": "multi"
+    },
+    {
+     "id": "recount",
+     "start": 521.545,
+     "end": 523.401,
+     "cap": "**Priya:** I demand a recount.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "bank",
+   "title": "Snowy at the bank",
+   "short": "Money & compound",
+   "card": true,
+   "start": 525.101,
+   "end": 635.312,
+   "lines": [
+    {
+     "id": "four",
+     "start": 526.901,
+     "end": 532.149,
+     "cap": "**Narrator:** Four p.m. The bank. Ah Boy has **$500** of ang bao money.",
+     "who": "narr"
+    },
+    {
+     "id": "profit",
+     "start": 532.669,
+     "end": 538.067,
+     "cap": "**Priya:** I'm a businesswoman. Bought an old bike for **$150**, sold it for **$186**.",
+     "who": "priya"
+    },
+    {
+     "id": "pct",
+     "start": 538.587,
+     "end": 546.053,
+     "cap": "**Percy:** Profit: 186 − 150 = **$36**. Profit % is out of the **cost price**: 36/150 × 100 = **24%**.",
+     "who": "percy"
+    },
+    {
+     "id": "save",
+     "start": 546.373,
+     "end": 552.197,
+     "cap": "**Ah Boy:** If I save my **$500** at **3%** simple interest a year, how much after **4 years**?",
+     "who": "boy"
+    },
+    {
+     "id": "si",
+     "start": 552.517,
+     "end": 560.965,
+     "cap": "**Dad:** Simple interest: **I = PRT ÷ 100**. 500 × 3 × 4 ÷ 100 = **$60**.",
+     "who": "dad"
+    },
+    {
+     "id": "same",
+     "start": 561.285,
+     "end": 565.829,
+     "cap": "**Kavya:** **$15** every year. After 4 years: 500 + 60 = **$560**.",
+     "who": "kavya"
+    },
+    {
+     "id": "snowy",
+     "start": 566.149,
+     "end": 570.693,
+     "cap": "**Snowy:** Ho ho! **Snowy**! **Compound interest**! I earn interest on my **interest**!",
+     "who": "snowy"
+    },
+    {
+     "id": "roll",
+     "start": 571.213,
+     "end": 580.707,
+     "cap": "**Snowy:** **$1000** at **10%**: × 1.1 = **$1100**. Again: **$1210**. Again: **$1331**!",
+     "who": "snowy"
+    },
+    {
+     "id": "simple",
+     "start": 581.027,
+     "end": 585.869,
+     "cap": "**Kavya:** Simple interest adds the same **amount** each year. Snowy adds the same **percentage**.",
+     "who": "kavya"
+    },
+    {
+     "id": "power",
+     "start": 586.189,
+     "end": 594.851,
+     "cap": "**Snowy:** Ten years? **1000 × 1.1¹⁰ ≈ $2593.74**. Simple: **$2000**.",
+     "who": "snowy"
+    },
+    {
+     "id": "updown",
+     "start": 595.471,
+     "end": 599.332,
+     "cap": "**Ah Boy:** So **10% up**, then **10% down**, gets you back to the start!",
+     "who": "boy"
+    },
+    {
+     "id": "wrong",
+     "start": 599.652,
+     "end": 607.332,
+     "cap": "**Olive:** Wrong whole! **$100** up 10% is **$110**. 10% **of 110** is **$11**. You're left with **$99**.",
+     "who": "olive"
+    },
+    {
+     "id": "chain",
+     "start": 607.852,
+     "end": 616.044,
+     "cap": "**Snowy:** Changes in a row? **Multiply the multipliers**: × 1.1 × 0.9 = **× 0.99**. A **1%** loss.",
+     "who": "snowy"
+    },
+    {
+     "id": "banner",
+     "start": 616.364,
+     "end": 623.873,
+     "cap": "**Kavya:** So Ah Boy's banner: × 0.5 × 0.8 = **× 0.4**. You pay **40%**. That's **60% off**, not seventy.",
+     "who": "kavya"
+    },
+    {
+     "id": "million",
+     "start": 624.193,
+     "end": 628.353,
+     "cap": "**Ah Boy:** Fine. **$10** at **2%** compound. I'll wait to be a millionaire.",
+     "who": "boy"
+    },
+    {
+     "id": "years",
+     "start": 628.873,
+     "end": 631.924,
+     "cap": "**Snowy:** That takes about **582 years**.",
+     "who": "snowy"
+    },
+    {
+     "id": "wait",
+     "start": 632.744,
+     "end": 633.512,
+     "cap": "**Ah Boy:** I can wait.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The mall saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 635.312,
+   "end": 710.617,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 637.112,
+     "end": 640.781,
+     "cap": "**Narrator:** Before the credits, the mall would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 641.401,
+     "end": 645.391,
+     "cap": "**Olive:** One. Percentage change: divide by the **original**. Never by the new value.",
+     "who": "olive"
+    },
+    {
+     "id": "t2",
+     "start": 646.011,
+     "end": 650.363,
+     "cap": "**The Great Multiplini:** Two. Going back? **Divide** by the multiplier. Never add the percentage back on.",
+     "who": "multi"
+    },
+    {
+     "id": "t3",
+     "start": 650.983,
+     "end": 658.471,
+     "cap": "**Ah Boy:** Three. **7%** is **0.07**, not 0.7. **0.5%** is **0.005**. Not half. I checked.",
+     "who": "boy"
+    },
+    {
+     "id": "t4",
+     "start": 659.091,
+     "end": 664.083,
+     "cap": "**Mr Tan:** Four. **Same units** first. Cents with cents. Red pens with red pens.",
+     "who": "tan"
+    },
+    {
+     "id": "t5",
+     "start": 664.703,
+     "end": 669.012,
+     "cap": "**Mum:** Five. **Reread the last line**: do they want the **discount**, or the **price you pay**?",
+     "who": "mum"
+    },
+    {
+     "id": "t6",
+     "start": 669.632,
+     "end": 680.469,
+     "cap": "**Dad:** Six. **25% off** then **9% GST** is **not 16% off**. Multiply: **× 0.75 × 1.09**.",
+     "who": "dad"
+    },
+    {
+     "id": "return",
+     "start": 681.189,
+     "end": 683.472,
+     "cap": "**Narrator:** Out of a Hundred will return.",
+     "who": "narr"
+    },
+    {
+     "id": "six",
+     "start": 684.692,
+     "end": 688.575,
+     "cap": "**Narrator:** Six p.m. The car park. Mum checks the receipts.",
+     "who": "narr"
+    },
+    {
+     "id": "total",
+     "start": 689.195,
+     "end": 693.739,
+     "cap": "**Mum:** Total spent: **$220**. Our budget was **$200**.",
+     "who": "mum"
+    },
+    {
+     "id": "told",
+     "start": 694.459,
+     "end": 697.659,
+     "cap": "**Dad:** I told you. I gave it **a hundred and ten per cent**.",
+     "who": "dad"
+    },
+    {
+     "id": "spent",
+     "start": 698.379,
+     "end": 704.032,
+     "cap": "**Kavya:** 220 ÷ 200 × 100 = **110%**. Dad. You **spent** a hundred and ten per cent.",
+     "who": "kavya"
+    },
+    {
+     "id": "final",
+     "start": 704.852,
+     "end": 707.817,
+     "cap": "**Percy:** Over a hundred per cent: **totally allowed**. Totally **his fault**.",
+     "who": "percy"
+    }
+   ]
+  }
+ ],
+ "total": 710.617
+}

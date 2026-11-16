@@ -1,0 +1,1028 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 59.265,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.168,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Friday, eight a.m. Sports Day at the stadium.",
+     "who": "narr"
+    },
+    {
+     "id": "pa",
+     "start": 6.688,
+     "end": 10.635,
+     "cap": "**Mr Tan:** Good morning, Sports Day! Girls' **100 metres**, heat one!",
+     "who": "tan"
+    },
+    {
+     "id": "priya",
+     "start": 11.155,
+     "end": 13.928,
+     "cap": "**Priya:** Priya. Fastest girl in Year 8. Don't blink.",
+     "who": "priya"
+    },
+    {
+     "id": "record",
+     "start": 15.848,
+     "end": 19.091,
+     "cap": "**Priya:** **1.472 seconds?!** World record!",
+     "who": "priya"
+    },
+    {
+     "id": "cheetah",
+     "start": 19.711,
+     "end": 21.119,
+     "cap": "**Ah Boy:** Is that faster than a cheetah?",
+     "who": "boy"
+    },
+    {
+     "id": "stop",
+     "start": 21.839,
+     "end": 27.855,
+     "cap": "**Dad:** Dad. Official timekeeper. My stopwatch says **14.72**. Trust the stopwatch.",
+     "who": "dad"
+    },
+    {
+     "id": "digits",
+     "start": 28.475,
+     "end": 31.035,
+     "cap": "**Kavya:** Same digits. The **point** is in the wrong place.",
+     "who": "kavya"
+    },
+    {
+     "id": "tiny",
+     "start": 31.655,
+     "end": 35.9,
+     "cap": "**Narrator:** But this documentary is about the smallest thing on the scoreboard.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 36.52,
+     "end": 40.915,
+     "cap": "**Dot:** Dot. The **decimal point**. Small, round, and **ten times** more important than you think.",
+     "who": "dot"
+    },
+    {
+     "id": "slide",
+     "start": 41.535,
+     "end": 44.948,
+     "cap": "**Dot:** Move me **one place left**, and the number is **ten times smaller**.",
+     "who": "dot"
+    },
+    {
+     "id": "break",
+     "start": 45.468,
+     "end": 49.287,
+     "cap": "**Dot:** I went to the toilet for **four seconds**. Came back, jumped into the wrong gap.",
+     "who": "dot"
+    },
+    {
+     "id": "photo",
+     "start": 50.107,
+     "end": 52.581,
+     "cap": "**Priya:** Can you stay there? Just for one photo?",
+     "who": "priya"
+    },
+    {
+     "id": "title",
+     "start": 53.901,
+     "end": 57.165,
+     "cap": "**Narrator:** What's the Point? Episode 5: Sports Day.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "banner",
+   "title": "The Blue House banner",
+   "short": "Multiplying",
+   "card": true,
+   "start": 59.265,
+   "end": 139.755,
+   "lines": [
+    {
+     "id": "nine",
+     "start": 61.065,
+     "end": 65.503,
+     "cap": "**Narrator:** Nine a.m. The Blue House tent. Mum is painting the banner.",
+     "who": "narr"
+    },
+    {
+     "id": "size",
+     "start": 66.023,
+     "end": 70.503,
+     "cap": "**Mum:** It's **2.3 m** by **1.4 m**. I need the **area**, for the paint.",
+     "who": "mum"
+    },
+    {
+     "id": "calc",
+     "start": 70.823,
+     "end": 75.367,
+     "cap": "**Priya:** Easy! **23 × 14 = 322**. **322** square metres!",
+     "who": "priya"
+    },
+    {
+     "id": "ship",
+     "start": 75.987,
+     "end": 78.653,
+     "cap": "**Dot:** That's not a banner. That's a sail for a cruise ship.",
+     "who": "dot"
+    },
+    {
+     "id": "est",
+     "start": 79.873,
+     "end": 84.055,
+     "cap": "**Dot:** **Estimate first**: **2 × 1.5 = 3**. The answer is about **3**.",
+     "who": "dot"
+    },
+    {
+     "id": "int",
+     "start": 84.375,
+     "end": 90.924,
+     "cap": "**Kavya:** Ignore the points: **23 × 14 = 322**. Decimal places: **1 + 1 = 2**. So **3.22 m²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 91.244,
+     "end": 93.399,
+     "cap": "**Dot:** **Places in = places out.**",
+     "who": "dot"
+    },
+    {
+     "id": "split",
+     "start": 94.119,
+     "end": 102.033,
+     "cap": "**Mum:** My way: four pieces. **2 + 0.8 + 0.3 + 0.12 = 3.22**. Tenths times tenths make **hundredths**.",
+     "who": "mum"
+    },
+    {
+     "id": "boy",
+     "start": 102.353,
+     "end": 106.428,
+     "cap": "**Ah Boy:** Ah Boy. Blue House tiger. Is **0.3 × 0.2 = 0.6**?",
+     "who": "boy"
+    },
+    {
+     "id": "tenths",
+     "start": 106.948,
+     "end": 111.172,
+     "cap": "**Dot:** **3 × 2 = 6**, with **two** decimal places: **0.06**.",
+     "who": "dot"
+    },
+    {
+     "id": "paint",
+     "start": 111.492,
+     "end": 116.228,
+     "cap": "**Dad:** Paint: **$13.50** a litre. We need **2.4 litres**. Calculator!",
+     "who": "dad"
+    },
+    {
+     "id": "money",
+     "start": 116.748,
+     "end": 122.295,
+     "cap": "**Kavya:** Estimate: **2.5 × 13 = 32.5**. Exact: **24 × 135 = 3240**, two places: **$32.40**.",
+     "who": "kavya"
+    },
+    {
+     "id": "zeros",
+     "start": 122.615,
+     "end": 129.548,
+     "cap": "**Priya:** **1.25 × 0.8**: **125 × 8 = 1000**. Drop the zeros, then three places: **0.001**!",
+     "who": "priya"
+    },
+    {
+     "id": "first",
+     "start": 130.068,
+     "end": 134.548,
+     "cap": "**Dot:** **Place the point first**: **1.000**. **Then** tidy the zeros: **1**.",
+     "who": "dot"
+    },
+    {
+     "id": "basic",
+     "start": 134.868,
+     "end": 137.855,
+     "cap": "**Priya:** Only a thousand times out. Basically right.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "ribbon",
+   "title": "Fifteen medals",
+   "short": "Dividing",
+   "card": true,
+   "start": 139.755,
+   "end": 225.592,
+   "lines": [
+    {
+     "id": "ten",
+     "start": 141.555,
+     "end": 145.779,
+     "cap": "**Narrator:** Ten a.m. Mr Tan is cutting ribbons for the medals.",
+     "who": "narr"
+    },
+    {
+     "id": "q",
+     "start": 146.299,
+     "end": 151.248,
+     "cap": "**Mr Tan:** **6 m** of ribbon, in pieces **0.4 m** long. How many medals?",
+     "who": "tan"
+    },
+    {
+     "id": "smaller",
+     "start": 151.568,
+     "end": 155.579,
+     "cap": "**Dad:** Dividing makes things **smaller**. So, fewer than six. Trust me.",
+     "who": "dad"
+    },
+    {
+     "id": "fit",
+     "start": 156.199,
+     "end": 160.337,
+     "cap": "**Kavya:** How many **0.4s** fit into **6**? Small pieces, **lots** of pieces.",
+     "who": "kavya"
+    },
+    {
+     "id": "shift",
+     "start": 160.657,
+     "end": 165.372,
+     "cap": "**Dot:** Make the divisor **whole**. Multiply **both** by 10: **6 ÷ 0.4 = 60 ÷ 4 = 15**.",
+     "who": "dot"
+    },
+    {
+     "id": "lie",
+     "start": 165.692,
+     "end": 169.191,
+     "cap": "**Dad:** Fifteen is **bigger** than six. My whole life is a lie.",
+     "who": "dad"
+    },
+    {
+     "id": "rule",
+     "start": 170.211,
+     "end": 178.595,
+     "cap": "**Mr Tan:** Divide by a number **between 0 and 1**: **bigger**. **8 ÷ 0.5 = 16**. Times **0.5**: **smaller**, **8 × 0.5 = 4**.",
+     "who": "tan"
+    },
+    {
+     "id": "short",
+     "start": 178.915,
+     "end": 184.248,
+     "cap": "**Priya:** Shortcut! Change **0.4** into **4**: **6 ÷ 4 = 1.5** medals.",
+     "who": "priya"
+    },
+    {
+     "id": "both",
+     "start": 185.368,
+     "end": 188.867,
+     "cap": "**Dot:** **Shift both, then divide.** Both numbers, same number of places.",
+     "who": "dot"
+    },
+    {
+     "id": "harder",
+     "start": 189.387,
+     "end": 196.896,
+     "cap": "**Mr Tan:** **2.73 ÷ 0.3**. Times 10: **27.3 ÷ 3 = 9.1**.",
+     "who": "tan"
+    },
+    {
+     "id": "bus",
+     "start": 197.216,
+     "end": 204.021,
+     "cap": "**Mr Tan:** **$7.36** of ribbon, shared by **4** houses. **Short division**: the point sits **above** the point.",
+     "who": "tan"
+    },
+    {
+     "id": "steps",
+     "start": 204.341,
+     "end": 210.656,
+     "cap": "**Kavya:** **7 ÷ 4 = 1 r 3**. **33 ÷ 4 = 8 r 1**. **16 ÷ 4 = 4**. **$1.84** each.",
+     "who": "kavya"
+    },
+    {
+     "id": "zeros",
+     "start": 210.976,
+     "end": 218.528,
+     "cap": "**Mr Tan:** Doesn't finish? Add **zeros**: **5.3 ÷ 4 = 5.300 ÷ 4 = 1.325**.",
+     "who": "tan"
+    },
+    {
+     "id": "pun",
+     "start": 218.848,
+     "end": 223.392,
+     "cap": "**Mr Tan:** Short division: always carrying something. Like a teacher on Sports Day.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "photo",
+   "title": "Photo finish",
+   "short": "Decimal places",
+   "card": true,
+   "start": 225.592,
+   "end": 303.343,
+   "lines": [
+    {
+     "id": "eleven",
+     "start": 227.392,
+     "end": 232.0,
+     "cap": "**Narrator:** Eleven a.m. The hurdles. Dad's stopwatch is very precise.",
+     "who": "narr"
+    },
+    {
+     "id": "time",
+     "start": 232.52,
+     "end": 237.768,
+     "cap": "**Dad:** Priya: **10.4973**. The scoreboard shows **2 decimal places**.",
+     "who": "dad"
+    },
+    {
+     "id": "chop",
+     "start": 238.088,
+     "end": 240.968,
+     "cap": "**Priya:** Just chop the end off: **10.49**.",
+     "who": "priya"
+    },
+    {
+     "id": "ref",
+     "start": 241.588,
+     "end": 244.553,
+     "cap": "**The Decider:** The Decider. Rounding referee. I look at **one digit**. One.",
+     "who": "ref"
+    },
+    {
+     "id": "cut",
+     "start": 245.273,
+     "end": 248.943,
+     "cap": "**The Decider:** Cut after two places: **10.49 | 73**. The digit after the cut is the **decider**: **7**.",
+     "who": "ref"
+    },
+    {
+     "id": "rule",
+     "start": 249.263,
+     "end": 254.191,
+     "cap": "**The Decider:** **Five or more? Raise the score. Four or less? Let it rest.** Seven raises it: **10.50**.",
+     "who": "ref"
+    },
+    {
+     "id": "line",
+     "start": 254.511,
+     "end": 259.908,
+     "cap": "**Kavya:** Halfway is **10.495**. Priya is **past** halfway: **10.50**.",
+     "who": "kavya"
+    },
+    {
+     "id": "short",
+     "start": 260.228,
+     "end": 262.724,
+     "cap": "**Priya:** Then write **10.5**. It's shorter.",
+     "who": "priya"
+    },
+    {
+     "id": "zero",
+     "start": 263.244,
+     "end": 267.703,
+     "cap": "**The Decider:** **10.50.** Two decimal places means **two** digits. That zero is evidence.",
+     "who": "ref"
+    },
+    {
+     "id": "drill",
+     "start": 268.523,
+     "end": 274.496,
+     "cap": "**The Decider:** **7.0649**: nearest whole **7**. 1 d.p. **7.1**. 2 d.p. **7.06**. 3 d.p. **7.065**.",
+     "who": "ref"
+    },
+    {
+     "id": "jump",
+     "start": 274.816,
+     "end": 280.171,
+     "cap": "**Dad:** Kavya's long jump: **2.996 m**. Round that last 9 up to... **ten**?",
+     "who": "dad"
+    },
+    {
+     "id": "roll",
+     "start": 280.791,
+     "end": 285.207,
+     "cap": "**The Decider:** Nines **roll over**, like **199 + 1 = 200**. **2.99 + 0.01 = 3.00**.",
+     "who": "ref"
+    },
+    {
+     "id": "stages",
+     "start": 285.527,
+     "end": 291.799,
+     "cap": "**Priya:** Baton change: **1.2349**. In stages: **1.235**, then **1.24**.",
+     "who": "priya"
+    },
+    {
+     "id": "foul",
+     "start": 292.119,
+     "end": 296.791,
+     "cap": "**The Decider:** Foul! **Double rounding!** Just round the original, **once**: **1.23 | 49**, decider **4**: **1.23**.",
+     "who": "ref"
+    },
+    {
+     "id": "stole",
+     "start": 297.411,
+     "end": 301.443,
+     "cap": "**Priya:** So rounding stole **twenty-seven ten-thousandths** of a second from me.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "crowd",
+   "title": "Sig works the door",
+   "short": "Significant figures",
+   "card": true,
+   "start": 303.343,
+   "end": 394.743,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 305.143,
+     "end": 309.708,
+     "cap": "**Narrator:** Noon. Mr Tan announces the crowd, to **2 significant figures**.",
+     "who": "narr"
+    },
+    {
+     "id": "gate",
+     "start": 310.228,
+     "end": 314.473,
+     "cap": "**Mr Tan:** Spectators at the gate: **4 871**.",
+     "who": "tan"
+    },
+    {
+     "id": "boy",
+     "start": 314.793,
+     "end": 318.463,
+     "cap": "**Ah Boy:** First two digits, rounded: **49**! Forty-nine people came!",
+     "who": "boy"
+    },
+    {
+     "id": "welcome",
+     "start": 318.983,
+     "end": 320.924,
+     "cap": "**Mr Tan:** Welcome, all **forty-nine** of you!",
+     "who": "tan"
+    },
+    {
+     "id": "sig",
+     "start": 322.244,
+     "end": 327.855,
+     "cap": "**Sig:** Sig. **Significant figures.** I work the door. I count from the **first non-zero digit**.",
+     "who": "sig"
+    },
+    {
+     "id": "cut",
+     "start": 328.375,
+     "end": 336.225,
+     "cap": "**Sig:** **48 | 71**. Decider **7**, so **48** goes up to **49**. Then fill the empty places with **zeros**: **4 900**.",
+     "who": "sig"
+    },
+    {
+     "id": "size",
+     "start": 336.545,
+     "end": 340.897,
+     "cap": "**Kavya:** The zeros keep the **size**. Without them, the crowd shrinks to **49**.",
+     "who": "kavya"
+    },
+    {
+     "id": "table",
+     "start": 341.217,
+     "end": 346.252,
+     "cap": "**Sig:** **1 s.f.**: **5 000**. **2 s.f.**: **4 900**. **3 s.f.**: **4 870**.",
+     "who": "sig"
+    },
+    {
+     "id": "never",
+     "start": 346.572,
+     "end": 349.857,
+     "cap": "**Priya:** Zeros are never significant. Everyone knows that.",
+     "who": "priya"
+    },
+    {
+     "id": "inside",
+     "start": 350.477,
+     "end": 357.197,
+     "cap": "**Sig:** **3.07**: **3** s.f. Zeros **between** digits count. **3.00**: **3** s.f. too.",
+     "who": "sig"
+    },
+    {
+     "id": "lead",
+     "start": 357.517,
+     "end": 364.621,
+     "cap": "**Sig:** But **0.0052** has only **2**. **Leading zeros** just show the size. They wait outside.",
+     "who": "sig"
+    },
+    {
+     "id": "photo",
+     "start": 365.341,
+     "end": 370.888,
+     "cap": "**Dad:** Photo finish! Kavya beat Priya by **0.00456 seconds**!",
+     "who": "dad"
+    },
+    {
+     "id": "draw",
+     "start": 371.208,
+     "end": 375.411,
+     "cap": "**Priya:** To 2 d.p. that's **0.00**. A **draw**.",
+     "who": "priya"
+    },
+    {
+     "id": "small",
+     "start": 376.031,
+     "end": 383.092,
+     "cap": "**Sig:** Use **2 s.f.** The first one is the **4**. **0.0045 | 6**, decider **6**: **0.0046**.",
+     "who": "sig"
+    },
+    {
+     "id": "rule",
+     "start": 383.412,
+     "end": 388.511,
+     "cap": "**Kavya:** Decimal places count from the **point**. Significant figures count from where the number **starts**.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 388.831,
+     "end": 392.543,
+     "cap": "**Mr Tan:** Everyone here is **significant**. Except the leading zeros.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "drinks",
+   "title": "Wavy does the shopping",
+   "short": "Estimation",
+   "card": true,
+   "start": 394.743,
+   "end": 481.092,
+   "lines": [
+    {
+     "id": "one",
+     "start": 396.543,
+     "end": 401.663,
+     "cap": "**Narrator:** One p.m. Mum is buying the class drinks. Budget: **$32**.",
+     "who": "narr"
+    },
+    {
+     "id": "list",
+     "start": 402.183,
+     "end": 408.903,
+     "cap": "**Mum:** **6** packs at **$3.85**, **4** bags of oranges at **$1.79**. Is **$32** enough?",
+     "who": "mum"
+    },
+    {
+     "id": "wavy",
+     "start": 409.223,
+     "end": 412.807,
+     "cap": "**Wavy:** Wavy. **Approximately equal to.** Not equal. Approximately.",
+     "who": "wavy"
+    },
+    {
+     "id": "round",
+     "start": 413.627,
+     "end": 418.533,
+     "cap": "**Wavy:** **Round every number to 1 significant figure**: **$3.85 ≈ $4**, **$1.79 ≈ $2**.",
+     "who": "wavy"
+    },
+    {
+     "id": "sum",
+     "start": 418.853,
+     "end": 423.291,
+     "cap": "**Kavya:** **6 × 4 + 4 × 2 = 24 + 8 = 32**.",
+     "who": "kavya"
+    },
+    {
+     "id": "over",
+     "start": 423.611,
+     "end": 427.835,
+     "cap": "**Wavy:** Both prices rounded **up**: an **overestimate**. The real total is **less**.",
+     "who": "wavy"
+    },
+    {
+     "id": "enough",
+     "start": 428.155,
+     "end": 433.04,
+     "cap": "**Mum:** So **$32** is enough. The till says **$30.26**. Wavy, you can stay.",
+     "who": "mum"
+    },
+    {
+     "id": "calc",
+     "start": 433.76,
+     "end": 441.696,
+     "cap": "**Dad:** Official calculation! **61.5 litres** of squash at **$0.38** a litre: **$233.70**.",
+     "who": "dad"
+    },
+    {
+     "id": "ten",
+     "start": 442.316,
+     "end": 446.817,
+     "cap": "**Wavy:** Estimate: **0.4 × 60 = 24**. You're **ten times** too big.",
+     "who": "wavy"
+    },
+    {
+     "id": "dot",
+     "start": 447.137,
+     "end": 451.639,
+     "cap": "**Dot:** You typed **3.8**. I was in the wrong place. **Again.** It's **$23.37**.",
+     "who": "dot"
+    },
+    {
+     "id": "stats",
+     "start": 452.359,
+     "end": 458.993,
+     "cap": "**Priya:** Relay stats: **(48.7 × 3.1) ÷ 0.52 = 29.03**. Done.",
+     "who": "priya"
+    },
+    {
+     "id": "three",
+     "start": 459.313,
+     "end": 466.353,
+     "cap": "**Wavy:** **50 × 3 = 150**. Dividing by **0.5** doubles it: **300**. You're **ten times** too small.",
+     "who": "wavy"
+    },
+    {
+     "id": "typed",
+     "start": 466.673,
+     "end": 469.34,
+     "cap": "**Priya:** I typed **5.2**. Tell no one.",
+     "who": "priya"
+    },
+    {
+     "id": "table",
+     "start": 469.96,
+     "end": 475.08,
+     "cap": "**Wavy:** **÷ 0.5** is **× 2**. **÷ 0.2** is **× 5**. **÷ 0.1** is **× 10**.",
+     "who": "wavy"
+    },
+    {
+     "id": "homework",
+     "start": 475.4,
+     "end": 476.765,
+     "cap": "**Ah Boy:** Can I estimate my homework?",
+     "who": "boy"
+    },
+    {
+     "id": "no",
+     "start": 477.485,
+     "end": 479.192,
+     "cap": "**Wavy:** Approximately... no.",
+     "who": "wavy"
+    }
+   ]
+  },
+  {
+   "id": "prize",
+   "title": "Rita repeats herself",
+   "short": "Recurring decimals",
+   "card": true,
+   "start": 481.092,
+   "end": 566.071,
+   "lines": [
+    {
+     "id": "two",
+     "start": 482.892,
+     "end": 487.884,
+     "cap": "**Narrator:** Two p.m. The banner wins! Prize: **$10**, for the **three** painters.",
+     "who": "narr"
+    },
+    {
+     "id": "split",
+     "start": 488.404,
+     "end": 492.735,
+     "cap": "**Kavya:** **10 ÷ 3 = 3.333...** The threes never stop.",
+     "who": "kavya"
+    },
+    {
+     "id": "rita",
+     "start": 493.055,
+     "end": 496.34,
+     "cap": "**Rita:** Rita! **Recurring decimal!** Three three three three three three...",
+     "who": "rita"
+    },
+    {
+     "id": "cent",
+     "start": 496.86,
+     "end": 501.553,
+     "cap": "**Priya:** To the nearest cent: **$3.33** each. But **3 × 3.33 = 9.99**.",
+     "who": "priya"
+    },
+    {
+     "id": "boy",
+     "start": 501.873,
+     "end": 503.9,
+     "cap": "**Ah Boy:** One cent left over! Mascot fees.",
+     "who": "boy"
+    },
+    {
+     "id": "shush",
+     "start": 504.62,
+     "end": 509.292,
+     "cap": "**Dot:** **One dot** on top means that digit **recurs** for ever: **0.3̇**.",
+     "who": "dot"
+    },
+    {
+     "id": "quiet",
+     "start": 509.912,
+     "end": 510.851,
+     "cap": "**Rita:** ...three.",
+     "who": "rita"
+    },
+    {
+     "id": "which",
+     "start": 511.971,
+     "end": 515.875,
+     "cap": "**Mr Tan:** Predict: **1/8**, **1/6**, **1/7**. Which ones **stop**?",
+     "who": "tan"
+    },
+    {
+     "id": "eighth",
+     "start": 516.195,
+     "end": 520.312,
+     "cap": "**Kavya:** **1/8 = 0.125**. It stops: **terminating**.",
+     "who": "kavya"
+    },
+    {
+     "id": "sixth",
+     "start": 520.632,
+     "end": 526.307,
+     "cap": "**Rita:** **1/6 = 0.1666...** Only the **6** recurs, so only the 6 gets a dot.",
+     "who": "rita"
+    },
+    {
+     "id": "seventh",
+     "start": 526.627,
+     "end": 532.28,
+     "cap": "**Rita:** **1/7 = 0.142857142857...** Dots on the block's **first** and **last** digits.",
+     "who": "rita"
+    },
+    {
+     "id": "test",
+     "start": 532.6,
+     "end": 537.72,
+     "cap": "**Mr Tan:** Simplify, then factor the denominator. **Only 2s and 5s make it stop.**",
+     "who": "tan"
+    },
+    {
+     "id": "why",
+     "start": 538.04,
+     "end": 543.629,
+     "cap": "**Kavya:** **8 = 2 × 2 × 2**: it stops. **6 = 2 × 3**, and **7** is prime: they recur.",
+     "who": "kavya"
+    },
+    {
+     "id": "twelve",
+     "start": 543.949,
+     "end": 546.808,
+     "cap": "**Priya:** **9/12**? **12** has a **3**. **Recurring!**",
+     "who": "priya"
+    },
+    {
+     "id": "simplify",
+     "start": 547.828,
+     "end": 554.121,
+     "cap": "**Mr Tan:** Simplify **first**: **9/12 = 3/4 = 0.75**. It terminates.",
+     "who": "tan"
+    },
+    {
+     "id": "back",
+     "start": 554.741,
+     "end": 558.965,
+     "cap": "**Kavya:** Backwards: **0.375 = 375/1000 = 3/8**.",
+     "who": "kavya"
+    },
+    {
+     "id": "fact",
+     "start": 559.285,
+     "end": 564.171,
+     "cap": "**Rita:** Fun fact! **142857 × 7 = 999 999**!",
+     "who": "rita"
+    }
+   ]
+  },
+  {
+   "id": "wind",
+   "title": "Headwind",
+   "short": "Ordering & error intervals",
+   "card": true,
+   "start": 566.071,
+   "end": 652.619,
+   "lines": [
+    {
+     "id": "three",
+     "start": 567.871,
+     "end": 573.289,
+     "cap": "**Narrator:** Three p.m. The long jump. Five **wind** readings. Smallest first, please.",
+     "who": "narr"
+    },
+    {
+     "id": "priya",
+     "start": 573.809,
+     "end": 579.079,
+     "cap": "**Priya:** **−0.4** beats **−0.35**. **0.4** is bigger. Obviously.",
+     "who": "priya"
+    },
+    {
+     "id": "left",
+     "start": 579.699,
+     "end": 584.627,
+     "cap": "**Dot:** Further **left** is **smaller**. So **−0.4 < −0.35**.",
+     "who": "dot"
+    },
+    {
+     "id": "order",
+     "start": 584.947,
+     "end": 589.704,
+     "cap": "**Kavya:** Bigger size, smaller number: **−0.4 < −0.355 < −0.35 < 0.3 < 0.305**.",
+     "who": "kavya"
+    },
+    {
+     "id": "frog",
+     "start": 590.024,
+     "end": 595.208,
+     "cap": "**Ah Boy:** Frog jump! Me: **0.609 m**. Dad: **0.7 m**. I win! More digits!",
+     "who": "boy"
+    },
+    {
+     "id": "pad",
+     "start": 595.828,
+     "end": 601.652,
+     "cap": "**Dot:** Pad with zeros: **0.700** and **0.609**. Seven tenths beats six tenths.",
+     "who": "dot"
+    },
+    {
+     "id": "quiz",
+     "start": 601.972,
+     "end": 606.836,
+     "cap": "**Mr Tan:** Quiz! **4.7 × 9.9**, in your head. Fifteen seconds.",
+     "who": "tan"
+    },
+    {
+     "id": "dist",
+     "start": 607.156,
+     "end": 614.324,
+     "cap": "**Kavya:** **9.9 = 10 − 0.1**. So **47 − 0.47 = 46.53**.",
+     "who": "kavya"
+    },
+    {
+     "id": "law",
+     "start": 614.644,
+     "end": 619.956,
+     "cap": "**Mr Tan:** The **distributive law**! Next: **0.25 × 7.3 × 4**.",
+     "who": "tan"
+    },
+    {
+     "id": "pair",
+     "start": 620.276,
+     "end": 624.841,
+     "cap": "**Priya:** Swap the order: **0.25 × 4 = 1**. So, **7.3**!",
+     "who": "priya"
+    },
+    {
+     "id": "bar",
+     "start": 625.161,
+     "end": 630.111,
+     "cap": "**The Decider:** Stretch! Kavya's high jump: **1.2 m**, to **1 d.p.** What could it really be?",
+     "who": "ref"
+    },
+    {
+     "id": "bounds",
+     "start": 630.431,
+     "end": 637.3,
+     "cap": "**Kavya:** Half of **0.1** is **0.05**. So **1.15 ≤ h < 1.25**.",
+     "who": "kavya"
+    },
+    {
+     "id": "interval",
+     "start": 637.62,
+     "end": 642.783,
+     "cap": "**The Decider:** The **error interval**. Lower bound **in**. Upper bound **out**: **1.25** rounds to **1.3**.",
+     "who": "ref"
+    },
+    {
+     "id": "chops",
+     "start": 643.403,
+     "end": 651.019,
+     "cap": "**Dad:** My stopwatch just **chops**. It shows **12.3**, so **12.3 ≤ t < 12.4**. **Truncation.**",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "Sports Day saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 652.619,
+   "end": 713.432,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 654.419,
+     "end": 657.277,
+     "cap": "**Narrator:** Sports Day would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 657.897,
+     "end": 661.908,
+     "cap": "**The Decider:** One. Asked for **2 decimal places**? Write **3.00**, not 3.",
+     "who": "ref"
+    },
+    {
+     "id": "t2",
+     "start": 662.528,
+     "end": 669.653,
+     "cap": "**Sig:** Two. Keep the size: **48 650** to 2 s.f. is **49 000**, not 49.",
+     "who": "sig"
+    },
+    {
+     "id": "t3",
+     "start": 670.273,
+     "end": 675.756,
+     "cap": "**Priya:** Three. Shift **both**: **6 ÷ 0.4 = 60 ÷ 4**, not 6 ÷ 4. Ask me how I know.",
+     "who": "priya"
+    },
+    {
+     "id": "t4",
+     "start": 676.376,
+     "end": 679.107,
+     "cap": "**The Decider:** Four. No **double rounding**. Round the **original**, once.",
+     "who": "ref"
+    },
+    {
+     "id": "t5",
+     "start": 679.727,
+     "end": 684.868,
+     "cap": "**Rita:** Five. **Simplify first**: **9/12 = 3/4**. Terminates. Terminates. Terminates.",
+     "who": "rita"
+    },
+    {
+     "id": "t6",
+     "start": 685.488,
+     "end": 689.819,
+     "cap": "**Dad:** Six. **Estimate** before you trust any answer. **Especially** the stopwatch.",
+     "who": "dad"
+    },
+    {
+     "id": "return",
+     "start": 690.539,
+     "end": 692.715,
+     "cap": "**Narrator:** What's the Point? will return.",
+     "who": "narr"
+    },
+    {
+     "id": "relay",
+     "start": 694.035,
+     "end": 696.381,
+     "cap": "**Narrator:** Four thirty. The parents' race.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 697.001,
+     "end": 702.143,
+     "cap": "**Mum:** **172.5 seconds?!** Kavya. Tell your little friend to **move**.",
+     "who": "mum"
+    },
+    {
+     "id": "yes",
+     "start": 702.863,
+     "end": 704.783,
+     "cap": "**Dot:** Yes, auntie. Right away, auntie.",
+     "who": "dot"
+    },
+    {
+     "id": "never",
+     "start": 705.603,
+     "end": 707.309,
+     "cap": "**Kavya:** He never does that for me.",
+     "who": "kavya"
+    },
+    {
+     "id": "taken",
+     "start": 708.029,
+     "end": 710.632,
+     "cap": "**Dot:** Some people, you don't argue with. ...Point taken.",
+     "who": "dot"
+    }
+   ]
+  }
+ ],
+ "total": 713.432
+}

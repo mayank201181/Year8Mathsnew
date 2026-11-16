@@ -1,0 +1,1063 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 67.016,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 7.811,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, 9 a.m. Her little brother's birthday party starts at 4.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 8.331,
+     "end": 12.32,
+     "cap": "**Mum:** Twenty kids at the void deck at four o'clock! Dad, you're making the **cake**.",
+     "who": "mum"
+    },
+    {
+     "id": "dad",
+     "start": 12.84,
+     "end": 14.333,
+     "cap": "**Dad:** A cake? **Piece of cake.**",
+     "who": "dad"
+    },
+    {
+     "id": "boy",
+     "start": 15.153,
+     "end": 19.292,
+     "cap": "**Ah Boy:** I'm turning **eight**, so I want **⅛** of the cake. Eight is the **biggest** number!",
+     "who": "boy"
+    },
+    {
+     "id": "quarter",
+     "start": 19.612,
+     "end": 22.129,
+     "cap": "**Kavya:** Ah Boy, **¼** is bigger than **⅛**.",
+     "who": "kavya"
+    },
+    {
+     "id": "maths",
+     "start": 22.649,
+     "end": 24.697,
+     "cap": "**Ah Boy:** Eight is bigger than four. I've done maths.",
+     "who": "boy"
+    },
+    {
+     "id": "tiny",
+     "start": 25.617,
+     "end": 30.652,
+     "cap": "**Narrator:** But this documentary is about the little line on Mum's measuring jug.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 31.272,
+     "end": 36.136,
+     "cap": "**Vinny:** Vinny. The **fraction bar**. I work the door. **Tops** upstairs. **Bottoms** downstairs.",
+     "who": "vinny"
+    },
+    {
+     "id": "num",
+     "start": 36.756,
+     "end": 43.625,
+     "cap": "**Vinny:** Upstairs, the **numerator**: the pieces you've got. Downstairs, the **denominator**: how many equal pieces make **one whole**.",
+     "who": "vinny"
+    },
+    {
+     "id": "size",
+     "start": 43.945,
+     "end": 50.239,
+     "cap": "**Vinny:** Cut a cake into **8** and the pieces are smaller than cutting it into **4**. So **⅛ < ¼**.",
+     "who": "vinny"
+    },
+    {
+     "id": "oneth",
+     "start": 50.559,
+     "end": 51.625,
+     "cap": "**Ah Boy:** Then I want **one-oneth**!",
+     "who": "boy"
+    },
+    {
+     "id": "whole",
+     "start": 52.245,
+     "end": 54.123,
+     "cap": "**Vinny:** That's the **whole cake**, kid.",
+     "who": "vinny"
+    },
+    {
+     "id": "rules",
+     "start": 55.243,
+     "end": 60.363,
+     "cap": "**Vinny:** House rules: **same-size pieces**. And nobody adds the bottoms. **Not on my bar.**",
+     "who": "vinny"
+    },
+    {
+     "id": "title",
+     "start": 61.183,
+     "end": 64.916,
+     "cap": "**Narrator:** Piece of Cake. Episode 4: Ah Boy Turns Eight.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "balloons",
+   "title": "Balloons and hopscotch",
+   "short": "Comparing & ordering",
+   "card": true,
+   "start": 67.016,
+   "end": 166.744,
+   "lines": [
+    {
+     "id": "ten",
+     "start": 68.816,
+     "end": 73.915,
+     "cap": "**Narrator:** 10 a.m. The void deck. Priya has come to help. Competitively.",
+     "who": "narr"
+    },
+    {
+     "id": "priya",
+     "start": 74.435,
+     "end": 78.104,
+     "cap": "**Priya:** Priya. Best friend. **42** of my **56** balloons done: **42/56**!",
+     "who": "priya"
+    },
+    {
+     "id": "crowd",
+     "start": 78.424,
+     "end": 84.44,
+     "cap": "**Vinny:** Too crowded upstairs. **Simplest form**: divide top **and** bottom by the **HCF**.",
+     "who": "vinny"
+    },
+    {
+     "id": "hcf",
+     "start": 84.76,
+     "end": 89.155,
+     "cap": "**Kavya:** The HCF is **14**. 42 ÷ 14 = 3, 56 ÷ 14 = 4. So **¾**.",
+     "who": "kavya"
+    },
+    {
+     "id": "equiv",
+     "start": 89.475,
+     "end": 95.853,
+     "cap": "**Vinny:** **Equivalent fractions**: same number, new name. Multiply or divide top and bottom by the **same** number.",
+     "who": "vinny"
+    },
+    {
+     "id": "seven",
+     "start": 96.173,
+     "end": 99.651,
+     "cap": "**Priya:** Now **49** of **56**: **⅞**. And you?",
+     "who": "priya"
+    },
+    {
+     "id": "eight",
+     "start": 99.971,
+     "end": 103.981,
+     "cap": "**Kavya:** **8** of my **9** goodie bags: **8/9**. We're both **one piece short**.",
+     "who": "kavya"
+    },
+    {
+     "id": "gap",
+     "start": 104.401,
+     "end": 108.54,
+     "cap": "**Kavya:** But **ninths** are smaller pieces. My gap is smaller, so I'm **closer to one**.",
+     "who": "kavya"
+    },
+    {
+     "id": "lcm",
+     "start": 108.86,
+     "end": 115.089,
+     "cap": "**Vinny:** Check with a **common denominator**, **72**: ⅞ = **63/72**, 8/9 = **64/72**. **8/9 wins**.",
+     "who": "vinny"
+    },
+    {
+     "id": "recount",
+     "start": 115.409,
+     "end": 117.223,
+     "cap": "**Priya:** I demand a recount.",
+     "who": "priya"
+    },
+    {
+     "id": "hop",
+     "start": 118.143,
+     "end": 122.836,
+     "cap": "**Narrator:** 11 a.m. Number-line hopscotch, from **−1** to **1**.",
+     "who": "narr"
+    },
+    {
+     "id": "neg",
+     "start": 123.356,
+     "end": 129.095,
+     "cap": "**Ah Boy:** I'm on **−¾**! It beats **−⅔**, because ¾ beats ⅔!",
+     "who": "boy"
+    },
+    {
+     "id": "mira",
+     "start": 129.415,
+     "end": 133.276,
+     "cap": "**Mira:** Mira. The **mirror at zero**. I show the right side on the left. **Backwards**.",
+     "who": "mira"
+    },
+    {
+     "id": "flips",
+     "start": 133.896,
+     "end": 137.757,
+     "cap": "**Mira:** So the order **flips**. −¾ is further **left**: **−¾ < −⅔**.",
+     "who": "mira"
+    },
+    {
+     "id": "five",
+     "start": 138.077,
+     "end": 143.603,
+     "cap": "**Priya:** Then order these: **−½**, **¼**, **−⅗**, **0**, **−⅖**.",
+     "who": "priya"
+    },
+    {
+     "id": "tenths",
+     "start": 143.923,
+     "end": 151.261,
+     "cap": "**Kavya:** Use tenths: −6, −5, −4. So **−⅗ < −½ < −⅖ < 0 < ¼**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mirror",
+     "start": 151.581,
+     "end": 154.504,
+     "cap": "**Ah Boy:** Mirror, mirror, at zero. Who's the **smallest** of them all?",
+     "who": "boy"
+    },
+    {
+     "id": "darling",
+     "start": 155.024,
+     "end": 156.944,
+     "cap": "**Mira:** It's **negative three fifths**, darling.",
+     "who": "mira"
+    },
+    {
+     "id": "geq",
+     "start": 157.764,
+     "end": 162.927,
+     "cap": "**Priya:** So **−½ ≥ −⅖**, true or false?",
+     "who": "priya"
+    },
+    {
+     "id": "false",
+     "start": 163.247,
+     "end": 165.444,
+     "cap": "**Kavya:** **False.** −½ is further **left**.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "cake",
+   "title": "Dad bakes a cake",
+   "short": "Adding & subtracting",
+   "card": true,
+   "start": 166.744,
+   "end": 257.031,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 168.544,
+     "end": 172.363,
+     "cap": "**Narrator:** 12 p.m. The kitchen. Dad has never baked a cake.",
+     "who": "narr"
+    },
+    {
+     "id": "sugar",
+     "start": 172.983,
+     "end": 179.617,
+     "cap": "**Dad:** **⅔** of a cup of sugar, plus **⅗**. Add the tops, add the bottoms: **5/8**. Piece of cake.",
+     "who": "dad"
+    },
+    {
+     "id": "bar",
+     "start": 180.237,
+     "end": 181.667,
+     "cap": "**Vinny:** **Not on my bar!**",
+     "who": "vinny"
+    },
+    {
+     "id": "less",
+     "start": 182.487,
+     "end": 185.623,
+     "cap": "**Kavya:** Dad, **5/8** is less than the **⅔** on its own.",
+     "who": "kavya"
+    },
+    {
+     "id": "size",
+     "start": 186.243,
+     "end": 191.747,
+     "cap": "**Vinny:** The bottom is the **size** of the piece. Make them the **same size**: the LCM, **15**.",
+     "who": "vinny"
+    },
+    {
+     "id": "add",
+     "start": 192.067,
+     "end": 197.421,
+     "cap": "**Kavya:** **10/15 + 9/15 = 19/15**. Add the tops, keep the bottom.",
+     "who": "kavya"
+    },
+    {
+     "id": "topsy",
+     "start": 197.741,
+     "end": 201.816,
+     "cap": "**Topsy:** Topsy! **Improper fraction**. My top's bigger than my bottom. I'm **top-heavy**! Help!",
+     "who": "topsy"
+    },
+    {
+     "id": "mixed",
+     "start": 202.536,
+     "end": 208.445,
+     "cap": "**Kavya:** 19 ÷ 15 = 1 remainder 4: **1 4/15** cups. A **mixed number**.",
+     "who": "kavya"
+    },
+    {
+     "id": "seat",
+     "start": 208.765,
+     "end": 210.685,
+     "cap": "**Topsy:** One **whole** to sit on. Much better.",
+     "who": "topsy"
+    },
+    {
+     "id": "back",
+     "start": 211.405,
+     "end": 213.624,
+     "cap": "**Ah Boy:** And **2 ⅗** back to top-heavy?",
+     "who": "boy"
+    },
+    {
+     "id": "mad",
+     "start": 213.944,
+     "end": 218.573,
+     "cap": "**Kavya:** **MAD**: **M**ultiply 2 × 5, **A**dd 3, **D**enominator stays: **13/5**.",
+     "who": "kavya"
+    },
+    {
+     "id": "flour",
+     "start": 218.893,
+     "end": 228.664,
+     "cap": "**Dad:** Flour: **3 ¼** cups, minus **1 ⅔**. 3 − 1 = 2, and ⅔ − ¼ = 5/12. **2 5/12**!",
+     "who": "dad"
+    },
+    {
+     "id": "est",
+     "start": 228.984,
+     "end": 233.357,
+     "cap": "**Kavya:** **Estimate**: just over 3, minus nearly 2. It must be between **1** and **2**.",
+     "who": "kavya"
+    },
+    {
+     "id": "borrow",
+     "start": 233.677,
+     "end": 237.667,
+     "cap": "**Vinny:** Backwards! **¼** is smaller than **⅔**. **Borrow a whole.**",
+     "who": "vinny"
+    },
+    {
+     "id": "twelfths",
+     "start": 237.987,
+     "end": 243.832,
+     "cap": "**Kavya:** 3 3/12 = **2 15/12**. Minus 1 8/12: **1 7/12**.",
+     "who": "kavya"
+    },
+    {
+     "id": "count",
+     "start": 244.152,
+     "end": 249.528,
+     "cap": "**Ah Boy:** Or **count up**! **⅓** to get to 2, **1** to get to 3, **¼** more. **1 7/12**!",
+     "who": "boy"
+    },
+    {
+     "id": "oven",
+     "start": 249.848,
+     "end": 255.331,
+     "cap": "**Dad:** Good news: the cake is in the oven. Bad news: it has **5/8** of a cup of sugar in it.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "icing",
+   "title": "Victoria gets iced",
+   "short": "Multiplying",
+   "card": true,
+   "start": 257.031,
+   "end": 344.207,
+   "lines": [
+    {
+     "id": "two",
+     "start": 258.831,
+     "end": 264.164,
+     "cap": "**Narrator:** 2 p.m. The cake survived. It is a rectangle, and it has **opinions**.",
+     "who": "narr"
+    },
+    {
+     "id": "vic",
+     "start": 264.784,
+     "end": 269.285,
+     "cap": "**Victoria:** Victoria. **Sponge cake**. Whatever you do, darling, cut me into **equal pieces**.",
+     "who": "vic"
+    },
+    {
+     "id": "icing",
+     "start": 269.905,
+     "end": 274.407,
+     "cap": "**Mum:** Chocolate on **¾** of the width. Sprinkles on **⅔** of the length.",
+     "who": "mum"
+    },
+    {
+     "id": "both",
+     "start": 274.727,
+     "end": 277.159,
+     "cap": "**Ah Boy:** I want the bits with **both**. What fraction is that?",
+     "who": "boy"
+    },
+    {
+     "id": "grid",
+     "start": 277.479,
+     "end": 282.129,
+     "cap": "**Vinny:** **4** columns, **3** rows: **12** equal pieces. Both toppings: **6**.",
+     "who": "vinny"
+    },
+    {
+     "id": "times",
+     "start": 282.449,
+     "end": 288.721,
+     "cap": "**Kavya:** So **¾ × ⅔ = 6/12 = ½**. Multiply the tops, multiply the bottoms.",
+     "who": "kavya"
+    },
+    {
+     "id": "seen",
+     "start": 289.041,
+     "end": 292.561,
+     "cap": "**Victoria:** Half of me has chocolate **and** sprinkles. I've never felt so **seen**.",
+     "who": "vic"
+    },
+    {
+     "id": "bigger",
+     "start": 293.381,
+     "end": 297.883,
+     "cap": "**Ah Boy:** **Times** makes things **bigger**. So **¾** of the **20** sweets is **more** than 20!",
+     "who": "boy"
+    },
+    {
+     "id": "smaller",
+     "start": 298.203,
+     "end": 303.771,
+     "cap": "**Mum:** '**Of**' means **times**: 20 × ¾ = **15**. A **proper fraction** makes it **smaller**.",
+     "who": "mum"
+    },
+    {
+     "id": "refund",
+     "start": 304.091,
+     "end": 305.563,
+     "cap": "**Ah Boy:** I would like a **refund** on maths.",
+     "who": "boy"
+    },
+    {
+     "id": "speed",
+     "start": 306.483,
+     "end": 309.555,
+     "cap": "**Priya:** Speed round! **⅚ × 9/10**!",
+     "who": "priya"
+    },
+    {
+     "id": "first",
+     "start": 309.875,
+     "end": 315.933,
+     "cap": "**Vinny:** **Cancel first.** Any top with any bottom: 5 with 10, 9 with 6. That leaves **¾**.",
+     "who": "vinny"
+    },
+    {
+     "id": "mat",
+     "start": 316.253,
+     "end": 324.68,
+     "cap": "**Dad:** Picnic mat: **2 ½** m by **3 ⅓** m. 2 × 3 = 6, ½ × ⅓ = ⅙. **6 ⅙**! Piece of cake.",
+     "who": "dad"
+    },
+    {
+     "id": "nobar",
+     "start": 325.2,
+     "end": 326.629,
+     "cap": "**Vinny:** **Not on my bar!**",
+     "who": "vinny"
+    },
+    {
+     "id": "improper",
+     "start": 327.349,
+     "end": 333.067,
+     "cap": "**Kavya:** **Improper first**: 5/2 × 10/3 = 50/6 = **8 ⅓** m².",
+     "who": "kavya"
+    },
+    {
+     "id": "tables",
+     "start": 333.387,
+     "end": 343.307,
+     "cap": "**Mum:** Integer times mixed: **3** tables of **2 ¾** m. 3 × 2 + 3 × ¾ = 6 + 2 ¼ = **8 ¼** m.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "pizza",
+   "title": "Flip and the pizzas",
+   "short": "Dividing",
+   "card": true,
+   "start": 344.207,
+   "end": 417.285,
+   "lines": [
+    {
+     "id": "three",
+     "start": 346.007,
+     "end": 350.935,
+     "cap": "**Narrator:** 3 p.m. Three pizzas arrive. Mum cuts each one into **quarters**.",
+     "who": "narr"
+    },
+    {
+     "id": "smaller",
+     "start": 351.455,
+     "end": 356.361,
+     "cap": "**Ah Boy:** **3 ÷ ¼**. Dividing makes things **smaller**, so less than 3 slices.",
+     "who": "boy"
+    },
+    {
+     "id": "fit",
+     "start": 356.681,
+     "end": 362.719,
+     "cap": "**Kavya:** Division asks **how many fit**. **4** quarters in each pizza, so **3 ÷ ¼ = 12**.",
+     "who": "kavya"
+    },
+    {
+     "id": "witch",
+     "start": 363.039,
+     "end": 365.833,
+     "cap": "**Ah Boy:** Twelve slices out of three pizzas? That's **witchcraft**.",
+     "who": "boy"
+    },
+    {
+     "id": "flip",
+     "start": 366.553,
+     "end": 369.327,
+     "cap": "**Flip:** Not witchcraft! **Gymnastics**! I'm Flip! The **reciprocal**!",
+     "who": "flip"
+    },
+    {
+     "id": "recip",
+     "start": 369.847,
+     "end": 378.273,
+     "cap": "**Flip:** Times by your reciprocal and you get **1**. ⅖ flips to **5/2**. **7** to **1/7**. **1 ¾** = 7/4, so **4/7**. Zero? **No** reciprocal.",
+     "who": "flip"
+    },
+    {
+     "id": "kcf",
+     "start": 378.593,
+     "end": 382.455,
+     "cap": "**Flip:** To **divide** by a fraction, multiply by its **reciprocal**. **Keep, Change, Flip!**",
+     "who": "flip"
+    },
+    {
+     "id": "both",
+     "start": 382.775,
+     "end": 386.38,
+     "cap": "**Priya:** **⅔ ÷ ⅘**. Flip them **both**!",
+     "who": "priya"
+    },
+    {
+     "id": "second",
+     "start": 386.7,
+     "end": 391.991,
+     "cap": "**Flip:** No! Only the **second** one flips: the **divisor**. **⅔ × 5/4 = 10/12 = ⅚**.",
+     "who": "flip"
+    },
+    {
+     "id": "jug",
+     "start": 392.611,
+     "end": 397.752,
+     "cap": "**Mum:** Lime juice: **2 ¼** litres. Cups of **⅜** of a litre. How many cups?",
+     "who": "mum"
+    },
+    {
+     "id": "improper",
+     "start": 398.072,
+     "end": 403.363,
+     "cap": "**Kavya:** **Improper first**: 2 ¼ = 9/4. Then **9/4 × 8/3**.",
+     "who": "kavya"
+    },
+    {
+     "id": "six",
+     "start": 403.683,
+     "end": 407.139,
+     "cap": "**Flip:** Cancel 9 with 3, and 8 with 4: 3 × 2 = **6 cups**!",
+     "who": "flip"
+    },
+    {
+     "id": "last",
+     "start": 407.459,
+     "end": 413.56,
+     "cap": "**Mum:** And the last **¾** of a pizza, for **6** kids: ¾ ÷ 6 = ¾ × ⅙ = **⅛** each.",
+     "who": "mum"
+    },
+    {
+     "id": "eighth",
+     "start": 413.88,
+     "end": 415.885,
+     "cap": "**Ah Boy:** I get an **eighth**! The **biggest** number! Finally!",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "money",
+   "title": "Grandma's birthday money",
+   "short": "Fractions of amounts",
+   "card": true,
+   "start": 417.285,
+   "end": 505.743,
+   "lines": [
+    {
+     "id": "four",
+     "start": 419.085,
+     "end": 424.632,
+     "cap": "**Narrator:** 4 p.m. The party starts. Eighteen kids. Two hundred and forty sweets.",
+     "who": "narr"
+    },
+    {
+     "id": "choc",
+     "start": 425.152,
+     "end": 427.733,
+     "cap": "**Mum:** **⅗** of the sweets are chocolate. How many?",
+     "who": "mum"
+    },
+    {
+     "id": "divmul",
+     "start": 428.053,
+     "end": 433.067,
+     "cap": "**Kavya:** Divide by the **bottom**, times the **top**: 240 ÷ 5 = **48**, 48 × 3 = **144**.",
+     "who": "kavya"
+    },
+    {
+     "id": "robot",
+     "start": 433.387,
+     "end": 439.275,
+     "cap": "**Ah Boy:** Grandma gave me money. I spent **⅜** on a robot. **$15** left. How much did she give me?",
+     "who": "boy"
+    },
+    {
+     "id": "bars",
+     "start": 439.595,
+     "end": 444.736,
+     "cap": "**Kavya:** Bar model: **8** boxes. Robot: **3**. So **5** boxes = **$15**.",
+     "who": "kavya"
+    },
+    {
+     "id": "onebox",
+     "start": 445.056,
+     "end": 450.325,
+     "cap": "**Kavya:** **Find one part first**: 1 box = **$3**. 8 boxes = **$24**.",
+     "who": "kavya"
+    },
+    {
+     "id": "step",
+     "start": 450.645,
+     "end": 454.912,
+     "cap": "**Vinny:** Or in one step: **15 ÷ ⅝ = 15 × 8/5 = 24**.",
+     "who": "vinny"
+    },
+    {
+     "id": "cost",
+     "start": 455.232,
+     "end": 458.88,
+     "cap": "**Ah Boy:** So the robot cost **$9**. Grandma does not need to know.",
+     "who": "boy"
+    },
+    {
+     "id": "tan",
+     "start": 459.8,
+     "end": 465.944,
+     "cap": "**Mr Tan:** Good afternoon! Mr Tan, eighth floor. Party games: **45 minutes** of your **2 hours**.",
+     "who": "tan"
+    },
+    {
+     "id": "halves",
+     "start": 466.264,
+     "end": 468.696,
+     "cap": "**Ah Boy:** So the games are **45/2** of the party!",
+     "who": "boy"
+    },
+    {
+     "id": "units",
+     "start": 469.316,
+     "end": 474.927,
+     "cap": "**Kavya:** **Same units first!** 2 hours = **120** minutes. **45/120 = ⅜**.",
+     "who": "kavya"
+    },
+    {
+     "id": "more",
+     "start": 475.247,
+     "end": 480.324,
+     "cap": "**Mum:** **18** kids this year, **12** last year: **18/12 = 1 ½** times as many. More than **1**!",
+     "who": "mum"
+    },
+    {
+     "id": "noise",
+     "start": 480.644,
+     "end": 482.543,
+     "cap": "**Dad:** One and a half times the **noise**.",
+     "who": "dad"
+    },
+    {
+     "id": "rem",
+     "start": 483.363,
+     "end": 489.827,
+     "cap": "**Priya:** I spent **⅓** of my money on Ah Boy's present, then **¼** of the **remainder** on bubble tea. **$18** left.",
+     "who": "priya"
+    },
+    {
+     "id": "rem2",
+     "start": 490.147,
+     "end": 495.821,
+     "cap": "**Kavya:** **Of the remainder**: ¼ of the ⅔ left is **⅙**. Spent: ⅓ + ⅙ = **½**.",
+     "who": "kavya"
+    },
+    {
+     "id": "rem3",
+     "start": 496.141,
+     "end": 499.427,
+     "cap": "**Kavya:** So **½** is **$18**. You started with **$36**.",
+     "who": "kavya"
+    },
+    {
+     "id": "present",
+     "start": 499.747,
+     "end": 501.667,
+     "cap": "**Ah Boy:** So my present cost **$12**?",
+     "who": "boy"
+    },
+    {
+     "id": "thought",
+     "start": 502.287,
+     "end": 504.143,
+     "cap": "**Priya:** It's the **thought** that counts.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "parcel",
+   "title": "Pass the parcel",
+   "short": "Calculating with fractions",
+   "card": true,
+   "start": 505.743,
+   "end": 574.665,
+   "lines": [
+    {
+     "id": "five",
+     "start": 507.543,
+     "end": 514.241,
+     "cap": "**Narrator:** 5 p.m. Pass the parcel. Under every layer, a calculation. Mr Tan wrapped it himself.",
+     "who": "narr"
+    },
+    {
+     "id": "layer1",
+     "start": 514.861,
+     "end": 520.792,
+     "cap": "**Mr Tan:** Layer one! **7/9 × 13 + 7/9 × 5**. Ten seconds!",
+     "who": "tan"
+    },
+    {
+     "id": "dist",
+     "start": 521.112,
+     "end": 525.016,
+     "cap": "**Mr Tan:** **Distributive law!** 7/9 × (13 + 5) = 7/9 × 18 = **14**.",
+     "who": "tan"
+    },
+    {
+     "id": "layer2",
+     "start": 525.336,
+     "end": 528.856,
+     "cap": "**Mr Tan:** Layer two! **½ + ⅓ × ¾**.",
+     "who": "tan"
+    },
+    {
+     "id": "left",
+     "start": 529.176,
+     "end": 534.019,
+     "cap": "**Dad:** Left to right: ⅚ × ¾ = **⅝**. Piece of cake.",
+     "who": "dad"
+    },
+    {
+     "id": "nobar",
+     "start": 534.539,
+     "end": 535.947,
+     "cap": "**Vinny:** **Not on my bar.**",
+     "who": "vinny"
+    },
+    {
+     "id": "bidmas",
+     "start": 536.567,
+     "end": 546.529,
+     "cap": "**Mr Tan:** **Order of operations**: multiply **before** you add. ⅓ × ¾ = ¼, then ½ + ¼ = **¾**. Your ⅝ needs **brackets**.",
+     "who": "tan"
+    },
+    {
+     "id": "layer3",
+     "start": 546.849,
+     "end": 553.847,
+     "cap": "**Mr Tan:** Layer three: **commutative** law! **3/7 × 15 × 7/3**. Swap the order: 3/7 × 7/3 = **1**, so **15**.",
+     "who": "tan"
+    },
+    {
+     "id": "power",
+     "start": 554.167,
+     "end": 557.815,
+     "cap": "**Kavya:** And **(⅔)² = 4/9**: square the top **and** the bottom.",
+     "who": "kavya"
+    },
+    {
+     "id": "est",
+     "start": 558.135,
+     "end": 564.257,
+     "cap": "**Mr Tan:** Always **estimate**: 2 ⅞ × 3 9/10 ≈ 3 × 4 = **12**. Both rounded **up**, so a bit **less**.",
+     "who": "tan"
+    },
+    {
+     "id": "pun",
+     "start": 564.577,
+     "end": 570.508,
+     "cap": "**Mr Tan:** 'Fraction' comes from the Latin **frangere**: to **break**. So fractions are great at breaking the ice.",
+     "who": "tan"
+    },
+    {
+     "id": "prize",
+     "start": 572.128,
+     "end": 573.365,
+     "cap": "**Ah Boy:** Is there a **prize** in the middle?",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "mystery",
+   "title": "Mister X cancels",
+   "short": "Algebraic fractions",
+   "card": true,
+   "start": 574.665,
+   "end": 638.403,
+   "lines": [
+    {
+     "id": "final",
+     "start": 576.465,
+     "end": 582.631,
+     "cap": "**Mr Tan:** The last layer! Think of any number, **x**. Not zero. Work out **x/3 × 6/x**.",
+     "who": "tan"
+    },
+    {
+     "id": "seven",
+     "start": 582.951,
+     "end": 584.849,
+     "cap": "**Priya:** I picked **7**: 7/3 × 6/7 = **2**.",
+     "who": "priya"
+    },
+    {
+     "id": "million",
+     "start": 585.169,
+     "end": 586.876,
+     "cap": "**Ah Boy:** I picked **a million**! It's still **2**?!",
+     "who": "boy"
+    },
+    {
+     "id": "ex",
+     "start": 587.496,
+     "end": 591.933,
+     "cap": "**Mister X:** Mister X. **The unknown**. I can be **any** number. Except zero. I don't do zero.",
+     "who": "ex"
+    },
+    {
+     "id": "cancel",
+     "start": 592.553,
+     "end": 598.015,
+     "cap": "**Mister X:** An **x** on top, an **x** on the bottom: we **cancel**. **6x/3x = 2**. Every time.",
+     "who": "ex"
+    },
+    {
+     "id": "harder",
+     "start": 598.335,
+     "end": 603.177,
+     "cap": "**Mr Tan:** Harder! **2x/3 × 9/(4x)**. **Cancel first.**",
+     "who": "tan"
+    },
+    {
+     "id": "halves",
+     "start": 603.497,
+     "end": 608.276,
+     "cap": "**Kavya:** x with x, 2 with 4, 9 with 3. That leaves **3/2**, or **1 ½**.",
+     "who": "kavya"
+    },
+    {
+     "id": "divide",
+     "start": 608.596,
+     "end": 616.255,
+     "cap": "**Mr Tan:** Dividing: **keep, change, flip**, then cancel. **4x/9 ÷ 2x/3 = 4x/9 × 3/(2x) = ⅔**.",
+     "who": "tan"
+    },
+    {
+     "id": "plus",
+     "start": 616.575,
+     "end": 621.119,
+     "cap": "**Ah Boy:** So **(x + 5)/(x + 7)** is **5/7**! Cancel the x's!",
+     "who": "boy"
+    },
+    {
+     "id": "guard",
+     "start": 621.439,
+     "end": 627.817,
+     "cap": "**Mister X:** No. That **+ 5** is stuck to me. Only **factors** cancel: things that **multiply** the whole top and the whole bottom.",
+     "who": "ex"
+    },
+    {
+     "id": "try",
+     "start": 628.137,
+     "end": 631.551,
+     "cap": "**Kavya:** Try **x = 1**: **6/8**, not 5/7.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 632.171,
+     "end": 636.203,
+     "cap": "**Mr Tan:** That's why Mister X is my favourite guest. He always **cancels**.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The party saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 638.403,
+   "end": 702.021,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 640.203,
+     "end": 643.765,
+     "cap": "**Narrator:** Before the cake, the party would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 644.385,
+     "end": 647.457,
+     "cap": "**Dad:** One. **Never, ever add the bottoms.** Ask my cake.",
+     "who": "dad"
+    },
+    {
+     "id": "t2",
+     "start": 648.077,
+     "end": 654.989,
+     "cap": "**Kavya:** Two. **Borrow a whole**: 3 ¼ − 1 ⅔ is **1 7/12**, not 2 5/12.",
+     "who": "kavya"
+    },
+    {
+     "id": "t3",
+     "start": 655.609,
+     "end": 659.129,
+     "cap": "**Flip:** Three. Only the **second** fraction flips. The first one stays on its feet.",
+     "who": "flip"
+    },
+    {
+     "id": "t4",
+     "start": 659.749,
+     "end": 664.635,
+     "cap": "**Priya:** Four. '**Of the remainder**' means a fraction of what's **left**. I learnt that with my own money.",
+     "who": "priya"
+    },
+    {
+     "id": "t5",
+     "start": 665.255,
+     "end": 671.015,
+     "cap": "**Ah Boy:** Five. **Same units first**: 45 minutes of 2 hours is **45/120**.",
+     "who": "boy"
+    },
+    {
+     "id": "t6",
+     "start": 671.635,
+     "end": 676.947,
+     "cap": "**Mr Tan:** Six. Only cancel **factors**. **(x + 6)/(x + 3)** is **not** 2.",
+     "who": "tan"
+    },
+    {
+     "id": "return",
+     "start": 677.667,
+     "end": 679.736,
+     "cap": "**Narrator:** Piece of Cake will return.",
+     "who": "narr"
+    },
+    {
+     "id": "six",
+     "start": 681.056,
+     "end": 683.083,
+     "cap": "**Narrator:** 6 p.m. The cake.",
+     "who": "narr"
+    },
+    {
+     "id": "which",
+     "start": 683.703,
+     "end": 686.007,
+     "cap": "**Mum:** Birthday boy! Which piece? A **quarter**? An **eighth**?",
+     "who": "mum"
+    },
+    {
+     "id": "learnt",
+     "start": 686.527,
+     "end": 689.833,
+     "cap": "**Ah Boy:** I've learnt my lesson. **Smaller** bottom, **bigger** piece. So I want...",
+     "who": "boy"
+    },
+    {
+     "id": "oneth",
+     "start": 690.453,
+     "end": 691.157,
+     "cap": "**Ah Boy:** ...**one-oneth**.",
+     "who": "boy"
+    },
+    {
+     "id": "birthday",
+     "start": 692.077,
+     "end": 693.059,
+     "cap": "**Mum:** ...It's your birthday.",
+     "who": "mum"
+    },
+    {
+     "id": "whole",
+     "start": 693.879,
+     "end": 696.097,
+     "cap": "**Victoria:** Finally. Someone who sees me as a **whole**.",
+     "who": "vic"
+    },
+    {
+     "id": "tear",
+     "start": 697.017,
+     "end": 699.321,
+     "cap": "**Vinny:** Simplest form. ...Beautiful.",
+     "who": "vinny"
+    }
+   ]
+  }
+ ],
+ "total": 702.021
+}

@@ -1,0 +1,996 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 59.679,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.36,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, two p.m., an escape room in Bugis.",
+     "who": "narr"
+    },
+    {
+     "id": "priya",
+     "start": 6.68,
+     "end": 12.269,
+     "cap": "**Priya:** Priya. Best friend. Birthday girl. Welcome to **The Vault of X**: seven locked rooms, sixty minutes!",
+     "who": "priya"
+    },
+    {
+     "id": "gm",
+     "start": 12.589,
+     "end": 17.56,
+     "cap": "**Mr Tan:** Good afternoon. I am your **Game Master**. Every door opens with **one number**.",
+     "who": "tan"
+    },
+    {
+     "id": "sir",
+     "start": 17.88,
+     "end": 20.163,
+     "cap": "**Kavya:** Mr Tan?! You are our **maths teacher**!",
+     "who": "kavya"
+    },
+    {
+     "id": "weekend",
+     "start": 20.483,
+     "end": 22.915,
+     "cap": "**Mr Tan:** On weekends, I am the Game Master.",
+     "who": "tan"
+    },
+    {
+     "id": "seven",
+     "start": 23.835,
+     "end": 27.568,
+     "cap": "**Dad:** Seven rooms? Easy. The code is **seven**. It's always seven.",
+     "who": "dad"
+    },
+    {
+     "id": "tiny",
+     "start": 28.588,
+     "end": 33.964,
+     "cap": "**Narrator:** But this documentary is about someone hiding inside every lock in the building.",
+     "who": "narr"
+    },
+    {
+     "id": "ex",
+     "start": 34.434,
+     "end": 39.426,
+     "cap": "**Ex:** I am **Ex**. The **unknown**. A different number behind every door. You'll never find me.",
+     "who": "ex"
+    },
+    {
+     "id": "baddie",
+     "start": 40.146,
+     "end": 41.277,
+     "cap": "**Ah Boy:** So he's the bad guy?",
+     "who": "boy"
+    },
+    {
+     "id": "mystery",
+     "start": 41.597,
+     "end": 44.327,
+     "cap": "**Ex:** I'm a **mystery**. Completely different.",
+     "who": "ex"
+    },
+    {
+     "id": "plan",
+     "start": 45.147,
+     "end": 48.603,
+     "cap": "**Kavya:** Every lock is an **equation**. Find **x**, and the door opens.",
+     "who": "kavya"
+    },
+    {
+     "id": "games",
+     "start": 48.923,
+     "end": 53.211,
+     "cap": "**Ex:** Sixty minutes. Seven doors. One unknown. Let the games begin!",
+     "who": "ex"
+    },
+    {
+     "id": "title",
+     "start": 53.931,
+     "end": 57.579,
+     "cap": "**Narrator:** Balancing Act. Episode 10: The Vault of X.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "scales",
+   "title": "The Scales Room",
+   "short": "Solving equations",
+   "card": true,
+   "start": 59.679,
+   "end": 143.547,
+   "lines": [
+    {
+     "id": "room",
+     "start": 61.479,
+     "end": 67.602,
+     "cap": "**Narrator:** Room one: the Scales Room. Three bags of **x** and 4 kg balance 19 kg.",
+     "who": "narr"
+    },
+    {
+     "id": "seven",
+     "start": 67.922,
+     "end": 70.397,
+     "cap": "**Dad:** Each bag is **seven** kilos. Trust me.",
+     "who": "dad"
+    },
+    {
+     "id": "check",
+     "start": 70.867,
+     "end": 74.515,
+     "cap": "**Kavya:** Dad, **3 × 7 + 4 = 25**. Not nineteen.",
+     "who": "kavya"
+    },
+    {
+     "id": "order",
+     "start": 75.235,
+     "end": 80.013,
+     "cap": "**Judge Even:** ORDER! **Judge Even**. The **balance method**. Whatever you do to one side, do to the **other**.",
+     "who": "judge"
+    },
+    {
+     "id": "level",
+     "start": 80.333,
+     "end": 85.219,
+     "cap": "**Judge Even:** Level scale: **3x + 4 = 19**. Take **4 kg** off **both** pans.",
+     "who": "judge"
+    },
+    {
+     "id": "share",
+     "start": 85.539,
+     "end": 89.997,
+     "cap": "**Kavya:** **3x = 15**. Share both pans into three: **x = 5**.",
+     "who": "kavya"
+    },
+    {
+     "id": "subst",
+     "start": 90.317,
+     "end": 94.712,
+     "cap": "**Mum:** Check by **substitution**: **3 × 5 + 4 = 19**. Balanced.",
+     "who": "mum"
+    },
+    {
+     "id": "curses",
+     "start": 95.032,
+     "end": 98.168,
+     "cap": "**Ex:** Curses! **Five**. Unmasked in room one.",
+     "who": "ex"
+    },
+    {
+     "id": "socks",
+     "start": 98.888,
+     "end": 106.952,
+     "cap": "**Mum:** **Socks and shoes.** x was **× 3** first, **+ 4** last. Undo in **reverse order**: − 4, then ÷ 3.",
+     "who": "mum"
+    },
+    {
+     "id": "move",
+     "start": 107.272,
+     "end": 112.925,
+     "cap": "**Priya:** Next lock: **3x = 12**. Move the 3 across! **x = 12 − 3 = 9**.",
+     "who": "priya"
+    },
+    {
+     "id": "tipped",
+     "start": 113.245,
+     "end": 119.496,
+     "cap": "**Judge Even:** **Tipped!** 3x means **3 × x**. The **inverse** is **÷ 3**, on **both** sides: **x = 4**.",
+     "who": "judge"
+    },
+    {
+     "id": "neg",
+     "start": 119.966,
+     "end": 125.939,
+     "cap": "**Priya:** Last lock: **6x + 11 = 2**, so **6x = −9**. Impossible!",
+     "who": "priya"
+    },
+    {
+     "id": "overruled",
+     "start": 126.259,
+     "end": 129.097,
+     "cap": "**Judge Even:** Overruled! Answers can be **negative**, or **fractions**.",
+     "who": "judge"
+    },
+    {
+     "id": "frac",
+     "start": 129.417,
+     "end": 138.057,
+     "cap": "**Kavya:** **x = −9/6 = −3/2 = −1.5**. Check: **6 × (−1.5) + 11 = 2**.",
+     "who": "kavya"
+    },
+    {
+     "id": "didnt",
+     "start": 138.527,
+     "end": 142.047,
+     "cap": "**Ex:** Negative one and a half. I didn't know I could **do** that.",
+     "who": "ex"
+    }
+   ]
+  },
+  {
+   "id": "brackets",
+   "title": "The Post Room",
+   "short": "Brackets",
+   "card": true,
+   "start": 143.547,
+   "end": 213.75,
+   "lines": [
+    {
+     "id": "room",
+     "start": 145.347,
+     "end": 149.059,
+     "cap": "**Narrator:** Room two: the Post Room. Every locker has a bracket.",
+     "who": "narr"
+    },
+    {
+     "id": "read",
+     "start": 149.379,
+     "end": 156.013,
+     "cap": "**Ah Boy:** **4(x + 3) = 20**. Four times x, plus three. So **4x + 3 = 20**!",
+     "who": "boy"
+    },
+    {
+     "id": "dee",
+     "start": 156.333,
+     "end": 160.301,
+     "cap": "**Dee:** Delivery! **Dee**. The number outside the bracket delivers to **every** term inside.",
+     "who": "dee"
+    },
+    {
+     "id": "both",
+     "start": 160.621,
+     "end": 163.779,
+     "cap": "**Dee:** 4 to the x, **and** 4 to the 3: **4(x + 3) = 4x + 12**.",
+     "who": "dee"
+    },
+    {
+     "id": "expand",
+     "start": 164.099,
+     "end": 169.667,
+     "cap": "**Kavya:** **Expand first**: **4x + 12 = 20**, so **4x = 8**, **x = 2**.",
+     "who": "kavya"
+    },
+    {
+     "id": "divide",
+     "start": 169.987,
+     "end": 174.957,
+     "cap": "**Priya:** Too slow. **Divide first**: **x + 3 = 5**, so **x = 2**. I win.",
+     "who": "priya"
+    },
+    {
+     "id": "fair",
+     "start": 175.427,
+     "end": 179.843,
+     "cap": "**Judge Even:** Both are **fair**. Divide first when it **divides exactly**. Otherwise, **expand**.",
+     "who": "judge"
+    },
+    {
+     "id": "big",
+     "start": 180.163,
+     "end": 186.542,
+     "cap": "**Mum:** The big locker: **5(x + 1) − 2(x − 3) = 26**.",
+     "who": "mum"
+    },
+    {
+     "id": "negdel",
+     "start": 186.862,
+     "end": 192.857,
+     "cap": "**Dee:** Careful! The **−2** delivers to both: **−2x**, and **−2 × −3 = +6**.",
+     "who": "dee"
+    },
+    {
+     "id": "collect",
+     "start": 193.177,
+     "end": 201.945,
+     "cap": "**Mum:** **5x + 5 − 2x + 6 = 26**. Collect like terms: **3x + 11 = 26**, so **x = 5**.",
+     "who": "mum"
+    },
+    {
+     "id": "again",
+     "start": 202.265,
+     "end": 205.614,
+     "cap": "**Ex:** Five? **Again?** I'm running out of disguises.",
+     "who": "ex"
+    },
+    {
+     "id": "pun",
+     "start": 206.434,
+     "end": 209.314,
+     "cap": "**Mr Tan:** Brackets always come in **pairs**. Like socks.",
+     "who": "tan"
+    },
+    {
+     "id": "mine",
+     "start": 210.934,
+     "end": 212.15,
+     "cap": "**Dad:** Mine never do.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "both",
+   "title": "The Bike Shed",
+   "short": "Unknowns on both sides",
+   "card": true,
+   "start": 213.75,
+   "end": 286.975,
+   "lines": [
+    {
+     "id": "clue",
+     "start": 215.55,
+     "end": 222.078,
+     "cap": "**Kavya:** Room three. **Stall A**: $3, plus $5 an hour. **Stall B**: $15, plus $2 an hour. When are they the **same**?",
+     "who": "kavya"
+    },
+    {
+     "id": "fee",
+     "start": 222.398,
+     "end": 225.939,
+     "cap": "**Dad:** We used Stall A last week. Smallest fee. Obviously.",
+     "who": "dad"
+    },
+    {
+     "id": "eq",
+     "start": 226.659,
+     "end": 234.937,
+     "cap": "**Judge Even:** Let **h** be the hours: **5h + 3 = 2h + 15**. Unknowns on **both** sides. Take the **smaller**, **2h**, from both.",
+     "who": "judge"
+    },
+    {
+     "id": "solve",
+     "start": 235.257,
+     "end": 240.377,
+     "cap": "**Kavya:** **3h + 3 = 15**, so **3h = 12**, and **h = 4** hours.",
+     "who": "kavya"
+    },
+    {
+     "id": "cost",
+     "start": 240.697,
+     "end": 244.601,
+     "cap": "**Mum:** Check: A is **$23**, B is **$23**. Same!",
+     "who": "mum"
+    },
+    {
+     "id": "six",
+     "start": 244.921,
+     "end": 249.507,
+     "cap": "**Mum:** But we rode for **six** hours, dear. A: **$33**. B: **$27**.",
+     "who": "mum"
+    },
+    {
+     "id": "small",
+     "start": 250.227,
+     "end": 252.019,
+     "cap": "**Dad:** ...It was a very small fee.",
+     "who": "dad"
+    },
+    {
+     "id": "right",
+     "start": 253.039,
+     "end": 263.514,
+     "cap": "**Kavya:** Shed door: **2x + 9 = 5x − 6**. **5x** is bigger, so subtract **2x**: **9 = 3x − 6**, so **15 = 3x**.",
+     "who": "kavya"
+    },
+    {
+     "id": "ways",
+     "start": 263.834,
+     "end": 268.911,
+     "cap": "**Judge Even:** **15 = 3x** is fine: equality works **both ways**. So **x = 5**.",
+     "who": "judge"
+    },
+    {
+     "id": "mask",
+     "start": 269.231,
+     "end": 272.069,
+     "cap": "**Ex:** FIVE. AGAIN. Third time today!",
+     "who": "ex"
+    },
+    {
+     "id": "padlock",
+     "start": 272.889,
+     "end": 282.702,
+     "cap": "**Kavya:** Last padlock: **7 − 4x = x + 2**. To remove **−4x**, **add 4x**: **7 = 5x + 2**, so **x = 1**.",
+     "who": "kavya"
+    },
+    {
+     "id": "new",
+     "start": 283.022,
+     "end": 285.475,
+     "cap": "**Ex:** One! Finally. A **new** face.",
+     "who": "ex"
+    }
+   ]
+  },
+  {
+   "id": "fractions",
+   "title": "The Glass Room",
+   "short": "Fractions",
+   "card": true,
+   "start": 286.975,
+   "end": 371.597,
+   "lines": [
+    {
+     "id": "room",
+     "start": 288.775,
+     "end": 292.381,
+     "cap": "**Narrator:** Room four: the Glass Room. Every wall is a window.",
+     "who": "narr"
+    },
+    {
+     "id": "wiper",
+     "start": 292.701,
+     "end": 298.397,
+     "cap": "**Wiper:** G'day! **Wiper**. I clear **fractions**. A fraction bar means **divide**, so I **multiply**.",
+     "who": "wiper"
+    },
+    {
+     "id": "undo",
+     "start": 298.717,
+     "end": 307.122,
+     "cap": "**Kavya:** First window: **x/3 + 2 = 7**. Undo the **+ 2**: **x/3 = 5**. Then **× 3**: **x = 15**.",
+     "who": "kavya"
+    },
+    {
+     "id": "trap",
+     "start": 307.442,
+     "end": 314.29,
+     "cap": "**Priya:** Mine: **x/4 + 3 = 5**. Times 4: **x + 3 = 20**, so **x = 17**!",
+     "who": "priya"
+    },
+    {
+     "id": "spot",
+     "start": 314.61,
+     "end": 320.69,
+     "cap": "**Wiper:** Oi! You **missed a spot**! Multiply **every** term: **x + 12 = 20**, so **x = 8**.",
+     "who": "wiper"
+    },
+    {
+     "id": "sky",
+     "start": 321.16,
+     "end": 329.757,
+     "cap": "**Wiper:** The skylight: **(2x − 1)/5 = 3**. The fraction bar works like a **bracket**: multiply by 5 first.",
+     "who": "wiper"
+    },
+    {
+     "id": "dad",
+     "start": 330.077,
+     "end": 337.288,
+     "cap": "**Dad:** **2x − 1 = 15**. **2x = 16**. **x = 8**. Did I just... do maths?",
+     "who": "dad"
+    },
+    {
+     "id": "lcm",
+     "start": 338.108,
+     "end": 347.345,
+     "cap": "**Wiper:** The big window: **x/2 + x/3 = 10**. Multiply **every** term by the **LCM** of 2 and 3: **6**.",
+     "who": "wiper"
+    },
+    {
+     "id": "six",
+     "start": 347.665,
+     "end": 353.169,
+     "cap": "**Kavya:** **3x + 2x = 60**, so **5x = 60**, and **x = 12**.",
+     "who": "kavya"
+    },
+    {
+     "id": "coef",
+     "start": 353.489,
+     "end": 359.847,
+     "cap": "**Priya:** And **⅔x = 8**? Times 3: **2x = 24**. Divide by 2: **x = 12**.",
+     "who": "priya"
+    },
+    {
+     "id": "papyrus",
+     "start": 360.167,
+     "end": 368.017,
+     "cap": "**Mr Tan:** Fun fact: an Egyptian scribe solved **x + x/7 = 19** about **3,500** years ago.",
+     "who": "tan"
+    },
+    {
+     "id": "escape",
+     "start": 368.737,
+     "end": 369.697,
+     "cap": "**Ah Boy:** But did **he** escape?",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "forming",
+   "title": "The Library",
+   "short": "Forming equations",
+   "card": true,
+   "start": 371.597,
+   "end": 457.078,
+   "lines": [
+    {
+     "id": "room",
+     "start": 373.397,
+     "end": 377.515,
+     "cap": "**Narrator:** Room five: the Library. No equations. Only **words**.",
+     "who": "narr"
+    },
+    {
+     "id": "clue",
+     "start": 377.835,
+     "end": 383.061,
+     "cap": "**Priya:** **Three consecutive whole numbers** add up to **96**. The code is the three numbers.",
+     "who": "priya"
+    },
+    {
+     "id": "let",
+     "start": 383.381,
+     "end": 387.755,
+     "cap": "**Kavya:** **Let n be the smallest number.** The others are **n + 1** and **n + 2**.",
+     "who": "kavya"
+    },
+    {
+     "id": "form",
+     "start": 388.075,
+     "end": 396.672,
+     "cap": "**Mum:** So **3n + 3 = 96**. **3n = 93**, **n = 31**. The code: **31, 32, 33**.",
+     "who": "mum"
+    },
+    {
+     "id": "angles",
+     "start": 396.992,
+     "end": 405.461,
+     "cap": "**Priya:** Clue two: angles **(3x + 10)°** and **(2x + 20)°** on a straight line: **5x + 30 = 180**, so **x = 30**. Done!",
+     "who": "priya"
+    },
+    {
+     "id": "asked",
+     "start": 405.781,
+     "end": 409.707,
+     "cap": "**Kavya:** It asked for the **angles**, not x: **100°** and **80°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "frame",
+     "start": 410.027,
+     "end": 416.32,
+     "cap": "**Ah Boy:** This frame is (2x + 3) cm by x cm. Its **perimeter** is 36 cm.",
+     "who": "boy"
+    },
+    {
+     "id": "perim",
+     "start": 416.64,
+     "end": 426.731,
+     "cap": "**Mum:** **2(2x + 3) + 2x = 36**. **6x + 6 = 36**, so **x = 5**, and the length is **13 cm**.",
+     "who": "mum"
+    },
+    {
+     "id": "four",
+     "start": 427.051,
+     "end": 430.315,
+     "cap": "**Ex:** Five. FOUR times. Is this a **joke** to you?",
+     "who": "ex"
+    },
+    {
+     "id": "ages",
+     "start": 431.135,
+     "end": 436.788,
+     "cap": "**Mr Tan:** Last clue. Dad is **three times** Kavya's age. In **12** years, he'll be **twice** her age.",
+     "who": "tan"
+    },
+    {
+     "id": "letk",
+     "start": 437.108,
+     "end": 443.764,
+     "cap": "**Kavya:** Let **k** be my age in years. Dad is **3k**, so **3k + 12 = 2(k + 12)**.",
+     "who": "kavya"
+    },
+    {
+     "id": "agesolve",
+     "start": 444.084,
+     "end": 450.335,
+     "cap": "**Mum:** **3k + 12 = 2k + 24**, so **k = 12**. Dad is **36**.",
+     "who": "mum"
+    },
+    {
+     "id": "how",
+     "start": 450.655,
+     "end": 453.492,
+     "cap": "**Dad:** Mr Tan. How do you know how old I am?",
+     "who": "dad"
+    },
+    {
+     "id": "pte",
+     "start": 453.962,
+     "end": 455.178,
+     "cap": "**Mr Tan:** Parents' evening.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "lasers",
+   "title": "The Laser Corridor",
+   "short": "Inequalities",
+   "card": true,
+   "start": 457.078,
+   "end": 526.033,
+   "lines": [
+    {
+     "id": "sign",
+     "start": 458.878,
+     "end": 464.873,
+     "cap": "**Ah Boy:** Room six! You must be **taller than 120 cm**. I'm **exactly 120**! I'm in!",
+     "who": "boy"
+    },
+    {
+     "id": "gt",
+     "start": 465.193,
+     "end": 471.23,
+     "cap": "**Snappy:** Snap! **Snappy**, the **inequality sign**. Taller than 120 is **h > 120**. **120** is **not** included.",
+     "who": "croc"
+    },
+    {
+     "id": "toes",
+     "start": 471.7,
+     "end": 473.065,
+     "cap": "**Ah Boy:** I'm standing on my toes.",
+     "who": "boy"
+    },
+    {
+     "id": "point",
+     "start": 473.985,
+     "end": 478.849,
+     "cap": "**Snappy:** My pointy end points at the **smaller** number: **2 < 5**, and **5 > 2**.",
+     "who": "croc"
+    },
+    {
+     "id": "max",
+     "start": 479.169,
+     "end": 484.631,
+     "cap": "**Mum:** Sign two: **at most 4** people. That's **p ≤ 4**. Four is allowed.",
+     "who": "mum"
+    },
+    {
+     "id": "circles",
+     "start": 484.951,
+     "end": 491.479,
+     "cap": "**Snappy:** **Open circle** for < and >: **not** included. **Closed circle** for ≤ and ≥: **included**.",
+     "who": "croc"
+    },
+    {
+     "id": "belt",
+     "start": 491.799,
+     "end": 496.3,
+     "cap": "**Snappy:** The line under ≤ is half an **equals sign**. A line underneath **fills the circle in**.",
+     "who": "croc"
+    },
+    {
+     "id": "tile",
+     "start": 496.62,
+     "end": 500.652,
+     "cap": "**Priya:** The floor says **x > 3**. I'll stand on tile **3**.",
+     "who": "priya"
+    },
+    {
+     "id": "zap",
+     "start": 500.972,
+     "end": 503.425,
+     "cap": "**Snappy:** Zap! It's a **strict** sign. **3** is **not** included.",
+     "who": "croc"
+    },
+    {
+     "id": "lock",
+     "start": 504.245,
+     "end": 509.557,
+     "cap": "**Narrator:** The lock: list the **integers** with **−2 < x ≤ 3**.",
+     "who": "narr"
+    },
+    {
+     "id": "ints",
+     "start": 509.877,
+     "end": 512.245,
+     "cap": "**Ah Boy:** Integers are whole numbers: **1, 2, 3**!",
+     "who": "boy"
+    },
+    {
+     "id": "zero",
+     "start": 512.565,
+     "end": 520.309,
+     "cap": "**Kavya:** Integers include **zero** and **negatives**. Open circle at −2, closed at 3: **−1, 0, 1, 2, 3**.",
+     "who": "kavya"
+    },
+    {
+     "id": "range",
+     "start": 520.629,
+     "end": 524.533,
+     "cap": "**Ex:** Five of me at once. I've never been a whole **range** before.",
+     "who": "ex"
+    }
+   ]
+  },
+  {
+   "id": "solve",
+   "title": "The Vending Room",
+   "short": "Solving inequalities",
+   "card": true,
+   "start": 526.033,
+   "end": 598.022,
+   "lines": [
+    {
+     "id": "five",
+     "start": 527.833,
+     "end": 536.217,
+     "cap": "**Priya:** Room seven: **3x − 5 > 10**. Add 5: **3x > 15**. Divide by 3: **x > 5**. The code is **5**!",
+     "who": "priya"
+    },
+    {
+     "id": "buzz",
+     "start": 536.537,
+     "end": 539.887,
+     "cap": "**Snappy:** Snap! **x > 5** is a **range**. And **5** isn't even **in** it.",
+     "who": "croc"
+    },
+    {
+     "id": "test",
+     "start": 540.357,
+     "end": 545.925,
+     "cap": "**Kavya:** Test **6**: **18 − 5 = 13**, more than 10. Test **5**: exactly **10**. Not more.",
+     "who": "kavya"
+    },
+    {
+     "id": "dadseven",
+     "start": 546.245,
+     "end": 548.015,
+     "cap": "**Dad:** Then I'll type... **seven**.",
+     "who": "dad"
+    },
+    {
+     "id": "works",
+     "start": 548.835,
+     "end": 550.478,
+     "cap": "**Dad:** It **worked**! SEVEN WORKS!",
+     "who": "dad"
+    },
+    {
+     "id": "because",
+     "start": 550.948,
+     "end": 554.447,
+     "cap": "**Kavya:** Because **7 > 5**, Dad. Not because it's seven.",
+     "who": "kavya"
+    },
+    {
+     "id": "budget",
+     "start": 555.267,
+     "end": 563.416,
+     "cap": "**Mum:** Snacks: a $2 drink and p sandwiches at $4. **At most** $20: **4p + 2 ≤ 20**.",
+     "who": "mum"
+    },
+    {
+     "id": "half",
+     "start": 563.736,
+     "end": 569.645,
+     "cap": "**Kavya:** **4p ≤ 18**, so **p ≤ 4.5**. Nobody sells half a sandwich: **4**.",
+     "who": "kavya"
+    },
+    {
+     "id": "wrongflip",
+     "start": 569.965,
+     "end": 576.579,
+     "cap": "**Priya:** Stretch lock: **−2x < 6**. Divide by −2: **x < −3**.",
+     "who": "priya"
+    },
+    {
+     "id": "flip",
+     "start": 576.899,
+     "end": 580.312,
+     "cap": "**Snappy:** Dividing by a **negative**? I **flip**! **x > −3**.",
+     "who": "croc"
+    },
+    {
+     "id": "zero",
+     "start": 580.782,
+     "end": 590.041,
+     "cap": "**Kavya:** Test **0**: −2 × 0 = 0, and 0 < 6. Zero **is** more than −3. So **x > −3**.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 590.361,
+     "end": 595.822,
+     "cap": "**Mr Tan:** Why is the equals sign so **humble**? It knows it's not **less than** or **greater than** anyone.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "vault",
+   "title": "The Vault",
+   "short": "Simultaneous equations",
+   "card": true,
+   "start": 598.022,
+   "end": 662.803,
+   "lines": [
+    {
+     "id": "room",
+     "start": 599.822,
+     "end": 603.769,
+     "cap": "**Narrator:** The Vault. Five minutes left. Two dials: **x** and **y**.",
+     "who": "narr"
+    },
+    {
+     "id": "y",
+     "start": 604.239,
+     "end": 608.335,
+     "cap": "**Madame Y:** Bonsoir. **Madame Y**. Ex's partner. **Two** unknowns need **two** clues.",
+     "who": "ymad"
+    },
+    {
+     "id": "clues",
+     "start": 608.655,
+     "end": 613.604,
+     "cap": "**Kavya:** Clue one: **x + y = 7**. Clue two: **x − y = 1**.",
+     "who": "kavya"
+    },
+    {
+     "id": "many",
+     "start": 613.924,
+     "end": 619.279,
+     "cap": "**Ah Boy:** **x + y = 7**? That's **3 and 4**. Or **2 and 5**. Or **10 and −3**...",
+     "who": "boy"
+    },
+    {
+     "id": "same",
+     "start": 619.599,
+     "end": 624.377,
+     "cap": "**Madame Y:** Exactly, chéri. Both must be true **at the same time**: **simultaneous equations**.",
+     "who": "ymad"
+    },
+    {
+     "id": "tea",
+     "start": 624.697,
+     "end": 632.633,
+     "cap": "**Mum:** Like bubble tea: **2 teas + 1 waffle = $11**, **1 tea + 1 waffle = $7**. Subtract: a tea is **$4**.",
+     "who": "mum"
+    },
+    {
+     "id": "add",
+     "start": 632.953,
+     "end": 638.457,
+     "cap": "**Kavya:** **+y** and **−y**: **opposite** signs, so **add**: **2x = 8**, **x = 4**.",
+     "who": "kavya"
+    },
+    {
+     "id": "sub",
+     "start": 638.777,
+     "end": 644.452,
+     "cap": "**Priya:** **4 + y = 7**, so **y = 3**. Check clue two: **4 − 3 = 1**.",
+     "who": "priya"
+    },
+    {
+     "id": "sss",
+     "start": 644.772,
+     "end": 649.444,
+     "cap": "**Judge Even:** That's **elimination**. **S**ame **S**igns **S**ubtract, like the tea. **Opposite** signs: **add**.",
+     "who": "judge"
+    },
+    {
+     "id": "graph",
+     "start": 649.764,
+     "end": 654.735,
+     "cap": "**Narrator:** On a graph, each clue is a line. The answer is where they **cross**: **(4, 3)**.",
+     "who": "narr"
+    },
+    {
+     "id": "unmask",
+     "start": 655.055,
+     "end": 658.084,
+     "cap": "**Ex:** Curses! **Both** of us. A **pair** of values.",
+     "who": "ex"
+    },
+    {
+     "id": "go",
+     "start": 658.804,
+     "end": 660.703,
+     "cap": "**Kavya:** **4** and **3**! Go, go, go!",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The Vault saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 662.803,
+   "end": 719.871,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 664.603,
+     "end": 668.315,
+     "cap": "**Narrator:** Before the credits, the Vault would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 668.785,
+     "end": 674.545,
+     "cap": "**Judge Even:** One. **3x + 4 = 19**: undo the **+ 4** first, or you'll forget to divide the 4.",
+     "who": "judge"
+    },
+    {
+     "id": "t2",
+     "start": 675.015,
+     "end": 680.625,
+     "cap": "**Dee:** Two. Deliver to **every** term: **−3(x − 4) = −3x + 12**.",
+     "who": "dee"
+    },
+    {
+     "id": "t3",
+     "start": 681.095,
+     "end": 688.285,
+     "cap": "**Kavya:** Three. Watch the signs: **5x − 2 = 2x + 13** gives **3x = 15**, not 11.",
+     "who": "kavya"
+    },
+    {
+     "id": "t4",
+     "start": 688.755,
+     "end": 693.64,
+     "cap": "**Wiper:** Four. Clearing fractions? Multiply **every** term. Every. Single. Window.",
+     "who": "wiper"
+    },
+    {
+     "id": "t5",
+     "start": 694.11,
+     "end": 698.675,
+     "cap": "**Priya:** Five. Answer the question **asked**: the angle, the length, the age. Not just x.",
+     "who": "priya"
+    },
+    {
+     "id": "t6",
+     "start": 699.145,
+     "end": 704.329,
+     "cap": "**Snappy:** Six. **x > 5** is a **range**: open circle. Never write **x = 5**. And **check** your answer.",
+     "who": "croc"
+    },
+    {
+     "id": "return",
+     "start": 705.049,
+     "end": 707.268,
+     "cap": "**Narrator:** Balancing Act will return.",
+     "who": "narr"
+    },
+    {
+     "id": "time",
+     "start": 708.388,
+     "end": 712.228,
+     "cap": "**Mr Tan:** Congratulations. You escaped with **seven** seconds to spare.",
+     "who": "tan"
+    },
+    {
+     "id": "dad",
+     "start": 712.948,
+     "end": 713.759,
+     "cap": "**Dad:** **Seven.**",
+     "who": "dad"
+    },
+    {
+     "id": "curses",
+     "start": 715.279,
+     "end": 717.071,
+     "cap": "**Ex:** Curses. Again.",
+     "who": "ex"
+    }
+   ]
+  }
+ ],
+ "total": 719.871
+}

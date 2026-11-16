@@ -1,0 +1,1024 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 61.404,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.573,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, eight a.m., on a bumboat to Pulau Ubin.",
+     "who": "narr"
+    },
+    {
+     "id": "race",
+     "start": 7.093,
+     "end": 15.371,
+     "cap": "**Mr Tan:** Welcome to the **Great Ubin Orienteering Race**! One map, one compass. First team to the treasure wins my homemade **waffles**!",
+     "who": "tan"
+    },
+    {
+     "id": "dad",
+     "start": 15.991,
+     "end": 21.964,
+     "cap": "**Dad:** Relax, Kavya. No map needed. I have an **excellent sense of direction**. Ubin is... **that way**.",
+     "who": "dad"
+    },
+    {
+     "id": "airport",
+     "start": 22.684,
+     "end": 25.564,
+     "cap": "**Kavya:** Dad, that's Changi Airport. We just came from there.",
+     "who": "kavya"
+    },
+    {
+     "id": "mum",
+     "start": 26.384,
+     "end": 30.48,
+     "cap": "**Mum:** Sorry, darling. I'm on **Priya's** team this year. I want those waffles.",
+     "who": "mum"
+    },
+    {
+     "id": "priya",
+     "start": 31.0,
+     "end": 34.051,
+     "cap": "**Priya:** See you at the finish, Team Kavya. Bring tissues.",
+     "who": "priya"
+    },
+    {
+     "id": "tiny",
+     "start": 34.771,
+     "end": 39.741,
+     "cap": "**Narrator:** But this documentary is about the little brass box in Mr Tan's hand.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 40.261,
+     "end": 46.256,
+     "cap": "**Captain Needle:** **Captain Needle.** Magnetic compass. Seventy years at sea, and I have only ever looked **one way**.",
+     "who": "needle"
+    },
+    {
+     "id": "north",
+     "start": 46.876,
+     "end": 47.659,
+     "cap": "**Captain Needle:** **North.**",
+     "who": "needle"
+    },
+    {
+     "id": "spin",
+     "start": 48.479,
+     "end": 49.482,
+     "cap": "**Ah Boy:** I'll spin you round!",
+     "who": "boy"
+    },
+    {
+     "id": "still",
+     "start": 50.002,
+     "end": 54.823,
+     "cap": "**Captain Needle:** Spin all you like, lad. Still **North**. And your father is pointing **south-west**.",
+     "who": "needle"
+    },
+    {
+     "id": "title",
+     "start": 55.643,
+     "end": 59.504,
+     "cap": "**Narrator:** True North. Episode 14: The Great Ubin Race.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "lock",
+   "title": "Inner and Outer",
+   "short": "Measuring angles",
+   "card": true,
+   "start": 61.404,
+   "end": 127.23,
+   "lines": [
+    {
+     "id": "clue",
+     "start": 63.204,
+     "end": 70.756,
+     "cap": "**Mr Tan:** Checkpoint one, the bicycle shop! Each bike lock's code is the **reflex angle** between the arms of this signpost.",
+     "who": "tan"
+    },
+    {
+     "id": "priya",
+     "start": 71.276,
+     "end": 74.476,
+     "cap": "**Priya:** Easy. The angle is **130°**.",
+     "who": "priya"
+    },
+    {
+     "id": "kavya",
+     "start": 74.996,
+     "end": 78.26,
+     "cap": "**Kavya:** Same angle, same protractor. I got **50°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "outer",
+     "start": 78.88,
+     "end": 81.483,
+     "cap": "**Outer:** Hello. I'm **Outer**. I read a hundred and thirty.",
+     "who": "outer"
+    },
+    {
+     "id": "inner",
+     "start": 81.903,
+     "end": 87.962,
+     "cap": "**Inner:** And I'm **Inner**. I read fifty. Two scales, one protractor, thirty years married. We always **add up to 180°**.",
+     "who": "inner"
+    },
+    {
+     "id": "est",
+     "start": 88.682,
+     "end": 94.655,
+     "cap": "**Kavya:** So **estimate first**. That angle is **acute**, smaller than a right angle. It's **50°**, not 130°.",
+     "who": "kavya"
+    },
+    {
+     "id": "how",
+     "start": 94.975,
+     "end": 99.946,
+     "cap": "**Inner:** **Centre cross** on the vertex. **Baseline** along one arm. Count up from the **0** on that arm.",
+     "who": "inner"
+    },
+    {
+     "id": "dad",
+     "start": 100.266,
+     "end": 103.444,
+     "cap": "**Dad:** Got it. The code is **050**. Trust me.",
+     "who": "dad"
+    },
+    {
+     "id": "reflex",
+     "start": 104.364,
+     "end": 109.271,
+     "cap": "**Kavya:** **Reflex**, Dad: the angle round the **other side**. Take the angle away from **360°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "code",
+     "start": 109.591,
+     "end": 113.836,
+     "cap": "**Ah Boy:** **360° − 50° = 310°**! Three, one, zero!",
+     "who": "boy"
+    },
+    {
+     "id": "partner",
+     "start": 114.556,
+     "end": 122.364,
+     "cap": "**Inner:** And to **draw 295°**? Draw its partner, **360° − 295° = 65°**, then label the angle on the **outside**.",
+     "who": "inner"
+    },
+    {
+     "id": "pun",
+     "start": 122.684,
+     "end": 125.33,
+     "cap": "**Mr Tan:** Excellent. I won't **protract** this any longer.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "quarry",
+   "title": "Madame Compassa",
+   "short": "Constructing triangles",
+   "card": true,
+   "start": 127.23,
+   "end": 210.803,
+   "lines": [
+    {
+     "id": "clue",
+     "start": 129.03,
+     "end": 137.883,
+     "cap": "**Mr Tan:** Checkpoint two, the quarry! Construct triangle ABC: **AB = 7 cm, AC = 5 cm, BC = 6 cm**. Pass the compass!",
+     "who": "tan"
+    },
+    {
+     "id": "duty",
+     "start": 138.203,
+     "end": 141.062,
+     "cap": "**Captain Needle:** Captain Needle, reporting for duty!",
+     "who": "needle"
+    },
+    {
+     "id": "me",
+     "start": 141.582,
+     "end": 146.68,
+     "cap": "**Madame Compassa:** He means **me**, darling. Madame **Compassa**. A **pair of compasses**. You are a needle in a biscuit tin.",
+     "who": "compassa"
+    },
+    {
+     "id": "sss",
+     "start": 147.5,
+     "end": 153.388,
+     "cap": "**Madame Compassa:** Three sides: **SSS**. Rule **AB = 7 cm**. Open me to **5 cm**, point on **A**, and... arc!",
+     "who": "compassa"
+    },
+    {
+     "id": "sss2",
+     "start": 153.708,
+     "end": 156.524,
+     "cap": "**Madame Compassa:** Now **6 cm**, point on **B**, and... arc!",
+     "who": "compassa"
+    },
+    {
+     "id": "c",
+     "start": 157.044,
+     "end": 160.543,
+     "cap": "**Kavya:** The arcs cross at **C**. Rule AC and BC. A triangle!",
+     "who": "kavya"
+    },
+    {
+     "id": "rub",
+     "start": 161.063,
+     "end": 163.516,
+     "cap": "**Dad:** Lovely. Let me rub out those messy arcs.",
+     "who": "dad"
+    },
+    {
+     "id": "never",
+     "start": 164.136,
+     "end": 167.4,
+     "cap": "**Madame Compassa:** **Never!** The arcs are your **working**. Rub them out, lose the marks.",
+     "who": "compassa"
+    },
+    {
+     "id": "sticks",
+     "start": 168.12,
+     "end": 171.427,
+     "cap": "**Ah Boy:** I made a triangle from sticks! **3**, **4** and **8**. It's broken.",
+     "who": "boy"
+    },
+    {
+     "id": "ineq",
+     "start": 172.047,
+     "end": 177.082,
+     "cap": "**Kavya:** **3 + 4 = 7**. That's less than 8. The two short sides can't reach each other.",
+     "who": "kavya"
+    },
+    {
+     "id": "boy2",
+     "start": 177.402,
+     "end": 180.047,
+     "cap": "**Ah Boy:** **3, 5, 8**? Flat. **3, 6, 8**? Triangle!",
+     "who": "boy"
+    },
+    {
+     "id": "rule",
+     "start": 180.567,
+     "end": 185.431,
+     "cap": "**Madame Compassa:** The two **shorter** sides must add to **more than** the longest. **3 + 6 = 9**. Bravo!",
+     "who": "compassa"
+    },
+    {
+     "id": "priya",
+     "start": 185.951,
+     "end": 192.351,
+     "cap": "**Priya:** Our card: **XY = 8 cm**, angle **X = 50°**, angle **Y = 65°**. No compasses.",
+     "who": "priya"
+    },
+    {
+     "id": "asa",
+     "start": 192.671,
+     "end": 199.839,
+     "cap": "**Mum:** Two angles and the side **between**: **ASA**. Two sides and the angle **between**: **SAS**. Ruler and protractor.",
+     "who": "mum"
+    },
+    {
+     "id": "iso",
+     "start": 200.159,
+     "end": 209.503,
+     "cap": "**Mum:** Angle Z = 180° − 50° − 65° = **65°**. Two equal angles: **isosceles**. So XZ = **8 cm**.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "lunch",
+   "title": "Lunch in the middle",
+   "short": "Perpendicular bisector",
+   "card": true,
+   "start": 210.803,
+   "end": 280.23,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 212.603,
+     "end": 217.296,
+     "cap": "**Narrator:** Twelve noon. The teams are on opposite sides of the island. Hungry.",
+     "who": "narr"
+    },
+    {
+     "id": "fair",
+     "start": 217.816,
+     "end": 222.979,
+     "cap": "**Mum:** Let's have lunch somewhere **exactly the same distance** from both teams. Fair is fair.",
+     "who": "mum"
+    },
+    {
+     "id": "half",
+     "start": 223.299,
+     "end": 225.07,
+     "cap": "**Dad:** Easy. **Halfway**. Trust me.",
+     "who": "dad"
+    },
+    {
+     "id": "swamp",
+     "start": 225.69,
+     "end": 228.058,
+     "cap": "**Kavya:** Dad, halfway is in the **mangrove swamp**.",
+     "who": "kavya"
+    },
+    {
+     "id": "arcs",
+     "start": 228.778,
+     "end": 234.708,
+     "cap": "**Madame Compassa:** Darling, I'll draw you **every** fair place. Open me to **more than half** of AB. From **A**: an arc above, an arc below.",
+     "who": "compassa"
+    },
+    {
+     "id": "same",
+     "start": 235.028,
+     "end": 238.314,
+     "cap": "**Madame Compassa:** Now from **B**. **Same width!** Never change my width mid-dance.",
+     "who": "compassa"
+    },
+    {
+     "id": "pq",
+     "start": 238.834,
+     "end": 245.34,
+     "cap": "**Kavya:** Rule a line through the crossings, **P** and **Q**. It cuts AB **in half**, at **90°**: the **perpendicular bisector**.",
+     "who": "kavya"
+    },
+    {
+     "id": "equi",
+     "start": 245.66,
+     "end": 249.842,
+     "cap": "**Madame Compassa:** And every point on it is **equidistant**: the same distance from A as from B.",
+     "who": "compassa"
+    },
+    {
+     "id": "am",
+     "start": 250.162,
+     "end": 255.26,
+     "cap": "**Kavya:** On the map, **AB = 9.6 cm**, so **AM = 9.6 ÷ 2 = 4.8 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "cafe",
+     "start": 255.58,
+     "end": 261.17,
+     "cap": "**Dad:** There's a café on that line, **5.2 cm** from us. How far from Mum?",
+     "who": "dad"
+    },
+    {
+     "id": "pay",
+     "start": 261.69,
+     "end": 266.916,
+     "cap": "**Mum:** **5.2 cm**. No measuring needed. Café it is. Your father's paying.",
+     "who": "mum"
+    },
+    {
+     "id": "boy",
+     "start": 267.636,
+     "end": 272.159,
+     "cap": "**Ah Boy:** My arcs don't meet! The line is **7 cm**. My compasses are on **3 cm**.",
+     "who": "boy"
+    },
+    {
+     "id": "wider",
+     "start": 272.679,
+     "end": 278.93,
+     "cap": "**Madame Compassa:** Half of 7 is **3.5**. Three stops short, darling. Open me **wider than 3.5 cm**. Four will do.",
+     "who": "compassa"
+    }
+   ]
+  },
+  {
+   "id": "shore",
+   "title": "The shortest way to the sea",
+   "short": "Angle bisector & shortest distance",
+   "card": true,
+   "start": 280.23,
+   "end": 352.032,
+   "lines": [
+    {
+     "id": "clue",
+     "start": 282.03,
+     "end": 289.454,
+     "cap": "**Mr Tan:** Checkpoint four: the line that cuts this **136°** fork exactly **in half**. Compasses only!",
+     "who": "tan"
+    },
+    {
+     "id": "bis",
+     "start": 289.774,
+     "end": 294.894,
+     "cap": "**Madame Compassa:** **Angle bisector.** Point on the vertex, O. One arc that cuts **both arms**, at D and E.",
+     "who": "compassa"
+    },
+    {
+     "id": "f",
+     "start": 295.214,
+     "end": 301.08,
+     "cap": "**Madame Compassa:** From D, an arc inside the angle. **Same width** from E. They cross at **F**. Rule **OF**.",
+     "who": "compassa"
+    },
+    {
+     "id": "half",
+     "start": 301.4,
+     "end": 306.947,
+     "cap": "**Priya:** Two angles of **136 ÷ 2 = 68°**. And every point on it is the **same distance** from both paths.",
+     "who": "priya"
+    },
+    {
+     "id": "again",
+     "start": 307.267,
+     "end": 309.08,
+     "cap": "**Ah Boy:** And half of that: **34°**!",
+     "who": "boy"
+    },
+    {
+     "id": "diag",
+     "start": 309.7,
+     "end": 314.244,
+     "cap": "**Dad:** Bonus point for touching the **shoreline**? Diagonal! Shortcut! **Trust me!**",
+     "who": "dad"
+    },
+    {
+     "id": "perp",
+     "start": 314.864,
+     "end": 319.558,
+     "cap": "**Kavya:** The **shortest** way to a straight line meets it at **90°**: the **perpendicular**.",
+     "who": "kavya"
+    },
+    {
+     "id": "gh",
+     "start": 319.878,
+     "end": 326.662,
+     "cap": "**Madame Compassa:** From your spot P, one arc cuts the shore **twice**: G and H. Equal arcs from G and H cross at **K**, on the **other side**.",
+     "who": "compassa"
+    },
+    {
+     "id": "pn",
+     "start": 326.982,
+     "end": 333.51,
+     "cap": "**Kavya:** Rule **PK**. It meets the shore at **N**, at 90°. Dad's slanting route is longer: it's the **hypotenuse**.",
+     "who": "kavya"
+    },
+    {
+     "id": "found",
+     "start": 334.13,
+     "end": 338.268,
+     "cap": "**Dad:** I found a spot only **35 m** from the lookout tower!",
+     "who": "dad"
+    },
+    {
+     "id": "tower",
+     "start": 338.788,
+     "end": 342.692,
+     "cap": "**Mr Tan:** The tower is **40 m** from the shore, measured **perpendicular**.",
+     "who": "tan"
+    },
+    {
+     "id": "imp",
+     "start": 343.212,
+     "end": 347.628,
+     "cap": "**Kavya:** Then that's impossible, Dad. Nowhere on the shore is closer than **40 m**.",
+     "who": "kavya"
+    },
+    {
+     "id": "sea",
+     "start": 348.248,
+     "end": 350.232,
+     "cap": "**Dad:** I may have been standing in the sea.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "bearings",
+   "title": "North, clockwise, three figures",
+   "short": "Three-figure bearings",
+   "card": true,
+   "start": 352.032,
+   "end": 420.231,
+   "lines": [
+    {
+     "id": "card",
+     "start": 353.832,
+     "end": 358.739,
+     "cap": "**Priya:** **060°** from the old well. Why the silly zero? It's just **60°**.",
+     "who": "priya"
+    },
+    {
+     "id": "rules",
+     "start": 359.059,
+     "end": 366.248,
+     "cap": "**Captain Needle:** A **bearing**, lass: from **North**, **clockwise**, **three figures**. Every ship in the Singapore Strait says **060°**.",
+     "who": "needle"
+    },
+    {
+     "id": "nc3",
+     "start": 366.768,
+     "end": 368.902,
+     "cap": "**Ah Boy:** North, clockwise, three. **N-C-3**!",
+     "who": "boy"
+    },
+    {
+     "id": "feet",
+     "start": 369.422,
+     "end": 373.454,
+     "cap": "**Kavya:** And it's **from** the well. **FROM = FEET**: feet at the well, North line at the well.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 373.774,
+     "end": 377.294,
+     "cap": "**Dad:** Trust me, I measured it: **72°**, **this** way.",
+     "who": "dad"
+    },
+    {
+     "id": "anti",
+     "start": 377.814,
+     "end": 383.723,
+     "cap": "**Captain Needle:** Anticlockwise! **Off course!** Clockwise, that's **360° − 72° = 288°**.",
+     "who": "needle"
+    },
+    {
+     "id": "nesw",
+     "start": 384.343,
+     "end": 388.204,
+     "cap": "**Captain Needle:** The four points, clockwise: **N**ever **E**at **S**oggy **W**affles.",
+     "who": "needle"
+    },
+    {
+     "id": "why",
+     "start": 388.524,
+     "end": 390.274,
+     "cap": "**Ah Boy:** Why would anyone eat **soggy** waffles?",
+     "who": "boy"
+    },
+    {
+     "id": "list",
+     "start": 391.194,
+     "end": 397.679,
+     "cap": "**Kavya:** North **000°**, East **090°**, South **180°**, West **270°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "halves",
+     "start": 397.999,
+     "end": 405.338,
+     "cap": "**Priya:** And halfway: north-east **045°**, south-east **135°**, south-west **225°**, north-west **315°**.",
+     "who": "priya"
+    },
+    {
+     "id": "draw",
+     "start": 405.858,
+     "end": 408.716,
+     "cap": "**Mr Tan:** Last one: draw a bearing of **230°**.",
+     "who": "tan"
+    },
+    {
+     "id": "south",
+     "start": 409.136,
+     "end": 415.686,
+     "cap": "**Kavya:** More than 180°. Turn to **South**, then **50°** more. Or go **130°** anticlockwise from North.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 416.006,
+     "end": 418.331,
+     "cap": "**Mr Tan:** Bearings. I find them very **bearable**.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "back",
+   "title": "The way back",
+   "short": "Back bearings",
+   "card": true,
+   "start": 420.231,
+   "end": 495.303,
+   "lines": [
+    {
+     "id": "four",
+     "start": 422.031,
+     "end": 428.324,
+     "cap": "**Narrator:** Four p.m. Dad and Ah Boy walked from the well to the drinks stall on **065°**.",
+     "who": "narr"
+    },
+    {
+     "id": "which",
+     "start": 428.844,
+     "end": 432.002,
+     "cap": "**Dad:** Now we walk straight back to the well. Which bearing?",
+     "who": "dad"
+    },
+    {
+     "id": "priya",
+     "start": 432.422,
+     "end": 436.347,
+     "cap": "**Priya:** Easy: **360° − 65° = 295°**.",
+     "who": "priya"
+    },
+    {
+     "id": "off",
+     "start": 436.867,
+     "end": 441.475,
+     "cap": "**Captain Needle:** **Off course!** That **reflects** you in the North line. You'd end up in the mangroves.",
+     "who": "needle"
+    },
+    {
+     "id": "half",
+     "start": 442.095,
+     "end": 447.812,
+     "cap": "**Captain Needle:** Going back is a **half turn**: **065° + 180° = 245°**.",
+     "who": "needle"
+    },
+    {
+     "id": "rule",
+     "start": 448.132,
+     "end": 453.594,
+     "cap": "**Kavya:** **Under 180, add it on. 180 or more, take it off.** That's the **back bearing**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mum",
+     "start": 453.914,
+     "end": 461.658,
+     "cap": "**Mum:** Our card: Q from P is **298°**. So P from Q is **298° − 180° = 118°**.",
+     "who": "mum"
+    },
+    {
+     "id": "why",
+     "start": 462.178,
+     "end": 463.436,
+     "cap": "**Ah Boy:** But **why** a hundred and eighty?",
+     "who": "boy"
+    },
+    {
+     "id": "par",
+     "start": 463.756,
+     "end": 468.45,
+     "cap": "**Captain Needle:** Because North is North everywhere, lad. All North lines are **parallel**.",
+     "who": "needle"
+    },
+    {
+     "id": "z",
+     "start": 468.77,
+     "end": 474.423,
+     "cap": "**Captain Needle:** **65°** at the well, and **65°** from **South** at the stall: **alternate angles**. A Z.",
+     "who": "needle"
+    },
+    {
+     "id": "sum",
+     "start": 474.743,
+     "end": 480.524,
+     "cap": "**Kavya:** So from North at the stall: **180°** round to South, then **65°** more. **245°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "plane",
+     "start": 480.844,
+     "end": 490.679,
+     "cap": "**Mr Tan:** Look up! A Changi runway: one end is **02**, about **020°**. The other end is **20**, about **200°**: the **back bearing**.",
+     "who": "tan"
+    },
+    {
+     "id": "knew",
+     "start": 491.299,
+     "end": 493.603,
+     "cap": "**Dad:** Two four five. **Trust me**, I knew that.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "treasure",
+   "title": "Dr Shrink's final clue",
+   "short": "Scale drawings & maps",
+   "card": true,
+   "start": 495.303,
+   "end": 590.44,
+   "lines": [
+    {
+     "id": "five",
+     "start": 497.103,
+     "end": 502.607,
+     "cap": "**Narrator:** Five p.m. Race HQ. The final clue, and a very small scientist.",
+     "who": "narr"
+    },
+    {
+     "id": "shrink",
+     "start": 503.127,
+     "end": 507.671,
+     "cap": "**Dr Shrink:** **Dr Shrink!** I shrink the real world onto paper! Every length divided by the **same number**!",
+     "who": "shrink"
+    },
+    {
+     "id": "angles",
+     "start": 507.991,
+     "end": 511.98,
+     "cap": "**Dr Shrink:** Angles? I **never** touch angles. That's why you can measure a **bearing** straight off a map.",
+     "who": "shrink"
+    },
+    {
+     "id": "scale",
+     "start": 512.5,
+     "end": 519.412,
+     "cap": "**Kavya:** Our map says **1 : 25 000**. One centimetre on the map is **25 000 cm** in real life.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 519.732,
+     "end": 528.244,
+     "cap": "**Dad:** HQ to the jetty: **9 cm**. Times 25 000: **225 000 km**!",
+     "who": "dad"
+    },
+    {
+     "id": "moon",
+     "start": 528.864,
+     "end": 536.608,
+     "cap": "**Dr Shrink:** That's past halfway to the **Moon**, sir! It's **225 000 cm**, so **2250 m**: **2.25 km**.",
+     "who": "shrink"
+    },
+    {
+     "id": "rule",
+     "start": 536.928,
+     "end": 543.264,
+     "cap": "**Kavya:** Map to real: **multiply**. Real to map: **divide**. And **1 km = 100 000 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "road",
+     "start": 543.584,
+     "end": 548.384,
+     "cap": "**Mum:** The road back to the jetty is **1.5 km**. How long on the map?",
+     "who": "mum"
+    },
+    {
+     "id": "six",
+     "start": 548.804,
+     "end": 554.948,
+     "cap": "**Priya:** **1.5 km = 150 000 cm**. ÷ 25 000 = **6 cm**!",
+     "who": "priya"
+    },
+    {
+     "id": "clue",
+     "start": 555.468,
+     "end": 565.538,
+     "cap": "**Mr Tan:** Final clue! From the big tree: **12 m** on **040°**, then **9 m** on **130°**. Scale: **1 cm to 2 m**.",
+     "who": "tan"
+    },
+    {
+     "id": "cm",
+     "start": 565.858,
+     "end": 569.89,
+     "cap": "**Kavya:** 12 ÷ 2 = **6 cm**, and 9 ÷ 2 = **4.5 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "legs",
+     "start": 570.21,
+     "end": 579.063,
+     "cap": "**Captain Needle:** North line at the tree: **040°**, rule 6 cm. At the turn, a **new North line**: **130°**, rule 4.5 cm.",
+     "who": "needle"
+    },
+    {
+     "id": "short",
+     "start": 579.383,
+     "end": 588.94,
+     "cap": "**Kavya:** Priya's running both legs. We measure the **shortcut**: **7.5 cm × 2 = 15 m**, on a bearing of about **077°**.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "goat",
+   "title": "Gertie's circle",
+   "short": "Loci & special angles",
+   "card": true,
+   "start": 590.44,
+   "end": 662.364,
+   "lines": [
+    {
+     "id": "garden",
+     "start": 592.24,
+     "end": 597.019,
+     "cap": "**Narrator:** Five-thirty. The treasure box is in a kampong garden. Next to **Gertie**.",
+     "who": "narr"
+    },
+    {
+     "id": "rope",
+     "start": 597.639,
+     "end": 600.306,
+     "cap": "**Gertie:** Meh. I'm tied to that post with a **5 m** rope.",
+     "who": "gertie"
+    },
+    {
+     "id": "reach",
+     "start": 600.826,
+     "end": 602.106,
+     "cap": "**Ah Boy:** Can she reach the waffles?",
+     "who": "boy"
+    },
+    {
+     "id": "locus",
+     "start": 602.626,
+     "end": 608.684,
+     "cap": "**Madame Compassa:** Every point **5 m** from the post makes a **circle**. All the points that obey a rule: a **locus**.",
+     "who": "compassa"
+    },
+    {
+     "id": "safe",
+     "start": 609.004,
+     "end": 612.844,
+     "cap": "**Kavya:** The box is **6 m** from the post. Outside the circle. Safe!",
+     "who": "kavya"
+    },
+    {
+     "id": "think",
+     "start": 613.364,
+     "end": 619.487,
+     "cap": "**Gertie:** **Less than** five metres: inside, dashed line. **At least** five: solid line. I've had time to think.",
+     "who": "gertie"
+    },
+    {
+     "id": "rail",
+     "start": 620.107,
+     "end": 623.136,
+     "cap": "**Gertie:** Did I mention my rope slides along a **10 m rail**?",
+     "who": "gertie"
+    },
+    {
+     "id": "track",
+     "start": 623.856,
+     "end": 629.659,
+     "cap": "**Madame Compassa:** Then it's every point within **5 m** of the rail: two straight sides and two **semicircles**. A running track.",
+     "who": "compassa"
+    },
+    {
+     "id": "munch",
+     "start": 629.979,
+     "end": 631.046,
+     "cap": "**Gertie:** Meh. Waffles.",
+     "who": "gertie"
+    },
+    {
+     "id": "tie",
+     "start": 632.066,
+     "end": 635.97,
+     "cap": "**Mr Tan:** Tie-breaker! Construct **60°** with compasses only.",
+     "who": "tan"
+    },
+    {
+     "id": "sixty",
+     "start": 636.39,
+     "end": 642.768,
+     "cap": "**Madame Compassa:** Arc from A, cutting the line at B. **Same radius** from B. They cross at C. **Euclid's** very first construction!",
+     "who": "compassa"
+    },
+    {
+     "id": "equi",
+     "start": 643.088,
+     "end": 652.347,
+     "cap": "**Kavya:** AB = AC = BC: **equilateral**, so **60°**. Bisect it: **30°**. A perpendicular: **90°**. Bisect: **45°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "share",
+     "start": 652.667,
+     "end": 655.462,
+     "cap": "**Mr Tan:** It's a tie! Both teams share the waffles.",
+     "who": "tan"
+    },
+    {
+     "id": "what",
+     "start": 656.082,
+     "end": 658.172,
+     "cap": "**Gertie:** What waffles? ...Bit soggy, anyway.",
+     "who": "gertie"
+    },
+    {
+     "id": "soggy",
+     "start": 659.092,
+     "end": 660.564,
+     "cap": "**Ah Boy:** **Never Eat Soggy Waffles!**",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The island saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 662.364,
+   "end": 718.044,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 664.164,
+     "end": 667.855,
+     "cap": "**Narrator:** Before we go, the island would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 668.475,
+     "end": 673.488,
+     "cap": "**Outer:** One. **Estimate first.** If the angle is acute, it isn't 130°. Ask my wife.",
+     "who": "outer"
+    },
+    {
+     "id": "t2",
+     "start": 674.108,
+     "end": 678.226,
+     "cap": "**Captain Needle:** Two. **Three figures.** Not 45°: **045°**.",
+     "who": "needle"
+    },
+    {
+     "id": "t3",
+     "start": 678.846,
+     "end": 683.262,
+     "cap": "**Kavya:** Three. **From = feet.** Stand at the point after **from**, and turn **clockwise**.",
+     "who": "kavya"
+    },
+    {
+     "id": "t4",
+     "start": 683.882,
+     "end": 687.722,
+     "cap": "**Madame Compassa:** Four. **Same width** from both ends. And never, ever rub out your arcs.",
+     "who": "compassa"
+    },
+    {
+     "id": "t5",
+     "start": 688.342,
+     "end": 694.23,
+     "cap": "**Dad:** Five. **Convert your units**: centimetres to kilometres. Not to the Moon. Ask me how I know.",
+     "who": "dad"
+    },
+    {
+     "id": "t6",
+     "start": 694.85,
+     "end": 699.159,
+     "cap": "**Priya:** Six. A **new North line** at every turn of a journey. Parallel to the first.",
+     "who": "priya"
+    },
+    {
+     "id": "return",
+     "start": 699.879,
+     "end": 701.756,
+     "cap": "**Narrator:** True North will return.",
+     "who": "narr"
+    },
+    {
+     "id": "magnet",
+     "start": 703.076,
+     "end": 705.103,
+     "cap": "**Ah Boy:** I bought a souvenir! A fridge **magnet**!",
+     "who": "boy"
+    },
+    {
+     "id": "southward",
+     "start": 706.023,
+     "end": 709.671,
+     "cap": "**Captain Needle:** Seventy years at sea... and I have never seen **South**.",
+     "who": "needle"
+    },
+    {
+     "id": "lovely",
+     "start": 710.691,
+     "end": 711.907,
+     "cap": "**Captain Needle:** It's beautiful.",
+     "who": "needle"
+    },
+    {
+     "id": "agrees",
+     "start": 713.027,
+     "end": 715.544,
+     "cap": "**Dad:** Finally. A compass that agrees with me.",
+     "who": "dad"
+    }
+   ]
+  }
+ ],
+ "total": 718.044
+}

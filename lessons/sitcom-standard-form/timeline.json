@@ -1,0 +1,976 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 66.366,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.808,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, ten a.m., the lift lobby of Block 208.",
+     "who": "narr"
+    },
+    {
+     "id": "crowd",
+     "start": 7.328,
+     "end": 13.771,
+     "cap": "**Narrator:** In the lift: Mum, Dad, Ah Boy, Priya... and her maths teacher, Mr Tan, who lives one floor up.",
+     "who": "narr"
+    },
+    {
+     "id": "upstairs",
+     "start": 14.391,
+     "end": 18.167,
+     "cap": "**Kavya:** My maths teacher. Lives upstairs. Every day is a school day.",
+     "who": "kavya"
+    },
+    {
+     "id": "morning",
+     "start": 18.787,
+     "end": 22.2,
+     "cap": "**Mr Tan:** Good morning, Kavya. Lovely day for place value.",
+     "who": "tan"
+    },
+    {
+     "id": "clunk",
+     "start": 23.02,
+     "end": 25.537,
+     "cap": "**Ah Boy:** Why did we stop? It says **10**. We live on **12**!",
+     "who": "boy"
+    },
+    {
+     "id": "hard",
+     "start": 26.057,
+     "end": 29.236,
+     "cap": "**Dad:** It's stuck. I pressed the alarm. How long can it take?",
+     "who": "dad"
+    },
+    {
+     "id": "pun",
+     "start": 30.156,
+     "end": 33.377,
+     "cap": "**Mr Tan:** Why did the lift stop on ten? It lost its **power**.",
+     "who": "tan"
+    },
+    {
+     "id": "tiny",
+     "start": 34.697,
+     "end": 38.665,
+     "cap": "**Narrator:** But this documentary is about the number on the display.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 39.285,
+     "end": 44.683,
+     "cap": "**The Index:** Up here. The tiny one. I'm the **index**. Also called the **power**. Also called the **exponent**.",
+     "who": "index"
+    },
+    {
+     "id": "lost",
+     "start": 45.203,
+     "end": 47.507,
+     "cap": "**The Index:** And I have **not** lost my power.",
+     "who": "index"
+    },
+    {
+     "id": "ten",
+     "start": 48.227,
+     "end": 52.856,
+     "cap": "**The Index:** This is **Big Ten**, the **base**. He does the lifting. I tell him how many times.",
+     "who": "index"
+    },
+    {
+     "id": "bigten",
+     "start": 53.376,
+     "end": 54.155,
+     "cap": "**Big Ten:** Ten.",
+     "who": "ten"
+    },
+    {
+     "id": "stuck",
+     "start": 55.275,
+     "end": 59.841,
+     "cap": "**The Index:** Six humans, stuck on Ten. Nobody leaves until they **mind their zeros**.",
+     "who": "index"
+    },
+    {
+     "id": "title",
+     "start": 60.661,
+     "end": 64.266,
+     "cap": "**Narrator:** Mind the Zeros. Episode 3: Stuck on Ten.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "moves",
+   "title": "Ah Boy's piggy bank",
+   "short": "× and ÷ by 10, 100, 0.1, 0.01",
+   "card": true,
+   "start": 66.366,
+   "end": 158.234,
+   "lines": [
+    {
+     "id": "ten",
+     "start": 68.166,
+     "end": 71.899,
+     "cap": "**Narrator:** Ten minutes in. Mr Tan has found a whiteboard marker.",
+     "who": "narr"
+    },
+    {
+     "id": "steel",
+     "start": 72.519,
+     "end": 77.447,
+     "cap": "**Mr Tan:** Stainless steel. It wipes off. Ah Boy: **3.5 × 10**?",
+     "who": "tan"
+    },
+    {
+     "id": "zero",
+     "start": 77.767,
+     "end": 80.946,
+     "cap": "**Ah Boy:** Easy! Just **add a zero** on the end: **3.50**!",
+     "who": "boy"
+    },
+    {
+     "id": "nought",
+     "start": 81.466,
+     "end": 84.367,
+     "cap": "**Nought:** A zero? Hello! I'm **Nought**, a zero! I'd love to help!",
+     "who": "nought"
+    },
+    {
+     "id": "dot",
+     "start": 84.887,
+     "end": 90.541,
+     "cap": "**Dot:** I'm Dot. The **decimal point**. Sit down, Nought. 3.50 is still 3.5.",
+     "who": "dot"
+    },
+    {
+     "id": "nothing",
+     "start": 91.161,
+     "end": 92.313,
+     "cap": "**Nought:** I'm... nothing?",
+     "who": "nought"
+    },
+    {
+     "id": "move",
+     "start": 93.133,
+     "end": 98.658,
+     "cap": "**Dot:** I stay still. The **digits** move **one place left**: 3.5 × 10 = **35**.",
+     "who": "dot"
+    },
+    {
+     "id": "column",
+     "start": 98.978,
+     "end": 102.733,
+     "cap": "**Kavya:** **Place value**: every column is worth **10 times** the one on its right.",
+     "who": "kavya"
+    },
+    {
+     "id": "slide",
+     "start": 103.053,
+     "end": 111.01,
+     "cap": "**Dot:** 3.47 × 10 = **34.7**. 3.47 ÷ 100: two places right, **0.0347**.",
+     "who": "dot"
+    },
+    {
+     "id": "gap",
+     "start": 111.33,
+     "end": 116.301,
+     "cap": "**Priya:** **6.2 × 100**: the digits move two places left, and... there's a gap?",
+     "who": "priya"
+    },
+    {
+     "id": "holder",
+     "start": 116.621,
+     "end": 120.013,
+     "cap": "**Dot:** Fill it with a **place-holder zero**: **620**.",
+     "who": "dot"
+    },
+    {
+     "id": "job",
+     "start": 120.333,
+     "end": 122.765,
+     "cap": "**Nought:** Place-holder? A real job! I'm **employed**!",
+     "who": "nought"
+    },
+    {
+     "id": "coins",
+     "start": 123.585,
+     "end": 130.091,
+     "cap": "**Ah Boy:** My piggy bank: **40** ten-cent coins. **40 × 0.1**. Multiplying makes it bigger. I'm rich!",
+     "who": "boy"
+    },
+    {
+     "id": "tenth",
+     "start": 130.611,
+     "end": 137.033,
+     "cap": "**Dot:** Not with **0.1**: that's **a tenth**. A tenth of 40 is **4**. **× 0.1 is ÷ 10**.",
+     "who": "dot"
+    },
+    {
+     "id": "less",
+     "start": 137.353,
+     "end": 138.803,
+     "cap": "**Ah Boy:** Four dollars. I'm less rich.",
+     "who": "boy"
+    },
+    {
+     "id": "how",
+     "start": 139.723,
+     "end": 145.377,
+     "cap": "**Mum:** And how many ten-cent coins make **$40**? **40 ÷ 0.1**.",
+     "who": "mum"
+    },
+    {
+     "id": "four",
+     "start": 145.697,
+     "end": 150.689,
+     "cap": "**Kavya:** Ten in every dollar, so **400**. **÷ 0.1 is × 10**.",
+     "who": "kavya"
+    },
+    {
+     "id": "hundredth",
+     "start": 151.009,
+     "end": 154.209,
+     "cap": "**Dot:** **0.01** works the same way, with **100**.",
+     "who": "dot"
+    },
+    {
+     "id": "pig",
+     "start": 154.529,
+     "end": 156.534,
+     "cap": "**Ah Boy:** Four hundred coins. I need a bigger pig.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "floors",
+   "title": "Every floor is a power of 10",
+   "short": "Powers of 10",
+   "card": true,
+   "start": 158.234,
+   "end": 246.224,
+   "lines": [
+    {
+     "id": "buttons",
+     "start": 160.034,
+     "end": 163.554,
+     "cap": "**Narrator:** Half an hour in. Ah Boy has pressed every button.",
+     "who": "narr"
+    },
+    {
+     "id": "lesson",
+     "start": 164.174,
+     "end": 167.481,
+     "cap": "**The Index:** Lesson time. Big Ten: **ten to the power three**.",
+     "who": "index"
+    },
+    {
+     "id": "three",
+     "start": 168.001,
+     "end": 170.006,
+     "cap": "**Big Ten:** Ten. Ten. Ten.",
+     "who": "ten"
+    },
+    {
+     "id": "cube",
+     "start": 170.626,
+     "end": 178.157,
+     "cap": "**The Index:** **10³ = 10 × 10 × 10 = 1000**. Ten is the **base**. The **index** says how many tens multiply.",
+     "who": "index"
+    },
+    {
+     "id": "million",
+     "start": 178.477,
+     "end": 182.53,
+     "cap": "**Kavya:** So **10⁶** is 1 followed by **6** zeros: a **million**.",
+     "who": "kavya"
+    },
+    {
+     "id": "down",
+     "start": 182.85,
+     "end": 187.415,
+     "cap": "**The Index:** Each floor **down**, **divide by 10**. 1000, 100, 10... next?",
+     "who": "index"
+    },
+    {
+     "id": "zero",
+     "start": 187.735,
+     "end": 190.615,
+     "cap": "**Ah Boy:** **10⁰ = 0**. There are no tens!",
+     "who": "boy"
+    },
+    {
+     "id": "one",
+     "start": 191.235,
+     "end": 197.017,
+     "cap": "**The Index:** **Wrong floor.** 10 ÷ 10 = **1**. **10⁰ = 1**: the ground floor.",
+     "who": "index"
+    },
+    {
+     "id": "basement",
+     "start": 197.537,
+     "end": 203.617,
+     "cap": "**Priya:** So the basements, **10⁻¹** and **10⁻²**, are negative. Like **−100**.",
+     "who": "priya"
+    },
+    {
+     "id": "small",
+     "start": 203.937,
+     "end": 208.779,
+     "cap": "**The Index:** **Wrong floor.** Keep dividing: **10⁻¹ = 1/10**, **10⁻² = 1/100**. **Small**, not negative.",
+     "who": "index"
+    },
+    {
+     "id": "columns",
+     "start": 209.299,
+     "end": 216.638,
+     "cap": "**Kavya:** The floors are the **place-value columns**! Tenths are **10⁻¹**, hundredths **10⁻²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 216.958,
+     "end": 221.481,
+     "cap": "**The Index:** Lift rules. **Multiply**: **add** the indices. **Divide**: **subtract** them.",
+     "who": "index"
+    },
+    {
+     "id": "updown",
+     "start": 221.801,
+     "end": 227.091,
+     "cap": "**Dad:** **10⁵ × 10⁻²**: up five floors, down two. **10³**!",
+     "who": "dad"
+    },
+    {
+     "id": "divide",
+     "start": 227.611,
+     "end": 234.374,
+     "cap": "**Kavya:** Then **÷ 10⁴**: 3 − 4 = **−1**. **10⁻¹**, which is **0.1**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mads",
+     "start": 234.694,
+     "end": 242.225,
+     "cap": "**Mr Tan:** **MADS**: **M**ultiply, **A**dd; **D**ivide, **S**ubtract. I'd tell you a joke about negative powers, but it's very small.",
+     "who": "tan"
+    },
+    {
+     "id": "laugh",
+     "start": 243.745,
+     "end": 244.524,
+     "cap": "**Big Ten:** Ten.",
+     "who": "ten"
+    }
+   ]
+  },
+  {
+   "id": "big",
+   "title": "Club Standard Form",
+   "short": "Large numbers",
+   "card": true,
+   "start": 246.224,
+   "end": 345.421,
+   "lines": [
+    {
+     "id": "project",
+     "start": 248.024,
+     "end": 253.72,
+     "cap": "**Kavya:** My science project: the Sun is **150 000 000 km** away. Too many zeros.",
+     "who": "kavya"
+    },
+    {
+     "id": "sf",
+     "start": 254.04,
+     "end": 260.269,
+     "cap": "**The Index:** Write it in **standard form**: **A × 10ⁿ**, with **1 ≤ A < 10** and **n** an integer.",
+     "who": "index"
+    },
+    {
+     "id": "hop",
+     "start": 260.589,
+     "end": 265.411,
+     "cap": "**Dot:** Fine. I'll hop. Under protest. Just after the **first digit**: **A = 1.5**.",
+     "who": "dot"
+    },
+    {
+     "id": "count",
+     "start": 265.931,
+     "end": 270.24,
+     "cap": "**Kavya:** **150 000 000** has **9** digits, so Dot hopped **8** places.",
+     "who": "kavya"
+    },
+    {
+     "id": "n8",
+     "start": 270.56,
+     "end": 274.677,
+     "cap": "**The Index:** **n = 8**: **1.5 × 10⁸** km.",
+     "who": "index"
+    },
+    {
+     "id": "zeros",
+     "start": 274.997,
+     "end": 282.4,
+     "cap": "**Dad:** Easy. Count the zeros. **45 000** has **3** zeros: **4.5 × 10³**.",
+     "who": "dad"
+    },
+    {
+     "id": "places",
+     "start": 283.02,
+     "end": 288.929,
+     "cap": "**The Index:** **Wrong floor.** Count **places**, not zeros. **5** digits: **4.5 × 10⁴**.",
+     "who": "index"
+    },
+    {
+     "id": "moon",
+     "start": 289.449,
+     "end": 294.676,
+     "cap": "**Mr Tan:** Backwards: the Moon is **3.84 × 10⁵** km away.",
+     "who": "tan"
+    },
+    {
+     "id": "back",
+     "start": 294.996,
+     "end": 300.244,
+     "cap": "**Kavya:** Digits **5 places left**, fill with zeros: **384 000** km.",
+     "who": "kavya"
+    },
+    {
+     "id": "family",
+     "start": 300.564,
+     "end": 302.932,
+     "cap": "**Nought:** Fill with zeros! That's my whole family!",
+     "who": "nought"
+    },
+    {
+     "id": "phone",
+     "start": 303.652,
+     "end": 310.031,
+     "cap": "**Dad:** My phone holds **256 GB**: **256 × 10⁹** bytes.",
+     "who": "dad"
+    },
+    {
+     "id": "norm",
+     "start": 310.551,
+     "end": 316.823,
+     "cap": "**Norm:** Norm. Doorman, **Club Standard Form**. 256? **A** must be **less than 10**. Not on the list.",
+     "who": "norm"
+    },
+    {
+     "id": "fix",
+     "start": 317.443,
+     "end": 327.128,
+     "cap": "**Norm:** **256 = 2.56 × 10²**. Add the powers: **2.56 × 10¹¹** bytes. You're in.",
+     "who": "norm"
+    },
+    {
+     "id": "toobig",
+     "start": 327.648,
+     "end": 332.363,
+     "cap": "**Norm:** The rule: A too big? **÷ 10**, and the power goes **up 1**. **34 × 10² = 3.4 × 10³**.",
+     "who": "norm"
+    },
+    {
+     "id": "long",
+     "start": 332.683,
+     "end": 335.093,
+     "cap": "**Dad:** Forty minutes. How long can it take?",
+     "who": "dad"
+    },
+    {
+     "id": "sofar",
+     "start": 335.613,
+     "end": 339.155,
+     "cap": "**The Index:** So far: **2.4 × 10³** seconds.",
+     "who": "index"
+    },
+    {
+     "id": "said",
+     "start": 339.775,
+     "end": 343.721,
+     "cap": "**Kavya:** That's **2400** seconds, Dad. Forty minutes. You just said that.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "small",
+   "title": "Spotty, pollen and Nought's big day",
+   "short": "Small numbers",
+   "card": true,
+   "start": 345.421,
+   "end": 427.388,
+   "lines": [
+    {
+     "id": "spotty",
+     "start": 347.221,
+     "end": 351.872,
+     "cap": "**Ah Boy:** Meet Spotty, my ladybird. She's **0.005 m** long.",
+     "who": "boy"
+    },
+    {
+     "id": "neg",
+     "start": 352.392,
+     "end": 358.515,
+     "cap": "**The Index:** Small numbers get **negative** powers: **5 × 10⁻³**. **Big → plus, tiny → minus.**",
+     "who": "index"
+    },
+    {
+     "id": "watch",
+     "start": 358.835,
+     "end": 365.619,
+     "cap": "**Priya:** Watch me: **0.000 52**. First non-zero digit: 5. So **A = 5.2**.",
+     "who": "priya"
+    },
+    {
+     "id": "hopr",
+     "start": 365.939,
+     "end": 371.656,
+     "cap": "**Dot:** I hop right **four** places. So **n = −4**: **5.2 × 10⁻⁴**.",
+     "who": "dot"
+    },
+    {
+     "id": "short",
+     "start": 371.976,
+     "end": 376.221,
+     "cap": "**Kavya:** Or count the zeros **in front**, including the one **before the point**: four.",
+     "who": "kavya"
+    },
+    {
+     "id": "counted",
+     "start": 376.541,
+     "end": 378.461,
+     "cap": "**Nought:** Finally! Somebody is counting us!",
+     "who": "nought"
+    },
+    {
+     "id": "achoo",
+     "start": 379.281,
+     "end": 382.737,
+     "cap": "**Mum:** Achoo! Sorry. Hay fever. It's the **pollen** on that ladybird.",
+     "who": "mum"
+    },
+    {
+     "id": "pollen",
+     "start": 383.357,
+     "end": 389.907,
+     "cap": "**Mr Tan:** A pollen grain is **3.08 × 10⁻⁵ m** across. As an ordinary number?",
+     "who": "tan"
+    },
+    {
+     "id": "right5",
+     "start": 390.227,
+     "end": 396.051,
+     "cap": "**Kavya:** Digits **5 places right**: **0.000 030 8** m.",
+     "who": "kavya"
+    },
+    {
+     "id": "me",
+     "start": 396.371,
+     "end": 400.019,
+     "cap": "**Nought:** That zero after the 3 is **me**! Drop me and it's **ten times too big**!",
+     "who": "nought"
+    },
+    {
+     "id": "thanks",
+     "start": 400.639,
+     "end": 402.324,
+     "cap": "**Mum:** Thank you, little zero. Achoo!",
+     "who": "mum"
+    },
+    {
+     "id": "cell",
+     "start": 403.144,
+     "end": 407.411,
+     "cap": "**Priya:** And a **red blood cell** is **8 × 10⁻⁶ m** across.",
+     "who": "priya"
+    },
+    {
+     "id": "mine",
+     "start": 407.931,
+     "end": 411.664,
+     "cap": "**Dad:** I got **0.45 × 10⁻³**.",
+     "who": "dad"
+    },
+    {
+     "id": "small",
+     "start": 412.184,
+     "end": 418.349,
+     "cap": "**Norm:** Not on the list. **One digit, then the point**: **4.5 × 10⁻⁴**.",
+     "who": "norm"
+    },
+    {
+     "id": "sign",
+     "start": 418.669,
+     "end": 423.341,
+     "cap": "**Kavya:** The power's sign means **big or small**. A's sign means **positive or negative**.",
+     "who": "kavya"
+    },
+    {
+     "id": "like",
+     "start": 423.661,
+     "end": 425.688,
+     "cap": "**Ah Boy:** Spotty: small, but **positive**. Like me.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "compare",
+   "title": "Space Trumps",
+   "short": "Comparing & calculators",
+   "card": true,
+   "start": 427.388,
+   "end": 503.404,
+   "lines": [
+    {
+     "id": "card",
+     "start": 429.188,
+     "end": 434.159,
+     "cap": "**Priya:** **Space Trumps!** Bigger number wins. **9.9 × 10⁴**. Beat that.",
+     "who": "priya"
+    },
+    {
+     "id": "mine",
+     "start": 434.679,
+     "end": 438.924,
+     "cap": "**Ah Boy:** **1.1 × 10⁵**. You win. 9.9 is bigger.",
+     "who": "boy"
+    },
+    {
+     "id": "powers",
+     "start": 439.544,
+     "end": 445.027,
+     "cap": "**The Index:** **Wrong floor.** **Powers first.** That's **110 000** against **99 000**.",
+     "who": "index"
+    },
+    {
+     "id": "hdb",
+     "start": 445.347,
+     "end": 451.085,
+     "cap": "**Kavya:** Like our address, **#12-05**. The **floor** says how high. The flat only matters on the **same floor**.",
+     "who": "kavya"
+    },
+    {
+     "id": "floor",
+     "start": 451.405,
+     "end": 455.373,
+     "cap": "**The Index:** **Floor first, then the flat.** The power is the floor. A is the flat.",
+     "who": "index"
+    },
+    {
+     "id": "win",
+     "start": 455.693,
+     "end": 457.613,
+     "cap": "**Ah Boy:** Floor 5 beats floor 4. I WIN!",
+     "who": "boy"
+    },
+    {
+     "id": "bent",
+     "start": 458.233,
+     "end": 460.025,
+     "cap": "**Priya:** My card was bent.",
+     "who": "priya"
+    },
+    {
+     "id": "order",
+     "start": 460.945,
+     "end": 463.975,
+     "cap": "**Mr Tan:** Four cards. Put them in order, smallest first.",
+     "who": "tan"
+    },
+    {
+     "id": "sort",
+     "start": 464.295,
+     "end": 472.124,
+     "cap": "**Kavya:** Powers first: **10⁴**, the two **10⁵**s, then **10⁶**. Same power? Compare A: **4.2**, then **8.1**.",
+     "who": "kavya"
+    },
+    {
+     "id": "tiny",
+     "start": 472.444,
+     "end": 475.089,
+     "cap": "**Ah Boy:** Smallest wins! **2 × 10⁻³**!",
+     "who": "boy"
+    },
+    {
+     "id": "beat",
+     "start": 475.609,
+     "end": 480.58,
+     "cap": "**Priya:** **9 × 10⁻⁵**! **−5** is lower than **−3**. I win.",
+     "who": "priya"
+    },
+    {
+     "id": "calc",
+     "start": 481.2,
+     "end": 482.885,
+     "cap": "**Priya:** Calculator check!",
+     "who": "priya"
+    },
+    {
+     "id": "e",
+     "start": 483.405,
+     "end": 487.736,
+     "cap": "**E:** Hi! I'm **E**! When an answer's too long, I show **2.4E-08**.",
+     "who": "e"
+    },
+    {
+     "id": "power",
+     "start": 488.256,
+     "end": 490.752,
+     "cap": "**Ah Boy:** So it's **2.4** to the power **−8**?",
+     "who": "boy"
+    },
+    {
+     "id": "means",
+     "start": 491.272,
+     "end": 497.608,
+     "cap": "**E:** No! **E** means **× 10 to the power**: **2.4 × 10⁻⁸**. E stands for **exponent**.",
+     "who": "e"
+    },
+    {
+     "id": "name",
+     "start": 497.928,
+     "end": 501.704,
+     "cap": "**The Index:** Exponent! My third name! Somebody used my third name!",
+     "who": "index"
+    }
+   ]
+  },
+  {
+   "id": "calc",
+   "title": "Rice, sunlight and a viral video",
+   "short": "Calculating (stretch)",
+   "card": true,
+   "start": 503.404,
+   "end": 605.704,
+   "lines": [
+    {
+     "id": "hour",
+     "start": 505.204,
+     "end": 508.831,
+     "cap": "**Narrator:** One hour in. **Stretch** time. Everyone is hungry.",
+     "who": "narr"
+    },
+    {
+     "id": "rice",
+     "start": 509.451,
+     "end": 516.085,
+     "cap": "**Mum:** All we have is rice: **1 kg**. One grain is about **0.02 g**. How many grains?",
+     "who": "mum"
+    },
+    {
+     "id": "split",
+     "start": 516.405,
+     "end": 520.331,
+     "cap": "**The Index:** In standard form: **D**ivide the numbers, **S**ubtract the powers.",
+     "who": "index"
+    },
+    {
+     "id": "work",
+     "start": 520.651,
+     "end": 528.608,
+     "cap": "**Kavya:** 1 ÷ 2 = **0.5**. 3 − (−2) = **5**. So **0.5 × 10⁵**.",
+     "who": "kavya"
+    },
+    {
+     "id": "renorm",
+     "start": 528.928,
+     "end": 535.648,
+     "cap": "**Norm:** 0.5? Too small. **× 10**, power **down 1**: **5 × 10⁴** grains.",
+     "who": "norm"
+    },
+    {
+     "id": "fifty",
+     "start": 535.968,
+     "end": 538.208,
+     "cap": "**Ah Boy:** Fifty thousand grains. I'll start counting.",
+     "who": "boy"
+    },
+    {
+     "id": "light",
+     "start": 539.128,
+     "end": 546.893,
+     "cap": "**Mr Tan:** Light travels **3 × 10⁸ m** a second. Sunlight takes **5 × 10²** seconds. How far?",
+     "who": "tan"
+    },
+    {
+     "id": "mult",
+     "start": 547.213,
+     "end": 554.317,
+     "cap": "**Priya:** **M**ultiply the numbers, **A**dd the powers: 3 × 5 = **15**, 8 + 2 = **10**. **15 × 10¹⁰**.",
+     "who": "priya"
+    },
+    {
+     "id": "club",
+     "start": 554.637,
+     "end": 560.845,
+     "cap": "**Norm:** 15? Not on the list. **1.5 × 10¹¹ m**: Kavya's Sun.",
+     "who": "norm"
+    },
+    {
+     "id": "call",
+     "start": 561.465,
+     "end": 569.359,
+     "cap": "**Auntie Rose:** Kavya! Lift stuck ah? My stall video went viral! **6.2 × 10⁵** views, and **4.5 × 10⁴** more today!",
+     "who": "rose"
+    },
+    {
+     "id": "add",
+     "start": 569.879,
+     "end": 579.351,
+     "cap": "**Dad:** Add them! 6.2 + 4.5 = **10.7**, 5 + 4 = **9**. **10.7 × 10⁹**!",
+     "who": "dad"
+    },
+    {
+     "id": "world",
+     "start": 579.871,
+     "end": 583.945,
+     "cap": "**Auntie Rose:** Ten billion?! The whole world is only **8.2 × 10⁹** people!",
+     "who": "rose"
+    },
+    {
+     "id": "never",
+     "start": 584.665,
+     "end": 591.748,
+     "cap": "**The Index:** **Wrong floor.** When you **add**, never add the powers. Ordinary numbers: **620 000 + 45 000**.",
+     "who": "index"
+    },
+    {
+     "id": "views",
+     "start": 592.068,
+     "end": 598.063,
+     "cap": "**Kavya:** **665 000**. That's **6.65 × 10⁵** views, Auntie.",
+     "who": "kavya"
+    },
+    {
+     "id": "ondeh",
+     "start": 598.583,
+     "end": 601.399,
+     "cap": "**Auntie Rose:** Still very good! I'll send ondeh-ondeh up in the lift!",
+     "who": "rose"
+    },
+    {
+     "id": "stuck",
+     "start": 602.119,
+     "end": 603.804,
+     "cap": "**Kavya:** The lift is stuck, Auntie.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The lift saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 605.704,
+   "end": 675.229,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 607.504,
+     "end": 611.664,
+     "cap": "**Narrator:** Before the doors open, the lift would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 612.284,
+     "end": 620.177,
+     "cap": "**Dad:** One. Count **places**, not zeros: **45 000 = 4.5 × 10⁴**. Ask me how I know.",
+     "who": "dad"
+    },
+    {
+     "id": "t2",
+     "start": 620.797,
+     "end": 627.261,
+     "cap": "**Norm:** Two. **24 × 10⁸**? Not on the list. **2.4 × 10⁹**.",
+     "who": "norm"
+    },
+    {
+     "id": "t3",
+     "start": 627.881,
+     "end": 634.516,
+     "cap": "**Ah Boy:** Three. Tiny numbers, **minus** powers: **0.003 = 3 × 10⁻³**.",
+     "who": "boy"
+    },
+    {
+     "id": "t4",
+     "start": 635.136,
+     "end": 639.509,
+     "cap": "**E:** Four. Don't copy my screen. Write **2.4 × 10⁻⁸**.",
+     "who": "e"
+    },
+    {
+     "id": "t5",
+     "start": 640.129,
+     "end": 645.036,
+     "cap": "**Auntie Rose:** Five. Adding? Don't add the powers: **2 × 10³ + 3 × 10³ = 5 × 10³**.",
+     "who": "rose"
+    },
+    {
+     "id": "t6",
+     "start": 645.656,
+     "end": 652.205,
+     "cap": "**Nought:** Six. Keep the **place-holder zeros**: **0.000 030 8**. I'm very important now.",
+     "who": "nought"
+    },
+    {
+     "id": "return",
+     "start": 652.925,
+     "end": 655.315,
+     "cap": "**Narrator:** Mind the Zeros will return.",
+     "who": "narr"
+    },
+    {
+     "id": "monday",
+     "start": 656.635,
+     "end": 660.005,
+     "cap": "**Narrator:** Monday, eight a.m. The lift has been fixed.",
+     "who": "narr"
+    },
+    {
+     "id": "ground",
+     "start": 660.625,
+     "end": 663.271,
+     "cap": "**Dad:** Ground floor, please. How long can it take?",
+     "who": "dad"
+    },
+    {
+     "id": "again",
+     "start": 663.891,
+     "end": 666.685,
+     "cap": "**Mr Tan:** Good morning! Lovely day for standard form.",
+     "who": "tan"
+    },
+    {
+     "id": "welcome",
+     "start": 667.405,
+     "end": 668.664,
+     "cap": "**The Index:** Welcome back.",
+     "who": "index"
+    },
+    {
+     "id": "comfy",
+     "start": 669.784,
+     "end": 672.429,
+     "cap": "**Big Ten:** Make yourselves comfortable.",
+     "who": "ten"
+    }
+   ]
+  }
+ ],
+ "total": 675.229
+}

@@ -1,0 +1,1035 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 62.06,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 7.576,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Her family's whole HDB flat is being renovated. At once.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 8.196,
+     "end": 13.977,
+     "cap": "**Mum:** Three weeks! New floor, new kitchen, new cabinets. Then a **housewarming party** for forty people!",
+     "who": "mum"
+    },
+    {
+     "id": "floor",
+     "start": 14.497,
+     "end": 16.929,
+     "cap": "**Kavya:** Forty people. In a flat with **no floor**.",
+     "who": "kavya"
+    },
+    {
+     "id": "bala",
+     "start": 17.749,
+     "end": 22.123,
+     "cap": "**Uncle Bala:** Uncle Bala, contractor. Floors, walls, cabinets: **can, can**. Everything can! Ow.",
+     "who": "bala"
+    },
+    {
+     "id": "dad",
+     "start": 22.943,
+     "end": 28.255,
+     "cap": "**Dad:** And I'm helping! My rule: always use the **biggest number**. More number, more accurate.",
+     "who": "dad"
+    },
+    {
+     "id": "tiny",
+     "start": 28.975,
+     "end": 34.031,
+     "cap": "**Narrator:** But this documentary is about something small. In Uncle Bala's toolbox.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 34.651,
+     "end": 40.667,
+     "cap": "**Madam Perpendicular:** Madam Perpendicular. **Set square**. Forty years in renovation. One **right angle**: **90°**.",
+     "who": "perp"
+    },
+    {
+     "id": "height",
+     "start": 41.287,
+     "end": 46.492,
+     "cap": "**Madam Perpendicular:** A **height** stands at **90°** to its base: **perpendicular**. **Sloping sides are not heights.**",
+     "who": "perp"
+    },
+    {
+     "id": "diag",
+     "start": 47.112,
+     "end": 50.269,
+     "cap": "**Dad:** Corner to corner is longer. I'll measure that one.",
+     "who": "dad"
+    },
+    {
+     "id": "charge",
+     "start": 51.189,
+     "end": 54.411,
+     "cap": "**Madam Perpendicular:** Three weeks. One flat. And a man who measures **diagonally**.",
+     "who": "perp"
+    },
+    {
+     "id": "title",
+     "start": 55.331,
+     "end": 59.96,
+     "cap": "**Narrator:** Think Inside the Box. Episode 15: The Great Renovation.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "rooms",
+   "title": "Who gets the room?",
+   "short": "Rectangles & triangles",
+   "card": true,
+   "start": 62.06,
+   "end": 150.587,
+   "lines": [
+    {
+     "id": "day",
+     "start": 63.86,
+     "end": 68.681,
+     "cap": "**Narrator:** Day one. The **store room**, or the long **corridor**? Two children. One bed.",
+     "who": "narr"
+    },
+    {
+     "id": "boy",
+     "start": 69.201,
+     "end": 74.044,
+     "cap": "**Ah Boy:** I want the corridor! I walked round it: **20 metres**! Kavya's room is only **16**!",
+     "who": "boy"
+    },
+    {
+     "id": "perim",
+     "start": 74.664,
+     "end": 79.272,
+     "cap": "**Kavya:** That's **perimeter**: the distance **round the edge**. A bed needs **area**: the **floor** it covers.",
+     "who": "kavya"
+    },
+    {
+     "id": "rect",
+     "start": 79.592,
+     "end": 84.243,
+     "cap": "**Madam Perpendicular:** Rectangle: **A = l × w**. The corridor: 9 × 1 = **9**.",
+     "who": "perp"
+    },
+    {
+     "id": "nine",
+     "start": 84.563,
+     "end": 85.8,
+     "cap": "**Ah Boy:** Nine metres. Plenty.",
+     "who": "boy"
+    },
+    {
+     "id": "sq",
+     "start": 86.32,
+     "end": 89.221,
+     "cap": "**Squared:** Nine **square** metres: **9 m²**! I'm **Squared**. Every area needs **me**!",
+     "who": "sq"
+    },
+    {
+     "id": "mine",
+     "start": 89.841,
+     "end": 94.599,
+     "cap": "**Kavya:** Mine: 4 × 4 = **16 m²**. **Smaller** perimeter, **bigger** area.",
+     "who": "kavya"
+    },
+    {
+     "id": "posters",
+     "start": 94.919,
+     "end": 97.393,
+     "cap": "**Ah Boy:** But the corridor has more wall. For **posters**.",
+     "who": "boy"
+    },
+    {
+     "id": "sign",
+     "start": 98.413,
+     "end": 105.112,
+     "cap": "**Narrator:** Ten a.m. Dad's triangular door sign: base **16 cm**, sloping sides **10 cm**.",
+     "who": "narr"
+    },
+    {
+     "id": "dad",
+     "start": 105.632,
+     "end": 110.731,
+     "cap": "**Dad:** **½ × base × height**. Height: the sloping side, **10**. Biggest number!",
+     "who": "dad"
+    },
+    {
+     "id": "no",
+     "start": 111.351,
+     "end": 116.748,
+     "cap": "**Madam Perpendicular:** Sloping. Not. **Perpendicular.** The height meets the base at **90°**: it's **6 cm**.",
+     "who": "perp"
+    },
+    {
+     "id": "half",
+     "start": 117.268,
+     "end": 122.559,
+     "cap": "**Madam Perpendicular:** Why **½**? Box it in a rectangle. Each sloping side cuts its piece **exactly in half**.",
+     "who": "perp"
+    },
+    {
+     "id": "calc",
+     "start": 123.079,
+     "end": 126.983,
+     "cap": "**Kavya:** So **A = ½ × 16 × 6 = 48 cm²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "ribbon",
+     "start": 127.503,
+     "end": 131.748,
+     "cap": "**Ah Boy:** Ribbon round the edge: **16 + 10 + 10 = 36 cm**.",
+     "who": "boy"
+    },
+    {
+     "id": "rule",
+     "start": 132.268,
+     "end": 136.769,
+     "cap": "**Madam Perpendicular:** Perimeter **yes**, area **no**. And in an **obtuse** triangle, the height stands **outside**.",
+     "who": "perp"
+    },
+    {
+     "id": "priya",
+     "start": 137.389,
+     "end": 143.064,
+     "cap": "**Priya:** Priya. Best friend. My sign is **42 cm²**, with a **12 cm** base. Height?",
+     "who": "priya"
+    },
+    {
+     "id": "h",
+     "start": 143.584,
+     "end": 149.387,
+     "cap": "**Kavya:** 42 = ½ × 12 × h = 6h. So **h = 7 cm**.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "balcony",
+   "title": "Cut, slide, double",
+   "short": "Parallelograms & trapezia",
+   "card": true,
+   "start": 150.587,
+   "end": 233.928,
+   "lines": [
+    {
+     "id": "day",
+     "start": 152.387,
+     "end": 156.504,
+     "cap": "**Narrator:** Day three. Mum's new balcony tiles are **parallelograms**.",
+     "who": "narr"
+    },
+    {
+     "id": "tile",
+     "start": 157.024,
+     "end": 161.525,
+     "cap": "**Mum:** Base **9 cm**, sloping sides **5 cm**, and **4 cm** high.",
+     "who": "mum"
+    },
+    {
+     "id": "dad",
+     "start": 161.845,
+     "end": 165.963,
+     "cap": "**Dad:** 9 × 5 = **45 cm²**! Biggest number!",
+     "who": "dad"
+    },
+    {
+     "id": "cut",
+     "start": 166.583,
+     "end": 170.401,
+     "cap": "**Madam Perpendicular:** Dear me. **Cut** a triangle off one end, along the height. **Slide** it across.",
+     "who": "perp"
+    },
+    {
+     "id": "rect",
+     "start": 171.021,
+     "end": 176.397,
+     "cap": "**Kavya:** A **rectangle**! **A = b × h = 9 × 4 = 36 cm²**. Nothing lost, nothing added.",
+     "who": "kavya"
+    },
+    {
+     "id": "longer",
+     "start": 176.717,
+     "end": 180.707,
+     "cap": "**Madam Perpendicular:** A slope is always **longer** than the height. Your area comes out **too big**.",
+     "who": "perp"
+    },
+    {
+     "id": "big",
+     "start": 181.027,
+     "end": 182.2,
+     "cap": "**Dad:** I like big.",
+     "who": "dad"
+    },
+    {
+     "id": "bed",
+     "start": 183.32,
+     "end": 190.275,
+     "cap": "**Mum:** Now my flower bed downstairs: a **trapezium**. Parallel sides **3 m** and **7 m**, **4 m** apart.",
+     "who": "mum"
+    },
+    {
+     "id": "para",
+     "start": 190.595,
+     "end": 197.741,
+     "cap": "**Kavya:** Two beds, one **upside down**: a **parallelogram**! Base 3 + 7 = **10 m**, height **4 m**: **40 m²**. One bed: **20 m²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "formula",
+     "start": 198.061,
+     "end": 202.819,
+     "cap": "**Madam Perpendicular:** **A = ½(a + b)h**. **a** and **b** are the **parallel** sides.",
+     "who": "perp"
+    },
+    {
+     "id": "pair",
+     "start": 203.139,
+     "end": 205.933,
+     "cap": "**Ah Boy:** **Add** the parallel pair, **halve** it, **times** the height!",
+     "who": "boy"
+    },
+    {
+     "id": "tan",
+     "start": 206.553,
+     "end": 213.7,
+     "cap": "**Mr Tan:** Mr Tan, next door. The drilling... Ooh, a trapezium! In ancient China, that was a **dustpan field**.",
+     "who": "tan"
+    },
+    {
+     "id": "lim",
+     "start": 214.32,
+     "end": 220.933,
+     "cap": "**Mum:** Mrs Lim's dustpan: **52 m²**, parallel sides **5 m** and **8 m**. How far apart?",
+     "who": "mum"
+    },
+    {
+     "id": "back",
+     "start": 221.253,
+     "end": 227.376,
+     "cap": "**Kavya:** 52 = ½ × 13 × h = 6.5h. So **h = 8 m**.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 227.896,
+     "end": 231.928,
+     "cap": "**Mr Tan:** Parallel lines have so much in common. Shame they'll never meet.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "living",
+   "title": "Uncle Bala's quote",
+   "short": "Compound shapes",
+   "card": true,
+   "start": 233.928,
+   "end": 308.359,
+   "lines": [
+    {
+     "id": "day",
+     "start": 235.728,
+     "end": 239.312,
+     "cap": "**Narrator:** Day five. Uncle Bala measures the living room floor.",
+     "who": "narr"
+    },
+    {
+     "id": "room",
+     "start": 239.832,
+     "end": 245.869,
+     "cap": "**Uncle Bala:** **L-shaped**: a **9 m by 7 m** rectangle with a **4 m by 2 m** corner missing. Flooring is priced per **square metre**.",
+     "who": "bala"
+    },
+    {
+     "id": "big",
+     "start": 246.189,
+     "end": 252.355,
+     "cap": "**Kavya:** **Big minus missing**: 9 × 7 − 4 × 2 = 63 − 8 = **55 m²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "split",
+     "start": 252.675,
+     "end": 255.875,
+     "cap": "**Priya:** Or **split and add**! But first, the **missing sides**.",
+     "who": "priya"
+    },
+    {
+     "id": "sides",
+     "start": 256.195,
+     "end": 261.848,
+     "cap": "**Uncle Bala:** Edges going one way match edges coming back. Top: 9 − 4 = **5 m**. Right: 7 − 2 = **5 m**.",
+     "who": "bala"
+    },
+    {
+     "id": "add",
+     "start": 262.168,
+     "end": 267.907,
+     "cap": "**Priya:** 5 × 2 = **10**, plus 9 × 5 = **45**: **55 m²**. Same!",
+     "who": "priya"
+    },
+    {
+     "id": "skirt",
+     "start": 268.227,
+     "end": 270.957,
+     "cap": "**Uncle Bala:** Next job: **skirting boards**, all round the **perimeter**.",
+     "who": "bala"
+    },
+    {
+     "id": "less",
+     "start": 271.277,
+     "end": 274.925,
+     "cap": "**Dad:** A corner's missing, so the perimeter is **less**. Obviously.",
+     "who": "dad"
+    },
+    {
+     "id": "walk",
+     "start": 275.545,
+     "end": 279.727,
+     "cap": "**Kavya:** Every side: 7 + 9 + 5 + 4 + 2 + 5 = **32 m**.",
+     "who": "kavya"
+    },
+    {
+     "id": "push",
+     "start": 280.047,
+     "end": 287.044,
+     "cap": "**Madam Perpendicular:** Push the inner edges **out**: the full rectangle. **2 × (9 + 7) = 32 m**. A corner cut-out leaves the perimeter **the same**.",
+     "who": "perp"
+    },
+    {
+     "id": "notch",
+     "start": 287.364,
+     "end": 292.057,
+     "cap": "**Ah Boy:** I cut a **notch** in Uncle's **10 cm by 6 cm** card: **4 cm** wide, **3 cm** deep. Less edge!",
+     "who": "boy"
+    },
+    {
+     "id": "more",
+     "start": 292.577,
+     "end": 300.343,
+     "cap": "**Kavya:** Area: 60 − 12 = **48 cm²**. But two new inside walls: 32 + 3 + 3 = **38 cm**. **More** edge!",
+     "who": "kavya"
+    },
+    {
+     "id": "phone",
+     "start": 300.663,
+     "end": 306.359,
+     "cap": "**Dad:** Hello, tile shop? Fifty-five... **square** metres or **cubic** metres? Whichever's **bigger**.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "boxes",
+   "title": "Counting corners",
+   "short": "Nets & Euler",
+   "card": true,
+   "start": 308.359,
+   "end": 399.488,
+   "lines": [
+    {
+     "id": "day",
+     "start": 310.159,
+     "end": 314.831,
+     "cap": "**Narrator:** Day eight. Everything is in boxes. Ah Boy is counting their **corners**.",
+     "who": "narr"
+    },
+    {
+     "id": "count",
+     "start": 315.451,
+     "end": 318.757,
+     "cap": "**Ah Boy:** This box has **8** corners, **6** faces and **12** edges!",
+     "who": "boy"
+    },
+    {
+     "id": "carton",
+     "start": 319.077,
+     "end": 323.451,
+     "cap": "**Carton:** Carton. Moving box. A **cuboid**. Please stop counting me. I get nervous.",
+     "who": "carton"
+    },
+    {
+     "id": "words",
+     "start": 324.071,
+     "end": 329.212,
+     "cap": "**Kavya:** Corners are **vertices**. Flat surfaces are **faces**. **Edges** are where two faces meet.",
+     "who": "kavya"
+    },
+    {
+     "id": "more",
+     "start": 329.532,
+     "end": 337.575,
+     "cap": "**Ah Boy:** Tent box, a **triangular prism**: **6** vertices, **5** faces, **9** edges. Lantern, a **square-based pyramid**: **5**, **5**, **8**.",
+     "who": "boy"
+    },
+    {
+     "id": "polly",
+     "start": 337.895,
+     "end": 343.761,
+     "cap": "**Polly:** COUNT?! Polly! Twenty-sided dice! **12** vertices, **30** edges, and... I've lost count of my faces!",
+     "who": "polly"
+    },
+    {
+     "id": "tan",
+     "start": 344.281,
+     "end": 348.399,
+     "cap": "**Mr Tan:** Mr Tan. About the drilling. Try **V + F − E**.",
+     "who": "tan"
+    },
+    {
+     "id": "two",
+     "start": 348.919,
+     "end": 353.1,
+     "cap": "**Kavya:** Cube: 8 + 6 − 12 = **2**. Prism: **2**. Pyramid: **2**.",
+     "who": "kavya"
+    },
+    {
+     "id": "euler",
+     "start": 353.42,
+     "end": 360.396,
+     "cap": "**Mr Tan:** **Euler's formula**: **V + F − E = 2**, for any solid with flat faces and **no holes**.",
+     "who": "tan"
+    },
+    {
+     "id": "faces",
+     "start": 360.716,
+     "end": 364.641,
+     "cap": "**Kavya:** Polly: 12 + F − 30 = 2, so **F = 20**!",
+     "who": "kavya"
+    },
+    {
+     "id": "twenty",
+     "start": 364.961,
+     "end": 366.156,
+     "cap": "**Polly:** TWENTY! I'm complete!",
+     "who": "polly"
+    },
+    {
+     "id": "beat",
+     "start": 366.776,
+     "end": 369.485,
+     "cap": "**Ah Boy:** **F**aces and **V**ertices beat **E**dges by **two**!",
+     "who": "boy"
+    },
+    {
+     "id": "pencil",
+     "start": 370.005,
+     "end": 378.517,
+     "cap": "**Mr Tan:** A pencil is a **hexagonal prism**, n = 6: **n + 2 = 8** faces, **2n = 12** vertices, **3n = 18** edges.",
+     "who": "tan"
+    },
+    {
+     "id": "pun",
+     "start": 378.837,
+     "end": 382.123,
+     "cap": "**Mr Tan:** Euler was so good at counting, he never lost his **edge**.",
+     "who": "tan"
+    },
+    {
+     "id": "unfold",
+     "start": 383.643,
+     "end": 385.861,
+     "cap": "**Carton:** Too much counting. I'm **unfolding**!",
+     "who": "carton"
+    },
+    {
+     "id": "net",
+     "start": 386.481,
+     "end": 391.9,
+     "cap": "**Kavya:** His **net**: every face **exactly once**. In a straight row, squares **one apart** end up **opposite**.",
+     "who": "kavya"
+    },
+    {
+     "id": "block",
+     "start": 392.22,
+     "end": 394.801,
+     "cap": "**Ah Boy:** My cube net has a **2 by 2** block of squares!",
+     "who": "boy"
+    },
+    {
+     "id": "ow",
+     "start": 395.321,
+     "end": 397.988,
+     "cap": "**Carton:** Doesn't fold. Two faces crash. Ow.",
+     "who": "carton"
+    }
+   ]
+  },
+  {
+   "id": "views",
+   "title": "Three ways to see a cabinet",
+   "short": "Plans & elevations",
+   "card": true,
+   "start": 399.488,
+   "end": 463.961,
+   "lines": [
+    {
+     "id": "day",
+     "start": 401.288,
+     "end": 405.043,
+     "cap": "**Narrator:** Day ten. Uncle Bala's drawings for the new **shoe cabinet**.",
+     "who": "narr"
+    },
+    {
+     "id": "three",
+     "start": 405.563,
+     "end": 409.595,
+     "cap": "**Uncle Bala:** Three flat views: the **plan**, from **above**; the **front elevation**; and the **side elevation**.",
+     "who": "bala"
+    },
+    {
+     "id": "size",
+     "start": 409.915,
+     "end": 415.269,
+     "cap": "**Uncle Bala:** **100 cm** long, **50 cm** deep, **75 cm** tall. Scale: **1 cm to 25 cm**.",
+     "who": "bala"
+    },
+    {
+     "id": "draw",
+     "start": 415.589,
+     "end": 420.453,
+     "cap": "**Kavya:** So: plan **4 by 2**, front **4 by 3**, side **2 by 3**, in centimetres.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 420.773,
+     "end": 425.509,
+     "cap": "**Dad:** I drew mine in **3D**, with shading. Why use two D when you can use **three**?",
+     "who": "dad"
+    },
+    {
+     "id": "flat",
+     "start": 426.229,
+     "end": 431.051,
+     "cap": "**Madam Perpendicular:** **Elevations are flat.** No perspective. Every length **true size**, or to scale.",
+     "who": "perp"
+    },
+    {
+     "id": "cubes",
+     "start": 431.571,
+     "end": 435.752,
+     "cap": "**Ah Boy:** I built it from cubes! Back row: **3, 1, 2**. Front row: **2, 1, 1**.",
+     "who": "boy"
+    },
+    {
+     "id": "count",
+     "start": 436.072,
+     "end": 439.016,
+     "cap": "**Kavya:** A **plan** with **stack heights**: **10 cubes** altogether.",
+     "who": "kavya"
+    },
+    {
+     "id": "front",
+     "start": 439.336,
+     "end": 442.707,
+     "cap": "**Uncle Bala:** From the front, you see the **tallest** stack in each column: **3, 1, 2**.",
+     "who": "bala"
+    },
+    {
+     "id": "line",
+     "start": 443.027,
+     "end": 445.373,
+     "cap": "**Madam Perpendicular:** Plus a **line** wherever the depth changes.",
+     "who": "perp"
+    },
+    {
+     "id": "tan",
+     "start": 445.893,
+     "end": 453.893,
+     "cap": "**Mr Tan:** Mr Tan. The drilling. Also: on **isometric** paper, verticals stay **vertical**; the rest slope at **30°**.",
+     "who": "tan"
+    },
+    {
+     "id": "pun",
+     "start": 454.213,
+     "end": 458.352,
+     "cap": "**Mr Tan:** I'd show you my side elevation, but I've only got **one** good side.",
+     "who": "tan"
+    },
+    {
+     "id": "fridge",
+     "start": 459.872,
+     "end": 462.261,
+     "cap": "**Uncle Bala:** Very nice drawing, boss. For the **fridge**.",
+     "who": "bala"
+    }
+   ]
+  },
+  {
+   "id": "wrap",
+   "title": "Forty prizes",
+   "short": "Surface area",
+   "card": true,
+   "start": 463.961,
+   "end": 546.957,
+   "lines": [
+    {
+     "id": "day",
+     "start": 465.761,
+     "end": 470.689,
+     "cap": "**Narrator:** Day fourteen. Mum's party has a **lucky draw**: forty prizes to wrap.",
+     "who": "narr"
+    },
+    {
+     "id": "go",
+     "start": 471.209,
+     "end": 473.94,
+     "cap": "**Mum:** How much paper per box? Kavya, Priya: **go**!",
+     "who": "mum"
+    },
+    {
+     "id": "sa",
+     "start": 474.46,
+     "end": 478.727,
+     "cap": "**Carton:** **Surface area**: the total area of **all** my faces. It's all on my **net**.",
+     "who": "carton"
+    },
+    {
+     "id": "faces",
+     "start": 479.247,
+     "end": 485.903,
+     "cap": "**Kavya:** A 6 by 4 by 3 box. Top: 6 × 4 = **24**. Front: 6 × 3 = **18**. End: 4 × 3 = **12**.",
+     "who": "kavya"
+    },
+    {
+     "id": "boy",
+     "start": 486.223,
+     "end": 488.185,
+     "cap": "**Ah Boy:** **54 cm²**! Wrapped!",
+     "who": "boy"
+    },
+    {
+     "id": "bottom",
+     "start": 488.805,
+     "end": 490.491,
+     "cap": "**Carton:** My **bottom** is showing.",
+     "who": "carton"
+    },
+    {
+     "id": "pairs",
+     "start": 491.511,
+     "end": 496.844,
+     "cap": "**Kavya:** Faces come in **pairs**: **SA = 2(lw + lh + wh) = 2 × 54 = 108 cm²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "choc",
+     "start": 497.164,
+     "end": 504.097,
+     "cap": "**Priya:** My chocolate box: a **triangular prism**, **10 cm** long, with **3-4-5** right-angled triangles at the ends.",
+     "who": "priya"
+    },
+    {
+     "id": "prism",
+     "start": 504.417,
+     "end": 511.671,
+     "cap": "**Priya:** Triangles: 2 × ½ × 3 × 4 = **12**. Rectangles: 30 + 40 + 50 = **120**. Total **132 cm²**!",
+     "who": "priya"
+    },
+    {
+     "id": "strip",
+     "start": 511.991,
+     "end": 517.985,
+     "cap": "**Madam Perpendicular:** Shortcut for **any prism**: the rectangles make one strip, as wide as the **perimeter**: 12 × 10 = **120**.",
+     "who": "perp"
+    },
+    {
+     "id": "pyr",
+     "start": 518.305,
+     "end": 523.425,
+     "cap": "**Mum:** Last: a **square-based pyramid**. Base **6 cm**, slant height **5 cm**, vertical height **4 cm**.",
+     "who": "mum"
+    },
+    {
+     "id": "easy",
+     "start": 523.745,
+     "end": 525.815,
+     "cap": "**Priya:** Easy! The height is **4**!",
+     "who": "priya"
+    },
+    {
+     "id": "slant",
+     "start": 526.335,
+     "end": 530.9,
+     "cap": "**Madam Perpendicular:** Each triangle needs **its own** height: the **slant height**. The 4 is hidden **inside**.",
+     "who": "perp"
+    },
+    {
+     "id": "total",
+     "start": 531.22,
+     "end": 536.447,
+     "cap": "**Kavya:** Base 6 × 6 = **36**. Four triangles of ½ × 6 × 5 = **15**. **36 + 60 = 96 cm²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "sugar",
+     "start": 536.767,
+     "end": 541.737,
+     "cap": "**Ah Boy:** Eight sugar cubes: as a **2 × 2 × 2** cube, **24 cm²**. As a tower, **34 cm²**!",
+     "who": "boy"
+    },
+    {
+     "id": "score",
+     "start": 542.057,
+     "end": 545.257,
+     "cap": "**Priya:** I wrapped **21**. You wrapped **19**. Just saying.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "tank",
+   "title": "Mr Bubbles moves house",
+   "short": "Volume & cylinders",
+   "card": true,
+   "start": 546.957,
+   "end": 641.303,
+   "lines": [
+    {
+     "id": "day",
+     "start": 548.757,
+     "end": 553.6,
+     "cap": "**Narrator:** Day eighteen. A new **fish tank** for Ah Boy's goldfish, **Mr Bubbles**.",
+     "who": "narr"
+    },
+    {
+     "id": "cubert",
+     "start": 554.12,
+     "end": 559.795,
+     "cap": "**Cubert:** Cubert. **One cubic centimetre**. I hold **one millilitre**. **Volume** counts cubes like me.",
+     "who": "cubert"
+    },
+    {
+     "id": "tank",
+     "start": 560.415,
+     "end": 563.849,
+     "cap": "**Mum:** The tank: **50 cm** by **30 cm**, filled **32 cm** deep.",
+     "who": "mum"
+    },
+    {
+     "id": "calc",
+     "start": 564.169,
+     "end": 569.161,
+     "cap": "**Kavya:** **V = l × w × h** = 50 × 30 × 32 = **48 000**.",
+     "who": "kavya"
+    },
+    {
+     "id": "boy",
+     "start": 569.481,
+     "end": 571.38,
+     "cap": "**Ah Boy:** **48 000 cm²**!",
+     "who": "boy"
+    },
+    {
+     "id": "cu",
+     "start": 571.9,
+     "end": 575.847,
+     "cap": "**Cubed:** **Cubed!** It's **cm³**! I'm Squared's twin. Every volume needs **me**.",
+     "who": "cu"
+    },
+    {
+     "id": "litre",
+     "start": 576.367,
+     "end": 581.892,
+     "cap": "**Cubert:** A **10 cm cube** holds a **litre**: **1000 cm³**. So that's **48 litres**.",
+     "who": "cubert"
+    },
+    {
+     "id": "wedge",
+     "start": 582.212,
+     "end": 588.676,
+     "cap": "**Cubert:** Slice a **5 × 4 × 3** box corner to corner: **60** of me become two wedges of **30**.",
+     "who": "cubert"
+    },
+    {
+     "id": "prism",
+     "start": 588.996,
+     "end": 595.993,
+     "cap": "**Kavya:** Each wedge is a **prism**: **V = area of cross-section × length** = ½ × 5 × 4 × 3 = **30 cm³**.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 596.313,
+     "end": 600.132,
+     "cap": "**Dad:** So **1 m² = 100 cm²**. Easy.",
+     "who": "dad"
+    },
+    {
+     "id": "sq",
+     "start": 600.652,
+     "end": 604.023,
+     "cap": "**Squared:** **10 000!** It's **100 × 100**. **Square** it for area...",
+     "who": "sq"
+    },
+    {
+     "id": "cu2",
+     "start": 604.343,
+     "end": 608.225,
+     "cap": "**Cubed:** ...**cube** it for volume! **1 m³ = 1 000 000 cm³**.",
+     "who": "cu"
+    },
+    {
+     "id": "cyl",
+     "start": 608.945,
+     "end": 616.113,
+     "cap": "**Cylinda:** Cylinda. Party can, **12 cm** tall. A prism with a **circle** cross-section: **V = πr²h**.",
+     "who": "cyl"
+    },
+    {
+     "id": "seven",
+     "start": 616.433,
+     "end": 619.484,
+     "cap": "**Dad:** **7 cm** across, so r = **7**! Biggest number.",
+     "who": "dad"
+    },
+    {
+     "id": "radius",
+     "start": 620.104,
+     "end": 626.056,
+     "cap": "**Cylinda:** That's my **diameter**, darling. Take **half**: r = **3.5**. Otherwise I'm **four times** too big.",
+     "who": "cyl"
+    },
+    {
+     "id": "ml",
+     "start": 626.576,
+     "end": 634.256,
+     "cap": "**Kavya:** **V = π × 3.5² × 12 = 147π ≈ 462 cm³**: about **462 ml**.",
+     "who": "kavya"
+    },
+    {
+     "id": "label",
+     "start": 634.576,
+     "end": 639.803,
+     "cap": "**Cylinda:** Peel my label: a **rectangle**, **2πr** wide, **h** tall. My **curved surface**. Don't look!",
+     "who": "cyl"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The crew saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 641.303,
+   "end": 701.784,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 643.103,
+     "end": 646.729,
+     "cap": "**Narrator:** Before the credits, the crew would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 647.349,
+     "end": 649.952,
+     "cap": "**Squared:** One. Every area needs **me**: **cm²**.",
+     "who": "sq"
+    },
+    {
+     "id": "t1b",
+     "start": 650.372,
+     "end": 654.34,
+     "cap": "**Cubed:** Every volume needs **me**: **cm³**. Leave us off, lose a mark.",
+     "who": "cu"
+    },
+    {
+     "id": "t2",
+     "start": 654.96,
+     "end": 658.181,
+     "cap": "**Madam Perpendicular:** Two. Triangles and trapezia: never forget the **½**.",
+     "who": "perp"
+    },
+    {
+     "id": "t3",
+     "start": 658.801,
+     "end": 662.62,
+     "cap": "**Uncle Bala:** Three. Perimeter: **every** edge, labelled or not. Never the dashed line inside.",
+     "who": "bala"
+    },
+    {
+     "id": "t4",
+     "start": 663.24,
+     "end": 667.037,
+     "cap": "**Carton:** Four. A cuboid has **six** faces, not three. **Double it.** Please.",
+     "who": "carton"
+    },
+    {
+     "id": "t5",
+     "start": 667.657,
+     "end": 673.012,
+     "cap": "**Cubert:** Five. **Same units** before you multiply. **2 m** is **200 cm**.",
+     "who": "cubert"
+    },
+    {
+     "id": "t6",
+     "start": 673.632,
+     "end": 678.432,
+     "cap": "**Dad:** Six. Elevations are **flat**. My 3D cabinet is now a **fridge magnet**.",
+     "who": "dad"
+    },
+    {
+     "id": "return",
+     "start": 679.152,
+     "end": 681.712,
+     "cap": "**Narrator:** Think Inside the Box will return.",
+     "who": "narr"
+    },
+    {
+     "id": "lorry",
+     "start": 683.032,
+     "end": 688.408,
+     "cap": "**Narrator:** Day twenty-one. The morning of the party. A big truck pulls up at the void deck.",
+     "who": "narr"
+    },
+    {
+     "id": "deliver",
+     "start": 689.028,
+     "end": 692.249,
+     "cap": "**Uncle Bala:** Delivery, boss! **55 cubic metres** of floor tiles.",
+     "who": "bala"
+    },
+    {
+     "id": "who",
+     "start": 693.069,
+     "end": 694.584,
+     "cap": "**Mum:** Who ordered **cubic** metres?",
+     "who": "mum"
+    },
+    {
+     "id": "bigger",
+     "start": 695.304,
+     "end": 696.712,
+     "cap": "**Dad:** It was the **bigger** one.",
+     "who": "dad"
+    },
+    {
+     "id": "cannot",
+     "start": 697.832,
+     "end": 698.984,
+     "cap": "**Uncle Bala:** Can... **cannot**.",
+     "who": "bala"
+    }
+   ]
+  }
+ ],
+ "total": 701.784
+}

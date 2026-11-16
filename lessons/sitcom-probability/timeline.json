@@ -1,0 +1,1014 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 68.84,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 7.128,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, eight a.m., her family's flat in Block 208.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 7.648,
+     "end": 11.595,
+     "cap": "**Mum:** The forecast says a **70%** chance of thunderstorms today.",
+     "who": "mum"
+    },
+    {
+     "id": "dad",
+     "start": 12.115,
+     "end": 17.213,
+     "cap": "**Dad:** So a **30%** chance of **no** rain. I have a feeling. The picnic is on!",
+     "who": "dad"
+    },
+    {
+     "id": "likely",
+     "start": 17.933,
+     "end": 20.6,
+     "cap": "**Kavya:** Dad. Seventy per cent means rain is **likely**.",
+     "who": "kavya"
+    },
+    {
+     "id": "nine",
+     "start": 21.82,
+     "end": 28.199,
+     "cap": "**Narrator:** Nine a.m. The picnic is off. Kavya's maths teacher, **Mr Tan**, lives one floor up.",
+     "who": "narr"
+    },
+    {
+     "id": "tan",
+     "start": 28.719,
+     "end": 34.137,
+     "cap": "**Mr Tan:** Rain plan! I brought my old **game box**. Family Game Night. Well, Game Morning.",
+     "who": "tan"
+    },
+    {
+     "id": "priya",
+     "start": 34.757,
+     "end": 37.765,
+     "cap": "**Priya:** Priya. Best friend. I don't **play** games. I **win** them.",
+     "who": "priya"
+    },
+    {
+     "id": "box",
+     "start": 38.485,
+     "end": 43.307,
+     "cap": "**Narrator:** But this documentary is about what lives inside Mr Tan's game box.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 43.827,
+     "end": 48.499,
+     "cap": "**Cubert:** Cubert. A **dice**. Six faces, each one **equally likely**. I am perfectly **fair**.",
+     "who": "cube"
+    },
+    {
+     "id": "die",
+     "start": 49.119,
+     "end": 51.231,
+     "cap": "**Mr Tan:** Technically, the singular is **die**.",
+     "who": "tan"
+    },
+    {
+     "id": "final",
+     "start": 51.851,
+     "end": 54.752,
+     "cap": "**Cubert:** Please. Don't call me that. It sounds so... final.",
+     "who": "cube"
+    },
+    {
+     "id": "seven",
+     "start": 55.672,
+     "end": 56.973,
+     "cap": "**Ah Boy:** Cubert! Roll me a **seven**!",
+     "who": "boy"
+    },
+    {
+     "id": "no",
+     "start": 57.593,
+     "end": 60.879,
+     "cap": "**Cubert:** I don't **have** a seven. Probability zero. **No. Chance.**",
+     "who": "cube"
+    },
+    {
+     "id": "title",
+     "start": 61.599,
+     "end": 66.74,
+     "cap": "**Narrator:** What Are the Chances? Episode 20: Seventy Per Cent Chance of Game Night.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "dip",
+   "title": "The lucky dip",
+   "short": "Probability scale",
+   "card": true,
+   "start": 68.84,
+   "end": 141.165,
+   "lines": [
+    {
+     "id": "lucky",
+     "start": 70.64,
+     "end": 74.971,
+     "cap": "**Mum:** Game one: **Lucky Dip**. Pick a bag, take a sweet without looking. **Red** wins.",
+     "who": "mum"
+    },
+    {
+     "id": "bags",
+     "start": 75.491,
+     "end": 79.203,
+     "cap": "**Mum:** Bag A: **3** red, **5** blue. Bag B: **5** red, **9** blue.",
+     "who": "mum"
+    },
+    {
+     "id": "boy",
+     "start": 79.723,
+     "end": 81.216,
+     "cap": "**Ah Boy:** Bag B! It has **more** red ones!",
+     "who": "boy"
+    },
+    {
+     "id": "dad",
+     "start": 81.736,
+     "end": 84.275,
+     "cap": "**Dad:** Agreed. I have a feeling about Bag B.",
+     "who": "dad"
+    },
+    {
+     "id": "frac",
+     "start": 84.995,
+     "end": 91.715,
+     "cap": "**Cubert:** What matters is the **fraction**. P(event) = **favourable outcomes** ÷ **total outcomes**. **Wanted over All.**",
+     "who": "cube"
+    },
+    {
+     "id": "calc",
+     "start": 92.235,
+     "end": 101.28,
+     "cap": "**Kavya:** Bag A: P(red) = 3/8 = **0.375**. Bag B: 5/14, about **0.357**. Bag A wins. Just.",
+     "who": "kavya"
+    },
+    {
+     "id": "scale",
+     "start": 101.9,
+     "end": 106.636,
+     "cap": "**Cubert:** Every probability lives on a scale from **0**, impossible, to **1**, certain.",
+     "who": "cube"
+    },
+    {
+     "id": "roll",
+     "start": 106.956,
+     "end": 112.908,
+     "cap": "**Cubert:** Roll a seven on me: **0**. Roll **under** seven: **1**. An **even** number: 3/6 = **½**. An even chance.",
+     "who": "cube"
+    },
+    {
+     "id": "priya",
+     "start": 113.228,
+     "end": 115.852,
+     "cap": "**Priya:** Easy. Bag A: P(red) = **3 : 8**.",
+     "who": "priya"
+    },
+    {
+     "id": "ratio",
+     "start": 116.472,
+     "end": 124.707,
+     "cap": "**Cubert:** Never a **ratio**. A fraction, a decimal or a percentage: **3/8**, **0.375** or **37.5%**.",
+     "who": "cube"
+    },
+    {
+     "id": "toto",
+     "start": 125.027,
+     "end": 129.699,
+     "cap": "**Dad:** I bought a **TOTO** ticket. I either win or I lose. That's fifty-fifty!",
+     "who": "dad"
+    },
+    {
+     "id": "nochance",
+     "start": 130.319,
+     "end": 131.599,
+     "cap": "**Cubert:** **No. Chance.**",
+     "who": "cube"
+    },
+    {
+     "id": "equal",
+     "start": 132.319,
+     "end": 137.652,
+     "cap": "**Kavya:** Winning and losing are **not equally likely**, Dad. Your chance is about **1 in 14 million**.",
+     "who": "kavya"
+    },
+    {
+     "id": "still",
+     "start": 137.972,
+     "end": 139.465,
+     "cap": "**Dad:** So there's still a chance.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "rain",
+   "title": "Spinella",
+   "short": "Complements",
+   "card": true,
+   "start": 141.165,
+   "end": 219.993,
+   "lines": [
+    {
+     "id": "game",
+     "start": 142.965,
+     "end": 148.235,
+     "cap": "**Mr Tan:** Game two: the spinner from my childhood. Land on **blue**, win a pineapple tart.",
+     "who": "tan"
+    },
+    {
+     "id": "spin",
+     "start": 148.755,
+     "end": 153.043,
+     "cap": "**Spinella:** Spinella, darling. A **spinner**. My sectors are **not** equal. I'm **biased**, and proud.",
+     "who": "spin"
+    },
+    {
+     "id": "priya",
+     "start": 153.663,
+     "end": 156.436,
+     "cap": "**Priya:** Three colours, so P(blue) = **⅓**.",
+     "who": "priya"
+    },
+    {
+     "id": "angles",
+     "start": 157.056,
+     "end": 165.056,
+     "cap": "**Spinella:** Not equally likely, darling! Red **150°**, blue **90°**, green **120°**. Cut me into **30°** slices.",
+     "who": "spin"
+    },
+    {
+     "id": "slices",
+     "start": 165.376,
+     "end": 172.672,
+     "cap": "**Kavya:** **12** equal slices. Blue covers **3**. P(blue) = 3/12 = **¼**. Or from the angle: 90/360.",
+     "who": "kavya"
+    },
+    {
+     "id": "dad",
+     "start": 172.992,
+     "end": 177.771,
+     "cap": "**Dad:** I was right, though. Seventy per cent rain means thirty per cent **no** rain.",
+     "who": "dad"
+    },
+    {
+     "id": "comp",
+     "start": 178.291,
+     "end": 188.104,
+     "cap": "**Kavya:** Rain and no rain are **complements**: P(no rain) = **1 − P(rain)** = 1 − 0.7 = **0.3**. Right maths, Dad. Wrong picnic.",
+     "who": "kavya"
+    },
+    {
+     "id": "table",
+     "start": 188.824,
+     "end": 194.243,
+     "cap": "**Spinella:** My cousin, darling: red **0.25**, blue **0.4**, yellow **0.15**. Green is missing!",
+     "who": "spin"
+    },
+    {
+     "id": "me",
+     "start": 194.563,
+     "end": 199.853,
+     "cap": "**Mum:** One colour per spin: **mutually exclusive**, and they cover everything. So they add to **1**.",
+     "who": "mum"
+    },
+    {
+     "id": "green",
+     "start": 200.173,
+     "end": 204.504,
+     "cap": "**Mum:** Green = 1 − (0.25 + 0.4 + 0.15) = 1 − 0.8 = **0.2**.",
+     "who": "mum"
+    },
+    {
+     "id": "or",
+     "start": 204.824,
+     "end": 212.973,
+     "cap": "**Kavya:** And P(red **or** blue) = 0.25 + 0.4 = **0.65**. They can't happen together, so we **add**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mnem",
+     "start": 213.493,
+     "end": 218.293,
+     "cap": "**Mr Tan:** **NOT** means **1 minus**. I'd put it on a T-shirt, but nobody would buy one.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "lunch",
+   "title": "Twenty-four meal deals",
+   "short": "Sample spaces",
+   "card": true,
+   "start": 219.993,
+   "end": 290.228,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 221.793,
+     "end": 227.105,
+     "cap": "**Narrator:** Twelve noon. Still raining. Lunch is coming up from the hawker centre downstairs.",
+     "who": "narr"
+    },
+    {
+     "id": "rose",
+     "start": 227.625,
+     "end": 233.023,
+     "cap": "**Auntie Rose:** Kavya! Rain so heavy, I deliver! Meal deal: **1** of **4** mains, **1** of **3** drinks, **1** of **2** desserts!",
+     "who": "rose"
+    },
+    {
+     "id": "dad",
+     "start": 233.343,
+     "end": 237.012,
+     "cap": "**Dad:** 4 + 3 + 2. Nine meal deals. Easy.",
+     "who": "dad"
+    },
+    {
+     "id": "kavya",
+     "start": 237.732,
+     "end": 243.129,
+     "cap": "**Kavya:** **4** mains × **3** drinks = **12**. Each with **2** desserts: 12 × 2 = **24**.",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 243.449,
+     "end": 248.548,
+     "cap": "**Mr Tan:** The **product rule**: **m** ways, then **n** ways, gives **m × n** ways together.",
+     "who": "tan"
+    },
+    {
+     "id": "boxes",
+     "start": 248.868,
+     "end": 251.407,
+     "cap": "**Auntie Rose:** Twenty-four? Wah. I only cooked six boxes.",
+     "who": "rose"
+    },
+    {
+     "id": "penny",
+     "start": 252.227,
+     "end": 254.552,
+     "cap": "**Penny:** Hi! I'm **Penny**! A coin! Heads or tails! Have we met?",
+     "who": "penny"
+    },
+    {
+     "id": "met",
+     "start": 255.172,
+     "end": 257.092,
+     "cap": "**Cubert:** Four times. This morning.",
+     "who": "cube"
+    },
+    {
+     "id": "grid",
+     "start": 257.812,
+     "end": 261.801,
+     "cap": "**Penny:** Me plus a dice makes a **sample space**! **2** × **6** = **12** outcomes!",
+     "who": "penny"
+    },
+    {
+     "id": "boy",
+     "start": 262.121,
+     "end": 266.623,
+     "cap": "**Ah Boy:** Two coins: two heads, two tails, or one of each. **Three** outcomes, so **⅓** each!",
+     "who": "boy"
+    },
+    {
+     "id": "list",
+     "start": 267.243,
+     "end": 274.773,
+     "cap": "**Kavya:** List **systematically**. Fix the first coin, run through the second: **HH, HT, TH, TT**. **Four** outcomes.",
+     "who": "kavya"
+    },
+    {
+     "id": "order",
+     "start": 275.093,
+     "end": 280.725,
+     "cap": "**Penny:** **HT** and **TH** are **different**! Heads then tails, or tails then heads. I wouldn't know. I forget.",
+     "who": "penny"
+    },
+    {
+     "id": "half",
+     "start": 281.445,
+     "end": 287.141,
+     "cap": "**Kavya:** One of each is **2** of the **4**: P = 2/4 = **½**. And two dice? 6 × 6 = **36**.",
+     "who": "kavya"
+    },
+    {
+     "id": "bored",
+     "start": 287.661,
+     "end": 288.728,
+     "cap": "**Ah Boy:** Can we just eat now?",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "race",
+   "title": "The two-dice horse race",
+   "short": "Combined events",
+   "card": true,
+   "start": 290.228,
+   "end": 371.949,
+   "lines": [
+    {
+     "id": "two",
+     "start": 292.028,
+     "end": 296.743,
+     "cap": "**Narrator:** Two p.m. Mr Tan's favourite game: the **Two-Dice Horse Race**.",
+     "who": "narr"
+    },
+    {
+     "id": "rules",
+     "start": 297.263,
+     "end": 303.855,
+     "cap": "**Mr Tan:** Twelve horses. Roll **two dice**, add the scores, and that horse moves. And never say '**die**' near Cubert.",
+     "who": "tan"
+    },
+    {
+     "id": "boy",
+     "start": 304.475,
+     "end": 306.757,
+     "cap": "**Ah Boy:** I pick horse **1**. Number one always wins!",
+     "who": "boy"
+    },
+    {
+     "id": "dad",
+     "start": 307.277,
+     "end": 309.219,
+     "cap": "**Dad:** Horse **12**. I have a feeling.",
+     "who": "dad"
+    },
+    {
+     "id": "priya",
+     "start": 310.039,
+     "end": 311.404,
+     "cap": "**Priya:** Horse **7**.",
+     "who": "priya"
+    },
+    {
+     "id": "eleven",
+     "start": 312.124,
+     "end": 317.969,
+     "cap": "**Dad:** Eleven totals, 2 to 12, so every horse has a **1/11** chance. Fair is fair.",
+     "who": "dad"
+    },
+    {
+     "id": "pairs",
+     "start": 318.589,
+     "end": 323.965,
+     "cap": "**Cubert:** **No. Chance.** The totals are **not** equally likely. The **36 ordered pairs** are. Draw the grid.",
+     "who": "cube"
+    },
+    {
+     "id": "seven",
+     "start": 324.285,
+     "end": 330.707,
+     "cap": "**Kavya:** Total **7**: six cells, from 1 and 6 to 6 and 1. P(7) = 6/36 = **⅙**.",
+     "who": "kavya"
+    },
+    {
+     "id": "twelve",
+     "start": 331.027,
+     "end": 336.424,
+     "cap": "**Kavya:** Total **12**: only 6 and 6. P(12) = **1/36**. Sorry, Dad.",
+     "who": "kavya"
+    },
+    {
+     "id": "one",
+     "start": 337.144,
+     "end": 339.021,
+     "cap": "**Ah Boy:** So when does my horse, number **one**, move?",
+     "who": "boy"
+    },
+    {
+     "id": "never",
+     "start": 339.641,
+     "end": 343.268,
+     "cap": "**Priya:** Never. Two dice can't make 1. P = **0**. **Impossible.**",
+     "who": "priya"
+    },
+    {
+     "id": "bonus",
+     "start": 344.088,
+     "end": 349.379,
+     "cap": "**Mum:** House rule: a **six** on either dice gets a bonus move. P(**at least one** six)?",
+     "who": "mum"
+    },
+    {
+     "id": "count",
+     "start": 349.699,
+     "end": 356.611,
+     "cap": "**Kavya:** The six row has **6** cells, the six column **6**, but **(6, 6)** is in both: 6 + 6 − 1 = **11**.",
+     "who": "kavya"
+    },
+    {
+     "id": "comp",
+     "start": 356.931,
+     "end": 365.869,
+     "cap": "**Cubert:** Or the **complement**: no six on either is 5 × 5 = **25** cells. 1 − 25/36 = **11/36**.",
+     "who": "cube"
+    },
+    {
+     "id": "end",
+     "start": 366.189,
+     "end": 370.349,
+     "cap": "**Narrator:** Four p.m. Horse 7 wins. Horse 1 has not moved.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "venn",
+   "title": "Venna seats everyone",
+   "short": "Tables & Venn",
+   "card": true,
+   "start": 371.949,
+   "end": 462.169,
+   "lines": [
+    {
+     "id": "puzzle",
+     "start": 373.749,
+     "end": 379.061,
+     "cap": "**Priya:** Puzzle! My class has **30**. **18** play badminton, **15** play chess, **7** do neither.",
+     "who": "priya"
+    },
+    {
+     "id": "boy",
+     "start": 379.381,
+     "end": 384.821,
+     "cap": "**Ah Boy:** 18 + 15 + 7 = **40**. Your class has forty people in thirty chairs!",
+     "who": "boy"
+    },
+    {
+     "id": "venna",
+     "start": 385.541,
+     "end": 390.149,
+     "cap": "**Venna:** Venna. **Venn diagram**. I seat everyone in exactly **one** region. No exceptions.",
+     "who": "venna"
+    },
+    {
+     "id": "fill",
+     "start": 390.769,
+     "end": 395.591,
+     "cap": "**Venna:** Fill me from the **overlap** outwards. 30 − 7 = **23** play at least one.",
+     "who": "venna"
+    },
+    {
+     "id": "both",
+     "start": 395.911,
+     "end": 401.095,
+     "cap": "**Venna:** But 18 + 15 = **33**. The extra **10** were counted **twice**. They play **both**.",
+     "who": "venna"
+    },
+    {
+     "id": "only",
+     "start": 401.415,
+     "end": 409.287,
+     "cap": "**Kavya:** Badminton only: 18 − 10 = **8**. Chess only: 15 − 10 = **5**. Check: 8 + 10 + 5 + 7 = **30**.",
+     "who": "kavya"
+    },
+    {
+     "id": "or",
+     "start": 409.607,
+     "end": 418.332,
+     "cap": "**Venna:** P(badminton **or** chess) = (8 + 10 + 5)/30 = **23/30**. The overlap counts **once**. Nobody gets two seats.",
+     "who": "venna"
+    },
+    {
+     "id": "formula",
+     "start": 418.952,
+     "end": 427.72,
+     "cap": "**Mr Tan:** Or the formula: P(badminton) + P(chess) − P(both) = 18/30 + 15/30 − 10/30 = **23/30**.",
+     "who": "tan"
+    },
+    {
+     "id": "survey",
+     "start": 428.04,
+     "end": 436.104,
+     "cap": "**Mum:** My RC drinks survey: **80** people. Adults: **22** hot, **18** cold. Children: **6** hot, **34** cold.",
+     "who": "mum"
+    },
+    {
+     "id": "q1",
+     "start": 436.424,
+     "end": 439.027,
+     "cap": "**Mum:** Pick **anyone**. P(a child with a cold drink)?",
+     "who": "mum"
+    },
+    {
+     "id": "a1",
+     "start": 439.347,
+     "end": 444.019,
+     "cap": "**Priya:** 34 out of **all 80**: 34/80 = **17/40**.",
+     "who": "priya"
+    },
+    {
+     "id": "q2",
+     "start": 444.539,
+     "end": 447.803,
+     "cap": "**Mum:** Now pick a **child** at random. P(cold drink)?",
+     "who": "mum"
+    },
+    {
+     "id": "dad",
+     "start": 448.323,
+     "end": 450.755,
+     "cap": "**Dad:** Same again. **34/80**!",
+     "who": "dad"
+    },
+    {
+     "id": "a2",
+     "start": 451.475,
+     "end": 458.557,
+     "cap": "**Kavya:** Only the **40** children count now: 34/40 = **17/20**. Divide by the **group** you're choosing from.",
+     "who": "kavya"
+    },
+    {
+     "id": "hot",
+     "start": 458.877,
+     "end": 460.669,
+     "cap": "**Mum:** Correct. Dad, you're on hot drinks.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "trials",
+   "title": "Need. More. Trials.",
+   "short": "Relative frequency",
+   "card": true,
+   "start": 462.169,
+   "end": 551.404,
+   "lines": [
+    {
+     "id": "cap",
+     "start": 463.969,
+     "end": 469.452,
+     "cap": "**Narrator:** Five p.m. Ah Boy has found a bottle cap. He will be busy for some time.",
+     "who": "narr"
+    },
+    {
+     "id": "boy",
+     "start": 470.072,
+     "end": 474.104,
+     "cap": "**Ah Boy:** It lands **top up** or **top down**. Two ways, so P(top up) = **½**!",
+     "who": "boy"
+    },
+    {
+     "id": "freq",
+     "start": 474.624,
+     "end": 478.933,
+     "cap": "**Dr Freq:** Dr Freq. **Relative frequency**. No theory? Then **experiment**. Need. More. Trials.",
+     "who": "freq"
+    },
+    {
+     "id": "formula",
+     "start": 479.553,
+     "end": 483.628,
+     "cap": "**Dr Freq:** Relative frequency = **times it happened** ÷ **number of trials**.",
+     "who": "freq"
+    },
+    {
+     "id": "ten",
+     "start": 483.948,
+     "end": 487.553,
+     "cap": "**Ah Boy:** **10** drops: **7** top up! 7/10 = **0.7**!",
+     "who": "boy"
+    },
+    {
+     "id": "accuse",
+     "start": 488.173,
+     "end": 492.547,
+     "cap": "**Dad:** Priya has won **every** game today. I think her **lucky dice** is **biased**.",
+     "who": "dad"
+    },
+    {
+     "id": "test",
+     "start": 493.067,
+     "end": 498.443,
+     "cap": "**Dr Freq:** Test it! Roll it **300** times. If it's fair, expect about 1/6 × 300 = **50** of each score.",
+     "who": "freq"
+    },
+    {
+     "id": "results",
+     "start": 498.763,
+     "end": 504.245,
+     "cap": "**Priya:** Fine. **41**, **44**, **39**, **42**, **39**... and **95** sixes.",
+     "who": "priya"
+    },
+    {
+     "id": "bias",
+     "start": 505.065,
+     "end": 514.9,
+     "cap": "**Kavya:** 95/300 ≈ **0.32**: nearly **double** 1/6 ≈ **0.17**. A big gap over **300** rolls. **Biased.**",
+     "who": "kavya"
+    },
+    {
+     "id": "lucky",
+     "start": 515.22,
+     "end": 518.185,
+     "cap": "**Priya:** I said it was **lucky**. I never said it was **fair**.",
+     "who": "priya"
+    },
+    {
+     "id": "cup",
+     "start": 519.105,
+     "end": 527.361,
+     "cap": "**Mum:** Paper cup, on its side. Kavya: **9** in **20**. Ah Boy: **18** in **50**. Priya: **47** in **130**.",
+     "who": "mum"
+    },
+    {
+     "id": "pool",
+     "start": 527.681,
+     "end": 534.444,
+     "cap": "**Dr Freq:** Don't average them. **Pool** them: 74 sides in **200** tosses. 74/200 = **0.37**.",
+     "who": "freq"
+    },
+    {
+     "id": "eight",
+     "start": 534.764,
+     "end": 539.372,
+     "cap": "**Narrator:** Eight p.m. Ah Boy has dropped the bottle cap **1000** times.",
+     "who": "narr"
+    },
+    {
+     "id": "settle",
+     "start": 539.992,
+     "end": 545.261,
+     "cap": "**Ah Boy:** 100 drops: **0.41**. 1000 drops: **0.384**. It's settling down!",
+     "who": "boy"
+    },
+    {
+     "id": "law",
+     "start": 545.581,
+     "end": 550.104,
+     "cap": "**Dr Freq:** **More trials, better estimate.** P(top up) is about **0.38**. Not ½.",
+     "who": "freq"
+    }
+   ]
+  },
+  {
+   "id": "night",
+   "title": "Spin to Win, and Uncle Banyan",
+   "short": "Expected & trees",
+   "card": true,
+   "start": 551.404,
+   "end": 657.369,
+   "lines": [
+    {
+     "id": "nine",
+     "start": 553.204,
+     "end": 558.111,
+     "cap": "**Narrator:** Nine p.m. Ah Boy is planning a stall for next week's school carnival.",
+     "who": "narr"
+    },
+    {
+     "id": "stall",
+     "start": 558.631,
+     "end": 563.793,
+     "cap": "**Ah Boy:** **Spin to Win**! **$1** a go. **5** equal sectors. Land on gold, win **$3**!",
+     "who": "boy"
+    },
+    {
+     "id": "rule",
+     "start": 564.113,
+     "end": 569.041,
+     "cap": "**Cubert:** **Expected number = probability × number of trials.** P times the tries.",
+     "who": "cube"
+    },
+    {
+     "id": "forty",
+     "start": 569.361,
+     "end": 574.673,
+     "cap": "**Kavya:** **200** players, P(win) = **1/5**. Expect 1/5 × 200 = **40** winners.",
+     "who": "kavya"
+    },
+    {
+     "id": "money",
+     "start": 574.993,
+     "end": 583.804,
+     "cap": "**Dad:** He takes 200 × $1 = **$200**. Pays 40 × $3 = **$120**. About **$80** profit!",
+     "who": "dad"
+    },
+    {
+     "id": "promise",
+     "start": 584.124,
+     "end": 588.263,
+     "cap": "**Mr Tan:** **About** $80. Expected is a **prediction**, not a **promise**.",
+     "who": "tan"
+    },
+    {
+     "id": "back",
+     "start": 588.883,
+     "end": 593.341,
+     "cap": "**Mum:** Backwards: we expect **80** reds in **200** picks. P(red)?",
+     "who": "mum"
+    },
+    {
+     "id": "backa",
+     "start": 593.661,
+     "end": 597.331,
+     "cap": "**Kavya:** Divide: P(red) = 80/200 = **0.4**.",
+     "who": "kavya"
+    },
+    {
+     "id": "fore",
+     "start": 597.651,
+     "end": 601.725,
+     "cap": "**Mum:** Forecast: **70%** chance of rain on Sunday, and on Monday.",
+     "who": "mum"
+    },
+    {
+     "id": "due",
+     "start": 602.045,
+     "end": 606.952,
+     "cap": "**Dad:** Penny's landed **heads** five times in a row. **Tails** is due. I have a feeling.",
+     "who": "dad"
+    },
+    {
+     "id": "penny",
+     "start": 607.672,
+     "end": 608.952,
+     "cap": "**Penny:** Hi! I'm Penny! Have we met?",
+     "who": "penny"
+    },
+    {
+     "id": "memory",
+     "start": 609.672,
+     "end": 614.515,
+     "cap": "**Cubert:** A coin has **no memory**. P(tails) is still **½**. Each flip is **independent**.",
+     "who": "cube"
+    },
+    {
+     "id": "banyan",
+     "start": 615.135,
+     "end": 623.689,
+     "cap": "**Uncle Banyan:** Uncle Banyan. **Tree diagram**. Sunday: rain **0.7**, dry **0.3**. Each set of branches adds to **1**.",
+     "who": "banyan"
+    },
+    {
+     "id": "and",
+     "start": 624.209,
+     "end": 631.569,
+     "cap": "**Kavya:** Rain **and then** rain: **multiply** along the path. 0.7 × 0.7 = **0.49**.",
+     "who": "kavya"
+    },
+    {
+     "id": "one",
+     "start": 631.889,
+     "end": 637.308,
+     "cap": "**Priya:** Exactly **one** wet day: **0.21** + **0.21**. **Add** the paths: **0.42**.",
+     "who": "priya"
+    },
+    {
+     "id": "check",
+     "start": 637.628,
+     "end": 641.724,
+     "cap": "**Uncle Banyan:** All four ends: 0.49 + 0.21 + 0.21 + 0.09 = **1**. **AND, multiply. OR, add.**",
+     "who": "banyan"
+    },
+    {
+     "id": "sweets",
+     "start": 642.344,
+     "end": 648.445,
+     "cap": "**Mr Tan:** **3** strawberry, **2** lemon. Eat one, then another: **without replacement**. The bag **changes**.",
+     "who": "tan"
+    },
+    {
+     "id": "dep",
+     "start": 648.765,
+     "end": 652.925,
+     "cap": "**Kavya:** P(both strawberry) = 3/5 × 2/4 = **3/10**.",
+     "who": "kavya"
+    },
+    {
+     "id": "all",
+     "start": 653.245,
+     "end": 655.869,
+     "cap": "**Ah Boy:** Or I eat all five, and the probability is **one**.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "Game Night saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 657.369,
+   "end": 718.316,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 659.169,
+     "end": 662.988,
+     "cap": "**Narrator:** Before the credits, Game Night would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 663.608,
+     "end": 669.368,
+     "cap": "**Priya:** One. A probability is a **fraction**, **decimal** or **percentage**. **3/10**, not **3 : 10**.",
+     "who": "priya"
+    },
+    {
+     "id": "t2",
+     "start": 669.988,
+     "end": 675.385,
+     "cap": "**Dad:** Two. A probability **bigger than 1**? Something's wrong. Even my feelings stay under one.",
+     "who": "dad"
+    },
+    {
+     "id": "t3",
+     "start": 676.005,
+     "end": 681.232,
+     "cap": "**Penny:** Three. **HT** and **TH** are **different**. List them both. I'd write that down, but I'd forget.",
+     "who": "penny"
+    },
+    {
+     "id": "t4",
+     "start": 681.852,
+     "end": 686.161,
+     "cap": "**Mum:** Four. '**A child** is chosen'? Divide by the **children**, not the grand total.",
+     "who": "mum"
+    },
+    {
+     "id": "t5",
+     "start": 686.781,
+     "end": 690.6,
+     "cap": "**Venna:** Five. 'This **or** that'? Count the **overlap** once. Nobody gets two seats.",
+     "who": "venna"
+    },
+    {
+     "id": "t6",
+     "start": 691.22,
+     "end": 695.7,
+     "cap": "**Dr Freq:** Six. Combining experiments? **Pool** the totals. Never **average** the relative frequencies.",
+     "who": "freq"
+    },
+    {
+     "id": "return",
+     "start": 696.42,
+     "end": 698.831,
+     "cap": "**Narrator:** What Are the Chances? will return.",
+     "who": "narr"
+    },
+    {
+     "id": "sunday",
+     "start": 699.951,
+     "end": 703.833,
+     "cap": "**Narrator:** Sunday, six a.m. The rain has finally stopped.",
+     "who": "narr"
+    },
+    {
+     "id": "night",
+     "start": 704.453,
+     "end": 706.821,
+     "cap": "**Mum:** Ah Boy? Have you been rolling dice **all night**?",
+     "who": "mum"
+    },
+    {
+     "id": "horse",
+     "start": 707.341,
+     "end": 709.965,
+     "cap": "**Ah Boy:** Horse one still hasn't moved. But I have a feeling.",
+     "who": "boy"
+    },
+    {
+     "id": "son",
+     "start": 710.785,
+     "end": 712.3,
+     "cap": "**Dad:** Me too, son. Me too.",
+     "who": "dad"
+    },
+    {
+     "id": "zero",
+     "start": 713.02,
+     "end": 715.516,
+     "cap": "**Cubert:** Total of one. Probability... zero.",
+     "who": "cube"
+    }
+   ]
+  }
+ ],
+ "total": 718.316
+}

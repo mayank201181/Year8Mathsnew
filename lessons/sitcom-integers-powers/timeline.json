@@ -1,0 +1,1017 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 60.176,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.637,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Friday evening, Block 208. Her maths test is back.",
+     "who": "narr"
+    },
+    {
+     "id": "score",
+     "start": 7.157,
+     "end": 10.784,
+     "cap": "**Kavya:** **12 out of 20**. And every mark I lost was a **minus sign**.",
+     "who": "kavya"
+    },
+    {
+     "id": "mum",
+     "start": 11.404,
+     "end": 16.268,
+     "cap": "**Mum:** Corrections **tonight**, Kavya. Tomorrow is the **RC Family Day** at the void deck.",
+     "who": "mum"
+    },
+    {
+     "id": "boy",
+     "start": 16.688,
+     "end": 19.205,
+     "cap": "**Ah Boy:** Free **ice cream**! A **lucky draw**! Priya's **robot**!",
+     "who": "boy"
+    },
+    {
+     "id": "dad",
+     "start": 19.625,
+     "end": 24.468,
+     "cap": "**Dad:** And a **maths quiz**. First prize: a **rice cooker**. That rice cooker is **ours**.",
+     "who": "dad"
+    },
+    {
+     "id": "hate",
+     "start": 25.088,
+     "end": 26.795,
+     "cap": "**Kavya:** I **hate** minus signs.",
+     "who": "kavya"
+    },
+    {
+     "id": "tiny",
+     "start": 27.715,
+     "end": 34.285,
+     "cap": "**Narrator:** But this documentary is not about Kavya. It is about the little line in front of her wrong answers.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 34.905,
+     "end": 38.532,
+     "cap": "**Dash:** Dash. I'm the **minus sign**. **Less than zero**. Everybody **hates** me.",
+     "who": "dash"
+    },
+    {
+     "id": "poem",
+     "start": 39.352,
+     "end": 45.773,
+     "cap": "**Dash:** I wrote a poem. 'Roses are red. Violets are blue. I am less than zero.' It doesn't rhyme. **Nothing** works out for me.",
+     "who": "dash"
+    },
+    {
+     "id": "talk",
+     "start": 46.693,
+     "end": 48.208,
+     "cap": "**Ah Boy:** Kavya. Your test is **talking**.",
+     "who": "boy"
+    },
+    {
+     "id": "plan",
+     "start": 49.128,
+     "end": 53.224,
+     "cap": "**Dash:** Tomorrow I prove minus signs are **useful**. Or I go back to bed.",
+     "who": "dash"
+    },
+    {
+     "id": "title",
+     "start": 54.044,
+     "end": 58.076,
+     "cap": "**Narrator:** Negative Vibes. Episode 1: Two Wrongs Make a Right.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "freezer",
+   "title": "Auntie Rose's freezer",
+   "short": "Adding & subtracting",
+   "card": true,
+   "start": 60.176,
+   "end": 122.531,
+   "lines": [
+    {
+     "id": "nine",
+     "start": 61.976,
+     "end": 68.568,
+     "cap": "**Narrator:** Saturday, 9 a.m. The RC Family Day. Auntie Rose has brought her ice-cream freezer.",
+     "who": "narr"
+    },
+    {
+     "id": "rose",
+     "start": 69.088,
+     "end": 73.888,
+     "cap": "**Auntie Rose:** Kavya! My freezer must be **−18 °C**. Ah Boy left the lid open. Now it's **−5 °C**!",
+     "who": "rose"
+    },
+    {
+     "id": "warmer",
+     "start": 74.408,
+     "end": 80.744,
+     "cap": "**Dash:** **Up** the number line is **warmer**. Change = **final − start** = **−5 − (−18)**.",
+     "who": "dash"
+    },
+    {
+     "id": "pattern",
+     "start": 81.064,
+     "end": 87.187,
+     "cap": "**Dash:** Watch. 5 − 3 = 2. 5 − 2 = 3. 5 − 1 = 4. 5 − 0 = 5. Keep going.",
+     "who": "dash"
+    },
+    {
+     "id": "up",
+     "start": 87.507,
+     "end": 91.816,
+     "cap": "**Kavya:** 5 − (−1) = **6**. 5 − (−2) = **7**. The answer keeps going **up**!",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 92.136,
+     "end": 96.424,
+     "cap": "**Dash:** **Subtracting a negative is adding**: a − (−b) = a + b. So −5 − (−18) = −5 + 18 = **13**.",
+     "who": "dash"
+    },
+    {
+     "id": "two",
+     "start": 96.744,
+     "end": 102.013,
+     "cap": "**Ah Boy:** I know a rule! **Two negatives make a positive**! So −4 + (−6) = **10**!",
+     "who": "boy"
+    },
+    {
+     "id": "left",
+     "start": 102.833,
+     "end": 108.231,
+     "cap": "**Dash:** That rule is for **×** and **÷** only. **Adding** a negative moves you **left**: −4 + (−6) = **−10**.",
+     "who": "dash"
+    },
+    {
+     "id": "chain",
+     "start": 108.551,
+     "end": 113.713,
+     "cap": "**Kavya:** So −7 + 4 − (−5): **4 right** to −3, then **5 more right**: **2**.",
+     "who": "kavya"
+    },
+    {
+     "id": "diff",
+     "start": 114.033,
+     "end": 121.031,
+     "cap": "**Auntie Rose:** My freezer and a Singapore afternoon: the **difference** is **33 − (−18) = 51** degrees! Ah Boy, **close the lid**.",
+     "who": "rose"
+    }
+   ]
+  },
+  {
+   "id": "cards",
+   "title": "Red and black",
+   "short": "Multiplying & dividing",
+   "card": true,
+   "start": 122.531,
+   "end": 206.611,
+   "lines": [
+    {
+     "id": "priya",
+     "start": 124.331,
+     "end": 129.856,
+     "cap": "**Priya:** Priya. Undefeated. **Black** cards are **positive**, **red** cards are **negative**. Biggest **product** wins.",
+     "who": "priya"
+    },
+    {
+     "id": "mine",
+     "start": 130.376,
+     "end": 134.237,
+     "cap": "**Priya:** Black **3**, red **4**: three lots of −4. 3 × (−4) = **−12**.",
+     "who": "priya"
+    },
+    {
+     "id": "reds",
+     "start": 134.757,
+     "end": 139.323,
+     "cap": "**Kavya:** I've got **two reds**. (−3) × (−4) is... also −12?",
+     "who": "kavya"
+    },
+    {
+     "id": "pattern",
+     "start": 139.643,
+     "end": 147.771,
+     "cap": "**Dash:** Find the pattern. 3 × (−4) = −12. 2 × (−4) = −8. 1 × (−4) = −4. 0 × (−4) = 0.",
+     "who": "dash"
+    },
+    {
+     "id": "up",
+     "start": 148.091,
+     "end": 153.829,
+     "cap": "**Kavya:** **Up 4** each time! So −1 × (−4) = 4, −2 × (−4) = 8, **−3 × (−4) = 12**!",
+     "who": "kavya"
+    },
+    {
+     "id": "dasha",
+     "start": 154.149,
+     "end": 157.413,
+     "cap": "**Dasha:** Hiii! **Dasha**, his twin! Watch two negatives **multiply**!",
+     "who": "dasha"
+    },
+    {
+     "id": "ugh",
+     "start": 157.933,
+     "end": 160.771,
+     "cap": "**Dash:** We make a **positive**. Ugh. I feel... **positive**.",
+     "who": "dash"
+    },
+    {
+     "id": "rule",
+     "start": 161.891,
+     "end": 169.016,
+     "cap": "**Dash:** **Same signs: positive. Different signs: negative.** Division as well: −12 ÷ (−3) = **4**.",
+     "who": "dash"
+    },
+    {
+     "id": "friend",
+     "start": 169.336,
+     "end": 173.773,
+     "cap": "**Ah Boy:** Like friends! A friend of a friend is a **friend**. An enemy of an enemy is a **friend**!",
+     "who": "boy"
+    },
+    {
+     "id": "sister",
+     "start": 174.293,
+     "end": 176.512,
+     "cap": "**Dash:** I don't have friends. I have a **sister**.",
+     "who": "dash"
+    },
+    {
+     "id": "five",
+     "start": 177.532,
+     "end": 183.911,
+     "cap": "**Priya:** Final round. **Five reds**: (−1) × (−2) × (−3) × (−4) × (−5)!",
+     "who": "priya"
+    },
+    {
+     "id": "count",
+     "start": 184.231,
+     "end": 190.929,
+     "cap": "**Kavya:** Size first: 1 × 2 × 3 × 4 × 5 = **120**. **Five** negatives is **odd**, so **−120**. Even would be positive.",
+     "who": "kavya"
+    },
+    {
+     "id": "est",
+     "start": 191.249,
+     "end": 200.06,
+     "cap": "**Mr Tan:** Mr Tan. **Estimate** first: −38 × 21 ≈ −40 × 20 = **−800**. Exact: **−798**. Close!",
+     "who": "tan"
+    },
+    {
+     "id": "let",
+     "start": 200.58,
+     "end": 204.911,
+     "cap": "**Priya:** **12** beats **−12**. Fine. I'm telling everyone I **let** you win.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "queue",
+   "title": "Now serving: Brackets",
+   "short": "Order of operations",
+   "card": true,
+   "start": 206.611,
+   "end": 295.609,
+   "lines": [
+    {
+     "id": "team",
+     "start": 208.411,
+     "end": 214.789,
+     "cap": "**Dad:** Eleven a.m. The maths quiz. Team name: **Dad and the Calculators**. That rice cooker is **ours**.",
+     "who": "dad"
+    },
+    {
+     "id": "q1",
+     "start": 215.309,
+     "end": 219.917,
+     "cap": "**Mr Tan:** Quizmaster Tan. Question one: **√4 + 16 × 2**.",
+     "who": "tan"
+    },
+    {
+     "id": "dad",
+     "start": 220.537,
+     "end": 221.604,
+     "cap": "**Dad:** **36!**",
+     "who": "dad"
+    },
+    {
+     "id": "mum",
+     "start": 222.024,
+     "end": 223.133,
+     "cap": "**Mum:** **6**. Obviously.",
+     "who": "mum"
+    },
+    {
+     "id": "kav",
+     "start": 223.553,
+     "end": 224.727,
+     "cap": "**Kavya:** **34!**",
+     "who": "kavya"
+    },
+    {
+     "id": "queenie",
+     "start": 225.547,
+     "end": 228.853,
+     "cap": "**Queenie:** Ding-dong! I'm **Queenie**, the queue machine. Nobody **cuts** my queue.",
+     "who": "queenie"
+    },
+    {
+     "id": "bidmas",
+     "start": 229.373,
+     "end": 235.581,
+     "cap": "**Queenie:** Now serving: **B**rackets. Then **I**ndices: powers **and** roots. Then **D**ivision and **M**ultiplication. Then **A**ddition and **S**ubtraction.",
+     "who": "queenie"
+    },
+    {
+     "id": "work",
+     "start": 235.901,
+     "end": 240.915,
+     "cap": "**Kavya:** So **√4 = 2** first. Then **16 × 2 = 32**. Then **2 + 32 = 34**.",
+     "who": "kavya"
+    },
+    {
+     "id": "cut",
+     "start": 241.435,
+     "end": 245.467,
+     "cap": "**Queenie:** Dad went left to right: 18 × 2 = 36. Mum put **everything** under the root: √36 = 6. **Queue cutters!**",
+     "who": "queenie"
+    },
+    {
+     "id": "q2",
+     "start": 246.287,
+     "end": 249.956,
+     "cap": "**Mr Tan:** Question two: **12 ÷ 3 × 2**.",
+     "who": "tan"
+    },
+    {
+     "id": "mum2",
+     "start": 250.476,
+     "end": 254.935,
+     "cap": "**Mum:** **Multiplication** first! 3 × 2 = 6, and 12 ÷ 6 = **2**.",
+     "who": "mum"
+    },
+    {
+     "id": "ticket",
+     "start": 255.555,
+     "end": 260.909,
+     "cap": "**Queenie:** **D** and **M** share **one ticket**: **left to right**. 12 ÷ 3 = 4, then 4 × 2 = **8**. **A** and **S** too.",
+     "who": "queenie"
+    },
+    {
+     "id": "q3",
+     "start": 261.229,
+     "end": 266.861,
+     "cap": "**Mr Tan:** Question three: **20 − 3 × (5 − 7)²**.",
+     "who": "tan"
+    },
+    {
+     "id": "work3",
+     "start": 267.381,
+     "end": 274.293,
+     "cap": "**Kavya:** Brackets: 5 − 7 = −2. Indices: (−2)² = **4**. Multiply: 3 × 4 = 12. Subtract: 20 − 12 = **8**.",
+     "who": "kavya"
+    },
+    {
+     "id": "calc",
+     "start": 274.613,
+     "end": 280.373,
+     "cap": "**Dad:** Last question. My calculator says **−3² = −9**. It's **broken**!",
+     "who": "dad"
+    },
+    {
+     "id": "touch",
+     "start": 280.993,
+     "end": 285.644,
+     "cap": "**Queenie:** The power touches only the **3**: −3² = −(3²) = **−9**. For **(−3)² = 9**, type the **brackets**.",
+     "who": "queenie"
+    },
+    {
+     "id": "prize",
+     "start": 285.964,
+     "end": 291.297,
+     "cap": "**Mr Tan:** Results. Third place: Dad and the Calculators. Your prize: a **calculator**.",
+     "who": "tan"
+    },
+    {
+     "id": "are",
+     "start": 292.017,
+     "end": 293.809,
+     "cap": "**Dad:** We **are** the calculators now.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "inator",
+   "title": "The Power-inator",
+   "short": "Squares, cubes & roots",
+   "card": true,
+   "start": 295.609,
+   "end": 357.605,
+   "lines": [
+    {
+     "id": "priya",
+     "start": 297.409,
+     "end": 302.273,
+     "cap": "**Priya:** Noon. My robot, the **Power-inator**: **square**, **cube**, **square root**, **cube root**. Any number.",
+     "who": "priya"
+    },
+    {
+     "id": "seven",
+     "start": 302.793,
+     "end": 303.967,
+     "cap": "**Ah Boy:** **7**! **Squared**, please!",
+     "who": "boy"
+    },
+    {
+     "id": "sq",
+     "start": 304.387,
+     "end": 308.227,
+     "cap": "**Pip:** Beep. I am **Pip**. 7² = 7 × 7 = **49**. A **square number**.",
+     "who": "pip"
+    },
+    {
+     "id": "cube",
+     "start": 308.747,
+     "end": 313.035,
+     "cap": "**Pip:** **Cubes** use **three** equal factors: 4³ = 4 × 4 × 4 = **64**. And 10³ = **1000**.",
+     "who": "pip"
+    },
+    {
+     "id": "rev",
+     "start": 313.355,
+     "end": 317.045,
+     "cap": "**Priya:** Reverse gear! **√49**. Easy: **7**.",
+     "who": "priya"
+    },
+    {
+     "id": "me",
+     "start": 317.565,
+     "end": 323.923,
+     "cap": "**Dash:** What about **−7**? (−7) × (−7) is **also 49**. Nobody ever counts **me**.",
+     "who": "dash"
+    },
+    {
+     "id": "pm",
+     "start": 324.543,
+     "end": 330.537,
+     "cap": "**Pip:** Correct. 49 has **two** square roots: **±7**. The **√** sign alone means the **positive** one.",
+     "who": "pip"
+    },
+    {
+     "id": "x2",
+     "start": 330.857,
+     "end": 338.047,
+     "cap": "**Kavya:** So **x² = 49** gives **x = ±7**: **both** answers. Question 6. **Four marks.**",
+     "who": "kavya"
+    },
+    {
+     "id": "trap",
+     "start": 338.767,
+     "end": 346.127,
+     "cap": "**Kavya:** And **√50**? Not a whole number. **Trap** it: 49 < 50 < 64. So √50 is between **7** and **8**. Just over 7.",
+     "who": "kavya"
+    },
+    {
+     "id": "check",
+     "start": 346.447,
+     "end": 351.311,
+     "cap": "**Pip:** Check: 7.1² = **50.41**. Too big. So **√50 ≈ 7.07**.",
+     "who": "pip"
+    },
+    {
+     "id": "bigger",
+     "start": 351.631,
+     "end": 354.361,
+     "cap": "**Priya:** See? Squaring **always** makes a number **bigger**.",
+     "who": "priya"
+    },
+    {
+     "id": "half",
+     "start": 355.081,
+     "end": 356.105,
+     "cap": "**Ah Boy:** Can I put in **a half**?",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "zones",
+   "title": "Grow, shrink or flip",
+   "short": "Negatives & decimals",
+   "card": true,
+   "start": 357.605,
+   "end": 439.948,
+   "lines": [
+    {
+     "id": "half",
+     "start": 359.405,
+     "end": 362.52,
+     "cap": "**Pip:** Input: **0.5**. Squared. 0.5² = 0.5 × 0.5 = **0.25**.",
+     "who": "pip"
+    },
+    {
+     "id": "broken",
+     "start": 363.14,
+     "end": 366.809,
+     "cap": "**Priya:** **0.25**? That's **smaller**! My machine is **broken**!",
+     "who": "priya"
+    },
+    {
+     "id": "quarter",
+     "start": 367.429,
+     "end": 372.144,
+     "cap": "**Kavya:** Half of a half is a **quarter**. Squaring a number **between 0 and 1** makes it **smaller**.",
+     "who": "kavya"
+    },
+    {
+     "id": "tenth",
+     "start": 372.464,
+     "end": 373.808,
+     "cap": "**Ah Boy:** **0.1**! **Cubed**!",
+     "who": "boy"
+    },
+    {
+     "id": "milli",
+     "start": 374.228,
+     "end": 377.001,
+     "cap": "**Pip:** 0.1³ = 0.1 × 0.1 × 0.1 = **0.001**. Even **smaller**.",
+     "who": "pip"
+    },
+    {
+     "id": "root",
+     "start": 377.321,
+     "end": 381.055,
+     "cap": "**Priya:** Then a **root** must shrink it too. **√0.25**!",
+     "who": "priya"
+    },
+    {
+     "id": "grow",
+     "start": 381.475,
+     "end": 385.229,
+     "cap": "**Pip:** √0.25 = **0.5**, because 0.5² = 0.25. The root is **bigger**.",
+     "who": "pip"
+    },
+    {
+     "id": "me",
+     "start": 385.949,
+     "end": 388.467,
+     "cap": "**Dash:** My turn. Put **me** in. **−3**. Squared.",
+     "who": "dash"
+    },
+    {
+     "id": "nine",
+     "start": 389.087,
+     "end": 391.455,
+     "cap": "**Pip:** (−3)² = (−3) × (−3) = **9**.",
+     "who": "pip"
+    },
+    {
+     "id": "off",
+     "start": 392.075,
+     "end": 394.507,
+     "cap": "**Dash:** I came out **positive**. Get it **off** me.",
+     "who": "dash"
+    },
+    {
+     "id": "flip",
+     "start": 395.527,
+     "end": 399.26,
+     "cap": "**Kavya:** So a **negative squared** is **positive**. Now **cube** him: **−2**.",
+     "who": "kavya"
+    },
+    {
+     "id": "cube",
+     "start": 399.58,
+     "end": 404.017,
+     "cap": "**Pip:** (−2)³ = (−2) × (−2) × (−2) = 4 × (−2) = **−8**. Three negatives: still **negative**.",
+     "who": "pip"
+    },
+    {
+     "id": "one",
+     "start": 404.537,
+     "end": 409.252,
+     "cap": "**Pip:** So **∛(−8) = −2**. Every number has exactly **one** cube root.",
+     "who": "pip"
+    },
+    {
+     "id": "big",
+     "start": 409.572,
+     "end": 412.025,
+     "cap": "**Dash:** Last one. The **square root** of **−9**.",
+     "who": "dash"
+    },
+    {
+     "id": "error",
+     "start": 412.645,
+     "end": 417.659,
+     "cap": "**Pip:** 3² = 9. (−3)² = 9. **Nothing** squares to −9. **ERROR. NO REAL ANSWER.**",
+     "who": "pip"
+    },
+    {
+     "id": "zones",
+     "start": 418.579,
+     "end": 425.917,
+     "cap": "**Mr Tan:** Three zones. **Bigger than 1**: squares **grow**, roots **shrink**. **Between 0 and 1**: squares **shrink**, roots **grow**.",
+     "who": "tan"
+    },
+    {
+     "id": "neg",
+     "start": 426.237,
+     "end": 435.027,
+     "cap": "**Mr Tan:** **Negative**: squares **flip** to positive, cubes **stay** negative, cube roots work, square roots **don't exist**. And 0 and 1 never move.",
+     "who": "tan"
+    },
+    {
+     "id": "label",
+     "start": 435.347,
+     "end": 438.248,
+     "cap": "**Priya:** Power-inator **2** comes with a **warning label**.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "fold",
+   "title": "Fold to the Moon",
+   "short": "Index laws",
+   "card": true,
+   "start": 439.948,
+   "end": 517.299,
+   "lines": [
+    {
+     "id": "fold",
+     "start": 441.748,
+     "end": 447.657,
+     "cap": "**Mum:** Two p.m. The folding challenge! Each fold **doubles** the layers. **Three** folds: 2 × 2 × 2 = **8** layers.",
+     "who": "mum"
+    },
+    {
+     "id": "tiny",
+     "start": 448.177,
+     "end": 452.444,
+     "cap": "**Tiny:** That's **2³**! I'm **Tiny**, the **index**! I count how many **2s** are multiplied!",
+     "who": "tiny"
+    },
+    {
+     "id": "basil",
+     "start": 452.864,
+     "end": 455.552,
+     "cap": "**Basil:** I am **Basil**. The **base**. I do not change.",
+     "who": "basil"
+    },
+    {
+     "id": "dad",
+     "start": 456.372,
+     "end": 462.153,
+     "cap": "**Dad:** **3** folds, then **4** more. So 2³ × 2⁴ = **4⁷**!",
+     "who": "dad"
+    },
+    {
+     "id": "change",
+     "start": 462.873,
+     "end": 464.943,
+     "cap": "**Basil:** **The base. Does not. Change.**",
+     "who": "basil"
+    },
+    {
+     "id": "add",
+     "start": 465.763,
+     "end": 471.053,
+     "cap": "**Tiny:** Three 2s, then four more 2s: **seven** 2s. 2³ × 2⁴ = **2⁷**. **Multiply: add the indices!**",
+     "who": "tiny"
+    },
+    {
+     "id": "unfold",
+     "start": 471.373,
+     "end": 477.859,
+     "cap": "**Mum:** Now **unfold** three times: 2⁷ ÷ 2³ = **2⁴**. **Divide: subtract.**",
+     "who": "mum"
+    },
+    {
+     "id": "power",
+     "start": 478.179,
+     "end": 482.552,
+     "cap": "**Tiny:** **Power of a power: multiply.** (2³)⁴ = 2³ × 2³ × 2³ × 2³ = **2¹²**.",
+     "who": "tiny"
+    },
+    {
+     "id": "zero",
+     "start": 482.872,
+     "end": 489.763,
+     "cap": "**Kavya:** And **no** folds? 2³ ÷ 2³ = 1, and the law says **2⁰**. So **2⁰ = 1**: one sheet!",
+     "who": "kavya"
+    },
+    {
+     "id": "mad",
+     "start": 490.083,
+     "end": 494.819,
+     "cap": "**Tiny:** **MAD SPM!** **M**ultiply, **A**dd. **D**ivide, **S**ubtract. **P**ower, **M**ultiply.",
+     "who": "tiny"
+    },
+    {
+     "id": "letters",
+     "start": 495.339,
+     "end": 500.544,
+     "cap": "**Kavya:** Letters as well: **3x² × 4x⁵ = 12x⁷**. Multiply the numbers, add the indices.",
+     "who": "kavya"
+    },
+    {
+     "id": "same",
+     "start": 500.864,
+     "end": 506.752,
+     "cap": "**Basil:** **Same base only.** 2³ × 5² is just 8 × 25 = **200**.",
+     "who": "basil"
+    },
+    {
+     "id": "moon",
+     "start": 507.072,
+     "end": 512.256,
+     "cap": "**Mum:** **42** folds of 0.1 mm paper: 0.1 × 2⁴² mm ≈ **440 000 km**. Past the **Moon**!",
+     "who": "mum"
+    },
+    {
+     "id": "seventh",
+     "start": 512.576,
+     "end": 515.499,
+     "cap": "**Dad:** I've done **six** folds. It won't do a **seventh**.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "family",
+   "title": "The family photo",
+   "short": "Types of number",
+   "card": true,
+   "start": 517.299,
+   "end": 585.516,
+   "lines": [
+    {
+     "id": "tan",
+     "start": 519.099,
+     "end": 525.605,
+     "cap": "**Mr Tan:** Four p.m. Mr Tan, photographer. Numbers have **families** too. Each fits **inside** the next.",
+     "who": "tan"
+    },
+    {
+     "id": "natural",
+     "start": 526.125,
+     "end": 530.285,
+     "cap": "**Ah Boy:** **Natural numbers**: the counting ones. **1, 2, 3, 4**… I'm good at those.",
+     "who": "boy"
+    },
+    {
+     "id": "integers",
+     "start": 530.805,
+     "end": 536.288,
+     "cap": "**Dash:** **Integers**: whole numbers, positive, negative and **zero**. I'm in this one. I **belong** somewhere.",
+     "who": "dash"
+    },
+    {
+     "id": "rational",
+     "start": 537.208,
+     "end": 544.461,
+     "cap": "**Kavya:** **Rational** numbers: any fraction **a/b** of integers, b ≠ 0. Like **2/5**, 0.75 = **3/4**, and 0.333… = **1/3**.",
+     "who": "kavya"
+    },
+    {
+     "id": "dolls",
+     "start": 544.781,
+     "end": 552.717,
+     "cap": "**Mum:** Every integer is rational too: −6 = −6/1. **Natural ⊂ integers ⊂ rational**. **Nesting dolls**.",
+     "who": "mum"
+    },
+    {
+     "id": "simplify",
+     "start": 553.037,
+     "end": 560.589,
+     "cap": "**Kavya:** **Simplify first.** √16 = **4**: natural. −√9 = **−3**: integer. 12/4 = **3**: natural.",
+     "who": "kavya"
+    },
+    {
+     "id": "pi",
+     "start": 560.909,
+     "end": 566.925,
+     "cap": "**Uncle Pi:** Hello, hello! **Uncle Pi**! **3.1415926535**…",
+     "who": "pi"
+    },
+    {
+     "id": "irr",
+     "start": 567.345,
+     "end": 574.449,
+     "cap": "**Mr Tan:** π is **irrational**: his decimals never **end** and never **repeat**. No fraction can make him. Same for **√2**.",
+     "who": "tan"
+    },
+    {
+     "id": "real",
+     "start": 574.769,
+     "end": 579.889,
+     "cap": "**Mr Tan:** Rational and irrational together make the **real numbers**. Everybody say **cheese**!",
+     "who": "tan"
+    },
+    {
+     "id": "pi3",
+     "start": 580.409,
+     "end": 583.716,
+     "cap": "**Uncle Pi:** …**8979323846**…",
+     "who": "pi"
+    }
+   ]
+  },
+  {
+   "id": "kueh",
+   "title": "The last piece of kueh",
+   "short": "Negative indices",
+   "card": true,
+   "start": 585.516,
+   "end": 640.429,
+   "lines": [
+    {
+     "id": "six",
+     "start": 587.316,
+     "end": 593.823,
+     "cap": "**Narrator:** Six p.m. Back at the flat. Auntie Rose has sent home **16** pieces of kueh lapis.",
+     "who": "narr"
+    },
+    {
+     "id": "halve",
+     "start": 594.343,
+     "end": 601.703,
+     "cap": "**Kavya:** 16 = **2⁴**. Ah Boy eats **half**: 8 = **2³**. Then 4 = **2²**. 2 = **2¹**. 1 = **2⁰**.",
+     "who": "kavya"
+    },
+    {
+     "id": "more",
+     "start": 602.023,
+     "end": 605.799,
+     "cap": "**Ah Boy:** I'm **not** stopping. Half the last piece: **½**. Then **¼**. Then **⅛**.",
+     "who": "boy"
+    },
+    {
+     "id": "down",
+     "start": 606.419,
+     "end": 612.883,
+     "cap": "**Kavya:** The index keeps going **down**: **2⁻¹ = ½**, **2⁻² = ¼**, **2⁻³ = ⅛**.",
+     "who": "kavya"
+    },
+    {
+     "id": "us",
+     "start": 613.203,
+     "end": 616.488,
+     "cap": "**Dash:** A **negative** index! Finally, a power that's one of **us**!",
+     "who": "dash"
+    },
+    {
+     "id": "flip",
+     "start": 617.108,
+     "end": 623.188,
+     "cap": "**Tiny:** Sorry! A negative index means **flip**, not **minus**: a⁻ⁿ = 1/aⁿ. So 2⁻³ = 1/2³ = **⅛**. Not −8.",
+     "who": "tiny"
+    },
+    {
+     "id": "never",
+     "start": 623.508,
+     "end": 625.983,
+     "cap": "**Dash:** Even the **powers** won't let me be negative.",
+     "who": "dash"
+    },
+    {
+     "id": "ten",
+     "start": 627.003,
+     "end": 633.339,
+     "cap": "**Mum:** Powers of ten: **10⁻¹ = 0.1**, **10⁻² = 0.01**, **10⁻³ = 0.001**. And the laws still work: 2³ × 2⁻⁵ = **2⁻²**.",
+     "who": "mum"
+    },
+    {
+     "id": "crumb",
+     "start": 633.659,
+     "end": 638.629,
+     "cap": "**Ah Boy:** So this crumb is **2⁻¹⁰**: one over **1024**. Still counts.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The void deck saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 640.429,
+   "end": 709.409,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 642.229,
+     "end": 646.411,
+     "cap": "**Narrator:** Before the credits, the Family Day would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 647.031,
+     "end": 652.407,
+     "cap": "**Queenie:** One. **×** and **÷** share a ticket: **left to right**. 12 ÷ 3 × 2 = **8**, not 2.",
+     "who": "queenie"
+    },
+    {
+     "id": "t2",
+     "start": 653.027,
+     "end": 658.403,
+     "cap": "**Tiny:** Two. **3⁴** means 3 × 3 × 3 × 3 = **81**. **Not** 3 × 4.",
+     "who": "tiny"
+    },
+    {
+     "id": "t3",
+     "start": 659.023,
+     "end": 664.185,
+     "cap": "**Kavya:** Three. **x² = 25** has **two** answers: **x = 5** or **x = −5**. Four marks, **back**.",
+     "who": "kavya"
+    },
+    {
+     "id": "t4",
+     "start": 664.805,
+     "end": 671.995,
+     "cap": "**Dad:** Four. Type **(−3)²** with **brackets**. Without them you get −9. Ask my calculator.",
+     "who": "dad"
+    },
+    {
+     "id": "t5",
+     "start": 672.615,
+     "end": 678.951,
+     "cap": "**Mum:** Five. A **fraction bar** is a bracket: (8 + 4)/(2 × 3) = 12/6 = **2**. Whole top, whole bottom, then divide.",
+     "who": "mum"
+    },
+    {
+     "id": "t6",
+     "start": 679.571,
+     "end": 684.243,
+     "cap": "**Auntie Rose:** Six. **−7 °C** to **5 °C** is a rise of 5 − (−7) = **12** degrees. Not 2. Ask my freezer.",
+     "who": "rose"
+    },
+    {
+     "id": "return",
+     "start": 684.963,
+     "end": 687.267,
+     "cap": "**Narrator:** Negative Vibes will return.",
+     "who": "narr"
+    },
+    {
+     "id": "twenty",
+     "start": 688.587,
+     "end": 692.021,
+     "cap": "**Kavya:** Mr Tan says **20 out of 20**. Not one sign wrong.",
+     "who": "kavya"
+    },
+    {
+     "id": "proud",
+     "start": 692.741,
+     "end": 696.624,
+     "cap": "**Dash:** Not one minus sign lost. I'm so **proud**, I could... oh no.",
+     "who": "dash"
+    },
+    {
+     "id": "ugh",
+     "start": 697.544,
+     "end": 699.08,
+     "cap": "**Dash:** Ugh. **Positive**.",
+     "who": "dash"
+    },
+    {
+     "id": "meanwhile",
+     "start": 700.4,
+     "end": 702.576,
+     "cap": "**Narrator:** Meanwhile, at the void deck...",
+     "who": "narr"
+    },
+    {
+     "id": "still",
+     "start": 703.196,
+     "end": 706.609,
+     "cap": "**Uncle Pi:** …**2643383279**…",
+     "who": "pi"
+    }
+   ]
+  }
+ ],
+ "total": 709.409
+}

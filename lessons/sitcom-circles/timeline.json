@@ -1,0 +1,986 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 71.256,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 6.851,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, **14 March**, eight a.m. Her school hall.",
+     "who": "narr"
+    },
+    {
+     "id": "tan",
+     "start": 7.371,
+     "end": 13.579,
+     "cap": "**Mr Tan:** Kavya! **14 March**: **3.14**! **Pi Day!** Eleven months I've planned this fair.",
+     "who": "tan"
+    },
+    {
+     "id": "why",
+     "start": 14.099,
+     "end": 16.595,
+     "cap": "**Kavya:** Mr Tan, it's a Saturday. Why am I here?",
+     "who": "kavya"
+    },
+    {
+     "id": "passport",
+     "start": 17.115,
+     "end": 22.725,
+     "cap": "**Mr Tan:** Every visitor gets a **Pi Passport**. Every right answer gets my stamp: **EASY AS PI**.",
+     "who": "tan"
+    },
+    {
+     "id": "dad",
+     "start": 23.045,
+     "end": 27.739,
+     "cap": "**Dad:** Dad's **Pi-zza**, reporting for duty! I've rounded π to **3**. Close enough!",
+     "who": "dad"
+    },
+    {
+     "id": "baked",
+     "start": 28.259,
+     "end": 30.477,
+     "cap": "**Mr Tan:** And wrong answers get **HALF-BAKED**.",
+     "who": "tan"
+    },
+    {
+     "id": "boy",
+     "start": 31.297,
+     "end": 33.879,
+     "cap": "**Ah Boy:** Who's that man? He's been talking since the car park.",
+     "who": "boy"
+    },
+    {
+     "id": "guest",
+     "start": 34.399,
+     "end": 40.649,
+     "cap": "**Narrator:** But this documentary is about the guest of honour. He arrived at seven. He hasn't stopped talking.",
+     "who": "narr"
+    },
+    {
+     "id": "pi",
+     "start": 41.169,
+     "end": 46.908,
+     "cap": "**Uncle Pi:** **3.14159265358979**…",
+     "who": "pi"
+    },
+    {
+     "id": "hi",
+     "start": 47.328,
+     "end": 52.299,
+     "cap": "**Uncle Pi:** **Uncle Pi!** Kavya! We met at your family photo. I'm still on the same sentence.",
+     "who": "pi"
+    },
+    {
+     "id": "stop",
+     "start": 52.819,
+     "end": 53.779,
+     "cap": "**Ah Boy:** When does he stop?",
+     "who": "boy"
+    },
+    {
+     "id": "never",
+     "start": 54.299,
+     "end": 58.608,
+     "cap": "**Mr Tan:** He doesn't. He's **irrational**. His digits **never end** and **never repeat**.",
+     "who": "tan"
+    },
+    {
+     "id": "every",
+     "start": 59.128,
+     "end": 64.525,
+     "cap": "**Uncle Pi:** Today, every **circle** in this school is mine! …**32384626**…",
+     "who": "pi"
+    },
+    {
+     "id": "title",
+     "start": 65.145,
+     "end": 69.156,
+     "cap": "**Narrator:** Easy as Pi. Episode 16: The Pi Day Fair.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "parts",
+   "title": "The giant circle",
+   "short": "Parts of a circle",
+   "card": true,
+   "start": 71.256,
+   "end": 146.424,
+   "lines": [
+    {
+     "id": "field",
+     "start": 73.056,
+     "end": 78.88,
+     "cap": "**Narrator:** Nine a.m. The school field. Mr Tan's first stall: **Draw a Giant Circle**.",
+     "who": "narr"
+    },
+    {
+     "id": "rope",
+     "start": 79.4,
+     "end": 83.176,
+     "cap": "**Mr Tan:** One peg, one rope, one Priya. Rope tight, Priya. Run!",
+     "who": "tan"
+    },
+    {
+     "id": "run",
+     "start": 83.496,
+     "end": 86.333,
+     "cap": "**Priya:** Done! Fastest circle in Year 8. Do I win?",
+     "who": "priya"
+    },
+    {
+     "id": "rad",
+     "start": 86.853,
+     "end": 89.755,
+     "cap": "**Rad:** Hey. Rad. The **radius**. I was the rope. Centre to edge.",
+     "who": "rad"
+    },
+    {
+     "id": "same",
+     "start": 90.275,
+     "end": 94.904,
+     "cap": "**Rad:** Every point on a circle is the **same distance** from the **centre**. That distance is me: **r**.",
+     "who": "rad"
+    },
+    {
+     "id": "dee",
+     "start": 95.224,
+     "end": 101.731,
+     "cap": "**Dee:** And I'm **Dee**, his big brother. The **diameter**: edge to edge, **through the centre**. **d = 2r**. Twice the man.",
+     "who": "dee"
+    },
+    {
+     "id": "chord",
+     "start": 102.351,
+     "end": 107.343,
+     "cap": "**Priya:** Easy. I drew a line **13 cm** long in a circle of radius **6 cm**.",
+     "who": "priya"
+    },
+    {
+     "id": "nope",
+     "start": 107.863,
+     "end": 115.287,
+     "cap": "**Dee:** A line joining two points on the circle is a **chord**. The longest chord is me: 2 × 6 = **12 cm**. Thirteen? Impossible.",
+     "who": "dee"
+    },
+    {
+     "id": "perry",
+     "start": 115.907,
+     "end": 120.323,
+     "cap": "**Perry:** Perry. I walk the **circumference**, all the way **around**. Stop part of the way, and that's an **arc**.",
+     "who": "perry"
+    },
+    {
+     "id": "gent",
+     "start": 120.843,
+     "end": 127.2,
+     "cap": "**Tan Gent:** Tan Gent. A **tangent**. I touch the circle at **one** point only, at **90°** to the radius. Then I leave.",
+     "who": "gent"
+    },
+    {
+     "id": "rel",
+     "start": 127.72,
+     "end": 128.744,
+     "cap": "**Mr Tan:** No relation.",
+     "who": "tan"
+    },
+    {
+     "id": "sector",
+     "start": 129.664,
+     "end": 132.843,
+     "cap": "**Mum:** A pizza slice: **two radii** and an **arc**. That's a **sector**.",
+     "who": "mum"
+    },
+    {
+     "id": "segment",
+     "start": 133.163,
+     "end": 137.429,
+     "cap": "**Mum:** One straight cut across my cake: the piece a **chord** cuts off is a **segment**.",
+     "who": "mum"
+    },
+    {
+     "id": "mnem",
+     "start": 137.749,
+     "end": 141.504,
+     "cap": "**Kavya:** **seC**tor reaches the **C**entre. A segment never does.",
+     "who": "kavya"
+    },
+    {
+     "id": "major",
+     "start": 141.824,
+     "end": 145.024,
+     "cap": "**Ah Boy:** Small piece: **minor**. Big piece: **major**. I'll take the major.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "pi",
+   "title": "Measure a circle, win a prize",
+   "short": "Discovering π",
+   "card": true,
+   "start": 146.424,
+   "end": 236.367,
+   "lines": [
+    {
+     "id": "ten",
+     "start": 148.224,
+     "end": 153.408,
+     "cap": "**Narrator:** Ten a.m. The hall. Uncle Pi's stall: **Measure a circle, win a prize**.",
+     "who": "narr"
+    },
+    {
+     "id": "string",
+     "start": 153.928,
+     "end": 160.371,
+     "cap": "**Kavya:** String once round, ruler straight across. Coin: **7.8 cm** round, **2.5 cm** across.",
+     "who": "kavya"
+    },
+    {
+     "id": "more",
+     "start": 160.691,
+     "end": 168.328,
+     "cap": "**Priya:** Mug: **25.2** and **8**. Plate: **81.6** and **26**. Bike wheel: **207.5** and **66**.",
+     "who": "priya"
+    },
+    {
+     "id": "divide",
+     "start": 168.648,
+     "end": 174.963,
+     "cap": "**Uncle Pi:** Now divide! **Circumference ÷ diameter**, every one. …**43383279**…",
+     "who": "pi"
+    },
+    {
+     "id": "results",
+     "start": 175.483,
+     "end": 182.053,
+     "cap": "**Kavya:** **3.12**, **3.15**, **3.14**, **3.14**. Every one is just over **3**.",
+     "who": "kavya"
+    },
+    {
+     "id": "me",
+     "start": 182.373,
+     "end": 187.771,
+     "cap": "**Uncle Pi:** That's me! **π = C ÷ d**. The **same** for every circle, coin or Ferris wheel.",
+     "who": "pi"
+    },
+    {
+     "id": "error",
+     "start": 188.091,
+     "end": 193.381,
+     "cap": "**Mr Tan:** Not all exactly the same? **Measuring errors**: stretchy string, rounded readings.",
+     "who": "tan"
+    },
+    {
+     "id": "dad",
+     "start": 193.701,
+     "end": 197.989,
+     "cap": "**Dad:** So π is **22/7**. A nice fraction. Close enough!",
+     "who": "dad"
+    },
+    {
+     "id": "repeat",
+     "start": 198.509,
+     "end": 207.427,
+     "cap": "**Uncle Pi:** **22/7** = 3.142857 142857… It **repeats**! I **never** repeat. I'm **irrational**.",
+     "who": "pi"
+    },
+    {
+     "id": "which",
+     "start": 207.947,
+     "end": 215.84,
+     "cap": "**Mr Tan:** Calculator: the **π button**. No calculator: **3.14** or **22/7**. **Exact**: leave the **π** in.",
+     "who": "tan"
+    },
+    {
+     "id": "close",
+     "start": 216.16,
+     "end": 218.976,
+     "cap": "**Ah Boy:** If your numbers never end, how does a circle ever **close**?",
+     "who": "boy"
+    },
+    {
+     "id": "nobody",
+     "start": 219.596,
+     "end": 221.409,
+     "cap": "**Uncle Pi:** …Nobody has ever asked me that.",
+     "who": "pi"
+    },
+    {
+     "id": "fine",
+     "start": 222.229,
+     "end": 225.856,
+     "cap": "**Kavya:** The circle closes fine. It's only the **number** that never ends.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 226.176,
+     "end": 230.315,
+     "cap": "**Mr Tan:** Never start a conversation with Uncle Pi. He goes on and on.",
+     "who": "tan"
+    },
+    {
+     "id": "laugh",
+     "start": 230.835,
+     "end": 234.867,
+     "cap": "**Uncle Pi:** Ho ho! On and on! …**50288419**…",
+     "who": "pi"
+    }
+   ]
+  },
+  {
+   "id": "wheel",
+   "title": "Guess the roll",
+   "short": "Circumference",
+   "card": true,
+   "start": 236.367,
+   "end": 321.715,
+   "lines": [
+    {
+     "id": "eleven",
+     "start": 238.167,
+     "end": 243.095,
+     "cap": "**Narrator:** Eleven a.m. Stall three: **Guess the Roll**. Mr Tan's bicycle.",
+     "who": "narr"
+    },
+    {
+     "id": "wheel",
+     "start": 243.615,
+     "end": 249.481,
+     "cap": "**Mr Tan:** My wheel: **70 cm** across. One full turn. **More** or **less** than **2 m**?",
+     "who": "tan"
+    },
+    {
+     "id": "less",
+     "start": 249.801,
+     "end": 252.361,
+     "cap": "**Priya:** Less. Obviously. Seventy is tiny.",
+     "who": "priya"
+    },
+    {
+     "id": "dad",
+     "start": 252.881,
+     "end": 258.087,
+     "cap": "**Dad:** π is 3, so 3 × 70 = **210 cm**. Close enough!",
+     "who": "dad"
+    },
+    {
+     "id": "roll",
+     "start": 258.607,
+     "end": 267.204,
+     "cap": "**Uncle Pi:** One turn rolls out one **circumference**. **C = πd** = π × 70 = **219.9 cm**!",
+     "who": "pi"
+    },
+    {
+     "id": "short",
+     "start": 267.524,
+     "end": 272.644,
+     "cap": "**Mr Tan:** Dad: **10 cm** short. Use the **π button**, and round **once**, at the **end**.",
+     "who": "tan"
+    },
+    {
+     "id": "cherry",
+     "start": 273.164,
+     "end": 275.98,
+     "cap": "**Ah Boy:** **C**herry **P**ie **D**elicious! **C = πd**!",
+     "who": "boy"
+    },
+    {
+     "id": "rad",
+     "start": 276.5,
+     "end": 279.38,
+     "cap": "**Rad:** Only got me? Double me first: **C = 2πr**.",
+     "who": "rad"
+    },
+    {
+     "id": "exact",
+     "start": 279.7,
+     "end": 288.233,
+     "cap": "**Mr Tan:** Radius **4.5 cm**: C = 2 × π × 4.5 = **9π cm**. Exact: **in terms of π**.",
+     "who": "tan"
+    },
+    {
+     "id": "round",
+     "start": 288.553,
+     "end": 293.609,
+     "cap": "**Kavya:** Or rounded: 9π = 28.27…, so **28.3 cm** to 1 d.p. Just over 3 × 9. ✓",
+     "who": "kavya"
+    },
+    {
+     "id": "flyer",
+     "start": 294.129,
+     "end": 301.063,
+     "cap": "**Uncle Pi:** The Singapore Flyer: **150 m** across, so one lap is π × 150 ≈ **471 m**. Wheee!",
+     "who": "pi"
+    },
+    {
+     "id": "pond",
+     "start": 301.583,
+     "end": 304.996,
+     "cap": "**Mum:** The school pond is **40 m** round. What's its radius?",
+     "who": "mum"
+    },
+    {
+     "id": "dadback",
+     "start": 305.316,
+     "end": 309.049,
+     "cap": "**Dad:** 40 ÷ π = **12.7 m**. Close enough!",
+     "who": "dad"
+    },
+    {
+     "id": "dee",
+     "start": 309.569,
+     "end": 313.751,
+     "cap": "**Dee:** Did somebody say **across**? **C ÷ π** gives **me**, the diameter!",
+     "who": "dee"
+    },
+    {
+     "id": "back",
+     "start": 314.271,
+     "end": 320.415,
+     "cap": "**Kavya:** So cut it in half: **r = C ÷ 2π** = 40 ÷ 2π ≈ **6.4 m**.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "pizza",
+   "title": "Dad's Pi-zza",
+   "short": "Area",
+   "card": true,
+   "start": 321.715,
+   "end": 418.043,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 323.515,
+     "end": 331.195,
+     "cap": "**Narrator:** Noon. Dad's Pi-zza. Small, **20 cm** across: **$12**. Large, **30 cm** across: **$24**.",
+     "who": "narr"
+    },
+    {
+     "id": "same",
+     "start": 331.715,
+     "end": 334.68,
+     "cap": "**Priya:** Double the price, double the pizza. Same deal.",
+     "who": "priya"
+    },
+    {
+     "id": "cut",
+     "start": 335.2,
+     "end": 340.299,
+     "cap": "**Mr Tan:** Dad, cut one into **8** slices. Ah Boy, line them up: point up, point down.",
+     "who": "tan"
+    },
+    {
+     "id": "wobbly",
+     "start": 340.619,
+     "end": 341.899,
+     "cap": "**Ah Boy:** It's a wobbly rectangle!",
+     "who": "boy"
+    },
+    {
+     "id": "crust",
+     "start": 342.419,
+     "end": 349.224,
+     "cap": "**Mr Tan:** Half the crust on top, half below: each long edge is half the circumference, **πr**. The height: **r**.",
+     "who": "tan"
+    },
+    {
+     "id": "formula",
+     "start": 349.544,
+     "end": 356.157,
+     "cap": "**Mr Tan:** Thinner slices: a rectangle **πr** by **r**. So **A = πr × r = πr²**.",
+     "who": "tan"
+    },
+    {
+     "id": "apple",
+     "start": 356.477,
+     "end": 359.272,
+     "cap": "**Ah Boy:** **A**pple **P**ies **are too**! **A = πr²**!",
+     "who": "boy"
+    },
+    {
+     "id": "boy2",
+     "start": 359.792,
+     "end": 363.397,
+     "cap": "**Ah Boy:** Small pizza: π × 20² = **1257 cm²**!",
+     "who": "boy"
+    },
+    {
+     "id": "dee",
+     "start": 363.817,
+     "end": 366.612,
+     "cap": "**Dee:** Did somebody say **twenty**? That's me!",
+     "who": "dee"
+    },
+    {
+     "id": "four",
+     "start": 367.232,
+     "end": 371.648,
+     "cap": "**Rad:** You used my brother. **D is for Double**: cut him in half first, or the answer is **4 times** too big.",
+     "who": "rad"
+    },
+    {
+     "id": "small",
+     "start": 371.968,
+     "end": 378.859,
+     "cap": "**Kavya:** Small: **r = 10**, so A = π × 10² = **100π ≈ 314 cm²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "calc",
+     "start": 379.179,
+     "end": 385.493,
+     "cap": "**Dad:** My calculator: π × 10 = 31.4, squared, **987**. Bigger pizza!",
+     "who": "dad"
+    },
+    {
+     "id": "only",
+     "start": 386.013,
+     "end": 392.349,
+     "cap": "**Mr Tan:** That's **(πr)²**. Only **r** is squared: **square** the radius **first**, then × π.",
+     "who": "tan"
+    },
+    {
+     "id": "large",
+     "start": 392.869,
+     "end": 401.701,
+     "cap": "**Kavya:** Large: **r = 15**, A = **225π ≈ 707 cm²**. **2.25 times** the pizza, for **twice** the price.",
+     "who": "kavya"
+    },
+    {
+     "id": "double",
+     "start": 402.021,
+     "end": 404.709,
+     "cap": "**Rad:** Double the radius, and the area goes up **4 times**: **π(2r)² = 4πr²**.",
+     "who": "rad"
+    },
+    {
+     "id": "back",
+     "start": 405.029,
+     "end": 412.688,
+     "cap": "**Mr Tan:** Backwards: **r = √(A ÷ π)**. A **450 cm²** pizza: √(450 ÷ π) ≈ **12 cm**, so **24 cm** across.",
+     "who": "tan"
+    },
+    {
+     "id": "priced",
+     "start": 413.008,
+     "end": 416.443,
+     "cap": "**Dad:** So the large is the better deal. I knew that. I priced it.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "cake",
+   "title": "Half a cake",
+   "short": "Semicircles & quarters",
+   "card": true,
+   "start": 418.043,
+   "end": 492.908,
+   "lines": [
+    {
+     "id": "one",
+     "start": 419.843,
+     "end": 427.523,
+     "cap": "**Narrator:** One p.m. Mum's cake stall. Round cakes, **20 cm** across, sold by the **half** and the **quarter**.",
+     "who": "narr"
+    },
+    {
+     "id": "ribbon",
+     "start": 428.043,
+     "end": 432.309,
+     "cap": "**Mum:** Every half-cake gets a ribbon right round its edge. Priya, cut the ribbon.",
+     "who": "mum"
+    },
+    {
+     "id": "half",
+     "start": 432.629,
+     "end": 439.435,
+     "cap": "**Priya:** A semicircle is half a circle, so: half the circumference! ½ × π × 20 ≈ **31.4 cm**.",
+     "who": "priya"
+    },
+    {
+     "id": "stuck",
+     "start": 439.955,
+     "end": 443.731,
+     "cap": "**Perry:** Perry. I walked your ribbon. It ends here, at the cut. The **straight edge** is bare!",
+     "who": "perry"
+    },
+    {
+     "id": "trace",
+     "start": 444.251,
+     "end": 451.44,
+     "cap": "**Kavya:** **Trace it with your finger**: the curve **plus** the diameter. 31.4 + 20 = **51.4 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "exact",
+     "start": 451.76,
+     "end": 457.733,
+     "cap": "**Mr Tan:** Exact: **10π + 20** cm. They don't combine, just like **10x + 20**.",
+     "who": "tan"
+    },
+    {
+     "id": "area",
+     "start": 458.053,
+     "end": 465.712,
+     "cap": "**Mum:** The top is easier: half the area. ½ × π × 10² = **50π ≈ 157 cm²**.",
+     "who": "mum"
+    },
+    {
+     "id": "quarter",
+     "start": 466.032,
+     "end": 468.101,
+     "cap": "**Ah Boy:** I'll have a **quarter**! With a quarter of a ribbon!",
+     "who": "boy"
+    },
+    {
+     "id": "legs",
+     "start": 468.621,
+     "end": 472.867,
+     "cap": "**Perry:** A quarter circle has **two** straight edges. Two radii. I walk both. My legs.",
+     "who": "perry"
+    },
+    {
+     "id": "qcalc",
+     "start": 473.387,
+     "end": 481.173,
+     "cap": "**Kavya:** Curve: ¼ × 2π × 10 = **5π ≈ 15.7**. Plus two radii: 15.7 + 10 + 10 = **35.7 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "qarea",
+     "start": 481.493,
+     "end": 487.787,
+     "cap": "**Mum:** And the area: ¼ × π × 10² = **25π ≈ 78.5 cm²**.",
+     "who": "mum"
+    },
+    {
+     "id": "eat",
+     "start": 488.307,
+     "end": 489.245,
+     "cap": "**Ah Boy:** Can I eat it now?",
+     "who": "boy"
+    },
+    {
+     "id": "wait",
+     "start": 489.765,
+     "end": 491.408,
+     "cap": "**Perry:** I'm still walking round it.",
+     "who": "perry"
+    }
+   ]
+  },
+  {
+   "id": "track",
+   "title": "One lap",
+   "short": "Compound shapes",
+   "card": true,
+   "start": 492.908,
+   "end": 567.96,
+   "lines": [
+    {
+     "id": "two",
+     "start": 494.708,
+     "end": 499.615,
+     "cap": "**Narrator:** Two p.m. The school track. Priya challenges Dad to one lap.",
+     "who": "narr"
+    },
+    {
+     "id": "track",
+     "start": 500.135,
+     "end": 505.681,
+     "cap": "**Mr Tan:** Two straights, **100 m** each. A **semicircle** at each end. **60 m** across.",
+     "who": "tan"
+    },
+    {
+     "id": "easy",
+     "start": 506.001,
+     "end": 509.415,
+     "cap": "**Dad:** Two hundred metres and a bit of curve. Close enough. Go!",
+     "who": "dad"
+    },
+    {
+     "id": "push",
+     "start": 509.935,
+     "end": 514.543,
+     "cap": "**Kavya:** Push the two semicircles together: one **whole circle**, **60 m** across.",
+     "who": "kavya"
+    },
+    {
+     "id": "lap",
+     "start": 514.863,
+     "end": 523.737,
+     "cap": "**Kavya:** Lap = 2 × 100 + π × 60 = 200 + 188.5 ≈ **388.5 m**.",
+     "who": "kavya"
+    },
+    {
+     "id": "walk",
+     "start": 524.257,
+     "end": 525.175,
+     "cap": "**Dad:** …I'll walk.",
+     "who": "dad"
+    },
+    {
+     "id": "perry",
+     "start": 526.095,
+     "end": 530.703,
+     "cap": "**Perry:** And I don't cut across the field. **Perimeter**: the **outside** only. Lines **inside** don't count.",
+     "who": "perry"
+    },
+    {
+     "id": "field",
+     "start": 531.023,
+     "end": 538.063,
+     "cap": "**Mr Tan:** The field inside: rectangle **plus** circle. 100 × 60 + π × 30² ≈ **8827 m²**. **Add** the pieces.",
+     "who": "tan"
+    },
+    {
+     "id": "pond",
+     "start": 538.383,
+     "end": 544.228,
+     "cap": "**Mum:** The pond has radius **3 m**. The new path round it is **1 m** wide. How much paving?",
+     "who": "mum"
+    },
+    {
+     "id": "wrong",
+     "start": 544.548,
+     "end": 549.988,
+     "cap": "**Priya:** Easy! π × (4 − 3)² = **π ≈ 3.1 m²**.",
+     "who": "priya"
+    },
+    {
+     "id": "ants",
+     "start": 550.508,
+     "end": 551.639,
+     "cap": "**Ah Boy:** That path is for ants.",
+     "who": "boy"
+    },
+    {
+     "id": "thanks",
+     "start": 552.159,
+     "end": 553.076,
+     "cap": "**Perry:** Thank you.",
+     "who": "perry"
+    },
+    {
+     "id": "ring",
+     "start": 553.896,
+     "end": 560.424,
+     "cap": "**Kavya:** **Subtract areas**, not radii: π × 4² − π × 3² = 16π − 9π = **7π ≈ 22.0 m²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 560.744,
+     "end": 566.76,
+     "cap": "**Mr Tan:** A **ring**: **π(R² − r²)**. Never **π(R − r)²**.",
+     "who": "tan"
+    }
+   ]
+  },
+  {
+   "id": "slice",
+   "title": "Sal the sector",
+   "short": "Arcs & sectors",
+   "card": true,
+   "start": 567.96,
+   "end": 646.951,
+   "lines": [
+    {
+     "id": "three",
+     "start": 569.76,
+     "end": 577.76,
+     "cap": "**Narrator:** Three p.m. **Stretch** time. The last pizza: radius **15 cm**, cut into **8** equal slices.",
+     "who": "narr"
+    },
+    {
+     "id": "sal",
+     "start": 578.28,
+     "end": 582.931,
+     "cap": "**Sal:** Sal. A **sector**. Two radii and an arc. Every one of us is a **fraction** of a circle.",
+     "who": "sal"
+    },
+    {
+     "id": "angle",
+     "start": 583.451,
+     "end": 590.64,
+     "cap": "**Kavya:** Eight tips share **360°**, so each is **45°**. 45/360 = **⅛** of the pizza.",
+     "who": "kavya"
+    },
+    {
+     "id": "crust",
+     "start": 590.96,
+     "end": 598.683,
+     "cap": "**Sal:** My crust is an **arc**: **θ/360 × 2πr** = ⅛ × 30π ≈ **11.8 cm**.",
+     "who": "sal"
+    },
+    {
+     "id": "area",
+     "start": 599.003,
+     "end": 607.664,
+     "cap": "**Sal:** My area: **θ/360 × πr²** = ⅛ × 225π ≈ **88.4 cm²**.",
+     "who": "sal"
+    },
+    {
+     "id": "pun",
+     "start": 607.984,
+     "end": 611.248,
+     "cap": "**Mr Tan:** Eight slices. That's what I call **a pizza the action**.",
+     "who": "tan"
+    },
+    {
+     "id": "laugh",
+     "start": 611.768,
+     "end": 616.76,
+     "cap": "**Uncle Pi:** Ho ho! A pizza the action! …**71693993**…",
+     "who": "pi"
+    },
+    {
+     "id": "big",
+     "start": 617.48,
+     "end": 620.232,
+     "cap": "**Ah Boy:** I want a bigger slice. **120°**!",
+     "who": "boy"
+    },
+    {
+     "id": "third",
+     "start": 620.752,
+     "end": 629.776,
+     "cap": "**Mr Tan:** 120/360 = **⅓** of the pizza. Area: ⅓ × 225π = **75π ≈ 235.6 cm²**.",
+     "who": "tan"
+    },
+    {
+     "id": "crust2",
+     "start": 630.096,
+     "end": 634.768,
+     "cap": "**Priya:** His crust: ⅓ × 30π = **10π ≈ 31.4 cm**.",
+     "who": "priya"
+    },
+    {
+     "id": "perim",
+     "start": 635.088,
+     "end": 640.891,
+     "cap": "**Perry:** Perimeter? Crust **plus two radii**: 31.4 + 15 + 15 = **61.4 cm**. I walked it. Twice.",
+     "who": "perry"
+    },
+    {
+     "id": "left",
+     "start": 641.411,
+     "end": 645.251,
+     "cap": "**Dad:** Last slice for the guest of honour: **0°**. Close enough?",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The fair saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 646.951,
+   "end": 713.673,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 648.751,
+     "end": 652.399,
+     "cap": "**Narrator:** Before the credits, the fair would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 652.919,
+     "end": 659.575,
+     "cap": "**Dee:** One. The area, **A = πr²**, needs the **radius**. Use me and it's **4 times** too big. **Cut me in half first.**",
+     "who": "dee"
+    },
+    {
+     "id": "t2",
+     "start": 660.095,
+     "end": 666.175,
+     "cap": "**Ah Boy:** Two. **Square** the radius **first**, then × π. Not **(πr)²**. Dad's calculator says sorry.",
+     "who": "boy"
+    },
+    {
+     "id": "t3",
+     "start": 666.695,
+     "end": 670.897,
+     "cap": "**Perry:** Three. Semicircle, quarter or sector? **Add the straight edges**. My feet thank you.",
+     "who": "perry"
+    },
+    {
+     "id": "t4",
+     "start": 671.417,
+     "end": 674.681,
+     "cap": "**Rad:** Four. **C ÷ π** gives the **diameter**. To get me, cut it in half.",
+     "who": "rad"
+    },
+    {
+     "id": "t5",
+     "start": 675.201,
+     "end": 680.492,
+     "cap": "**Dad:** Five. Round **once**, at the **end**. π is not 3. Close enough is **not** close enough.",
+     "who": "dad"
+    },
+    {
+     "id": "t6",
+     "start": 681.012,
+     "end": 687.945,
+     "cap": "**Mr Tan:** Six. **Area** in **cm²**, length in **cm**. And '**in terms of π**' means **leave the π in**.",
+     "who": "tan"
+    },
+    {
+     "id": "return",
+     "start": 688.565,
+     "end": 690.784,
+     "cap": "**Narrator:** Easy as Pi will return.",
+     "who": "narr"
+    },
+    {
+     "id": "night",
+     "start": 691.904,
+     "end": 695.317,
+     "cap": "**Narrator:** Nine p.m. The hall is empty. Almost.",
+     "who": "narr"
+    },
+    {
+     "id": "still",
+     "start": 695.837,
+     "end": 700.168,
+     "cap": "**Uncle Pi:** …**751058209749**…",
+     "who": "pi"
+    },
+    {
+     "id": "pun",
+     "start": 700.688,
+     "end": 705.488,
+     "cap": "**Mr Tan:** Uncle Pi, one last one. Why **pi r squared**? Pies are **round**!",
+     "who": "tan"
+    },
+    {
+     "id": "laugh",
+     "start": 706.308,
+     "end": 710.873,
+     "cap": "**Uncle Pi:** Ho ho ho! Pies are round! …**44592307**…",
+     "who": "pi"
+    }
+   ]
+  }
+ ],
+ "total": 713.673
+}

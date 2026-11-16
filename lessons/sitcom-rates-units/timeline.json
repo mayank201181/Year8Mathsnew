@@ -1,0 +1,1059 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 69.621,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 5.763,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Friday, ten p.m., Block 512.",
+     "who": "narr"
+    },
+    {
+     "id": "mum",
+     "start": 6.283,
+     "end": 10.805,
+     "cap": "**Mum:** Uncle Raj's **wedding** in **London**! Every bag under **20 kg**, please!",
+     "who": "mum"
+    },
+    {
+     "id": "dad",
+     "start": 11.325,
+     "end": 16.637,
+     "cap": "**Dad:** London in June. My phone says **50 degrees**. Trust me, I did the maths: **shorts**.",
+     "who": "dad"
+    },
+    {
+     "id": "f",
+     "start": 17.157,
+     "end": 19.376,
+     "cap": "**Kavya:** Dad, that's **50 °F**. **Fahrenheit**.",
+     "who": "kavya"
+    },
+    {
+     "id": "fifty",
+     "start": 19.896,
+     "end": 21.56,
+     "cap": "**Dad:** Fifty is fifty, Kavya.",
+     "who": "dad"
+    },
+    {
+     "id": "boy",
+     "start": 22.26,
+     "end": 23.092,
+     "cap": "**Ah Boy:** Are we there yet?",
+     "who": "boy"
+    },
+    {
+     "id": "left",
+     "start": 23.712,
+     "end": 24.971,
+     "cap": "**Mum:** We haven't left the **flat**.",
+     "who": "mum"
+    },
+    {
+     "id": "tiny",
+     "start": 25.671,
+     "end": 30.129,
+     "cap": "**Narrator:** But this documentary is about the little word after every number.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 30.649,
+     "end": 36.879,
+     "cap": "**Monsieur Mètre:** Monsieur Mètre. I am the **metre**. Born in Paris, 1791. My job: every number gets a **unit**.",
+     "who": "metre"
+    },
+    {
+     "id": "gossip",
+     "start": 37.399,
+     "end": 42.284,
+     "cap": "**Monsieur Mètre:** 'Twenty'? Twenty **what**? Grams? Elephants? A number without a unit is just **gossip**.",
+     "who": "metre"
+    },
+    {
+     "id": "nasa",
+     "start": 42.904,
+     "end": 50.733,
+     "cap": "**Narrator:** 1999. NASA loses a spacecraft at Mars. One team used **imperial** units, the other **metric**.",
+     "who": "narr"
+    },
+    {
+     "id": "pouf",
+     "start": 51.433,
+     "end": 57.748,
+     "cap": "**Monsieur Mètre:** **US$125 million**. Pouf. **Mix your units**, and a spacecraft falls on Mars.",
+     "who": "metre"
+    },
+    {
+     "id": "coming",
+     "start": 58.368,
+     "end": 63.147,
+     "cap": "**Monsieur Mètre:** This family flies **11 000 km** tomorrow. I am coming too.",
+     "who": "metre"
+    },
+    {
+     "id": "title",
+     "start": 63.767,
+     "end": 67.521,
+     "cap": "**Narrator:** Lost in Conversion. Episode 8: Are We There Yet?",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "metric",
+   "title": "Security, kilos and Gate C",
+   "short": "Metric conversions",
+   "card": true,
+   "start": 69.621,
+   "end": 147.868,
+   "lines": [
+    {
+     "id": "siti",
+     "start": 71.421,
+     "end": 74.643,
+     "cap": "**Officer Siti:** Liquids: **100 ml** or less per bottle, please.",
+     "who": "siti"
+    },
+    {
+     "id": "dad",
+     "start": 74.963,
+     "end": 81.683,
+     "cap": "**Dad:** My shampoo is **0.25 l**. That's way less than 100. Trust me, I did the maths.",
+     "who": "dad"
+    },
+    {
+     "id": "units",
+     "start": 82.203,
+     "end": 86.064,
+     "cap": "**Monsieur Mètre:** Units, please! Litres **and** millilitres? **Same unit first!**",
+     "who": "metre"
+    },
+    {
+     "id": "family",
+     "start": 86.384,
+     "end": 91.611,
+     "cap": "**Monsieur Mètre:** My family: **kilo**, **× 1000**. **Centi**, one **hundredth**. **Milli**, one **thousandth**.",
+     "who": "metre"
+    },
+    {
+     "id": "conv",
+     "start": 91.931,
+     "end": 98.544,
+     "cap": "**Monsieur Mètre:** **1 l = 1000 ml**, so 0.25 l = 0.25 × 1000 = **250 ml**.",
+     "who": "metre"
+    },
+    {
+     "id": "bin",
+     "start": 98.864,
+     "end": 101.957,
+     "cap": "**Officer Siti:** Two hundred and fifty. Too big, sir. Goodbye, shampoo.",
+     "who": "siti"
+    },
+    {
+     "id": "mum",
+     "start": 102.917,
+     "end": 106.971,
+     "cap": "**Mum:** Mine is **8 cl**: 8 × 10 = **80 ml**. Allowed.",
+     "who": "mum"
+    },
+    {
+     "id": "rule",
+     "start": 107.491,
+     "end": 112.248,
+     "cap": "**Monsieur Mètre:** **Golden rule.** **Smaller** unit, **more** of them: **multiply**. **Bigger** unit: **divide**.",
+     "who": "metre"
+    },
+    {
+     "id": "boy",
+     "start": 112.568,
+     "end": 115.533,
+     "cap": "**Ah Boy:** Check-in! Look! My bag is **4250**!",
+     "who": "boy"
+    },
+    {
+     "id": "limit",
+     "start": 116.053,
+     "end": 118.528,
+     "cap": "**Dad:** Four thousand?! The limit is **20**!",
+     "who": "dad"
+    },
+    {
+     "id": "grams",
+     "start": 119.048,
+     "end": 125.085,
+     "cap": "**Kavya:** It's **grams**, Dad. Kilograms are bigger, so divide: 4250 ÷ 1000 = **4.25 kg**.",
+     "who": "kavya"
+    },
+    {
+     "id": "avoid",
+     "start": 125.405,
+     "end": 131.123,
+     "cap": "**Dad:** Four ways to Gate C. Not the **79 500** one: biggest number.",
+     "who": "dad"
+    },
+    {
+     "id": "metres",
+     "start": 131.643,
+     "end": 137.616,
+     "cap": "**Kavya:** All in **metres**: 800, 750, 810. And 79 500 mm ÷ 1000 is just **79.5 m**!",
+     "who": "kavya"
+    },
+    {
+     "id": "sense",
+     "start": 137.936,
+     "end": 141.2,
+     "cap": "**Ah Boy:** So phones go in **mm**, and flights go in **km**!",
+     "who": "boy"
+    },
+    {
+     "id": "fav",
+     "start": 141.72,
+     "end": 146.328,
+     "cap": "**Monsieur Mètre:** A **sensible** unit for a sensible number. Ah Boy, you are my favourite.",
+     "who": "metre"
+    }
+   ]
+  },
+  {
+   "id": "litre",
+   "title": "Twenty-five litres of boy",
+   "short": "Area & volume units",
+   "card": true,
+   "start": 147.868,
+   "end": 221.409,
+   "lines": [
+    {
+     "id": "gate",
+     "start": 149.668,
+     "end": 156.772,
+     "cap": "**Narrator:** Gate C. Cabin bags must fit the measuring frame: **55 cm by 40 cm by 20 cm**.",
+     "who": "narr"
+    },
+    {
+     "id": "lita",
+     "start": 157.292,
+     "end": 164.567,
+     "cap": "**Lita:** Hi! I'm **Lita**! A **10 cm** cube: 10 × 10 × 10 = **1000 cm³**. Exactly **one litre**!",
+     "who": "lita"
+    },
+    {
+     "id": "ml",
+     "start": 164.887,
+     "end": 167.959,
+     "cap": "**Lita:** Each little **1 cm** cube in me is **1 ml**. **1 cm³ = 1 ml**.",
+     "who": "lita"
+    },
+    {
+     "id": "sizer",
+     "start": 168.279,
+     "end": 174.145,
+     "cap": "**Kavya:** The frame: 55 × 40 × 20 = **44 000 cm³**. ÷ 1000: **44 litres**.",
+     "who": "kavya"
+    },
+    {
+     "id": "fit",
+     "start": 174.465,
+     "end": 177.409,
+     "cap": "**Ah Boy:** I'm only about **25 litres**. Of boy. I fit!",
+     "who": "boy"
+    },
+    {
+     "id": "not",
+     "start": 177.929,
+     "end": 179.209,
+     "cap": "**Mum:** You are **not** hand luggage.",
+     "who": "mum"
+    },
+    {
+     "id": "seat",
+     "start": 180.089,
+     "end": 185.017,
+     "cap": "**Narrator:** Seat 47A. The blanket: **2 m by 1.5 m**.",
+     "who": "narr"
+    },
+    {
+     "id": "dad",
+     "start": 185.437,
+     "end": 193.352,
+     "cap": "**Dad:** **3 m²**. And 1 m = 100 cm, so **300 cm²**. Trust me, I did the maths.",
+     "who": "dad"
+    },
+    {
+     "id": "area",
+     "start": 194.312,
+     "end": 198.259,
+     "cap": "**Lita:** No! One square metre is **100** little squares along, and **100** rows.",
+     "who": "lita"
+    },
+    {
+     "id": "square",
+     "start": 198.579,
+     "end": 202.845,
+     "cap": "**Lita:** **1 m² = 100 × 100 = 10 000 cm²**. **Square it** for area!",
+     "who": "lita"
+    },
+    {
+     "id": "safe",
+     "start": 203.165,
+     "end": 209.267,
+     "cap": "**Kavya:** Or change the **lengths** first: 200 × 150 = **30 000 cm²**. Same!",
+     "who": "kavya"
+    },
+    {
+     "id": "cube",
+     "start": 209.587,
+     "end": 215.859,
+     "cap": "**Lita:** Volume? **Cube it**: **1 m³ = 1 000 000 cm³ = 1000 litres**. A thousand of me!",
+     "who": "lita"
+    },
+    {
+     "id": "cold",
+     "start": 216.179,
+     "end": 219.869,
+     "cap": "**Dad:** Thirty thousand square centimetres of blanket. Still cold.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "clock",
+   "title": "Twenty-three thirty-five",
+   "short": "Time calculations",
+   "card": true,
+   "start": 221.409,
+   "end": 290.696,
+   "lines": [
+    {
+     "id": "flip",
+     "start": 223.209,
+     "end": 226.324,
+     "cap": "**Flip:** Flip! Departures! London, **23:35**! Clack clack!",
+     "who": "flip"
+    },
+    {
+     "id": "rule",
+     "start": 226.744,
+     "end": 232.717,
+     "cap": "**Flip:** **24-hour clock!** From **1 pm**, **add 12**. 11:35 pm is **23:35**.",
+     "who": "flip"
+    },
+    {
+     "id": "dad",
+     "start": 233.037,
+     "end": 240.611,
+     "cap": "**Dad:** It's **22:45**. The gate shuts at **23:10**. 2310 − 2245 = **65 minutes**. Curry puff time.",
+     "who": "dad"
+    },
+    {
+     "id": "sixty",
+     "start": 241.131,
+     "end": 243.797,
+     "cap": "**Flip:** An hour has **60** minutes, not 100! **Count on!**",
+     "who": "flip"
+    },
+    {
+     "id": "count",
+     "start": 244.117,
+     "end": 249.835,
+     "cap": "**Kavya:** **15 min** to 23:00, then **10 min** to 23:10. Only **25 minutes**!",
+     "who": "kavya"
+    },
+    {
+     "id": "run",
+     "start": 250.155,
+     "end": 250.709,
+     "cap": "**Mum:** RUN!",
+     "who": "mum"
+    },
+    {
+     "id": "board",
+     "start": 251.589,
+     "end": 256.859,
+     "cap": "**Narrator:** The flight: **13 h 50 min**. In June, London is **7 hours behind**.",
+     "who": "narr"
+    },
+    {
+     "id": "add",
+     "start": 257.179,
+     "end": 263.643,
+     "cap": "**Kavya:** 23:35 + 13 h = 12:35. + 50 min = **13:25** tomorrow, Singapore time.",
+     "who": "kavya"
+    },
+    {
+     "id": "back",
+     "start": 263.963,
+     "end": 266.715,
+     "cap": "**Flip:** Back **7 hours**: **06:25** in London!",
+     "who": "flip"
+    },
+    {
+     "id": "sleep",
+     "start": 267.035,
+     "end": 274.48,
+     "cap": "**Mum:** I slept **23:50** to **07:20**. Via midnight: **10 min**, **7 h**, **20 min**. **7 h 30 min**.",
+     "who": "mum"
+    },
+    {
+     "id": "there",
+     "start": 274.8,
+     "end": 275.632,
+     "cap": "**Ah Boy:** Are we there yet?",
+     "who": "boy"
+    },
+    {
+     "id": "left",
+     "start": 276.152,
+     "end": 278.179,
+     "cap": "**Flip:** Time to London: **2.4 h**!",
+     "who": "flip"
+    },
+    {
+     "id": "forty",
+     "start": 278.699,
+     "end": 280.341,
+     "cap": "**Ah Boy:** Two hours **forty** minutes. Easy.",
+     "who": "boy"
+    },
+    {
+     "id": "dec",
+     "start": 280.961,
+     "end": 285.932,
+     "cap": "**Flip:** No! 0.4 h = 0.4 × **60** = **24 min**. So 2.4 h = **2 h 24 min**.",
+     "who": "flip"
+    },
+    {
+     "id": "again",
+     "start": 286.252,
+     "end": 287.084,
+     "cap": "**Ah Boy:** Are we there yet?",
+     "who": "boy"
+    },
+    {
+     "id": "now",
+     "start": 287.604,
+     "end": 289.076,
+     "cap": "**Flip:** Two hours. Twenty-three minutes.",
+     "who": "flip"
+    }
+   ]
+  },
+  {
+   "id": "speed",
+   "title": "Nine hundred kilometres an hour",
+   "short": "Speed, distance & time",
+   "card": true,
+   "start": 290.696,
+   "end": 355.265,
+   "lines": [
+    {
+     "id": "map",
+     "start": 292.496,
+     "end": 298.256,
+     "cap": "**Kavya:** **900 km/h**, and **2160 km** to go. Where does **2.4 h** come from?",
+     "who": "kavya"
+    },
+    {
+     "id": "trish",
+     "start": 298.576,
+     "end": 302.501,
+     "cap": "**Trish:** Trish! The **DST triangle**! **D**istance on top, **S**peed and **T**ime below.",
+     "who": "trish"
+    },
+    {
+     "id": "time",
+     "start": 303.021,
+     "end": 307.907,
+     "cap": "**Trish:** Cover **T**: **T = D ÷ S**. 2160 ÷ 900 = **2.4 h**.",
+     "who": "trish"
+    },
+    {
+     "id": "speed",
+     "start": 308.227,
+     "end": 313.069,
+     "cap": "**Trish:** Cover **S**: **speed = distance ÷ time**. Cover **D**: **distance = speed × time**.",
+     "who": "trish"
+    },
+    {
+     "id": "dad",
+     "start": 313.389,
+     "end": 321.539,
+     "cap": "**Dad:** Takeoff: **150 km** in **20 minutes**. 150 ÷ 20 = **7.5 km/h**. Slower than a bicycle.",
+     "who": "dad"
+    },
+    {
+     "id": "match",
+     "start": 322.499,
+     "end": 326.637,
+     "cap": "**Trish:** **Units must match!** Hours, not minutes. 20 min = 20 ÷ 60 = **⅓ h**.",
+     "who": "trish"
+    },
+    {
+     "id": "fix",
+     "start": 326.957,
+     "end": 333.315,
+     "cap": "**Kavya:** 150 ÷ ⅓ = 150 × 3 = **450 km/h**. A very fast bicycle.",
+     "who": "kavya"
+    },
+    {
+     "id": "ms",
+     "start": 333.835,
+     "end": 335.072,
+     "cap": "**Ah Boy:** And in metres **per second**?",
+     "who": "boy"
+    },
+    {
+     "id": "conv",
+     "start": 335.392,
+     "end": 341.963,
+     "cap": "**Trish:** **1 km = 1000 m**, **1 h = 3600 s**. So km/h → m/s: × 1000 ÷ 3600, which is **÷ 3.6**.",
+     "who": "trish"
+    },
+    {
+     "id": "250",
+     "start": 342.283,
+     "end": 346.72,
+     "cap": "**Kavya:** 900 ÷ 3.6 = **250 m/s**!",
+     "who": "kavya"
+    },
+    {
+     "id": "run",
+     "start": 347.04,
+     "end": 351.883,
+     "cap": "**Ah Boy:** I run **5 m/s**! Back the other way, **× 3.6**: **18 km/h**!",
+     "who": "boy"
+    },
+    {
+     "id": "aisle",
+     "start": 352.403,
+     "end": 353.725,
+     "cap": "**Mum:** Not in the aisle, you don't.",
+     "who": "mum"
+    }
+   ]
+  },
+  {
+   "id": "miles",
+   "title": "Give or take",
+   "short": "Miles & average speed",
+   "card": true,
+   "start": 355.265,
+   "end": 432.908,
+   "lines": [
+    {
+     "id": "raj",
+     "start": 357.065,
+     "end": 362.036,
+     "cap": "**Uncle Raj:** Uncle Raj! Welcome! I'm **six foot one**, **twelve stone**, and home is **ninety miles** away!",
+     "who": "raj"
+    },
+    {
+     "id": "what",
+     "start": 362.656,
+     "end": 364.683,
+     "cap": "**Monsieur Mètre:** Feet? Stone? **Miles?!**",
+     "who": "metre"
+    },
+    {
+     "id": "miles",
+     "start": 365.303,
+     "end": 371.297,
+     "cap": "**Sir Miles:** **The mile.** A thousand Roman paces. **About 1.6 km**. Give or take.",
+     "who": "miles"
+    },
+    {
+     "id": "approx",
+     "start": 371.817,
+     "end": 376.639,
+     "cap": "**Sir Miles:** It's **approximate**, so we write **≈**: **5 miles ≈ 8 km**.",
+     "who": "miles"
+    },
+    {
+     "id": "ninety",
+     "start": 376.959,
+     "end": 382.697,
+     "cap": "**Kavya:** 90 ÷ 5 = **18** lots of 5 miles. 18 × 8 ≈ **144 km**. (Or 90 × 1.6 = 144.)",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 383.017,
+     "end": 389.289,
+     "cap": "**Ah Boy:** Miles → km: **× 1.6**. Km → miles: **÷ 1.6**. The **km** number is always **bigger**!",
+     "who": "boy"
+    },
+    {
+     "id": "limit",
+     "start": 389.609,
+     "end": 394.217,
+     "cap": "**Dad:** Limit **70 mph**? Slower than our **90 km/h**.",
+     "who": "dad"
+    },
+    {
+     "id": "faster",
+     "start": 394.737,
+     "end": 400.028,
+     "cap": "**Kavya:** 70 × 1.6 ≈ **112 km/h**. Faster, Dad.",
+     "who": "kavya"
+    },
+    {
+     "id": "trip",
+     "start": 400.348,
+     "end": 407.516,
+     "cap": "**Narrator:** The drive: **60 miles at 60 mph**, a **30-minute** tea stop, then **30 miles at 20 mph**.",
+     "who": "narr"
+    },
+    {
+     "id": "mean",
+     "start": 407.836,
+     "end": 412.871,
+     "cap": "**Dad:** Average: 60 and 20, so **40 mph**. Trust me, I did the maths.",
+     "who": "dad"
+    },
+    {
+     "id": "avg",
+     "start": 413.571,
+     "end": 417.667,
+     "cap": "**Trish:** No! **Average speed = total distance ÷ total time**. Stops count!",
+     "who": "trish"
+    },
+    {
+     "id": "total",
+     "start": 417.987,
+     "end": 424.387,
+     "cap": "**Kavya:** 1 h + 0.5 h + 1.5 h = **3 h** for **90 miles**. 90 ÷ 3 = **30 mph**.",
+     "who": "kavya"
+    },
+    {
+     "id": "graph",
+     "start": 424.707,
+     "end": 427.971,
+     "cap": "**Trish:** On the **distance–time graph**: **steep** is fast, **flat** is stopped.",
+     "who": "trish"
+    },
+    {
+     "id": "there",
+     "start": 428.291,
+     "end": 429.123,
+     "cap": "**Ah Boy:** Are we there yet?",
+     "who": "boy"
+    },
+    {
+     "id": "yes",
+     "start": 429.643,
+     "end": 431.008,
+     "cap": "**Uncle Raj:** Actually... yes.",
+     "who": "raj"
+    }
+   ]
+  },
+  {
+   "id": "shop",
+   "title": "Best buy, best density",
+   "short": "Unit pricing & density",
+   "card": true,
+   "start": 432.908,
+   "end": 510.52,
+   "lines": [
+    {
+     "id": "shop",
+     "start": 434.708,
+     "end": 439.956,
+     "cap": "**Narrator:** A London supermarket. Mum is cooking **vegetable biryani** for the wedding.",
+     "who": "narr"
+    },
+    {
+     "id": "rice",
+     "start": 440.476,
+     "end": 446.791,
+     "cap": "**Mum:** Rice: **2 kg for £6.80**, or **5 kg for £17.50**. Bigger is always cheaper.",
+     "who": "mum"
+    },
+    {
+     "id": "unit",
+     "start": 447.311,
+     "end": 453.412,
+     "cap": "**Kavya:** **Per** kg means **divide**: 6.80 ÷ 2 = **£3.40 per kg**. 17.50 ÷ 5 = **£3.50 per kg**. The small bag wins!",
+     "who": "kavya"
+    },
+    {
+     "id": "juice",
+     "start": 453.732,
+     "end": 462.052,
+     "cap": "**Dad:** Juice: **750 ml for £2.10**, or **2 l for £5.40**. 750 is way more!",
+     "who": "dad"
+    },
+    {
+     "id": "same",
+     "start": 463.012,
+     "end": 469.199,
+     "cap": "**Kavya:** **Same units!** 750 ml = **0.75 l**. 2.10 ÷ 0.75 = **£2.80 per litre**. 5.40 ÷ 2 = **£2.70 per litre**.",
+     "who": "kavya"
+    },
+    {
+     "id": "big",
+     "start": 469.519,
+     "end": 472.975,
+     "cap": "**Mum:** This time the big one wins. **Lowest price per unit** wins.",
+     "who": "mum"
+    },
+    {
+     "id": "boy",
+     "start": 473.495,
+     "end": 478.636,
+     "cap": "**Ah Boy:** My pillow is **1 kg**. Mum's rice is **1 kg**. Why is my pillow so **big**?",
+     "who": "boy"
+    },
+    {
+     "id": "dens",
+     "start": 478.956,
+     "end": 483.031,
+     "cap": "**Trish:** New letters! **Density = mass ÷ volume**. **M** on top, **D** and **V** below.",
+     "who": "trish"
+    },
+    {
+     "id": "feather",
+     "start": 483.551,
+     "end": 489.588,
+     "cap": "**Trish:** Feathers: **low density**. Little mass in each **cm³**, so 1 kg needs lots of **volume**.",
+     "who": "trish"
+    },
+    {
+     "id": "ice",
+     "start": 489.908,
+     "end": 496.137,
+     "cap": "**Uncle Raj:** My ice: **460 g** at **0.92 g/cm³**. Volume = 460 ÷ 0.92 = **500 cm³**.",
+     "who": "raj"
+    },
+    {
+     "id": "water",
+     "start": 496.457,
+     "end": 503.284,
+     "cap": "**Kavya:** As water, at **1 g/cm³**, just **460 cm³**. Less dense than water **floats**; more dense **sinks**.",
+     "who": "kavya"
+    },
+    {
+     "id": "gold",
+     "start": 503.604,
+     "end": 508.98,
+     "cap": "**Uncle Raj:** Like my **gold** cufflink. **19.3 g/cm³**. Oh. It's in my tea.",
+     "who": "raj"
+    }
+   ]
+  },
+  {
+   "id": "graph",
+   "title": "Fifty degrees of separation",
+   "short": "Conversion graphs",
+   "card": true,
+   "start": 510.52,
+   "end": 587.784,
+   "lines": [
+    {
+     "id": "rate",
+     "start": 512.32,
+     "end": 518.869,
+     "cap": "**Mum:** Souvenirs, all in **pounds**. Say **£1 = $1.70**. I am **not** multiplying all day.",
+     "who": "mum"
+    },
+    {
+     "id": "table",
+     "start": 519.389,
+     "end": 526.173,
+     "cap": "**Kavya:** Then draw a **conversion graph**! **£0 → $0**, **£10 → $17**, **£50 → $85**.",
+     "who": "kavya"
+    },
+    {
+     "id": "plot",
+     "start": 526.493,
+     "end": 529.395,
+     "cap": "**Kavya:** Join them with a **ruler**. The **third point** is your check.",
+     "who": "kavya"
+    },
+    {
+     "id": "scale",
+     "start": 529.715,
+     "end": 533.683,
+     "cap": "**Monsieur Mètre:** And **check the scale**! One small square across is **£5**.",
+     "who": "metre"
+    },
+    {
+     "id": "globe",
+     "start": 534.003,
+     "end": 538.013,
+     "cap": "**Ah Boy:** Snow globe, **£40**! Up to the line... across... **$68**!",
+     "who": "boy"
+    },
+    {
+     "id": "snow",
+     "start": 538.333,
+     "end": 540.787,
+     "cap": "**Mum:** Sixty-eight dollars. For snow. In **June**.",
+     "who": "mum"
+    },
+    {
+     "id": "suit",
+     "start": 541.487,
+     "end": 545.54,
+     "cap": "**Dad:** Suit rental: **£350**. That's off the graph!",
+     "who": "dad"
+    },
+    {
+     "id": "scaleup",
+     "start": 545.86,
+     "end": 552.239,
+     "cap": "**Kavya:** £350 = **7 × £50**, so it's **7 × $85 = $595**.",
+     "who": "kavya"
+    },
+    {
+     "id": "shorts",
+     "start": 552.559,
+     "end": 555.545,
+     "cap": "**Dad:** On second thoughts, shorts are fine for a wedding.",
+     "who": "dad"
+    },
+    {
+     "id": "prop",
+     "start": 556.425,
+     "end": 560.927,
+     "cap": "**Kavya:** A straight line **through the origin**: pounds and dollars are in **direct proportion**.",
+     "who": "kavya"
+    },
+    {
+     "id": "grad",
+     "start": 561.247,
+     "end": 565.961,
+     "cap": "**Monsieur Mètre:** And the **gradient** is the **rate**: **$1.70** up for every **£1** across.",
+     "who": "metre"
+    },
+    {
+     "id": "temp",
+     "start": 566.281,
+     "end": 573.087,
+     "cap": "**Dad:** **10 °C** is **50 °F**. This afternoon, **20 °C**: double! So **100 °F**!",
+     "who": "dad"
+    },
+    {
+     "id": "formula",
+     "start": 573.607,
+     "end": 580.135,
+     "cap": "**Uncle Raj:** **F = 1.8C + 32**. 1.8 × 20 + 32 = 36 + 32 = **68 °F**, I'm afraid.",
+     "who": "raj"
+    },
+    {
+     "id": "origin",
+     "start": 580.455,
+     "end": 586.684,
+     "cap": "**Kavya:** Straight, but it **misses the origin**: **0 °C = 32 °F**. So **not** direct proportion.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "lawn",
+   "title": "Heels versus elephant",
+   "short": "Pressure (stretch)",
+   "card": true,
+   "start": 587.784,
+   "end": 648.721,
+   "lines": [
+    {
+     "id": "wed",
+     "start": 589.584,
+     "end": 598.437,
+     "cap": "**Narrator:** The wedding. Uncle Raj's lawn is a **hectare**: **100 m by 100 m**, **10 000 m²**. Mum wears **stilettos**.",
+     "who": "narr"
+    },
+    {
+     "id": "sink",
+     "start": 598.957,
+     "end": 601.432,
+     "cap": "**Mum:** Why do my heels **sink**, and your big feet don't?",
+     "who": "mum"
+    },
+    {
+     "id": "pres",
+     "start": 601.752,
+     "end": 605.763,
+     "cap": "**Trish:** New letters! **Pressure = force ÷ area**. **F** on top, **P** and **A** below.",
+     "who": "trish"
+    },
+    {
+     "id": "newton",
+     "start": 606.283,
+     "end": 610.251,
+     "cap": "**Trish:** Force is in **newtons**, **N**. **1 kg** weighs about **10 N**.",
+     "who": "trish"
+    },
+    {
+     "id": "heel",
+     "start": 610.571,
+     "end": 616.331,
+     "cap": "**Kavya:** Mum: **600 N** on a heel tip of **1 cm²**. 600 ÷ 1 = **600 N/cm²**.",
+     "who": "kavya"
+    },
+    {
+     "id": "elephant",
+     "start": 616.651,
+     "end": 622.944,
+     "cap": "**Uncle Raj:** An **elephant**: **50 000 N** on **5000 cm²** of feet. 50 000 ÷ 5000 = just **10 N/cm²**.",
+     "who": "raj"
+    },
+    {
+     "id": "sixty",
+     "start": 623.264,
+     "end": 626.443,
+     "cap": "**Ah Boy:** Your heel presses **60 times** harder than an elephant, Mum!",
+     "who": "boy"
+    },
+    {
+     "id": "comp",
+     "start": 627.063,
+     "end": 628.705,
+     "cap": "**Mum:** I'll take that as a compliment.",
+     "who": "mum"
+    },
+    {
+     "id": "area",
+     "start": 629.585,
+     "end": 634.236,
+     "cap": "**Trish:** Same force, **smaller area**: **bigger pressure**. Sharp knives. Wide snowshoes.",
+     "who": "trish"
+    },
+    {
+     "id": "pa",
+     "start": 634.556,
+     "end": 640.316,
+     "cap": "**Kavya:** **N/m²** are **pascals**, Pa. **1 N/cm² = 10 000 N/m² = 10 000 Pa**.",
+     "who": "kavya"
+    },
+    {
+     "id": "sandals",
+     "start": 640.636,
+     "end": 644.945,
+     "cap": "**Dad:** That's why I wore **sandals**. Big area. Trust me, I did the maths.",
+     "who": "dad"
+    },
+    {
+     "id": "once",
+     "start": 645.565,
+     "end": 647.101,
+     "cap": "**Narrator:** For once, he did.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The family saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 648.721,
+   "end": 716.361,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 650.521,
+     "end": 654.361,
+     "cap": "**Narrator:** Before the credits, the family would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 654.881,
+     "end": 662.796,
+     "cap": "**Dad:** One. **30 km in 20 min** is not 1.5 km/h. Hours first: it's **90 km/h**. Ask me how I know.",
+     "who": "dad"
+    },
+    {
+     "id": "t2",
+     "start": 663.316,
+     "end": 670.463,
+     "cap": "**Ah Boy:** Two. **1.3 h** is not 1 h 30 min. 0.3 × 60 = 18: **1 h 18 min**.",
+     "who": "boy"
+    },
+    {
+     "id": "t3",
+     "start": 670.983,
+     "end": 676.06,
+     "cap": "**Lita:** Three. **5 m² = 50 000 cm²**, not 500. Square it!",
+     "who": "lita"
+    },
+    {
+     "id": "t4",
+     "start": 676.58,
+     "end": 681.828,
+     "cap": "**Flip:** Four. **13:45** to **14:10** is **25 minutes**, not 65. Count on!",
+     "who": "flip"
+    },
+    {
+     "id": "t5",
+     "start": 682.348,
+     "end": 687.831,
+     "cap": "**Uncle Raj:** Five. Average speed: **total distance ÷ total time**. Not the mean of the speeds. Tea stops count.",
+     "who": "raj"
+    },
+    {
+     "id": "t6",
+     "start": 688.351,
+     "end": 693.599,
+     "cap": "**Mum:** Six. Best buys: **same units** first. Grams with grams, millilitres with millilitres.",
+     "who": "mum"
+    },
+    {
+     "id": "return",
+     "start": 694.219,
+     "end": 696.885,
+     "cap": "**Narrator:** Lost in Conversion will return.",
+     "who": "narr"
+    },
+    {
+     "id": "home",
+     "start": 698.205,
+     "end": 702.6,
+     "cap": "**Narrator:** Changi. Baggage reclaim. Every suitcase arrives. Almost.",
+     "who": "narr"
+    },
+    {
+     "id": "tag",
+     "start": 703.12,
+     "end": 706.213,
+     "cap": "**Dad:** Where's my suitcase? I wrote **20** on the tag.",
+     "who": "dad"
+    },
+    {
+     "id": "what",
+     "start": 706.733,
+     "end": 707.928,
+     "cap": "**Monsieur Mètre:** Twenty... what?",
+     "who": "metre"
+    },
+    {
+     "id": "mars",
+     "start": 708.888,
+     "end": 710.723,
+     "cap": "**Narrator:** Meanwhile, on Mars.",
+     "who": "narr"
+    },
+    {
+     "id": "martian",
+     "start": 711.343,
+     "end": 713.561,
+     "cap": "**A Martian:** Shorts? It's **minus sixty degrees** here.",
+     "who": "martian"
+    }
+   ]
+  }
+ ],
+ "total": 716.361
+}

@@ -1,0 +1,972 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 67.033,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 7.256,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, eight a.m., the kitchen of a flat in Block 208.",
+     "who": "narr"
+    },
+    {
+     "id": "tiles",
+     "start": 7.776,
+     "end": 13.749,
+     "cap": "**Mum:** The new floor tiles are here! **Octagons** and **squares**. The contractor wants two thousand dollars.",
+     "who": "mum"
+    },
+    {
+     "id": "video",
+     "start": 14.269,
+     "end": 17.875,
+     "cap": "**Dad:** Two thousand? We'll do it **ourselves**. I watched a **video**.",
+     "who": "dad"
+    },
+    {
+     "id": "half",
+     "start": 18.495,
+     "end": 21.375,
+     "cap": "**Kavya:** Dad, you watched **half** a video. At double speed.",
+     "who": "kavya"
+    },
+    {
+     "id": "important",
+     "start": 21.995,
+     "end": 23.189,
+     "cap": "**Dad:** The important half.",
+     "who": "dad"
+    },
+    {
+     "id": "boy",
+     "start": 24.109,
+     "end": 26.605,
+     "cap": "**Ah Boy:** I'm in charge of the **scissors**! I'll cut everything!",
+     "who": "boy"
+    },
+    {
+     "id": "sweep",
+     "start": 27.125,
+     "end": 28.576,
+     "cap": "**Mum:** You're in charge of **sweeping**.",
+     "who": "mum"
+    },
+    {
+     "id": "corner",
+     "start": 29.396,
+     "end": 34.601,
+     "cap": "**Narrator:** But this documentary is about the corner of the kitchen, where the two walls meet.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 35.221,
+     "end": 41.451,
+     "cap": "**Rex:** Rex. **Right angle**. Exactly **90°**. I've held up this corner since 1987.",
+     "who": "rex"
+    },
+    {
+     "id": "ninety",
+     "start": 42.071,
+     "end": 46.999,
+     "cap": "**Rex:** Not eighty-nine. Not ninety-one. **Ninety**. Marked with a little **square**, thank you.",
+     "who": "rex"
+    },
+    {
+     "id": "about",
+     "start": 47.619,
+     "end": 49.283,
+     "cap": "**Dad:** Looks **about** ninety to me.",
+     "who": "dad"
+    },
+    {
+     "id": "down",
+     "start": 50.003,
+     "end": 53.032,
+     "cap": "**Rex:** About? ABOUT?! Put the protractor down.",
+     "who": "rex"
+    },
+    {
+     "id": "inspect",
+     "start": 53.852,
+     "end": 59.484,
+     "cap": "**Rex:** This weekend, every angle in this flat gets **inspected**. No **reason**, no approval.",
+     "who": "rex"
+    },
+    {
+     "id": "title",
+     "start": 60.304,
+     "end": 64.933,
+     "cap": "**Narrator:** All the Right Angles. Episode 13: The Great Kitchen Reno.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "facts",
+   "title": "Ah Boy finds the scissors",
+   "short": "Angle facts",
+   "card": true,
+   "start": 67.033,
+   "end": 154.765,
+   "lines": [
+    {
+     "id": "time",
+     "start": 68.833,
+     "end": 72.375,
+     "cap": "**Narrator:** Eight fifteen. Ah Boy has found the scissors anyway.",
+     "who": "narr"
+    },
+    {
+     "id": "snip",
+     "start": 72.995,
+     "end": 80.995,
+     "cap": "**Ah Boy:** Small snip, under 90°: **acute**. Exactly 90°: **right**, like Rex. Between 90° and 180°: **obtuse**. More than 180°: **reflex**!",
+     "who": "boy"
+    },
+    {
+     "id": "cuts",
+     "start": 81.515,
+     "end": 88.171,
+     "cap": "**Dad:** Two cuts from one point on a tile's edge: **52°**, **x**, **73°**. I'll measure x.",
+     "who": "dad"
+    },
+    {
+     "id": "put",
+     "start": 88.491,
+     "end": 95.893,
+     "cap": "**Rex:** Put. The protractor. Down. It says **not drawn to scale**. And angles on a **straight line** add to **180°**.",
+     "who": "rex"
+    },
+    {
+     "id": "x",
+     "start": 96.413,
+     "end": 103.987,
+     "cap": "**Kavya:** x = 180° − 52° − 73° = **55°**, because **angles on a straight line** add to 180°.",
+     "who": "kavya"
+    },
+    {
+     "id": "ok",
+     "start": 104.307,
+     "end": 107.571,
+     "cap": "**Rex:** An answer, with its **reason**. Approved.",
+     "who": "rex"
+    },
+    {
+     "id": "open",
+     "start": 108.391,
+     "end": 112.636,
+     "cap": "**Ah Boy:** Look, the open scissors make the letter **X**! This angle is **38°**.",
+     "who": "boy"
+    },
+    {
+     "id": "next",
+     "start": 112.956,
+     "end": 118.631,
+     "cap": "**Mum:** Its neighbour is on a straight line with it: 180° − 38° = **142°**.",
+     "who": "mum"
+    },
+    {
+     "id": "vop",
+     "start": 118.951,
+     "end": 123.409,
+     "cap": "**Kavya:** The angle **opposite** is **38°** again. **Vertically opposite** angles are equal.",
+     "who": "kavya"
+    },
+    {
+     "id": "tips",
+     "start": 123.729,
+     "end": 127.036,
+     "cap": "**Ah Boy:** They only touch at the tips. Like me and Kavya in the back seat.",
+     "who": "boy"
+    },
+    {
+     "id": "point",
+     "start": 127.956,
+     "end": 132.393,
+     "cap": "**Mum:** And all four make **360°**: **angles around a point**.",
+     "who": "mum"
+    },
+    {
+     "id": "alg",
+     "start": 132.713,
+     "end": 139.007,
+     "cap": "**Dad:** Mine open to **(3x + 10)°** and, opposite, **(5x − 30)°**. Unsolvable!",
+     "who": "dad"
+    },
+    {
+     "id": "eq",
+     "start": 139.527,
+     "end": 146.247,
+     "cap": "**Kavya:** Vertically opposite, so **3x + 10 = 5x − 30**. So 2x = 40, and **x = 20**.",
+     "who": "kavya"
+    },
+    {
+     "id": "ans",
+     "start": 146.567,
+     "end": 153.265,
+     "cap": "**Rex:** They asked for the **angles**: 3 × 20 + 10 = **70°**. The other pair: **110°**.",
+     "who": "rex"
+    }
+   ]
+  },
+  {
+   "id": "parallel",
+   "title": "Para and Lel never meet",
+   "short": "Parallel lines",
+   "card": true,
+   "start": 154.765,
+   "end": 224.504,
+   "lines": [
+    {
+     "id": "ten",
+     "start": 156.565,
+     "end": 162.389,
+     "cap": "**Narrator:** Ten a.m. The old tiles are up. Dad snaps two **chalk lines** across the floor.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 162.909,
+     "end": 166.728,
+     "cap": "**Para:** Para. And my wife, Lel. We're **parallel**: same direction, always.",
+     "who": "para"
+    },
+    {
+     "id": "never",
+     "start": 167.148,
+     "end": 171.777,
+     "cap": "**Lel:** Forty years side by side. Never met. It's the secret of a happy marriage.",
+     "who": "lel"
+    },
+    {
+     "id": "trev",
+     "start": 172.697,
+     "end": 175.812,
+     "cap": "**Trevor:** Trevor! **Transversal**! I cross lines! Two at once!",
+     "who": "trev"
+    },
+    {
+     "id": "115",
+     "start": 176.332,
+     "end": 182.945,
+     "cap": "**Kavya:** Trevor crosses Para at **115°**. Lel is parallel, so he crosses her at **exactly the same angle**.",
+     "who": "kavya"
+    },
+    {
+     "id": "two",
+     "start": 183.265,
+     "end": 189.516,
+     "cap": "**Rex:** So eight angles, only **two** sizes: **115°**, and 180° − 115° = **65°**.",
+     "who": "rex"
+    },
+    {
+     "id": "corr",
+     "start": 189.836,
+     "end": 194.444,
+     "cap": "**Kavya:** Same position at each crossing: **corresponding** angles, **equal**. An **F** shape.",
+     "who": "kavya"
+    },
+    {
+     "id": "alt",
+     "start": 194.764,
+     "end": 199.479,
+     "cap": "**Priya:** Between the lines, on opposite sides of Trevor: **alternate** angles, **equal**. A **Z**!",
+     "who": "priya"
+    },
+    {
+     "id": "co",
+     "start": 199.799,
+     "end": 205.068,
+     "cap": "**Dad:** Between the lines, on the **same** side: **co-interior**. Also equal. I watched a video.",
+     "who": "dad"
+    },
+    {
+     "id": "c180",
+     "start": 205.588,
+     "end": 212.351,
+     "cap": "**Rex:** REJECTED. **Co-interior** angles **add to 180°**: 115° + 65°. A **C** shape.",
+     "who": "rex"
+    },
+    {
+     "id": "mnem",
+     "start": 212.971,
+     "end": 215.509,
+     "cap": "**Ah Boy:** **F** and **Z** are equal. **C** **C**ompletes 180!",
+     "who": "boy"
+    },
+    {
+     "id": "128",
+     "start": 216.129,
+     "end": 223.404,
+     "cap": "**Priya:** Co-interior with **128°**? 180° − 128° = **52°**, because **co-interior angles add to 180°**!",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "shelf",
+   "title": "Mr Tan hears the drill",
+   "short": "Triangles",
+   "card": true,
+   "start": 224.504,
+   "end": 323.643,
+   "lines": [
+    {
+     "id": "noon",
+     "start": 226.304,
+     "end": 229.419,
+     "cap": "**Narrator:** Noon. Dad drills a spice shelf into the wall.",
+     "who": "narr"
+    },
+    {
+     "id": "tan",
+     "start": 230.039,
+     "end": 234.924,
+     "cap": "**Mr Tan:** Mr Tan, from upstairs. Also, sadly for Kavya, her **maths teacher**.",
+     "who": "tan"
+    },
+    {
+     "id": "bracket",
+     "start": 235.544,
+     "end": 242.328,
+     "cap": "**Dad:** The brackets are **triangles**. Strong, and their angles add to **180°**. I watched a video.",
+     "who": "dad"
+    },
+    {
+     "id": "why",
+     "start": 242.948,
+     "end": 245.849,
+     "cap": "**Ah Boy:** Every triangle? Even the long thin weird ones? Why?",
+     "who": "boy"
+    },
+    {
+     "id": "draw",
+     "start": 246.369,
+     "end": 251.105,
+     "cap": "**Mr Tan:** Draw a line through the top, **parallel** to the base. Para, Lel, would you mind?",
+     "who": "tan"
+    },
+    {
+     "id": "honour",
+     "start": 251.425,
+     "end": 253.9,
+     "cap": "**Para:** Delighted. From a respectful distance.",
+     "who": "para"
+    },
+    {
+     "id": "baby",
+     "start": 254.42,
+     "end": 257.599,
+     "cap": "**Lel:** Another parallel line? Oh! Let's name him **Little Lel**.",
+     "who": "lel"
+    },
+    {
+     "id": "proof",
+     "start": 258.519,
+     "end": 264.385,
+     "cap": "**Kavya:** The base angles **a** and **b** reappear at the top as **alternate angles**. With **c**, they make a **straight line**.",
+     "who": "kavya"
+    },
+    {
+     "id": "every",
+     "start": 264.705,
+     "end": 271.404,
+     "cap": "**Mr Tan:** So **a + b + c = 180°**, for **every** triangle. Even equilateral: **60°** each.",
+     "who": "tan"
+    },
+    {
+     "id": "forty",
+     "start": 271.924,
+     "end": 279.348,
+     "cap": "**Mum:** This bracket is **isosceles**: two equal sides, so the two **base angles** are equal. The top angle is **40°**.",
+     "who": "mum"
+    },
+    {
+     "id": "70",
+     "start": 279.668,
+     "end": 285.215,
+     "cap": "**Kavya:** (180° − 40°) ÷ 2 = **70°** each. Check: 40 + 70 + 70 = 180.",
+     "who": "kavya"
+    },
+    {
+     "id": "50",
+     "start": 285.535,
+     "end": 289.951,
+     "cap": "**Priya:** Next bracket has a **50°** angle. So: 50°, 50°, **80°**. Done!",
+     "who": "priya"
+    },
+    {
+     "id": "cases",
+     "start": 290.471,
+     "end": 297.489,
+     "cap": "**Mr Tan:** Or the 50° is the **apex**: (180° − 50°) ÷ 2 = **65°** each. **Two** answers. Check **both**.",
+     "who": "tan"
+    },
+    {
+     "id": "ext",
+     "start": 297.809,
+     "end": 306.151,
+     "cap": "**Mr Tan:** Now the shelf: an **exterior angle** of **117°** = the **sum** of the **interior opposite** angles, **x** and **2x**.",
+     "who": "tan"
+    },
+    {
+     "id": "39",
+     "start": 306.471,
+     "end": 315.772,
+     "cap": "**Kavya:** x + 2x = 117, so **x = 39**: **39°** and **78°**. The third: 180° − 117° = **63°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "pun",
+     "start": 316.092,
+     "end": 319.463,
+     "cap": "**Mr Tan:** I'd tell you a triangle joke, but it's a bit **acute**.",
+     "who": "tan"
+    },
+    {
+     "id": "cute",
+     "start": 320.983,
+     "end": 321.943,
+     "cap": "**Ah Boy:** A cute! Like me!",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "kite",
+   "title": "Kitty the kite",
+   "short": "Quadrilaterals",
+   "card": true,
+   "start": 323.643,
+   "end": 411.62,
+   "lines": [
+    {
+     "id": "two",
+     "start": 325.443,
+     "end": 331.437,
+     "cap": "**Narrator:** Two p.m. Ah Boy makes a kite from a tile box, for kite day at **Marina Barrage**.",
+     "who": "narr"
+    },
+    {
+     "id": "kitty",
+     "start": 331.957,
+     "end": 341.003,
+     "cap": "**Kitty:** Kitty. A **kite**, darling: two pairs of equal sides **next to each other**, diagonals at **90°**.",
+     "who": "kitty"
+    },
+    {
+     "id": "diag",
+     "start": 341.523,
+     "end": 347.944,
+     "cap": "**Kavya:** Any quadrilateral's angles add to **360°**: one **diagonal** makes **two triangles**, 2 × 180°.",
+     "who": "kavya"
+    },
+    {
+     "id": "x",
+     "start": 348.264,
+     "end": 353.768,
+     "cap": "**Kitty:** My angles: **2x**, **3x**, **3x** and **80°**.",
+     "who": "kitty"
+    },
+    {
+     "id": "35",
+     "start": 354.088,
+     "end": 360.915,
+     "cap": "**Kavya:** 2x + 3x + 3x + 80 = 360, so 8x = 280, **x = 35**: **70°**, **105°**, **105°**, **80°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "sq",
+     "start": 361.235,
+     "end": 366.867,
+     "cap": "**Priya:** Mum's tiles are squares, not **rectangles**. Rectangles have two long sides and two short ones.",
+     "who": "priya"
+    },
+    {
+     "id": "rect",
+     "start": 367.387,
+     "end": 373.04,
+     "cap": "**Rex:** REJECTED. A **rectangle** just needs **four right angles**. So every square **is** a rectangle.",
+     "who": "rex"
+    },
+    {
+     "id": "tree",
+     "start": 373.66,
+     "end": 379.292,
+     "cap": "**Kitty:** And a **rhombus**, a **parallelogram** and a **kite**. Such a show-off.",
+     "who": "kitty"
+    },
+    {
+     "id": "para",
+     "start": 379.912,
+     "end": 385.928,
+     "cap": "**Mum:** In a **parallelogram**, opposite angles are **equal** and neighbours add to **180°**: they're **co-interior**.",
+     "who": "mum"
+    },
+    {
+     "id": "cut",
+     "start": 386.248,
+     "end": 392.669,
+     "cap": "**Dad:** I cut a tile wrong: **85°**, **110°** and **72°**. What's the fourth angle?",
+     "who": "dad"
+    },
+    {
+     "id": "93",
+     "start": 392.989,
+     "end": 398.301,
+     "cap": "**Kavya:** 85 + 110 + 72 = 267, and 360 − 267 = **93°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "puzzle",
+     "start": 398.621,
+     "end": 404.723,
+     "cap": "**Mr Tan:** Puzzle! The diagonals **bisect** each other at **90°**, but they **aren't equal**. Name the shape.",
+     "who": "tan"
+    },
+    {
+     "id": "square",
+     "start": 405.043,
+     "end": 406.877,
+     "cap": "**Priya:** Square! Obviously!",
+     "who": "priya"
+    },
+    {
+     "id": "rhombus",
+     "start": 407.397,
+     "end": 410.32,
+     "cap": "**Kavya:** A square's diagonals are **equal**. It's a **rhombus**.",
+     "who": "kavya"
+    }
+   ]
+  },
+  {
+   "id": "roomby",
+   "title": "Roomby turns the corner",
+   "short": "Polygon angles",
+   "card": true,
+   "start": 411.62,
+   "end": 500.851,
+   "lines": [
+    {
+     "id": "four",
+     "start": 413.42,
+     "end": 416.94,
+     "cap": "**Narrator:** Four p.m. Mum switches on the **robot vacuum**.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 417.46,
+     "end": 421.087,
+     "cap": "**Roomby:** Roomby. I clean in **polygons**. At every corner, I **turn**. Beep.",
+     "who": "roomby"
+    },
+    {
+     "id": "pent",
+     "start": 421.607,
+     "end": 424.039,
+     "cap": "**Ah Boy:** Roomby! Do a **regular pentagon**! Five sides!",
+     "who": "boy"
+    },
+    {
+     "id": "full",
+     "start": 424.359,
+     "end": 431.527,
+     "cap": "**Roomby:** Five turns, and I face the way I started: one **full turn**, **360°**. Any polygon, any number of sides. Beep.",
+     "who": "roomby"
+    },
+    {
+     "id": "72",
+     "start": 431.847,
+     "end": 436.967,
+     "cap": "**Kavya:** So each turn, the **exterior angle**, is 360° ÷ 5 = **72°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "108",
+     "start": 437.287,
+     "end": 444.711,
+     "cap": "**Rex:** And the **interior angle** is 180° − 72° = **108°**. Inside plus outside: a straight line.",
+     "who": "rex"
+    },
+    {
+     "id": "hex",
+     "start": 445.031,
+     "end": 451.601,
+     "cap": "**Dad:** A **hexagon** has six sides, so six triangles: 6 × 180° inside! I watched a video.",
+     "who": "dad"
+    },
+    {
+     "id": "rej",
+     "start": 452.121,
+     "end": 460.527,
+     "cap": "**Rex:** REJECTED. From **one corner**, a hexagon makes 6 − 2 = **4** triangles: 4 × 180° = **720°**.",
+     "who": "rex"
+    },
+    {
+     "id": "mnem",
+     "start": 461.047,
+     "end": 463.095,
+     "cap": "**Ah Boy:** Got it! **Minus two, then times one-eighty!**",
+     "who": "boy"
+    },
+    {
+     "id": "rule",
+     "start": 463.715,
+     "end": 470.605,
+     "cap": "**Kavya:** **n** sides: **(n − 2) × 180°**. A **decagon**: 8 × 180° = **1440°**.",
+     "who": "kavya"
+    },
+    {
+     "id": "60",
+     "start": 470.925,
+     "end": 475.811,
+     "cap": "**Priya:** Regular hexagon: 360 ÷ 6 = **60°** inside. Next!",
+     "who": "priya"
+    },
+    {
+     "id": "ext",
+     "start": 476.331,
+     "end": 482.837,
+     "cap": "**Kavya:** That's the **exterior** angle. Inside is 180° − 60° = **120°**. **EX**terior **EX**its first.",
+     "who": "kavya"
+    },
+    {
+     "id": "back",
+     "start": 483.357,
+     "end": 489.736,
+     "cap": "**Mr Tan:** Backwards! A regular polygon has interior angles of **160°**. How many sides?",
+     "who": "tan"
+    },
+    {
+     "id": "18",
+     "start": 490.056,
+     "end": 496.456,
+     "cap": "**Kavya:** Exterior first: 180° − 160° = **20°**. Then n = 360 ÷ 20 = **18** sides.",
+     "who": "kavya"
+    },
+    {
+     "id": "dizzy",
+     "start": 496.776,
+     "end": 499.251,
+     "cap": "**Roomby:** Eighteen turns? I'm dizzy. Beep. ...Boop.",
+     "who": "roomby"
+    }
+   ]
+  },
+  {
+   "id": "tiles",
+   "title": "Bee-autiful",
+   "short": "Symmetry & tessellation",
+   "card": true,
+   "start": 500.851,
+   "end": 580.505,
+   "lines": [
+    {
+     "id": "six",
+     "start": 502.651,
+     "end": 506.192,
+     "cap": "**Narrator:** Six p.m. At last, the new tiles go down.",
+     "who": "narr"
+    },
+    {
+     "id": "bea",
+     "start": 506.712,
+     "end": 513.688,
+     "cap": "**Bea:** Bea! From the honey jar! Your tiles **tessellate**: **no gaps**, **no overlaps**, and the corners at each point make **360°**!",
+     "who": "bea"
+    },
+    {
+     "id": "oct",
+     "start": 514.208,
+     "end": 523.296,
+     "cap": "**Kavya:** A regular octagon: exterior **45°**, interior **135°**. And 135° + 135° + 90° = **360°**!",
+     "who": "kavya"
+    },
+    {
+     "id": "three",
+     "start": 523.816,
+     "end": 533.096,
+     "cap": "**Bea:** My honeycomb: **3 × 120°**. Triangles: **6 × 60°**. Squares: **4 × 90°**. The only regular polygons that tile alone!",
+     "who": "bea"
+    },
+    {
+     "id": "ball",
+     "start": 533.416,
+     "end": 535.549,
+     "cap": "**Ah Boy:** What about **pentagons**, like on my football?",
+     "who": "boy"
+    },
+    {
+     "id": "324",
+     "start": 535.869,
+     "end": 544.04,
+     "cap": "**Kavya:** 3 × 108° = **324°**: a **36°** gap. A fourth makes **432°**: an overlap. Pentagons don't tile.",
+     "who": "kavya"
+    },
+    {
+     "id": "348",
+     "start": 544.36,
+     "end": 552.403,
+     "cap": "**Bea:** So a football mixes them: 108° + 120° + 120° = **348°**. Twelve short, so it **curves**!",
+     "who": "bea"
+    },
+    {
+     "id": "order",
+     "start": 552.923,
+     "end": 560.027,
+     "cap": "**Bea:** And symmetry! A regular hexagon has **6** lines of symmetry, and fits onto itself **6** times in a turn: **order 6**.",
+     "who": "bea"
+    },
+    {
+     "id": "n",
+     "start": 560.347,
+     "end": 564.933,
+     "cap": "**Rex:** A regular polygon with **n sides** has **n lines** and **n turns**.",
+     "who": "rex"
+    },
+    {
+     "id": "oct8",
+     "start": 565.253,
+     "end": 572.571,
+     "cap": "**Mum:** So our octagon tile: **8** lines, **order 8**, and its smallest turn is 360° ÷ 8 = **45°**.",
+     "who": "mum"
+    },
+    {
+     "id": "pun",
+     "start": 572.891,
+     "end": 574.875,
+     "cap": "**Mr Tan:** What a **bee-autiful** tessellation.",
+     "who": "tan"
+    },
+    {
+     "id": "laugh",
+     "start": 576.395,
+     "end": 578.805,
+     "cap": "**Ah Boy:** Bee-autiful! Ha ha! You're so funny, Mr Tan!",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "proof",
+   "title": "Priya measures twenty triangles",
+   "short": "Proof",
+   "card": true,
+   "start": 580.505,
+   "end": 648.056,
+   "lines": [
+    {
+     "id": "sunday",
+     "start": 582.305,
+     "end": 585.377,
+     "cap": "**Narrator:** Sunday. Grouting day. Priya has been busy.",
+     "who": "narr"
+    },
+    {
+     "id": "twenty",
+     "start": 585.897,
+     "end": 592.34,
+     "cap": "**Priya:** I measured **20** triangles. The **exterior angle** always equals the two **interior opposite** angles. **Proved**!",
+     "who": "priya"
+    },
+    {
+     "id": "inf",
+     "start": 592.86,
+     "end": 596.785,
+     "cap": "**Mr Tan:** There are **infinitely many** triangles. What about number twenty-one?",
+     "who": "tan"
+    },
+    {
+     "id": "measure",
+     "start": 597.405,
+     "end": 599.368,
+     "cap": "**Priya:** ...I'll measure that one too.",
+     "who": "priya"
+    },
+    {
+     "id": "letters",
+     "start": 600.188,
+     "end": 605.82,
+     "cap": "**Kavya:** **Proofs** use **letters**, so they cover **every** triangle: angles **a**, **b**, **c** and exterior angle **d**.",
+     "who": "kavya"
+    },
+    {
+     "id": "s1",
+     "start": 606.14,
+     "end": 611.836,
+     "cap": "**Mr Tan:** Statement, then reason. **c + d = 180°**: **angles on a straight line**.",
+     "who": "tan"
+    },
+    {
+     "id": "s2",
+     "start": 612.156,
+     "end": 615.932,
+     "cap": "**Priya:** **a + b + c = 180°**: **angles in a triangle**!",
+     "who": "priya"
+    },
+    {
+     "id": "qed",
+     "start": 616.252,
+     "end": 622.588,
+     "cap": "**Kavya:** So **d** and **a + b** both equal **180° − c**. So **d = a + b**, for **every** triangle.",
+     "who": "kavya"
+    },
+    {
+     "id": "approved",
+     "start": 623.108,
+     "end": 626.5,
+     "cap": "**Rex:** Statements. Reasons. No measuring. **Approved**.",
+     "who": "rex"
+    },
+    {
+     "id": "counter",
+     "start": 627.32,
+     "end": 630.776,
+     "cap": "**Mr Tan:** And to **disprove** a claim, one **counterexample** is enough.",
+     "who": "tan"
+    },
+    {
+     "id": "claim",
+     "start": 631.096,
+     "end": 635.149,
+     "cap": "**Dad:** Claim: four **equal sides** means it's a **square**. I watched a video.",
+     "who": "dad"
+    },
+    {
+     "id": "rhombus",
+     "start": 635.669,
+     "end": 638.293,
+     "cap": "**Ah Boy:** A **rhombus**! Four equal sides, no right angles.",
+     "who": "boy"
+    },
+    {
+     "id": "pun",
+     "start": 638.913,
+     "end": 643.372,
+     "cap": "**Mr Tan:** Parallel lines have so much in common. It's a shame they'll never meet.",
+     "who": "tan"
+    },
+    {
+     "id": "rude",
+     "start": 644.692,
+     "end": 646.356,
+     "cap": "**Lel:** How rude. True, but rude.",
+     "who": "lel"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The kitchen saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 648.056,
+   "end": 714.404,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 649.856,
+     "end": 653.76,
+     "cap": "**Narrator:** Before the credits, the kitchen would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 654.38,
+     "end": 659.457,
+     "cap": "**Rex:** One. Reasons need **names**: 'alternate angles are equal'. Never 'Z angles'.",
+     "who": "rex"
+    },
+    {
+     "id": "t2",
+     "start": 660.077,
+     "end": 663.64,
+     "cap": "**Dad:** Two. **Not drawn to scale**? Don't measure it. Ask me how I know.",
+     "who": "dad"
+    },
+    {
+     "id": "t3",
+     "start": 664.26,
+     "end": 669.785,
+     "cap": "**Priya:** Three. **360 ÷ n** is the **exterior** angle. The interior is **180°** minus that.",
+     "who": "priya"
+    },
+    {
+     "id": "t4",
+     "start": 670.405,
+     "end": 675.611,
+     "cap": "**Kavya:** Four. Found **x**? Finish the job: work out the angle they asked for, like **3x + 10**.",
+     "who": "kavya"
+    },
+    {
+     "id": "t5",
+     "start": 676.231,
+     "end": 680.924,
+     "cap": "**Para:** Five. Never **assume** lines are parallel because they look it. Look for the **arrows**.",
+     "who": "para"
+    },
+    {
+     "id": "t6",
+     "start": 681.544,
+     "end": 686.621,
+     "cap": "**Ah Boy:** Six. Isosceles, one angle given? It could be the apex **or** a base angle. Try **both**.",
+     "who": "boy"
+    },
+    {
+     "id": "return",
+     "start": 687.341,
+     "end": 689.731,
+     "cap": "**Narrator:** All the Right Angles will return.",
+     "who": "narr"
+    },
+    {
+     "id": "monday",
+     "start": 691.051,
+     "end": 694.336,
+     "cap": "**Narrator:** Monday, seven a.m. The floor is finished.",
+     "who": "narr"
+    },
+    {
+     "id": "perfect",
+     "start": 694.956,
+     "end": 699.265,
+     "cap": "**Mum:** Octagons, squares, no gaps. It's **perfect**. Except... that last corner.",
+     "who": "mum"
+    },
+    {
+     "id": "ninety1",
+     "start": 699.885,
+     "end": 706.349,
+     "cap": "**Dad:** The corner isn't ninety. It's **91°**. Old HDB walls, lah. I watched a video.",
+     "who": "dad"
+    },
+    {
+     "id": "one",
+     "start": 707.169,
+     "end": 708.577,
+     "cap": "**Rex:** Ninety... **one**?",
+     "who": "rex"
+    },
+    {
+     "id": "lie",
+     "start": 709.897,
+     "end": 711.604,
+     "cap": "**Rex:** I need to lie down.",
+     "who": "rex"
+    }
+   ]
+  }
+ ],
+ "total": 714.404
+}

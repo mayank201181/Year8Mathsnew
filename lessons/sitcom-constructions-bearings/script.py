@@ -1,0 +1,300 @@
+"""TRUE NORTH, episode 14 ("The Great Ubin Race"): a mockumentary sitcom that teaches Constructions, Scale
+Drawings & Bearings.
+
+An original comedy: Mr Tan has organised the school's Family Orienteering Race on Pulau Ubin, the island a
+bumboat ride from Changi Point. One map, one compass, eight checkpoints; the prize is a box of his homemade
+waffles. Kavya, Dad ("I have an EXCELLENT sense of direction") and Ah Boy are Team Kavya; Mum has defected to
+Priya's team because she wants those waffles. Living in Mr Tan's brass pocket compass is Captain Needle: seventy
+years at sea, and he has only ever looked one way. North. His stamp says OFF COURSE (red) or ON COURSE (green).
+His rival for the name "compass" is Madame Compassa, a prima-ballerina pair of compasses who pirouettes arcs
+and never, ever changes her width mid-dance. Over one day the family opens a bike lock with a reflex angle
+(Inner and Outer, the two scales of a protractor, married, always add up to 180), constructs triangles at the
+quarry (Ah Boy's 3, 4, 8 sticks will not close), finds every fair lunch spot with a perpendicular bisector,
+halves a 136 degree fork at Chek Jawa and races Dad to the shoreline (the perpendicular wins; Dad was standing
+in the sea), learns North, clockwise, three figures (Never Eat Soggy Waffles), walks back on a back bearing
+(not 360 - 65!), turns 225 000 km into 2.25 km with Dr Shrink, draws the final treasure leg to scale and takes
+the 15 m shortcut, and loses the waffles to Gertie the goat (a 5 m locus on a 10 m rail). Stinger: Ah Boy's
+fridge magnet shows Captain Needle South for the first time in seventy years.
+Every line has a speaker (`who`, a key of CAST); make_audio.py voices each speaker differently, and captions
+show the speaker's name. `pause` adds silence after a line (comic timing).
+Content follows lib/topics/constructions-bearings/guide.ts (all eight sections, loci and special angles as
+stretch).
+"""
+
+META = {
+    "name": "True North",
+    "kicker": "Claude Sitcom · Ep 14 · Constructions, Scale Drawings & Bearings",
+    "dek": "Mr Tan's Family Orienteering Race on Pulau Ubin. Dad has an excellent sense of direction. The compass disagrees. {chapters} scenes.",
+    "gap": 0.32,          # shorter gaps between lines than the lessons: dialogue moves fast
+    "unit": "Scene",
+    "lab": "constructions-bearings",
+    "kit": "sitcom",
+    "title": "Claude Sitcom Ep 14: True North (Constructions, Scale Drawings & Bearings)",
+    "h1": "True North",
+}
+
+# voice, speed, caption name
+CAST = {
+    "narr":     {"voice": "bm_george",  "speed": 0.96, "name": "Narrator"},
+    "kavya":    {"voice": "af_sky",     "speed": 1.02, "name": "Kavya"},
+    "mum":      {"voice": "af_kore",    "speed": 1.05, "name": "Mum"},
+    "dad":      {"voice": "am_michael", "speed": 1.04, "name": "Dad"},
+    "boy":      {"voice": "am_puck",    "speed": 1.12, "name": "Ah Boy"},
+    "priya":    {"voice": "af_nova",    "speed": 1.06, "name": "Priya"},
+    "tan":      {"voice": "bm_lewis",   "speed": 0.98, "name": "Mr Tan"},
+    "needle":   {"voice": "am_onyx",    "speed": 0.93, "name": "Captain Needle"},
+    "compassa": {"voice": "bf_emma",    "speed": 1.04, "name": "Madame Compassa"},
+    "inner":    {"voice": "af_river",   "speed": 1.06, "name": "Inner"},
+    "outer":    {"voice": "am_liam",    "speed": 1.0,  "name": "Outer"},
+    "shrink":   {"voice": "am_eric",    "speed": 1.12, "name": "Dr Shrink"},
+    "gertie":   {"voice": "af_aoede",   "speed": 0.92, "name": "Gertie"},
+}
+
+
+def L(id, who, text, pause=0.0, say=None):
+    line = {"id": id, "who": who, "cap": f"**{CAST[who]['name']}:** {text}", "pause": pause}
+    line["say"] = say if say else text.replace("**", "")
+    return line
+
+
+CHAPTERS = [
+    {
+        "id": "cold", "title": "Cold open", "short": "Cold open", "card": False,
+        "lines": [
+            L("kavya", "narr", "This is Kavya. She is twelve. Saturday, eight a.m., on a bumboat to Pulau Ubin.", 0.2),
+            L("race", "tan", "Welcome to the **Great Ubin Orienteering Race**! One map, one compass. First team to the treasure wins my homemade **waffles**!", 0.3),
+            L("dad", "dad", "Relax, Kavya. No map needed. I have an **excellent sense of direction**. Ubin is... **that way**.", 0.4),
+            L("airport", "kavya", "Dad, that's Changi Airport. We just came from there.", 0.5),
+            L("mum", "mum", "Sorry, darling. I'm on **Priya's** team this year. I want those waffles.", 0.2),
+            L("priya", "priya", "See you at the finish, Team Kavya. Bring tissues.", 0.4),
+            L("tiny", "narr", "But this documentary is about the little brass box in Mr Tan's hand.", 0.2),
+            L("hi", "needle", "**Captain Needle.** Magnetic compass. Seventy years at sea, and I have only ever looked **one way**.", 0.3),
+            L("north", "needle", "**North.**", 0.5),
+            L("spin", "boy", "I'll spin you round!", 0.2),
+            L("still", "needle", "Spin all you like, lad. Still **North**. And your father is pointing **south-west**.", 0.5),
+            L("title", "narr", "True North. Episode 14: The Great Ubin Race.", 1.0,
+              say="True North. Episode fourteen: The Great Ubin Race."),
+        ],
+    },
+    {
+        "id": "lock", "title": "Inner and Outer", "short": "Measuring angles",
+        "lines": [
+            L("clue", "tan", "Checkpoint one, the bicycle shop! Each bike lock's code is the **reflex angle** between the arms of this signpost.", 0.2),
+            L("priya", "priya", "Easy. The angle is **130°**.", 0.2, say="Easy. The angle is a hundred and thirty degrees."),
+            L("kavya", "kavya", "Same angle, same protractor. I got **50°**.", 0.3, say="Same angle, same protractor. I got fifty degrees."),
+            L("outer", "outer", "Hello. I'm **Outer**. I read a hundred and thirty.", 0.1),
+            L("inner", "inner", "And I'm **Inner**. I read fifty. Two scales, one protractor, thirty years married. We always **add up to 180°**.", 0.4,
+              say="And I'm Inner. I read fifty. Two scales, one protractor, thirty years married. We always add up to a hundred and eighty."),
+            L("est", "kavya", "So **estimate first**. That angle is **acute**, smaller than a right angle. It's **50°**, not 130°.",
+              say="So estimate first. That angle is acute, smaller than a right angle. It's fifty, not a hundred and thirty."),
+            L("how", "inner", "**Centre cross** on the vertex. **Baseline** along one arm. Count up from the **0** on that arm.",
+              say="Centre cross on the vertex. Baseline along one arm. Count up from the zero on that arm."),
+            L("dad", "dad", "Got it. The code is **050**. Trust me.", 0.6, say="Got it. The code is zero, five, zero. Trust me."),
+            L("reflex", "kavya", "**Reflex**, Dad: the angle round the **other side**. Take the angle away from **360°**.",
+              say="Reflex, Dad: the angle round the other side. Take the angle away from three sixty."),
+            L("code", "boy", "**360° − 50° = 310°**! Three, one, zero!", 0.4,
+              say="Three sixty, take away fifty, is three hundred and ten! Three, one, zero!"),
+            L("partner", "inner", "And to **draw 295°**? Draw its partner, **360° − 295° = 65°**, then label the angle on the **outside**.",
+              say="And to draw two hundred and ninety-five degrees? Draw its partner, three sixty take away two ninety-five, sixty-five. Then label the angle on the outside."),
+            L("pun", "tan", "Excellent. I won't **protract** this any longer.", 1.0, say="Excellent. I won't pro-tract this any longer."),
+        ],
+    },
+    {
+        "id": "quarry", "title": "Madame Compassa", "short": "Constructing triangles",
+        "lines": [
+            L("clue", "tan", "Checkpoint two, the quarry! Construct triangle ABC: **AB = 7 cm, AC = 5 cm, BC = 6 cm**. Pass the compass!",
+              say="Checkpoint two, the quarry! Construct triangle A B C: A B seven centimetres, A C five, B C six. Pass the compass!"),
+            L("duty", "needle", "Captain Needle, reporting for duty!", 0.2),
+            L("me", "compassa", "He means **me**, darling. Madame **Compassa**. A **pair of compasses**. You are a needle in a biscuit tin.", 0.5),
+            L("sss", "compassa", "Three sides: **SSS**. Rule **AB = 7 cm**. Open me to **5 cm**, point on **A**, and... arc!",
+              say="Three sides: S S S. Rule A B, seven centimetres. Open me to five, point on A, and... arc!"),
+            L("sss2", "compassa", "Now **6 cm**, point on **B**, and... arc!", 0.2, say="Now six centimetres, point on B, and... arc!"),
+            L("c", "kavya", "The arcs cross at **C**. Rule AC and BC. A triangle!", 0.2, say="The arcs cross at C. Rule A C and B C. A triangle!"),
+            L("rub", "dad", "Lovely. Let me rub out those messy arcs.", 0.3),
+            L("never", "compassa", "**Never!** The arcs are your **working**. Rub them out, lose the marks.", 0.4),
+            L("sticks", "boy", "I made a triangle from sticks! **3**, **4** and **8**. It's broken.", 0.3,
+              say="I made a triangle from sticks! Three, four and eight. It's broken."),
+            L("ineq", "kavya", "**3 + 4 = 7**. That's less than 8. The two short sides can't reach each other.",
+              say="Three plus four is seven. That's less than eight. The two short sides can't reach each other."),
+            L("boy2", "boy", "**3, 5, 8**? Flat. **3, 6, 8**? Triangle!", 0.2, say="Three, five, eight? Flat. Three, six, eight? Triangle!"),
+            L("rule", "compassa", "The two **shorter** sides must add to **more than** the longest. **3 + 6 = 9**. Bravo!", 0.2,
+              say="The two shorter sides must add to more than the longest. Three plus six is nine. Bravo!"),
+            L("priya", "priya", "Our card: **XY = 8 cm**, angle **X = 50°**, angle **Y = 65°**. No compasses.",
+              say="Our card: X Y is eight centimetres, angle X fifty degrees, angle Y sixty-five. No compasses."),
+            L("asa", "mum", "Two angles and the side **between**: **ASA**. Two sides and the angle **between**: **SAS**. Ruler and protractor.",
+              say="Two angles and the side between: A S A. Two sides and the angle between: S A S. Ruler and protractor."),
+            L("iso", "mum", "Angle Z = 180° − 50° − 65° = **65°**. Two equal angles: **isosceles**. So XZ = **8 cm**.", 0.4,
+              say="Angle Z is one-eighty, minus fifty, minus sixty-five: sixty-five. Two equal angles: isosceles. So X Z is eight centimetres."),
+        ],
+    },
+    {
+        "id": "lunch", "title": "Lunch in the middle", "short": "Perpendicular bisector",
+        "lines": [
+            L("noon", "narr", "Twelve noon. The teams are on opposite sides of the island. Hungry.", 0.2),
+            L("fair", "mum", "Let's have lunch somewhere **exactly the same distance** from both teams. Fair is fair."),
+            L("half", "dad", "Easy. **Halfway**. Trust me.", 0.3),
+            L("swamp", "kavya", "Dad, halfway is in the **mangrove swamp**.", 0.4),
+            L("arcs", "compassa", "Darling, I'll draw you **every** fair place. Open me to **more than half** of AB. From **A**: an arc above, an arc below.",
+              say="Darling, I'll draw you every fair place. Open me to more than half of A B. From A: an arc above, an arc below."),
+            L("same", "compassa", "Now from **B**. **Same width!** Never change my width mid-dance.", 0.2),
+            L("pq", "kavya", "Rule a line through the crossings, **P** and **Q**. It cuts AB **in half**, at **90°**: the **perpendicular bisector**.",
+              say="Rule a line through the crossings, P and Q. It cuts A B in half, at ninety degrees: the perpendicular bisector."),
+            L("equi", "compassa", "And every point on it is **equidistant**: the same distance from A as from B."),
+            L("am", "kavya", "On the map, **AB = 9.6 cm**, so **AM = 9.6 ÷ 2 = 4.8 cm**.",
+              say="On the map, A B is nine point six centimetres, so A M is half of that: four point eight."),
+            L("cafe", "dad", "There's a café on that line, **5.2 cm** from us. How far from Mum?", 0.2,
+              say="There's a café on that line, five point two centimetres from us. How far from Mum?"),
+            L("pay", "mum", "**5.2 cm**. No measuring needed. Café it is. Your father's paying.", 0.4,
+              say="Five point two centimetres. No measuring needed. Café it is. Your father's paying."),
+            L("boy", "boy", "My arcs don't meet! The line is **7 cm**. My compasses are on **3 cm**.", 0.2,
+              say="My arcs don't meet! The line is seven centimetres. My compasses are on three."),
+            L("wider", "compassa", "Half of 7 is **3.5**. Three stops short, darling. Open me **wider than 3.5 cm**. Four will do.", 0.4,
+              say="Half of seven is three point five. Three stops short, darling. Open me wider than three point five. Four will do."),
+        ],
+    },
+    {
+        "id": "shore", "title": "The shortest way to the sea", "short": "Angle bisector & shortest distance",
+        "lines": [
+            L("clue", "tan", "Checkpoint four: the line that cuts this **136°** fork exactly **in half**. Compasses only!",
+              say="Checkpoint four: the line that cuts this hundred and thirty-six degree fork exactly in half. Compasses only!"),
+            L("bis", "compassa", "**Angle bisector.** Point on the vertex, O. One arc that cuts **both arms**, at D and E."),
+            L("f", "compassa", "From D, an arc inside the angle. **Same width** from E. They cross at **F**. Rule **OF**.",
+              say="From D, an arc inside the angle. Same width from E. They cross at F. Rule the line from O through F."),
+            L("half", "priya", "Two angles of **136 ÷ 2 = 68°**. And every point on it is the **same distance** from both paths.",
+              say="Two angles of sixty-eight degrees. And every point on it is the same distance from both paths."),
+            L("again", "boy", "And half of that: **34°**!", 0.3, say="And half of that: thirty-four degrees!"),
+            L("diag", "dad", "Bonus point for touching the **shoreline**? Diagonal! Shortcut! **Trust me!**", 0.3),
+            L("perp", "kavya", "The **shortest** way to a straight line meets it at **90°**: the **perpendicular**.",
+              say="The shortest way to a straight line meets it at ninety degrees: the perpendicular."),
+            L("gh", "compassa", "From your spot P, one arc cuts the shore **twice**: G and H. Equal arcs from G and H cross at **K**, on the **other side**."),
+            L("pn", "kavya", "Rule **PK**. It meets the shore at **N**, at 90°. Dad's slanting route is longer: it's the **hypotenuse**.", 0.3,
+              say="Rule P K. It meets the shore at N, at ninety degrees. Dad's slanting route is longer: it's the hypotenuse."),
+            L("found", "dad", "I found a spot only **35 m** from the lookout tower!", 0.2, say="I found a spot only thirty-five metres from the lookout tower!"),
+            L("tower", "tan", "The tower is **40 m** from the shore, measured **perpendicular**.", 0.2,
+              say="The tower is forty metres from the shore, measured perpendicular."),
+            L("imp", "kavya", "Then that's impossible, Dad. Nowhere on the shore is closer than **40 m**.", 0.3,
+              say="Then that's impossible, Dad. Nowhere on the shore is closer than forty metres."),
+            L("sea", "dad", "I may have been standing in the sea.", 0.9),
+        ],
+    },
+    {
+        "id": "bearings", "title": "North, clockwise, three figures", "short": "Three-figure bearings",
+        "lines": [
+            L("card", "priya", "**060°** from the old well. Why the silly zero? It's just **60°**.",
+              say="Zero six zero degrees from the old well. Why the silly zero? It's just sixty."),
+            L("rules", "needle", "A **bearing**, lass: from **North**, **clockwise**, **three figures**. Every ship in the Singapore Strait says **060°**.", 0.2,
+              say="A bearing, lass: from North, clockwise, three figures. Every ship in the Singapore Strait says zero six zero."),
+            L("nc3", "boy", "North, clockwise, three. **N-C-3**!", 0.2, say="North, clockwise, three. N-C-3!"),
+            L("feet", "kavya", "And it's **from** the well. **FROM = FEET**: feet at the well, North line at the well.",
+              say="And it's from the well. From equals feet: feet at the well, North line at the well."),
+            L("dad", "dad", "Trust me, I measured it: **72°**, **this** way.", 0.2, say="Trust me, I measured it: seventy-two degrees, this way."),
+            L("anti", "needle", "Anticlockwise! **Off course!** Clockwise, that's **360° − 72° = 288°**.", 0.3,
+              say="Anti-clockwise! Off course! Clockwise, that's three sixty take away seventy-two: two eight eight."),
+            L("nesw", "needle", "The four points, clockwise: **N**ever **E**at **S**oggy **W**affles."),
+            L("why", "boy", "Why would anyone eat **soggy** waffles?", 0.6),
+            L("list", "kavya", "North **000°**, East **090°**, South **180°**, West **270°**.",
+              say="North, zero zero zero. East, zero nine zero. South, one eight zero. West, two seven zero."),
+            L("halves", "priya", "And halfway: north-east **045°**, south-east **135°**, south-west **225°**, north-west **315°**.", 0.2,
+              say="And halfway: north-east, zero four five. South-east, one three five. South-west, two two five. North-west, three one five."),
+            L("draw", "tan", "Last one: draw a bearing of **230°**.", 0.1, say="Last one: draw a bearing of two three zero."),
+            L("south", "kavya", "More than 180°. Turn to **South**, then **50°** more. Or go **130°** anticlockwise from North.",
+              say="More than a hundred and eighty. Turn to South, then fifty more. Or go a hundred and thirty, anti-clockwise, from North."),
+            L("pun", "tan", "Bearings. I find them very **bearable**.", 1.0),
+        ],
+    },
+    {
+        "id": "back", "title": "The way back", "short": "Back bearings",
+        "lines": [
+            L("four", "narr", "Four p.m. Dad and Ah Boy walked from the well to the drinks stall on **065°**.", 0.2,
+              say="Four p.m. Dad and Ah Boy walked from the well to the drinks stall, on zero six five."),
+            L("which", "dad", "Now we walk straight back to the well. Which bearing?", 0.1),
+            L("priya", "priya", "Easy: **360° − 65° = 295°**.", 0.2, say="Easy: three sixty take away sixty-five. Two nine five."),
+            L("off", "needle", "**Off course!** That **reflects** you in the North line. You'd end up in the mangroves.", 0.3),
+            L("half", "needle", "Going back is a **half turn**: **065° + 180° = 245°**.",
+              say="Going back is a half turn. Zero six five, plus a hundred and eighty: two four five."),
+            L("rule", "kavya", "**Under 180, add it on. 180 or more, take it off.** That's the **back bearing**.",
+              say="Under a hundred and eighty, add it on. A hundred and eighty or more, take it off. That's the back bearing."),
+            L("mum", "mum", "Our card: Q from P is **298°**. So P from Q is **298° − 180° = 118°**.", 0.2,
+              say="Our card: Q from P is two nine eight. So P from Q is two nine eight take away a hundred and eighty: one one eight."),
+            L("why", "boy", "But **why** a hundred and eighty?"),
+            L("par", "needle", "Because North is North everywhere, lad. All North lines are **parallel**."),
+            L("z", "needle", "**65°** at the well, and **65°** from **South** at the stall: **alternate angles**. A Z.",
+              say="Sixty-five at the well, and sixty-five from South at the stall: alternate angles. A Z."),
+            L("sum", "kavya", "So from North at the stall: **180°** round to South, then **65°** more. **245°**.",
+              say="So from North at the stall: a hundred and eighty round to South, then sixty-five more. Two four five."),
+            L("plane", "tan", "Look up! A Changi runway: one end is **02**, about **020°**. The other end is **20**, about **200°**: the **back bearing**.", 0.3,
+              say="Look up! A Changi runway. One end is zero two, about zero two zero degrees. The other end is twenty, about two hundred: the back bearing."),
+            L("knew", "dad", "Two four five. **Trust me**, I knew that.", 0.8),
+        ],
+    },
+    {
+        "id": "treasure", "title": "Dr Shrink's final clue", "short": "Scale drawings & maps",
+        "lines": [
+            L("five", "narr", "Five p.m. Race HQ. The final clue, and a very small scientist.", 0.2),
+            L("shrink", "shrink", "**Dr Shrink!** I shrink the real world onto paper! Every length divided by the **same number**!"),
+            L("angles", "shrink", "Angles? I **never** touch angles. That's why you can measure a **bearing** straight off a map.", 0.2),
+            L("scale", "kavya", "Our map says **1 : 25 000**. One centimetre on the map is **25 000 cm** in real life.",
+              say="Our map says one to twenty-five thousand. One centimetre on the map is twenty-five thousand centimetres in real life."),
+            L("dad", "dad", "HQ to the jetty: **9 cm**. Times 25 000: **225 000 km**!", 0.3,
+              say="Race HQ to the jetty: nine centimetres. Times twenty-five thousand. That's two hundred and twenty-five thousand kilometres!"),
+            L("moon", "shrink", "That's past halfway to the **Moon**, sir! It's **225 000 cm**, so **2250 m**: **2.25 km**.",
+              say="That's past halfway to the Moon, sir! It's two hundred and twenty-five thousand centimetres. So two thousand two hundred and fifty metres: two point two five kilometres."),
+            L("rule", "kavya", "Map to real: **multiply**. Real to map: **divide**. And **1 km = 100 000 cm**.",
+              say="Map to real: multiply. Real to map: divide. And one kilometre is a hundred thousand centimetres."),
+            L("road", "mum", "The road back to the jetty is **1.5 km**. How long on the map?", 0.1,
+              say="The road back to the jetty is one point five kilometres. How long on the map?"),
+            L("six", "priya", "**1.5 km = 150 000 cm**. ÷ 25 000 = **6 cm**!", 0.2,
+              say="One point five kilometres is a hundred and fifty thousand centimetres. Over twenty-five thousand: six!"),
+            L("clue", "tan", "Final clue! From the big tree: **12 m** on **040°**, then **9 m** on **130°**. Scale: **1 cm to 2 m**.",
+              say="Final clue! From the big tree: twelve metres on zero four zero, then nine metres on one three zero. Scale: one centimetre to two metres."),
+            L("cm", "kavya", "12 ÷ 2 = **6 cm**, and 9 ÷ 2 = **4.5 cm**.", say="Twelve over two, six centimetres. Nine over two, four point five."),
+            L("legs", "needle", "North line at the tree: **040°**, rule 6 cm. At the turn, a **new North line**: **130°**, rule 4.5 cm.",
+              say="North line at the tree: zero four zero. Rule six centimetres. At the turn, a new North line: one three zero. Rule four point five."),
+            L("short", "kavya", "Priya's running both legs. We measure the **shortcut**: **7.5 cm × 2 = 15 m**, on a bearing of about **077°**.", 0.6,
+              say="Priya's running both legs. We measure the shortcut: seven point five centimetres. Times two: fifteen. Fifteen metres, on a bearing of about zero seven seven."),
+        ],
+    },
+    {
+        "id": "goat", "title": "Gertie's circle", "short": "Loci & special angles",
+        "lines": [
+            L("garden", "narr", "Five-thirty. The treasure box is in a kampong garden. Next to **Gertie**.", 0.3),
+            L("rope", "gertie", "Meh. I'm tied to that post with a **5 m** rope.", 0.2, say="Meh. I'm tied to that post with a five metre rope."),
+            L("reach", "boy", "Can she reach the waffles?", 0.2),
+            L("locus", "compassa", "Every point **5 m** from the post makes a **circle**. All the points that obey a rule: a **locus**.",
+              say="Every point five metres from the post makes a circle. All the points that obey a rule: that's called a locus."),
+            L("safe", "kavya", "The box is **6 m** from the post. Outside the circle. Safe!", 0.2,
+              say="The box is six metres from the post. Outside the circle. Safe!"),
+            L("think", "gertie", "**Less than** five metres: inside, dashed line. **At least** five: solid line. I've had time to think.", 0.3),
+            L("rail", "gertie", "Did I mention my rope slides along a **10 m rail**?", 0.4, say="Did I mention my rope slides along a ten metre rail?"),
+            L("track", "compassa", "Then it's every point within **5 m** of the rail: two straight sides and two **semicircles**. A running track.",
+              say="Then it's every point within five metres of the rail: two straight sides and two semicircles. A running track."),
+            L("munch", "gertie", "Meh. Waffles.", 0.7),
+            L("tie", "tan", "Tie-breaker! Construct **60°** with compasses only.", 0.1, say="Tie-breaker! Construct sixty degrees with compasses only."),
+            L("sixty", "compassa", "Arc from A, cutting the line at B. **Same radius** from B. They cross at C. **Euclid's** very first construction!"),
+            L("equi", "kavya", "AB = AC = BC: **equilateral**, so **60°**. Bisect it: **30°**. A perpendicular: **90°**. Bisect: **45°**.",
+              say="A B, A C and B C are equal: an equilateral triangle, so sixty degrees. Bisect it: thirty. A perpendicular: ninety. Bisect that: forty-five."),
+            L("share", "tan", "It's a tie! Both teams share the waffles.", 0.3),
+            L("what", "gertie", "What waffles? ...Bit soggy, anyway.", 0.6),
+            L("soggy", "boy", "**Never Eat Soggy Waffles!**", 0.9, say="Never. Eat. Soggy. Waffles!"),
+        ],
+    },
+    {
+        "id": "traps", "title": "The island saves you some marks", "short": "Exam traps",
+        "lines": [
+            L("intro", "narr", "Before we go, the island would like to save you some marks.", 0.3),
+            L("t1", "outer", "One. **Estimate first.** If the angle is acute, it isn't 130°. Ask my wife.", 0.3,
+              say="One. Estimate first. If the angle is acute, it isn't a hundred and thirty. Ask my wife."),
+            L("t2", "needle", "Two. **Three figures.** Not 45°: **045°**.", 0.3, say="Two. Three figures. Not forty-five: zero four five."),
+            L("t3", "kavya", "Three. **From = feet.** Stand at the point after **from**, and turn **clockwise**.", 0.3,
+              say="Three. From equals feet. Stand at the point after from, and turn clockwise."),
+            L("t4", "compassa", "Four. **Same width** from both ends. And never, ever rub out your arcs.", 0.3),
+            L("t5", "dad", "Five. **Convert your units**: centimetres to kilometres. Not to the Moon. Ask me how I know.", 0.3),
+            L("t6", "priya", "Six. A **new North line** at every turn of a journey. Parallel to the first.", 0.4),
+            L("return", "narr", "True North will return.", 1.0),
+            L("magnet", "boy", "I bought a souvenir! A fridge **magnet**!", 0.6),
+            L("southward", "needle", "Seventy years at sea... and I have never seen **South**.", 0.7),
+            L("lovely", "needle", "It's beautiful.", 0.8),
+            L("agrees", "dad", "Finally. A compass that agrees with me.", 1.3),
+        ],
+    },
+]
