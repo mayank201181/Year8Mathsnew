@@ -28,6 +28,11 @@ Episode numbers follow `TOPIC_META` order: Ep 1 integers-powers … Ep 20 probab
 - **Kavya, 12**, is the recurring human (`scKavya` bust, `scKavyaBody` full body), the same girl as in the
   Science episodes. She is smart, exasperated and half right. She lives in an HDB flat in Singapore with Mum
   and Dad and goes to secondary school.
+- **Humans are the heart of every episode, not decoration.** The user (a parent) explicitly wants real people in the
+  story, not only cartoon characters. Rules: at least three humans on screen per episode (Kavya plus two or more
+  others); humans appear in **every scene** (on screen or on a video call), speak **at least 40% of the lines**, and
+  each teaching scene is driven by a human situation (Dad splitting a bill, Priya's sports-day times, Mr Tan's
+  lesson, Auntie Rose's stall). The cartoon maths characters are guests in the humans' world.
 - **Every episode puts at least three humans on screen**, Kavya plus two or more others, drawn with the kit's
   `scHuman(parent, o)` (see `engine/sitcom.js`). Pick from the recurring humans below or invent one per
   episode. Humans react, get things wrong and drive the plot. They are not just narrators.
