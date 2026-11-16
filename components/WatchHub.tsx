@@ -3,6 +3,7 @@ import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SITCOM_EPISODES, sitcomEpisodeFor } from "@/lib/sitcom";
+import { CLAUDE_SITCOMS, CLAUDE_SITCOM_GUIDE } from "@/lib/claudeSitcom";
 import { useWatchedEpisodes } from "./EpisodePlayer";
 
 export interface WatchTopicItem {
@@ -70,6 +71,18 @@ export function WatchHub({ topics }: { topics: WatchTopicItem[] }) {
           </div>
           <span className="chip shrink-0">⭐ {Object.keys(epDone).length}/{SITCOM_EPISODES.length}</span>
         </Link>
+      ) : null}
+      {CLAUDE_SITCOM_GUIDE ? (
+        <a href={CLAUDE_SITCOM_GUIDE} target="_blank" rel="noopener noreferrer" className="card flex items-center gap-4 border-2 border-brand/40 p-4 transition-colors hover:bg-brand-soft/40 sm:p-5">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#0f766e] text-3xl" aria-hidden>🎬</span>
+          <div className="min-w-0 flex-1">
+            <div className="text-lg font-black">Claude Sitcoms ↗</div>
+            <p className="text-sm text-ink-2">
+              Mockumentary episodes made by Claude: real people, cartoons and props, every key idea and exam trap. Also first on each topic&apos;s Watch tab.
+            </p>
+          </div>
+          <span className="chip shrink-0">{CLAUDE_SITCOMS.size} episode{CLAUDE_SITCOMS.size === 1 ? "" : "s"}</span>
+        </a>
       ) : null}
       <section className="card overflow-hidden p-5 sm:p-6">
         <div className="grid items-center gap-5 md:grid-cols-12">

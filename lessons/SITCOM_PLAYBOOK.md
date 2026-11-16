@@ -104,7 +104,7 @@ shared kits: lib.js, kit.js, mathkit.js, sitcom.js and the topic lib.js share on
 Rules from `PLAYBOOK.md` §5 apply. In short:
 - `scene(id, S => { ...build once...; return t => {...pure function of t...} })`.
 - No `Math.random` (use `rng`), no timers, no per-frame element creation.
-- At most ~650 elements per scene. No SVG filters.
+- Aim for at most ~1,000 elements per scene (Science scenes reach ~1,060; the pilot ran 700–1,150). Hide unused parts with `op` rather than creating more. No SVG filters.
 - Stage 1200 × 750. Keep x < 560, y < 100 clear for the scene tag, and nothing below y 690 except lower thirds.
 - Labels ≥ 26 px, no overlaps.
 
@@ -132,7 +132,7 @@ re-run both. Never edit `timeline.json` by hand.
 ```bash
 python3 lessons/engine/build.py --topic $T --variant local --out $S/w/$T --fonts $S/fonts [--only id1,id2]
 CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome NODE_PATH=$S/shottools/node_modules \
-  node lessons/engine/shot.js $S/w/$T/index.html $S/shots/$T/<id> <id> --cols 4 --name <id>
+  node lessons/engine/shot.cjs $S/w/$T/index.html $S/shots/$T/<id> <id> --cols 4 --name <id>
 ```
 
 The shot spec `<id>` shows each line 70% through; `<id>@3` gives a frame every 3 s. Read every contact sheet
@@ -148,3 +148,19 @@ Done means:
 Work only in `lessons/sitcom-<id>/` (and minimal fact fixes in that topic's content). Never edit `lessons/engine/`
 or app code, and do not commit; the orchestrator builds `public/lessons/sitcom-<id>.html` and its MP3, then
 commits.
+
+## 9. Lessons from the pilot (Ep 7, `sitcom-ratio-proportion`)
+
+The pilot is the maths reference episode. Read its `script.py`, `STORYBOARD.md`, `lib.js` and two or three
+scenes before writing; match its standard, not its jokes.
+- **Vary the world.** Ep 7 lives at Auntie Rose's stall. Other episodes should centre somewhere else: the HDB
+  flat, the void deck, the school classroom, sports day, an MRT ride, NTUC, the library, Sentosa, a CCA, a
+  family trip, a wedding, a birthday. Rose and the stall can make a cameo, but not every week.
+- **New cartoon cast each episode**, with one big comic character (the pilot's Colonel) and a stamp-style gag of
+  the episode's own (not "IN/OUT OF PROPORTION").
+- Busts are expensive (Rose's curls ≈ 150 elements). Build each human once per scene and move or hide it with
+  `op`; never make a second copy of the same character in one shot.
+- `shot.cjs` (not `.js`; the repo is an ES-module package). Use your own output folders under the scratchpad,
+  named after the topic, because other episodes are being built at the same time.
+- Avoid `**bold**` on a unit straight after a number ("3.5 **km**" renders with a double space).
+- Keep chips off the menu or board headers, and keep everything above y 690 except lower thirds.

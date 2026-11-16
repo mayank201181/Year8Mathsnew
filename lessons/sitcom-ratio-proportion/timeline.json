@@ -1,0 +1,1077 @@
+{
+ "voice": "af_heart",
+ "speed": 0.95,
+ "chapters": [
+  {
+   "id": "cold",
+   "title": "Cold open",
+   "short": "Cold open",
+   "card": false,
+   "start": 0.0,
+   "end": 64.923,
+   "lines": [
+    {
+     "id": "kavya",
+     "start": 0.6,
+     "end": 7.149,
+     "cap": "**Narrator:** This is Kavya. She is twelve. Saturday, seven a.m., the hawker centre under Block 208.",
+     "who": "narr"
+    },
+    {
+     "id": "rose",
+     "start": 7.669,
+     "end": 13.237,
+     "cap": "**Auntie Rose:** Kavya! I must go to **Melaka** for my niece's wedding. Your family minds my stall this weekend, okay?",
+     "who": "rose"
+    },
+    {
+     "id": "know",
+     "start": 13.757,
+     "end": 16.808,
+     "cap": "**Kavya:** Auntie Rose, we don't know how to make any of your drinks.",
+     "who": "kavya"
+    },
+    {
+     "id": "card",
+     "start": 17.328,
+     "end": 20.72,
+     "cap": "**Auntie Rose:** Easy! It's all on the recipe card. Just **keep it in proportion**! Bye!",
+     "who": "rose"
+    },
+    {
+     "id": "hard",
+     "start": 21.44,
+     "end": 24.341,
+     "cap": "**Dad:** A drinks stall. Two days. How hard can it be?",
+     "who": "dad"
+    },
+    {
+     "id": "boy",
+     "start": 25.261,
+     "end": 28.568,
+     "cap": "**Ah Boy:** I made bandung! **Four** cups of rose syrup and **one** cup of milk!",
+     "who": "boy"
+    },
+    {
+     "id": "tiny",
+     "start": 29.388,
+     "end": 35.148,
+     "cap": "**Narrator:** But this documentary is about the tiny thing on the recipe card. Between the numbers.",
+     "who": "narr"
+    },
+    {
+     "id": "hi",
+     "start": 35.768,
+     "end": 41.379,
+     "cap": "**The Colonel:** The Colonel. I am the **ratio sign**. Two dots. One job: keeping numbers **in proportion**.",
+     "who": "colonel"
+    },
+    {
+     "id": "order",
+     "start": 41.999,
+     "end": 47.695,
+     "cap": "**The Colonel:** Syrup : milk = **1 : 4**. **One** part syrup for every **four** parts milk. Not four to one.",
+     "who": "colonel"
+    },
+    {
+     "id": "matters",
+     "start": 48.215,
+     "end": 49.196,
+     "cap": "**The Colonel:** **Order. Matters.**",
+     "who": "colonel"
+    },
+    {
+     "id": "nice",
+     "start": 50.216,
+     "end": 51.389,
+     "cap": "**Ah Boy:** It tastes nice, though.",
+     "who": "boy"
+    },
+    {
+     "id": "charge",
+     "start": 52.509,
+     "end": 56.925,
+     "cap": "**The Colonel:** Two days. One stall. Three amateurs. Nobody touches my ratios.",
+     "who": "colonel"
+    },
+    {
+     "id": "title",
+     "start": 57.745,
+     "end": 62.823,
+     "cap": "**Narrator:** Keep It in Proportion. Episode 7: Auntie Rose Goes to Melaka.",
+     "who": "narr"
+    }
+   ]
+  },
+  {
+   "id": "mix",
+   "title": "Four jugs of bandung",
+   "short": "Simplifying",
+   "card": true,
+   "start": 64.923,
+   "end": 156.877,
+   "lines": [
+    {
+     "id": "ratio",
+     "start": 66.723,
+     "end": 71.544,
+     "cap": "**The Colonel:** A **ratio** compares quantities of the **same kind**. Syrup to milk, **1 : 4**.",
+     "who": "colonel"
+    },
+    {
+     "id": "dad",
+     "start": 71.864,
+     "end": 77.176,
+     "cap": "**Dad:** My jug: **250 ml** of syrup, **1 litre** of milk. So, **250 : 1**. Perfect.",
+     "who": "dad"
+    },
+    {
+     "id": "units",
+     "start": 77.796,
+     "end": 84.239,
+     "cap": "**The Colonel:** **Same units first!** 1 litre = 1000 ml. So it's **250 : 1000**. Then drop the units.",
+     "who": "colonel"
+    },
+    {
+     "id": "chop",
+     "start": 84.559,
+     "end": 91.279,
+     "cap": "**Chopper:** Chopper! I chop to **simplest form**! Divide every part by the **HCF**, 250! CHOP! **1 : 4**!",
+     "who": "chop"
+    },
+    {
+     "id": "boy",
+     "start": 91.799,
+     "end": 96.001,
+     "cap": "**Ah Boy:** Mine: **1.5** cups of syrup, **6** cups of milk. Right way round!",
+     "who": "boy"
+    },
+    {
+     "id": "dec",
+     "start": 96.521,
+     "end": 100.724,
+     "cap": "**The Colonel:** **No decimals.** Multiply both parts by 10: **15 : 60**.",
+     "who": "colonel"
+    },
+    {
+     "id": "chop2",
+     "start": 101.044,
+     "end": 103.775,
+     "cap": "**Chopper:** HCF fifteen! CHOP! **1 : 4**!",
+     "who": "chop"
+    },
+    {
+     "id": "mum",
+     "start": 104.295,
+     "end": 107.132,
+     "cap": "**Mum:** I used **½** a cup of syrup and **2** cups of milk.",
+     "who": "mum"
+    },
+    {
+     "id": "frac",
+     "start": 107.452,
+     "end": 111.185,
+     "cap": "**The Colonel:** **No fractions.** Multiply both parts by 2: **1 : 4**.",
+     "who": "colonel"
+    },
+    {
+     "id": "sad",
+     "start": 111.505,
+     "end": 114.001,
+     "cap": "**Chopper:** Already simplest. Nothing to chop.",
+     "who": "chop"
+    },
+    {
+     "id": "equiv",
+     "start": 115.021,
+     "end": 119.757,
+     "cap": "**The Colonel:** **Equivalent ratios.** Multiply or divide **every** part by the **same** number.",
+     "who": "colonel"
+    },
+    {
+     "id": "add",
+     "start": 120.077,
+     "end": 124.088,
+     "cap": "**Ah Boy:** So if I **add** one to both, **1 : 4** becomes **2 : 5**. Same drink?",
+     "who": "boy"
+    },
+    {
+     "id": "no",
+     "start": 124.408,
+     "end": 129.229,
+     "cap": "**The Colonel:** No! **Adding** changes the ratio. **2 : 5** is far sweeter. **Out of proportion!**",
+     "who": "colonel"
+    },
+    {
+     "id": "less",
+     "start": 130.049,
+     "end": 133.847,
+     "cap": "**Narrator:** Ten a.m. 'Less sweet, please.' Mum and Dad compete.",
+     "who": "narr"
+    },
+    {
+     "id": "mine",
+     "start": 134.367,
+     "end": 135.753,
+     "cap": "**Mum:** Mine is **3 : 20**.",
+     "who": "mum"
+    },
+    {
+     "id": "mine2",
+     "start": 136.173,
+     "end": 139.16,
+     "cap": "**Dad:** Mine is **5 : 32**. Much less sweet.",
+     "who": "dad"
+    },
+    {
+     "id": "n",
+     "start": 139.68,
+     "end": 143.797,
+     "cap": "**The Colonel:** Compare in the form **1 : n**. Divide **both** parts by the **first** part.",
+     "who": "colonel"
+    },
+    {
+     "id": "calc",
+     "start": 144.117,
+     "end": 148.171,
+     "cap": "**The Colonel:** Mum: 3 : 20 = **1 : 6.67**. Dad: 5 : 32 = **1 : 6.4**.",
+     "who": "colonel"
+    },
+    {
+     "id": "sweeter",
+     "start": 148.491,
+     "end": 152.373,
+     "cap": "**Kavya:** Dad's has **less milk** for every part of syrup. Dad's is **sweeter**.",
+     "who": "kavya"
+    },
+    {
+     "id": "trying",
+     "start": 153.093,
+     "end": 155.077,
+     "cap": "**Dad:** I was trying to make it **less** sweet.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "share",
+   "title": "The tips jar",
+   "short": "Sharing",
+   "card": true,
+   "start": 156.877,
+   "end": 246.687,
+   "lines": [
+    {
+     "id": "two",
+     "start": 158.677,
+     "end": 162.347,
+     "cap": "**Narrator:** Two p.m. The tips jar holds **$84**.",
+     "who": "narr"
+    },
+    {
+     "id": "priya",
+     "start": 162.867,
+     "end": 166.984,
+     "cap": "**Priya:** Priya. Best friend. I worked **5** hours, Kavya **7**, Ah Boy **2**.",
+     "who": "priya"
+    },
+    {
+     "id": "ratio",
+     "start": 167.504,
+     "end": 172.112,
+     "cap": "**Kavya:** So we share by hours. Ah Boy : Priya : Kavya = **2 : 5 : 7**.",
+     "who": "kavya"
+    },
+    {
+     "id": "boy",
+     "start": 172.432,
+     "end": 176.869,
+     "cap": "**Ah Boy:** I worked 2 hours, so I get **84 ÷ 2 = $42**!",
+     "who": "boy"
+    },
+    {
+     "id": "lawyer",
+     "start": 177.589,
+     "end": 181.173,
+     "cap": "**Priya:** He worked the least and gets the most? I'm calling my lawyer.",
+     "who": "priya"
+    },
+    {
+     "id": "barry",
+     "start": 182.093,
+     "end": 185.805,
+     "cap": "**Barry:** Barry. **Bar model**. Never divide by **one** number in the ratio.",
+     "who": "barry"
+    },
+    {
+     "id": "boxes",
+     "start": 186.325,
+     "end": 192.555,
+     "cap": "**Barry:** **Add** the parts: **2 + 5 + 7 = 14** boxes. All the same size. That's my whole personality.",
+     "who": "barry"
+    },
+    {
+     "id": "one",
+     "start": 193.275,
+     "end": 200.443,
+     "cap": "**Barry:** **Divide**: 84 ÷ 14 = **$6** a box. Then **multiply** to build each share.",
+     "who": "barry"
+    },
+    {
+     "id": "shares",
+     "start": 200.763,
+     "end": 207.589,
+     "cap": "**Kavya:** Ah Boy: 2 × 6 = **$12**. Priya: 5 × 6 = **$30**. Me: 7 × 6 = **$42**.",
+     "who": "kavya"
+    },
+    {
+     "id": "check",
+     "start": 207.909,
+     "end": 211.152,
+     "cap": "**Barry:** Check: 12 + 30 + 42 = **84**. Every dollar in a box.",
+     "who": "barry"
+    },
+    {
+     "id": "adm",
+     "start": 211.772,
+     "end": 215.697,
+     "cap": "**Ah Boy:** First add, then divide, then multiply. **A**h boy **D**eserves **M**ore.",
+     "who": "boy"
+    },
+    {
+     "id": "contest",
+     "start": 216.817,
+     "end": 220.572,
+     "cap": "**Narrator:** Four p.m. A cup-selling contest. Obviously.",
+     "who": "narr"
+    },
+    {
+     "id": "score",
+     "start": 221.192,
+     "end": 225.501,
+     "cap": "**Priya:** Kavya and me: **7 : 4**. She sold **45** more cups than me.",
+     "who": "priya"
+    },
+    {
+     "id": "diff",
+     "start": 226.021,
+     "end": 231.909,
+     "cap": "**Barry:** Given the **difference**? Use the **difference in parts**: 7 − 4 = **3 parts** = 45 cups.",
+     "who": "barry"
+    },
+    {
+     "id": "total",
+     "start": 232.229,
+     "end": 236.795,
+     "cap": "**Barry:** One part = 45 ÷ 3 = **15**. Total: **11 parts** = 11 × 15 = **165 cups**.",
+     "who": "barry"
+    },
+    {
+     "id": "given",
+     "start": 237.115,
+     "end": 242.213,
+     "cap": "**Kavya:** And if you only knew Priya sold **60**? That's her **4 parts**. One part: **15** again.",
+     "who": "kavya"
+    },
+    {
+     "id": "rematch",
+     "start": 242.533,
+     "end": 244.987,
+     "cap": "**Priya:** Rematch. Tomorrow. Best of seven.",
+     "who": "priya"
+    }
+   ]
+  },
+  {
+   "id": "fraction",
+   "title": "Mr Tan orders a kopi",
+   "short": "Ratios and fractions",
+   "card": true,
+   "start": 246.687,
+   "end": 314.256,
+   "lines": [
+    {
+     "id": "five",
+     "start": 248.487,
+     "end": 255.335,
+     "cap": "**Narrator:** Five p.m. Kavya's maths teacher, **Mr Tan**. He cannot stop teaching. Even on Saturdays.",
+     "who": "narr"
+    },
+    {
+     "id": "kopi",
+     "start": 255.955,
+     "end": 261.715,
+     "cap": "**Mr Tan:** One kopi. Kavya: of today's bandung and lime juice, what fraction was bandung?",
+     "who": "tan"
+    },
+    {
+     "id": "ratio",
+     "start": 262.235,
+     "end": 264.539,
+     "cap": "**Kavya:** Bandung : lime juice was **2 : 3**.",
+     "who": "kavya"
+    },
+    {
+     "id": "priya",
+     "start": 264.959,
+     "end": 267.689,
+     "cap": "**Priya:** Easy! Bandung was **⅔** of the drinks.",
+     "who": "priya"
+    },
+    {
+     "id": "out",
+     "start": 268.309,
+     "end": 269.355,
+     "cap": "**The Colonel:** **Out of proportion!**",
+     "who": "colonel"
+    },
+    {
+     "id": "boxes",
+     "start": 270.075,
+     "end": 274.021,
+     "cap": "**Barry:** Two boxes of bandung, three of lime. **2 + 3 = 5** boxes altogether.",
+     "who": "barry"
+    },
+    {
+     "id": "fifths",
+     "start": 274.341,
+     "end": 280.912,
+     "cap": "**Mr Tan:** So bandung is **⅖** of the drinks and lime is **⅗**. Add the parts to get the denominator.",
+     "who": "tan"
+    },
+    {
+     "id": "part",
+     "start": 281.232,
+     "end": 286.8,
+     "cap": "**Mr Tan:** **⅔** is **part to part**: two thirds **as many** bandung **as** lime. A different question.",
+     "who": "tan"
+    },
+    {
+     "id": "bonus",
+     "start": 287.12,
+     "end": 293.947,
+     "cap": "**Mr Tan:** Backwards now. Your height is **⅘** of your dad's. Together you are **324 cm**.",
+     "who": "tan"
+    },
+    {
+     "id": "parts",
+     "start": 294.467,
+     "end": 299.821,
+     "cap": "**Kavya:** So me : Dad = **4 : 5**. **9 parts** = 324 cm, so one part is **36 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "heights",
+     "start": 300.141,
+     "end": 305.453,
+     "cap": "**Kavya:** Me: 4 × 36 = **144 cm**. Dad: 5 × 36 = **180 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "joke",
+     "start": 305.773,
+     "end": 309.613,
+     "cap": "**Mr Tan:** I'd tell you a ratio joke, but you'd only get **two fifths** of it.",
+     "who": "tan"
+    },
+    {
+     "id": "none",
+     "start": 311.233,
+     "end": 312.556,
+     "cap": "**Ah Boy:** I got zero fifths of it.",
+     "who": "boy"
+    }
+   ]
+  },
+  {
+   "id": "bestbuy",
+   "title": "Find ONE, then find ANY",
+   "short": "Direct proportion",
+   "card": true,
+   "start": 314.256,
+   "end": 402.928,
+   "lines": [
+    {
+     "id": "sunday",
+     "start": 316.056,
+     "end": 321.048,
+     "cap": "**Narrator:** Sunday. The board says **mango lassi: 3 cups for $10.50**. A man orders **7**.",
+     "who": "narr"
+    },
+    {
+     "id": "hard",
+     "start": 321.568,
+     "end": 325.557,
+     "cap": "**Dad:** Three cost ten fifty, so seven cost... how hard can it be?",
+     "who": "dad"
+    },
+    {
+     "id": "uni",
+     "start": 326.677,
+     "end": 331.541,
+     "cap": "**Uni:** Hi! I'm **Uni**! Uni means **one**! I'm the **unitary method**: find **ONE**, then find **ANY**!",
+     "who": "uni"
+    },
+    {
+     "id": "divide",
+     "start": 332.061,
+     "end": 338.099,
+     "cap": "**Uni:** **3** cups cost **$10.50**. Divide: **1** cup costs 10.50 ÷ 3 = **$3.50**.",
+     "who": "uni"
+    },
+    {
+     "id": "times",
+     "start": 338.419,
+     "end": 342.941,
+     "cap": "**Uni:** Multiply: **7** cups cost 7 × 3.50 = **$24.50**!",
+     "who": "uni"
+    },
+    {
+     "id": "direct",
+     "start": 343.261,
+     "end": 346.269,
+     "cap": "**Kavya:** **Direct proportion**: double the cups, double the cost.",
+     "who": "kavya"
+    },
+    {
+     "id": "table",
+     "start": 346.589,
+     "end": 352.733,
+     "cap": "**Uni:** Cost ÷ cups is always **3.50**. That constant is **k**, so **y = 3.5x**.",
+     "who": "uni"
+    },
+    {
+     "id": "graph",
+     "start": 353.053,
+     "end": 357.597,
+     "cap": "**Uni:** On a graph: a **straight line through the origin**. Zero cups, zero dollars!",
+     "who": "uni"
+    },
+    {
+     "id": "deliver",
+     "start": 357.917,
+     "end": 361.971,
+     "cap": "**Dad:** New idea! Lassi delivered to your flat, just a **$4** fee!",
+     "who": "dad"
+    },
+    {
+     "id": "broken",
+     "start": 362.491,
+     "end": 367.333,
+     "cap": "**Kavya:** Then **1** cup costs **$7.50** and **2** cups **$11**. That's not double.",
+     "who": "kavya"
+    },
+    {
+     "id": "fixed",
+     "start": 367.653,
+     "end": 371.6,
+     "cap": "**Uni:** The line misses the origin! A **fixed fee** breaks direct proportion.",
+     "who": "uni"
+    },
+    {
+     "id": "sizes",
+     "start": 372.32,
+     "end": 382.624,
+     "cap": "**Dad:** Supermarket! **150 g** for **$1.20**. **500 g** for **$3.75**. **1 kg** for **$7.90**. Biggest is always cheapest.",
+     "who": "dad"
+    },
+    {
+     "id": "unit",
+     "start": 383.244,
+     "end": 386.401,
+     "cap": "**Uni:** Compare like with like: the **unit price**, per **100 g**.",
+     "who": "uni"
+    },
+    {
+     "id": "prices",
+     "start": 386.721,
+     "end": 391.713,
+     "cap": "**Uni:** Small: 1.20 ÷ 1.5 = **$0.80**. Medium: 3.75 ÷ 5 = **$0.75**. Large: 7.90 ÷ 10 = **$0.79**.",
+     "who": "uni"
+    },
+    {
+     "id": "medium",
+     "start": 392.033,
+     "end": 397.175,
+     "cap": "**Kavya:** The **medium** wins: **lowest** price per 100 g. The biggest isn't always the best buy.",
+     "who": "kavya"
+    },
+    {
+     "id": "idea",
+     "start": 397.495,
+     "end": 401.228,
+     "cap": "**Dad:** Three mediums. And I'm telling everyone it was my idea.",
+     "who": "dad"
+    }
+   ]
+  },
+  {
+   "id": "lassi",
+   "title": "Lassi for six, and a kebaya",
+   "short": "Recipes & currency",
+   "card": true,
+   "start": 402.928,
+   "end": 491.141,
+   "lines": [
+    {
+     "id": "ten",
+     "start": 404.728,
+     "end": 410.829,
+     "cap": "**Narrator:** Ten a.m. Auntie Rose's lassi recipe serves **4**. A family of **6** wants some.",
+     "who": "narr"
+    },
+    {
+     "id": "add",
+     "start": 411.349,
+     "end": 413.824,
+     "cap": "**Priya:** Two more people? **Add 2** to everything!",
+     "who": "priya"
+    },
+    {
+     "id": "result",
+     "start": 414.444,
+     "end": 421.527,
+     "cap": "**The Colonel:** Four mangoes. **502 g** of yoghurt. **202 ml** of milk. Out. Of. Proportion.",
+     "who": "colonel"
+    },
+    {
+     "id": "multiply",
+     "start": 422.347,
+     "end": 427.68,
+     "cap": "**Uni:** Never add! **Multiply** everything by the **multiplier**: new ÷ old = 6 ÷ 4 = **1.5**.",
+     "who": "uni"
+    },
+    {
+     "id": "scaled",
+     "start": 428.0,
+     "end": 433.568,
+     "cap": "**Kavya:** **3** mangoes, **750 g** yoghurt, **300 ml** milk, **60 g** sugar.",
+     "who": "kavya"
+    },
+    {
+     "id": "big",
+     "start": 433.888,
+     "end": 437.6,
+     "cap": "**Narrator:** Eleven a.m. Make as many lassis as possible.",
+     "who": "narr"
+    },
+    {
+     "id": "fridge",
+     "start": 438.12,
+     "end": 442.749,
+     "cap": "**Mum:** We have **7** mangoes, **1500 g** of yoghurt and **1 litre** of milk.",
+     "who": "mum"
+    },
+    {
+     "id": "batches",
+     "start": 443.069,
+     "end": 447.144,
+     "cap": "**Kavya:** Mangoes: 7 ÷ 2 = **3.5** batches. Yoghurt: 1500 ÷ 500 = **3**. Milk: 1000 ÷ 200 = **5**.",
+     "who": "kavya"
+    },
+    {
+     "id": "limit",
+     "start": 447.464,
+     "end": 452.477,
+     "cap": "**Mum:** Yoghurt runs out first: the **limiting ingredient**. **3** batches, so 3 × 4 = **12** lassis.",
+     "who": "mum"
+    },
+    {
+     "id": "pot",
+     "start": 452.797,
+     "end": 455.891,
+     "cap": "**Dad:** It was the best buy. It just wasn't **enough** buy.",
+     "who": "dad"
+    },
+    {
+     "id": "rate",
+     "start": 456.911,
+     "end": 462.756,
+     "cap": "**Auntie Rose:** Kavya! The rate is **$1 = RM 3.40**. Auntie changed **$50**, got **RM 170**!",
+     "who": "rose"
+    },
+    {
+     "id": "mult",
+     "start": 463.076,
+     "end": 468.58,
+     "cap": "**Kavya:** Dollars to ringgit: **multiply**. 50 × 3.40 = **170**. Correct, Auntie.",
+     "who": "kavya"
+    },
+    {
+     "id": "kebaya",
+     "start": 468.9,
+     "end": 472.079,
+     "cap": "**Auntie Rose:** Now this kebaya is **RM 85**. How much in dollars?",
+     "who": "rose"
+    },
+    {
+     "id": "boy",
+     "start": 472.599,
+     "end": 476.204,
+     "cap": "**Ah Boy:** 85 × 3.40 = **$289**!",
+     "who": "boy"
+    },
+    {
+     "id": "what",
+     "start": 476.824,
+     "end": 479.683,
+     "cap": "**Auntie Rose:** Two hundred and eighty-nine dollars?! For one kebaya?!",
+     "who": "rose"
+    },
+    {
+     "id": "divide",
+     "start": 480.503,
+     "end": 487.287,
+     "cap": "**Kavya:** Ringgit to dollars: **divide**. 85 ÷ 3.40 = **$25**. The ringgit number should be the **bigger** one.",
+     "who": "kavya"
+    },
+    {
+     "id": "two",
+     "start": 487.607,
+     "end": 489.441,
+     "cap": "**Auntie Rose:** Twenty-five! Then I'll buy two!",
+     "who": "rose"
+    }
+   ]
+  },
+  {
+   "id": "map",
+   "title": "Monty the map",
+   "short": "Scale & maps",
+   "card": true,
+   "start": 491.141,
+   "end": 585.545,
+   "lines": [
+    {
+     "id": "one",
+     "start": 492.941,
+     "end": 497.635,
+     "cap": "**Narrator:** One p.m. Kavya enlarges the menu on the photocopier.",
+     "who": "narr"
+    },
+    {
+     "id": "menu",
+     "start": 498.155,
+     "end": 502.549,
+     "cap": "**Kavya:** The menu is **4 cm by 6 cm**. I want the long side to be **15 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "boy",
+     "start": 502.869,
+     "end": 507.605,
+     "cap": "**Ah Boy:** 6 + 9 = 15, so add **9** to both sides: **13 cm by 15 cm**!",
+     "who": "boy"
+    },
+    {
+     "id": "squash",
+     "start": 508.225,
+     "end": 511.041,
+     "cap": "**The Colonel:** Squashed! Adding changes the **shape**. Out of proportion!",
+     "who": "colonel"
+    },
+    {
+     "id": "monty",
+     "start": 511.761,
+     "end": 516.113,
+     "cap": "**Monty:** Monty. A **map**. On paper, small. In real life, **enormous**.",
+     "who": "monty"
+    },
+    {
+     "id": "similar",
+     "start": 516.833,
+     "end": 522.679,
+     "cap": "**Monty:** **Similar** shapes: same angles, and every length multiplied by the same **scale factor**, k.",
+     "who": "monty"
+    },
+    {
+     "id": "k",
+     "start": 522.999,
+     "end": 529.676,
+     "cap": "**Monty:** Use **corresponding** sides, the long ones. k = new ÷ original = 15 ÷ 6 = **2.5**.",
+     "who": "monty"
+    },
+    {
+     "id": "short",
+     "start": 529.996,
+     "end": 535.265,
+     "cap": "**Kavya:** Short side: 4 × 2.5 = **10 cm**. 4 : 6 = 2 : 3, and 10 : 15 = 2 : 3. Same shape!",
+     "who": "kavya"
+    },
+    {
+     "id": "lost",
+     "start": 535.585,
+     "end": 539.276,
+     "cap": "**Narrator:** Two p.m. Auntie Rose is lost in Melaka.",
+     "who": "narr"
+    },
+    {
+     "id": "hotel",
+     "start": 539.896,
+     "end": 545.08,
+     "cap": "**Auntie Rose:** My map says **1 : 50 000**. The hotel is **7 cm** away on the map. Can I walk?",
+     "who": "rose"
+    },
+    {
+     "id": "scale",
+     "start": 545.4,
+     "end": 552.141,
+     "cap": "**Monty:** 1 cm on the map is **50 000 cm** in real life. Same units on both sides.",
+     "who": "monty"
+    },
+    {
+     "id": "real",
+     "start": 552.461,
+     "end": 559.139,
+     "cap": "**Monty:** Map to real: **multiply**. 7 × 50 000 = **350 000 cm**.",
+     "who": "monty"
+    },
+    {
+     "id": "km",
+     "start": 559.459,
+     "end": 564.941,
+     "cap": "**Kavya:** ÷ 100: **3500 m**. ÷ 1000: **3.5 km**. In a kebaya, Auntie? Take a trishaw.",
+     "who": "kavya"
+    },
+    {
+     "id": "route",
+     "start": 565.561,
+     "end": 569.145,
+     "cap": "**Auntie Rose:** Tomorrow's trishaw tour is **6 km**. How long is that on my map?",
+     "who": "rose"
+    },
+    {
+     "id": "tomap",
+     "start": 569.465,
+     "end": 576.036,
+     "cap": "**Kavya:** Real to map: **cm first**. 6 km = **600 000 cm**. Then **divide**: 600 000 ÷ 50 000 = **12 cm**.",
+     "who": "kavya"
+    },
+    {
+     "id": "rule",
+     "start": 576.356,
+     "end": 580.857,
+     "cap": "**Monty:** **Real world is huge: multiply. Map is tiny: divide.**",
+     "who": "monty"
+    },
+    {
+     "id": "uncle",
+     "start": 581.477,
+     "end": 583.845,
+     "cap": "**Auntie Rose:** Six kilometres. My poor trishaw uncle.",
+     "who": "rose"
+    }
+   ]
+  },
+  {
+   "id": "wash",
+   "title": "Ivy never touches the axes",
+   "short": "Inverse proportion",
+   "card": true,
+   "start": 585.545,
+   "end": 653.853,
+   "lines": [
+    {
+     "id": "nine",
+     "start": 587.345,
+     "end": 591.612,
+     "cap": "**Narrator:** Sunday, nine p.m. Closing time. A mountain of cups.",
+     "who": "narr"
+    },
+    {
+     "id": "six",
+     "start": 592.232,
+     "end": 597.459,
+     "cap": "**Mum:** With **6** of us washing, it takes **10 minutes**. Mr Tan came back for a third kopi.",
+     "who": "mum"
+    },
+    {
+     "id": "four",
+     "start": 598.079,
+     "end": 601.663,
+     "cap": "**Dad:** Mum and I are going upstairs. How long for the other **4**?",
+     "who": "dad"
+    },
+    {
+     "id": "ivy",
+     "start": 601.983,
+     "end": 606.42,
+     "cap": "**Ivy:** Ivy. **Inverse proportion**. When one quantity goes **up**, the other goes **down**.",
+     "who": "ivy"
+    },
+    {
+     "id": "expect",
+     "start": 606.94,
+     "end": 610.204,
+     "cap": "**Ivy:** **Fewer** people, **more** time. Expect more than 10 minutes.",
+     "who": "ivy"
+    },
+    {
+     "id": "product",
+     "start": 610.524,
+     "end": 614.577,
+     "cap": "**Ivy:** The **product** stays the same: 6 × 10 = **60** person-minutes.",
+     "who": "ivy"
+    },
+    {
+     "id": "fifteen",
+     "start": 614.897,
+     "end": 618.097,
+     "cap": "**Kavya:** So **4** people take 60 ÷ 4 = **15 minutes**.",
+     "who": "kavya"
+    },
+    {
+     "id": "graph",
+     "start": 618.417,
+     "end": 625.436,
+     "cap": "**Ivy:** **x × y = 60**, so **y = 60 ÷ x**. My curve gets closer to the axes, but **never touches**.",
+     "who": "ivy"
+    },
+    {
+     "id": "space",
+     "start": 625.756,
+     "end": 627.228,
+     "cap": "**Ivy:** Personal space.",
+     "who": "ivy"
+    },
+    {
+     "id": "pun",
+     "start": 628.248,
+     "end": 631.171,
+     "cap": "**Mr Tan:** Washing up: inverse proportion, with bubbles.",
+     "who": "tan"
+    },
+    {
+     "id": "sing",
+     "start": 632.691,
+     "end": 635.4,
+     "cap": "**Priya:** I'll **sing**! **Twice** the singers, **half** the time!",
+     "who": "priya"
+    },
+    {
+     "id": "not",
+     "start": 635.92,
+     "end": 640.677,
+     "cap": "**Ivy:** No. Some things aren't proportional at all. Twice the singers, same song. Just louder.",
+     "who": "ivy"
+    },
+    {
+     "id": "speed",
+     "start": 641.497,
+     "end": 646.681,
+     "cap": "**Auntie Rose:** Kavya! Coach stuck in traffic! Usually **80 km/h** for **3 hours**. Tonight, only **60 km/h**!",
+     "who": "rose"
+    },
+    {
+     "id": "time",
+     "start": 647.001,
+     "end": 652.953,
+     "cap": "**Ivy:** Slower, so **longer**. Speed × time = 80 × 3 = **240 km**. 240 ÷ 60 = **4 hours**.",
+     "who": "ivy"
+    }
+   ]
+  },
+  {
+   "id": "traps",
+   "title": "The stall saves you some marks",
+   "short": "Exam traps",
+   "card": true,
+   "start": 653.853,
+   "end": 715.643,
+   "lines": [
+    {
+     "id": "intro",
+     "start": 655.653,
+     "end": 659.344,
+     "cap": "**Narrator:** Before the credits, the stall would like to save you some marks.",
+     "who": "narr"
+    },
+    {
+     "id": "t1",
+     "start": 659.964,
+     "end": 663.484,
+     "cap": "**The Colonel:** One. **Order matters.** Boys : girls is not girls : boys.",
+     "who": "colonel"
+    },
+    {
+     "id": "t2",
+     "start": 664.104,
+     "end": 670.44,
+     "cap": "**Dad:** Two. **Same units first.** 50 cm : 2 m is **1 : 4**. Ask me how I know.",
+     "who": "dad"
+    },
+    {
+     "id": "t3",
+     "start": 671.06,
+     "end": 676.436,
+     "cap": "**Ah Boy:** Three. Divide by the **total** number of parts, not one number in the ratio. I gave the money back.",
+     "who": "boy"
+    },
+    {
+     "id": "t4",
+     "start": 677.056,
+     "end": 680.747,
+     "cap": "**Barry:** Four. Given the **difference**? Use the **difference in parts**, not the total.",
+     "who": "barry"
+    },
+    {
+     "id": "t5",
+     "start": 681.367,
+     "end": 686.849,
+     "cap": "**Monty:** Five. **1 km = 100 000 cm.** Every. Single. Time.",
+     "who": "monty"
+    },
+    {
+     "id": "t6",
+     "start": 687.469,
+     "end": 692.717,
+     "cap": "**Auntie Rose:** Six. Currency: **check** which number should be bigger. Auntie nearly paid two hundred and eighty-nine dollars.",
+     "who": "rose"
+    },
+    {
+     "id": "return",
+     "start": 693.437,
+     "end": 696.061,
+     "cap": "**Narrator:** Keep It in Proportion will return.",
+     "who": "narr"
+    },
+    {
+     "id": "monday",
+     "start": 697.381,
+     "end": 700.837,
+     "cap": "**Narrator:** Monday, six a.m. Auntie Rose is back.",
+     "who": "narr"
+    },
+    {
+     "id": "pink",
+     "start": 701.457,
+     "end": 704.231,
+     "cap": "**Auntie Rose:** Stall still standing. Very good. Who made this pink one?",
+     "who": "rose"
+    },
+    {
+     "id": "me",
+     "start": 704.851,
+     "end": 706.664,
+     "cap": "**Ah Boy:** Me! **Four** parts syrup, **one** part milk!",
+     "who": "boy"
+    },
+    {
+     "id": "menu",
+     "start": 707.384,
+     "end": 710.456,
+     "cap": "**Auntie Rose:** Wah. Going on the menu. **Ah Boy Special**. Six dollars.",
+     "who": "rose"
+    },
+    {
+     "id": "faint",
+     "start": 711.776,
+     "end": 712.843,
+     "cap": "**The Colonel:** Order... matters...",
+     "who": "colonel"
+    }
+   ]
+  }
+ ],
+ "total": 715.643
+}

@@ -5,9 +5,11 @@ import Link from "next/link";
 import type { Topic } from "@/lib/types";
 import { useStore } from "@/lib/store";
 import { sitcomEpisodeFor } from "@/lib/sitcom";
+import { CLAUDE_SITCOMS, CLAUDE_SITCOM_GUIDE, claudeSitcomHref } from "@/lib/claudeSitcom";
 import { EpisodePlayer, formatDuration, useWatchedEpisodes } from "./EpisodePlayer";
+import { ClaudeSitcomPlayer, claudeSitcomDoneKey } from "./ClaudeSitcomPlayer";
 
-export type WatchMode = "episode" | "masterclass" | "sitcom";
+export type WatchMode = "claude" | "episode" | "masterclass" | "sitcom";
 
 function subscribeTheme(onChange: () => void): () => void {
   if (typeof document === "undefined") return () => {};
@@ -70,9 +72,18 @@ export function WatchTab({
 }) {
   const searchParams = useSearchParams();
   const episode = sitcomEpisodeFor(topic.id);
+  const hasClaude = CLAUDE_SITCOMS.has(topic.id);
   const rawMode = searchParams.get("mode");
   const urlMode: WatchMode =
-    rawMode === "sitcom" || rawMode === "masterclass" ? rawMode : episode ? "episode" : "masterclass";
+    rawMode === "sitcom" || rawMode === "masterclass"
+      ? rawMode
+      : rawMode === "episode" && episode
+        ? "episode"
+        : hasClaude
+          ? "claude"
+          : episode
+            ? "episode"
+            : "masterclass";
   const [override, setOverride] = useState<{ forUrl: WatchMode; picked: WatchMode } | null>(null);
   const mode: WatchMode = override && override.forUrl === urlMode ? override.picked : urlMode;
 
@@ -82,7 +93,8 @@ export function WatchTab({
   const frameRef = useRef<HTMLIFrameElement>(null);
   const watchedEpisodes = useWatchedEpisodes();
   const episodeDone = !!watchedEpisodes[topic.id];
-  const { setBest } = useStore();
+  const { data, setBest } = useStore();
+  const claudeDone = hasClaude && !!data.awarded[claudeSitcomDoneKey(topic.id)];
 
   let mcDone = false;
   let sitcomDone = false;
@@ -104,20 +116,48 @@ export function WatchTab({
   }, [theme]);
 
   useEffect(() => {
-    const count = (mcDone ? 1 : 0) + (sitcomDone ? 1 : 0) + (episodeDone ? 1 : 0);
+    const count = (mcDone ? 1 : 0) + (sitcomDone ? 1 : 0) + (episodeDone ? 1 : 0) + (claudeDone ? 1 : 0);
     if (count > 0) setBest(`watch:${topic.id}`, count);
-  }, [mcDone, sitcomDone, episodeDone, topic.id, setBest]);
+  }, [mcDone, sitcomDone, episodeDone, claudeDone, topic.id, setBest]);
 
   const src = `/coaching/index.html?topic=${encodeURIComponent(topic.id)}&mode=${mode}&embed=1&theme=${theme}`;
   const fullUrl = `/coaching/index.html?topic=${encodeURIComponent(topic.id)}&mode=${mode}`;
 
   return (
     <div className="space-y-4">
-      <div className={`grid gap-3 ${episode ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+      <div
+        className={`grid gap-3 ${
+          (hasClaude ? 1 : 0) + (episode ? 1 : 0) === 2 ? "sm:grid-cols-2 lg:grid-cols-4" : hasClaude || episode ? "sm:grid-cols-3" : "sm:grid-cols-2"
+        }`}
+      >
+        {hasClaude ? (
+          <button
+            type="button"
+            onClick={() => setOverride({ forUrl: urlMode, picked: "claude" })}
+            aria-pressed={mode === "claude"}
+            className={`card flex items-start gap-3 p-4 text-left transition-colors ${
+              mode === "claude" ? "border-2 border-brand bg-brand-soft/40" : "hover:bg-surface-2"
+            }`}
+          >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0f766e] text-xl text-white" aria-hidden>
+              🎬
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-extrabold">Claude Sitcom</span>
+                {claudeDone ? <span className="chip border-0 bg-good-soft text-good">Done ✓</span> : null}
+              </div>
+              <p className="mt-0.5 text-xs text-ink-2">
+                Mockumentary comedy made by Claude: real people, cartoons &amp; props, every key idea and exam trap. ⭐ per scene.
+              </p>
+            </div>
+          </button>
+        ) : null}
         {episode ? (
           <button
             type="button"
             onClick={() => setOverride({ forUrl: urlMode, picked: "episode" })}
+            aria-pressed={mode === "episode"}
             className={`card flex items-start gap-3 p-4 text-left transition-colors ${
               mode === "episode" ? "border-2 border-brand bg-brand-soft/40" : "hover:bg-surface-2"
             }`}
@@ -139,6 +179,7 @@ export function WatchTab({
         <button
           type="button"
           onClick={() => setOverride({ forUrl: urlMode, picked: "masterclass" })}
+          aria-pressed={mode === "masterclass"}
           className={`card flex items-start gap-3 p-4 text-left transition-colors ${
             mode === "masterclass" ? "border-2 border-brand bg-brand-soft/40" : "hover:bg-surface-2"
           }`}
@@ -160,6 +201,7 @@ export function WatchTab({
         <button
           type="button"
           onClick={() => setOverride({ forUrl: urlMode, picked: "sitcom" })}
+          aria-pressed={mode === "sitcom"}
           className={`card flex items-start gap-3 p-4 text-left transition-colors ${
             mode === "sitcom" ? "border-2 border-brand bg-brand-soft/40" : "hover:bg-surface-2"
           }`}
@@ -179,7 +221,11 @@ export function WatchTab({
         </button>
       </div>
 
-      {mode === "episode" && episode ? (
+      {mode === "claude" && hasClaude ? (
+        <div className="card overflow-hidden p-1 sm:p-2">
+          <ClaudeSitcomPlayer key={topic.id} topicId={topic.id} title={topic.title} theme={theme} />
+        </div>
+      ) : mode === "episode" && episode ? (
         <div className="card overflow-hidden p-1 sm:p-2">
           <EpisodePlayer episode={episode} />
           {episode.logline ? <p className="px-2 pt-2 text-sm text-ink-2">{episode.logline}</p> : null}
@@ -200,7 +246,18 @@ export function WatchTab({
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          {mode === "episode" && episode ? (
+          {mode === "claude" && hasClaude ? (
+            <>
+              <a href={claudeSitcomHref(topic.id)} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+                ⛶ Open in a new tab ↗
+              </a>
+              {CLAUDE_SITCOM_GUIDE ? (
+                <a href={CLAUDE_SITCOM_GUIDE} target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-sm">
+                  Browse all Claude Sitcoms ↗
+                </a>
+              ) : null}
+            </>
+          ) : mode === "episode" && episode ? (
             <Link href={`/episodes?ep=${episode.num}`} className="btn btn-secondary btn-sm">
               📺 All sitcom episodes
             </Link>

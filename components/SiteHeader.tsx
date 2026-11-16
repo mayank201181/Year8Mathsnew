@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useStore } from "@/lib/store";
 import { rankFor } from "@/lib/learning";
 import { addDaysISO, todayISO } from "@/lib/dates";
+import { CLAUDE_SITCOM_GUIDE } from "@/lib/claudeSitcom";
 
 const NAV = [
   { href: "/", label: "Home", icon: "🏠" },
@@ -70,6 +71,11 @@ export function SiteHeader() {
               {n.label}
             </Link>
           ))}
+          {CLAUDE_SITCOM_GUIDE ? (
+            <a href={CLAUDE_SITCOM_GUIDE} target="_blank" rel="noopener noreferrer" className="rounded-lg px-3 py-1.5 text-sm font-bold text-ink-2 hover:bg-surface-2">
+              🎬 Claude Sitcoms
+            </a>
+          ) : null}
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
@@ -101,6 +107,11 @@ export function SiteHeader() {
                 <Link role="menuitem" href="/watch" className="block rounded-lg px-3 py-2 font-bold text-brand hover:bg-surface-2">
                   🎬 Studio &amp; Beast Sitcom TV
                 </Link>
+                {CLAUDE_SITCOM_GUIDE ? (
+                  <a role="menuitem" href={CLAUDE_SITCOM_GUIDE} target="_blank" rel="noopener noreferrer" onClick={() => setOpenAt(null)} className="block rounded-lg px-3 py-2 font-bold text-brand hover:bg-surface-2">
+                    🎬 Claude Sitcoms
+                  </a>
+                ) : null}
                 <Link role="menuitem" href="/skills" className="block rounded-lg px-3 py-2 hover:bg-surface-2">
                   🧩 Skills &amp; mastery
                 </Link>

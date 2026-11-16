@@ -138,9 +138,9 @@ scene('<chapter id>', S => {
 S=<scratchpad>; T=<topic>; W=<your worker dir>
 node --check lessons/$T/scenes/NN_id.js
 python3 lessons/engine/build.py --topic $T --variant local --out $S/$W --fonts $S/fonts --only id1,id2
-node lessons/engine/shot.js $S/$W/index.html $S/shots/$W id1 --cols 4 --name id1        # each line, 70% through
-node lessons/engine/shot.js $S/$W/index.html $S/shots/$W "id1@3" --cols 4 --name id1t   # every 3 s
-node lessons/engine/shot.js $S/$W/index.html $S/shots/$W "id1.line:0.2,id1.line:0.9"     # chosen moments
+node lessons/engine/shot.cjs $S/$W/index.html $S/shots/$W id1 --cols 4 --name id1        # each line, 70% through
+node lessons/engine/shot.cjs $S/$W/index.html $S/shots/$W "id1@3" --cols 4 --name id1t   # every 3 s
+node lessons/engine/shot.cjs $S/$W/index.html $S/shots/$W "id1.line:0.2,id1.line:0.9"     # chosen moments
 ```
 
 Read the contact sheets and fix what is wrong. "Fetch API cannot load file://"

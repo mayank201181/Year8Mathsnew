@@ -18,7 +18,7 @@ tab once `lesson` is set in `lib/extras/<topic>.ts`.
 | `engine/make_audio.py` | Kokoro TTS (`af_heart`, speed 0.95), one line at a time; writes the MP3 and `<topic>/timeline.json` |
 | `engine/check_audio.py` | Transcribes every narration line with Whisper and diffs it with the script |
 | `engine/build.py` | Bundles a topic into one HTML page |
-| `engine/shot.js` | Renders chosen moments and tiles them into a contact sheet |
+| `engine/shot.cjs` | Renders chosen moments and tiles them into a contact sheet |
 | `<topic>/script.py` | `META` (name, kicker, dek) and `CHAPTERS` (every line: id, caption, optional spoken text, pause) |
 | `<topic>/STORYBOARD.md` | What the screen shows for each line |
 | `<topic>/scenes/NN_<chapter>.js` | One scene per chapter, a pure function of time keyed to line ids |

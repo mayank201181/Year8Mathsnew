@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SITCOM_EPISODES } from "@/lib/sitcom";
+import { CLAUDE_SITCOMS, CLAUDE_SITCOM_GUIDE } from "@/lib/claudeSitcom";
 import { EpisodePlayer, formatDuration, useWatchedEpisodes } from "./EpisodePlayer";
 
 export function EpisodesHub() {
@@ -50,6 +51,26 @@ export function EpisodesHub() {
           Binge mode (auto-play next)
         </label>
       </header>
+
+      {CLAUDE_SITCOM_GUIDE ? (
+        <a
+          href={CLAUDE_SITCOM_GUIDE}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="card flex items-center gap-4 border-2 border-brand/40 p-4 transition-colors hover:bg-brand-soft/40"
+        >
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#0f766e] text-2xl" aria-hidden>
+            🎬
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="font-black">New: Claude Sitcoms ↗</div>
+            <p className="text-sm text-ink-2">
+              Mockumentary episodes made by Claude, with real people, cartoons and props. {CLAUDE_SITCOMS.size} episode
+              {CLAUDE_SITCOMS.size === 1 ? "" : "s"} so far; also on each topic&apos;s Watch tab.
+            </p>
+          </div>
+        </a>
+      ) : null}
 
       <section className="card overflow-hidden p-1 sm:p-2">
         <EpisodePlayer episode={current} autoPlay={autoPlay} onEnded={() => (binge && next ? pick(next.num, true) : undefined)} />
