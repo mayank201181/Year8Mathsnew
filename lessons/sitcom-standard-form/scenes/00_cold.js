@@ -1,6 +1,6 @@
 /* Scene 0: Cold open (no chapter card).
    10 a.m., the lift lobby of Block 208: Kavya, 12; the lift arrives -> inside the lift, the crowd is named one by one
-   (Mum with the rice, Dad, Ah Boy, Priya, Mr Tan) while the display counts up the floors -> Kavya: "Lives upstairs"
+   (Mum with the rice, Dad, Ah Boy, Priya, Mr Tan) while the display counts up the floors -> Kavya: "Lives downstairs"
    -> Mr Tan: "Lovely day for place value" -> CLUNK: the display is stuck on 10 -> Dad presses the alarm: "How long
    can it take?" (everyone turns to camera) -> Mr Tan's pun lands to lift music -> documentary push-in on the display
    -> the Index pops up at the superscript position of the "10": index, power, exponent -> "I have NOT lost my power"

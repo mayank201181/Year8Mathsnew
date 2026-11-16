@@ -133,6 +133,7 @@ scene('cold', S => {
   const percy = cast(Lcast, 'percy');
   const lt = { kavya: pcLowerThird(Lhud, 'kavya'), mum: pcLowerThird(Lhud, 'mum'), dad: pcLowerThird(Lhud, 'dad'), boy: pcLowerThird(Lhud, 'boy'), percy: pcLowerThird(Lhud, 'percy') };
   const ltOn = (t, who, t0) => lt[who].set(win(t, t0, t0 + 3.1, 0.3));
+  tr(lt.dad, 380, 600);   // under Dad himself, not over Mum
   const blackout = E('rect', { x: 0, y: 0, width: 1200, height: 750, fill: '#000000' }, Lhud);
 
   /* cut points */
@@ -236,7 +237,7 @@ scene('cold', S => {
           z.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s.toFixed(3)})`);
           const ry = lerp(70, 44, f).toFixed(1); z.firstChild.setAttribute('ry', ry); z.lastChild.setAttribute('ry', ry);
         });
-        op(lab100, 1 - f); op(labPct, f);
+        op(lab100, 1 - clamp(f * 2.2)); op(labPct, clamp(f * 2.2 - 1.2));   // no overlap: one label out, then the other in
         op(thud, f >= 1 ? P(t, mid('lazy', 0.45) + 0.7, 0.2, linear) : 0);
       }
       // nonno: per cento -> %

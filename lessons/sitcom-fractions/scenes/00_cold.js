@@ -204,7 +204,7 @@ scene('cold', S => {
       // quarter: the two cakes
       if (t >= at('quarter') && t < at('maths')) {
         const p = P(t, at('quarter') + 0.05, 0.4, pop);
-        op(cakes, clamp(p * 3)); tr(cakes, 600, 250, Math.max(0.01, 0.8 + 0.2 * p));
+        op(cakes, clamp(p * 3)); tr(cakes, 600, 166, Math.max(0.01, 0.74 * (0.8 + 0.2 * p)));   // above the heads
         pie4.set(P(t, at('quarter') + 0.1, 0.5, linear)); pie8.set(P(t, at('quarter') + 0.3, 0.5, linear));
         op(cakesGt, P(t, mid('quarter', 0.6), 0.25, linear));
       }

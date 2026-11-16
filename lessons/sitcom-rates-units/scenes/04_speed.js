@@ -57,7 +57,7 @@ scene('speed', S => {
     T(rd, 722, y, l, { size: 28, weight: 600, fill: '#C9DCE8', font: FB });
     return mkMath(rd, 1140, y + 2, v, { size: 34, anchor: 'end', fill: '#FFFFFF', weight: 800 });
   });
-  const rdQ = T(rd, 1150, 590, '?', { size: 40, weight: 800, fill: GOLD });
+  const rdQ = T(rd, 868, 591, '?', { size: 40, weight: 800, fill: GOLD });
   const rdHi = E('rect', { x: 706, y: 544, width: 448, height: 54, rx: 8, fill: 'none', stroke: GOLD, 'stroke-width': 4 }, rd);
 
   /* the board (trish onwards) */
@@ -99,10 +99,11 @@ scene('speed', S => {
   const dSlow = mkText(bDad, BX + 70, 474, 'slower than\na **bicycle**?', { size: 30, anchor: 'start', fill: RED });
   // (match, fix) hours, not minutes
   const bFix = G(board);
-  const cMatch = mkChip(bFix, '**units must match!**  hours, not minutes', { size: 28, col: CORAL, fill: '#FFF0F2' });
-  tr(cMatch, BX, 172);
-  const matchW = mkWorking(bFix, 855, 228, ['20 min = 20/60 "h"', '= 1/3 "h"'], { size: 42, fill: INK, gap: 18 });
-  const fixW = mkWorking(bFix, 855, 420, ['150 ÷ 1/3 = 150 × 3', { m: '= 450 "km/h"', col: GREEN }], { size: 42, fill: INK, gap: 18 });
+  const cMatch = mkChip(bFix, '**units must match!**', { size: 32, col: CORAL, fill: '#FFF0F2' });
+  tr(cMatch, BX, 162);
+  const matchSub = mkText(bFix, BX, 222, '**hours**, not minutes', { size: 30, anchor: 'middle', fill: MUTED, boldFill: CORAL });
+  const matchW = mkWorking(bFix, 855, 246, ['20 min = 20/60 "h"', '= 1/3 "h"'], { size: 42, fill: INK, gap: 18 });
+  const fixW = mkWorking(bFix, 855, 436, ['150 ÷ 1/3 = 150 × 3', { m: '= 450 "km/h"', col: GREEN }], { size: 42, fill: INK, gap: 18 });
   const jBike = spBike(bFix, true); tr(jBike, 1080, 630, 0.75);
   const fixNo = mkMath(bFix, 730, 640, '7.5 "km/h"', { size: 32, fill: RED, weight: 700 });
   const fixStrike = strike(bFix, 722, 630, 730 + fixNo.w + 8, INK);
@@ -188,7 +189,7 @@ scene('speed', S => {
     beat(bDad, at('dad'), cM0);
     op(dBike, P(t, mid('dad', 0.6), 0.3, linear)); op(dSlow, P(t, mid('dad', 0.6), 0.3, linear));
     beat(bFix, cM1, at('ms') - 0.1);
-    cMatch.set(P(t, cM1 + 0.05, 0.4, linear));
+    cMatch.set(P(t, cM1 + 0.05, 0.4, linear)); op(matchSub, P(t, mid('match', 0.3), 0.3, linear));
     matchW.show(0, P(t, mid('match', 0.45), 0.3, linear)); matchW.show(1, P(t, mid('match', 0.75), 0.3, linear));
     fixW.show(0, P(t, at('fix') + 0.2, 0.3, linear)); fixW.show(1, P(t, mid('fix', 0.4), 0.3, linear));
     fixW.ring(1, P(t, mid('fix', 0.55), 0.3, linear));

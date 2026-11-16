@@ -156,6 +156,7 @@ scene('mystery', S => {
   const q4 = mkMath(b4, 700, 250, '4x/9 ÷ 2x/3', { size: 56, anchor: 'middle', fill: INK });
   const rowD = algRow(b4, 300, 400, ['=', { n: [['4', 'n4'], ['x', 'nx']], d: [['9', 'd9']] }, '×', { n: [['3', 'n3']], d: [['2', 'd2'], ['x', 'dx']] }],
     { size: 66, anchor: 'start', xCol: PURP, cancels: { nx: [PURP, null], dx: [PURP, null], n4: [RED, '2'], d2: [RED, '1'], n3: [BLUE, '1'], d9: [BLUE, '3'] } });
+  tr(q4, rowD.left + 66 - q4.x0, 6);   // line the question up with the working below it
   const resD = mkMath(b4, rowD.right + 24, 424, '= (2 × 1)/(3 × 1) = 2/3', { size: 52, fill: INK });
   const ringD = E('rect', { x: 0, y: 0, width: 1, height: 1, rx: 10, fill: 'none', stroke: GREEN, 'stroke-width': 5 }, b4);
   const flipLab = mkText(b4, 0, 0, '**flip**', { size: 28, anchor: 'middle', fill: RED });
@@ -307,7 +308,7 @@ scene('mystery', S => {
         op(rowC, 1);
         op(xx1, fade(t, mid('cancel', 0.62)));
         const r2 = rowC.right;
-        attr(ringC, 'x', r2 - 66); attr(ringC, 'y', 300 + 0.33 * 72 - 62); attr(ringC, 'width', 64); attr(ringC, 'height', 76);
+        attr(ringC, 'x', r2 - 56); attr(ringC, 'y', 300 + 0.33 * 72 - 62); attr(ringC, 'width', 54); attr(ringC, 'height', 76);
         op(ringC, fade(t, mid('cancel', 0.8)));
         show('exC', exC, SL[0] + 10, 610, 0.62, { talk: talk(t, 'ex'), mood: 'smug', look: 0.6 });
         show('tan', tan, SR[0], SR[1] - 4, SS, { talk: 0, mood: 'happy', look: -0.8 });
@@ -354,7 +355,7 @@ scene('mystery', S => {
         const bounce = inG ? Math.sin(Math.PI * P(t, at('guard') + 0.25, 0.5, linear)) * 10 : 0;
         rowP.setAttribute('transform', `translate(0 ${(-bounce).toFixed(1)})`);
         op(wrongP, inP ? fade(t, mid('plus', 0.62)) : inG ? 1 : 0);
-        if (inG) { stampNo.set(P(t, mid('guard', 0.12), 0.35, linear)); tr(stampNo, wrongP.x0 + wrongP.w / 2, 300, 0.42); }
+        if (inG) { stampNo.set(P(t, mid('guard', 0.12), 0.35, linear)); tr(stampNo, wrongP.x0 + wrongP.w / 2 + 80, 300, 0.56); op(wrongP, 1 - 0.6 * P(t, mid('guard', 0.12) + 0.2, 0.3, linear)); }
         const bx = inG ? fade(t, mid('guard', 0.3)) : inT ? 1 : 0;
         op(boxTop, bx); op(boxBot, bx); op(stuck, inG ? fade(t, mid('guard', 0.2)) : 0);
         op(factorT, inG ? fade(t, mid('guard', 0.5)) : 0);

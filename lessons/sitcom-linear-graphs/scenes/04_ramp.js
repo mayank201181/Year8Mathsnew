@@ -31,6 +31,7 @@ scene('ramp', S => {
   const skate = lgSkate(Lcam);
   Lfront.appendChild(skate.front);
   skate.ramps.forEach(r => op(r.g.lastChild, 0));                                   // hide the set's pole signs
+  const graffiti = [3, 4, 5].map(i => skate.firstChild.children[i]);                 // RAD, SKATE, star: hidden in the wide shot
   const U = 60, GY = 610;
   const RX = skate.ramps.map(r => [r.x0, r.x0 + r.run * U, GY - r.rise * U]);    // [x0, x1, top y]
   // painted letter badges above each ramp's high end (they move with the camera)
@@ -237,6 +238,7 @@ scene('ramp', S => {
     op(Lcam, sC ? 0 : 1); op(LcamF, sW); op(Lfront, sC ? 0 : 1);
     const camY = sW ? -150 : 0;
     tr(Lcam, 0, camY); tr(LcamF, 0, camY);
+    graffiti.forEach(g => op(g, sW ? 0 : 0.75));
     conf.set(sC, t);
 
     /* everything per shot starts hidden */
@@ -252,7 +254,7 @@ scene('ramp', S => {
       const first = t < cW, five = t >= cF2 && t < cT2, vert = t >= cF3;
       // the humans
       show.priya = show.kav = show.boy = show.dad = 1;
-      tr(priya, 500, HY, 0.88); tr(kav, 700, HY, 0.88); tr(boy, 870, HY + 4, 0.88); tr(dad, 1060, HY, 0.88);
+      tr(priya, 525, HY, 0.88); tr(kav, 700, HY, 0.88); tr(boy, 870, HY + 4, 0.88); tr(dad, 1060, HY, 0.88);
       let pm = 'happy', pl = 0.4, km = 'neutral', kl = 0.3, bm = 'happy', bl = -0.4, blift = 0, dm = 'happy', dl = -0.4, dlift = 0;
       if (first) {
         if (t < at('big')) { bm = 'happy'; bl = -0.6; km = 'neutral'; kl = 0.5; pl = 0.6; dl = -0.6; }
@@ -274,7 +276,7 @@ scene('ramp', S => {
       if (t >= at('mo') - 0.1) {
         show.mo = 1;
         const hop = P(t, at('mo') - 0.1, 0.7, easeOut);
-        const x = lerp(-180, 200, hop), y = HY - 4 - Math.sin(Math.min(1, hop) * Math.PI) * 120;
+        const x = lerp(-180, 165, hop), y = HY - 4 - Math.sin(Math.min(1, hop) * Math.PI) * 120;
         tr(mo, x, y, 0.88);
         let mm = 'happy', ml = 0.6, flag = 0;
         if (first) {
@@ -291,7 +293,7 @@ scene('ramp', S => {
       if (first) {
         // noon: chip, phone, what Ah Boy wants
         if (t < at('mo')) popIn(cNoon, t, at('noon') + 0.1, 980, 70);
-        if (t < at('mo')) { cWant.set(P(t, mid('noon', 0.45), 0.4, linear)); tr(cWant, 745, 200); }
+        if (t < at('mo')) { cWant.set(P(t, mid('noon', 0.45), 0.4, linear)); tr(cWant, 640, 128); }
         // big: ramp A glows
         if (t >= at('big') && t < at('mo') + 0.3) {
           op(glowA, 0.55 + 0.45 * Math.sin(t * 7));

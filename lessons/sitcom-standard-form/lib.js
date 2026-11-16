@@ -14,7 +14,7 @@
        'dad'    (dad)    Dad: glasses, moustache, green polo. Default prop: his phone (storage full)
        'boy'    (boy)    Ah Boy, 8: orange star tee. Default: an empty hand (lift: 1 raises it, to press buttons)
        'priya'  (priya)  Priya, 12: school uniform, bob, yellow clip. Default prop: a calculator
-       'tan'    (tan)    Mr Tan, maths teacher, lives one floor up: shirt and tie, glasses. Default prop: a blue
+       'tan'    (tan)    Mr Tan, maths teacher, lives one floor down (floor 11): shirt and tie, glasses. Default prop: a blue
                          whiteboard marker (he writes on the lift's steel wall)
        'rose'   (rose)   Auntie Rose (only on video calls from her stall downstairs). Default prop: a phone
        Pass { prop: null } for no prop; { body: true } for a full body (scHumanBody, feet at 0,0; pose API).
@@ -156,7 +156,7 @@ const SF_LT = {
   dad: ['DAD', '"How long can it take?"'],
   boy: ['AH BOY, 8', 'Presses buttons.'],
   priya: ['PRIYA', 'Best friend. Competitive.'],
-  tan: ['MR TAN', 'Maths teacher. Lives upstairs.'],
+  tan: ['MR TAN', 'Maths teacher. Lives downstairs.'],
   rose: ['AUNTIE ROSE', "Rose's Kitchen, downstairs"],
 };
 function sfLowerThird(parent, who) { const l = SF_LT[who] || [String(who).toUpperCase(), '']; return scLowerThird(parent, l[0], l[1]); }
@@ -549,6 +549,7 @@ function sfClub(parent) {
   E('rect', { x: -330, y: -58, width: 660, height: 116, rx: 22, fill: '#120A1C', stroke: SF.neon, 'stroke-width': 5 }, sg);
   const n1 = T(sg, 0, -6, 'CLUB', { size: 30, weight: 800, anchor: 'middle', fill: '#FFE45C', ls: 10 });
   const n2 = T(sg, 0, 40, 'STANDARD FORM', { size: 46, weight: 800, anchor: 'middle', fill: '#FFD6FF', ls: 4 });
+  g.sign = sg;
   [n1, n2].forEach(w => { w.setAttribute('stroke', SF.neon); w.setAttribute('stroke-width', 3); w.setAttribute('paint-order', 'stroke'); });
   E('ellipse', { cx: 640, cy: 165, rx: 420, ry: 120, fill: glow(SF.neon), opacity: 0.25 }, g);
   // the list poster

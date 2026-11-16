@@ -318,7 +318,7 @@ scene('parcel', S => {
         op(brL, bp); op(brR, bp); tr(brL, 420, 326); tr(brR, 710, 326);
         op(cOne, in3 ? fade(t, mid('layer3', 0.7)) : 0); tr(cOne, 0, 0);
         op(cRes, in3 ? fade(t, mid('layer3', 0.85)) : 0);
-        attr(cResRing, 'x', cRes.x0 + cRes.w - 66); attr(cResRing, 'y', 500 - cRes.a - 8); attr(cResRing, 'width', 76); attr(cResRing, 'height', cRes.a + cRes.d + 16);
+        { const w15 = mkMeasure('15', { size: 54 }).w; attr(cResRing, 'x', cRes.x0 + cRes.w - w15 - 4); attr(cResRing, 'width', w15 + 10); } attr(cResRing, 'y', 500 - cRes.a - 8); attr(cResRing, 'height', cRes.a + cRes.d + 16);
         op(cResRing, in3 ? fade(t, mid('layer3', 0.92)) : 0);
         op(powG, L === 'power' ? 1 : 0);
         if (L === 'power') { pw.forEach((m, i) => op(m, fade(t, mid('power', [0.02, 0.3, 0.5][i])))); op(pwNote, fade(t, mid('power', 0.62))); }

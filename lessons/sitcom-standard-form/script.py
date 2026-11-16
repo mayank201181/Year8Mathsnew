@@ -2,7 +2,7 @@
 
 An original comedy, and a bottle episode: on Saturday morning the lift in Block 208 gets stuck between floors
 with six humans inside: Kavya, Mum (with the rice), Dad, Ah Boy (with his piggy bank and a ladybird in a jar),
-Priya, and Kavya's maths teacher Mr Tan, who lives one floor up and has a whiteboard marker. The display is
+Priya, and Kavya's maths teacher Mr Tan, who lives one floor down and has a whiteboard marker. The display is
 stuck on 10. Living in the display is the Index: the tiny raised number (also called the power, also called
 the exponent: he insists on all three names), who rides on the shoulder of Big Ten, the base, who only ever
 says "Ten." While the family waits for the technician ("How long can it take?"), the lift's residents teach
@@ -59,8 +59,8 @@ CHAPTERS = [
         "lines": [
             L("kavya", "narr", "This is Kavya. She is twelve. Saturday, ten a.m., the lift lobby of Block 208.", 0.2,
               say="This is Kavya. She is twelve. Saturday, ten a.m., the lift lobby of Block two-oh-eight."),
-            L("crowd", "narr", "In the lift: Mum, Dad, Ah Boy, Priya... and her maths teacher, Mr Tan, who lives one floor up.", 0.3),
-            L("upstairs", "kavya", "My maths teacher. Lives upstairs. Every day is a school day.", 0.3),
+            L("crowd", "narr", "In the lift: Mum, Dad, Ah Boy, Priya... and her maths teacher, Mr Tan, who lives one floor down.", 0.3),
+            L("upstairs", "kavya", "My maths teacher. Lives downstairs. Every day is a school day.", 0.3),
             L("morning", "tan", "Good morning, Kavya. Lovely day for place value.", 0.5),
             L("clunk", "boy", "Why did we stop? It says **10**. We live on **12**!", 0.2,
               say="Why did we stop? It says ten. We live on twelve!"),
@@ -197,8 +197,8 @@ CHAPTERS = [
               say="A pollen grain is three point oh eight times ten to the minus five metres. As an ordinary number?"),
             L("right5", "kavya", "Digits **5 places right**: **0.000 030 8** m.",
               say="Digits five places right: zero point zero zero zero zero three zero eight metres."),
-            L("me", "nought", "That zero after the 3 is **me**! Drop me and it's **ten times too big**!", 0.3,
-              say="That zero after the three is me! Drop me and it's ten times too big!"),
+            L("me", "nought", "That zero before the 3 is **me**! Drop me and it's **ten times too big**!", 0.3,
+              say="That zero before the three is me! Drop me and it's ten times too big!"),
             L("thanks", "mum", "Thank you, little zero. Achoo!", 0.5),
             L("cell", "priya", "And a **red blood cell** is **8 × 10⁻⁶ m** across.", 0.2,
               say="And a red blood cell is eight times ten to the minus six metres across."),

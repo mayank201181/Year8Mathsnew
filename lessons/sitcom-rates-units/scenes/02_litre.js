@@ -210,7 +210,7 @@ scene('litre', S => {
   const BOXX = SZX + SW / 2, BOXY = 598;                       // Ah Boy inside the sizer
   const LTOPX = SZX + SW / 2 + SDX / 2, LTOPY = SZB - SH + SDY / 2 - 6;   // Lita standing on the sizer
   // cabin positions
-  const CY = 452, KX = 120, DX = 330, MX = 520, LX = 468, LY = 548;
+  const CY = 452, KX = 120, DX = 330, MX = 520, LX = 578, LY = 620;
 
   return t => {
     const sMars = on(t, cM0, cM1);
@@ -326,7 +326,7 @@ scene('litre', S => {
       if (t >= cM1 - 0.1) {
         vis.lita = 1;
         const up = P(t, cM1 - 0.1, 0.45, pop);
-        tr(lita, LX, LY - 140 * 0.5 * clamp(up) + 40 * (1 - clamp(up)), Math.max(0.01, 0.5 * clamp(up, 0.2, 1.2)));
+        tr(lita, LX, LY + 40 * (1 - clamp(up)), Math.max(0.01, 0.5 * clamp(up, 0.2, 1.2)));
         lita.set({ t, talk: scTalk(S, t, 'lita'), mood: t >= at('cold') ? 'sad' : who === 'kavya' ? 'happy' : 'happy', look: who === 'lita' ? 1 : lookAt(LX, sx), grid: who === 'lita' && t < at('safe') ? 1 : 0 });
         op(cBoard, 1 - P(t, at('cold') - 0.15, 0.25, linear));
         // area: the square fills, row by row

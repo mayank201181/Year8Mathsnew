@@ -238,7 +238,7 @@ scene('traps', S => {
     } else {
       /* ---------- the stinger: 8 p.m., home ---------- */
       flat.clock(8, 0);
-      popIn(cEight, t, at('eight') + 0.1, 600, 260);
+      popIn(cEight, t, at('eight') + 0.1, 262, 170); if (t >= at('graph')) op(cEight, 0);
       const flip = P(t, mid('graph', 0.12), 0.5, easeOut), fainted = t >= at('faint');
       const who = scWho(S, t);
       // the family on the sofa, sunburnt and tired
@@ -258,7 +258,7 @@ scene('traps', S => {
       if (fainted) {
         const ap = P(t, at('faint') - 0.1, 0.35, pop);
         const top = P(t, mid('faint', 0.8), 1.5, easeIn);
-        const x = lerp(page.x3, 860, top), y = lerp((page.yTop + page.yBot) / 2, 428, top);
+        const x = lerp(page.x3, 790, top), y = lerp((page.yTop + page.yBot) / 2, 452, top);
         const shake = top < 0.02 ? Math.sin(t * 40) * 3 * AMP : 0;
         show(lio, x, y, Math.max(0.01, 0.5 * ap), { talk: talk(t, 'lionel'), mood: top > 0.95 ? 'deadpan' : 'shock', look: 0, still: true,
           tilt: 90 * (1 - top) + shake, sweat: top < 0.5 ? 0.9 : 0, sleep: P(t, mid('faint', 0.8) + 1.6, 0.6, linear) });

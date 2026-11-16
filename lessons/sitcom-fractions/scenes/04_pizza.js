@@ -336,7 +336,7 @@ scene('pizza', S => {
           const fb = P(t, mid('both', 0.62), 0.55, linear);
           bc1.flip(fb, 0, 1); bc2.flip(fb, 0, 1);
           op(opDiv, 1); op(opMul, 0); op(divLab, 0); op(bRes, 0); op(bRing, 0);
-          stampNo.set(P(t, mid('both', 0.9), 0.35, linear)); tr(stampNo, 760, 470, 0.42);
+          stampNo.set(P(t, mid('both', 0.9), 0.35, linear)); tr(stampNo, 760, 476, 0.56);
         } else {
           stampNo.set(0);
           bc1.flip(P(t, mid('second', 0.14), 0.55, linear), 1, 0);   // pushed back on its feet

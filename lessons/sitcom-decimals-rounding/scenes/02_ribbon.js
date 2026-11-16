@@ -263,7 +263,7 @@ scene('ribbon', S => {
         op(r2bad, fin(t, mid('short', 0.55))); op(r2badEq, fin(t, mid('short', 0.75)));
         op(missQ, fin(t, mid('short', 0.85)));
         popSet(cOnly, t, mid('short', 0.85), 1e9, 290, 448);
-        stampBad.set(P(t, end('short') + 0.05, 0.3, linear)); tr(stampBad, 840, 440, 0.5);
+        stampBad.set(P(t, end('short') + 0.05, 0.3, linear)); tr(stampBad, 890, 455, 0.45);
       } else if (isBoth) {
         left = priya; lm = 'sad'; ll = 0.8; km = 'happy'; kl = 0.8; dm = 'smug'; dl = -0.7; arms = t > mid('both', 0.88) ? 1 : 0;
         popSet(cBoth, t, at('both') + 0.05, 1e9, 560, 448);
@@ -276,7 +276,7 @@ scene('ribbon', S => {
         op(hPtA, 1 - tidy); op(hPtB, 1 - tidy); op(hDig[3], 1 - tidy);
         tr(hDig[4], -26 * tidy, 0); tr(hEq, -26 * tidy, 0);
         op(hEq, fin(t, mid('both', 0.78)));
-        stampOk.set(P(t, mid('both', 0.88), 0.3, linear)); tr(stampOk, 960, 520, 0.42);
+        stampOk.set(P(t, mid('both', 0.88), 0.3, linear)); tr(stampOk, 880, 455, 0.38);
       }
       show.kav = 1; tr(kav, RR[0], RR[1], RR[2]);
       kav.set({ t, talk: scTalk(S, t, 'kavya'), mood: km, look: kl });

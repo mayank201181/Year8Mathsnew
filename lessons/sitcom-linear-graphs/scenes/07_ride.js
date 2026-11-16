@@ -75,15 +75,15 @@ scene('ride', S => {
   const l30 = mkText(hire, hx(6) - 14, hy(30) - 12, '$30', { size: 28, anchor: 'end', fill: ORANGE, weight: 800, halo: MK.paper });
 
   // left column: equations and working, on a dark panel
-  const panel = E('rect', { x: 30, y: 108, width: 515, height: 336, rx: 18, fill: 'rgba(10,27,39,0.84)', stroke: C.line, 'stroke-width': 2 }, Lcard);
+  const panel = E('rect', { x: 30, y: 108, width: 515, height: 336, rx: 18, fill: '#0D2230', stroke: C.line, 'stroke-width': 2 }, Lcard);
   const eqs = G(Lfg);
   mkText(eqs, 60, 200, 'X: {{C = 3h + 8}}', { size: 40, fill: '#8FC3FF', weight: 700 });
   mkText(eqs, 60, 280, 'Y: {{C = 5h}}', { size: 40, fill: '#FFB070', weight: 700 });
   const eqsNote = mkText(eqs, 60, 330, 'through the **origin**', { size: 30, fill: C.ink, boldFill: GOLD });
-  const wCross = mkWorking(Lfg, 260, 130, ['3h + 8 = 5h', '8 = 2h', 'h = 4'], { size: 44, fill: C.ink, gap: 26 });
+  const wCross = mkWorking(Lfg, 260, 150, ['3h + 8 = 5h', '8 = 2h', 'h = 4'], { size: 44, fill: C.ink, gap: 26 });
   const cBoth = mkChip(Lfg, 'both cost **$20**', { size: 34, col: '#56D69B' });
   const cSix = mkChip(Lfg, 'Operation Beach Day:\nride **6 hours**', { size: 32, col: GOLD });
-  const wSix = mkWorking(Lfg, 300, 130, [{ m: '"X:" 3 × 6 + 8 = $26', col: '#8FC3FF' }, { m: '"Y:" 5 × 6 = $30', col: '#FFB070' }], { size: 40, fill: C.ink, gap: 26 });
+  const wSix = mkWorking(Lfg, 300, 150, [{ m: '"X:\u00A0" 3 × 6 + 8 = $26', col: '#8FC3FF' }, { m: '"Y:\u00A0" 5 × 6 = $30', col: '#FFB070' }], { size: 40, fill: C.ink, gap: 26 });
   const cShopX = mkChip(Lfg, 'Shop **X** ✓', { size: 36, col: '#8FC3FF' });
   const cOne = mkChip(Lfg, 'we ride for **one** hour', { size: 32, col: '#FF8FC8' });
 
@@ -179,6 +179,7 @@ scene('ride', S => {
     cCurve.set(0); cCurvy.set(0); cMeet.set(0); cThree.set(0); op(phone, 0); ices.forEach(g => op(g, 0)); op(bike, 0);
     signHL.forEach(h => op(h, 0)); cFee.set(0); cNoFee.set(0);
     op(panel, sG || (sP && t >= at('units') && t < at('curve')) ? 1 : 0);
+    attr(panel, 'height', sP ? 386 : 336);
     const show = { mum: 0, kav: 0, boy: 0, dad: 0, priya: 0, mo: 0, lio: 0 };
     const put = (c, key, x, y, s, st) => { show[key] = 1; tr(c, x, y, s); c.set(Object.assign({ t, talk: scTalk(S, t, key === 'kav' ? 'kavya' : key === 'lio' ? 'lionel' : key) }, st)); };
     op(boyIce, t < cP || (t >= at('curve') && t < at('meet')) ? 1 : 0);
@@ -237,8 +238,8 @@ scene('ride', S => {
       op(l26, xOn ? P(t, mid('x', 0.2), 0.3, linear) : 0); op(l30, xOn ? P(t, mid('x', 0.4), 0.3, linear) : 0);
       if (xOn) {
         wSix.show(0, P(t, at('x') + 0.3, 0.3, linear)); wSix.show(1, P(t, mid('x', 0.36), 0.3, linear));
-        cShopX.set(P(t, mid('x', 0.55), 0.4, linear)); tr(cShopX, 290, 300);
-        cOne.set(P(t, mid('x', 0.8), 0.4, linear)); tr(cOne, 290, 380);
+        cShopX.set(P(t, mid('x', 0.55), 0.4, linear)); tr(cShopX, 290, 322);
+        cOne.set(P(t, mid('x', 0.8), 0.4, linear)); tr(cOne, 290, 398);
       }
       // the humans on the left
       const dadSad = xOn && t > mid('x', 0.55);
@@ -292,7 +293,7 @@ scene('ride', S => {
       if (t < at('parts')) {
         // Priya rides past behind the hedge; Ah Boy with his ice cream
         const rp = P(t, cP, 3.6, linear);
-        const px = lerp(-160, 330, rp), bob = Math.sin(t * 14) * 3 * AMP;
+        const px = lerp(-160, 250, rp), bob = Math.sin(t * 14) * 3 * AMP;
         put(priya, 'priya', px, HY - 30 + bob, 0.8, { mood: 'happy', look: 1 });
         op(bike, 1); tr(bike, px + 10, 712 + bob);
         put(boy, 'boy', 470, HY + 4, 0.8, { mood: 'happy', look: -0.8, lift: 1 });
@@ -304,8 +305,8 @@ scene('ride', S => {
         put(dad, 'dad', L2, HY, 0.8, { mood: t >= at('nap') ? (t > mid('nap', 0.5) ? 'sad' : 'neutral') : t >= at('steady') ? 'smug' : 'neutral', look: t >= at('steady') ? 0.9 : 0.8, lift: dadTalk ? 1 : 0 });
         if (t >= at('steady')) { bSteady.set(P(t, at('steady') + 0.1, 0.35, linear)); tr(bSteady, 300, 230); }
         if (t >= at('nap')) {
-          stOff.set(P(t, mid('nap', 0.45), 0.35, linear)); tr(stOff, 300, 240, 0.5);
-          cStop.set(P(t, mid('nap', 0.2), 0.4, linear)); tr(cStop, 290, 380);
+          stOff.set(P(t, mid('nap', 0.45), 0.35, linear)); tr(stOff, 330, 318, 0.5);
+          cStop.set(P(t, mid('nap', 0.2), 0.4, linear)); tr(cStop, 290, 410);
         }
       } else if (t < at('units')) {
         put(mo, 'mo', 175, HY, 0.8, { mood: 'happy', look: 0.9 });

@@ -50,6 +50,7 @@ scene('magic', S => {
   const wDad = mkWorking(dadIn, 30, -80, [{ m: '15% "of" 40 = 6', note: '**step 1**', noteCol: BLUE }, { m: '40 + 6 = 46', note: '**step 2**', noteCol: BLUE }], { size: 42, fill: INK, gap: 40, noteSize: 30, noteX: 90 });
   const dadArr = [arrow(dadIn, -190, -60, -190, 20, { color: BLUE, width: 5, bend: 30 })];
   const dad46 = mkText(dadIn, 0, 150, 'pay **$46**', { size: 40, anchor: 'middle', fill: INK, boldFill: GREEN });
+  const dadOne = mkText(bDad, 0, 0, '2 steps → **ONE**', { size: 56, anchor: 'middle', fill: INK, boldFill: '#7A4BE0' });
   // trick
   const bTrick = G(B);
   const wTr = mkWorking(bTrick, 10, -190, ['100% + 15% = 115%', '= 1.15'], { size: 42, fill: INK, gap: 16 });
@@ -135,6 +136,7 @@ scene('magic', S => {
   const percy = cast(Lfg, 'percy', { s: 0.6 });
   Lfg.insertBefore(multi, Lfg.firstChild); Lfg.insertBefore(percy, Lfg.firstChild);
   const lt = { multi: pcLowerThird(Lhud, 'multi') };
+  tr(lt.multi, 300, 600);   // clear of Dad, who peeks up from the bottom-left corner
   const blackout = E('rect', { x: 0, y: 0, width: 1200, height: 750, fill: '#000000' }, Lhud);
 
   /* cuts */
@@ -243,7 +245,7 @@ scene('magic', S => {
         lift = t < at('ordinary') ? 1 : 0;
         hm = t < at('ordinary') ? 'smug' : t < at('trick') ? 'shock' : t < mid('trick', 0.7) ? 'neutral' : 'happy';
         const duck = P(t, mid('ordinary', 0.12), 0.3, easeIn) * (1 - P(t, at('trick') - 0.1, 0.35, pop));
-        up = up * (1 - duck);
+        up = up * (1 - 0.45 * duck);   // ducks low, but still peeks over the bottom of the frame
       }
       if (key === 'kav') { hm = t > mid('why', 0.7) ? 'smug' : 'neutral'; }
       if (key === 'mum') { hm = t < at('rule') ? 'smug' : 'neutral'; lift = t < at('rule') ? 1 : 0; }
@@ -279,6 +281,9 @@ scene('magic', S => {
         const cr = P(t, mid('ordinary', 0.5), 0.6, easeIn);   // the two steps crumple
         dadIn.setAttribute('transform', `translate(0 ${(cr * 120).toFixed(1)}) rotate(${(cr * 25).toFixed(1)}) scale(${(1 - 0.6 * cr).toFixed(3)} ${(1 - 0.85 * cr).toFixed(3)})`);
         op(dadIn, 1 - cr);
+        const one = P(t, mid('ordinary', 0.62), 0.3, pop);
+        op(dadOne, t >= mid('ordinary', 0.62) ? clamp(one * 3) : 0);
+        dadOne.setAttribute('transform', `translate(0 0) scale(${Math.max(0.01, 0.6 + 0.4 * one).toFixed(3)})`);
       }
       op(bTrick, trickOn ? 1 : 0);
       if (trickOn) {

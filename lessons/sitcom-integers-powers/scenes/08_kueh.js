@@ -69,7 +69,7 @@ scene('kueh', S => {
   /* ---------- the card above the family ---------- */
   const card = G(Lfg);
   const CX = 430, CY0 = 120, CW = 700, CH = 196;
-  E('rect', { x: CX - CW / 2, y: CY0, width: CW, height: CH, rx: 18, fill: 'rgba(10,27,39,0.9)', stroke: GOLD, 'stroke-width': 4 }, card);
+  E('rect', { x: CX - CW / 2, y: CY0, width: CW, height: CH, rx: 18, fill: 'rgba(10,27,39,0.97)', stroke: GOLD, 'stroke-width': 4 }, card);
   const CM = CY0 + CH / 2;
   const grp = () => G(card);
   // six
@@ -194,6 +194,6 @@ scene('kueh', S => {
     dash.set({ t, talk: scTalk(S, t, 'dash'), mood: dm, look: who === 'dash' ? 0.4 : lookTo(DASHP[0], t, 0.4), arms: darms });
     const tb = who === 'tiny' ? Math.abs(Math.sin(t * 5)) * 12 * AMP : 0;
     tr(tiny, TINYP[0], TINYP[1] - tb, 0.42);
-    tiny.set({ t, talk: scTalk(S, t, 'tiny'), mood: t >= mid('us', 0.62) && t < at('flip') ? 'shock' : 'happy', look: lookTo(TINYP[0], t, -0.6), idx: t < at('flip') ? '3' : t < at('ten') ? '−3' : '−2', arms: who === 'tiny' ? 1 : 0.4 });
+    tiny.set({ t, talk: scTalk(S, t, 'tiny'), mood: t >= mid('us', 0.62) && t < at('flip') ? 'shock' : 'happy', look: lookTo(TINYP[0], t, -0.6), idx: t < at('flip') ? '3' : t < at('ten') ? '−3' : t < at('crumb') ? '−2' : '−10', arms: who === 'tiny' ? 1 : 0.4 });
   };
 });

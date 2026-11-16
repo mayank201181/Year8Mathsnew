@@ -375,7 +375,7 @@ scene('zones', S => {
     /* ================= A: the warning label ================= */
     if (t >= cL) {
       const sp = P(t, mid('label', 0.45), 0.3, easeOut);
-      if (t >= mid('label', 0.45)) { op(sticker, 1); tr(sticker, 590, 438, lerp(1.4, 0.9, sp), -6); op(stIn, clamp(sp * 3)); }
+      if (t >= mid('label', 0.45)) { op(sticker, 1); tr(sticker, 488, 500, lerp(1.2, 0.78, sp), -6); op(stIn, clamp(sp * 3)); }
     }
   };
 });

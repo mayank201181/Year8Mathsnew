@@ -49,7 +49,7 @@ scene('cold', S => {
   E('path', { d: rules, stroke: '#BFD8EE', 'stroke-width': 3 }, zoomWrap);
   E('line', { x1: 150, y1: -300, x2: 150, y2: 1050, stroke: '#F2A0A0', 'stroke-width': 4 }, zoomWrap);
   const ZS = 120, ZY = 430, INK = '#26324A';
-  T(zoomWrap, 180, ZY, '1.', { size: 90, weight: 700, fill: INK });
+  T(zoomWrap, 300, ZY - 180, 'Question 1', { size: 60, weight: 700, fill: INK });
   const x5 = 300, w5 = mkMeasure('5', { size: ZS }).w;
   mkMath(zoomWrap, x5, ZY, '5', { size: ZS, fill: INK });
   const DX0 = x5 + w5 + 34, DW = 84, DY = ZY - 46;           // the hand-drawn minus sign we zoom into

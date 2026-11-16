@@ -54,7 +54,7 @@ scene('queue', S => {
   E('path', { d: 'M190,176 L190,190 M550,176 L550,190', stroke: '#5A6670', 'stroke-width': 4 }, scr);
   E('rect', { x: 140, y: 188, width: 460, height: 112, rx: 14, fill: '#0E1A24', stroke: '#C27C0E', 'stroke-width': 5 }, scr);
   const qRes = T(scr, 370, 260, 'RESULTS', { size: 44, weight: 800, anchor: 'middle', fill: GOLD, ls: 4 });
-  const qLab = ['Q1', 'Q2', 'Q3'].map(s => T(scr, 162, 222, s, { size: 26, weight: 800, fill: GOLD }));
+  const qLab = ['Q1', 'Q2', 'Q3', 'Q4'].map(s => T(scr, 162, 222, s, { size: 26, weight: 800, fill: GOLD }));
   const qMath = [['sqrt(4) + 16 * 2', 50], ['12 ÷ 3 * 2', 52], ['20 - 3 * (5 - 7)^2', 44]].map(([src, sz]) => mkMath(scr, 390, 266, src, { size: sz, fill: C.ink, anchor: 'middle' }));
   // the rice cooker (1st prize) and its glow; Mr Tan's lectern
   const rcGlow = E('ellipse', { cx: 870, cy: 470, rx: 110, ry: 90, fill: glow(GOLD) }, Ltop);
@@ -177,15 +177,15 @@ scene('queue', S => {
     /* ---------- A: the booth ---------- */
     if (sA) {
       // camera: push-ins on Mum (mum2) and Dad (calc), a slow push on "are"
-      if (zMum) { const z = P(t, at('mum2') - 0.06, 0.25, easeOut); cam(lerp(1, 1.6, z), lerp(600, 437, z), lerp(375, 377, z)); }
-      else if (zDad) cam(1.6, 300, 377);
+      if (zMum) { const z = P(t, at('mum2') - 0.06, 0.25, easeOut); cam(lerp(1, 1.6, z), lerp(600, 437, z), lerp(375, 404, z)); }
+      else if (zDad) cam(1.6, 300, 404);
       else if (t >= at('are') - 0.1) { const z = P(t, at('are') - 0.1, end('are') + 0.8 - at('are'), ease); cam(1 + 0.22 * z, lerp(600, 330, z), lerp(375, 400, z)); }
       else ZOOM.forEach(L => L.removeAttribute('transform'));
       show.dad = show.mum = show.kav = show.tan = 1;
       tr(dad, XD, YB, 0.8); tr(mum, XM, YB, 0.8); tr(kav, XK, YB, 0.8); tr(tan, XT, YB, 0.82); tr(queen, XQ, 392, 0.72);
 
       // the screen: which question
-      const qi = t < cA2 ? 0 : t < cA3 ? 1 : 2;
+      const qi = t < cA2 ? 0 : t < cA3 ? 1 : t < cA4 ? 2 : 3;
       qLab.forEach((q, i) => op(q, i === qi ? 1 : 0));
       qMath.forEach((q, i) => op(q, i === qi && t >= mid(['q1', 'q2', 'q3'][i], 0.42) ? P(t, mid(['q1', 'q2', 'q3'][i], 0.42), 0.25, linear) : 0));
       op(qRes, t >= cA5 ? 1 : 0);
@@ -219,7 +219,7 @@ scene('queue', S => {
       mum.set({ t, talk: scTalk(S, t, 'mum'), mood: mm, look: ml === null ? 0 : ml });
       kav.set({ t, talk: scTalk(S, t, 'kavya'), mood: km, look: kl === null ? 0 : kl });
       tan.set({ t, talk: scTalk(S, t, 'tan'), mood: tm, look: tl === null ? -0.6 : tl, lift: tlift });
-      queen.set({ t, talk: scTalk(S, t, 'queenie'), mood: qm, look: ql === null ? -0.5 : ql, disp: t < cA5 ? ['Q1', 'Q2', 'Q3'][qi] : '3rd', ticket: 0, ding: 0 });
+      queen.set({ t, talk: scTalk(S, t, 'queenie'), mood: qm, look: ql === null ? -0.5 : ql, disp: t < cA5 ? ['Q1', 'Q2', 'Q3', 'Q4'][qi] : '3rd', ticket: 0, ding: 0 });
 
       if (t < cB1) {
         popAt(c11, t, at('team') + 0.1, 990, 248, at('q1'));
@@ -230,8 +230,8 @@ scene('queue', S => {
       }
       if (zMum) {
         cards.forEach(c => c.set(0));
-        popAt(bubMum, t, mid('mum2', 0.18), 905, 205);
-        popAt(cMult, t, at('mum2') + 0.1, 905, 318, mid('mum2', 0.8));
+        popAt(bubMum, t, mid('mum2', 0.18), 700, 122);
+        popAt(cMult, t, at('mum2') + 0.1, 985, 150, mid('mum2', 0.8));
         stNo.set(P(t, mid('mum2', 0.86), 0.3, linear)); tr(stNo, 905, 332, 0.7);
       }
       if (zDad) {

@@ -297,7 +297,7 @@ scene('calc', S => {
           op(bNever, 1 - P(t, at('ondeh') - 0.1, 0.25, linear));
           stampAt(stWrong, t, tWrong, tWrong + 1.3, 470, 260, 0.55);
           cNever.set(t < at('views') ? P(t, tWrong + 1.2, 0.35, linear) * (1 - P(t, at('views') - 0.1, 0.2, linear)) : 0); tr(cNever, 480, 140);
-          const convOut = 1 - P(t, mid('views', 0.66), 0.25, linear);
+          const convOut = 1 - P(t, mid('views', 0.36), 0.15, linear);
           wConv.show(0, P(t, mid('never', 0.3), 0.35, linear) * convOut);
           wConv.show(1, P(t, mid('never', 0.42), 0.35, linear) * convOut);
           op(sumA, P(t, mid('never', 0.58), 0.3, linear));

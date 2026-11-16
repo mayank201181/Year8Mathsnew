@@ -64,6 +64,8 @@ scene('traps', S => {
 
   /* ===== intro: 6 EXAM TRAPS ===== */
   const sI = G(Lhud);
+  // a plate behind the title, so the mall's GREAT SINGAPORE SALE banner does not peek out round it
+  const iPlate = E('rect', { x: 200, y: 160, width: 800, height: 170, rx: 22, fill: '#2A0A14', stroke: GOLD, 'stroke-width': 4 }, sI);
   const iHead = outline(T(sI, 600, 236, '6 EXAM TRAPS', { size: 84, weight: 800, anchor: 'middle', fill: GOLD, ls: 3 }), '#5A3A07', 10);
   const iSub = T(sI, 600, 300, 'the mall saves you some marks', { size: 36, weight: 600, anchor: 'middle', fill: '#FFFFFF' });
   const ROWX = [150, 330, 510, 690, 870, 1050];
@@ -173,7 +175,7 @@ scene('traps', S => {
 
     if (sh === 'I') {
       const hp = P(t, at('intro') + 0.05, 0.45, pop);
-      op(iHead, clamp(hp * 2.5)); iHead.setAttribute('transform', `translate(600 210) scale(${Math.max(0.01, 0.6 + 0.4 * hp).toFixed(3)}) translate(-600 -210)`);
+      op(iHead, clamp(hp * 2.5)); op(iPlate, 0.92 * clamp(hp * 2.5)); iHead.setAttribute('transform', `translate(600 210) scale(${Math.max(0.01, 0.6 + 0.4 * hp).toFixed(3)}) translate(-600 -210)`);
       op(iSub, P(t, mid('intro', 0.3), 0.4, linear));
       ROW.forEach(([c, mood, s, y], i) => {
         const p = P(t, mid('intro', 0.35) + i * 0.13, 0.45, pop);

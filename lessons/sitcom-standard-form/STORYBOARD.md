@@ -6,7 +6,7 @@ Read `script.py`: every line has a speaker (`who`), and its caption shows the sp
 
 **Premise.** A bottle episode. Saturday, 10 a.m.: the lift in Block 208 gets stuck at floor 10 with six humans
 inside: Kavya, Mum (with a 1 kg bag of rice), Dad (phone full), Ah Boy (piggy bank, and Spotty the ladybird in a
-jar), Priya (calculator, Space Trumps cards) and Kavya's maths teacher Mr Tan, who lives one floor up and has a
+jar), Priya (calculator, Space Trumps cards) and Kavya's maths teacher Mr Tan, who lives one floor down and has a
 whiteboard marker (the lift's stainless-steel wall wipes clean). The display is stuck on "10". Living in it are
 **Big Ten**, the base (huge, amber, only ever says "Ten."), and riding on his shoulder in the superscript
 position, **the Index** (tiny, pompous, in charge; "also called the power, also called the exponent"). While Dad
@@ -87,7 +87,7 @@ calculating-standard-form (stretch) → `calc`. Exam mistakes → `traps`.
 | dad | Dad: confident, wrong, lovable | glasses, moustache, green polo; prop phone (full) | DAD / "How long can it take?" |
 | boy | Ah Boy, 8: presses buttons, asks the obvious question | orange star tee; `lift: 1` raises his hand | AH BOY, 8 / Presses buttons. |
 | priya | Priya, 12: competitive, quick, confidently wrong | uniform, bob, yellow clip; prop calculator | PRIYA / Best friend. Competitive. |
-| tan | Mr Tan: dry, kind, puns; cannot stop teaching | shirt and tie, glasses; prop blue whiteboard marker (`lift: 1` writes) | MR TAN / Maths teacher. Lives upstairs. |
+| tan | Mr Tan: dry, kind, puns; cannot stop teaching | shirt and tie, glasses; prop blue whiteboard marker (`lift: 1` writes) | MR TAN / Maths teacher. Lives downstairs. |
 | rose | Auntie Rose (video call only, from her stall downstairs) | `sfRoseCall` (phone far too close: the series gag) | AUNTIE ROSE / Rose's Kitchen, downstairs |
 | index | THE INDEX: tiny, pompous, in charge | gold numeral tile with a face, crown, red collar; `val` shows his number ('n', '3', '−2'), `point` | THE INDEX / Also the power. Also the exponent. |
 | ten | BIG TEN, the base: huge, deadpan, says "Ten." | dark display body with a glowing amber seven-segment "10", big arms, small head; `glow`, `flex` | BIG TEN / The base. Does the lifting. |
@@ -240,7 +240,7 @@ numbered hops, to sit after the 1.
 ## 4 small: Spotty, pollen and Nought's big day (standard form for small numbers)
 Layout: `sfLift`; Ah Boy's `sfJar` on the handrail (layer above the rail); microscope cutaways (`sfScope`); the
 place-value grid on the wall for the small numbers; one `sfClub` cutaway. Showpiece: `0.000 030 8` on the
-place-value grid with Nought's cream place-holder after the 3, and the same number with him removed, ten times
+place-value grid with Nought's cream place-holder just before the 3, and the same number with him removed, ten times
 too big.
 - spotty: Ah Boy lifts the jar (Spotty wiggles); microscope inset `show('ladybird')`; ruler label `0.005 m`.
 - neg: the Index: `0.005 = 5 × 10^(-3)`; chip "big → plus, tiny → minus" with an up arrow (+) and a down arrow (−).

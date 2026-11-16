@@ -81,7 +81,8 @@ scene('inator', S => {
   mkMath(g4, 820, 330, '=> x = +-7', { size: 46, fill: GREEN });
   const q6card = G(g4);
   E('rect', { x: 808, y: 372, width: 344, height: 64, rx: 8, fill: '#FFFFFF', stroke: '#B8C4CE', 'stroke-width': 3 }, q6card);
-  mkText(q6card, 822, 414, '6. {{x^2 = 49, x = 7}}', { size: 28, fill: INK });
+  const q6a = mkText(q6card, 822, 414, '6. {{x^2 = 49, x = 7}}', { size: 28, fill: INK });
+  const q6b = mkText(q6card, 822, 414, '6. {{x^2 = 49, x = +-7}}', { size: 28, fill: INK });
   const q6x = cross(q6card, 14, RED); tr(q6x, 1124, 404);
   const q6t = tick(q6card, 16, GREEN); tr(q6t, 1124, 404);
   const q6m = mkText(g4, BX, 482, '**4 marks** back', { size: 30, anchor: 'middle', fill: GREEN });
@@ -156,7 +157,7 @@ scene('inator', S => {
 
     // camera: push in on the hopper for Dash's climb
     const zMe = t >= at('me') - 0.06 && t < at('pm') - 0.06;
-    if (zMe) cam(1.55, 470, 395); else ZOOM.forEach(L => L.removeAttribute('transform'));
+    if (zMe) cam(1.55, 470, 412); else ZOOM.forEach(L => L.removeAttribute('transform'));
 
     tr(boy, XB, 440, 0.8); tr(kav, XK, YB, 0.8); tr(priya, XR, YB, 0.8); tr(pip, XP, PIPY, 0.72);
 
@@ -226,7 +227,7 @@ scene('inator', S => {
       op(pm1, P(t, mid('pm', 0.25), 0.3, linear)); op(pm2, P(t, mid('pm', 0.62), 0.3, linear));
     }
     if (gi === 4) {
-      op(q6t, P(t, mid('x2', 0.62), 0.25, linear)); op(q6x, 1 - P(t, mid('x2', 0.55), 0.2, linear));
+      op(q6t, P(t, mid('x2', 0.62), 0.25, linear)); op(q6b, P(t, mid('x2', 0.55), 0.2, linear)); op(q6a, 1 - P(t, mid('x2', 0.55), 0.2, linear)); op(q6x, 1 - P(t, mid('x2', 0.55), 0.2, linear));
       op(q6m, P(t, mid('x2', 0.8), 0.3, linear));
       stOK.set(P(t, mid('x2', 0.66), 0.3, linear)); tr(stOK, 1090, 258, 0.4);
     }
@@ -236,7 +237,7 @@ scene('inator', S => {
     }
     if (gi === 6) { op(tooBig, P(t, mid('check', 0.3), 0.3, linear)); op(ck2, P(t, mid('check', 0.6), 0.3, linear)); }
     if (zMe) {
-      popAt(c77, t, mid('me', 0.2), 600, 150);
+      popAt(c77, t, mid('me', 0.2), 680, 112);
       popAt(cNobody, t, mid('me', 0.62), 600, 640);
     }
   };

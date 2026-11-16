@@ -182,8 +182,8 @@ scene('freezer', S => {
       const z = P(t, 0, cB, ease);
       const k = 1 + 0.45 * z, hw = 600 / k, hh = 375 / k;
       view(deckWrap, k, clamp(lerp(600, 300, z), hw, 1200 - hw), clamp(lerp(375, 460, z), hh, 750 - hh), 600, 375);
-      popAt(cSat, t, at('nine') + 0.1, 880, 132);
-      popAt(cRC, t, mid('nine', 0.3), 880, 200);
+      popAt(cSat, t, at('nine') + 0.1, 600, 590);
+      popAt(cRC, t, mid('nine', 0.3), 600, 650);
     }
 
     /* ---------- B: the booth ---------- */

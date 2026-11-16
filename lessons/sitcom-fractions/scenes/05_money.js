@@ -406,7 +406,7 @@ scene('money', S => {
           brLeft.set(inR3 ? fade(t, at('rem3') + 0.1) : 0);
           wRem.show(0, L === 'rem2' ? fade(t, mid('rem2', 0.35)) : 0);
           wRem.show(1, L === 'rem2' ? fade(t, mid('rem2', 0.7)) : 0);
-          { const m = wRem.g[1]; attr(spentRing, 'x', m.x0 + m.w - 62); attr(spentRing, 'y', 452 - m.a - 8); attr(spentRing, 'width', 72); attr(spentRing, 'height', m.a + m.d + 16); }
+          { const m = wRem.g[1]; const wh = mkMeasure('1/2', { size: 46 }).w; attr(spentRing, 'x', m.x0 + m.w - wh - 3); attr(spentRing, 'y', 452 - m.a - 8); attr(spentRing, 'width', wh + 8); attr(spentRing, 'height', m.a + m.d + 16); }
           op(spentRing, L === 'rem2' ? fade(t, mid('rem2', 0.92)) : 0);
           op(t18, L === 'rem3' ? fade(t, at('rem3') + 0.15) : 0);
           op(t36, inR3 ? fade(t, mid('rem3', 0.7)) : 0);

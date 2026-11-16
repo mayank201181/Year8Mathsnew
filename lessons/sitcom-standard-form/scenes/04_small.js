@@ -460,7 +460,9 @@ scene('small', S => {
       fadeWin(notBig, t, mid('small', 0.12), tWork + 0.1);
       stampAt(stList, t, mid('small', 0.06), tWork, 330, 300, 0.55);
       // the working
-      op(card, t >= tWork - 0.05 ? P(t, tWork - 0.05, 0.2, linear) : 0);
+      const cardOp = t >= tWork - 0.05 ? P(t, tWork - 0.05, 0.2, linear) : 0;
+      op(card, cardOp);
+      op(club.sign, 1 - cardOp);   // the tall working card would half-cover the neon sign: dim it out
       fixW.show(0, P(t, mid('small', 0.31), 0.3, linear));
       fixW.show(1, P(t, mid('small', 0.46), 0.3, linear));
       fixW.show(2, P(t, mid('small', 0.58), 0.3, linear));
