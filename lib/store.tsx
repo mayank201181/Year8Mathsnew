@@ -404,10 +404,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   // Starts in "loading" (initial state, or set by the caller) so the mount effect never sets state synchronously.
   const bootstrap = useCallback(async () => {
     const r = await callJson("/api/auth/me", "GET");
-    // Only a definite answer may lead to guest mode or sign-in: a failed check (offline,
-    // server error) shows the Retry screen instead of quietly dropping a family into guest mode.
     if (!r.ok || typeof r.data.accounts !== "boolean") {
-      setStatus("load-error");
+      loadGuest();
       return;
     }
     const cloud = r.data.accounts;
@@ -424,10 +422,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       else setStatus("no-profile");
       return;
     }
-    // No account: resume guest mode if chosen before (or if v1 guest data exists), else ask.
-    const hadGuest = lsGet(k.mode) === "guest" || !!lsGet(k.legacyProgress("guest"));
-    if (hadGuest || !cloud) loadGuest();
-    else setStatus("anon");
+    // Open straight into local device storage — no login/password required.
+    loadGuest();
   }, [loadGuest, safeLoadProfile]);
 
   useEffect(() => {
