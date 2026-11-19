@@ -8,7 +8,7 @@ import { Rich, RichInline } from "./Rich";
 type SectionFilter = "all" | "mistakes" | "mustknow" | "myths" | "tricks" | "facts";
 
 const SEL_EVENT = "y8cram-sel-change";
-const CHECK_EVENT = "y8cram-check-change";
+const CHECK_EVENT = "y8m2:mustknow-change";
 
 function subscribeEvent(evName: string, cb: () => void): () => void {
   if (typeof window === "undefined") return () => {};
@@ -62,16 +62,25 @@ export function CramSheet({
 
   const rawChecks = useSyncExternalStore(
     (cb) => subscribeEvent(CHECK_EVENT, cb),
-    () => readLocal("y8cram:mustknow:v1", "{}"),
-    () => "{}"
+    () =>
+      JSON.stringify(
+        packs.map((p) => [p.id, readLocal(`y8m2:mustknow:${p.id}`, "[]")])
+      ),
+    () => "[]"
   );
 
-  const checkedMap = useMemo(() => {
+  const checkedByTopic = useMemo(() => {
+    const map = new Map<string, Set<string>>();
     try {
-      return JSON.parse(rawChecks) as Record<string, boolean>;
+      const entries = JSON.parse(rawChecks) as [string, string][];
+      for (const [tid, raw] of entries) {
+        const arr: unknown = JSON.parse(raw || "[]");
+        map.set(tid, new Set(Array.isArray(arr) ? arr.filter((x): x is string => typeof x === "string") : []));
+      }
     } catch {
-      return {};
+      // ignore
     }
+    return map;
   }, [rawChecks]);
 
   const [urlOverrideUsed, setUrlOverrideUsed] = useState(false);
@@ -89,11 +98,12 @@ export function CramSheet({
         .filter((id) => allIds.includes(id));
       if (fromUrl.length) return new Set(fromUrl);
     }
-    if (rawSaved) {
+    if (rawSaved !== "") {
       try {
         const parsed = JSON.parse(rawSaved) as string[];
-        const valid = parsed.filter((id) => allIds.includes(id));
-        if (valid.length) return new Set(valid);
+        if (Array.isArray(parsed)) {
+          return new Set(parsed.filter((id) => allIds.includes(id)));
+        }
       } catch {
         // ignore
       }
@@ -108,11 +118,8 @@ export function CramSheet({
 
   const toggleTopic = (id: string) => {
     const next = new Set(selectedIds);
-    if (next.has(id)) {
-      if (next.size > 1) next.delete(id);
-    } else {
-      next.add(id);
-    }
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
     updateSelection(next);
   };
 
@@ -128,9 +135,11 @@ export function CramSheet({
     }
   };
 
-  const toggleMustKnow = (key: string) => {
-    const next = { ...checkedMap, [key]: !checkedMap[key] };
-    writeLocal("y8cram:mustknow:v1", JSON.stringify(next), CHECK_EVENT);
+  const toggleMustKnow = (pack: TopicCramPack, item: string) => {
+    const cur = new Set(checkedByTopic.get(pack.id) ?? []);
+    if (cur.has(item)) cur.delete(item);
+    else cur.add(item);
+    writeLocal(`y8m2:mustknow:${pack.id}`, JSON.stringify(pack.mustKnow.filter((x) => cur.has(x))), CHECK_EVENT);
   };
 
   const strands = useMemo(() => Array.from(new Set(packs.map((p) => p.strand).filter(Boolean))), [packs]);
@@ -205,10 +214,10 @@ export function CramSheet({
                 </button>
                 <button
                   type="button"
-                  onClick={() => updateSelection(new Set([allIds[0]]))}
+                  onClick={() => updateSelection(new Set())}
                   className="rounded-lg bg-surface px-2.5 py-1 text-xs font-bold hover:bg-brand-soft hover:text-brand"
                 >
-                  Clear to 1st
+                  Clear all
                 </button>
                 {strands.map((st) => (
                   <button
@@ -302,6 +311,13 @@ export function CramSheet({
       )}
 
       {/* Per-Topic Cram Cards */}
+      {visiblePacks.length === 0 ? (
+        <div className="card p-8 text-center text-ink-2">
+          <div className="text-3xl" aria-hidden>📋</div>
+          <p className="mt-2 font-bold">No topics selected yet</p>
+          <p className="mt-1 text-sm">Tap any 1, 3, or 4 topic pills above to build your custom test cram sheet.</p>
+        </div>
+      ) : null}
       <div className="space-y-8">
         {visiblePacks.map((pack) => (
           <article key={pack.id} className="card space-y-6 overflow-hidden p-5 sm:p-6">
@@ -336,7 +352,7 @@ export function CramSheet({
             {/* 1. WHAT LOSES MARKS IN EXAMS */}
             {(sectionFilter === "all" || sectionFilter === "mistakes") &&
             (pack.examMistakes.length > 0 || pack.questionTraps.length > 0) ? (
-              <section className="space-y-3">
+              <section className="space-y-3 break-inside-avoid">
                 <h3 className="flex items-center gap-2 text-base font-black text-bad">
                   <span aria-hidden>⚠️</span> What Loses Marks in Exams (Avoid These Traps!)
                 </h3>
@@ -377,21 +393,20 @@ export function CramSheet({
 
             {/* 2. WHAT EARNS MARKS IN EXAMS (MUST-KNOW CHECKLIST) */}
             {(sectionFilter === "all" || sectionFilter === "mustknow") && pack.mustKnow.length > 0 ? (
-              <section className="space-y-2.5">
+              <section className="space-y-2.5 break-inside-avoid">
                 <h3 className="flex items-center gap-2 text-base font-black text-good">
                   <span aria-hidden>✅</span> What Examiners Award Marks For (&ldquo;Can You…?&rdquo;)
                 </h3>
                 <ul className="grid gap-2 sm:grid-cols-2">
                   {pack.mustKnow.map((mk, i) => {
-                    const ck = `${pack.id}:${i}`;
-                    const isDone = !!checkedMap[ck];
+                    const isDone = checkedByTopic.get(pack.id)?.has(mk) ?? false;
                     return (
                       <li key={i}>
                         <label className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-line bg-surface p-3 text-sm hover:bg-surface-2 has-checked:border-good/40 has-checked:bg-good-soft">
                           <input
                             type="checkbox"
                             checked={isDone}
-                            onChange={() => toggleMustKnow(ck)}
+                            onChange={() => toggleMustKnow(pack, mk)}
                             className="mt-0.5 h-4 w-4 shrink-0 accent-good"
                           />
                           <span className="min-w-0 flex-1">
@@ -407,7 +422,7 @@ export function CramSheet({
 
             {/* 3. MYTH VS REALITY */}
             {(sectionFilter === "all" || sectionFilter === "myths") && pack.misconceptions.length > 0 ? (
-              <section className="space-y-2.5">
+              <section className="space-y-2.5 break-inside-avoid">
                 <h3 className="flex items-center gap-2 text-base font-black">
                   <span aria-hidden>🕵️</span> Don&apos;t Write This → Write This Instead
                 </h3>
@@ -434,7 +449,7 @@ export function CramSheet({
 
             {/* 4. MEMORY TRICKS */}
             {(sectionFilter === "all" || sectionFilter === "tricks") && pack.mnemonics.length > 0 ? (
-              <section className="space-y-2.5">
+              <section className="space-y-2.5 break-inside-avoid">
                 <h3 className="flex items-center gap-2 text-base font-black">
                   <span aria-hidden>🧩</span> Exam Memory Tricks &amp; Mnemonics
                 </h3>
@@ -458,7 +473,7 @@ export function CramSheet({
 
             {/* 5. KEY TERMS / FORMULAS */}
             {(sectionFilter === "all" || sectionFilter === "facts") && pack.keyFacts.length > 0 ? (
-              <section className="space-y-2.5">
+              <section className="space-y-2.5 break-inside-avoid">
                 <h3 className="flex items-center gap-2 text-base font-black">
                   <span aria-hidden>📖</span> Must-Memorise Definitions &amp; Formulas
                 </h3>

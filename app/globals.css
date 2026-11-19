@@ -301,3 +301,22 @@ input[type="range"] { accent-color: var(--brand); width: 100%; }
   .no-print { display: none !important; }
   body { background: #fff; }
 }
+
+/* y8-print-light-override: force crisp white-paper ink-saving layout even when Dark Mode is enabled */
+@media print {
+  :root, :root[data-theme="dark"] {
+    --bg: #ffffff !important;
+    --surface: #ffffff !important;
+    --surface-2: #f8fafc !important;
+    --ink: #0f172a !important;
+    --ink-2: #334155 !important;
+    --line: #cbd5e1 !important;
+    --bad-soft: #fff1f2 !important;
+    --good-soft: #ecfdf5 !important;
+    --accent-soft: #fefce8 !important;
+    --brand-soft: #eef2ff !important;
+  }
+  body { background: #ffffff !important; color: #0f172a !important; }
+  main { padding-bottom: 0 !important; max-width: 100% !important; }
+  .card { box-shadow: none !important; break-inside: avoid; }
+}

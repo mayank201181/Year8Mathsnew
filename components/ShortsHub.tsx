@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SHORTS, type ShortClip } from "@/lib/shorts";
 
 const STORAGE_KEY = "y8shorts:watched:v1";
+const SPEEDS = [1, 1.25, 1.5] as const;
 
 function subscribeWatched(cb: () => void): () => void {
   if (typeof window === "undefined") return () => {};
@@ -91,8 +92,12 @@ export function ShortsHub({
   const [autoAdvance, setAutoAdvance] = useState<boolean>(true);
   const [selectedIdOverride, setSelectedIdOverride] = useState<string | null>(null);
   const [playing, setPlaying] = useState<boolean>(false);
+  const [muted, setMuted] = useState<boolean>(false);
+  const [speedIdx, setSpeedIdx] = useState<number>(0);
   const [relSec, setRelSec] = useState<number>(0);
-  const [activeCaption, setActiveCaption] = useState<string>("");
+  const [liveCaption, setLiveCaption] = useState<{ clipId: string; text: string } | null>(null);
+
+  const speed = SPEEDS[speedIdx];
 
   const pool = useMemo(() => {
     return basePool.filter((s) => {
@@ -124,26 +129,53 @@ export function ShortsHub({
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const autoPlayRef = useRef<boolean>(false);
+  const seekingClipRef = useRef<string | null>(null);
   const touchStartY = useRef<number | null>(null);
 
   const selectClip = useCallback(
     (clip: ShortClip, shouldPlay: boolean) => {
       autoPlayRef.current = shouldPlay;
+      seekingClipRef.current = clip.id;
       setSelectedIdOverride(clip.id);
       setRelSec(0);
-      setActiveCaption(clip.captions[0]?.text ?? clip.summary);
+      setLiveCaption({ clipId: clip.id, text: clip.captions[0]?.text ?? clip.summary });
+
+      // If switching clips inside the SAME video file, seek & play synchronously inside the tap gesture (iPad Safari safe!)
+      const v = videoRef.current;
+      if (v && current && clip.src === current.src && v.readyState >= 1) {
+        try {
+          v.currentTime = clip.startSec;
+        } catch {
+          // ignore
+        }
+        if (shouldPlay) {
+          void v.play().catch(() => {});
+        }
+      }
+
       if (!topicId) {
         router.replace(`/shorts?s=${clip.id}`, { scroll: false });
       }
     },
-    [router, topicId]
+    [router, topicId, current]
   );
+
+  // Sync mute & playback rate to video element
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = muted;
+    v.playbackRate = speed;
+  }, [muted, speed, current?.src]);
 
   // Seek video to current.startSec whenever current clip changes
   useEffect(() => {
     const v = videoRef.current;
     if (!v || !current) return;
+    seekingClipRef.current = current.id;
     const onLoaded = () => {
+      v.muted = muted;
+      v.playbackRate = speed;
       try {
         v.currentTime = current.startSec;
       } catch {
@@ -159,9 +191,9 @@ export function ShortsHub({
       v.addEventListener("loadedmetadata", onLoaded, { once: true });
       return () => v.removeEventListener("loadedmetadata", onLoaded);
     }
-  }, [current]);
+  }, [current, muted, speed]);
 
-  // Keyboard Up/Down navigation
+  // Keyboard Up/Down/Space navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
@@ -187,6 +219,7 @@ export function ShortsHub({
     if (!v) return;
     if (v.paused) {
       if (v.currentTime < current.startSec - 0.5 || v.currentTime >= current.endSec - 0.2) {
+        seekingClipRef.current = current.id;
         v.currentTime = current.startSec;
       }
       autoPlayRef.current = true;
@@ -197,19 +230,53 @@ export function ShortsHub({
     }
   };
 
+  const replayClip = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    seekingClipRef.current = current.id;
+    autoPlayRef.current = true;
+    setRelSec(0);
+    try {
+      v.currentTime = current.startSec;
+    } catch {
+      // ignore
+    }
+    void v.play().catch(() => {});
+  };
+
+  const handleSeeked = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (seekingClipRef.current === current.id) {
+      // Only clear guard once video actually landed inside this clip's time range
+      if (v.currentTime >= current.startSec - 1.5 && v.currentTime < current.endSec) {
+        seekingClipRef.current = null;
+      }
+    }
+  };
+
   const handleTimeUpdate = () => {
     const v = videoRef.current;
     if (!v) return;
     const t = v.currentTime;
+
+    // Prevent stale pre-seek timeupdate from falsely ending or skipping the newly selected clip
+    if (v.seeking || seekingClipRef.current === current.id) {
+      if (t >= current.startSec - 1.0 && t < current.endSec - 0.5) {
+        seekingClipRef.current = null;
+      } else {
+        return;
+      }
+    }
+
     const elapsed = Math.max(0, t - current.startSec);
     setRelSec(Math.min(current.durationSec, elapsed));
 
-    // Sync caption
     let cap = "";
     for (const c of current.captions) {
       if (t + 0.15 >= c.t) cap = c.who ? `${c.who}: ${c.text}` : c.text;
     }
-    if (cap) setActiveCaption(cap);
+    if (cap) setLiveCaption({ clipId: current.id, text: cap });
 
     if (elapsed >= Math.min(10, current.durationSec * 0.6)) {
       markShortWatched(current.id);
@@ -221,7 +288,9 @@ export function ShortsHub({
         selectClip(nextClip, true);
       } else {
         v.pause();
+        seekingClipRef.current = current.id;
         v.currentTime = current.startSec;
+        setRelSec(0);
       }
     }
   };
@@ -239,6 +308,7 @@ export function ShortsHub({
 
   const watchedCount = basePool.filter((s) => watched[s.id]).length;
   const pct = current.durationSec > 0 ? Math.min(100, (relSec / current.durationSec) * 100) : 0;
+  const shownCaption = liveCaption?.clipId === current.id ? liveCaption.text : current.summary;
 
   return (
     <div className="space-y-5 pb-6">
@@ -347,9 +417,27 @@ export function ShortsHub({
                 <span className="truncate">
                   {current.topicIcon} {current.strand} · {current.topicShort}
                 </span>
-                <span className="shrink-0 rounded-full bg-white/15 px-2 py-0.5 text-white">
-                  {current.index}/{current.totalInTopic}
-                </span>
+                <div className="flex shrink-0 items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setSpeedIdx((i) => (i + 1) % SPEEDS.length)}
+                    className="rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-extrabold text-white hover:bg-white/25"
+                    title="Change playback speed"
+                  >
+                    {speed}×
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMuted((m) => !m)}
+                    className="rounded-full bg-white/15 px-2 py-0.5 text-[10px] text-white hover:bg-white/25"
+                    aria-label={muted ? "Unmute" : "Mute"}
+                  >
+                    {muted ? "🔇" : "🔊"}
+                  </button>
+                  <span className="rounded-full bg-white/15 px-2 py-0.5 text-white">
+                    {current.index}/{current.totalInTopic}
+                  </span>
+                </div>
               </div>
               <h2 className="mt-1.5 line-clamp-2 text-lg font-black leading-snug text-white">
                 {current.title}
@@ -368,6 +456,7 @@ export function ShortsHub({
                 onClick={togglePlay}
                 onPlay={() => setPlaying(true)}
                 onPause={() => setPlaying(false)}
+                onSeeked={handleSeeked}
                 onTimeUpdate={handleTimeUpdate}
                 className="aspect-video w-full cursor-pointer object-contain"
               />
@@ -376,7 +465,7 @@ export function ShortsHub({
                   type="button"
                   onClick={togglePlay}
                   aria-label="Play Short"
-                  className=" absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-2xl text-slate-950 shadow-lg transition hover:scale-105"
+                  className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-2xl text-slate-950 shadow-lg transition hover:scale-105"
                 >
                   ▶
                 </button>
@@ -387,9 +476,9 @@ export function ShortsHub({
             <div className="z-10 space-y-2.5 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent px-4 pt-2 pb-4">
               <div className="rounded-xl bg-white/10 px-3 py-2 text-xs leading-relaxed text-slate-100 backdrop-blur">
                 <div className="mb-0.5 text-[10px] font-extrabold uppercase tracking-wider text-amber-300">
-                  {activeCaption ? "Live Caption" : "Key Takeaway"}
+                  {liveCaption?.clipId === current.id ? "Live Caption" : "Key Takeaway"}
                 </div>
-                <p className="line-clamp-3 font-medium">{activeCaption || current.summary}</p>
+                <p className="line-clamp-3 font-medium">{shownCaption}</p>
               </div>
 
               {/* Progress Scrubber */}
@@ -401,6 +490,7 @@ export function ShortsHub({
                     if (!v) return;
                     const rect = e.currentTarget.getBoundingClientRect();
                     const k = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                    seekingClipRef.current = current.id;
                     v.currentTime = current.startSec + k * current.durationSec;
                   }}
                 >
@@ -418,14 +508,23 @@ export function ShortsHub({
                   type="button"
                   disabled={!prevClip}
                   onClick={() => prevClip && selectClip(prevClip, true)}
-                  className="rounded-xl bg-white/15 px-3 py-2 text-xs font-extrabold text-white enabled:hover:bg-white/25 disabled:opacity-35"
+                  className="rounded-xl bg-white/15 px-2.5 py-2 text-xs font-extrabold text-white enabled:hover:bg-white/25 disabled:opacity-35"
                 >
                   ↑ Prev
                 </button>
                 <button
                   type="button"
+                  onClick={replayClip}
+                  aria-label="Replay Short"
+                  className="rounded-xl bg-white/15 px-2.5 py-2 text-xs font-extrabold text-white hover:bg-white/25"
+                  title="Replay from start"
+                >
+                  ↺
+                </button>
+                <button
+                  type="button"
                   onClick={togglePlay}
-                  className="rounded-xl bg-sky-500 px-4 py-2 text-xs font-extrabold text-slate-950 hover:bg-sky-400"
+                  className="rounded-xl bg-sky-500 px-3.5 py-2 text-xs font-extrabold text-slate-950 hover:bg-sky-400"
                 >
                   {playing ? "⏸ Pause" : "▶ Play"}
                 </button>
@@ -433,7 +532,7 @@ export function ShortsHub({
                   type="button"
                   disabled={!nextClip}
                   onClick={() => nextClip && selectClip(nextClip, true)}
-                  className="rounded-xl bg-white/15 px-3 py-2 text-xs font-extrabold text-white enabled:hover:bg-white/25 disabled:opacity-35"
+                  className="rounded-xl bg-white/15 px-2.5 py-2 text-xs font-extrabold text-white enabled:hover:bg-white/25 disabled:opacity-35"
                 >
                   ↓ Next
                 </button>
@@ -441,14 +540,14 @@ export function ShortsHub({
                   <button
                     type="button"
                     onClick={onPractise}
-                    className="rounded-xl bg-emerald-500 px-3 py-2 text-xs font-extrabold text-slate-950 hover:bg-emerald-400"
+                    className="rounded-xl bg-emerald-500 px-2.5 py-2 text-xs font-extrabold text-slate-950 hover:bg-emerald-400"
                   >
                     ✏️ Practise
                   </button>
                 ) : (
                   <Link
                     href={`/topic/${current.topicId}?tab=practise`}
-                    className="rounded-xl bg-emerald-500 px-3 py-2 text-xs font-extrabold text-slate-950 hover:bg-emerald-400"
+                    className="rounded-xl bg-emerald-500 px-2.5 py-2 text-xs font-extrabold text-slate-950 hover:bg-emerald-400"
                   >
                     ✏️ Practise
                   </Link>

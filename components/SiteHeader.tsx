@@ -78,11 +78,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          <Link href="/watch" className="chip border-brand/30 bg-brand-soft text-brand text-sm md:hidden" title="Studio Masterclasses & Beast Sitcom TV">
-            🎬 <span className="hidden sm:inline">Watch</span>
-          </Link>
 
-          <Link href="/shorts" className="chip border-brand/30 bg-brand-soft text-brand text-sm md:hidden" title="Concept Shorts">📱 <span className="hidden sm:inline">Shorts</span></Link>
           <Link href="/cram" className="chip border-bad/30 bg-bad-soft text-bad text-sm md:hidden" title="Custom Exam Cram Sheet">🚨 <span className="hidden sm:inline">Cram</span></Link>
           <Link href="/progress" className="chip text-sm" title={`${rank.name} · ${data.stars} stars`}>
             ⭐ {data.stars}
@@ -114,6 +110,7 @@ export function SiteHeader() {
                 <Link role="menuitem" href="/sprint" className="block rounded-lg px-3 py-2 hover:bg-surface-2">
                   ⚡ Fluency sprint
                 </Link>
+                <Link role="menuitem" href="/shorts" className="block rounded-lg px-3 py-2 font-bold text-brand hover:bg-surface-2">📱 Concept Shorts</Link>
                 <Link role="menuitem" href="/cram" className="block rounded-lg px-3 py-2 font-bold text-bad hover:bg-surface-2">🚨 Exam Cram Sheet</Link>
                 <Link role="menuitem" href="/exam" className="block rounded-lg px-3 py-2 hover:bg-surface-2">
                   📝 The Big Exam
